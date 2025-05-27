@@ -35,12 +35,12 @@ poetry install
 This will install all required packages and set up a virtual environment.
 
 ### 3. Set OpenAI API Key
-Open `.env` file and set your OpenAI API key as an environment variable:
+Please specify your `OPENAI_API_KEY` at the first line in the `workflow.sh`
 ```bash
-OPENAI_API_KEY = 'your_api_key'
+export OPENAI_API_KEY = 'your_api_key'
 ```
 ### 4. Run the Workflow
-To execute the main script within the Poetry environment, run:
+To execute the main script within the Poetry environment, simply run the bash script:
 ```bash
-poetry run python workflow.py
+./workflow.sh
 ```
