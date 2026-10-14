@@ -23,4 +23,14 @@ class ExecutionContracts(unittest.TestCase):
         run_case(changed,'verified_state_harness',self.grader,actor=actor)
         self.assertEqual(prompts[0],prompts[1])
 
+    def test_all_released_task_schemas_allow_missing_literal_solutions(self):
+        from fhir_task import FHIRTask
+        task=FHIRTask()
+        for split,count in [('dev',96),('val',80),('id_test',64),('test',60)]:
+            samples=task.samples(split)
+            self.assertEqual(len(samples),count)
+            for c in samples:
+                if 'sol' not in c:self.assertIsNone(c['answer'])
+                self.assertTrue(callable(getattr(task.grader,c['type'])))
+
 if __name__=='__main__':unittest.main()

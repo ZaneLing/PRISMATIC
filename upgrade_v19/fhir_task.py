@@ -38,7 +38,10 @@ class FHIRTask(Task):
         self.code_hash=digest([hashlib.sha256((HERE/f).read_bytes()).hexdigest() for f in ['fhir_executor.py','order_compiler.py','fhir_task.py']])
 
     def samples(self,split):
-        return [dict(c,description=redact(c['instruction']+'\n'+c['context']),answer=redact(c['sol']),type=c['id'].split('_')[0]) for c in self.parts[split]]
+        # Only task1 supplies a literal solution. Other released task types are
+        # graded by reference functions against FHIR data/action state. Missing
+        # literal answers are unknown, not empty answers or failed tasks.
+        return [dict(c,description=redact(c['instruction']+'\n'+c['context']),answer=redact(c.get('sol')),type=c['id'].split('_')[0]) for c in self.parts[split]]
 
     def rollout(self,sample,agent):
         skills=agent.skill_repo.load_all() if hasattr(agent,'skill_repo') else []
@@ -56,6 +59,7 @@ class FHIRTask(Task):
         # Source IDs are scheduling/evaluation data only, never actor inputs.
         # Feedback history is redacted to discourage identity-specific skills.
         summary={k:row[k] for k in ['case_id','status','original_trace_correct','live_execution_correct','model_calls','tool_calls','cost_usd','writes','write_checks','protocol_repairs','compilation_audits']}
+        summary.update(episode_digest=signature,grader_exception_count=len(row.get('grader_errors',[])))
         return Rollout(history=redact(row['history']),agent_actions=redact([m['content'] for m in row['history'] if m['role']=='assistant']),
             answer=row['answer'] or '',status=row['status'],raw=summary)
 

@@ -28,7 +28,7 @@
   "serialized_episodes": true,
   "episode_cache": "Exact code/mode/case/skill digest; complete already-executed episodes may replay. Physical operations and logical cost are distinguished.",
   "actor_inputs": "instruction/context and actual tool replies only; no sol/eval_MRN fields",
-  "feedback": "Patient-ID-redacted training traces and automatic original/state grades; no test labels in learning.",
+  "feedback": "Patient-ID-redacted training traces and automatic original/state grades; only task1 includes literal sol, all other literal targets remain null and use the reference grader; no test labels in learning.",
   "patient_split_note": "Official task splits overlap in patients; not patient-disjoint.",
   "state_score": "Original reference criteria plus all submitted canonical fields preserved on readback. Duration-like legacy rate fields remain semantically unvalidated.",
   "selection": "End-of-epoch best validation checkpoint from the author core, before ID/OOD testing.",

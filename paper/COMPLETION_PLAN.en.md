@@ -1,5 +1,16 @@
 # PRISMATIC manuscript completion and execution plan
 
+## 14 October 2026 increment: rebuilt temporal cohort, registered comparison running
+
+- **Complete:** full-source admission6h→next6h order cohort; independent identity/clock, order reconstruction and previous-test exclusion checks.40k/2k/2k/1,082 admissions,1,024 test patients; all12 checks pass.
+- **Launched:** v0.21 three-seed/five-round policy-memory-tool evolution with equal-data word/character controls, retrieval and prior-order reuse. The protocol was frozen and pushed before the first test score; full reporting requires independent recounts.
+- **Running:** v0.15 binary-selection QLoRA and v0.18 Gemini frozen-skill transfer. A transport interruption resumed from cache without changing prompts, labels or the call cap.
+- **FHIR repair:** absent literal solutions remain null and original state reference functions grade the tasks. All300 records and three execution contracts pass. Actual write receipts, full readback, rollback and cleanup evidence are retained. MG/GLU future-observation counts are zero. The full skill study starts after Gemini completion.
+- **Unchanged completion criteria:** all rounds, strong controls, seeds and regressions; distinct temporal and historical tables; continued improvement without unsupported superiority claims.
+
+[Temporal study](../upgrade_v21/RESULTS.en.md) · [Current results](CURRENT_RESULTS.en.md)
+
+
 ## Latest completion: all local checkpoints and skill trajectories (14 October 2026)
 
 - **v0.9 complete and independently recounted:** uniform drug/order F1 0.28694/0.19115; error priority 0.28432/0.19137; direct top-8 tools remain stronger at 0.31169/0.20739. All states, 500 admissions/494 patients and paired intervals are delivered.

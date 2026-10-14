@@ -2,6 +2,14 @@
 
 Updated 14 October 2026. This maintained entry point links versioned protocols, failures and results. Funding recovery resolved all previously missing API requests. **Our method has not yet surpassed the strongest completed control.**
 
+## Latest order task: controlled recorded availability
+
+Decision: actual admission plus6h; predict new/changed orders in the following6h using previously recorded orders, blood labs and demographics. Provider/pharmacy clocks and identities must agree. Split:40,000 training /2,000 proposal /2,000 guard / **1,082 test admissions (1,024 patients)**; patient-disjoint and excluding previous test patients. Independent reconstruction checks198,850 targets,589,393 prior orders and506,710 lab rows; all12 checks pass. This selected coherent-time, nonempty-target cohort does not represent all admissions.
+
+The registered three-seed comparison is running; the older tables below retain their original protocols.
+
+[Full protocol/results / 完整协议结果](../upgrade_v21/RESULTS.en.md)
+
 ## 1. Main method comparisons
 
 ### A. Medication and structured-order agreement
@@ -70,7 +78,7 @@ Hashes, promotions/rejections and case repairs/regressions accompany the artifac
 
 1. v0.9 all-checkpoint tests, independent recount and patient-cluster intervals are complete; see the new parameter table below.
 2. v0.15 has started with matching patients and step budgets, testing explicit negative decisions against over-selection.
-3. The Gemini budget check is complete, freezing 2,048 tokens/low reasoning. Finish v0.17 fixed/evolving evidence and RxQA, then v0.18 four-method frozen-skill transfer on Gemini.
+3. v0.17 four-component, all-round and RxQA evaluations are complete. v0.18 runs the four frozen methods on Gemini; a transport interruption resumed from cache without scoring missing responses as model errors.
 4. Repair FHIR retrieval/action failures from development, then evaluate full ID and held-out-task-type splits. The 16-case pilot cannot substitute for those tests.
 5. Retain an unobserved confirmation test, multiple orders, ablations, costs and regressions. Negative superiority outcomes remain visible rather than selecting favorable controls or changing test labels.
 

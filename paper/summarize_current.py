@@ -75,7 +75,7 @@ RxSafeBench 去重后 2,000 题，按场景组切分为 625/190/197/988 训练/�
 
 1. v0.9 全检查点测试、独立重算和患者聚类区间已完成，见新增本地参数主表。
 2. v0.15 已接续开始训练；保持患者与训练预算一致，检验显式负候选监督是否减少过度选择。
-3. v0.16 截断检查已完成，冻结 2,048-token/low 配置。继续 v0.17 固定证据/进化证据与 RxQA；v0.18 随后在 Gemini 上比较四种冻结方法。
+3. v0.17 四组件及全部逐轮/RxQA评价已完成。v0.18 正在 Gemini 上比较四种冻结方法；一次未完成的传输请求已从缓存恢复，缺失不计为模型错误。
 4. 根据 FHIR 开发失败改进检索与动作协议，再进行完整同分布/未见任务类型评价；开发 16 题不能替代正式测试。
 5. 最终保留没有参与迭代的确认测试、多种子、消融、费用和退化记录。若仍未超过强对照，论文结论如实保留，不能通过挑选方法或修改测试标签获得“第一”。
 
@@ -130,7 +130,7 @@ Hashes, promotions/rejections and case repairs/regressions accompany the artifac
 
 1. v0.9 all-checkpoint tests, independent recount and patient-cluster intervals are complete; see the new parameter table below.
 2. v0.15 has started with matching patients and step budgets, testing explicit negative decisions against over-selection.
-3. The Gemini budget check is complete, freezing 2,048 tokens/low reasoning. Finish v0.17 fixed/evolving evidence and RxQA, then v0.18 four-method frozen-skill transfer on Gemini.
+3. v0.17 four-component, all-round and RxQA evaluations are complete. v0.18 runs the four frozen methods on Gemini; a transport interruption resumed from cache without scoring missing responses as model errors.
 4. Repair FHIR retrieval/action failures from development, then evaluate full ID and held-out-task-type splits. The 16-case pilot cannot substitute for those tests.
 5. Retain an unobserved confirmation test, multiple orders, ablations, costs and regressions. Negative superiority outcomes remain visible rather than selecting favorable controls or changing test labels.
 
@@ -144,6 +144,22 @@ Hashes, promotions/rejections and case repairs/regressions accompany the artifac
             text+=extra
         if (ROOT/'upgrade_v20/results/order_entry_audit.json').exists():
             text+=('\n## 时间协议新增审计\n\n全体 1,788,195 条旧目标中，42,005 条 provider 医嘱在入院前已开立，276,269 条开立于原六小时窗口之后。可信时间关联排除 438 条住院编号冲突。源关联路径已确认一致，但药房与 provider 时钟仍不同，不能挑一个时钟就宣称前瞻有效。[详细结果](../upgrade_v20/RESULTS.zh.md)。\n' if lang=='zh' else '\n## New temporal-protocol audit\n\nAmong 1,788,195 historical target rows, 42,005 matching provider orders precede admission and 276,269 occur after the original six-hour horizon. Timestamp counts exclude 438 admission-link conflicts. Source linkage paths agree, but the differing pharmacy/provider clocks still require an explicit prospective availability protocol. [Full results](../upgrade_v20/RESULTS.en.md).\n')
+        if (ROOT/'upgrade_v21/results/independent_cohort_audit.json').exists():
+            panel=('\n## 最新订单任务：控制记录可用时间\n\n决策是实际入院后第6小时，预测随后6小时的新增/修改订单。仅用此前已记录的订单、血液检验和人口学信息；医生/药房时间和身份必须一致。40,000训练 / 2,000候选验证 / 2,000退化检查 / **1,082测试住院（1,024位患者）**，患者互不交叉，排除旧版本测试患者。独立复核约19.9万目标、58.9万先前订单和50.7万检验记录，12项检查全部通过。这是时间一致且有未来订单的筛选队列，不代表所有住院。\n\n' if lang=='zh' else '\n## Latest order task: controlled recorded availability\n\nDecision: actual admission plus6h; predict new/changed orders in the following6h using previously recorded orders, blood labs and demographics. Provider/pharmacy clocks and identities must agree. Split:40,000 training /2,000 proposal /2,000 guard / **1,082 test admissions (1,024 patients)**; patient-disjoint and excluding previous test patients. Independent reconstruction checks198,850 targets,589,393 prior orders and506,710 lab rows; all12 checks pass. This selected coherent-time, nonempty-target cohort does not represent all admissions.\n\n')
+            path=ROOT/'upgrade_v21/results/summary.json'
+            if path.exists():
+                d=json.loads(path.read_text());panel+='| Method | Drug F1 mean ± SD | Core-order F1 mean ± SD |\n|---|---:|---:|\n'
+                for k in ['reuse_prior_orders','retrieval_conditional_tool','word_char_ensemble','rxrsi_selected','without_tool_evolution','without_memory_evolution']:
+                    z=d['methods'][k];panel+=f"| {k} | {z['drug_f1_mean']:.5f} ± {z['drug_f1_sd']:.5f} | {z['order_f1_mean']:.5f} ± {z['order_f1_sd']:.5f} |\n"
+                panel+=('\n三种子完整方法/消融和逐轮预测已独立重算。本表与旧starttime任务分开。\n' if lang=='zh' else '\nAll three-seed method/ablation and round predictions are independently recounted. Separate from the earlier start-time task.\n')
+            else:panel+=('三种子方法对比正在运行；以下旧主表保留其原始协议。\n' if lang=='zh' else 'The registered three-seed comparison is running; the older tables below retain their original protocols.\n')
+            panel+='\n[Full protocol/results / 完整协议结果](../upgrade_v21/RESULTS.'+lang+'.md)\n'
+            text=text.replace('\n## 1.',panel+'\n## 1.',1)
+        if (ROOT/'upgrade_v18/results/summary.json').exists():
+            d=read('upgrade_v18/results/summary.json');text+=('\n## Gemini 上的冻结技能方法比较\n\n同988题，一次调用，2,048-token/low，测试时不学习。\n\n' if lang=='zh' else '\n## Frozen-method comparison on Gemini\n\nSame988 questions, one2,048-token/low-reasoning call, no test-time learning.\n\n')
+            text+='| Method | Correct /988 | Accuracy (%) | Invalid |\n|---|---:|---:|---:|\n'
+            for k,z in d['methods'].items():text+=f"| {k} | {z['correct']} | {100*z['accuracy']:.2f} | {z['invalid']} |\n"
+            text+='\n[Transfer, paired intervals and costs / 迁移、区间与费用](../upgrade_v18/RESULTS.'+lang+'.md)\n'
         (HERE/f'CURRENT_RESULTS.{lang}.md').write_text(text)
 
 if __name__=='__main__':main()

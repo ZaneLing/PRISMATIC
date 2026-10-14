@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "failure_before_repair": "KeyError sol before any training episode or test; no score produced",
+  "repair": "Missing literal solutions stay null; official state reference functions still grade each task",
+  "all_four_splits_load": true,
+  "all_ten_reference_functions_present": true,
+  "splits": {
+    "dev": {
+      "n": 96,
+      "literal_solution_present": 12,
+      "literal_solution_absent": 84,
+      "missing_by_task_type": {
+        "task10": 12,
+        "task2": 12,
+        "task3": 12,
+        "task4": 12,
+        "task5": 12,
+        "task8": 12,
+        "task9": 12
+      }
+    },
+    "val": {
+      "n": 80,
+      "literal_solution_present": 10,
+      "literal_solution_absent": 70,
+      "missing_by_task_type": {
+        "task10": 10,
+        "task2": 10,
+        "task3": 10,
+        "task4": 10,
+        "task5": 10,
+        "task8": 10,
+        "task9": 10
+      }
+    },
+    "id_test": {
+      "n": 64,
+      "literal_solution_present": 8,
+      "literal_solution_absent": 56,
+      "missing_by_task_type": {
+        "task10": 8,
+        "task2": 8,
+        "task3": 8,
+        "task4": 8,
+        "task5": 8,
+        "task8": 8,
+        "task9": 8
+      }
+    },
+    "test": {
+      "n": 60,
+      "literal_solution_present": 0,
+      "literal_solution_absent": 60,
+      "missing_by_task_type": {
+        "task6": 30,
+        "task7": 30
+      }
+    }
+  },
+  "contract_tests_passed": 3
+}

@@ -1,5 +1,14 @@
 # Manuscript change log / 论文变更记录
 
+## 2026-10-14 — v0.21 temporal rebuild and execution recovery
+
+- Re-read full source orders and freeze a recorded-availability task with1,082 new test admissions; independently reconstruct198,850 target,589,393 prior-order and506,710 lab records. All12 registered checks pass.
+- Register/push the complete three-seed method protocol before model evaluation; launch matched controls, growing artifacts and object freezes.
+- Resume Gemini after a transport error with existing caches and unchanged protocol. Do not score missing requests as mistakes.
+- Fix optional MedAgentBench literal solutions before learning; validate all300 tasks and all reference graders. Preserve actual write/readback/rollback/cleanup receipts for independent grading.
+- Update the existing English paper in place and confirm built-in compilation. Pending model comparisons are labeled incomplete.
+
+
 ## 2026-10-14 — v0.9 and v0.17 complete; real order compiler verified
 
 - Recounted all seven local QLoRA states on 500 new admissions; ordinary and prioritized updates trail direct top-8 tools.

@@ -75,6 +75,38 @@ Three-order final accuracy is 49.12$\pm$0.23\% for uniform updates and 49.02$\pm
 We combine the fixed balanced label tool with the unchanged GRASP optimizer, holding the actor prompt, backbone and one-call 512-token inference budget constant. The four-cell comparison is CoT (467/988), skills without labels (502), labels without skills (499), and learned skills with labels (501). The combined state repairs 83 cases and regresses 81 relative to fixed grounding: +0.20 percentage points, with a descriptive paired scenario interval [-2.43, 2.73]. The factorial interaction is -3.34 points, interval [-7.18, 0.30]. Thus separate component gains do not add reliably.
 
 On 300 RxQA transfer items, the same four states score 193, 189, 188 and 183. The first feedback batch accepts no skill; the following three add and then twice modify one indication/caution procedure. Actual text and hashes are released. The author core selects its final checkpoint on end-of-epoch validation, which rises from 49.1\% to 53.2\%; it does not apply our independent-guard mechanism at every batch. LLM weights and retrieval code remain fixed. On the fixed 988-case test, round 0--4 correctness is 499, 499, 475, 493 and 501; on RxQA it is 188, 188, 175, 175 and 183. The first accepted skill therefore regresses before later edits recover part of the loss. These are frozen-state trajectories, distinct from batch accuracies on different cases; they do not show monotonic self-improvement.'''
+    if (ROOT/'upgrade_v18/results/summary.json').exists():
+        transfer=json.loads((ROOT/'upgrade_v18/results/summary.json').read_text())
+        names={'cot':'CoT','frozen_author_grasp':'Frozen author-core skills','fixed_grounded':'Fixed grounded harness','frozen_grounded_grasp':'Frozen grounded skills'}
+        rr='\n'.join(f"{label} & {transfer['methods'][key]['correct']} & {transfer['methods'][key]['invalid']} \\\\" for key,label in names.items())
+        public_section+=r'''\subsection{Frozen Skill Transfer to a Second Backbone}
+The two DeepSeek-learned skill states transfer unchanged to Gemini-3.8-Flash. All four methods use the same 988 questions, one call, low reasoning and a 2,048-token completion cap selected on development before testing. Skills, tool code and backbone weights remain fixed during evaluation. These are method comparisons within the second backbone; different completion caps prevent interpreting the two backbones as an equal-compute ranking.
+\begin{table}[t]\centering\small
+\caption{Frozen-artifact transfer: correct answers out of 988 and received invalid outputs.}
+\begin{tabular}{lrr}\toprule Method & Correct & Invalid\\\midrule
+TRANSFERROWS
+\bottomrule\end{tabular}\end{table}
+All case-level decisions are independently recounted. Transport failures are resumed from cache and never scored as model errors. Paired source-scenario intervals, fixes, regressions and actual logical token costs are released. One source skill-learning path does not establish seed robustness.'''.replace('TRANSFERROWS',rr)
+    temporal_section=''
+    if (ROOT/'upgrade_v21/results/independent_cohort_audit.json').exists():
+        temporal_section=r'''\subsection{Recorded-Availability-Controlled New Orders}
+The earlier start-time task does not establish prospective availability. We therefore re-read the complete source tables and set the decision to actual hospital admission plus six hours, predicting new/changed orders in the next six hours. Both provider ordertime and pharmacy entertime must lie in that future window, linked patient/admission/POE identities must agree, and pharmacy verification must occur by its end. An admission is excluded if any potentially in-window order fails these criteria, and follow-up must cover the whole window. This defines a selected coherent-time, nonempty-target cohort, not the general inpatient population.
+
+Inputs contain gender, decade-binned age, at most 24 prior joint-order tuples and 32 blood measurements. Every prior order has all three recorded timestamps before the decision; laboratory charttime and storetime must both be available. Untimed triage and discharge diagnoses are excluded. Of 201,750 source admissions, 54,959 satisfy eligibility. After fixed sampling and excluding all previous v0.6/v0.7/v0.9 test patients, the split is 40,000/2,000/2,000/1,082 train/proposal/guard/test, with 1,024 test patients and no cross-split patient overlap. Independent reconstruction checks 198,850 target rows, 589,393 prior-order rows and 506,710 lab rows with zero violations of the declared identity/time/finiteness checks.
+
+The initial-8k vocabulary, feature mapping, output cap, method family and three seeds are frozen before training. We repeat policy, memory and conditional-tool evolution alongside full-data word/character models, retrieval, naive Bayes, prevalence and prior-order reuse. Test scoring follows within-seed selection freeze. This is a separate temporal task; its raw-name scores cannot be pooled with the older start-time table or published ATC results. Released tables lack full field-version histories, so recorded timestamps do not prove what clinicians actually viewed.
+'''
+        if (ROOT/'upgrade_v21/results/summary.json').exists():
+            tm=json.loads((ROOT/'upgrade_v21/results/summary.json').read_text())['methods']
+            keys={'prevalence':'Training prevalence','reuse_prior_orders':'Reuse prior orders','retrieval_conditional_tool':'Case retrieval + tool','word_policy_conditional_tool':'Word policy + tool','word_char_ensemble':'Word/character + tool','rxrsi_selected':'RxRSI selected state','without_tool_evolution':'Freeze initial tool','without_memory_evolution':'Freeze initial memory'}
+            tr='\n'.join(f"{label} & {tm[k]['drug_f1_mean']:.4f} $\\pm$ {tm[k]['drug_f1_sd']:.4f} & {tm[k]['order_f1_mean']:.4f} $\\pm$ {tm[k]['order_f1_sd']:.4f} \\\\" for k,label in keys.items())
+            temporal_section+=r'''\begin{table*}[t]\centering\small
+\caption{Recorded-availability task: matched 1,082 test admissions, mean $\pm$ sample SD across three seeds. Fixed prevalence/reuse controls are reused across seeds.}
+\begin{tabular}{lrr}\toprule Method & Drug micro-F1 & Core-order micro-F1\\\midrule
+TEMPORALROWS
+\bottomrule\end{tabular}\end{table*}
+Independent saved-prediction counting reproduces all method and checkpoint scores. Accepted-state trajectories, per-case improvements/regressions, artifact hashes and descriptive patient-cluster intervals accompany the release. A gain over the initial 8k checkpoint alone is insufficient evidence of an advantage over equal-data learning.'''.replace('TEMPORALROWS',tr)
+        else:temporal_section+=r'\paragraph{Execution status.} The cohort and its independent audit are complete; the registered three-seed method experiment is running. No incomplete method table is treated as final.'
     parameter_section=r'\paragraph{Execution status.} Local parameter-update experiments are in progress. No fine-tuning gain is claimed before generation-based evaluation is complete.'
     if parameter.exists() and (ROOT/'upgrade_v9/results/summary.json').exists():
         d=json.loads((ROOT/'upgrade_v9/results/summary.json').read_text())
@@ -202,6 +234,8 @@ GROWTHROWS
 
 The accepted-state curves are non-decreasing on this test for all three seeds, including a flat final step when seed 137 rejects its proposal. Individual cases still regress. Conditional order-tool learning improves joint-field matching. Memory expansion is not consistently helpful; freezing initial memory can improve the final state. The full evolving system does not beat the strong same-data ensemble/tool control. Thus case-growth gains support H2 in this setting but do not establish H3. Independent set counting reproduces all scores; paired patient-cluster bootstrap intervals and per-round regressions are released with the aggregate results.
 
+TEMPORALSECTION
+
 \section{Study B: Language-Artifact RSI}
 To test genuine changes to language-guided behavior, the next experiment freezes DeepSeek-V4.1-Flash and evolves reusable skills, episodic memory and the configuration of an evidence-focus tool. The tool returns exact current-dialogue excerpts selected by learned focus terms; its source code is fixed. An LLM proposes changes from its own training-error traces, and the runner saves the full before/after artifacts.
 
@@ -244,7 +278,7 @@ All restricted MIMIC records, predictions and checkpoints remain on the authoriz
 \end{thebibliography}
 \end{document}
 '''
-    body=body.replace('METHODROWS',rows).replace('GROWTHROWS',growth).replace('PUBLICSECTION',public_section).replace('PARAMETERSECTION',parameter_section)
+    body=body.replace('METHODROWS',rows).replace('GROWTHROWS',growth).replace('PUBLICSECTION',public_section).replace('PARAMETERSECTION',parameter_section).replace('TEMPORALSECTION',temporal_section)
     sty=STYLE.read_text();prefix='% Official ACL style embedded for the standalone editor. See acl_template_provenance.json.\n'+r'\begin{filecontents*}[overwrite]{acl.sty}'+'\n'+sty+'\n'+r'\end{filecontents*}'+'\n% PRISMATIC MANUSCRIPT START\n'
     PAPER.write_text(prefix+body)
     provenance={'repository':'https://github.com/acl-org/acl-style-files','commit':'d5adc823ff0f80f98c80405ca0ab66c68e684409',

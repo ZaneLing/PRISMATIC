@@ -43,6 +43,7 @@ def run_case(case,method,grader,actor=None,compile_payloads=False,repair_protoco
     if verified:system+=' Resolve the requested patient, retrieve needed observations and respect the stated clinical time. Before a write, check resource type, patient reference and all requested fields. Use the server receipt/readback to confirm execution. Finish only after every requested question or write is handled.'
     history=[{'role':'system','content':system},{'role':'user','content':json.dumps(prompt)}]
     original=[];live=[];created=[];tools=[];usage=[];answer=None;status='round_limit';post_checks=[];active_post_checks=[];compilation_audits=[];protocol_repairs=0
+    write_audits=[];cleanup_checks=[];grader_errors=[]
     active=LOCAL/'active';active.mkdir(exist_ok=True);journal=active/(uuid.uuid4().hex+'.json')
     try:
         for round_index in range(8):
@@ -89,16 +90,21 @@ def run_case(case,method,grader,actor=None,compile_payloads=False,repair_protoco
                         stored_payload,compile_audit=compile_order(payload) if compile_payloads else (payload,{'changes':[],'semantic_warnings':[]})
                         compilation_audits.append(compile_audit)
                         code,result=http_request('POST',path,stored_payload);tools.append({'method':'POST','path':path,'status':code})
+                        audit={'canonical_payload':stored_payload,'create_status':code,'create_receipt':result,'readback_status':None,'readback':None,'persisted':False,'rolled_back':False}
+                        write_audits.append(audit)
                         if code==201 and isinstance(result,dict) and result.get('id'):
                             new_path=path+'/'+result['id'];created.append(new_path);journal.write_text(json.dumps(created))
                             read_code,stored=http_request('GET',new_path)
                             persisted=read_code==200 and stored.get('resourceType')==payload.get('resourceType')
                             for field in stored_payload:
                                 if field not in ['id','meta']:persisted &= stored.get(field)==stored_payload[field]
+                            audit.update(readback_status=read_code,readback=stored,persisted=bool(persisted))
                             post_checks.append(bool(persisted));tools.append({'method':'GET','path':new_path,'status':read_code,'postcondition_audit':True,'shown_to_actor':verified})
                             if not persisted and repair_protocol:
                                 rollback_code,_=http_request('DELETE',new_path)
+                                tools.append({'method':'DELETE','path':new_path,'status':rollback_code,'rollback':True})
                                 if rollback_code not in (200,204):raise RuntimeError('Readback-mismatch rollback failed; cleanup journal retained')
+                                audit.update(rolled_back=True,rollback_status=rollback_code)
                                 created.pop();journal.write_text(json.dumps(created))
                                 missing=[k for k in stored_payload if k not in ['id','meta'] and stored.get(k)!=stored_payload[k]]
                                 message='The submitted write failed field preservation and was rolled back. Repair these fields before retrying: '+json.dumps(missing)
@@ -117,16 +123,20 @@ def run_case(case,method,grader,actor=None,compile_payloads=False,repair_protoco
             if answer is None or status!='completed':return False
             obj=types.SimpleNamespace(history=[types.SimpleNamespace(**x) for x in trace],result=answer)
             try:return bool(getattr(grader,case['id'].split('_')[0])(case,obj,BASE))
-            except Exception:return False
+            except Exception as error:
+                grader_errors.append({'exception':type(error).__name__,'trace_kind':'original' if trace is original else 'live'})
+                return False
         trace_correct=grade(original);live_correct=grade(live)
         return {'case_id':case['id'],'method':method,'status':status,'original_trace_correct':trace_correct,
             'live_execution_correct':live_correct and all(active_post_checks),'writes':len(created),'write_checks':post_checks,'model_calls':len(usage),
             'tool_calls':len(tools),'cost_usd':sum(x['cost_usd'] or 0 for x in usage),'usage':usage,'tools':tools,'history':history,
-            'answer':answer,'cleanup':'performed_in_finally','protocol_repairs':protocol_repairs,'compilation_audits':compilation_audits}
+            'answer':answer,'cleanup':'performed_in_finally','cleanup_checks':cleanup_checks,'protocol_repairs':protocol_repairs,'compilation_audits':compilation_audits,
+            'original_trace':original,'live_trace':live,'active_post_checks':active_post_checks,'write_audits':write_audits,'grader_errors':grader_errors}
     finally:
         failed=[]
         for path in reversed(created):
             code,_=http_request('DELETE',path)
+            cleanup_checks.append({'path':path,'status':code})
             if code not in (200,204):failed.append(path)
         if failed:raise RuntimeError('Owned probe resources failed cleanup; private active journal retained')
         if journal.exists():journal.unlink()

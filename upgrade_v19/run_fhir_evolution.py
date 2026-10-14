@@ -22,7 +22,7 @@ def main():
         'controls':['literal direct tools','fixed compiled/verified harness'],'serialized_episodes':True,
         'episode_cache':'Exact code/mode/case/skill digest; complete already-executed episodes may replay. Physical operations and logical cost are distinguished.',
         'actor_inputs':'instruction/context and actual tool replies only; no sol/eval_MRN fields',
-        'feedback':'Patient-ID-redacted training traces and automatic original/state grades; no test labels in learning.',
+        'feedback':'Patient-ID-redacted training traces and automatic original/state grades; only task1 includes literal sol, all other literal targets remain null and use the reference grader; no test labels in learning.',
         'patient_split_note':'Official task splits overlap in patients; not patient-disjoint.',
         'state_score':'Original reference criteria plus all submitted canonical fields preserved on readback. Duration-like legacy rate fields remain semantically unvalidated.',
         'selection':'End-of-epoch best validation checkpoint from the author core, before ID/OOD testing.',
@@ -31,7 +31,9 @@ def main():
     # Finish the funded model comparison first; avoid charging competing studies.
     while True:
         processes=subprocess.check_output(['ps','-axo','command'],text=True)
-        if not any(any(s in x for s in ['python upgrade_v18/run_backbone_transfer.py','python upgrade_v17/run_rounds.py']) for x in processes.splitlines()):break
+        transfer=ROOT/'upgrade_v18/results/method_results.json'
+        transfer_complete=transfer.exists() and json.loads(transfer.read_text()).get('status')=='complete'
+        if transfer_complete and not any(any(s in x for s in ['python upgrade_v18/run_backbone_transfer.py','python upgrade_v17/run_rounds.py']) for x in processes.splitlines()):break
         time.sleep(30)
     os.environ['RXRSI_PUBLIC_COST_CAP_USD']='28'
     pin=subprocess.check_output(['git','rev-parse','HEAD'],cwd=RESOURCE,text=True).strip();assert pin==protocol['source_commit']

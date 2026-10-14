@@ -20,3 +20,7 @@ The declared comparison uses 96 development, 80 validation, 64 ID test and 60 he
 Episodes execute serially to avoid shared-state interference; exact previously executed code/case/skill episodes can replay from cache. Task GT fields never enter actor prompts. Patient IDs in training feedback are redacted. Released task splits overlap in patients and are not patient-disjoint.
 
 The full agent experiment is queued after the Gemini and intermediate-skill evaluations. No unfinished agent result is claimed. See `protocol.json` and the actual probe records in `results/`.
+
+## Task-schema repair before learning
+
+The first launch stopped before any episode because only task1 has a literal `sol`. Other task types use reference functions against FHIR state. The adapter now preserves absent literal answers as null and uses the unchanged reference grader; it does not fabricate answers. All300 released task records load, all ten grader functions exist, and three execution/label-isolation contracts pass. The queue now requires the Gemini comparison to be complete, not merely an exited process. See `results/task_schema_audit.json`.
