@@ -12,8 +12,6 @@
 
 Status / 状态：**partial**. Pending / 未完成 cells are not scored as zero.
 
-**API中断：** 新请求返回HTTP402；未完成单元保留可续跑回执，等待补充额度。已完成并核验的分数保持有效。
-
 | C: schema | S: statistics | K: frozen skills | Validation /80 | ID /64 | Held-out types /60 |
 |---|---|---|---:|---:|---:|
 | 0 | 0 | 0 | 45 | 38 | 18 |
@@ -21,8 +19,8 @@ Status / 状态：**partial**. Pending / 未完成 cells are not scored as zero.
 | 0 | 1 | 0 | 49 | 36 | 43 |
 | 0 | 1 | 1 | 59 | 46 | 50 |
 | 1 | 0 | 0 | 52 | 46 | 29 |
-| 1 | 0 | 1 | 54 | 49 | pending |
-| 1 | 1 | 0 | 57 | 47 | pending |
+| 1 | 0 | 1 | 54 | 49 | 25 |
+| 1 | 1 | 0 | 57 | 47 | 45 |
 | 1 | 1 | 1 | 66 | 54 | pending |
 
 | Split | Declared contrast | Difference (pp) | Patient/query-cluster interval (pp) |

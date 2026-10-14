@@ -22,6 +22,9 @@ def main():
         elif (PAPER/'execution_status.json').exists() and json.loads((PAPER/'execution_status.json').read_text())['api']['status']=='restored_actual_completion_verified':
             block+=('**Execution notice:** a real OpenRouter completion verified restored access after recharge. Interrupted studies resume from saved receipts under their original protocols and budgets; missing requests are not model errors.\n\n' if lang=='en' else '**执行状态：** 充值后已用真实OpenRouter响应验证访问恢复。中断实验从原回执继续，保持原协议和预算；缺失请求不计作模型错误。\n\n')
         block+=(f'**Actual training:** {complete}/6 rule runs finish five rounds; {nr}/15 author-model runs finish their full 50 epochs, with {epochs}/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.\n\n' if lang=='en' else f'**实际运行：** {complete}/6组规则实验完成五轮；作者神经方法{nr}/15组完成各自50轮，总计已完成{epochs}/750轮。训练与审计队列继续，正式ATC-L4测试主表等待全部已登记版本和核验完成后统一运行。\n\n')
+        if (ROOT/'upgrade_v30/common_test_addendum.json').exists():
+            block+=('**Common main-table extension:** all v29/v30 program methods, frozen raw rounds and proposal-selected states are now registered for the exact v27 test cases and label spaces. The evaluator and independent prediction reexecution are implemented; execution waits for every author method and all program audits. ' if lang=='en' else '**统一主表衔接：** v29/v30全部程序方法、冻结原始轮次和proposal选择状态，已登记在完全相同的v27测试病例与药物空间中对比。评估器和独立预测重执行已实现，等待全部作者方法与程序核验完成后执行。')
+            block+=f'[Common test table and protocol](../upgrade_v30/COMMON_TEST.{lang}.md)\n\n'
         if (ROOT/'upgrade_v31/results/progress.json').exists():
             progress=json.loads((ROOT/'upgrade_v31/results/progress.json').read_text())
             block+=('### Parameter repair: randomized positions and causal learning controls\n\n' if lang=='en' else '### 参数修复：候选位置随机化与学习机制对照\n\n')
@@ -79,7 +82,7 @@ def main():
         plan=('''## Current execution queue — concrete delivery status
 
 1. Rule-memory mechanism is implemented and executed on both ATC-L4 spaces, three seeds, five case-growth rounds, six arms. Finish independent cross-fit/candidate/witness/output audits and retain all edit decisions and raw curves.
-2. Complete every registered ARMR/GAMENet/SafeDrug run at 50 epochs. The implemented queue reloads each selected checkpoint, audits development predictions, then opens one shared test gate. The evaluator includes conventional methods, all six rule arms, every frozen round and three artifact interventions. Test results cannot retune the methods.
+2. Complete every registered ARMR/GAMENet/SafeDrug run at 50 epochs. The implemented queue reloads each selected checkpoint, audits development predictions, then opens the v27 common test. Its evaluator includes conventional methods, six rule arms, every frozen round and three artifact interventions. The separately registered common-test extension adds all seven v29 and fourteen v30 methods after all choices/audits freeze, with independent reexecution of 315 program states per panel. Test results cannot retune methods.
 3. Finish the eight-condition real-FHIR C/S/K factorial across 80 validation, 64 ID and 60 held-out-type tasks. Report every condition, original strict scores, resource integrity, budgets and paired effects. Audit raw-page arithmetic; do not replace old results with posthoc value extraction.
 4. Continue the eICU external-hospital study already running. Preserve zero-target stays and frozen selection. This supplies a separate transport test, not a directly pooled ATC score.
 5. Complete the seven-arm isolated-witness program study and its registered carryover/new-edit diagnosis. The next 14-arm compatibility/confirmation factorial is now registered, implemented and running, with separately learned trajectories under greedy, own-error and shuffled evidence. Complete every seed and independent gate/output audit; report raw final-round and proposal-selected endpoints before claiming improved transfer.
@@ -89,7 +92,7 @@ def main():
 ''' if lang=='en' else '''## 当前执行队列：具体交付状态
 
 1. 规则记忆机制已实现并真实运行：两种ATC-L4空间、三个种子、五轮病例增长、六种方法。完成交叉拟合、候选、witness和预测的独立核验，保留所有编辑决定及原始曲线。
-2. ARMR／GAMENet／SafeDrug各组完成已登记50轮。已实现的队列逐组重新加载所选检查点、核验开发预测，之后统一开启测试。评估器包含传统方法、六种规则方法、全部冻结轮次和三项对象干预；测试结果不用于调参。
+2. ARMR／GAMENet／SafeDrug各组完成已登记50轮。已实现队列逐组重载所选检查点、核验开发预测，再开启v27统一测试；包含传统方法、六种规则方法、全部冻结轮次和三项对象干预。另已登记并实现共同测试扩展：全部选择／核验冻结后加入v29七种与v30十四种方法，每个药物空间独立重执行315组程序预测。测试结果不用于调参。
 3. 完成真实FHIR的C/S/K八组合：80验证、64同类、60未见任务类型。报告每组合原严格成绩、真实资源完整性、预算和配对效果；重建原始分页算术，不用事后提取数值替换旧分数。
 4. 继续已启动的eICU跨医院实验，保留零目标病例和冻结版本。它是独立迁移测试，不能直接混入ATC主表。
 5. 完成七臂隔离witness程序研究及已登记的旧记忆／新编辑诊断。后续14臂兼容性／独立确认组合实验已经登记、实现并运行；贪心、自身错误和打乱证据各自重新学习轨迹。完成所有种子与验证／输出独立核验，同时报告末轮原状态与proposal选择状态，再判断是否改善迁移。

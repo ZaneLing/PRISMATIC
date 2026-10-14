@@ -3,9 +3,11 @@
 <!-- RXRSI_CURRENT_EXECUTION_START -->
 ## Current executed increment — rule memory and tool repair
 
-**Execution notice:** a real OpenRouter completion verified restored access after recharge. Interrupted studies resume from saved receipts under their original protocols and budgets; missing requests are not model errors.
+**Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 4/15 author-model runs finish their full 50 epochs, with 315/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 6/15 author-model runs finish their full 50 epochs, with 330/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+
+**Common main-table extension:** all v29/v30 program methods, frozen raw rounds and proposal-selected states are now registered for the exact v27 test cases and label spaces. The evaluator and independent prediction reexecution are implemented; execution waits for every author method and all program audits. [Common test table and protocol](../upgrade_v30/COMMON_TEST.en.md)
 
 ### Parameter repair: randomized positions and causal learning controls
 
@@ -26,16 +28,17 @@ The 14-arm v0.30 factorial revalidates old memory after policy changes and check
 | Panel | Audited seeds | Calibration F1 | Own C0P0 F1 | Own C1P1 F1 | Greedy C1P1 F1 |
 |---|---:|---:|---:|---:|---:|
 | full | 1 | 0.60719 | 0.60694 | 0.60706 | 0.60719 |
+| molecular | 1 | 0.57911 | 0.57874 | 0.57911 | 0.57972 |
 
 [All gate combinations, raw rounds and independent audits](../upgrade_v30/RESULTS.en.md)
 
 ### New executed mechanism: isolated witnesses and program synthesis
 
-5/6 runs have frozen five rounds; 5/6 pass independent model/program audits. Each seed uses 5,692 fit patients and permanently excludes 1,423 witness patients from all model fits and candidate statistics. The agent generates one/two-predicate programs; raw policy, ordinary class calibration, greedy/random programs and shuffled evidence are separate controls. These are development results.
+6/6 runs have frozen five rounds; 6/6 pass independent model/program audits. Each seed uses 5,692 fit patients and permanently excludes 1,423 witness patients from all model fits and candidate statistics. The agent generates one/two-predicate programs; raw policy, ordinary class calibration, greedy/random programs and shuffled evidence are separate controls. These are development results.
 
 | Panel | Audited seeds | Raw policy F1 | Class calibration F1 | Greedy program F1 | Own-agent F1 |
 |---|---:|---:|---:|---:|---:|
-| full | 2 | 0.60554 | 0.60758 | 0.60775 | 0.60771 |
+| full | 3 | 0.60570 | 0.60803 | 0.60801 | 0.60790 |
 | molecular | 3 | 0.57564 | 0.57989 | 0.58094 | 0.58021 |
 
 [Actual conditional-program experiment and replay diagnosis](../upgrade_v29/RESULTS.en.md)
@@ -62,8 +65,8 @@ The changed artifact is executable rule memory: aggregate error evidence → LLM
 | 0 | 1 | 0 | 49 | 36 | 43 |
 | 0 | 1 | 1 | 59 | 46 | 50 |
 | 1 | 0 | 0 | 52 | 46 | 29 |
-| 1 | 0 | 1 | 54 | 49 | pending |
-| 1 | 1 | 0 | 57 | 47 | pending |
+| 1 | 0 | 1 | 54 | 49 | 25 |
+| 1 | 1 | 0 | 57 | 47 | 45 |
 | 1 | 1 | 1 | 66 | 54 | pending |
 
 C enforces the instruction-derived answer shape through actual budgeted retries. S computes source-bound latest/24h Observation statistics with paging and unit separation. K reuses the exact two learned skills. C/S are fixed engineering repairs; no autonomous tool evolution is claimed. All conditions are fixed and all splits reused: exploratory repair, not untouched confirmation.

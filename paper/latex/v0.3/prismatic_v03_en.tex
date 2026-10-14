@@ -475,13 +475,13 @@ The frozen per-round state is $(\theta_r,\tau_r,M_r)$: ordinary supervised logis
 This design changes witness isolation, calibration and program expressivity together; comparisons with the prior study do not isolate any one change. The new seven-arm study isolates the language contribution within the same revised data/budget protocol. Proposal data select rounds, guard is report-only, and no new test inference is authorized by its current protocol.\begin{table*}[t]\centering\small
 \caption{Isolated-witness development study on the same 1,231 guard visits/467 patients. Only independently audited seeds appear; these models fit 5,692 patients and reserve 1,423 witnesses, unlike the earlier all-training-patient policy fits. Sample seed deviation is shown only when multiple seeds complete.}
 \begin{tabular}{llrrr}\toprule Panel & Method & Audited seeds & Patient F1 & Patient Jaccard\\\midrule
-full & Raw logistic & 2 & 0.60554 $\pm$ 0.00058 & 0.45116 $\pm$ 0.00064 \\
-full & Class calibration & 2 & 0.60758 $\pm$ 0.00056 & 0.45361 $\pm$ 0.00052 \\
-full & Greedy programs & 2 & 0.60775 $\pm$ 0.00079 & 0.45365 $\pm$ 0.00083 \\
-full & Random programs & 2 & 0.60715 $\pm$ 0.00040 & 0.45317 $\pm$ 0.00043 \\
-full & Own-error synthesis & 2 & 0.60771 $\pm$ 0.00026 & 0.45355 $\pm$ 0.00033 \\
-full & Shuffled-evidence synthesis & 2 & 0.60761 $\pm$ 0.00061 & 0.45367 $\pm$ 0.00061 \\
-full & Same proposals, no witness & 2 & 0.60720 $\pm$ 0.00036 & 0.45289 $\pm$ 0.00039 \\
+full & Raw logistic & 3 & 0.60570 $\pm$ 0.00050 & 0.45138 $\pm$ 0.00060 \\
+full & Class calibration & 3 & 0.60803 $\pm$ 0.00087 & 0.45407 $\pm$ 0.00088 \\
+full & Greedy programs & 3 & 0.60801 $\pm$ 0.00072 & 0.45394 $\pm$ 0.00078 \\
+full & Random programs & 3 & 0.60762 $\pm$ 0.00086 & 0.45366 $\pm$ 0.00089 \\
+full & Own-error synthesis & 3 & 0.60790 $\pm$ 0.00038 & 0.45381 $\pm$ 0.00049 \\
+full & Shuffled-evidence synthesis & 3 & 0.60794 $\pm$ 0.00071 & 0.45399 $\pm$ 0.00070 \\
+full & Same proposals, no witness & 3 & 0.60742 $\pm$ 0.00046 & 0.45317 $\pm$ 0.00055 \\
 molecular & Raw logistic & 3 & 0.57564 $\pm$ 0.00053 & 0.42407 $\pm$ 0.00070 \\
 molecular & Class calibration & 3 & 0.57989 $\pm$ 0.00088 & 0.42804 $\pm$ 0.00064 \\
 molecular & Greedy programs & 3 & 0.58094 $\pm$ 0.00060 & 0.42903 $\pm$ 0.00059 \\
@@ -497,6 +497,7 @@ A separately registered proposal-only replay compares no memory, prior-round mem
 \begin{tabular}{lrrr}\toprule Run & Positive & Negative & Zero\\\midrule
 full seed42 & 4 & 4 & 0 \\
 full seed137 & 7 & 4 & 0 \\
+full seed2026 & 5 & 3 & 0 \\
 molecular seed42 & 4 & 3 & 0 \\
 molecular seed137 & 5 & 3 & 0 \\
 molecular seed2026 & 6 & 3 & 0 \\
@@ -525,7 +526,22 @@ full & shuffled C0P0 & 1 & 0.60761 & 0.60761 \\
 full & shuffled C0P1 & 1 & 0.60719 & 0.60719 \\
 full & shuffled C1P0 & 1 & 0.60719 & 0.60719 \\
 full & shuffled C1P1 & 1 & 0.60719 & 0.60719 \\
-\bottomrule\end{tabular}\end{table*}
+molecular & raw policy & 1 & 0.57623 & 0.57623 \\
+molecular & calibrated policy & 1 & 0.57911 & 0.57911 \\
+molecular & greedy C0P0 & 1 & 0.57960 & 0.57960 \\
+molecular & greedy C0P1 & 1 & 0.57911 & 0.57911 \\
+molecular & greedy C1P0 & 1 & 0.57972 & 0.57972 \\
+molecular & greedy C1P1 & 1 & 0.57972 & 0.57972 \\
+molecular & own C0P0 & 1 & 0.57874 & 0.57874 \\
+molecular & own C0P1 & 1 & 0.57911 & 0.57911 \\
+molecular & own C1P0 & 1 & 0.57935 & 0.57935 \\
+molecular & own C1P1 & 1 & 0.57911 & 0.57911 \\
+molecular & shuffled C0P0 & 1 & 0.57911 & 0.57911 \\
+molecular & shuffled C0P1 & 1 & 0.57911 & 0.57911 \\
+molecular & shuffled C1P0 & 1 & 0.57911 & 0.57911 \\
+molecular & shuffled C1P1 & 1 & 0.57911 & 0.57911 \\
+\bottomrule\end{tabular}\end{table*}\paragraph{Frozen common-test extension.}
+Before common-test inference, a separate addendum registers all seven conditional-program and fourteen compatibility/confirmation methods on the exact 2,422-visit, 890-patient test cohort and both medication spaces. All five raw rounds and proposal-selected states are retained. The implemented evaluator waits for every author-method selection and all program audits; an independent audit reexecutes 315 program states per panel from original models and raw-source features. Comparisons include every conventional, author and earlier rule method, with descriptive paired patient intervals and seed variation. The permanently reserved witness patients change policy-fitting exposure, and computation budgets differ; these limits accompany the shared test protocol. This extension is still gated and does not supply test scores at this snapshot.
 
 \section{Agent State and Update Mechanism}
 At round $r$, let the persistent state be $S_r=(W_r,M_r,T_r,K_r)$: prescription-selection parameters, episodic memory, order-tool state, and language skills. Runtime inference takes a patient snapshot, retrieves candidates and applicable experience, plans selections, and compiles structured orders. The current order compiler returns drug, route, dose string, dose unit and observed frequency; unobserved clinical attributes remain unknown.
@@ -776,8 +792,8 @@ A registered $2\times2\times2$ fixed factorial separates an instruction-derived 
 0 & 1 & 0 & 49 & 36 & 43 \\
 0 & 1 & 1 & 59 & 46 & 50 \\
 1 & 0 & 0 & 52 & 46 & 29 \\
-1 & 0 & 1 & 54 & 49 & -- \\
-1 & 1 & 0 & 57 & 47 & -- \\
+1 & 0 & 1 & 54 & 49 & 25 \\
+1 & 1 & 0 & 57 & 47 & 45 \\
 1 & 1 & 1 & 66 & 54 & -- \\
 \bottomrule\end{tabular}\end{table}
 These manually implemented execution repairs are not autonomous tool-code evolution. All eight conditions stay fixed; observed validation or repeated-test outcomes do not select a winner. Raw-page arithmetic, persisted fields and reference scores are independently reconstructed. Earlier skill failures remain in the original table. New independent confirmation and subsequent evidence-validated learning are still required.

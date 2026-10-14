@@ -314,5 +314,84 @@
     "logical_training_case_exposures": 983040000,
     "physical_training_seconds": 1386.036197900772,
     "initial_model_reused": false
+  },
+  {
+    "round": 4,
+    "training_cases": 40000,
+    "candidate": {
+      "arm": "error_prioritized",
+      "round": 4,
+      "training_cases": 40000,
+      "threshold": 0.1,
+      "policy_file": "error_prioritized_policy_round_4.joblib",
+      "policy_sha256": "29a52a8928d48fda867660c404c74b737e79b66b3f2cf09f9f3b727ead5b2951",
+      "tool_file": "tool_round_4.joblib",
+      "tool_sha256": "af4ecb2f0132160a00f6b088c93628edf971deae3f7f555010b877d5b16c67d1"
+    },
+    "active": {
+      "arm": "error_prioritized",
+      "round": 2,
+      "training_cases": 24000,
+      "threshold": 0.1,
+      "policy_file": "error_prioritized_policy_round_2.joblib",
+      "policy_sha256": "166d4db8c5a2427ab75fcb4c1b04ef7428a0c94df309bc18eab22f8f14b5519c",
+      "tool_file": "tool_round_2.joblib",
+      "tool_sha256": "2041b15df92cb3bc274778bd1fe140be537ff6765534355d79806d955d852d2d"
+    },
+    "accepted": false,
+    "proposal": {
+      "cases": 2000,
+      "drug_micro_f1": 0.09930228784682785,
+      "core_order_micro_f1": 0.008631023735315272,
+      "promotion_score": 0.05396665579107156,
+      "drug_precision": 0.14648157012924845,
+      "drug_recall": 0.07511045655375552,
+      "empty_fraction": 0.416,
+      "mean_predicted_drugs": 1.0445,
+      "complete_predicted_orders": 1066,
+      "complete_gold_orders": 3105,
+      "predicted_order_completion": 0.5102920057443753,
+      "empty_decision_agreement": 0.574
+    },
+    "raw_guard": {
+      "cases": 2000,
+      "drug_micro_f1": 0.1278592375366569,
+      "core_order_micro_f1": 0.021903520208604955,
+      "promotion_score": 0.07488137887263092,
+      "drug_precision": 0.15195167286245354,
+      "drug_recall": 0.11036112048599392,
+      "empty_fraction": 0.44,
+      "mean_predicted_drugs": 1.076,
+      "complete_predicted_orders": 1271,
+      "complete_gold_orders": 2564,
+      "predicted_order_completion": 0.5906133828996283,
+      "empty_decision_agreement": 0.6065
+    },
+    "active_guard": {
+      "cases": 2000,
+      "drug_micro_f1": 0.12749003984063745,
+      "core_order_micro_f1": 0.028471411901983663,
+      "promotion_score": 0.07798072587131055,
+      "drug_precision": 0.1309608540925267,
+      "drug_recall": 0.12419844751940601,
+      "empty_fraction": 0.3235,
+      "mean_predicted_drugs": 1.405,
+      "complete_predicted_orders": 1721,
+      "complete_gold_orders": 2564,
+      "predicted_order_completion": 0.6124555160142349,
+      "empty_decision_agreement": 0.581
+    },
+    "sample_weight_sha256": "8079c327ddb4c6ee848a95a0d9fb8f3e06c920095cc2c7623edabdc03eface04",
+    "weight_range": [
+      0.3618334409090314,
+      1.4473337636361256
+    ],
+    "training_membership_sha256": "4fd421e336e865b50f619977205aa2bc5956af92dab4cf99a848a2636f2edefe",
+    "tool_membership_sha256": "1e244fa67f4b0ef01c8bc19bef7d99d9051d76244741792b31c43143829e9c56",
+    "epochs_per_classifier": 60,
+    "classifiers": 512,
+    "logical_training_case_exposures": 1228800000,
+    "physical_training_seconds": 1903.213250875473,
+    "initial_model_reused": false
   }
 ]

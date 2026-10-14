@@ -308,6 +308,26 @@ All raw states and verification decisions are retained. Proposal Jaccard selects
 \begin{tabular}{llrrr}\toprule Panel & Arm & Seeds & Selected patient F1 & Final-round F1\\\midrule
 MEMORYGATEROWS
 \bottomrule\end{tabular}\end{table*}'''.replace('MEMORYGATEROWS','\n'.join(rr))
+    if (ROOT/'upgrade_v30/common_test_addendum.json').exists():
+        compatibility_section+=r'''\paragraph{Frozen common-test extension.}
+Before common-test inference, a separate addendum registers all seven conditional-program and fourteen compatibility/confirmation methods on the exact 2,422-visit, 890-patient test cohort and both medication spaces. All five raw rounds and proposal-selected states are retained. The implemented evaluator waits for every author-method selection and all program audits; an independent audit reexecutes 315 program states per panel from original models and raw-source features. Comparisons include every conventional, author and earlier rule method, with descriptive paired patient intervals and seed variation. The permanently reserved witness patients change policy-fitting exposure, and computation budgets differ; these limits accompany the shared test protocol. This extension is still gated and does not supply test scores at this snapshot.'''
+        test_path=ROOT/'upgrade_v30/results/common_test_summary.json';audit_path=ROOT/'upgrade_v30/results/common_test_audit.json'
+        if test_path.exists() and audit_path.exists():
+            checked=json.loads(audit_path.read_text());test=json.loads(test_path.read_text())
+            assert checked['status']=='passed' and checked['source_report_sha256']==hashlib.sha256(test_path.read_bytes()).hexdigest()
+            compatibility_section=compatibility_section.replace('This extension is still gated and does not supply test scores at this snapshot.','The frozen extension and independent prediction reexecution are complete. These exploratory scores retain the known legacy test-patient overlap; they are not untouched confirmation.')
+            for panel,z in test['panels'].items():
+                selected=z['endpoints']['selected'];methods={f'v27 / {k}':v['metrics'] for k,v in selected['v27_methods'].items()};methods.update(selected['methods']);rows_test=[]
+                for name,m in methods.items():
+                    vals=[]
+                    for key in ['patient_f1','patient_jaccard','micro_f1']:
+                        v=m[key];vals.append(f"{v['mean']:.5f}"+(f" $\\pm$ {v['seed_sd']:.5f}" if v['seed_sd'] is not None else ''))
+                    rows_test.append(name.replace('_',' ')+' & '+' & '.join(vals)+r' \\')
+                compatibility_section+=r'''\begin{table*}[t]\centering\scriptsize
+\caption{Frozen common test: PANEL medication space, 2,422 visits from 890 patients. All checkpoint choices use proposal data. Means and sample deviations cover three seeds where applicable; deterministic controls have one result. All methods and within-panel label spaces are shared, while training and computation budgets differ. Raw round-five endpoints, all growth curves, regressions and paired contrasts accompany the released result report.}
+\begin{tabular}{p{.48\textwidth}rrr}\toprule Method & Patient F1 & Patient Jaccard & Micro F1\\\midrule
+COMMONROWS
+\bottomrule\end{tabular}\end{table*}'''.replace('PANEL',panel).replace('COMMONROWS','\n'.join(rows_test))
     fhir_results=''
     if (ROOT/'upgrade_v19/results/summary.json').exists():
         fhir=json.loads((ROOT/'upgrade_v19/results/summary.json').read_text())

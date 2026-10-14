@@ -12,12 +12,10 @@ The shared calibration control learns class-specific thresholds from cross-fitte
 
 ## 2. Actual execution status
 
-**API interruption:** unfinished model calls await credit after a new HTTP402; completed states and audits are preserved.
-
 | Panel | Seed | Completed rounds /5 | Own-agent rules | Status |
 |---|---:|---:|---:|---|
 | full | 137 | 5 | 11 | selection_frozen |
-| full | 2026 | 4 | 4 | training |
+| full | 2026 | 5 | 6 | selection_frozen |
 | full | 42 | 5 | 6 | selection_frozen |
 | molecular | 137 | 5 | 8 | selection_frozen |
 | molecular | 2026 | 5 | 9 | selection_frozen |
@@ -31,13 +29,13 @@ Same 1,231 visits/467 patients, report-only guard. Each included seed has indepe
 
 | Panel | Method | Audited seeds | Patient F1 ± SD | Patient Jaccard ± SD |
 |---|---|---:|---:|---:|
-| full | raw_policy | 2 | 0.60554 ± 0.00058 | 0.45116 ± 0.00064 |
-| full | calibrated_policy | 2 | 0.60758 ± 0.00056 | 0.45361 ± 0.00052 |
-| full | greedy_conditional_memory | 2 | 0.60775 ± 0.00079 | 0.45365 ± 0.00083 |
-| full | random_conditional_memory | 2 | 0.60715 ± 0.00040 | 0.45317 ± 0.00043 |
-| full | own_error_program_agent | 2 | 0.60771 ± 0.00026 | 0.45355 ± 0.00033 |
-| full | shuffled_evidence_program_agent | 2 | 0.60761 ± 0.00061 | 0.45367 ± 0.00061 |
-| full | matched_proposals_no_witness | 2 | 0.60720 ± 0.00036 | 0.45289 ± 0.00039 |
+| full | raw_policy | 3 | 0.60570 ± 0.00050 | 0.45138 ± 0.00060 |
+| full | calibrated_policy | 3 | 0.60803 ± 0.00087 | 0.45407 ± 0.00088 |
+| full | greedy_conditional_memory | 3 | 0.60801 ± 0.00072 | 0.45394 ± 0.00078 |
+| full | random_conditional_memory | 3 | 0.60762 ± 0.00086 | 0.45366 ± 0.00089 |
+| full | own_error_program_agent | 3 | 0.60790 ± 0.00038 | 0.45381 ± 0.00049 |
+| full | shuffled_evidence_program_agent | 3 | 0.60794 ± 0.00071 | 0.45399 ± 0.00070 |
+| full | matched_proposals_no_witness | 3 | 0.60742 ± 0.00046 | 0.45317 ± 0.00055 |
 | molecular | raw_policy | 3 | 0.57564 ± 0.00053 | 0.42407 ± 0.00070 |
 | molecular | calibrated_policy | 3 | 0.57989 ± 0.00088 | 0.42804 ± 0.00064 |
 | molecular | greedy_conditional_memory | 3 | 0.58094 ± 0.00060 | 0.42903 ± 0.00059 |
@@ -48,12 +46,12 @@ Same 1,231 visits/467 patients, report-only guard. Each included seed has indepe
 
 | Panel | Own agent minus comparator | F1 difference (pp) | Patient interval (pp) |
 |---|---|---:|---:|
-| full | raw_policy | +0.217 | [-0.024, +0.461] |
-| full | calibrated_policy | +0.013 | [-0.047, +0.078] |
-| full | greedy_conditional_memory | -0.005 | [-0.060, +0.051] |
-| full | random_conditional_memory | +0.056 | [-0.010, +0.127] |
-| full | shuffled_evidence_program_agent | +0.009 | [-0.054, +0.075] |
-| full | matched_proposals_no_witness | +0.051 | [-0.007, +0.113] |
+| full | raw_policy | +0.220 | [+0.004, +0.450] |
+| full | calibrated_policy | -0.013 | [-0.068, +0.043] |
+| full | greedy_conditional_memory | -0.011 | [-0.056, +0.033] |
+| full | random_conditional_memory | +0.029 | [-0.029, +0.089] |
+| full | shuffled_evidence_program_agent | -0.004 | [-0.060, +0.054] |
+| full | matched_proposals_no_witness | +0.049 | [-0.009, +0.103] |
 | molecular | raw_policy | +0.457 | [+0.177, +0.750] |
 | molecular | calibrated_policy | +0.032 | [-0.037, +0.100] |
 | molecular | greedy_conditional_memory | -0.073 | [-0.148, +0.002] |
@@ -65,11 +63,11 @@ Intervals average observed seeds before patient resampling; they do not estimate
 
 | Panel | Round | Raw proposal F1 | Calibrated proposal F1 | Own-agent proposal F1 | Rules / conjunctions by seed |
 |---|---:|---:|---:|---:|---|
-| full | 1 | 0.56255 | 0.56797 | 0.56866 | 2/0, 3/0 |
-| full | 2 | 0.57991 | 0.58543 | 0.58543 | 3/0, 3/0 |
-| full | 3 | 0.58750 | 0.59412 | 0.59365 | 3/1, 7/0 |
-| full | 4 | 0.59385 | 0.59807 | 0.59755 | 5/1, 10/0 |
-| full | 5 | 0.59706 | 0.60191 | 0.60157 | 6/1, 11/1 |
+| full | 1 | 0.56323 | 0.56793 | 0.56846 | 2/0, 3/0, 1/0 |
+| full | 2 | 0.57907 | 0.58485 | 0.58475 | 3/0, 3/0, 2/0 |
+| full | 3 | 0.58813 | 0.59438 | 0.59409 | 3/1, 7/0, 2/0 |
+| full | 4 | 0.59418 | 0.59895 | 0.59831 | 5/1, 10/0, 4/0 |
+| full | 5 | 0.59770 | 0.60233 | 0.60200 | 6/1, 11/1, 6/0 |
 | molecular | 1 | 0.53803 | 0.54189 | 0.54214 | 2/0, 0/0, 1/1 |
 | molecular | 2 | 0.55354 | 0.55899 | 0.55957 | 3/0, 0/0, 3/1 |
 | molecular | 3 | 0.56260 | 0.57181 | 0.57188 | 4/0, 2/0, 4/2 |
@@ -80,11 +78,11 @@ Intervals average observed seeds before patient resampling; they do not estimate
 |---|---|---:|---:|---:|---:|
 | full | raw_policy | 0 | 0.00000 | 0 | 0.0 |
 | full | calibrated_policy | 0 | 0.00000 | 0 | 0.0 |
-| full | greedy_conditional_memory | 0 | 0.00000 | 50897 | 139.3 |
-| full | random_conditional_memory | 0 | 0.00000 | 50892 | 141.9 |
-| full | own_error_program_agent | 10 | 0.01283 | 30756 | 129.2 |
-| full | shuffled_evidence_program_agent | 10 | 0.01290 | 30725 | 146.3 |
-| full | matched_proposals_no_witness | 0 | 0.00000 | 0 | 0.1 |
+| full | greedy_conditional_memory | 0 | 0.00000 | 76350 | 227.2 |
+| full | random_conditional_memory | 0 | 0.00000 | 76348 | 225.3 |
+| full | own_error_program_agent | 15 | 0.02429 | 46125 | 193.7 |
+| full | shuffled_evidence_program_agent | 15 | 0.02255 | 46096 | 213.3 |
+| full | matched_proposals_no_witness | 0 | 0.00000 | 0 | 0.2 |
 | molecular | raw_policy | 0 | 0.00000 | 0 | 0.0 |
 | molecular | calibrated_policy | 0 | 0.00000 | 0 | 0.0 |
 | molecular | greedy_conditional_memory | 0 | 0.00000 | 76354 | 214.1 |
@@ -101,6 +99,7 @@ This registered replay uses proposal cases only, after early development scores 
 |---|---:|---:|---:|
 | full-seed42 | 4 | 4 | 0 |
 | full-seed137 | 7 | 4 | 0 |
+| full-seed2026 | 5 | 3 | 0 |
 | molecular-seed42 | 4 | 3 | 0 |
 | molecular-seed137 | 5 | 3 | 0 |
 | molecular-seed2026 | 6 | 3 | 0 |
@@ -117,6 +116,11 @@ This registered replay uses proposal cases only, after early development scores 
 | full-seed137 | 3 | -0.0277 | +0.0176 |
 | full-seed137 | 4 | -0.0640 | -0.0109 |
 | full-seed137 | 5 | -0.0371 | -0.0089 |
+| full-seed2026 | 1 | +0.0000 | +0.0236 |
+| full-seed2026 | 2 | -0.0151 | -0.0131 |
+| full-seed2026 | 3 | -0.0258 | +0.0342 |
+| full-seed2026 | 4 | -0.0263 | -0.0633 |
+| full-seed2026 | 5 | -0.0314 | +0.0030 |
 | molecular-seed42 | 1 | +0.0000 | +0.0574 |
 | molecular-seed42 | 2 | +0.1709 | -0.0036 |
 | molecular-seed42 | 3 | +0.0263 | -0.0153 |

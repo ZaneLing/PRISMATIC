@@ -7,7 +7,11 @@ def main():
     out={'checked_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'api':{'status':'available_no_local_block'},'local_training':'Independent local author-method and external-hospital queues are separate from the API.'}
     if path.exists():
         block=json.loads(path.read_text());code=block['http_status']
-        out['api']={'status':'waiting_for_credit' if code==402 else 'unavailable','http_status':code,'failure_time_utc':datetime.datetime.fromtimestamp(block['time'],datetime.timezone.utc).isoformat(),'affected_unfinished_studies':['v28','v29','v30'],'completed_artifacts_preserved':True,'incomplete_calls_scored':False}
+        affected=[]
+        for version in (28,29,30):
+            summary=HERE.parent/f'upgrade_v{version}/results/summary.json'
+            if not summary.exists() or json.loads(summary.read_text()).get('status')!='complete':affected.append(f'v{version}')
+        out['api']={'status':'waiting_for_credit' if code==402 else 'unavailable','http_status':code,'failure_time_utc':datetime.datetime.fromtimestamp(block['time'],datetime.timezone.utc).isoformat(),'affected_unfinished_studies':affected,'completed_artifacts_preserved':True,'incomplete_calls_scored':False}
     else:
         restored=path.parent/'api-restoration.json'
         if restored.exists():

@@ -12,7 +12,7 @@ Checkpoint selection uses100 proposal admissions under ranked and permuted views
 
 - Completed optimizer runs / 已完成训练回执：**0/36**
 - Updates with completed proposal evaluation / 已完成proposal评价的更新：**0/36**
-- Unique local model responses saved / 已保存本地唯一模型响应：**616**
+- Unique local model responses saved / 已保存本地唯一模型响应：**800**
 - Audited complete seeds / 已完整核验种子：**0/3**
 
 The data audit checks33,300 transformed views with zero patient-role overlap, unchanged candidate sets/GT and no target truncation. The longest complete sequence has1005 tokens against a1,536-token limit; each target has69 tokens. Eleven synthetic execution checks cover target transport, prompt blindness, shuffled-weight identity and loss masking. These are integrity checks, not performance gains.
@@ -27,7 +27,7 @@ Proposal scores select checkpoints and are not test results.
 |---:|---|---:|---:|---:|---:|
 | 42 | base | 0 | 0.16846/0.10223 | 0.14129/0.09434 | 0 |
 
-Unfinished guard cells and pooled patient intervals remain pending completion/audit; no best-method claim is made from running jobs. For each completed update, audits check source receipts, sampled examples, finite changed adapter tensors and 100-step logs. The floating-point optimizer trajectory is not independently refit.
+Only completed, independently audited states contribute to guard comparisons. For each completed update, audits check source receipts, sampled examples, finite changed adapter tensors and 100-step logs. The floating-point optimizer trajectory is not independently refit.
 
 ## Artifacts / 交付
 

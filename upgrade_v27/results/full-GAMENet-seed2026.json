@@ -1,0 +1,106 @@
+{
+  "status": "training",
+  "lock": {
+    "training_protocol_sha256": "e09ea96c571442994bda0abaa0e8954288d3af77f43b72ced565298100754529",
+    "implementation_notes_sha256": "5d2b7e04aa182995a0de9b76776da7c4c3303f865c962628d2c990cd70490c15",
+    "runtime_probe_sha256": "6f8a72e39bee3439e472ea5fa2ffaa3e8c3c231681a676e658b789901bd025d3",
+    "resource_bundle_sha256": "e809d7ebe5f75a99904587640cd9387491da0b27ddf6970e8ac0ed39c011bb72",
+    "source_sha256": {
+      "train_author.py": "d32fb5c27618b4b707477aebc1bd6644548f292e1d44a66f5b70aec96db9a9f6",
+      "method_runtime.py": "36fabbbe3c8f7a4125d24a2352920c17236b7dab85f51e553d35413ff91e996a",
+      "author_cores.py": "fcc4deacd6bb3e912526de3ef68e3717a099c9e8469e1146e516c5c43b54d637"
+    },
+    "device": "cpu",
+    "seed": 2026,
+    "method": "GAMENet",
+    "panel": "full"
+  },
+  "epochs": [
+    {
+      "epoch": 1,
+      "train_loss": 0.6030163761779702,
+      "training_seconds": 100.35006008399999,
+      "cumulative_optimizer_steps": 18429,
+      "cumulative_visit_exposures": 18429,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.44669520725815687,
+          "patient_jaccard": 0.2975406165686792,
+          "micro_f1": 0.4616478535241312,
+          "micro_precision": 0.3276558163007822,
+          "micro_recall": 0.7810526315789473,
+          "mean_medications": 28.953424657534246,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.025429036176481713,
+          "ddi_source_covered_pair_fraction": 0.6794071041581728,
+          "known_graph_pair_rate_covered_pairs": 0.0374282753607498,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 1
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.5132352841770291,
+      "training_seconds": 108.554910792,
+      "cumulative_optimizer_steps": 36858,
+      "cumulative_visit_exposures": 36858,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.4791230832039081,
+          "patient_jaccard": 0.3256398191848042,
+          "micro_f1": 0.4944161701922381,
+          "micro_precision": 0.36396889094072943,
+          "micro_recall": 0.7706015037593985,
+          "mean_medications": 25.71598173515982,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.025875900697219872,
+          "ddi_source_covered_pair_fraction": 0.6784434679064044,
+          "known_graph_pair_rate_covered_pairs": 0.03814009850676257,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 2
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.47794214425167714,
+      "training_seconds": 104.97242870799997,
+      "cumulative_optimizer_steps": 55287,
+      "cumulative_visit_exposures": 55287,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.4880284150801052,
+          "patient_jaccard": 0.3341218993281357,
+          "micro_f1": 0.5031009435555878,
+          "micro_precision": 0.3704467109705391,
+          "micro_recall": 0.7837593984962407,
+          "mean_medications": 25.69771689497717,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.02790309899584725,
+          "ddi_source_covered_pair_fraction": 0.6712811258330563,
+          "known_graph_pair_rate_covered_pairs": 0.041566935106688206,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 3
+    }
+  ],
+  "parameters": 1295952,
+  "test_inference": false
+}
