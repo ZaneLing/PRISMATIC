@@ -92,4 +92,4 @@ Separate from the 4,000-admission table: 500 reserved admissions, 494 patients, 
 
 ## New temporal-protocol audit
 
-Among 1,788,195 historical target rows, 42,005 matching provider orders precede admission and 276,269 occur after the original six-hour horizon. Timestamp counts exclude 438 admission-link conflicts. The differing pharmacy/provider clocks require source-link audit before claiming prospective validity. [Full results](../upgrade_v20/RESULTS.en.md).
+Among 1,788,195 historical target rows, 42,005 matching provider orders precede admission and 276,269 occur after the original six-hour horizon. Timestamp counts exclude 438 admission-link conflicts. Source linkage paths agree, but the differing pharmacy/provider clocks still require an explicit prospective availability protocol. [Full results](../upgrade_v20/RESULTS.en.md).

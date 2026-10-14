@@ -23,3 +23,7 @@ The pharmacy and provider clocks differ materially: 99.40% enter pharmacy within
 ## Required next protocol
 
 Build a new cohort from the complete prescription/entry tables, with a fixed decision point, source-specific availability rules and a stated treatment of inconsistent clocks. Do not simply filter the old start-window target file: doing so would miss newly authored orders whose intended starts fall outside that old window. Exclude untimed triage/reconciliation fields in the strict-availability primary analysis; gate labs on both charttime and storetime. Preserve the old experiment as a separate protocol and use new patient-disjoint confirmation cases. No prediction metric is claimed for this audit.
+
+## Source-link cross-check
+
+A second source-table pass confirms that all 1,757,038 rows with both prescription and pharmacy provider links have identical poe_id values (zero disagreements). Rejoining through pharmacy reproduces every timestamp stratum exactly. The clock difference is therefore not explained by choosing different linkage paths in this audit; remaining records retain the stated missing/conflicting-link treatment.
