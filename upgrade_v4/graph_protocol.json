@@ -1,0 +1,22 @@
+{
+  "id": "E01-GAMENet-admission-text-r1",
+  "seeds": [
+    17,
+    42,
+    73
+  ],
+  "epochs": 5,
+  "batch_size": 64,
+  "embedding_dim": 64,
+  "optimizer": "Adam",
+  "lr": 0.001,
+  "ddi_penalty_weight": 0.1,
+  "input_channels": [
+    "chief complaint + acuity",
+    "home medication text"
+  ],
+  "max_tokens_per_channel": 128,
+  "vocab_per_channel": 6000,
+  "history": "single visit; no previous-visit read",
+  "ddi": "all author-linked TWOSIDES pairs, class aggregation; differs from original selected-side-effect graph"
+}

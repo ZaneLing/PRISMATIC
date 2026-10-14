@@ -1,5 +1,14 @@
 # Manuscript change log / 论文变更记录
 
+## v0.4 execution r1 / order normalization r2 — 2026-10-14
+
+- Executed train-40k-only mapping and route audit: 814,254/1,788,195 orders mapped; IV coverage 19.518%; all 240,310 saline-name proxy rows unmapped. 执行映射与途径审计，保留未知而不补造药物编码。
+- Executed dual-timestamp lab audit: excluded 2,127 post-decision stored rows; 33,393 admissions retain eligible numeric labs. Actual method inputs remain the frozen admission proxy. 完成检验时间过滤，未向本轮模型事后添加新字段。
+- Ran 4,000-case baselines and three-seed GAMENet text/single-visit adaptation, with a real TWOSIDES class graph and forward-equivalence check. 已跑真实图方法适配，明确区别于忠实复现。
+- Ran the same 50 cases through local direct, ordinary repeat, retrieval and bounded harness: F1 .2445/.2445/.2871/.2082. The harness abstains on 50% and does not improve observed F1. 如实保留负结果。
+- Executed ten-case complete-order drafts/revisions. Raw schema validity is 4/10 per arm; explicit-unknown ATC normalization raises parseability to 9/10 without claiming correct generation. Original failures retained; seven protocol tests pass. 临床评分仍待提交。
+- Updated the current English paper in place, generated [Chinese](../upgrade_v4/RESULTS.zh.md) and [English](../upgrade_v4/RESULTS.en.md) result reports. Remaining method/resource gates are explicit.
+
 ## v0.4-dev — 2026-10-14
 
 - 新增完整 [论文补全执行计划](COMPLETION_PLAN.md)，包括方法矩阵、病例增长、消融、双人盲评、全量公开集、真实 FHIR、统计和验收交付。

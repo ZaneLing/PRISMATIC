@@ -1,0 +1,142 @@
+{
+  "run_id": "E01-GAMENet-admission-text-r1",
+  "author_commit": "da695b4fc9390882f3a681c82115e81291ae6380",
+  "source_models_sha256": "0e34adaf0e17a1d8bdeb3676d31e12cee476ac16546b0dbd7f20a81c4be2714d",
+  "protocol_sha256": "93f2b10b47661106131f25b1b63ae1bac82f3dfaa1369b84a358d72645c254ee",
+  "cohort_sha256": "24b4bbffe2f06e0c85245267c7fede8529b1a0565eecb5ff5bfb366c8dc28d11",
+  "runs": [
+    {
+      "seed": 17,
+      "forward_max_error": 5.21540641784668e-08,
+      "validation_history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.1590423838019371,
+          "val_micro_f1_at5": 0.29281
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.1320963354229927,
+          "val_micro_f1_at5": 0.32087
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.12773447618484496,
+          "val_micro_f1_at5": 0.32969
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.1253443704366684,
+          "val_micro_f1_at5": 0.3378
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.12360519225597381,
+          "val_micro_f1_at5": 0.34545
+        }
+      ],
+      "best_val": 0.34545,
+      "test": {
+        "precision_at_5": 0.2925,
+        "micro_recall_at_5": 0.40986,
+        "macro_recall_at_5_nonempty": 0.45611,
+        "micro_f1_at_5": 0.34138,
+        "hit_rate_at_5": 0.58825
+      }
+    },
+    {
+      "seed": 42,
+      "forward_max_error": 5.21540641784668e-08,
+      "validation_history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.16058726884126664,
+          "val_micro_f1_at5": 0.29058
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.13266993983983993,
+          "val_micro_f1_at5": 0.3171
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.12849869381189347,
+          "val_micro_f1_at5": 0.33327
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.1253935850262642,
+          "val_micro_f1_at5": 0.34268
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.12285200896263122,
+          "val_micro_f1_at5": 0.34627
+        }
+      ],
+      "best_val": 0.34627,
+      "test": {
+        "precision_at_5": 0.2944,
+        "micro_recall_at_5": 0.41253,
+        "macro_recall_at_5_nonempty": 0.45505,
+        "micro_f1_at_5": 0.34359,
+        "hit_rate_at_5": 0.589
+      }
+    },
+    {
+      "seed": 73,
+      "forward_max_error": 5.21540641784668e-08,
+      "validation_history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.15890373059511184,
+          "val_micro_f1_at5": 0.29775
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.13211766389608384,
+          "val_micro_f1_at5": 0.31898
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.128568212723732,
+          "val_micro_f1_at5": 0.33298
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.1252404468178749,
+          "val_micro_f1_at5": 0.34257
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.12292053295373917,
+          "val_micro_f1_at5": 0.34898
+        }
+      ],
+      "best_val": 0.34898,
+      "test": {
+        "precision_at_5": 0.29625,
+        "micro_recall_at_5": 0.41512,
+        "macro_recall_at_5_nonempty": 0.46148,
+        "micro_f1_at_5": 0.34575,
+        "hit_rate_at_5": 0.59175
+      }
+    }
+  ],
+  "elapsed_seconds": 44.51,
+  "status": "executed independent admission-text/single-visit adaptation; not original-paper reproduction",
+  "limits": [
+    "Text token channels replace diagnosis/procedure codes; cannot be called faithful GAMENet.",
+    "No longitudinal dynamic-memory read for single-visit inputs.",
+    "Adam/BCE plus fixed DDI penalty and batched training differ from original training schedule.",
+    "Graph coverage and all-pair construction are disclosed in graph_resource_audit.json.",
+    "Validation F1 was still increasing at the five-epoch budget boundary; this is a short development run, not a converged competitive reproduction."
+  ],
+  "same_50_case_seed42": {
+    "precision_at_5": 0.392,
+    "micro_recall_at_5": 0.43946,
+    "macro_recall_at_5_nonempty": 0.43584,
+    "micro_f1_at_5": 0.41438,
+    "hit_rate_at_5": 0.68
+  }
+}

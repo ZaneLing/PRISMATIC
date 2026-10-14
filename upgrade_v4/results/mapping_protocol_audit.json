@@ -1,0 +1,242 @@
+{
+  "run_id": "P02-map-train40k-v1",
+  "source_cohort_sha256": "8b86c7672f45339c95663d198be6fa1a0f5c50a293e894926a8f5443aebdfad5",
+  "public_map_sha256": "162fefc5cc374ac545501dec0d3738cb7a362e1e08b46b64d1a779eaeda7888e",
+  "output_cohort_sha256": "24b4bbffe2f06e0c85245267c7fede8529b1a0565eecb5ff5bfb366c8dc28d11",
+  "mapping_training_admissions": 40000,
+  "fallback_minimum_support": 10,
+  "fallback_purity": 0.98,
+  "raw_ndc_normalized": true,
+  "mapping_by_split": [
+    {
+      "split": "test",
+      "orders": 180593,
+      "public_mapped": 61050,
+      "mapped": 82664
+    },
+    {
+      "split": "train",
+      "orders": 1427246,
+      "public_mapped": 479650,
+      "mapped": 649358
+    },
+    {
+      "split": "val",
+      "orders": 180356,
+      "public_mapped": 60767,
+      "mapped": 82232
+    }
+  ],
+  "route_coverage": [
+    {
+      "route": "IV",
+      "orders": 642575,
+      "mapped": 125417,
+      "mapped_fraction": 0.195179
+    },
+    {
+      "route": "PO/NG",
+      "orders": 524888,
+      "mapped": 429748,
+      "mapped_fraction": 0.818742
+    },
+    {
+      "route": "PO",
+      "orders": 245617,
+      "mapped": 143841,
+      "mapped_fraction": 0.585631
+    },
+    {
+      "route": "SC",
+      "orders": 117690,
+      "mapped": 50854,
+      "mapped_fraction": 0.432101
+    },
+    {
+      "route": "IM",
+      "orders": 105183,
+      "mapped": 35588,
+      "mapped_fraction": 0.338344
+    },
+    {
+      "route": "IV DRIP",
+      "orders": 43627,
+      "mapped": 15535,
+      "mapped_fraction": 0.356087
+    },
+    {
+      "route": "IH",
+      "orders": 38502,
+      "mapped": 36,
+      "mapped_fraction": 0.000935
+    },
+    {
+      "route": "PR",
+      "orders": 13064,
+      "mapped": 1114,
+      "mapped_fraction": 0.085273
+    },
+    {
+      "route": "TP",
+      "orders": 11878,
+      "mapped": 829,
+      "mapped_fraction": 0.069793
+    },
+    {
+      "route": "BOTH EYES",
+      "orders": 7769,
+      "mapped": 2742,
+      "mapped_fraction": 0.352941
+    },
+    {
+      "route": "TD",
+      "orders": 6464,
+      "mapped": 1680,
+      "mapped_fraction": 0.259901
+    },
+    {
+      "route": "NEB",
+      "orders": 5911,
+      "mapped": 2,
+      "mapped_fraction": 0.000338
+    },
+    {
+      "route": "NU",
+      "orders": 5203,
+      "mapped": 0,
+      "mapped_fraction": 0.0
+    },
+    {
+      "route": "ORAL",
+      "orders": 4063,
+      "mapped": 1152,
+      "mapped_fraction": 0.283534
+    },
+    {
+      "route": "SL",
+      "orders": 3712,
+      "mapped": 176,
+      "mapped_fraction": 0.047414
+    },
+    {
+      "route": "IVPCA",
+      "orders": 2194,
+      "mapped": 1504,
+      "mapped_fraction": 0.685506
+    },
+    {
+      "route": "NG",
+      "orders": 2145,
+      "mapped": 1881,
+      "mapped_fraction": 0.876923
+    },
+    {
+      "route": "UNKNOWN",
+      "orders": 1303,
+      "mapped": 421,
+      "mapped_fraction": 0.323101
+    },
+    {
+      "route": "IV BOLUS",
+      "orders": 1252,
+      "mapped": 889,
+      "mapped_fraction": 0.710064
+    },
+    {
+      "route": "RIGHT EYE",
+      "orders": 1098,
+      "mapped": 261,
+      "mapped_fraction": 0.237705
+    },
+    {
+      "route": "LEFT EYE",
+      "orders": 1012,
+      "mapped": 254,
+      "mapped_fraction": 0.250988
+    },
+    {
+      "route": "OTHER_SMALL_GROUPS",
+      "orders": 725,
+      "mapped": 192,
+      "mapped_fraction": 0.264828
+    },
+    {
+      "route": "DWELL",
+      "orders": 723,
+      "mapped": 0,
+      "mapped_fraction": 0.0
+    },
+    {
+      "route": "DIALYS",
+      "orders": 369,
+      "mapped": 0,
+      "mapped_fraction": 0.0
+    },
+    {
+      "route": "ID",
+      "orders": 307,
+      "mapped": 4,
+      "mapped_fraction": 0.013029
+    },
+    {
+      "route": "REPLACE",
+      "orders": 282,
+      "mapped": 0,
+      "mapped_fraction": 0.0
+    },
+    {
+      "route": "ED",
+      "orders": 212,
+      "mapped": 54,
+      "mapped_fraction": 0.254717
+    },
+    {
+      "route": "INHALATION",
+      "orders": 171,
+      "mapped": 7,
+      "mapped_fraction": 0.040936
+    },
+    {
+      "route": "IP",
+      "orders": 135,
+      "mapped": 34,
+      "mapped_fraction": 0.251852
+    },
+    {
+      "route": "OU",
+      "orders": 121,
+      "mapped": 39,
+      "mapped_fraction": 0.322314
+    }
+  ],
+  "order_field_counts": {
+    "raw_orders": 1788195,
+    "mapped": 814254,
+    "route_present": 1786892,
+    "dose_string_present": 1786656,
+    "scalar_numeric_dose": 1665486,
+    "dose_unit_present": 1786656,
+    "numeric_doses_per_24h": 976328
+  },
+  "saline_name_proxy": {
+    "rows": 240310,
+    "mapped": 0,
+    "numeric_dose": 208086,
+    "dose_unit_ml": 222330,
+    "name_contains_flush": 128513
+  },
+  "missing_from_prescriptions_schema": [
+    "indication",
+    "fluid_purpose",
+    "infusion_rate",
+    "weight",
+    "renal_adjustment_rationale"
+  ],
+  "limits": [
+    "Saline name matching is an audit proxy, not an indication or fluid-purpose label.",
+    "The raw prescription dose can be a range/text; scalar parsing does not preserve all valid doses.",
+    "ATC-L4 classes are not ingredient-level RxNorm identifiers.",
+    "The 40k mapping pool is fixed for this comparison, not valid for smaller case-growth checkpoints."
+  ],
+  "elapsed_seconds": 11.3
+}

@@ -1,0 +1,31 @@
+{
+  "checked_date": "2026-10-14",
+  "GAMENet": {
+    "status": "executed independent admission-text single-visit adaptation",
+    "author_commit": "da695b4fc9390882f3a681c82115e81291ae6380",
+    "preserved": ["author GCN graph memory", "two-channel GRU", "graph attention/readout", "DDI penalty signal"],
+    "changed": ["diagnosis/procedure inputs replaced with explicitly named text-token channels", "no prior-visit dynamic memory", "batched fixed-penalty BCE training", "all-source-pair ATC4 DDI graph", "five-epoch development budget"],
+    "forward_equivalence": "verified in evaluation mode against author single-visit forward"
+  },
+  "SafeDrug": {
+    "status": "not executed on common ATC4 protocol",
+    "current_checkout": "88ce5c377dcdc2aa01aaa88f5478dfa4373ba49a",
+    "original_archived_commit_fetched": "8deee38cfdb2a38882377ff95cce5922d6d9e8d6",
+    "observed_resources": "bundled atc3toSMILES.pkl contains 112 four-character ATC-L3 keys; inspected with pickletools without executing pickle",
+    "missing": ["validated ATC-L4-to-molecule and substructure mapping in the common 80-class space", "documented compatible admission input adapter"],
+    "action_taken": "Downloaded author-linked DDI source and built a real class graph; did not substitute absent molecular representations with zeros or relabel ATC3 as ATC4."
+  },
+  "SafeRx-Agent": {
+    "status": "not executed as a comparable reproduction",
+    "source": "https://arxiv.org/html/2605.29146v1",
+    "original_datasets": ["MIMIC-III", "MIMIC-IV"],
+    "required_inputs": ["longitudinal visits", "current diagnoses", "current procedures", "ICD/CCS routing", "indication/contraindication knowledge", "ATC4 interaction matrices"],
+    "missing": ["confirmed official executable implementation", "verified admission-compatible diagnosis/procedure/routing adapter", "versioned indication and contraindication resources"],
+    "scope": "Our bounded retrieval/critique prototype is not labeled SafeRx-Agent. No original paper score is imported."
+  },
+  "PRISMATIC": {
+    "status": "bounded retrieval/state/check/revision prototype executed; complete clinical harness unfinished",
+    "completed": ["local inference", "training-case retrieval", "traceable state transitions", "candidate validation", "one revision", "abstention", "complete order schema", "unknown-field preservation", "structural evidence checks"],
+    "missing": ["validated ingredient-level DDI and renal knowledge", "clinically adjudicated experience updates", "reviewer ratings", "full-scale same-case method comparison"]
+  }
+}

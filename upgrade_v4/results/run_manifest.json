@@ -1,0 +1,45 @@
+{
+  "recorded_at_utc": "2026-10-14T08:15:00.890712+00:00",
+  "parent_commit": "21c17d9764fa1c214265597b72d2a0003deeebf6",
+  "code_and_protocol_sha256": {
+    "upgrade_v4/audit_input_timing.py": "a97044ebbb8b5e6f70c9ae1b914b5779c0b16ae705c4cb41b81eaa2175988060",
+    "upgrade_v4/audit_label_observability.py": "489611f0f9d682b808c88707150dc3ff3cf18c8e21e41f02c1fca348a09a54e7",
+    "upgrade_v4/build_graph_resources.py": "5771e4fe0d350d598ab0c5eb6567848879da1cd7c1adc8402bfe730f1bbb8ffc",
+    "upgrade_v4/build_protocol_data.py": "f9c46b1153b5c6b56b1702c5354152a39d2630aa490df4797afccdc9018ef31e",
+    "upgrade_v4/build_verified_labs.py": "f53ad18b4d6536b6c29e42be237bc54aa11149fd92dfdbb7fcb657142d9a862c",
+    "upgrade_v4/evaluate_order_probe.py": "a04f6f97ce6d0edb83a1c7065f8d18275c9c219f1e79756ab3e816aa20eaffce",
+    "upgrade_v4/fetch_ddi_resource.py": "bed089827b4b1d749194f305231a84a7c87ba850f4e52fbf84c32d264c0106e4",
+    "upgrade_v4/graph_protocol.json": "93f2b10b47661106131f25b1b63ae1bac82f3dfaa1369b84a358d72645c254ee",
+    "upgrade_v4/order_protocol.py": "de71fd52e711030a043257bf761c8f2a611e40af32cf1971be11634bf475bc47",
+    "upgrade_v4/order_schema.json": "c41eb8ad28b50c69707a9fb5932e67717c92e9304c3319bba0173b9e292cc7f2",
+    "upgrade_v4/protocol.json": "525846311f2a9031daecbcba683176c5425ad0be35307e98a6ec72b9714775ea",
+    "upgrade_v4/render_results.py": "6e7f02e477267c035b45b8dd3c918251f4a8852d033892334409daa23fcb6e67",
+    "upgrade_v4/run_gamenet_adaptation.py": "eaaa33bd642c7238835e745a4b7d0907ccf7a3b702e177a7a83dc1d674a8649f",
+    "upgrade_v4/run_local_harness.py": "041876f910b2c04463ac021ab889b15e240170d695f07b3aef14e4cfd105274a",
+    "upgrade_v4/run_order_probe.py": "2c38b395d1914d1b9098cb988a370e4d4cc44a64e92b1b8f6aeef4552525d726",
+    "upgrade_v4/run_protocol_methods.py": "734b114da00e095e6a127ff91c5a6f4b27137ceb9b1d0b53031594cfad5a3fb6",
+    "upgrade_v4/test_order_protocol.py": "1aa775728ef363e712c5a0766f4fe99c524f6ca3908a076562588d17dbb29697",
+    "upgrade_v4/update_paper_from_results.py": "daf9a639a59a72d474c2216fd1ded152b4f7ee187855cf91ac095a4e93b4eeac"
+  },
+  "packages": {
+    "torch": "2.8.0",
+    "duckdb": "1.4.5",
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.6.1",
+    "jsonschema": "4.25.1"
+  },
+  "local_inference": {
+    "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+    "revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+    "restricted_data_network_calls": 0,
+    "weights_sha256": "2a73c6c248601ab904e035548abd8e6abb65ea27dcb5f342fb0a8910eb44173f"
+  },
+  "execution": "Each result JSON records actual aggregate metrics and elapsed/arm usage. Restricted row-level files remain outside Git.",
+  "validation": {
+    "order_contract_tests": 7,
+    "passed": 7,
+    "gamenet_forward_equivalence": "all three seeds max absolute difference <1e-5",
+    "aggregate_and_document_checks": "passed"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "run_id": "E01-complete-order-normalization-10-r2",
+  "metrics": {
+    "direct": {
+      "cases": 10,
+      "raw_complete_schema_valid": 4,
+      "normalized_schema_valid": 9,
+      "proposed_orders": 13,
+      "orders_with_model_supplied_numeric_dose": 13,
+      "statuses": {
+        "needs_information": 6,
+        "abstained": 2,
+        "invalid_output": 1,
+        "needs_clinical_review": 1
+      },
+      "finding_counts": {
+        "unresolved_atc_mapping": 9,
+        "fluid_information_missing": 8,
+        "clinical_knowledge_unavailable": 9
+      },
+      "clinical_correctness": "unrated",
+      "generation_tokens_total": 3574
+    },
+    "retrieval_harness": {
+      "cases": 10,
+      "raw_complete_schema_valid": 4,
+      "normalized_schema_valid": 9,
+      "proposed_orders": 13,
+      "orders_with_model_supplied_numeric_dose": 13,
+      "statuses": {
+        "needs_information": 7,
+        "abstained": 2,
+        "invalid_output": 1
+      },
+      "finding_counts": {
+        "unresolved_atc_mapping": 9,
+        "fluid_information_missing": 11,
+        "clinical_knowledge_unavailable": 9,
+        "no_patient_evidence": 1
+      },
+      "clinical_correctness": "unrated",
+      "generation_tokens_total": 7727
+    }
+  },
+  "schema_sha256": "c41eb8ad28b50c69707a9fb5932e67717c92e9304c3319bba0173b9e292cc7f2",
+  "limits": [
+    "Ten developmental cases; no clinical scoring or effectiveness claim.",
+    "Normalization fills absent fields with null and uncertainty, never clinical values; raw completeness reported separately.",
+    "r2: ATC strings with incorrect granularity/format become null with the raw string retained in uncertainty; no code is inferred.",
+    "Numeric doses are model-supplied hypotheses, not checked recommendations.",
+    "The draft is shared: retrieval_harness uses two calls including direct; this probe is not an equal-call causal comparison.",
+    "No DDI/renal safety conclusion because validated knowledge is missing."
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "run_id": "P01b-verified-labs-v1",
+  "protocol": "same-hadm blood labs within 24h before admission; both timestamps<=decision; latest per label",
+  "counts": {
+    "event_time_eligible_rows": 171455,
+    "stored_after_decision": 2127,
+    "missing_storetime": 0,
+    "eligible_numeric_rows": 169217,
+    "admissions_with_verified_lab": 33393
+  },
+  "latest_by_label": [
+    {
+      "label": "Creatinine",
+      "admissions": 33180
+    },
+    {
+      "label": "Glucose",
+      "admissions": 33298
+    },
+    {
+      "label": "Potassium",
+      "admissions": 32487
+    },
+    {
+      "label": "Sodium",
+      "admissions": 32519
+    },
+    {
+      "label": "Urea Nitrogen",
+      "admissions": 33294
+    }
+  ],
+  "postfilter_violations": 0,
+  "output_sha256": "9754bb703bc40c09c2bc9990c4e1cbad98bdb152b8bd1928a5d5b43705d0d6bf",
+  "elapsed_seconds": 34.66,
+  "limitations": [
+    "Labs with null hadm_id are excluded even if potentially from the same ED visit.",
+    "Storetime is the available database proxy for recorded availability, not proof of clinician viewing.",
+    "These labs are not inputs to E01-v4 baselines or the registered 50-case LLM comparison.",
+    "Creatinine alone is not a validated renal-adjustment recommendation."
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "run_id": "E01-complete-order-probe-10-r1",
+  "metrics": {
+    "direct": {
+      "cases": 10,
+      "raw_complete_schema_valid": 4,
+      "normalized_schema_valid": 4,
+      "proposed_orders": 4,
+      "orders_with_model_supplied_numeric_dose": 4,
+      "statuses": {
+        "invalid_output": 6,
+        "abstained": 2,
+        "needs_clinical_review": 1,
+        "needs_information": 1
+      },
+      "finding_counts": {
+        "clinical_knowledge_unavailable": 4,
+        "fluid_information_missing": 1
+      },
+      "clinical_correctness": "unrated",
+      "generation_tokens_total": 3574
+    },
+    "retrieval_harness": {
+      "cases": 10,
+      "raw_complete_schema_valid": 4,
+      "normalized_schema_valid": 4,
+      "proposed_orders": 4,
+      "orders_with_model_supplied_numeric_dose": 4,
+      "statuses": {
+        "invalid_output": 6,
+        "abstained": 2,
+        "needs_information": 2
+      },
+      "finding_counts": {
+        "clinical_knowledge_unavailable": 4,
+        "fluid_information_missing": 3
+      },
+      "clinical_correctness": "unrated",
+      "generation_tokens_total": 7727
+    }
+  },
+  "schema_sha256": "c41eb8ad28b50c69707a9fb5932e67717c92e9304c3319bba0173b9e292cc7f2",
+  "limits": [
+    "Ten developmental cases; no clinical scoring or effectiveness claim.",
+    "Normalization fills absent fields with null and uncertainty, never clinical values; raw completeness reported separately.",
+    "Numeric doses are model-supplied hypotheses, not checked recommendations.",
+    "The draft is shared: retrieval_harness uses two calls including direct; this probe is not an equal-call causal comparison.",
+    "No DDI/renal safety conclusion because validated knowledge is missing."
+  ]
+}

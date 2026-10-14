@@ -133,9 +133,9 @@ Tables: 1 data and observability; 2A historical methods and 2B clinical orders; 
 | --- | --- | --- |
 | P00 | Original template, active English source, provenance, compiler success | Complete this increment |
 | P01a | Separate absent raw orders and unmapped-only orders; matching pilot denominator | Complete this increment |
-| P01b/P02 | Timing/mapping protocol, order schema, knowledge coverage, confirmatory split | Source timestamp and cohort checks complete; remaining work pending |
-| E01 foundations | Common-protocol direct/retrieval/GAMENet/SafeDrug with documented adaptations | Pending formal runs |
-| E01 harness | Full orders, checks/revision/abstention, original PRISMATIC/SafeRx controls | Pending |
+| P01b/P02 | Timing/mapping protocol, order schema, knowledge coverage, confirmatory split | Development timing/mapping/order protocol executed; confirmation and clinical coverage pending |
+| E01 foundations | Common-protocol direct/retrieval/GAMENet/SafeDrug with documented adaptations | Direct/retrieval/three-seed GAMENet adaptation executed; SafeDrug resources pending |
+| E01 harness | Full orders, checks/revision/abstention, original PRISMATIC/SafeRx controls | Bounded 50-case harness and ten-case order probe executed; clinical completion pending |
 | E02/E03 | Fixed-test/budget growth and key ablations; no test-memory updates | Pending harness |
 | E04 | Complete orders, independent ratings, adjudication and clinical aggregate | Reviewers available; outputs/ratings pending |
 | E05 | Full specified method arms and option sensitivity | Partially complete |
@@ -145,3 +145,11 @@ Tables: 1 data and observability; 2A historical methods and 2B clinical orders; 
 This increment's [audit report](../upgrade_v4/README.md) and JSON files provide actual outcomes. In the 4,000-case pilot, 1,144 admissions have no recorded raw six-hour order, 152 have orders but no mapped class, and 2,704 have mapped labels. The full cohort has 58,982/8,004/134,764 respectively. Unparseable prescription starttimes occur in 497 admissions (2,364 rows), with window membership unknown.
 
 The input-time audit finds zero missing decision times, included home-medication charttime violations, duplicate admissions or cross-split patients. However, triage has no timestamp and medrecon lacks storetime; availability is therefore not fully verified. Laboratory charttime/storetime checks remain necessary before adding labs. The English paper reports these limitations, retains previous F1 values as developmental evidence, and compiles successfully. Detailed run IDs and updates are appended to the Chinese ledger and [change log](CHANGELOG.md); English content is maintained alongside them.
+
+### Executed batch r1 / order normalization r2 (14 October 2026)
+
+See [actual English results](../upgrade_v4/RESULTS.en.md) and the [executed protocol](../upgrade_v4/PROTOCOL.en.md). The new train-40k mapper and route audit are complete; dual-timestamp laboratory extraction excludes 2,127 late-stored records. The development unknown-label and complete-order contracts are implemented. Fully verified input availability and a new confirmatory split remain unresolved.
+
+Three-seed 4,000-case SGD and GAMENet text/single-visit adaptation reach mean F1 .3864 and .3436. A fixed-backbone, identical-50-case direct/repeat/retrieval/bounded-harness comparison yields .2445/.2445/.2871/.2082; the harness does not improve F1 and abstains excessively. Ten-case order generation has 4/10 raw schema validity per arm; explicit-unknown ATC normalization yields 9/10 parseability without implying model correctness. Seven contract tests pass.
+
+The author-linked DDI source is now available, but SafeDrug's compatible ATC-L4 molecular mapping and SafeRx's compatible input/knowledge adapter remain missing. Table 2 in the active English paper distinguishes the 4,000-case and same-50-case panels. Next engineering repairs concern order encoding/truncation and over-abstention on validation data; clinical knowledge, reviewers, case growth and confirmation remain required. Original negative results are preserved.

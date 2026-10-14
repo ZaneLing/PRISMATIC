@@ -1,5 +1,7 @@
 # P00/P01a 与 P01b 时间审计交付
 
+> **最新批次：真实方法比较已完成一轮。** 请先看 [中文结果](RESULTS.zh.md) / [English results](RESULTS.en.md) 和 [执行协议](PROTOCOL.md) / [English protocol](PROTOCOL.en.md)。下文保留此前 P00/P01a 的初始交付记录。英文论文表 2 已加入 GAMENet 独立适配和同 50 例 bounded harness 比较；完整临床 harness、SafeDrug/SafeRx 与临床评审仍未完成。
+
 对应 [完整执行计划](../paper/COMPLETION_PLAN.md)，2026-10-14。
 
 P00 已把当前打开的英文稿原位切换为用户 ZIP 内的 AAMAS 英文双栏模板。原 class 没有修改；嵌入 LaTeX 的 `filecontents` 是为了满足编辑器单文件编译。模板与 ZIP 的哈希在 [来源记录](../paper/latex/v0.3/template_provenance.json)。仅维护英文稿，旧中文版本保留供追溯。

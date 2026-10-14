@@ -1,0 +1,399 @@
+{
+  "run_id": "E01-v4-baselines-r1",
+  "protocol_sha256": "525846311f2a9031daecbcba683176c5425ad0be35307e98a6ec72b9714775ea",
+  "cohort_sha256": "24b4bbffe2f06e0c85245267c7fede8529b1a0565eecb5ff5bfb366c8dc28d11",
+  "sample_sizes": {
+    "train": 40000,
+    "val": 4000,
+    "test": 4000
+  },
+  "sample_patients": {
+    "train": 30071,
+    "val": 3022,
+    "test": 3115
+  },
+  "classes": [
+    "N02BE",
+    "A06AB",
+    "N02AA",
+    "A06AA",
+    "A02BC",
+    "H04AA",
+    "A10AE",
+    "C10AA",
+    "A04AA",
+    "C07AB",
+    "N05BA",
+    "N03AX",
+    "N06AX",
+    "N06AB",
+    "A11CC",
+    "C03CA",
+    "A02BA",
+    "C08CA",
+    "H03AA",
+    "C02DB",
+    "J01DD",
+    "C09AA",
+    "B03BB",
+    "C07AG",
+    "N02AX",
+    "G04CA",
+    "B01AC",
+    "A11DA",
+    "J01DE",
+    "A06AD",
+    "C09CA",
+    "N01AX",
+    "B01AB",
+    "N03AE",
+    "C01CA",
+    "N05AB",
+    "N05AH",
+    "M04AA",
+    "M03BX",
+    "B03BA",
+    "B01AA",
+    "V03AE",
+    "S01EE",
+    "J01DB",
+    "R05CA",
+    "N05CH",
+    "N05CF",
+    "C03DA",
+    "C03AA",
+    "B01AF",
+    "A03FA",
+    "R06AX",
+    "N07BA",
+    "N06AA",
+    "C01BD",
+    "C01DA",
+    "N05CD",
+    "R03DC",
+    "R05DB",
+    "R06AE",
+    "A02BX",
+    "N05BB",
+    "C07AA",
+    "N05AX",
+    "N06DA",
+    "A05AA",
+    "J01DH",
+    "C01AA",
+    "N04BA",
+    "N04BC",
+    "H01CB",
+    "N03AB",
+    "A07DA",
+    "A09AA",
+    "B02BA",
+    "N07BC",
+    "C02CA",
+    "N03AF",
+    "J05AF",
+    "A10BA"
+  ],
+  "split_member_sha256": {
+    "train": "5650380de0496a8ed9b7dbfefe1fff6ba87490e673a55fc786c062c4d54aedb2",
+    "val": "9a43bf7e0a6da4103d5d41ae70929d53554a4be0fed74585d4704bbe1e4939f9",
+    "test": "3739af577ae40352bfba959210e4f661178b05026311dd464bc48f064245c95c"
+  },
+  "test_label_status": {
+    "no_recorded_order": 1144,
+    "orders_but_unmapped": 152,
+    "at_least_one_mapped": 2704
+  },
+  "metrics": {
+    "admission_proxy": {
+      "prevalence": {
+        "all_admissions": {
+          "precision_at_5": 0.24325,
+          "micro_recall_at_5": 0.34085,
+          "macro_recall_at_5_nonempty": 0.38225,
+          "micro_f1_at_5": 0.2839,
+          "hit_rate_at_5": 0.56
+        },
+        "at_least_one_mapped_label": {
+          "precision_at_5": 0.35984,
+          "micro_recall_at_5": 0.34085,
+          "macro_recall_at_5_nonempty": 0.38225,
+          "micro_f1_at_5": 0.35009,
+          "hit_rate_at_5": 0.8284
+        }
+      },
+      "case_retrieval": {
+        "all_admissions": {
+          "precision_at_5": 0.28115,
+          "micro_recall_at_5": 0.39396,
+          "macro_recall_at_5_nonempty": 0.44386,
+          "micro_f1_at_5": 0.32813,
+          "hit_rate_at_5": 0.592
+        },
+        "at_least_one_mapped_label": {
+          "precision_at_5": 0.4159,
+          "micro_recall_at_5": 0.39396,
+          "macro_recall_at_5_nonempty": 0.44386,
+          "micro_f1_at_5": 0.40463,
+          "hit_rate_at_5": 0.87574
+        }
+      },
+      "direct_sgd": {
+        "17": {
+          "all_admissions": {
+            "precision_at_5": 0.33045,
+            "micro_recall_at_5": 0.46304,
+            "macro_recall_at_5_nonempty": 0.51535,
+            "micro_f1_at_5": 0.38567,
+            "hit_rate_at_5": 0.61825
+          },
+          "at_least_one_mapped_label": {
+            "precision_at_5": 0.48883,
+            "micro_recall_at_5": 0.46304,
+            "macro_recall_at_5_nonempty": 0.51535,
+            "micro_f1_at_5": 0.47559,
+            "hit_rate_at_5": 0.91457
+          }
+        },
+        "42": {
+          "all_admissions": {
+            "precision_at_5": 0.3316,
+            "micro_recall_at_5": 0.46465,
+            "macro_recall_at_5_nonempty": 0.51664,
+            "micro_f1_at_5": 0.38701,
+            "hit_rate_at_5": 0.62025
+          },
+          "at_least_one_mapped_label": {
+            "precision_at_5": 0.49053,
+            "micro_recall_at_5": 0.46465,
+            "macro_recall_at_5_nonempty": 0.51664,
+            "micro_f1_at_5": 0.47724,
+            "hit_rate_at_5": 0.91753
+          }
+        },
+        "73": {
+          "all_admissions": {
+            "precision_at_5": 0.33105,
+            "micro_recall_at_5": 0.46388,
+            "macro_recall_at_5_nonempty": 0.51468,
+            "micro_f1_at_5": 0.38637,
+            "hit_rate_at_5": 0.6205
+          },
+          "at_least_one_mapped_label": {
+            "precision_at_5": 0.48972,
+            "micro_recall_at_5": 0.46388,
+            "macro_recall_at_5_nonempty": 0.51468,
+            "micro_f1_at_5": 0.47645,
+            "hit_rate_at_5": 0.9179
+          }
+        }
+      }
+    },
+    "home_meds_only": {
+      "prevalence": {
+        "all_admissions": {
+          "precision_at_5": 0.24325,
+          "micro_recall_at_5": 0.34085,
+          "macro_recall_at_5_nonempty": 0.38225,
+          "micro_f1_at_5": 0.2839,
+          "hit_rate_at_5": 0.56
+        },
+        "at_least_one_mapped_label": {
+          "precision_at_5": 0.35984,
+          "micro_recall_at_5": 0.34085,
+          "macro_recall_at_5_nonempty": 0.38225,
+          "micro_f1_at_5": 0.35009,
+          "hit_rate_at_5": 0.8284
+        }
+      },
+      "case_retrieval": {
+        "all_admissions": {
+          "precision_at_5": 0.26895,
+          "micro_recall_at_5": 0.37687,
+          "macro_recall_at_5_nonempty": 0.42136,
+          "micro_f1_at_5": 0.31389,
+          "hit_rate_at_5": 0.5825
+        },
+        "at_least_one_mapped_label": {
+          "precision_at_5": 0.39786,
+          "micro_recall_at_5": 0.37687,
+          "macro_recall_at_5_nonempty": 0.42136,
+          "micro_f1_at_5": 0.38708,
+          "hit_rate_at_5": 0.86169
+        }
+      },
+      "direct_sgd": {
+        "17": {
+          "all_admissions": {
+            "precision_at_5": 0.3164,
+            "micro_recall_at_5": 0.44335,
+            "macro_recall_at_5_nonempty": 0.49101,
+            "micro_f1_at_5": 0.36927,
+            "hit_rate_at_5": 0.60375
+          },
+          "at_least_one_mapped_label": {
+            "precision_at_5": 0.46805,
+            "micro_recall_at_5": 0.44335,
+            "macro_recall_at_5_nonempty": 0.49101,
+            "micro_f1_at_5": 0.45537,
+            "hit_rate_at_5": 0.89312
+          }
+        },
+        "42": {
+          "all_admissions": {
+            "precision_at_5": 0.31715,
+            "micro_recall_at_5": 0.44441,
+            "macro_recall_at_5_nonempty": 0.48774,
+            "micro_f1_at_5": 0.37015,
+            "hit_rate_at_5": 0.6055
+          },
+          "at_least_one_mapped_label": {
+            "precision_at_5": 0.46916,
+            "micro_recall_at_5": 0.44441,
+            "macro_recall_at_5_nonempty": 0.48774,
+            "micro_f1_at_5": 0.45645,
+            "hit_rate_at_5": 0.89571
+          }
+        },
+        "73": {
+          "all_admissions": {
+            "precision_at_5": 0.31635,
+            "micro_recall_at_5": 0.44328,
+            "macro_recall_at_5_nonempty": 0.4896,
+            "micro_f1_at_5": 0.36921,
+            "hit_rate_at_5": 0.603
+          },
+          "at_least_one_mapped_label": {
+            "precision_at_5": 0.46797,
+            "micro_recall_at_5": 0.44328,
+            "macro_recall_at_5_nonempty": 0.4896,
+            "micro_f1_at_5": 0.45529,
+            "hit_rate_at_5": 0.89201
+          }
+        }
+      }
+    },
+    "no_patient_text": {
+      "prevalence": {
+        "all_admissions": {
+          "precision_at_5": 0.24325,
+          "micro_recall_at_5": 0.34085,
+          "macro_recall_at_5_nonempty": 0.38225,
+          "micro_f1_at_5": 0.2839,
+          "hit_rate_at_5": 0.56
+        },
+        "at_least_one_mapped_label": {
+          "precision_at_5": 0.35984,
+          "micro_recall_at_5": 0.34085,
+          "macro_recall_at_5_nonempty": 0.38225,
+          "micro_f1_at_5": 0.35009,
+          "hit_rate_at_5": 0.8284
+        }
+      },
+      "case_retrieval": {
+        "all_admissions": {
+          "precision_at_5": 0.2273,
+          "micro_recall_at_5": 0.3185,
+          "macro_recall_at_5_nonempty": 0.36794,
+          "micro_f1_at_5": 0.26528,
+          "hit_rate_at_5": 0.55825
+        },
+        "at_least_one_mapped_label": {
+          "precision_at_5": 0.33624,
+          "micro_recall_at_5": 0.3185,
+          "macro_recall_at_5_nonempty": 0.36794,
+          "micro_f1_at_5": 0.32713,
+          "hit_rate_at_5": 0.82581
+        }
+      },
+      "direct_sgd": {
+        "17": {
+          "all_admissions": {
+            "precision_at_5": 0.24325,
+            "micro_recall_at_5": 0.34085,
+            "macro_recall_at_5_nonempty": 0.38225,
+            "micro_f1_at_5": 0.2839,
+            "hit_rate_at_5": 0.56
+          },
+          "at_least_one_mapped_label": {
+            "precision_at_5": 0.35984,
+            "micro_recall_at_5": 0.34085,
+            "macro_recall_at_5_nonempty": 0.38225,
+            "micro_f1_at_5": 0.35009,
+            "hit_rate_at_5": 0.8284
+          }
+        },
+        "42": {
+          "all_admissions": {
+            "precision_at_5": 0.2259,
+            "micro_recall_at_5": 0.31654,
+            "macro_recall_at_5_nonempty": 0.32873,
+            "micro_f1_at_5": 0.26365,
+            "hit_rate_at_5": 0.5345
+          },
+          "at_least_one_mapped_label": {
+            "precision_at_5": 0.33417,
+            "micro_recall_at_5": 0.31654,
+            "macro_recall_at_5_nonempty": 0.32873,
+            "micro_f1_at_5": 0.32512,
+            "hit_rate_at_5": 0.79068
+          }
+        },
+        "73": {
+          "all_admissions": {
+            "precision_at_5": 0.24325,
+            "micro_recall_at_5": 0.34085,
+            "macro_recall_at_5_nonempty": 0.38225,
+            "micro_f1_at_5": 0.2839,
+            "hit_rate_at_5": 0.56
+          },
+          "at_least_one_mapped_label": {
+            "precision_at_5": 0.35984,
+            "micro_recall_at_5": 0.34085,
+            "macro_recall_at_5_nonempty": 0.38225,
+            "micro_f1_at_5": 0.35009,
+            "hit_rate_at_5": 0.8284
+          }
+        }
+      }
+    }
+  },
+  "same_50_case_baselines": {
+    "direct_sgd": {
+      "precision_at_5": 0.404,
+      "micro_recall_at_5": 0.45291,
+      "macro_recall_at_5_nonempty": 0.44108,
+      "micro_f1_at_5": 0.42706,
+      "hit_rate_at_5": 0.7
+    },
+    "prevalence": {
+      "precision_at_5": 0.356,
+      "micro_recall_at_5": 0.3991,
+      "macro_recall_at_5_nonempty": 0.38761,
+      "micro_f1_at_5": 0.37632,
+      "hit_rate_at_5": 0.66
+    },
+    "case_retrieval": {
+      "precision_at_5": 0.352,
+      "micro_recall_at_5": 0.39462,
+      "macro_recall_at_5_nonempty": 0.38133,
+      "micro_f1_at_5": 0.37209,
+      "hit_rate_at_5": 0.64
+    }
+  },
+  "paired_direct_seed42_minus_retrieval": {
+    "delta_second_minus_first": 0.05888,
+    "patient_bootstrap_95pct": [
+      0.05325,
+      0.0646
+    ],
+    "patients": 3115,
+    "draws": 2000
+  },
+  "elapsed_seconds": 42.64,
+  "limits": [
+    "Developmental test, not unseen confirmation.",
+    "Observed-label overlap is coverage biased, not clinical appropriateness.",
+    "No patient text is an information-ablation control, not a clinical decision system."
+  ]
+}
