@@ -175,3 +175,7 @@ Retain 142,485 stays, including 8,188 test stays from 16 hospitals, with zero pa
 The identity-complete native-HICL cohort is built and independently audited:40,000/2,000/2,000/8,005 stays,6,227 test patients and16 test hospitals, without cross-partition patient/hospital overlap. Zero-target test stays:3,842. Complete joint labels:11,853/15,594. Three seeds/five rounds compare13 methods/ablations, including matched uniform/error/shuffled feedback. No eICU model test score yet. [Protocol and cohort](../upgrade_v25/RESULTS.en.md).
 
 FHIR revision:13 development false negatives arose from valid note arrays versus a legacy object reference. The adapted endpoint applies identical lossless views/readback criteria to all methods and preserves raw grades. Learning restarted from empty skills. This is a scoring repair, not evolution gain. [Evidence](../upgrade_v19/RESULTS.en.md).
+
+## Development follow-up running: candidate-position sensitivity
+
+v0.26 freezes three model states on200 existing guard cases. Four conditions compare original prompts, explicit original ranks, rank-preserving permutations and reversal. This tests order dependence while retaining rank information; no new learning or test score is claimed. Fresh deduplicated generation uses immutable case-bound receipts. [Registered protocol](../upgrade_v26/README.en.md).

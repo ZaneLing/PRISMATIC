@@ -43,5 +43,7 @@ Independent auditing confirms six actual adapter hashes, all six 100-step logs, 
 '''
         p=HERE/f'RESULTS.{lang}.md';prior=p.read_text().split('\n'+header)[0]
         p.write_text(prior+'\n'+header+'\n'+text+table+'\n![Raw candidates versus accepted versions](raw_checkpoint_curves.png)\n\n'+('Audit: `results/learning_audit.json`. No test-based checkpoint reselection was performed.\n' if lang=='en' else '审计见 `results/learning_audit.json`。没有根据测试结果重选检查点。\n'))
+        repair=('\n## Post-study cache repair\n\nThe future runner deduplicates identical requests, stores immutable case/catalogue-bound receipts and snapshots exact pre-update outputs. A regression test covers different catalogue bindings, cache replay and corrupted-receipt rejection. Completed v0.15 cannot be accidentally rerun; `results/executed_source_manifest.json` pins the executed source. This does not recover missing historical outputs or change the completed results.\n' if lang=='en' else '\n## 实验后的缓存修复\n\n后续执行器去重相同请求，保存病例/候选目录绑定的不可变回执，并快照实际更新前输出。回归测试覆盖不同目录绑定、缓存重放和损坏回执拒绝。已完成v0.15禁止误重跑，原执行代码由 `results/executed_source_manifest.json` 固定。修复不补造历史输出、不改变既有结果。\n')
+        p.write_text(p.read_text()+repair)
 
 if __name__=='__main__':main()

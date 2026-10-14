@@ -33,6 +33,7 @@ GT-based evaluation does not require clinician review. Missing attributes remain
 
 | Version | Record | Evidence |
 | --- | --- | --- |
+| v0.26 | [Position diagnostic](../upgrade_v26/README.en.md) | 200 existing development cases,3 fixed states,4 rank-preserving display conditions; running |
 | v0.25 | [External method experiment](../upgrade_v25/RESULTS.en.md) | Native-code cohort audited; 8,005 test stays; three seeds running, no test score |
 | v0.24 | [External eICU audit](../upgrade_v24/RESULTS.en.md) | 142,485 stays; hospital/patient-disjoint partition and HICL/time coverage audited; no model scores |
 | v0.23 | [Matched feedback results](../upgrade_v23/RESULTS.en.md) | Three seeds/five rounds audited; uniform learning is stronger than error priorities |
