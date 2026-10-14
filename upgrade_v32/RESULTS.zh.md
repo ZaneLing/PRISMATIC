@@ -8,7 +8,7 @@ v31 首次更新生成了格式合法、内容全零的处方。本试验用相�
 
 ## 2. 真实完成情况
 
-- 已完成训练: **3/4**
+- 已完成训练: **4/4**
 - 已独立复算成绩分组: **暂无**
 - API 请求: **0**
 
@@ -17,17 +17,21 @@ v31 首次更新生成了格式合法、内容全零的处方。本试验用相�
 | teacher_uniform | 100 | 1739.2 | 03e345d3b72d |
 | zero_uniform | 100 | 1505.8 | 200340a805f8 |
 | teacher_balanced | 100 | 1569.2 | a852a5c31571 |
-| zero_balanced | pending | — | — |
+| zero_balanced | 100 | 1579.0 | d1e56ac1bd2c |
 
 训练完成状态与原始适配器哈希逐项核对。独立核验重建全部 8,000 个二元标签，并在四组训练回执均通过后开放 proposal 评分。评分预检已通过 120 个合成病例／概率绑定、完整阈值选择、源数据复算及逐字节一致的断点恢复；这些合成检查不属于临床实验成绩。
 
+**四组训练均通过独立核验。** 已重建 8,000 个目标（其中 1,604 个阳性），逐组核对 100 步训练日志，确认 3,670,016 个适配器参数均为有限值、LoRA 存在非零更新，并确认 400 个训练样本与 100 个 proposal 病例之间没有患者重叠。该核验没有独立重跑优化轨迹。目前已开放 proposal 推理；训练完成不等于处方效果已经提高。
+
+[Training audit](results/training_audit.json)
+
 ## 3. proposal
 
-尚无通过独立复算的成绩。当前前置条件：all_four_training_audits.
+尚无通过独立复算的成绩。当前前置条件：evaluation_and_recount.
 
 ## 4. guard
 
-尚无通过独立复算的成绩。当前前置条件：all_four_training_audits, frozen_thresholds, proposal_summary, proposal_audit, v31_seed42_frozen_selection.
+尚无通过独立复算的成绩。当前前置条件：frozen_thresholds, proposal_summary, proposal_audit, v31_seed42_frozen_selection.
 
 ## 5. 结论边界
 

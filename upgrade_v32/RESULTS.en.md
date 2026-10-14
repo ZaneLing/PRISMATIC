@@ -8,7 +8,7 @@ A fixed 0.5 threshold measures the uncalibrated decision behavior. A second endp
 
 ## 2. Actual completion
 
-- Completed fits: **3/4**
+- Completed fits: **4/4**
 - Independently audited score panels: **none yet**
 - API requests: **0**
 
@@ -17,17 +17,21 @@ A fixed 0.5 threshold measures the uncalibrated decision behavior. A second endp
 | teacher_uniform | 100 | 1739.2 | 03e345d3b72d |
 | zero_uniform | 100 | 1505.8 | 200340a805f8 |
 | teacher_balanced | 100 | 1569.2 | a852a5c31571 |
-| zero_balanced | pending | — | — |
+| zero_balanced | 100 | 1579.0 | d1e56ac1bd2c |
 
 Fit completion is checked against the saved original adapter hash. A separate audit reconstructs all 8,000 binary labels and checks all four training receipts before proposal inference. The scoring preflight passed 120 synthetic case/probability bindings, all threshold choices, source recounting and byte-identical resume; these synthetic checks are not clinical results.
 
+**Training audit passed for all four arms.** It reconstructed the 8,000 targets (1,604 positives), checked the 100-step training logs, verified 3,670,016 finite adapter parameters and a nonzero LoRA update per arm, and confirmed no patient overlap between the 400 training examples and 100 proposal cases. Optimizer trajectories were not independently replayed. Proposal inference is now permitted; completed training is not evidence of improved prescribing.
+
+[Training audit](results/training_audit.json)
+
 ## 3. proposal
 
-No independently audited score is available. Pending prerequisites: all_four_training_audits.
+No independently audited score is available. Pending prerequisites: evaluation_and_recount.
 
 ## 4. guard
 
-No independently audited score is available. Pending prerequisites: all_four_training_audits, frozen_thresholds, proposal_summary, proposal_audit, v31_seed42_frozen_selection.
+No independently audited score is available. Pending prerequisites: frozen_thresholds, proposal_summary, proposal_audit, v31_seed42_frozen_selection.
 
 ## 5. Interpretation boundary
 

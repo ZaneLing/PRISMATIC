@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "auditor_sha256": "a98c67fdb5fe6a7112ac1f73e30e39a36c504d5e8b1f83bd4ac41e1928d21bb4",
+  "training_lock_sha256": "0638a0e81f39ceedcfb9454b45ab89cb864fbec42edcbb9c039a3c04a27a58ab",
+  "source_cases_sha256": "5177426dfdd5f61a0f5f1898f78cf4bd555f182f4d1d5c79e2890d42a30e7912",
+  "training_examples": 400,
+  "training_patients": 393,
+  "proposal_patients": 97,
+  "patient_overlap": 0,
+  "binary_labels_reconstructed": 8000,
+  "positive_labels": 1604,
+  "maximum_training_sequence_tokens": 993,
+  "runtime": "0.32.0",
+  "runtime_source_sha256": {
+    "trainer": "0b6027fdb11803e951ceee52c83a81f82daa922ea8c6b7ca6888953461064e8e",
+    "cli": "e366eec6ae2f8a72446f1af65faf189a92a01ca509fb0cafb3fa54b89b4291f7"
+  },
+  "runtime_predecessor_lock_sha256": "0c89d6e5c7dd1a926f8832e854093613fe22542c60ec9892e8510c020a4dcb63",
+  "arms": {
+    "teacher_uniform": {
+      "adapter_sha256": "03e345d3b72d3bb91d060bb83b2aa7d9e25d3d8d84aa251ab0331bef5186595f",
+      "training_receipt_sha256": "d355dd845f0d3b59131a32d859873e14c9f001fc974571b4ef2a014aeb07a786",
+      "training_log_sha256": "245c2be39472463cb52f394cb8fab7d31af3bf3cffe13456e51cf3fd1cf403e8",
+      "optimizer_steps": 100,
+      "decision_targets": 8000,
+      "adapter_parameters": 3670016,
+      "positive_weight": 1.0
+    },
+    "zero_uniform": {
+      "adapter_sha256": "200340a805f83887eb282b90c725a6a307597c69f37a553f30bdfcc0b42b76bd",
+      "training_receipt_sha256": "018578f09061161ee9c571a774d6b1ee0985174e8eda411f7f4a6702681803c7",
+      "training_log_sha256": "95e1c647a273e2c019299607ff1f36d0f94794c4ba30c352d2f05eb43859119a",
+      "optimizer_steps": 100,
+      "decision_targets": 8000,
+      "adapter_parameters": 3670016,
+      "positive_weight": 1.0
+    },
+    "teacher_balanced": {
+      "adapter_sha256": "a852a5c3157118df04267a9ffe2d8ba69a243892af19579db9b6969fb0eca2e1",
+      "training_receipt_sha256": "07858e98553b9b4596e38e4a69d60e7df1b96b472e9a84690eba5b5ef888ccf5",
+      "training_log_sha256": "95d3d158d5f99764e0059d426f54984295e87c5df2c41d211f3e8c14e0a0283d",
+      "optimizer_steps": 100,
+      "decision_targets": 8000,
+      "adapter_parameters": 3670016,
+      "positive_weight": 3.9875311720698257
+    },
+    "zero_balanced": {
+      "adapter_sha256": "d1e56ac1bd2c4d2e26fea9469b1ba102d78b7e07a49664e328c7ad9897a57806",
+      "training_receipt_sha256": "9b2c3e96e336c50543a40f7f75bed0042d454c82d6fe579c3d80edde49c8ab61",
+      "training_log_sha256": "7f02fc77bc6d67a880a6394ddc337f45132e0f74e5bda268445b8723657aa309",
+      "optimizer_steps": 100,
+      "decision_targets": 8000,
+      "adapter_parameters": 3670016,
+      "positive_weight": 3.9875311720698257
+    }
+  },
+  "scope": "Source-target reconstruction, configuration,100-step/8k-decision logs and finite changed original adapter tensors. Batch order and optimizer trajectory are not independently replayed; the runtime source hashes match the earlier v31 execution lock."
+}

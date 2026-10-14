@@ -70,6 +70,10 @@ def main():
             lines.append(f"| {arm} | {z['optimizer_steps'] if z else 'pending'} | {z['seconds']:.1f} | {z['adapter_sha256'][:12]} |" if z else f'| {arm} | pending | — | — |')
         lines += ['', ('Fit completion is checked against the saved original adapter hash. A separate audit reconstructs all 8,000 binary labels and checks all four training receipts before proposal inference. The scoring preflight passed 120 synthetic case/probability bindings, all threshold choices, source recounting and byte-identical resume; these synthetic checks are not clinical results.' if en else
                        '训练完成状态与原始适配器哈希逐项核对。独立核验重建全部 8,000 个二元标签，并在四组训练回执均通过后开放 proposal 评分。评分预检已通过 120 个合成病例／概率绑定、完整阈值选择、源数据复算及逐字节一致的断点恢复；这些合成检查不属于临床实验成绩。'), '']
+        if 'training_audit_sha256' in gates['proposal']['proof']:
+            lines += [('**Training audit passed for all four arms.** It reconstructed the 8,000 targets (1,604 positives), checked the 100-step training logs, verified 3,670,016 finite adapter parameters and a nonzero LoRA update per arm, and confirmed no patient overlap between the 400 training examples and 100 proposal cases. Optimizer trajectories were not independently replayed. Proposal inference is now permitted; completed training is not evidence of improved prescribing.' if en else
+                       '**四组训练均通过独立核验。** 已重建 8,000 个目标（其中 1,604 个阳性），逐组核对 100 步训练日志，确认 3,670,016 个适配器参数均为有限值、LoRA 存在非零更新，并确认 400 个训练样本与 100 个 proposal 病例之间没有患者重叠。该核验没有独立重跑优化轨迹。目前已开放 proposal 推理；训练完成不等于处方效果已经提高。'), '',
+                      '[Training audit](results/training_audit.json)', '']
         for split, z in reports.items():
             lines += [f"## {'3' if split == 'proposal' else '4'}. {split}", '']
             if z is None:

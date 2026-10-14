@@ -1,5 +1,5 @@
 {
-  "completed_optimizer_fits": 3,
+  "completed_optimizer_fits": 4,
   "registered_fits": 4,
   "completed_arms": {
     "teacher_uniform": {
@@ -16,27 +16,33 @@
       "optimizer_steps": 100,
       "seconds": 1569.2182639170205,
       "adapter_sha256": "a852a5c3157118df04267a9ffe2d8ba69a243892af19579db9b6969fb0eca2e1"
+    },
+    "zero_balanced": {
+      "optimizer_steps": 100,
+      "seconds": 1578.9871240420034,
+      "adapter_sha256": "d1e56ac1bd2c4d2e26fea9469b1ba102d78b7e07a49664e328c7ad9897a57806"
     }
   },
   "audited_splits": [],
   "gates": {
     "proposal": {
-      "status": "closed",
-      "pending": [
-        "all_four_training_audits"
-      ],
-      "proof": {}
+      "status": "open",
+      "pending": [],
+      "proof": {
+        "training_audit_sha256": "047efa59cfef353c07763379cf01ba4448de5a36ec20e71f707cbb7ff5b7860a"
+      }
     },
     "guard": {
       "status": "closed",
       "pending": [
-        "all_four_training_audits",
         "frozen_thresholds",
         "proposal_summary",
         "proposal_audit",
         "v31_seed42_frozen_selection"
       ],
-      "proof": {}
+      "proof": {
+        "training_audit_sha256": "047efa59cfef353c07763379cf01ba4448de5a36ec20e71f707cbb7ff5b7860a"
+      }
     }
   },
   "clinical_scores_require_independent_recount": true,

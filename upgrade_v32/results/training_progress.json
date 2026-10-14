@@ -1,5 +1,5 @@
 {
-  "status": "training",
+  "status": "four_fits_executed_pending_evaluation_and_audit",
   "lock": {
     "source_sha256": {
       "protocol.json": "f9985ba96fb99f30949448c390397890539ecce0cb022b3fbc571a9947535bae",
@@ -170,10 +170,58 @@
         "/Users/bytedance/Desktop/PRISMATIC/github/upgrade_v32/training_config.yaml",
         "--grad-checkpoint"
       ]
+    },
+    "zero_balanced": {
+      "arm": "zero_balanced",
+      "optimizer_steps": 100,
+      "binary_target_decisions_expected": 8000,
+      "seconds": 1578.9871240420034,
+      "adapter_sha256": "d1e56ac1bd2c4d2e26fea9469b1ba102d78b7e07a49664e328c7ad9897a57806",
+      "training_log_sha256": "7f02fc77bc6d67a880a6394ddc337f45132e0f74e5bda268445b8723657aa309",
+      "command": [
+        "/Users/bytedance/Desktop/PRISMATIC/upgrade_v2/.venv-llm/bin/python",
+        "/Users/bytedance/Desktop/PRISMATIC/github/upgrade_v32/train_cli.py",
+        "--decision-arm",
+        "zero_balanced",
+        "--decision-config",
+        "/Users/bytedance/Desktop/MedTreeBench/dataset/restricted/prismatic-v32/decision_config.json",
+        "--model",
+        "/Users/bytedance/Desktop/PRISMATIC/upgrade_v2/.local/models/qwen3-4b-instruct-2507-4bit",
+        "--train",
+        "--data",
+        "/Users/bytedance/Desktop/MedTreeBench/dataset/restricted/prismatic-v32/data",
+        "--fine-tune-type",
+        "lora",
+        "--mask-prompt",
+        "--num-layers",
+        "8",
+        "--batch-size",
+        "4",
+        "--iters",
+        "100",
+        "--learning-rate",
+        "0.0001",
+        "--steps-per-report",
+        "20",
+        "--steps-per-eval",
+        "100",
+        "--val-batches",
+        "8",
+        "--save-every",
+        "100",
+        "--max-seq-length",
+        "1536",
+        "--adapter-path",
+        "/Users/bytedance/Desktop/MedTreeBench/dataset/restricted/prismatic-v32/zero_balanced/adapter",
+        "--seed",
+        "42",
+        "--config",
+        "/Users/bytedance/Desktop/PRISMATIC/github/upgrade_v32/training_config.yaml",
+        "--grad-checkpoint"
+      ]
     }
   },
   "proposal_scores_available": false,
   "guard_or_test_inference": false,
-  "api_calls": 0,
-  "current_arm": "zero_balanced"
+  "api_calls": 0
 }
