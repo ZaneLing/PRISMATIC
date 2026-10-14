@@ -165,6 +165,34 @@ Actual adapter hashes, six 100-step logs, serialized targets, sampling from reco
     if (ROOT/'upgrade_v26/results/data_audit.json').exists():
         parameter_section+=r'''\paragraph{Registered position-sensitivity diagnostic.}
 A subsequent development-only experiment freezes the base model and both selected round-two adapters on the existing 200-case guard (197 patients). Four conditions compare original prompts, explicit original retrieval ranks, deterministic permutations retaining those ranks, and reversed display order retaining ranks. Candidate fields and patient context remain identical; local IDs and masks are remapped consistently. The added-rank prompt effect is separated from reordering, so ranking information is not silently removed. Fresh deduplicated inference saves immutable case-bound receipts. This post-test-motivated diagnostic is running, with no checkpoint/prompt promotion or held-out improvement claim.'''
+        if (ROOT/'upgrade_v26/results/summary.json').exists():
+            position=json.loads((ROOT/'upgrade_v26/results/summary.json').read_text())
+            parameter_section=parameter_section.replace('This post-test-motivated diagnostic is running, with no checkpoint/prompt promotion or held-out improvement claim.','This post-test-motivated diagnostic is complete, with no checkpoint/prompt promotion or held-out improvement claim.')
+            rr='\n'.join(f"{model.replace('_',' ')} & {condition.replace('_',' ')} & {z['drug_order_f1'][0]:.4f} & {z['drug_order_f1'][1]:.4f} \\\\" for model,conditions in position['methods'].items() for condition,z in conditions.items())
+            parameter_section+=r'''\begin{table*}[t]\centering\small
+\caption{Frozen-model candidate-position diagnostic on the existing 200-case guard. Explicit-rank conditions preserve the same candidate content and original retrieval rank. These are development scores, not a new test comparison.}
+\begin{tabular}{llrr}\toprule Frozen state & Display condition & Drug F1 & Order F1\\\midrule
+POSITIONROWS
+\bottomrule\end{tabular}\end{table*}
+All saved outputs, remapped candidates and immutable case receipts pass independent recounting. Reordering sensitivity with rank information retained is evidence of a representation weakness; it does not alone establish the cause of training collapse or clinical reasoning. No prompt winner is promoted from these results.'''.replace('POSITIONROWS',rr)
+    compatibility_section=''
+    if (ROOT/'upgrade_v27/results/cohort_audit.json').exists():
+        compatibility_section=r'''\paragraph{Standard-method compatibility panel.}
+A separate retrospective MIMIC-IV 3.1 panel now contains 8,905 repeated-visit adult ICU patients and 23,177 hospital visits. Patient-disjoint training/proposal/guard/test partitions contain 7,115/433/467/890 patients and 18,429/1,095/1,231/2,422 visits. Every selected diagnosis, procedure and mapped medication set is independently reconstructed from sources. Training-only vocabularies include 271 true five-character ATC-L4 classes, with five test target occurrences outside that vocabulary. The public NDC map covers only 27.23\% of selected source prescription rows; this is explicitly mapped-class prediction, not complete prescription recovery. Completed-visit diagnosis/procedure inputs also distinguish it from the six-hour task. Earlier observed test patients overlap, so this panel is exploratory.
+
+Public molecular lookup resolves 746 CIDs and validates structures spanning 399 ATC-L4 classes. Coverage is 219/271 classes in this cohort. Actual pinned ARMR, GAMENet and SafeDrug cores pass synthetic forward/backward execution probes. SafeDrug still requires complete cohort-specific molecular/substructure compatibility; the probe's synthetic mask is never used as an experimental resource. No trained method score is claimed at this preparation stage.'''
+    fhir_results=''
+    if (ROOT/'upgrade_v19/results/summary.json').exists():
+        fhir=json.loads((ROOT/'upgrade_v19/results/summary.json').read_text())
+        rr='\n'.join(f"{method.replace('_',' ')} & {split.replace('_',' ')} & {z['state_correct']}/{z['n']} & {z['trace_correct']}/{z['n']} & {z['model_calls']} \\\\" for method,splits in fhir['methods'].items() for split,z in splits.items())
+        fhir_results=r'''\subsection{Completed Real-Tool Skill Comparison}
+The revised study completes 96 training tasks, 80 validation tasks, 64 ID-test tasks and 60 held-out-task-type tasks. The unchanged GRASP core proposes persistent language-skill edits, while the backbone, compiler and evaluator remain fixed. Two retained skills concern patient-name URL encoding and a lab-code/text fallback query. Their text is model-authored, not an independently validated clinical rule. End-of-epoch validation selects the frozen skill state before testing; validation rises from 56.25\% to 66.25\%.
+\begin{table*}[t]\centering\small
+\caption{Executed FHIR task comparison, one learning seed. State success uses the declared reference-shape projection plus persisted-field verification. Original trace success remains separate. Counts are logical model calls; exact cached episodes retain their original physical receipts.}
+\begin{tabular}{llrrr}\toprule Method & Split & State success & Raw trace success & Calls\\\midrule
+FHIRROWS
+\bottomrule\end{tabular}\end{table*}
+Independent regrading recounts each creation, readback, rollback and cleanup; resource counts return to their original values. Task-type breakdowns, task- and patient-cluster paired intervals and actual skill operations accompany the release. Patient overlap and one learning seed limit generalization claims.'''.replace('FHIRROWS',rr)
     body=r'''
 \documentclass[11pt]{article}
 \usepackage[review]{acl}
@@ -205,6 +233,8 @@ Our current contributions are an executable structured-order task, a versioned u
 \section{Related Work and Comparison Protocols}
 GAMENet and SafeDrug predict medication sets from structured histories \citep{gamenet,safedrug}. SafeRx-Agent evaluates finer ATC-L4 sets using expert generation and verification \citep{saferx}. RxEval evaluates medication--dose--route options at prescribing timepoints \citep{rxeval}. Their reported results can be cited directly without reproducing every baseline, but our own comparison row must follow the corresponding data, input and scoring protocol.
 
+Recent structured comparators include ARMR's piecewise history and existing/new-drug modeling \citep{armr2025}, and HADRec's hierarchy/molecular fusion \citep{hadrec}. Code identity matters: the checked HADRec release truncates medication codes to four characters while calling its output level four. We retain the authors' scores as reported and flag this discrepancy against standard five-character ATC-L4 \citep{atcstructure}. LT3 generates prescription text from supplied medication attributes; its downstream entity-recognition F1 is not medication-set F1 \citep{lt3}.
+
 GRASP learns persistent skills with regression-aware selection \citep{grasp}. EvoTool mutates modular tool-use policies while freezing the backbone \citep{evotool}. Process-oriented work such as EvoPathBench motivates evaluating capability retention and adaptation along artifact trajectories \citep{evopath}. These mechanisms inform our controls; our task adaptations are explicitly distinguished from official benchmark reruns.
 
 \begin{table*}[t]\centering\small
@@ -214,6 +244,9 @@ GRASP learns persistent skills with regression-aware selection \citep{grasp}. Ev
 Work & Data & Experiments / outputs\\\midrule
 GAMENet & MIMIC-III; 6,350 patients, 15,016 visits & 145 medication classes; prediction, DDI and memory ablations\\
 SafeDrug & MIMIC-III; 6,350 patients, 14,995 visits & 131 classes; DDI, molecular representations, efficiency\\
+ARMR (2025) & MIMIC-III / IV; 6,350 / 9,036 patients & 131 ATC-L3 classes; history and new-drug ablations\\
+HADRec (2026) & MIMIC-III / IV & Hierarchy, molecules, transfer; released coding needs clarification\\
+LT3 (2025) & n2c2-2018 / MIMIC-III & Label-to-text generation and downstream entity recognition\\
 SafeRx-Agent & MIMIC-IV 1,586 test; MIMIC-III 901 patients & ATC-L4, expert routing and verification\\
 RxEval & MIMIC-IV; 1,547 questions, 584 patients & Medication/dose/route options; macro F1 and exact match\\
 RxSafeBench & 2,443 source consultation scenarios & Medication risks; our derived option-selection split is separate\\
@@ -230,6 +263,12 @@ GAMENet (R) & F1 0.6081 & Jaccard 0.4509\\
 \multicolumn{3}{l}{SafeDrug MIMIC-III, Table 2 \citep{safedrug}}\\
 GAMENet, as reported by SafeDrug (R) & F1 0.6626 & DDI 0.0864\\
 SafeDrug (R) & F1 0.6768 & DDI 0.0589\\
+\multicolumn{3}{l}{ARMR 2025, Table 3: MIMIC-III / IV patient-average F1 \citep{armr2025}}\\
+GAMENet, as reported by ARMR (R) & 0.6674 & 0.6441\\
+COGNet, as reported by ARMR (R) & 0.6869 & 0.6582\\
+ARMR (R) & 0.6959 & 0.6712\\
+\multicolumn{3}{l}{HADRec, Tables 4 and 8: MIMIC-III / IV F1 \citep{hadrec}}\\
+HADRec (R; coding caveat in text) & 0.7010 & 0.6408\\
 \multicolumn{3}{l}{SafeRx ATC-L4, Table 2: MIMIC-IV / III F1 \citep{saferx}}\\
 GAMENet, as reported by SafeRx (R) & 0.3356 & 0.2153\\
 SafeDrug, as reported by SafeRx (R) & 0.3519 & 0.2361\\
@@ -239,6 +278,8 @@ SafeRx / Claude Sonnet-4.6, no filter (R) & 0.4325 & 0.2758\\
 Gemini-3.1-Pro (R) & F1 77.10\% & Exact match 46.10\%\\
 Qwen3.6-27B (R) & F1 71.70\% & Exact match 40.00\%\\
 \bottomrule\end{tabular}\end{table*}
+
+COMPATIBILITYSECTION
 
 \section{Agent State and Update Mechanism}
 At round $r$, let the persistent state be $S_r=(W_r,M_r,T_r,K_r)$: prescription-selection parameters, episodic memory, order-tool state, and language skills. Runtime inference takes a patient snapshot, retrieves candidates and applicable experience, plans selections, and compiles structured orders. The current order compiler returns drug, route, dose string, dose unit and observed frequency; unobserved clinical attributes remain unknown.
@@ -307,6 +348,8 @@ Thirteen development episodes preserve their final active writes but fail the le
 
 Regrading all thirteen existing receipts accepts correct final writes while rejecting wrong-note and active-field-loss controls; eight execution/compatibility contracts pass. Prior failed readbacks were rolled back, and those changed interaction trajectories are not reused. Language-skill learning restarts with empty skills; only identical physical episodes with unchanged submissions/feedback and successful readback/cleanup are eligible for reuse. Compiler and evaluator repairs are fixed engineering changes, not agent evolution gains.
 
+FHIRRESULTS
+
 \section{Limitations}
 The legacy structured-order experiment uses admission-proxy inputs. Triage has no verified entry timestamp and medication reconciliation lacks storetime; temporal availability is therefore not fully established. A full target-row audit links 1,788,195 records to provider and pharmacy clocks: 42,005 matching provider orders precede admission, 1,425,392 fall within the intended next-six-hour horizon, and 276,269 occur later. There are 438 provider-link admission conflicts, which remain untrusted. Pharmacy entry falls within the horizon for 1,777,546 rows. The two source linkage paths agree on all 1,757,038 rows where both IDs exist and reproduce identical temporal counts. These clocks still differ; the retrospective start-window results are not prospective new-order evidence. The rebuilt recorded-availability cohort addresses these clocks but conditions on coherent, nonempty future orders and lacks complete field-version histories. Candidate vocabularies and one-template-per-drug output limit recall. Recorded prescriptions may omit clinically acceptable alternatives, and agreement does not prove indication or safety. Current language-artifact baselines are task adaptations, not official reruns. Repeated development selection can overfit; independent tests, multiple evolution orders, transfer and matched optimization budgets are necessary before claiming general RSI benefits. External RxEval and SafeRx data access remains unresolved.
 
@@ -319,6 +362,10 @@ All restricted MIMIC records, predictions and checkpoints remain on the authoriz
 \begin{thebibliography}{9}
 \bibitem[Shang et al.(2019)]{gamenet} Shang et al. 2019. GAMENet. \url{https://arxiv.org/abs/1809.01852}.
 \bibitem[Yang et al.(2021)]{safedrug} Yang et al. 2021. SafeDrug. \url{https://arxiv.org/abs/2105.02711}.
+\bibitem[Wu et al.(2025)]{armr2025} Feiyue Wu, Tianxing Wu, and Shenqi Jing. 2025. ARMR: Adaptively Responsive Network for Medication Recommendation. IJCAI. \url{https://www.ijcai.org/proceedings/2025/871}.
+\bibitem[Wang et al.(2026)]{hadrec} Junke Wang et al. 2026. HADRec: A Hierarchy-Aware Drug Recommendation Framework by Fusing Molecular Knowledge and Electronic Health Record. Preprint. \url{https://arxiv.org/abs/2610.00984}.
+\bibitem[Belkadi et al.(2025)]{lt3} Samuel Belkadi et al. 2025. LT3: Generating Medication Prescriptions with Conditional Transformer. CL4Health. \url{https://aclanthology.org/2025.cl4health-1.17/}.
+\bibitem[WHO Collaborating Centre(2022)]{atcstructure} WHO Collaborating Centre for Drug Statistics Methodology. 2022. ATC Structure and Principles. \url{https://atcddd.fhi.no/atc/structure_and_principles/}.
 \bibitem[Wang et al.(2026)]{saferx} Wang et al. 2026. SafeRx-Agent. \url{https://arxiv.org/abs/2605.29146}.
 \bibitem[Chen et al.(2026)]{rxeval} Chen et al. 2026. RxEval. \url{https://arxiv.org/abs/2605.14543}.
 \bibitem[Moll et al.(2026)]{grasp} Moll et al. 2026. GRASP: Gated Regression-Aware Skill Proposer for Self-Improving LLM Agents. \url{https://arxiv.org/abs/2605.29668}.
@@ -330,7 +377,9 @@ All restricted MIMIC records, predictions and checkpoints remain on the authoriz
 \end{thebibliography}
 \end{document}
 '''
-    body=body.replace('METHODROWS',rows).replace('GROWTHROWS',growth).replace('PUBLICSECTION',public_section).replace('PARAMETERSECTION',parameter_section).replace('TEMPORALSECTION',temporal_section)
+    body=body.replace('METHODROWS',rows).replace('GROWTHROWS',growth).replace('PUBLICSECTION',public_section).replace('PARAMETERSECTION',parameter_section).replace('TEMPORALSECTION',temporal_section).replace('COMPATIBILITYSECTION',compatibility_section).replace('FHIRRESULTS',fhir_results)
+    if fhir_results:
+        body=body.replace('Full ID and held-out-task-type evaluation is in progress.','The completed ID and held-out-task-type comparison is reported below.')
     sty=STYLE.read_text();prefix='% Official ACL style embedded for the standalone editor. See acl_template_provenance.json.\n'+r'\begin{filecontents*}[overwrite]{acl.sty}'+'\n'+sty+'\n'+r'\end{filecontents*}'+'\n% PRISMATIC MANUSCRIPT START\n'
     PAPER.write_text(prefix+body)
     provenance={'repository':'https://github.com/acl-org/acl-style-files','commit':'d5adc823ff0f80f98c80405ca0ab66c68e684409',

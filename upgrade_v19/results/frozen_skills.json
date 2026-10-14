@@ -1,0 +1,44 @@
+{
+  "skills_sha256": {
+    "lab_code_text_fallback_probe.md": "41c0b1815f88a88c9c1ac89599d062b3a96bb35b864fda71175df415140fe480",
+    "fhir_patient_name_search_url_encoding.md": "731f86f04e258db9c28c6e9416428143ae3b6a5f9a358eff1229f53af77d1088"
+  },
+  "test_used": false,
+  "protocol": {
+    "source_commit": "9d7d125a3e9b46ed591692475eb07aff4ae67d34",
+    "optimizer": "Unmodified author GRASP core; new real-FHIR task adapter",
+    "train_n": 96,
+    "validation_n": 80,
+    "id_test_n": 64,
+    "heldout_task_type_test_n": 60,
+    "feedback_batches": 4,
+    "cases_per_batch": 24,
+    "proposal_slots": 4,
+    "balanced_training_probe_n": 12,
+    "max_action_calls": 8,
+    "actor_tokens": 512,
+    "proposer_tokens": 3072,
+    "model": "deepseek/deepseek-v4.1-flash",
+    "evolving": [
+      "Language skill files"
+    ],
+    "fixed": [
+      "FHIR compiler",
+      "protocol feedback",
+      "backbone weights"
+    ],
+    "controls": [
+      "literal direct tools",
+      "fixed compiled/verified harness"
+    ],
+    "serialized_episodes": true,
+    "episode_cache": "Revision2 exact code/mode/case/skill digest. Legacy compiled episodes may be adopted only with successful field-preserving readbacks/cleanup, unchanged compiler output and exact case/skills. Only grades are recomputed; learned legacy skills are discarded. Physical operations and logical cost are distinguished.",
+    "actor_inputs": "instruction/context and actual tool replies only; no sol/eval_MRN fields",
+    "feedback": "Patient-ID-redacted training traces and revised automatic state grades; only task1 includes literal sol, all other literal targets remain null and use the reference grader; no test labels in learning.",
+    "patient_split_note": "Official task splits overlap in patients; not patient-disjoint.",
+    "state_score": "Unchanged original reference evaluated through lossless legacy shape views, AND canonical intent fields preserved on real readback. Singleton note arrays become legacy objects and text-only route objects become legacy strings for grading only. Same projection and canonical intent comparison apply to every arm; original raw grades are reported separately. Not an unmodified official benchmark score. Duration-like legacy rate fields remain semantically unvalidated.",
+    "grading_revision": "Development discovered13 false negatives from FHIR R4 note arrays. Prior run stopped before selection/test, archived and restarted with empty skills. No ID/OOD test informed this revision; see results/grading_revision.json.",
+    "selection": "End-of-epoch best validation checkpoint from the author core, before ID/OOD testing.",
+    "cost_cap_cumulative_usd": 28
+  }
+}

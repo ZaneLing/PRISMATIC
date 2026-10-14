@@ -1,5 +1,11 @@
 # RxRSIAgent: current method tables, evolution evidence and execution status
 
+## Latest addition: standard-method data and resource audit
+
+The new retrospective ATC-L4 panel contains **8,905 patients / 23,177 visits**; every selected diagnosis, procedure and mapped drug set passes independent reconstruction. The NDC map covers **27.23%** of selected prescription rows; molecular resources cover **219/271** training classes. Pinned ARMR-2025, GAMENet and SafeDrug cores pass execution probes; no trained v0.27 score yet. [Full audit](../upgrade_v27/RESULTS.en.md).
+
+The [recent-method registry](LATEST_METHODS.en.md) adds ARMR, HADRec and LT3 original results with protocol/code caveats. FHIR learning has frozen two actual skills; full ID/OOD evaluation continues, followed by registered single-skill removal and interaction tests. [Attribution protocol](../upgrade_v19/ablation_protocol.json).
+
 Updated 15 October 2026. This maintained entry point links versioned protocols, failures and results. Funding recovery resolved all previously missing API requests. **Our method has not yet surpassed the strongest completed control.**
 
 

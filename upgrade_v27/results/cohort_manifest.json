@@ -1,0 +1,82 @@
+{
+  "status": "complete",
+  "execution_lock": {
+    "protocol_sha256": "f8399831ac25859461e49c4f0125661809fa0ebffd1257381bf01b142863d2be",
+    "builder_sha256": "cad25992c5ca35af81345775e2eea64279eedfe22192b981d380e62111b6ffac",
+    "mapping_helper_sha256": "83bfba1987c27945c1269e8a576a3a989315504e32a65113dca3be556d3a7372"
+  },
+  "flow": {
+    "adult_icu_admissions": 85242,
+    "source_prescription_rows": 8482752,
+    "unambiguous_mapped_rows": 2334059,
+    "eligible_visits_before_repeat_patient_rule": 70120,
+    "eligible_repeated_patients": 8905,
+    "eligible_repeated_visits": 23177
+  },
+  "public_map_sha256": "162fefc5cc374ac545501dec0d3738cb7a362e1e08b46b64d1a779eaeda7888e",
+  "unambiguous_public_ndc_count": 94056,
+  "selected_source_rows": 2734635,
+  "selected_mapped_rows": 744575,
+  "selected_row_mapping_fraction": 0.27227582474443573,
+  "training_vocabulary": {
+    "diagnoses": 10726,
+    "procedures": 5330,
+    "medications": 271
+  },
+  "splits": {
+    "train": {
+      "patients": 7115,
+      "visits": 18429,
+      "max_visits": 27,
+      "membership_digest": "324a3fcd0f513edfe6436fbbbc0a5a96ad9b5804781f3ff766f5ef04aad56a5c",
+      "oov_occurrences": {
+        "diagnoses": 0,
+        "procedures": 0,
+        "medications": 0
+      },
+      "medication_targets": 227151
+    },
+    "proposal": {
+      "patients": 433,
+      "visits": 1095,
+      "max_visits": 14,
+      "membership_digest": "49b2aafacecc64fa86ed512459b5d39a26f5cc550c05ebdbdf3fedb5db37d25d",
+      "oov_occurrences": {
+        "diagnoses": 269,
+        "procedures": 146,
+        "medications": 3
+      },
+      "medication_targets": 13300
+    },
+    "guard": {
+      "patients": 467,
+      "visits": 1231,
+      "max_visits": 15,
+      "membership_digest": "01ff874cc296b839495794c293be2eabdfe05c40698255d9f2266aca71aaa5a0",
+      "oov_occurrences": {
+        "diagnoses": 260,
+        "procedures": 140,
+        "medications": 3
+      },
+      "medication_targets": 14878
+    },
+    "test": {
+      "patients": 890,
+      "visits": 2422,
+      "max_visits": 28,
+      "membership_digest": "0bb74ed2ed363900143eb8bc9317caf5ba3ad2344c37f686358a6c567b6c5f33",
+      "oov_occurrences": {
+        "diagnoses": 547,
+        "procedures": 337,
+        "medications": 5
+      },
+      "medication_targets": 30004
+    }
+  },
+  "cross_split_patient_overlap": 0,
+  "bundle_sha256": "04a3929430e72889ef8d23b7788b81257267ffba70292205b259b2d03c60ebdf",
+  "membership_sha256": "cb8c530656f13eb6ef809270ffb6c0c1961bd7b128064ddf2aa39f351ee47df1",
+  "test_predictions_generated": false,
+  "task": "Retrospective prediction of mapped medication classes for an entire hospital visit, given that visit's recorded diagnosis/procedure codes and completed prior visits. This task does not establish admission-time information availability.",
+  "test_status": "The source population overlaps earlier research. Quantify overlap with existing local evaluation cohorts. Treat results as exploratory, not a fresh untouched confirmation set."
+}

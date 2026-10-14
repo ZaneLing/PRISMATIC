@@ -1,0 +1,103 @@
+{
+  "status": "passed",
+  "selected_visits_reconstructed": 23177,
+  "mapped_source_rows_reconstructed": 744575,
+  "fields_reconstructed": [
+    "diagnoses",
+    "procedures",
+    "medications",
+    "admission_order",
+    "adult_ICU_membership",
+    "patient_partition",
+    "training_only_vocabularies"
+  ],
+  "bundle_sha256": "04a3929430e72889ef8d23b7788b81257267ffba70292205b259b2d03c60ebdf",
+  "member_sha256": "cb8c530656f13eb6ef809270ffb6c0c1961bd7b128064ddf2aa39f351ee47df1",
+  "molecular_coverage": {
+    "training_classes": 271,
+    "classes_with_molecules": 219,
+    "classes_without_molecules": [
+      "A06AA",
+      "A06AB",
+      "A06AH",
+      "A07BA",
+      "A09AA",
+      "A10AB",
+      "A10AE",
+      "A10BH",
+      "A10BK",
+      "A11DA",
+      "A12CB",
+      "B01AD",
+      "B01AF",
+      "B02BA",
+      "B02BD",
+      "B02BX",
+      "B03AB",
+      "B03XA",
+      "B05AA",
+      "B06AA",
+      "B06AC",
+      "C03XA",
+      "C05BB",
+      "D03BA",
+      "D08AL",
+      "D10AE",
+      "H04AA",
+      "H05BA",
+      "J01CG",
+      "J01DI",
+      "J05AP",
+      "J05AX",
+      "J06BB",
+      "L01XC",
+      "L03AA",
+      "L03AB",
+      "L03AC",
+      "L03AX",
+      "L04AB",
+      "L04AC",
+      "M04AC",
+      "M05BX",
+      "N02AX",
+      "N04BA",
+      "N05CH",
+      "N07XX",
+      "P01CX",
+      "R01BA",
+      "R05CA",
+      "R05DB",
+      "S01KA",
+      "V03AX"
+    ],
+    "by_split": {
+      "train": {
+        "targets": 227151,
+        "outside_training_vocabulary": 0,
+        "with_training_class_molecules": 184084
+      },
+      "proposal": {
+        "targets": 13300,
+        "outside_training_vocabulary": 3,
+        "with_training_class_molecules": 10771
+      },
+      "guard": {
+        "targets": 14878,
+        "outside_training_vocabulary": 3,
+        "with_training_class_molecules": 11927
+      },
+      "test": {
+        "targets": 30004,
+        "outside_training_vocabulary": 5,
+        "with_training_class_molecules": 24391
+      }
+    }
+  },
+  "prior_observed_test_patient_overlap": {
+    "v9": 20,
+    "v21": 50
+  },
+  "fresh_confirmation_claim": false,
+  "limit": "Independently checks every selected visit and split; full population eligibility/sampling flow is produced by the builder, not independently rescanned here.",
+  "test_predictions_generated": false
+}

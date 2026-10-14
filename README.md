@@ -16,6 +16,8 @@
 
 Earlier [v0.21 temporal comparison](upgrade_v21/RESULTS.en.md), [v0.7 legacy order comparison](upgrade_v7/RESULTS.en.md), [public method comparison](upgrade_v8/RESULTS.en.md), [author-core GRASP](upgrade_v10/RESULTS.en.md), [grounded skill evolution](upgrade_v17/RESULTS.en.md) and [local QLoRA results](upgrade_v9/RESULTS.en.md) retain their original protocols and negative controls. The active English paper uses the official ACL review style and preserves its editor path. The 2025 description below is historical project context, not evidence for these new evaluations.
 
+**Standard-method preparation complete:** a separate ATC-L4 visit-set panel includes8,905 patients/23,177 visits, with every selected clinical-code set independently reconstructed. Public molecules cover219/271 training classes; NDC row coverage is27.23%. Author-core execution probes pass, but no v0.27 model score is claimed. [Audit](upgrade_v27/RESULTS.en.md) · [Recent-method sources and original results](paper/LATEST_METHODS.en.md).
+
 ## Original 2025 project description
 
 ![](./resources/Prismatic_framework.jpg)

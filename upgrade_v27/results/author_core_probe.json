@@ -1,0 +1,43 @@
+{
+  "status": "complete",
+  "purpose": "Execution readiness, no clinical/patient performance measured",
+  "models": {
+    "ARMR_2025": {
+      "forward_backward": "passed",
+      "shape": [
+        4,
+        8
+      ],
+      "seconds": 0.5012592500000004,
+      "parameters": 38106
+    },
+    "GAMENet": {
+      "forward_backward": "passed",
+      "current_target_field_invariance": "passed",
+      "shape": [
+        1,
+        8
+      ]
+    },
+    "SafeDrug": {
+      "forward_backward": "passed",
+      "shape": [
+        1,
+        8
+      ],
+      "real_public_molecules": 8,
+      "substructure_mask": "Synthetic identity mask used ONLY for dependency probe; not a trained/evaluated method",
+      "study_ready": false
+    }
+  },
+  "source_sha256": {
+    "/Users/bytedance/Desktop/PRISMATIC/upgrade_v2/.local/resources/ARMR2025/code/net_mynet.py": "0355c90f3f56b165ab2ddd261a0defd36de9004c36aaaa65d6a4d0e2cfa1b680",
+    "/tmp/prismatic-safedrug/src/models.py": "2ed762508b566b98081cbe8019b0dc3cc6c15f720dee89c30bb9f0b81319ac98",
+    "/tmp/prismatic-safedrug/src/layers.py": "3f6ecc2b3b7ad084bf4b608cb5e05784de5994815cc94796b63ee40ca4cadeca",
+    "/tmp/prismatic-safedrug/src/util.py": "c7b9f269b5bd4b6441335ed25c1c34caae29c9eef87b397ac16bdbb19da450a7"
+  },
+  "versions": {
+    "torch": "2.8.0"
+  },
+  "restricted_records_loaded": false
+}
