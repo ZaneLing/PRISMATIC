@@ -1,0 +1,40 @@
+{
+  "study": "v0.26 development-only position dependence with explicit retained retrieval rank",
+  "registration": "After completed v15 results/diagnostics, before any v26 model generation. Post-test-motivated development experiment, not confirmation.",
+  "cases": 200,
+  "split": "The existing v15 guard only; no training/test task is evaluated here.",
+  "source_cases_sha256": "4cb23342c7cd0fbae79c027ec96770d2069ae4931bf083c37e918a90c0c3ab40",
+  "prepared_guard_sha256": "8ae3ecb7c184148d2e445b54f186337e7853bccad63f9975009cf391b59c2d7f",
+  "models": [
+    "base",
+    "uniform_sft_round2",
+    "error_prioritized_sft_round2"
+  ],
+  "adapter_sha256": {
+    "uniform_sft": "f090ba0f8cfbae286c4fb7da44dba3c218c4d2fd9d5a6b8172617474177c42b2",
+    "error_prioritized_sft": "51705452b47185532ec83f7cc7d4c3f3b324f0ed8d9ed404e8f1f286ea16ba66"
+  },
+  "model_revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+  "conditions": [
+    "original",
+    "ranked_explicit",
+    "permuted_rank_explicit",
+    "reversed_rank_explicit"
+  ],
+  "intervention": "Ranked/permuted/reversed-explicit conditions share every candidate, field and original retrieval rank; only displayed position and local O IDs change. No rank-information removal. Original condition separately measures the added-rank prompt shift.",
+  "permutation": "Deterministic case-specific hash order, independent of GT. Gold masks remapped for scoring only.",
+  "generation": "Frozen weights, greedy128-token cap, same local MLX backend. Generate distinct input once, bind to each case, store immutable receipts. Fresh original condition avoids comparing against overwritten legacy caches.",
+  "endpoints": [
+    "drug/core-order microF1",
+    "empty/invalid rate",
+    "display-prefix and original-rank-prefix fraction",
+    "medication-set agreement and Jaccard across reordered conditions",
+    "patient-cluster paired descriptive intervals1000"
+  ],
+  "controls": [
+    "direct original-rank top8 tools",
+    "all20 tools"
+  ],
+  "selection": "No training, model selection, checkpoint choice or prompt winner will be promoted from this diagnostic.",
+  "claim_boundary": "Development sensitivity to candidate display order while retaining rank information. It does not establish clinical reasoning, causality of training collapse, or an RSI improvement. Restricted data/generation remain local."
+}
