@@ -1,0 +1,19 @@
+{
+  "version": "v0.7-artifact-evolution",
+  "target_venue": "ACL 2027",
+  "task": "MIMIC-IV/ED six-hour structured raw-order prediction",
+  "training_rounds": [8000, 16000, 24000, 32000, 40000],
+  "proposal_validation_admissions": 2000,
+  "regression_guard_admissions": 2000,
+  "new_test_admissions": 4000,
+  "new_patient_exclusion": "Exclude every validation/test patient appearing in v0.6 from new development and test samples respectively. Proposal and guard patients are disjoint.",
+  "objects": ["drug_selection_parameters", "episode_memory", "conditional_order_tool"],
+  "not_updated": ["LLM weights", "arbitrary executable source code"],
+  "thresholds": [0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5],
+  "memory_weights": [0.0, 0.1, 0.25, 0.5],
+  "seeds": [42, 137, 2026],
+  "promotion": "Choose a candidate on proposal validation. Accept only if the separate regression guard composite improves and neither drug nor order F1 drops by more than 0.002. Test is scored after every update decision is frozen.",
+  "primary_metrics": ["drug_micro_f1", "core_order_micro_f1"],
+  "process_metrics": ["artifact_hashes", "accepted_changes", "case_improvements", "case_regressions", "round_curves", "leave_one_object_out"],
+  "interpretation": "The v7 tool/policy updates are supervised artifact learning. Distinguish them from LLM-authored recursive skill evolution, which requires separate experiments."
+}

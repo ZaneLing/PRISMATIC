@@ -1,5 +1,14 @@
 # Manuscript change log / 论文变更记录
 
+## v0.7 complete; v0.8/v0.9 execution started — 2026-10-14
+
+- Target changed to ACL 2027; official ACL style embedded in the existing English editor file; built-in compilation succeeds. 目标与格式同步到 ACL，英文原路径保留。
+- Removed saline-presence endpoint from current scoring/tables. 删除当前盐水出现指标，保留旧版本原始证据。
+- Completed new-patient 4k comparisons across three seeds, five checkpoints, 12 method/ablation rows, independent recount and patient-cluster bootstrap. 完成真实多方法主表和轮次审计。
+- Conditional tool helps; expanded memory is inconsistent; full state trails the strong equal-data ensemble. 如实保留负结果，继续后续改进。
+- Started LLM-authored language-artifact evolution on public RxSafeBench/RxQA and actual local QLoRA updates. v0.8/v0.9 未跑完，不提前填写结果。
+- User confirms official RxEval/SafeRx test packages are unavailable; runnable experiments continue.
+
 ## v0.6-r1/r2 — 2026-10-14
 
 - Redesigned the current system as **RxRSIAgent**, with explicit prescription workflow and GT-supervised policy/memory/template updates. 新增可读流程图与中英文设计文档。

@@ -1,0 +1,26 @@
+# RxRSIAgent v0.9 — local parameter evolution
+
+**Status: running.** This experiment actually updates Qwen3-4B adapter weights locally; no restricted record is uploaded.
+
+## Matched comparison
+
+| Item | Uniform SFT | Error-prioritized SFT |
+|---|---|---|
+| Backbone | Qwen3-4B-Instruct-2507, 4-bit MLX | Same |
+| Candidate/order tools | Frozen initial-8k policy, 20 candidates | Same |
+| Feedback | Three new blocks of 600 admissions | Same |
+| Optimization | 400 sampled examples, 100 steps per round | Same |
+| Sampling | Uniform over observed cases | Weight 1 + 3 × reachable-action error |
+| Selection | Best checkpoint on 200-case guard | Same |
+| Final evaluation | 500 new admissions, 494 patients | Same |
+
+The 100-case loss-validation set and guard are patient-disjoint from training and test. New test patients exclude v0.6/v0.7 tests. Feedback blocks exclude the initial candidate-policy training patients and are patient-disjoint across rounds. Complete training sequences are checked before optimization; target completions are not truncated.
+
+Only the last eight model layers receive LoRA adapters. Optimizers reset each round in both arms. Both arms continue training their latest checkpoint, while inference selection retains the best guard checkpoint. Error weights for an older case retain its original pre-update error. The LLM selects listed order IDs; the fixed compiler expands the fields. This does not learn novel doses outside the catalogue.
+
+```bash
+python prepare_local.py  # research Python environment
+python run_parameter_evolution.py  # local MLX environment
+```
+
+`results/*_rounds.json` stores actual adapter hashes, sample membership hashes, guard metrics and training time. `results/parameter_results.json` will contain generated test predictions' aggregate scores, not training-loss proxies. All checkpoints and patient-level predictions stay in the restricted directory.

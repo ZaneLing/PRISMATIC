@@ -1,0 +1,176 @@
+"""Update the existing editor file using the pinned official ACL style and results."""
+import hashlib,json
+from pathlib import Path
+ROOT=Path(__file__).resolve().parent.parent
+PAPER=ROOT/'paper/latex/v0.3/prismatic_v03_en.tex'
+STYLE=Path.home()/'Desktop/PRISMATIC/upgrade_v2/.local/resources/acl-style-files/acl.sty'
+
+def run():
+    summary=json.loads((ROOT/'upgrade_v7/results/summary.json').read_text());m=summary['methods']
+    labels={'retrieval_global':'Case retrieval + global templates','retrieval_conditional_tool':'Case retrieval + conditional tool',
+       'multinomial_nb':'Naive Bayes + order tool','word_policy_global':'Word policy + global templates',
+       'word_policy_conditional_tool':'Word policy + conditional tool','word':'Tuned word policy + tool',
+       'char':'Character policy + tool','word_char_ensemble':'Word/character ensemble + tool',
+       'rxrsi_selected':'RxRSI accepted version','without_parameters_evolution':'Freeze initial policy parameters',
+       'without_tool_evolution':'Freeze initial order tool','without_memory_evolution':'Freeze initial episode memory'}
+    rows='\n'.join(f"{label} & {m[k]['drug_f1_mean']:.4f} $\\pm$ {m[k]['drug_f1_sd']:.4f} & {m[k]['order_f1_mean']:.4f} $\\pm$ {m[k]['order_f1_sd']:.4f} \\\\" for k,label in labels.items())
+    seeds=[json.loads((ROOT/f'upgrade_v7/results/round_results_seed_{s}.json').read_text()) for s in [42,137,2026]]
+    growth='\n'.join(f"{r} & {8000*(r+1):,} & "+' & '.join(f"{sum(d['rounds'][r]['metrics'][k] for d in seeds)/3:.4f}" for k in ['drug_micro_f1','core_order_micro_f1'])+r' \\' for r in range(5))
+    public=ROOT/'upgrade_v8/results/public_results_seed_42.json';parameter=ROOT/'upgrade_v9/results/parameter_results.json'
+    public_section=r'\paragraph{Execution status.} The public language-artifact experiment is running; incomplete evaluations are not presented as final results.'
+    if public.exists():
+        d=json.loads(public.read_text());pr='\n'.join(f"{name.replace('_',' ')} & {z['correct']}/{z['n']} & {z['accuracy']*100:.2f} \\\\" for name,z in d['methods'].items())
+        public_section=r'''\begin{table}[t]\centering\small
+\caption{Completed public method rows, seed 42. Unfinished methods are omitted. The task is the derived RxSafeBench option-selection protocol, not the original free-generation benchmark.}
+\begin{tabular}{lrr}\toprule Method & Correct / N & Accuracy (\%)\\\midrule
+PUBLICROWS
+\bottomrule\end{tabular}\end{table}'''.replace('PUBLICROWS',pr)
+    parameter_section=r'\paragraph{Execution status.} Local parameter-update experiments are in progress. No fine-tuning gain is claimed before generation-based evaluation is complete.'
+    if parameter.exists():
+        d=json.loads(parameter.read_text());rr=f"Frozen Qwen3-4B & {d['base']['drug_micro_f1']:.4f} & {d['base']['core_order_micro_f1']:.4f} \\\\\n"
+        rr+='\n'.join(f"{name.replace('_',' ')} & {v['selected_test']['drug_micro_f1']:.4f} & {v['selected_test']['core_order_micro_f1']:.4f} \\\\" for name,v in d['arms'].items())
+        parameter_section=r'''\begin{table}[t]\centering\small
+\caption{Local parameter evolution on 500 new test admissions. Checkpoints are selected on the separate guard set.}
+\begin{tabular}{lrr}\toprule Method & Drug F1 & Order F1\\\midrule
+PARAMROWS
+\bottomrule\end{tabular}\end{table}'''.replace('PARAMROWS',rr)
+    body=r'''
+\documentclass[11pt]{article}
+\usepackage[review]{acl}
+\usepackage{times,latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype,booktabs,tabularx,amsmath,graphicx}
+\title{RxRSIAgent: Auditing Iterative Improvement in Prescription Decisions}
+\author{Anonymous ACL submission}
+\begin{document}
+\maketitle
+\begin{abstract}
+An improving prescription agent must demonstrate what changes between versions and whether those changes improve held-out decisions. We study RxRSIAgent as a system of separately versioned prescription policies, episodic memories, order-completion tools and language skills. Ground-truth training prescriptions provide error feedback, while disjoint proposal and regression-guard sets control updates. Our completed structured-order experiment uses 40,000 training admissions and 4,000 new test admissions from MIMIC-IV/ED, with three training seeds and five checkpoints. Accepted-state drug and joint-order scores increase with accumulated cases, but the final system does not outperform a strong same-data supervised control. Conditional order tools improve field matching, whereas episode-memory expansion is not consistently beneficial. We preserve these negative controls and continue with language-artifact and parameter-update experiments. Published results are cited under their original protocols. The work targets ACL 2027; external-benchmark superiority and a unique recursive-improvement advantage are research hypotheses, not established conclusions.
+\end{abstract}
+
+\section{Introduction}
+Prescription generation combines medication selection with detailed order construction. A system that improves as cases accumulate could reduce repeated omissions and field errors, but a higher final score alone does not establish recursive self-improvement (RSI). More training data, a stronger backbone, a larger inference budget or a changed scorer can produce the same appearance.
+
+We therefore separate three questions. H1 concerns performance against methods under a common task protocol. H2 concerns improvement across frozen checkpoints on a fixed test set. H3 concerns the causal contribution of updated artifacts relative to equal-data controls. H2 can hold even when H3 fails. Existing prescription ground truth supports automatic training and evaluation; clinician review is not a prerequisite for observed-label agreement.
+
+Our current contributions are an executable structured-order task, a versioned update protocol, and an artifact-level evaluation that retains regressions and rejected versions. We do not present ordinary cumulative supervised fitting as proof of autonomous reasoning improvement. Two further experiments isolate LLM-authored language artifacts and actual LLM parameter updates.
+
+\section{Related Work and Comparison Protocols}
+GAMENet and SafeDrug predict medication sets from structured histories \citep{gamenet,safedrug}. SafeRx-Agent evaluates finer ATC-L4 sets using expert generation and verification \citep{saferx}. RxEval evaluates medication--dose--route options at prescribing timepoints \citep{rxeval}. Their reported results can be cited directly without reproducing every baseline, but our own comparison row must follow the corresponding data, input and scoring protocol.
+
+GRASP learns persistent skills with regression-aware selection \citep{grasp}. EvoTool mutates modular tool-use policies while freezing the backbone \citep{evotool}. Process-oriented work such as EvoPathBench motivates evaluating capability retention and adaptation along artifact trajectories \citep{evopath}. These mechanisms inform our controls; our task adaptations are explicitly distinguished from official benchmark reruns.
+
+\begin{table*}[t]\centering\small
+\caption{Published task registry. These datasets and protocols differ from the local order task.}
+\label{tab:registry}
+\begin{tabularx}{\textwidth}{@{}p{2.2cm}p{4.0cm}X@{}}\toprule
+Work & Data & Experiments / outputs\\\midrule
+GAMENet & MIMIC-III; 6,350 patients, 15,016 visits & 145 medication classes; prediction, DDI and memory ablations\\
+SafeDrug & MIMIC-III; 6,350 patients, 14,995 visits & 131 classes; DDI, molecular representations, efficiency\\
+SafeRx-Agent & MIMIC-IV 1,586 test; MIMIC-III 901 patients & ATC-L4, expert routing and verification\\
+RxEval & MIMIC-IV; 1,547 questions, 584 patients & Medication/dose/route options; macro F1 and exact match\\
+RxSafeBench & 2,443 source consultation scenarios & Medication risks; our derived option-selection split is separate\\
+RxQA & Public OpenFDA subset: 300 questions & Pharmacist-reviewed medication reasoning; transfer evaluation\\
+GRASP / EvoTool & FHIR and general tool-task benchmarks & Skill or modular prompt evolution; regression/transfer ablations\\
+\bottomrule\end{tabularx}\end{table*}
+
+\begin{table*}[t]\centering\small
+\caption{Directly cited author-reported prescription results (R). Panels must not be ranked across protocols. Our matching official RxEval and SafeRx test data are unavailable locally; no unsupported comparison row is inserted.}
+\label{tab:reported}
+\begin{tabular}{@{}p{8.4cm}rr@{}}\toprule Method / source protocol & Primary score & Secondary score\\\midrule
+\multicolumn{3}{l}{Original GAMENet, Table 3 \citep{gamenet}}\\
+GAMENet (R) & F1 0.6081 & Jaccard 0.4509\\
+\multicolumn{3}{l}{SafeDrug MIMIC-III, Table 2 \citep{safedrug}}\\
+GAMENet, as reported by SafeDrug (R) & F1 0.6626 & DDI 0.0864\\
+SafeDrug (R) & F1 0.6768 & DDI 0.0589\\
+\multicolumn{3}{l}{SafeRx ATC-L4, Table 2: MIMIC-IV / III F1 \citep{saferx}}\\
+GAMENet, as reported by SafeRx (R) & 0.3356 & 0.2153\\
+SafeDrug, as reported by SafeRx (R) & 0.3519 & 0.2361\\
+SafeRx / GPT-5.2, no filter (R) & 0.4138 & 0.2812\\
+SafeRx / Claude Sonnet-4.6, no filter (R) & 0.4325 & 0.2758\\
+\multicolumn{3}{l}{RxEval option selection, Table 2 \citep{rxeval}}\\
+Gemini-3.1-Pro (R) & F1 77.10\% & Exact match 46.10\%\\
+Qwen3.6-27B (R) & F1 71.70\% & Exact match 40.00\%\\
+\bottomrule\end{tabular}\end{table*}
+
+\section{Agent State and Update Mechanism}
+At round $r$, let the persistent state be $S_r=(W_r,M_r,T_r,K_r)$: prescription-selection parameters, episodic memory, order-tool state, and language skills. Runtime inference takes a patient snapshot, retrieves candidates and applicable experience, plans selections, and compiles structured orders. The current order compiler returns drug, route, dose string, dose unit and observed frequency; unobserved clinical attributes remain unknown.
+
+\begin{figure}[t]\centering\small
+\fbox{\parbox{.91\columnwidth}{\centering Patient state\\$\downarrow$\\Candidate policy + order tools + applicable memory\\$\downarrow$\\Prescription planner and structured compiler\\$\downarrow$\\Research prescription\\[3pt]\hrule\vspace{3pt}Training prediction $\rightarrow$ observed GT errors\\$\rightarrow$ candidate artifact edits\\$\rightarrow$ proposal validation + regression guard\\$\rightarrow$ accepted state or retained prior version}}
+\caption{Inference and training feedback. Test labels enter scoring only. Different experiments isolate different evolving objects.}
+\end{figure}
+
+For an incoming training block, predictions precede ground-truth feedback. Error records identify omissions, extra drugs and observed-field mismatches. The updater proposes artifact changes. The candidate is selected on proposal validation; a patient-disjoint guard set then checks whether it improves the composite objective without excessive regression in either primary endpoint. Old states are retained. The guard is reused across rounds and is therefore a development resource, not an untouched test.
+
+Each version records the parent, edited objects, data membership hashes, artifact hashes, validation scores, acceptance, improvements and regressions. A changing memory size or hash demonstrates that an artifact changed; leave-one-object-out evaluation is required to demonstrate that it helped. LLM weights, tool configuration and executable tool code are distinct objects and are never conflated.
+
+\section{Study A: Structured-Order Artifact Learning}
+\subsection{Data and metrics}
+The task uses six-hour all-route prescription targets after an ED-to-hospital admission in MIMIC-IV/ED. Training contains 40,000 admissions. Proposal validation and the regression guard contain 2,000 admissions each; test contains 4,000 admissions from 3,440 patients. Development/test patients used in the previous v0.6 increment are excluded. All current splits are patient-disjoint.
+
+Actual model inputs are chief complaint, acuity and home-medication text. The 128 raw-name vocabulary and word representation are fixed from the first 8,000 training admissions. Drug micro-F1 compares name sets, including out-of-vocabulary targets in recall. Joint-order micro-F1 compares complete normalized (drug, route, dose-string, unit) tuples. The test contains 30,769 complete reference tuples. Frequency agreement is secondary and excludes missing GT values. These endpoints measure recorded-order agreement, not clinical safety.
+
+\subsection{Methods and rounds}
+We compare retrieval, Naive Bayes, word and character policies, a validation-tuned ensemble, global templates, and a learned context-conditioned joint-order tool. The tool predicts an observed field combination rather than independently mixing fields. Thresholds and word/character weights are selected using proposal validation, with the same 20-order maximum.
+
+The evolving system receives 8k, 16k, 24k, 32k and 40k accumulated cases. Candidate updates change parameters, memory, the order tool, or their combination. The guard accepts a candidate only when the mean drug/order F1 improves and neither endpoint falls by more than 0.002. Seeds 42, 137 and 2026 repeat the experiment. Test evaluation begins after all choices are frozen.
+
+\begin{table*}[t]\centering\small
+\caption{Executed same-4,000-case comparison: mean $\pm$ sample SD across three seeds. The final three rows freeze one object of the selected state without retuning the others.}
+\label{tab:local}
+\begin{tabular}{@{}p{7.7cm}rr@{}}\toprule Method & Drug micro-F1 & Joint-order micro-F1\\\midrule
+METHODROWS
+\bottomrule\end{tabular}\end{table*}
+
+\begin{table}[t]\centering\small
+\caption{Accepted-state trajectory on the fixed test; mean over three seeds.}
+\label{tab:rounds}
+\begin{tabular}{rrrr}\toprule Round & Cases & Drug F1 & Order F1\\\midrule
+GROWTHROWS
+\bottomrule\end{tabular}\end{table}
+
+The accepted-state curves are non-decreasing on this test for all three seeds, including a flat final step when seed 137 rejects its proposal. Individual cases still regress. Conditional order-tool learning improves joint-field matching. Memory expansion is not consistently helpful; freezing initial memory can improve the final state. The full evolving system does not beat the strong same-data ensemble/tool control. Thus case-growth gains support H2 in this setting but do not establish H3. Independent set counting reproduces all scores; paired patient-cluster bootstrap intervals and per-round regressions are released with the aggregate results.
+
+\section{Study B: Language-Artifact RSI}
+To test genuine changes to language-guided behavior, the next experiment freezes DeepSeek-V4.1-Flash and evolves reusable skills, episodic memory and the configuration of an evidence-focus tool. The tool returns exact current-dialogue excerpts selected by learned focus terms; its source code is fixed. An LLM proposes changes from its own training-error traces, and the runner saves the full before/after artifacts.
+
+The public RxSafeBench data are verified against pinned source hashes and converted to a clearly labeled three-option task. Medication-scenario grouping yields 625 training, 190 proposal, 197 guard and 988 test cases with no cross-split scenario or exact-dialogue overlap. Four rounds expose additional training cases. Direct, CoT, Self-Refine, case RAG and explicit Reflexion/GRASP/EvoTool task adaptations form the comparison set. Evolving comparators receive four candidate-evaluation slots per round; all token costs are reported. The separate 300-question RxQA subset tests transfer without using its labels for evolution. These are public simulated/released questions; restricted patient inputs are never uploaded.
+
+PUBLICSECTION
+
+\section{Study C: Parameter Evolution}
+A local Qwen3-4B QLoRA study compares uniform supervised updates with feedback-prioritized updates, holding the initial-8k candidate tools fixed. Three disjoint feedback blocks contain 600 new training admissions each. Both arms make pre-update predictions, train on 400 sampled examples for 100 optimizer steps per round, and use the same 200-case guard. Feedback weights target reachable candidate-selection errors rather than blaming the language model for drugs missing from its fixed catalogue. A separate 500-admission test excludes all patients in the earlier v0.6/v0.7 tests.
+
+PARAMETERSECTION
+
+\section{Limitations}
+The completed structured-order experiment uses admission-proxy inputs. Triage has no verified entry timestamp and medication reconciliation lacks storetime; temporal availability is therefore not fully established. Candidate vocabularies and one-template-per-drug output limit recall. Recorded prescriptions may omit clinically acceptable alternatives, and agreement does not prove indication or safety. Current language-artifact baselines are task adaptations, not official reruns. Repeated development selection can overfit; independent tests, multiple evolution orders, transfer and matched optimization budgets are necessary before claiming general RSI benefits. External RxEval and SafeRx data access remains unresolved.
+
+\section{Conclusion}
+An auditable improving agent must show both changing artifacts and beneficial effects. Our completed rounds show data-growth gains and a useful conditional order tool, alongside weak memory gains and a stronger static control. We continue beyond that negative result by isolating language-artifact and parameter evolution. No claim that RxRSIAgent is the best existing method is made without corresponding benchmark evidence.
+
+\section*{Ethics and Data Access}
+All restricted MIMIC records, predictions and checkpoints remain on the authorized local machine. Public releases contain code, configurations and aggregate measurements. Existing GT supports automated evaluation without mandatory new clinical annotation. The system is evaluated for research and is not deployed to prescribe for patients.
+
+\begin{thebibliography}{9}
+\bibitem[Shang et al.(2019)]{gamenet} Shang et al. 2019. GAMENet. \url{https://arxiv.org/abs/1809.01852}.
+\bibitem[Yang et al.(2021)]{safedrug} Yang et al. 2021. SafeDrug. \url{https://arxiv.org/abs/2105.02711}.
+\bibitem[Wang et al.(2026)]{saferx} Wang et al. 2026. SafeRx-Agent. \url{https://arxiv.org/abs/2605.29146}.
+\bibitem[Chen et al.(2026)]{rxeval} Chen et al. 2026. RxEval. \url{https://arxiv.org/abs/2605.14543}.
+\bibitem[Moll et al.(2026)]{grasp} Moll et al. 2026. GRASP: Gated Regression-Aware Skill Proposer for Self-Improving LLM Agents. \url{https://arxiv.org/abs/2605.29668}.
+\bibitem[Yang et al.(2026)]{evotool} Yang et al. 2026. EvoTool: Self-Evolving Tool-Use Policy Optimization in LLM Agents via Blame-Aware Mutation and Diversity-Aware Selection. ACL. \url{https://syang2000.github.io/ACL_2026_EvoTool/}.
+\bibitem[Lin et al.(2026)]{evopath} Lin et al. 2026. Beyond Endpoint Performance: Process-Level Evaluation of Self-Evolving Agents. \url{https://arxiv.org/abs/2609.24663}.
+\end{thebibliography}
+\end{document}
+'''
+    body=body.replace('METHODROWS',rows).replace('GROWTHROWS',growth).replace('PUBLICSECTION',public_section).replace('PARAMETERSECTION',parameter_section)
+    sty=STYLE.read_text();prefix='% Official ACL style embedded for the standalone editor. See acl_template_provenance.json.\n'+r'\begin{filecontents*}[overwrite]{acl.sty}'+'\n'+sty+'\n'+r'\end{filecontents*}'+'\n% PRISMATIC MANUSCRIPT START\n'
+    PAPER.write_text(prefix+body)
+    provenance={'repository':'https://github.com/acl-org/acl-style-files','commit':'d5adc823ff0f80f98c80405ca0ab66c68e684409',
+        'acl_sty_sha256':hashlib.sha256(STYLE.read_bytes()).hexdigest(),'target':'ACL 2027','mode':'review','path_preserved':str(PAPER.relative_to(ROOT)),
+        'previous_template':'Original AAMAS template preserved in Git history through commit 9875d2fd.'}
+    (PAPER.parent/'acl_template_provenance.json').write_text(json.dumps(provenance,indent=2)+'\n')
+
+if __name__=='__main__':run()

@@ -1,0 +1,125 @@
+{
+  "methods": {
+    "word_policy_global": {
+      "drug_f1_mean": 0.40073701380820576,
+      "drug_f1_sd": 0.000730895227212209,
+      "order_f1_mean": 0.2724765508499426,
+      "order_f1_sd": 0.0007441160186490839
+    },
+    "word_policy_conditional_tool": {
+      "drug_f1_mean": 0.40073701380820576,
+      "drug_f1_sd": 0.000730895227212209,
+      "order_f1_mean": 0.2791102709413898,
+      "order_f1_sd": 0.00046088311020658673
+    },
+    "retrieval_global": {
+      "drug_f1_mean": 0.3524588734016014,
+      "drug_f1_sd": 0.0,
+      "order_f1_mean": 0.24522410609367132,
+      "order_f1_sd": 0.0
+    },
+    "retrieval_conditional_tool": {
+      "drug_f1_mean": 0.3524588734016014,
+      "drug_f1_sd": 0.0,
+      "order_f1_mean": 0.2530468356555313,
+      "order_f1_sd": 0.00027481459700763947
+    },
+    "rxrsi_selected": {
+      "drug_f1_mean": 0.39920381888708106,
+      "drug_f1_sd": 0.0025085113083192024,
+      "order_f1_mean": 0.27864859522106306,
+      "order_f1_sd": 0.0014208401392231504
+    },
+    "without_parameters_evolution": {
+      "drug_f1_mean": 0.36111790813841926,
+      "drug_f1_sd": 0.00460135269549562,
+      "order_f1_mean": 0.25447229938712246,
+      "order_f1_sd": 0.002969169272541581
+    },
+    "without_tool_evolution": {
+      "drug_f1_mean": 0.39920381888708106,
+      "drug_f1_sd": 0.0025085113083192024,
+      "order_f1_mean": 0.2749366227222968,
+      "order_f1_sd": 0.0014178901530060425
+    },
+    "without_memory_evolution": {
+      "drug_f1_mean": 0.39975762677984855,
+      "drug_f1_sd": 0.002235827477080846,
+      "order_f1_mean": 0.2792625928575932,
+      "order_f1_sd": 0.0011346751367169005
+    },
+    "word": {
+      "drug_f1_mean": 0.39625052366192537,
+      "drug_f1_sd": 0.000618332550481061,
+      "order_f1_mean": 0.2788675797538988,
+      "order_f1_sd": 0.0004257117100695855
+    },
+    "char": {
+      "drug_f1_mean": 0.3978242455525341,
+      "drug_f1_sd": 0.0026776120892636674,
+      "order_f1_mean": 0.27771270617964794,
+      "order_f1_sd": 0.0019872230741169402
+    },
+    "word_char_ensemble": {
+      "drug_f1_mean": 0.40209370950442525,
+      "drug_f1_sd": 0.0005762733833492901,
+      "order_f1_mean": 0.28110032372256605,
+      "order_f1_sd": 0.0006228027364341351
+    },
+    "multinomial_nb": {
+      "drug_f1_mean": 0.3746869942935014,
+      "drug_f1_sd": 0.0,
+      "order_f1_mean": 0.2661001006256289,
+      "order_f1_sd": 0.00016186123055245523
+    }
+  },
+  "seed_audits": [
+    {
+      "seed": 42,
+      "independent_counts": "passed",
+      "comparison": "RxRSI minus same-data word/character ensemble and conditional-tool control",
+      "drug_difference": -0.0006836282810069871,
+      "drug_ci95": [
+        -0.003791964788861278,
+        0.002367198809128786
+      ],
+      "order_difference": -0.0014974265958740962,
+      "order_ci95": [
+        -0.004090508122141896,
+        0.0010554422194730025
+      ]
+    },
+    {
+      "seed": 137,
+      "independent_counts": "passed",
+      "comparison": "RxRSI minus same-data word/character ensemble and conditional-tool control",
+      "drug_difference": -0.0034040584077889013,
+      "drug_ci95": [
+        -0.006925622199645534,
+        -9.436286739197533e-05
+      ],
+      "order_difference": -0.0029269638845951795,
+      "order_ci95": [
+        -0.0060542905466338046,
+        6.410684791774482e-05
+      ]
+    },
+    {
+      "seed": 2026,
+      "independent_counts": "passed",
+      "comparison": "RxRSI minus same-data word/character ensemble and conditional-tool control",
+      "drug_difference": -0.0045819851632364905,
+      "drug_ci95": [
+        -0.007033512505193252,
+        -0.002152805054692423
+      ],
+      "order_difference": -0.0029307950240399228,
+      "order_ci95": [
+        -0.005117725643315514,
+        -0.0008122985215768196
+      ]
+    }
+  ],
+  "n_test": 4000,
+  "n_test_patients": 3440
+}

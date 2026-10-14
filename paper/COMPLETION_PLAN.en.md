@@ -1,5 +1,29 @@
 # PRISMATIC manuscript completion and execution plan
 
+## Active execution: P4 / ACL 2027 / v0.7–v0.9 (14 October 2026)
+
+This section supersedes historical plans below. The user has no official RxEval/SafeRx test package; proceed with runnable data. The existing English editor path is retained with the official ACL review style. Markdown remains bilingual and versioned.
+
+| Increment | Experiment | Status / evidence |
+|---|---|---|
+| v0.7 | 40k/2k/2k/4k patient-disjoint data; three seeds; five checkpoints; 12 method/ablation rows | Complete: [results](../upgrade_v7/RESULTS.en.md), independent recount, patient-cluster intervals, fixes/regressions and artifact hashes |
+| v0.8 | Fixed-LLM public scenario-group split; language skills, memory, tool configuration; direct/CoT/Self-Refine/RAG and Reflexion/GRASP/EvoTool task adaptations | Running: [protocol](../upgrade_v8/README.md); four rounds, artifact ablations and 300-question RxQA transfer; remaining seeds/backbone transfer pending |
+| v0.9 | Local QLoRA, uniform versus feedback-prioritized updates, equal optimization steps | Running: [protocol](../upgrade_v9/README.md); actual adapter hashes, frozen tools and new test patients; await generation scores |
+
+v0.7 full-system mean drug/order F1 is 0.39920/0.27865 versus 0.40209/0.28110 for the word/character control. This is not a win. The saline-presence endpoint is removed; common prescription metrics cover all items.
+
+### Iteration and maturity gates
+
+1. Complete v0.8/v0.9; audit changed objects, rejected proposals, fixes/regressions, cost and ablations; update the paper with actual results.
+2. Use training/validation errors to design subsequent versions, prioritizing inapplicable generic skills, memory interference and candidate-tool coverage. Preserve unsuccessful versions; test answers never propose edits.
+3. Match backbone, data and comparable budgets against ordinary same-data learning and recent mechanisms. Distinguish task adaptations from official reproductions.
+4. Establish multiple-seed stability, new-patient confirmation, transfer and retention. New choices informed by development findings require unused confirmation data.
+5. Maturity requires reproducible gains attributable to identified objects, full evolution/regression traces, real tool or full-order ability, explicit timing/label limits, independently checked statistics and a compilable manuscript. Continue iterations if these are not met; do not claim SOTA prematurely.
+
+Each completed increment updates the English manuscript, bilingual reports, execution manifest and GitHub. Optional clinician review of attributes absent from GT does not block automatic experiments.
+
+---
+
 ## Active execution version: P3 / RxRSIAgent v0.6 (14 October 2026)
 
 **This section and the [RxRSIAgent design](../upgrade_v6/DESIGN.en.md) supersede conflicting requirements in the historical P1/P2 plan retained below.**

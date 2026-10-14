@@ -1,33 +1,35 @@
 # PRISMATIC / RxRSIAgent manuscript and execution index
 
-**Active English draft: v0.6 (14 October 2026).** The [existing English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is edited in place, retaining the original AAMAS template from the supplied ZIP. Its path is unchanged for the open editor. See [template provenance](latex/v0.3/template_provenance.json) and [compilation check](latex/v0.3/compile_check.json).
+**Target: ACL 2027. v0.7 completed; v0.8/v0.9 running (14 October 2026).** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
 
 ## Start here
 
-- [中文：RxRSIAgent 流程、进化设计、后续实验](../upgrade_v6/DESIGN.zh.md) / [English design](../upgrade_v6/DESIGN.en.md)
-- [中文真实结果](../upgrade_v6/RESULTS.zh.md) / [English results](../upgrade_v6/RESULTS.en.md)
-- [完整持续更新计划](COMPLETION_PLAN.md) / [Versioned English plan](COMPLETION_PLAN.en.md)
-- [Executable code and evidence map](../upgrade_v6/README.md)
+- [中文系统流程与进化对象](RXRSI_DESIGN.zh.md) / [English design](RXRSI_DESIGN.en.md)
+- [中文真实结果](../upgrade_v7/RESULTS.zh.md) / [English results](../upgrade_v7/RESULTS.en.md)
+- [持续更新计划](COMPLETION_PLAN.md) / [English plan](COMPLETION_PLAN.en.md)
+- [v0.7 evidence and reproduction](../upgrade_v7/README.md), [v0.8 language evolution](../upgrade_v8/README.md), [v0.9 parameter evolution](../upgrade_v9/README.md)
 
 ## Where are the main tables?
 
-- **Table 1:** literature datasets, task definitions and experiment types.
-- **Table 2:** directly cited, author-reported GAMENet, SafeDrug, SafeRx-Agent and RxEval results, grouped by protocol. Reimplementation is not required. Our matched-protocol rows remain to be measured.
-- **Table 3:** executed local raw-order comparison on the same 4,000 development-test admissions. Methods include retrieval, the initial 8k policy, accumulated 40k policies and the selected RxRSIAgent variant.
-- **Tables 4–5:** case-growth experiment and actual local LLM planning pilot.
+- **Table 1:** published datasets, task definitions and experiments.
+- **Table 2:** original reported GAMENet, SafeDrug, SafeRx and RxEval scores, grouped by source protocol. These are citations, not our reruns.
+- **Table 3:** actual same-4,000-admission method comparison; 12 rows, three seeds, drug and joint-order F1.
+- **Table 4:** frozen-checkpoint case-growth trajectory.
+- Public language-agent and local QLoRA tables are inserted as their evaluations finish. Incomplete experiments are explicitly marked.
 
-The current task uses MIMIC-IV/ED 40k/4k/4k patient-disjoint admissions and six-hour prescription targets. Its 128 raw-name vocabulary is frozen from the first 8k training cases; names, route, dose, unit and observed frequency are scored. It is distinct from older ATC-L4 pilots. Unknown clinical attributes remain unscored.
+## Current conclusion
 
-GT-based training and evaluation **do not require clinician review**. Two-reviewer assessment remains optional for additional clinical questions absent from GT. Existing clinical-review preparation is preserved as a supplementary resource.
+v0.7 selected-state mean drug/order F1 is **0.39920 / 0.27865**; the stronger equal-data word/character ensemble reaches **0.40209 / 0.28110**. Three-seed accepted-state curves improve with accumulated cases, but ordinary learning remains a strong explanation. Conditional order tools help; expanding case memory is not consistently beneficial. This motivates the ongoing language-artifact and parameter studies.
 
-## Latest evidence
-
-Drug F1 improves from 0.35841 to 0.40668 with 8k → 40k training cases. Selected core-order F1 is 0.28003. Same-40k ordinary training matches the selected variant; error-prioritized replay does not add a demonstrated benefit. Validation also selects direct learned-policy output over the tested LLM planners. The system updates policy parameters, case memory and joint templates, while LLM weights remain frozen.
+GT-based evaluation does not require clinician review. Missing attributes remain unknown. Current MIMIC inputs retain admission-proxy timing limitations; the task is not interchangeable with the original ATC-L4 or RxEval protocols. The saline-presence endpoint is removed from current scoring and tables.
 
 ## Versions
 
 | Version | Record | Evidence |
 | --- | --- | --- |
+| v0.9 | [Protocol / running](../upgrade_v9/README.md) | Local QLoRA, matched uniform/error-prioritized updates |
+| v0.8 | [Protocol / running](../upgrade_v8/README.md) | Public language-artifact evolution, named task adaptations, transfer |
+| v0.7 | [Executed results](../upgrade_v7/RESULTS.en.md) | Three seeds, new 4k test, artifact ablations, stronger equal-data controls |
 | v0.6 | [Results](../upgrade_v6/RESULTS.en.md), [design](../upgrade_v6/DESIGN.en.md) | Raw orders, GT automatic feedback, policy evolution, reported baselines and negative replay/planner ablations |
 | v0.5 | [Results](../upgrade_v5/RESULTS.en.md), [frozen paper](https://github.com/ZaneLing/PRISMATIC/tree/1f488edbbf6a8c22423bcbb0a5cf6585c5a81bb2/paper) | Empty-output repair, stronger ranking and residual memory |
 | v0.4 | [Results](../upgrade_v4/RESULTS.en.md) | Time/mapping audits, adapted methods and original harness failures |
