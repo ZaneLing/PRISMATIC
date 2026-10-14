@@ -1,5 +1,21 @@
 # v0.32 — Controlled repair of binary prescription decisions
 
+**Live delivery:** [executed progress and audited results](RESULTS.en.md). The completion queue waits for all four original fits, verifies training receipts, scores every state, independently recounts it, and then waits for the guard prerequisites. Missing prerequisites stay explicit; there is no fabricated score or automatic threshold retuning on the guard.
+
+```mermaid
+flowchart LR
+  A[Case context] --> B[Fixed retrieval: 20 candidate order templates]
+  B --> C[Shared label-free zero-prefix scorer]
+  C --> D[Twenty binary probabilities]
+  D --> E[Fixed 0.5 or proposal-frozen threshold]
+  E --> F[Compile selected order templates]
+  F --> G[GT comparison: drugs, core orders, empty rate]
+  H[Same 400 training examples] --> I[Prefix x loss: four fresh adapters]
+  I --> C
+```
+
+The arrows describe the repaired prescription path. Only adapter weights change in this pilot; retrieval, order templates and the compiler remain fixed. It is a controlled prerequisite to a later multi-round evolution experiment.
+
 ## Why this intervention
 
 The [completed v31 diagnosis](../upgrade_v31/COLLAPSE.en.md) finds valid all-zero prescriptions, low positive-decision probabilities and dependence on previous ground-truth answer tokens. It does not establish a unique cause. This pilot isolates two proposed causes before extending a repaired architecture to RSI rounds.

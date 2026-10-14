@@ -56,8 +56,14 @@ def main():
             block+=f'[Actual parameter updates, audit and results](../upgrade_v31/RESULTS.{lang}.md)\n\n'
         if (ROOT/'upgrade_v32/results/training_progress.json').exists():
             p=json.loads((ROOT/'upgrade_v32/results/training_progress.json').read_text())
-            block+=(f"**Controlled repair is fitting:** v32 crosses teacher/zero answer prefixes with uniform/balanced binary-decision loss on the same400 examples and100 steps per arm. {len(p['arms'])}/4 training receipts are complete. Source alignment, label-blind inputs, gradients and four real synthetic projection-equivalence checks pass before fitting. No repair performance score is available yet. " if lang=='en' else f"**受控修复正在拟合：** v32将真实／全零答案前缀与普通／平衡二元决策损失交叉，四组均用相同400例、100步；目前{len(p['arms'])}/4组训练回执完成。拟合前已通过源对齐、输入不含标签、梯度及四项真实模型合成投影一致性检查；尚无修复性能成绩。")
-            block+=f'[Repair protocol and execution](../upgrade_v32/README.{lang}.md)\n\n'
+            progress_path=ROOT/'upgrade_v32/results/progress.json';rp=json.loads(progress_path.read_text()) if progress_path.exists() else {'completed_optimizer_fits':len(p['arms']),'audited_splits':[]}
+            block+=(f"**Controlled decision repair:** v32 crosses teacher/zero answer prefixes with uniform/balanced binary-decision loss on the same 400 examples and 100 steps per arm. {rp['completed_optimizer_fits']}/4 fits have completion receipts. " if lang=='en' else f"**受控决策修复：** v32 将真实／全零答案前缀与普通／平衡二元决策损失交叉，四组均用相同 400 例、100 步；目前 {rp['completed_optimizer_fits']}/4 组训练回执完成。")
+            if rp['audited_splits']:
+                block+=(f"Independently recounted score panels: {', '.join(rp['audited_splits'])}. All four repairs, the base, failed adapter and direct retrieval controls remain in the report. " if lang=='en' else f"已独立复算成绩分组：{', '.join(rp['audited_splits'])}。四种修复、基础模型、原失败适配器及直接检索对照均完整保留。")
+            else:
+                block+=('No repair performance score is available yet. ' if lang=='en' else '尚无修复性能成绩。')
+            block+=('The implemented scorer separates fixed 0.5 decisions, proposal calibration and weight-update effects. Its independent recount covers all thresholds, unreachable GT, patient intervals and empty-output/invariance diagnostics; the 120 synthetic bindings are preflight checks, not clinical results. ' if lang=='en' else '已实现评分器分开报告固定 0.5 阈值、proposal 校准及权重更新的效果；独立复算覆盖全部阈值、候选外真值、患者区间、空输出与位置不变性。120 个合成绑定是执行预检，不属于临床成绩。')
+            block+=f'[Actual repair results and gates](../upgrade_v32/RESULTS.{lang}.md)\n\n'
         if (ROOT/'upgrade_v30/protocol.json').exists():
             repaired=json.loads((ROOT/'upgrade_v30/results/summary.json').read_text()) if (ROOT/'upgrade_v30/results/summary.json').exists() else {'panels':{}}
             block+=('### Memory repair now executing: compatibility and separate confirmation\n\n' if lang=='en' else '### 记忆改进已实际运行：旧记忆兼容性与独立确认\n\n')
@@ -125,8 +131,8 @@ def main():
 
 ''')
         if (ROOT/'upgrade_v32/results/training_progress.json').exists():
-            plan+=('**Local repair subtask now executing:** complete the registered four-arm v32 prefix/loss pilot, then implement/recount fixed-threshold and proposal-calibrated scoring for every arm and both neural controls. Freeze every pilot state before guard; also wait for v31 seed42 selections. This one-round repair is not yet a multi-round RSI result. ' if lang=='en' else '**已执行的本地修复子任务：** 完成v32四组前缀／损失控制拟合，再实现并复算全部方法及两种神经控制的固定阈值与proposal校准评分。全部试验状态先冻结，并等待v31 seed42选择冻结后才评价guard。这一轮修复还不是多轮RSI结果。')
-            plan+=f'[Registered repair and execution](../upgrade_v32/README.{lang}.md)\n\n'
+            plan+=('**Local repair subtask now executing:** finish the four registered v32 fits. Scoring, independent recount and the gated completion queue are implemented and pass the complete synthetic flow. All four repairs, two neural controls and two retrieval controls receive fixed-threshold and ordinary-calibration comparisons. Every pilot state/threshold and original v31 seed42 selection freezes before guard. This one-round supervised repair still needs multi-round RSI verification. ' if lang=='en' else '**已执行的本地修复子任务：** 完成 v32 四组已登记拟合。评分、独立复算和受前置条件约束的完成队列已实现，并通过完整合成流程。四种修复、两个神经控制和两个检索控制均报告固定阈值与普通校准对比。全部试验状态／阈值及原 v31 seed42 选择冻结后才评价 guard；这一轮监督修复仍需要多轮 RSI 验证。')
+            plan+=f'[Actual repair execution and results](../upgrade_v32/RESULTS.{lang}.md)\n\n'
         plan+=f'[Current actual results](CURRENT_RESULTS.{lang}.md) · [Rule study](../upgrade_v27/RESULTS.{lang}.md) · [FHIR repair](../upgrade_v28/RESULTS.{lang}.md)\n\n'
         plan+=('Earlier entries below are historical snapshots.\n' if lang=='en' else '下方较早条目是历史状态快照。\n')
         update(PAPER/('COMPLETION_PLAN.en.md' if lang=='en' else 'COMPLETION_PLAN.md'),plan)

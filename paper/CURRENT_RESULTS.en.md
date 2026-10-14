@@ -5,7 +5,7 @@
 
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 6/15 author-model runs finish their full 50 epochs, with 400/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 6/15 author-model runs finish their full 50 epochs, with 427/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Public-data coverage:** a source/identity recount confirms all300 released RxQA OpenFDA questions and all2,000 deduplicated RxSafeBench cases in the historical full-set runs. Later adaptive comparisons use988 frozen test cases, keeping their625/190/197 development cases separate. The unavailable BNF component is excluded. [Exact scope, recounted results and metadata correction](PUBLIC_BENCHMARKS.en.md)
 
@@ -27,7 +27,7 @@ Completed optimizer runs: **1/36**; fully audited seeds: **0/3**. Old test cases
 
 [Actual parameter updates, audit and results](../upgrade_v31/RESULTS.en.md)
 
-**Controlled repair is fitting:** v32 crosses teacher/zero answer prefixes with uniform/balanced binary-decision loss on the same400 examples and100 steps per arm. 0/4 training receipts are complete. Source alignment, label-blind inputs, gradients and four real synthetic projection-equivalence checks pass before fitting. No repair performance score is available yet. [Repair protocol and execution](../upgrade_v32/README.en.md)
+**Controlled decision repair:** v32 crosses teacher/zero answer prefixes with uniform/balanced binary-decision loss on the same 400 examples and 100 steps per arm. 0/4 fits have completion receipts. No repair performance score is available yet. The implemented scorer separates fixed 0.5 decisions, proposal calibration and weight-update effects. Its independent recount covers all thresholds, unreachable GT, patient intervals and empty-output/invariance diagnostics; the 120 synthetic bindings are preflight checks, not clinical results. [Actual repair results and gates](../upgrade_v32/RESULTS.en.md)
 
 ### Memory repair now executing: compatibility and separate confirmation
 

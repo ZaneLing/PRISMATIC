@@ -211,7 +211,29 @@ All 200 saved generated proposal responses are valid all-zero masks after remova
             p=json.loads(pilot.read_text())
             parameter_section+=r'''\paragraph{Controlled decision-supervision repair.}
 A registered one-seed pilot crosses ground-truth versus all-zero training answer prefixes with uniform versus training-prevalence-balanced binary decision loss. All four arms restart the same backbone on the exact 400 examples for 100 steps; only the 20 decision positions contribute to loss. All use label-free zero-prefix scoring at inference, with fixed-threshold and ordinary proposal-calibrated results to be reported separately. Pre-fit probes verify target alignment, label blindness, finite gradients and projection equivalence with the original vocabulary head. Candidate fields and templates remain fixed. This supervised repair does not by itself establish feedback-specific RSI. All pilot states and thresholds, and the original seed42 choices, must freeze before report-only guard evaluation.'''
-            parameter_section+=f" At this snapshot, {len(p['arms'])}/4 fits have completion receipts; repair performance remains pending."
+            repair_progress=ROOT/'upgrade_v32/results/progress.json';rp=json.loads(repair_progress.read_text()) if repair_progress.exists() else {'completed_optimizer_fits':len(p['arms']),'audited_splits':[]}
+            parameter_section+=f" At this snapshot, {rp['completed_optimizer_fits']}/4 fits have completion receipts."
+            parameter_section+=r''' The scoring implementation separates fixed $0.5$ decisions from a shared proposal-selected threshold on a $0.01$--$0.99$ grid for every neural state. A synthetic end-to-end preflight independently recounts 120 case/probability bindings, threshold ties, unreachable targets, patient-cluster intervals and resumed outputs. These checks are implementation evidence, not clinical performance. All-empty agreement is accompanied by nonempty-union counts to avoid interpreting collapse as position invariance.'''
+            repair_report=None;repair_split=None
+            for split in ['proposal','guard']:
+                score_path=ROOT/f'upgrade_v32/results/{split}_summary.json';audit_path=ROOT/f'upgrade_v32/results/{split}_audit.json'
+                if score_path.exists() and audit_path.exists():
+                    checked=json.loads(audit_path.read_text());assert checked['status']=='passed' and checked['summary_sha256']==hashlib.sha256(score_path.read_bytes()).hexdigest() and checked['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v32/audit_evaluation.py').read_bytes()).hexdigest();repair_report=json.loads(score_path.read_text());repair_split=split
+            if repair_report is None:
+                parameter_section+=' Repair performance remains pending independent evaluation.'
+            else:
+                labels={'frozen_base':'Frozen base','original_failed_adapter':'Original failed adapter','teacher_uniform':'Teacher / uniform','zero_uniform':'Zero / uniform','teacher_balanced':'Teacher / balanced','zero_balanced':'Zero / balanced','original_retrieval_top8':'Retrieval top-8','all20_candidate_tools':'All 20 candidates'}
+                for endpoint,views in repair_report['endpoints'].items():
+                    repair_rows=[]
+                    for method,label in labels.items():
+                        vals=[label];threshold=views['ranked']['methods'][method].get('threshold');vals.append('--' if threshold is None else f'{threshold:.2f}')
+                        for view_name,panel in views.items():
+                            m=panel['methods'][method];vals.extend([f"{m['drug_micro_f1']:.4f}",f"{m['core_order_micro_f1']:.4f}",f"{100*m['empty_fraction']:.1f}"])
+                        repair_rows.append(' & '.join(vals)+r'\\')
+                    column_spec='@{}l r '+'rrr '*len(views)+'@{}';header=r'Method & $\tau$ & '+' & '.join(r'\multicolumn{3}{c}{'+v.capitalize()+'}' for v in views)+r'\\';subheader=' & & '+' & '.join(['Drug F1 & Order F1 & Empty (\%)']*len(views))+r'\\'
+                    endpoint_label='Fixed-threshold' if endpoint=='fixed_half' else 'Proposal-calibrated'
+                    parameter_section+=r'\begin{table*}[t]\centering\scriptsize'+'\n'+r'\caption{'+f'{endpoint_label} controlled repair on {repair_report["cases"]} {repair_split} admissions ({repair_report["patients"]} patients). Every registered state is retained. These are one-seed development results; the '+('proposal set selects thresholds' if repair_split=='proposal' else 'reused guard is report-only')+r'. Core-order F1 matches drug, route, dose value and unit using supplied templates.}'+'\n'+r'\begin{tabular}{'+column_spec+r'}\toprule '+header+'\n'+subheader+r'\midrule'+'\n'+'\n'.join(repair_rows)+'\n'+r'\bottomrule\end{tabular}\end{table*}'+'\n'
+                parameter_section+=r''' The accompanying release retains both proposal and guard panels when complete, all factorial contrasts, calibration-only effects, and 4,000-resample paired patient intervals without multiplicity correction. Guard outcomes do not select an arm. The independent audit reconstructs targets and scores from saved probabilities; it does not replay neural forward passes or optimizer trajectories. One-seed supervised repair remains distinct from multi-round feedback-specific RSI.'''
     compatibility_section=''
     if (ROOT/'upgrade_v27/results/cohort_audit.json').exists():
         compatibility_section=r'''\paragraph{Standard-method compatibility panel.}

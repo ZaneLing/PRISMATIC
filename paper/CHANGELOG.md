@@ -1,5 +1,15 @@
 # Manuscript change log / 论文变更记录
 
+## 2026-10-15 — v0.32 repair scoring implemented and verified before evaluation
+
+- Implement the full eight-method repair comparison: four prefix/loss arms, frozen base, original failed adapter, original retrieval top-8, and all-20 candidates. Preserve fixed 0.5 and identically proposal-calibrated endpoints, calibration-only effects, all factorial contrasts, empty-output rates and candidate-position invariance.
+- Independently reconstruct training labels and verify original adapters before inference. Recount all saved probabilities, source identities, all 99 thresholds per neural state, compiled orders and 4,000-draw patient intervals. The audit does not claim independent neural-forward or optimizer replay.
+- Pass the isolated complete synthetic evaluation/recount flow: 120 case/probability bindings, unreachable/empty GT, repeated-patient clustering, duplicate-prompt binding and unchanged resume. Exercise the bilingual report on the synthetic outputs; no clinical result is inferred from this check.
+- Freeze and launch the completion queue. It waits for all four original fits before proposal scoring, and for the original v31 seed42 selections before guard evaluation. The repaired one-round mechanism is not yet evidence of multi-round RSI.
+- Add a readable prescription-path diagram, versioned bilingual result pages and audit-aware English manuscript tables. Local training continues; unfinished API experiments retain their second-402 checkpoints.
+
+已实现并核验八种方法的完整评分链路，分开报告权重变化与阈值校准效果。合成流程的 120 个病例／概率绑定通过独立复算，不充当临床实验成绩。四组真实训练继续；全部训练与原 v31 选择冻结后，队列按协议自动评分、复算并生成中英文结果。英文论文保留全部方法与失败，不提前宣布修复有效。
+
 ## 2026-10-15 — binary parameter results, FHIR grading repair and eICU model launch
 
 - Complete v0.15 on500 admissions: priority0.29192/0.19329 versus uniform0.24094/0.15072 and top-8 tools0.31169/0.20739. Both arms select round2; raw priority round3 is all-zero and rejected. Publish both raw and accepted curves.
