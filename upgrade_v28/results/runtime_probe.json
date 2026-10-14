@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "model_calls": 0,
+  "synthetic_actor_decisions": 2,
+  "real_fixture_http_gets": 1,
+  "writes": 0,
+  "real_observations": 2,
+  "checks": [
+    "numeric/date/identifier-shape contract",
+    "invalid shape consumes a real next decision slot",
+    "hidden answer excluded from actor prompt",
+    "mixed units not averaged",
+    "future/missing/non-numeric measurements explicitly omitted",
+    "equal timestamps preserve source order and expose ambiguity",
+    "real page completeness and independent arithmetic recount",
+    "original resource counts restored"
+  ],
+  "resource_counts_before": {
+    "Patient": 695,
+    "MedicationRequest": 21991,
+    "Observation": 563426,
+    "ServiceRequest": 0
+  },
+  "resource_counts_after": {
+    "Patient": 695,
+    "MedicationRequest": 21991,
+    "Observation": 563426,
+    "ServiceRequest": 0
+  },
+  "source_sha256": {
+    "upgrade_v28/execution.py": "25b726d75126e03bb43ced3e02c07a8ea64e084956ba3652571fd984b6f27f00",
+    "upgrade_v28/contracts.py": "8818e28df9bca2564a80d7ae7586c0e0a98947f7781d8d705be5dcc9ad2f06f5",
+    "upgrade_v28/observation_tools.py": "d44bf79af7e882fe933dabcf97794ecd64859c087465712e7769819a3d8b5ee9"
+  },
+  "scope": "Engineering execution probe, not a language-agent performance score."
+}

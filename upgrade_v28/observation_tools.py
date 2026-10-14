@@ -31,11 +31,15 @@ def summarize(pages,clock,complete):
             groups[(code_key,unit_key)].append({'resource_id':identity,'effectiveDateTime':record['effectiveDateTime'],'value':value})
     out=[]
     for (code,unit),values in sorted(groups.items()):
-        values.sort(key=lambda x:(time_value(x['effectiveDateTime']),x['resource_id']))
+        # Retain first source-order record on an exact time tie, expose the tie.
+        # Do not invent temporal order from a resource identifier.
+        latest=max(values,key=lambda x:time_value(x['effectiveDateTime']))
         recent=[v for v in values if time_value(v['effectiveDateTime'])>=now-datetime.timedelta(hours=24)]
-        out.append({'observation_code':json.loads(code),'unit':json.loads(unit),'count_available':len(values),'latest':values[-1],
+        tied=[v for v in values if time_value(v['effectiveDateTime'])==time_value(latest['effectiveDateTime'])]
+        out.append({'observation_code':json.loads(code),'unit':json.loads(unit),'count_available':len(values),'latest':latest,'latest_timestamp_tie_count':len(tied),
+          'latest_timestamp_distinct_values':sorted({v['value'] for v in tied}),
           'last24h':{'count':len(recent),'mean':sum(x['value'] for x in recent)/len(recent) if recent else None,
-             'latest':recent[-1] if recent else None},'evidence_resource_ids':[v['resource_id'] for v in values]})
+             'latest':max(recent,key=lambda x:time_value(x['effectiveDateTime'])) if recent else None},'evidence_resource_ids':[v['resource_id'] for v in values]})
     return {'task_clock':clock,'complete_search':complete,'pages':len(pages),'page_sha256':receipts,'distinct_observations':len(seen),
       'omitted':dict(ignored),'numeric_groups':out,'limits':'Statistics refer only to this query and successfully retrieved pages. Incomplete searches cannot establish absence or a globally latest measurement. Codes/units are not clinically harmonized.'}
 
