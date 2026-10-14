@@ -37,6 +37,8 @@ Same MIMIC-IV/ED preprocessing, 40,000 training and 4,000 test admissions (3,440
 | Fixed indication evidence review | 48.38 | 2 | [v0.11](../upgrade_v11/RESULTS.en.md) |
 | Outcome verifier: uniform | 49.12 ± 0.23 | 2 | [v0.13](../upgrade_v13/RESULTS.en.md) |
 | Outcome verifier: error_prioritized | 49.02 ± 0.06 | 2 | [v0.13](../upgrade_v13/RESULTS.en.md) |
+| One-call fixed grounding | 50.51 | 1 | [v0.17](../upgrade_v17/RESULTS.en.md) |
+| Grounded skill evolution | 50.71 | 1 | [v0.17](../upgrade_v17/RESULTS.en.md) |
 
 The author GRASP core is the strongest completed control. Named task adaptations are not original implementations. The author-core source is unchanged, with our task adapter. Cross-paper original numbers appear only in the manuscript's separate literature panels.
 
@@ -48,9 +50,9 @@ The author GRASP core is the strongest completed control. Named task adaptations
 | v0.8 | Proposed LLM skills, memories, evidence-focus terms | Full RxRSI rejects every candidate in all three orders; no successful final-state evolution |
 | v0.10 | Author-core GRASP skill files | 50.81% on the derived task; RxQA transfer declines from 193 to 189/300 |
 | v0.12–13 | Router/verifier coefficients and thresholds | Actual updates, some acceptances and test regressions; no stable error-priority advantage |
-| v0.9 | Local Qwen LoRA parameters | Both three-round training arms completed; choices frozen before all-checkpoint test generation |
-| v0.15 | LoRA under explicit binary inclusion supervision | Predeclared intervention against over-selection; queued after current local work |
-| v0.17 | GRASP skills over frozen label evidence | Running complementary-evidence hypothesis, with no-update and no-evidence controls |
+| v0.9 | Local Qwen LoRA parameters | All 500-case checkpoint tests completed; both arms trail direct top-8 tools |
+| v0.15 | LoRA under explicit binary inclusion supervision | Predeclared intervention against over-selection; local training has started |
+| v0.17 | GRASP skills over frozen label evidence | Complete: 501/988 versus fixed grounding 499 and author core 502; transfer declines |
 
 Hashes, promotions/rejections and case repairs/regressions accompany the artifacts.
 
@@ -66,10 +68,28 @@ Hashes, promotions/rejections and case repairs/regressions accompany the artifac
 
 ## 4. Execution order and completion criteria
 
-1. Complete v0.9 all-checkpoint fresh-patient test predictions, direct top-k controls, independent recount and patient-cluster intervals.
-2. Automatically continue v0.15 with matching patients and step budgets; test whether explicit negative decisions reduce over-selection.
+1. v0.9 all-checkpoint tests, independent recount and patient-cluster intervals are complete; see the new parameter table below.
+2. v0.15 has started with matching patients and step budgets, testing explicit negative decisions against over-selection.
 3. The Gemini budget check is complete, freezing 2,048 tokens/low reasoning. Finish v0.17 fixed/evolving evidence and RxQA, then v0.18 four-method frozen-skill transfer on Gemini.
 4. Repair FHIR retrieval/action failures from development, then evaluate full ID and held-out-task-type splits. The 16-case pilot cannot substitute for those tests.
 5. Retain an unobserved confirmation test, multiple orders, ablations, costs and regressions. Negative superiority outcomes remain visible rather than selecting favorable controls or changing test labels.
 
 [English paper](latex/v0.3/prismatic_v03_en.tex) · [Maintained plan](COMPLETION_PLAN.en.md) · [History](CHANGELOG.md). Restricted records, checkpoints, raw patient traces and credentials remain outside GitHub.
+
+## Newly completed table: local parameter evolution on 500 admissions
+
+Separate from the 4,000-admission table: 500 reserved admissions, 494 patients, same initial-8k candidate tools. Mean gold/reachable drugs are 6.784/3.802. All selection was frozen before test scoring.
+
+| Method | Drug F1 | Core-order F1 | Mean drugs |
+|---|---:|---:|---:|
+| base | 0.23399 | 0.13593 | 5.46 |
+| uniform_sft | 0.28694 | 0.19115 | 17.42 |
+| error_prioritized_sft | 0.28432 | 0.19137 | 18.98 |
+| all_20_candidate_tools | 0.28390 | 0.19181 | 20.00 |
+| guard_selected_top_k_tools | 0.31169 | 0.20739 | 8.00 |
+
+[Full local results / 完整本地结果](../upgrade_v9/RESULTS.en.md)
+
+## New temporal-protocol audit
+
+Among 1,788,195 historical target rows, 42,005 matching provider orders precede admission and 276,269 occur after the original six-hour horizon. Timestamp counts exclude 438 admission-link conflicts. The differing pharmacy/provider clocks require source-link audit before claiming prospective validity. [Full results](../upgrade_v20/RESULTS.en.md).

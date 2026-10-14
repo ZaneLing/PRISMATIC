@@ -39,6 +39,10 @@ Scoped RxRSI skills & 47.27 & 1\\'''
             pr+=f"\nFull-data outcome verifier & {100*verifier['static_verifier_correct']/verifier['test_n']:.2f} & 2 \\\\"
             for key,label in [('uniform','Incremental verifier: uniform'),('error_prioritized','Incremental verifier: priority')]:
                 z=verifier['arms'][key];pr+=f"\n{label} & {100*z['accuracy_mean']:.2f} $\\pm$ {100*z['accuracy_sample_sd']:.2f} & 2 \\\\"
+        if (ROOT/'upgrade_v17/results/summary.json').exists():
+            grounded=json.loads((ROOT/'upgrade_v17/results/summary.json').read_text())['datasets']['rxsafebench']['methods']
+            for key,label in [('fixed_grounded','One-call fixed grounding'),('evolving_grounded','Grounded skill evolution')]:
+                pr+=f"\n{label} & {100*grounded[key]['accuracy']:.2f} & 1 \\\\"
         public_section=r'''\begin{table}[t]\centering\small
 \caption{Executed method comparison on the same 988 derived RxSafeBench questions with DeepSeek-V4.1-Flash. Rows with $\pm$ report three evolution orders; fixed outputs are reused across orders. Author-core and scoped-skill rows use seed 42. Calls are mean test-time model calls; development costs differ. This is a development comparison, not original benchmark score equivalence.}
 \begin{tabularx}{\columnwidth}{@{}Xrr@{}}\toprule Method & Accuracy (\%) & Calls\\\midrule
@@ -66,15 +70,24 @@ The completed Gemini-3.8-Flash development pilot illustrates a separate token-bu
 The pre-tool router cannot assess a revision it has not observed. A subsequent verifier consumes both the initial answer and the completed balanced evidence review, then chooses between them. Its features encode option mentions, nearby negative/positive terms and optionally separate fixed hashes of the question and both responses. Training targets the revision's correctness change. Uniform and error-prioritized updates use identical accumulated cases and 18 proposal candidates per round. Feedback weights are computed before updating and emphasize reachable selection errors; neither answer being correct provides no reachable repair. The same proposal/guard split controls promotion, and a full-data ordinary supervised verifier is included.
 
 Three-order final accuracy is 49.12$\pm$0.23\% for uniform updates and 49.02$\pm$0.06\% for error priorities, compared with 48.99\% for fixed review and 47.87\% for the full-data verifier. Only one update is accepted in each of two runs; four runs remain unchanged. Both responses are charged even when the initial answer is returned. These small exploratory changes do not surpass the author-core GRASP control or establish a feedback-prioritization advantage. Parameter, weight and transition journals are released; actual language-model weight updates are tested separately below.'''
+    if (ROOT/'upgrade_v17/results/summary.json').exists():
+        public_section+=r'''\subsection{Grounded Skill Composition}
+We combine the fixed balanced label tool with the unchanged GRASP optimizer, holding the actor prompt, backbone and one-call 512-token inference budget constant. The four-cell comparison is CoT (467/988), skills without labels (502), labels without skills (499), and learned skills with labels (501). The combined state repairs 83 cases and regresses 81 relative to fixed grounding: +0.20 percentage points, with a descriptive paired scenario interval [-2.43, 2.73]. The factorial interaction is -3.34 points, interval [-7.18, 0.30]. Thus separate component gains do not add reliably.
+
+On 300 RxQA transfer items, the same four states score 193, 189, 188 and 183. The first feedback batch accepts no skill; the following three add and then twice modify one indication/caution procedure. Actual text and hashes are released. The author core selects its final checkpoint on end-of-epoch validation, which rises from 49.1\% to 53.2\%; it does not apply our independent-guard mechanism at every batch. LLM weights and retrieval code remain fixed. On the fixed 988-case test, round 0--4 correctness is 499, 499, 475, 493 and 501; on RxQA it is 188, 188, 175, 175 and 183. The first accepted skill therefore regresses before later edits recover part of the loss. These are frozen-state trajectories, distinct from batch accuracies on different cases; they do not show monotonic self-improvement.'''
     parameter_section=r'\paragraph{Execution status.} Local parameter-update experiments are in progress. No fine-tuning gain is claimed before generation-based evaluation is complete.'
     if parameter.exists() and (ROOT/'upgrade_v9/results/summary.json').exists():
-        d=json.loads(parameter.read_text());rr=f"Frozen Qwen3-4B & {d['base']['drug_micro_f1']:.4f} & {d['base']['core_order_micro_f1']:.4f} \\\\\n"
-        rr+='\n'.join(f"{name.replace('_',' ')} & {v['selected_test']['drug_micro_f1']:.4f} & {v['selected_test']['core_order_micro_f1']:.4f} \\\\" for name,v in d['arms'].items())
+        d=json.loads((ROOT/'upgrade_v9/results/summary.json').read_text())
+        names={'base':'Frozen Qwen3-4B','uniform_sft':'Uniform updates','error_prioritized_sft':'Error-prioritized updates','all_20_candidate_tools':'All 20 candidate tools','guard_selected_top_k_tools':'Guard-selected top-8 tool'}
+        rr='\n'.join(f"{label} & {d['methods'][key]['drug_f1']:.4f} & {d['methods'][key]['core_order_f1']:.4f} \\\\" for key,label in names.items())
         parameter_section=r'''\begin{table}[t]\centering\small
 \caption{Local parameter evolution on 500 new test admissions. Checkpoints are selected on the separate guard set.}
 \begin{tabular}{lrr}\toprule Method & Drug F1 & Order F1\\\midrule
 PARAMROWS
 \bottomrule\end{tabular}\end{table}'''.replace('PARAMROWS',rr)
+        parameter_section+=r'''Both training arms improve over the frozen language model, but neither beats direct use of the same guard-selected top-8 tool. The paired patient-cluster 95\% drug-F1 intervals versus that tool are [-0.0367, -0.0132] for uniform updates and [-0.0400, -0.0149] for error priorities. Uniform updating is slightly stronger on drug F1; the priority-minus-uniform interval [-0.0067, 0.0013] does not establish a prioritization benefit.
+
+The test contains 6.784 gold drugs per admission and 3.802 reachable drugs in the fixed catalogue. Selected uniform and priority models emit 17.416 and 18.976 drugs on average, exposing severe over-selection. The uniform active state improves in round one, slightly regresses after the accepted round-two update, and retains round two thereafter. Priority retains round one; its last raw checkpoint degenerates on the guard, with 53\% empty outputs, and is rejected. This is a genuine learned-checkpoint failure after valid parsing. A subsequent exact 20-position inclusion-mask intervention was declared before these test results and is now training with the same patients and step budgets.'''
     body=r'''
 \documentclass[11pt]{article}
 \usepackage[review]{acl}
@@ -87,7 +100,7 @@ PARAMROWS
 \begin{document}
 \maketitle
 \begin{abstract}
-An improving prescription agent must demonstrate what changes between versions and whether those changes improve held-out decisions. We study RxRSIAgent as a system of separately versioned prescription policies, episodic memories, order-completion tools and language skills. Ground-truth training prescriptions provide error feedback, while disjoint proposal and regression-guard sets control updates. Our completed structured-order experiment uses 40,000 training admissions and 4,000 new test admissions from MIMIC-IV/ED, with three training seeds and five checkpoints. Accepted-state drug and joint-order scores increase with accumulated cases, but the final system does not outperform a strong same-data supervised control. Conditional order tools improve field matching, whereas episode-memory expansion is not consistently beneficial. We preserve these negative controls and continue with language-artifact and parameter-update experiments. Published results are cited under their original protocols. The work targets ACL 2027; external-benchmark superiority and a unique recursive-improvement advantage are research hypotheses, not established conclusions.
+An improving prescription agent must demonstrate what changes between versions and whether those changes improve held-out decisions. We study RxRSIAgent as a system of separately versioned prescription policies, episodic memories, order-completion tools and language skills. Ground-truth training prescriptions provide error feedback, with explicit development-selection protocols. A structured-order experiment uses 40,000 training and 4,000 test admissions, three seeds and five checkpoints. Scores increase with cases, but a strong same-data supervised control remains better. On 988 public prescription-choice questions, combining grounded evidence with learned skills scores 50.71\%, against 50.81\% for the author skill-learning core, and transfer declines. Local QLoRA updates improve over a frozen model on 500 new admissions but trail direct top-8 tool use. Real FHIR probes additionally show that accepted writes can discard fields. These results distinguish artifact changes, reliable execution and generalizing gains. Published comparisons retain their original protocols; universal superiority and a unique RSI advantage remain unproven.
 \end{abstract}
 
 \section{Introduction}
@@ -96,6 +109,21 @@ Prescription generation combines medication selection with detailed order constr
 We therefore separate three questions. H1 concerns performance against methods under a common task protocol. H2 concerns improvement across frozen checkpoints on a fixed test set. H3 concerns the causal contribution of updated artifacts relative to equal-data controls. H2 can hold even when H3 fails. Existing prescription ground truth supports automatic training and evaluation; clinician review is not a prerequisite for observed-label agreement.
 
 Our current contributions are an executable structured-order task, a versioned update protocol, and an artifact-level evaluation that retains regressions and rejected versions. We do not present ordinary cumulative supervised fitting as proof of autonomous reasoning improvement. Two further experiments isolate LLM-authored language artifacts and actual LLM parameter updates.
+
+\begin{figure*}[t]\centering\small
+\begin{tabular}{c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c}
+\fbox{\parbox{2.9cm}{\centering Available patient or task state}} &
+\fbox{\parbox{2.9cm}{\centering Candidate orders, labels or FHIR records}} &
+\fbox{\parbox{2.9cm}{\centering Decision policy with versioned skills}} &
+\fbox{\parbox{2.9cm}{\centering Compile orders; execute and read back}}\\[1.2em]
+\fbox{\parbox{2.9cm}{\centering Training-only GT and error traces}} &
+\fbox{\parbox{2.9cm}{\centering Propose artifact or parameter updates}} &
+\fbox{\parbox{2.9cm}{\centering Declared development selection}} &
+\fbox{\parbox{2.9cm}{\centering Freeze accepted state; retain regressions}}
+\end{tabular}
+\caption{Shared prescription-harness design. Each study instantiates the stated components: option selection does not execute orders, and local template selection does not generate new doses. Only training feedback drives updates; test GT is reserved for measurement. The FHIR compiler is an engineering repair, not an autonomously evolved tool.}
+\label{fig:harness}
+\end{figure*}
 
 \section{Related Work and Comparison Protocols}
 GAMENet and SafeDrug predict medication sets from structured histories \citep{gamenet,safedrug}. SafeRx-Agent evaluates finer ATC-L4 sets using expert generation and verification \citep{saferx}. RxEval evaluates medication--dose--route options at prescribing timepoints \citep{rxeval}. Their reported results can be cited directly without reproducing every baseline, but our own comparison row must follow the corresponding data, input and scoring protocol.
@@ -193,8 +221,10 @@ We extract the unchanged application and public database from the digest-pinned 
 
 The released benchmark wrapper records accepted POST actions without performing the HTTP write; its reference grader checks trajectories. Our development adapter performs actual writes for both methods, reports the reference trajectory criterion separately from persisted-state checks, and removes only resources it creates. A 16-case pilot uses the first two cases from each of eight development task types, DeepSeek-V4.1-Flash and at most eight 512-token action calls. Direct tool use succeeds on 10/16; a fixed workflow/preflight/readback harness succeeds on 8/16. All 11 created resources pass readback checks and are cleaned up. Invalid-action counts are one and three, respectively. These small development results expose protocol and retrieval failures; they are neither full benchmark scores nor evidence of self-improvement. No restricted MIMIC records enter this service.
 
+A further synthetic medication-order probe finds that the server accepts a literal route string with HTTP 201 but fails to preserve the dosage fields. A lossless conversion to FHIR R4 CodeableConcept text preserves the route on readback \citep{fhirr4}. Duration-like units in legacy rate fields are retained and flagged, without claiming clinically valid rate semantics. This motivates checking stored fields in addition to API status. Full ID and held-out-task-type evaluation is in progress. Released task splits overlap in patients (22 explicit development/ID-test patients and 33 development/held-out-type patients); this study does not claim patient-disjoint transfer.
+
 \section{Limitations}
-The completed structured-order experiment uses admission-proxy inputs. Triage has no verified entry timestamp and medication reconciliation lacks storetime; temporal availability is therefore not fully established. Candidate vocabularies and one-template-per-drug output limit recall. Recorded prescriptions may omit clinically acceptable alternatives, and agreement does not prove indication or safety. Current language-artifact baselines are task adaptations, not official reruns. Repeated development selection can overfit; independent tests, multiple evolution orders, transfer and matched optimization budgets are necessary before claiming general RSI benefits. External RxEval and SafeRx data access remains unresolved.
+The completed structured-order experiment uses admission-proxy inputs. Triage has no verified entry timestamp and medication reconciliation lacks storetime; temporal availability is therefore not fully established. A full target-row audit links 1,788,195 records to provider and pharmacy clocks: 42,005 matching provider orders precede admission, 1,425,392 fall within the intended next-six-hour horizon, and 276,269 occur later. There are 438 provider-link admission conflicts, which remain untrusted. Pharmacy entry falls within the horizon for 1,777,546 rows. These clocks differ; the retrospective start-window results are not prospective new-order evidence. A new availability-controlled cohort must be reconstructed from complete source tables rather than filtering old targets. Candidate vocabularies and one-template-per-drug output limit recall. Recorded prescriptions may omit clinically acceptable alternatives, and agreement does not prove indication or safety. Current language-artifact baselines are task adaptations, not official reruns. Repeated development selection can overfit; independent tests, multiple evolution orders, transfer and matched optimization budgets are necessary before claiming general RSI benefits. External RxEval and SafeRx data access remains unresolved.
 
 \section{Conclusion}
 An auditable improving agent must show both changing artifacts and beneficial effects. Our completed rounds show data-growth gains and a useful conditional order tool, alongside weak memory gains and a stronger static control. We continue beyond that negative result by isolating language-artifact and parameter evolution. No claim that RxRSIAgent is the best existing method is made without corresponding benchmark evidence.
@@ -210,6 +240,7 @@ All restricted MIMIC records, predictions and checkpoints remain on the authoriz
 \bibitem[Moll et al.(2026)]{grasp} Moll et al. 2026. GRASP: Gated Regression-Aware Skill Proposer for Self-Improving LLM Agents. \url{https://arxiv.org/abs/2605.29668}.
 \bibitem[Yang et al.(2026)]{evotool} Yang et al. 2026. EvoTool: Self-Evolving Tool-Use Policy Optimization in LLM Agents via Blame-Aware Mutation and Diversity-Aware Selection. ACL. \url{https://syang2000.github.io/ACL_2026_EvoTool/}.
 \bibitem[Lin et al.(2026)]{evopath} Lin et al. 2026. Beyond Endpoint Performance: Process-Level Evaluation of Self-Evolving Agents. \url{https://arxiv.org/abs/2609.24663}.
+\bibitem[HL7 International(2019)]{fhirr4} HL7 International. 2019. FHIR R4: Dosage Detailed Descriptions. \url{https://hl7.org/fhir/R4/dosage-definitions.html}.
 \end{thebibliography}
 \end{document}
 '''

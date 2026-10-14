@@ -18,6 +18,10 @@ def main():
     for k in ['balanced','safety','indication']:table+=f"| Fixed {k} evidence review | {100*evidence[k]['accuracy']:.2f} | 2 | [v0.11](../upgrade_v11/RESULTS.en.md) |\n"
     for k in ['uniform','error_prioritized']:
         m=verifier[k];table+=f"| Outcome verifier: {k} | {100*m['accuracy_mean']:.2f} ± {100*m['accuracy_sample_sd']:.2f} | 2 | [v0.13](../upgrade_v13/RESULTS.en.md) |\n"
+    if (ROOT/'upgrade_v17/results/summary.json').exists():
+        ground=read('upgrade_v17/results/summary.json')['datasets']['rxsafebench']['methods']
+        for k,label in [('fixed_grounded','One-call fixed grounding'),('evolving_grounded','Grounded skill evolution')]:
+            table+=f"| {label} | {100*ground[k]['accuracy']:.2f} | 1 | [v0.17](../upgrade_v17/RESULTS.en.md) |\n"
     struct='| Method | Drug micro-F1 | Core-order micro-F1 |\n|---|---:|---:|\n'
     for k,label in [('word_char_ensemble','Word/character ensemble + tools'),('rxrsi_selected','RxRSI selected state'),('without_memory_evolution','Freeze initial memory'),('without_tool_evolution','Freeze initial order tool')]:
         m=local[k];struct+=f"| {label} | {m['drug_f1_mean']:.5f} ± {m['drug_f1_sd']:.5f} | {m['order_f1_mean']:.5f} ± {m['order_f1_sd']:.5f} |\n"
@@ -51,9 +55,9 @@ RxSafeBench 去重后 2,000 题，按场景组切分为 625/190/197/988 训练/�
 | v0.8 | LLM 提议技能文本、记忆、证据关注词 | 三种子四轮全部拒绝完整 RxRSI 的候选；最终未进化，不宣称成功 |
 | v0.10 | 作者 GRASP 技能文件 | 在同一衍生任务上提高至 50.81%，RxQA 迁移反而 193→189/300 |
 | v0.12–13 | 工具路由/结果核验器系数与阈值 | 权重真实变化，部分更新被接受，但有测试退化；错误优先没有稳定优于普通更新 |
-| v0.9 | 本地 Qwen LoRA 参数 | 两臂三轮训练完成，选择先冻结，所有检查点测试生成中 |
-| v0.15 | 二元纳入/排除监督下的 LoRA 参数 | 为处理过度开药而预先声明的干预，排队等待本地模型实验完成 |
-| v0.17 | 固定说明书工具上的 GRASP 技能文件 | 正在运行；检验“有效的技能更新 + 证据工具”是否有互补增益 |
+| v0.9 | 本地 Qwen LoRA 参数 | 500 例全检查点测试完成；两臂均低于直接 top-8 工具 |
+| v0.15 | 二元纳入/排除监督下的 LoRA 参数 | 为处理过度开药而事先声明的干预，现已开始本地训练 |
+| v0.17 | 固定说明书工具上的 GRASP 技能文件 | 完整结果 501/988；固定证据 499、作者核心 502；迁移下降 |
 
 每种对象都有版本哈希，接受/拒绝及修复/退化记录。图：
 
@@ -69,8 +73,8 @@ RxSafeBench 去重后 2,000 题，按场景组切分为 625/190/197/988 训练/�
 
 ## 4. 继续执行的顺序与交付标准
 
-1. 完成 v0.9 全检查点新患者测试，与直接 top-k 工具及普通训练比较，独立重算和患者聚类区间。
-2. 自动接续 v0.15；保持患者与训练预算一致，检验显式负候选监督是否减少过度选择。
+1. v0.9 全检查点测试、独立重算和患者聚类区间已完成，见新增本地参数主表。
+2. v0.15 已接续开始训练；保持患者与训练预算一致，检验显式负候选监督是否减少过度选择。
 3. v0.16 截断检查已完成，冻结 2,048-token/low 配置。继续 v0.17 固定证据/进化证据与 RxQA；v0.18 随后在 Gemini 上比较四种冻结方法。
 4. 根据 FHIR 开发失败改进检索与动作协议，再进行完整同分布/未见任务类型评价；开发 16 题不能替代正式测试。
 5. 最终保留没有参与迭代的确认测试、多种子、消融、费用和退化记录。若仍未超过强对照，论文结论如实保留，不能通过挑选方法或修改测试标签获得“第一”。
@@ -106,9 +110,9 @@ The author GRASP core is the strongest completed control. Named task adaptations
 | v0.8 | Proposed LLM skills, memories, evidence-focus terms | Full RxRSI rejects every candidate in all three orders; no successful final-state evolution |
 | v0.10 | Author-core GRASP skill files | 50.81% on the derived task; RxQA transfer declines from 193 to 189/300 |
 | v0.12–13 | Router/verifier coefficients and thresholds | Actual updates, some acceptances and test regressions; no stable error-priority advantage |
-| v0.9 | Local Qwen LoRA parameters | Both three-round training arms completed; choices frozen before all-checkpoint test generation |
-| v0.15 | LoRA under explicit binary inclusion supervision | Predeclared intervention against over-selection; queued after current local work |
-| v0.17 | GRASP skills over frozen label evidence | Running complementary-evidence hypothesis, with no-update and no-evidence controls |
+| v0.9 | Local Qwen LoRA parameters | All 500-case checkpoint tests completed; both arms trail direct top-8 tools |
+| v0.15 | LoRA under explicit binary inclusion supervision | Predeclared intervention against over-selection; local training has started |
+| v0.17 | GRASP skills over frozen label evidence | Complete: 501/988 versus fixed grounding 499 and author core 502; transfer declines |
 
 Hashes, promotions/rejections and case repairs/regressions accompany the artifacts.
 
@@ -124,14 +128,22 @@ Hashes, promotions/rejections and case repairs/regressions accompany the artifac
 
 ## 4. Execution order and completion criteria
 
-1. Complete v0.9 all-checkpoint fresh-patient test predictions, direct top-k controls, independent recount and patient-cluster intervals.
-2. Automatically continue v0.15 with matching patients and step budgets; test whether explicit negative decisions reduce over-selection.
+1. v0.9 all-checkpoint tests, independent recount and patient-cluster intervals are complete; see the new parameter table below.
+2. v0.15 has started with matching patients and step budgets, testing explicit negative decisions against over-selection.
 3. The Gemini budget check is complete, freezing 2,048 tokens/low reasoning. Finish v0.17 fixed/evolving evidence and RxQA, then v0.18 four-method frozen-skill transfer on Gemini.
 4. Repair FHIR retrieval/action failures from development, then evaluate full ID and held-out-task-type splits. The 16-case pilot cannot substitute for those tests.
 5. Retain an unobserved confirmation test, multiple orders, ablations, costs and regressions. Negative superiority outcomes remain visible rather than selecting favorable controls or changing test labels.
 
 [English paper](latex/v0.3/prismatic_v03_en.tex) · [Maintained plan](COMPLETION_PLAN.en.md) · [History](CHANGELOG.md). Restricted records, checkpoints, raw patient traces and credentials remain outside GitHub.
 '''
+        if (ROOT/'upgrade_v9/results/summary.json').exists():
+            parameter=read('upgrade_v9/results/summary.json')['methods']
+            pt='| Method | Drug F1 | Core-order F1 | Mean drugs |\n|---|---:|---:|---:|\n'
+            for name,m in parameter.items():pt+=f"| {name} | {m['drug_f1']:.5f} | {m['core_order_f1']:.5f} | {m['mean_predicted_drugs']:.2f} |\n"
+            extra=('\n## 新增已完成主表：500 例本地参数进化\n\n与上方 4,000 例主表分开：这里是事先保留的 500 次住院、494 位患者，共用初始 8k 候选工具。GT 平均 6.784 个药物，固定目录可覆盖 3.802 个。选择在测试前冻结。\n\n' if lang=='zh' else '\n## Newly completed table: local parameter evolution on 500 admissions\n\nSeparate from the 4,000-admission table: 500 reserved admissions, 494 patients, same initial-8k candidate tools. Mean gold/reachable drugs are 6.784/3.802. All selection was frozen before test scoring.\n\n')+pt+'\n[Full local results / 完整本地结果](../upgrade_v9/RESULTS.'+lang+'.md)\n'
+            text+=extra
+        if (ROOT/'upgrade_v20/results/order_entry_audit.json').exists():
+            text+=('\n## 时间协议新增审计\n\n全体 1,788,195 条旧目标中，42,005 条 provider 医嘱在入院前已开立，276,269 条开立于原六小时窗口之后。可信时间关联排除 438 条住院编号冲突。药房与 provider 时钟差异尚需追溯源关联，不能挑一个时钟就宣称前瞻有效。[详细结果](../upgrade_v20/RESULTS.zh.md)。\n' if lang=='zh' else '\n## New temporal-protocol audit\n\nAmong 1,788,195 historical target rows, 42,005 matching provider orders precede admission and 276,269 occur after the original six-hour horizon. Timestamp counts exclude 438 admission-link conflicts. The differing pharmacy/provider clocks require source-link audit before claiming prospective validity. [Full results](../upgrade_v20/RESULTS.en.md).\n')
         (HERE/f'CURRENT_RESULTS.{lang}.md').write_text(text)
 
 if __name__=='__main__':main()

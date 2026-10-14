@@ -1,6 +1,6 @@
 # RxRSIAgent v0.9 — local parameter evolution
 
-**Status: running.** This experiment actually updates Qwen3-4B adapter weights locally; no restricted record is uploaded.
+**Status: complete; all seven model states independently scored on 500 admissions.** This experiment actually updates Qwen3-4B adapter weights locally; no restricted record is uploaded.
 
 ## Matched comparison
 
@@ -23,10 +23,14 @@ python prepare_local.py  # research Python environment
 python run_parameter_evolution.py  # local MLX environment
 ```
 
-`results/*_rounds.json` stores actual adapter hashes, sample membership hashes, guard metrics and training time. `results/parameter_results.json` will contain generated test predictions' aggregate scores, not training-loss proxies. All checkpoints and patient-level predictions stay in the restricted directory.
+`results/*_rounds.json` stores actual adapter hashes, sample membership hashes, guard metrics and training time. `results/parameter_results.json` contains generated test predictions' aggregate scores; `results/summary.json` independently recounts them and reports paired patient-cluster intervals. All checkpoints and patient-level predictions stay in the restricted directory.
 
 ## Development-stage parser repair
 
 The first adapted model emitted a leading empty `<think></think>` envelope before otherwise valid JSON. The original strict parser marked all 200 guard responses invalid. `selection_parser.py` now removes only this empty envelope for every arm/checkpoint and preserves both strict and normalized validity. Raw model outputs and trained weights are unchanged. Nonempty reasoning and malformed JSON remain invalid. A second fix rebinds cached identical-prompt outputs to the current case and catalogue; the alignment assertion exposed the issue before test scoring. Four regression tests pass. The original strict-parser journal remains archived.
 
 The separate `run_tool_control.py --freeze-only` chooses a frozen-candidate top-k control on guard data. Its test evaluation waits until both LLM arms have frozen their selections. This measures whether LLM training improves over using the same tools directly.
+
+## Completed result
+
+Uniform updates reach drug/core-order F1 0.28694/0.19115; error-prioritized updates reach 0.28432/0.19137. Both improve over the frozen model (0.23399/0.13593) but underperform the guard-selected top-8 tool (0.31169/0.20739). Accepted-state trajectories include a small uniform round-two regression. See [English results](RESULTS.en.md) / [中文结果](RESULTS.zh.md). The predeclared binary-decision intervention in [v0.15](../upgrade_v15/README.md) is now running.

@@ -1,0 +1,288 @@
+{
+  "status": "complete_main_comparison",
+  "datasets": {
+    "rxsafebench": {
+      "methods": {
+        "cot": {
+          "correct": 467,
+          "n": 988,
+          "accuracy": 0.4726720647773279,
+          "invalid": 0
+        },
+        "author_grasp": {
+          "correct": 502,
+          "n": 988,
+          "accuracy": 0.5080971659919028,
+          "invalid": 0
+        },
+        "fixed_grounded": {
+          "correct": 499,
+          "n": 988,
+          "accuracy": 0.5050607287449392,
+          "invalid": 0
+        },
+        "evolving_grounded": {
+          "correct": 501,
+          "n": 988,
+          "accuracy": 0.507085020242915,
+          "invalid": 0
+        }
+      },
+      "paired": {
+        "evolving_grounded__minus__fixed_grounded": {
+          "difference": 0.0020242914979757085,
+          "ci95": [
+            -0.024267550341202624,
+            0.027328627419612866
+          ],
+          "groups": 987,
+          "fixes": 83,
+          "regressions": 81
+        },
+        "evolving_grounded__minus__author_grasp": {
+          "difference": -0.0010121457489878543,
+          "ci95": [
+            -0.0364741641337386,
+            0.03441295546558704
+          ],
+          "groups": 987,
+          "fixes": 167,
+          "regressions": 168
+        },
+        "author_grasp__minus__cot": {
+          "difference": 0.0354251012145749,
+          "ci95": [
+            0.009109311740890687,
+            0.06072874493927125
+          ],
+          "groups": 987,
+          "fixes": 102,
+          "regressions": 67
+        },
+        "fixed_grounded__minus__cot": {
+          "difference": 0.032388663967611336,
+          "ci95": [
+            -0.0010121457489878543,
+            0.06385183830647771
+          ],
+          "groups": 987,
+          "fixes": 154,
+          "regressions": 122
+        }
+      },
+      "factorial_interaction": {
+        "difference": -0.03340080971659919,
+        "ci95": [
+          -0.07179150309272442,
+          0.003033443792650328
+        ],
+        "groups": 987
+      },
+      "independent_recount": "passed"
+    },
+    "rxqa": {
+      "methods": {
+        "cot": {
+          "correct": 193,
+          "n": 300,
+          "accuracy": 0.6433333333333333,
+          "invalid": 0
+        },
+        "author_grasp": {
+          "correct": 189,
+          "n": 300,
+          "accuracy": 0.63,
+          "invalid": 0
+        },
+        "fixed_grounded": {
+          "correct": 188,
+          "n": 300,
+          "accuracy": 0.6266666666666667,
+          "invalid": 0
+        },
+        "evolving_grounded": {
+          "correct": 183,
+          "n": 300,
+          "accuracy": 0.61,
+          "invalid": 0
+        }
+      },
+      "paired": {
+        "evolving_grounded__minus__fixed_grounded": {
+          "difference": -0.016666666666666666,
+          "ci95": [
+            -0.06,
+            0.02666666666666667
+          ],
+          "groups": 300,
+          "fixes": 19,
+          "regressions": 24
+        },
+        "evolving_grounded__minus__author_grasp": {
+          "difference": -0.02,
+          "ci95": [
+            -0.06666666666666667,
+            0.02666666666666667
+          ],
+          "groups": 300,
+          "fixes": 21,
+          "regressions": 27
+        },
+        "author_grasp__minus__cot": {
+          "difference": -0.013333333333333334,
+          "ci95": [
+            -0.05333333333333334,
+            0.02666666666666667
+          ],
+          "groups": 300,
+          "fixes": 16,
+          "regressions": 20
+        },
+        "fixed_grounded__minus__cot": {
+          "difference": -0.016666666666666666,
+          "ci95": [
+            -0.056666666666666664,
+            0.023333333333333334
+          ],
+          "groups": 300,
+          "fixes": 17,
+          "regressions": 22
+        }
+      },
+      "factorial_interaction": {
+        "difference": -0.0033333333333333335,
+        "ci95": [
+          -0.056666666666666664,
+          0.05
+        ],
+        "groups": 300
+      },
+      "independent_recount": "passed"
+    }
+  },
+  "round_status": "complete",
+  "interval_note": "Exploratory paired scenario-cluster intervals for RxSafeBench, item bootstrap for RxQA; 4000 draws, no multiplicity adjustment.",
+  "updates": [
+    {
+      "round": 1,
+      "new_cases": 157,
+      "applied": []
+    },
+    {
+      "round": 2,
+      "new_cases": 157,
+      "applied": [
+        {
+          "action": "ADD",
+          "name": "label_indication_and_caution_parsing"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "new_cases": 157,
+      "applied": [
+        {
+          "action": "MODIFY",
+          "name": "label_indication_and_caution_parsing"
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "new_cases": 154,
+      "applied": [
+        {
+          "action": "MODIFY",
+          "name": "label_indication_and_caution_parsing"
+        }
+      ]
+    }
+  ],
+  "rounds": {
+    "rxsafebench": [
+      {
+        "round": 0,
+        "training_cases": 0,
+        "correct": 499,
+        "accuracy": 0.5050607287449392,
+        "fixes": 0,
+        "regressions": 0
+      },
+      {
+        "round": 1,
+        "training_cases": 157,
+        "correct": 499,
+        "accuracy": 0.5050607287449392,
+        "fixes": 0,
+        "regressions": 0
+      },
+      {
+        "round": 2,
+        "training_cases": 314,
+        "correct": 475,
+        "accuracy": 0.4807692307692308,
+        "fixes": 70,
+        "regressions": 94
+      },
+      {
+        "round": 3,
+        "training_cases": 471,
+        "correct": 493,
+        "accuracy": 0.49898785425101216,
+        "fixes": 74,
+        "regressions": 56
+      },
+      {
+        "round": 4,
+        "training_cases": 625,
+        "correct": 501,
+        "accuracy": 0.507085020242915,
+        "fixes": 76,
+        "regressions": 68
+      }
+    ],
+    "rxqa": [
+      {
+        "round": 0,
+        "training_cases": 0,
+        "correct": 188,
+        "accuracy": 0.6266666666666667,
+        "fixes": 0,
+        "regressions": 0
+      },
+      {
+        "round": 1,
+        "training_cases": 157,
+        "correct": 188,
+        "accuracy": 0.6266666666666667,
+        "fixes": 0,
+        "regressions": 0
+      },
+      {
+        "round": 2,
+        "training_cases": 314,
+        "correct": 175,
+        "accuracy": 0.5833333333333334,
+        "fixes": 19,
+        "regressions": 32
+      },
+      {
+        "round": 3,
+        "training_cases": 471,
+        "correct": 175,
+        "accuracy": 0.5833333333333334,
+        "fixes": 17,
+        "regressions": 17
+      },
+      {
+        "round": 4,
+        "training_cases": 625,
+        "correct": 183,
+        "accuracy": 0.61,
+        "fixes": 22,
+        "regressions": 14
+      }
+    ]
+  }
+}

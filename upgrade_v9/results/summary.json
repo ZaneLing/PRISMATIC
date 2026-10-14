@@ -1,0 +1,241 @@
+{
+  "status": "complete",
+  "test_admissions": 500,
+  "test_patients": 494,
+  "methods": {
+    "base": {
+      "drug_f1": 0.23398692810457516,
+      "core_order_f1": 0.13593455003146634,
+      "mean_predicted_drugs": 5.456
+    },
+    "uniform_sft": {
+      "drug_f1": 0.2869421487603306,
+      "core_order_f1": 0.19114785992217898,
+      "mean_predicted_drugs": 17.416
+    },
+    "error_prioritized_sft": {
+      "drug_f1": 0.2843167701863354,
+      "core_order_f1": 0.19136931991460812,
+      "mean_predicted_drugs": 18.976
+    },
+    "all_20_candidate_tools": {
+      "drug_f1": 0.28390083632019114,
+      "core_order_f1": 0.19181097739947167,
+      "mean_predicted_drugs": 20.0
+    },
+    "guard_selected_top_k_tools": {
+      "drug_f1": 0.3116883116883117,
+      "core_order_f1": 0.20739381227058207,
+      "mean_predicted_drugs": 8.0
+    }
+  },
+  "accepted_state_curves": {
+    "uniform_sft": [
+      {
+        "round": 0,
+        "active_round": 0,
+        "scores": [
+          0.23398692810457516,
+          0.13593455003146634
+        ],
+        "cases_improved_drug_f1": 0,
+        "cases_regressed_drug_f1": 0,
+        "mean_predicted_drugs": 5.456
+      },
+      {
+        "round": 1,
+        "active_round": 1,
+        "scores": [
+          0.2869537275064267,
+          0.19252601702932828
+        ],
+        "cases_improved_drug_f1": 257,
+        "cases_regressed_drug_f1": 79,
+        "mean_predicted_drugs": 18.112
+      },
+      {
+        "round": 2,
+        "active_round": 2,
+        "scores": [
+          0.2869421487603306,
+          0.19114785992217898
+        ],
+        "cases_improved_drug_f1": 143,
+        "cases_regressed_drug_f1": 155,
+        "mean_predicted_drugs": 17.416
+      },
+      {
+        "round": 3,
+        "active_round": 2,
+        "scores": [
+          0.2869421487603306,
+          0.19114785992217898
+        ],
+        "cases_improved_drug_f1": 0,
+        "cases_regressed_drug_f1": 0,
+        "mean_predicted_drugs": 17.416
+      }
+    ],
+    "error_prioritized_sft": [
+      {
+        "round": 0,
+        "active_round": 0,
+        "scores": [
+          0.23398692810457516,
+          0.13593455003146634
+        ],
+        "cases_improved_drug_f1": 0,
+        "cases_regressed_drug_f1": 0,
+        "mean_predicted_drugs": 5.456
+      },
+      {
+        "round": 1,
+        "active_round": 1,
+        "scores": [
+          0.2843167701863354,
+          0.19136931991460812
+        ],
+        "cases_improved_drug_f1": 248,
+        "cases_regressed_drug_f1": 84,
+        "mean_predicted_drugs": 18.976
+      },
+      {
+        "round": 2,
+        "active_round": 1,
+        "scores": [
+          0.2843167701863354,
+          0.19136931991460812
+        ],
+        "cases_improved_drug_f1": 0,
+        "cases_regressed_drug_f1": 0,
+        "mean_predicted_drugs": 18.976
+      },
+      {
+        "round": 3,
+        "active_round": 1,
+        "scores": [
+          0.2843167701863354,
+          0.19136931991460812
+        ],
+        "cases_improved_drug_f1": 0,
+        "cases_regressed_drug_f1": 0,
+        "mean_predicted_drugs": 18.976
+      }
+    ]
+  },
+  "paired": {
+    "uniform_sft__minus__base": {
+      "drug_order_difference": [
+        0.05295522065575542,
+        0.05521330989071263
+      ],
+      "patient_cluster_ci95": [
+        [
+          0.03638025818082724,
+          0.04206769348814615
+        ],
+        [
+          0.06938349503400533,
+          0.0681016774930668
+        ]
+      ]
+    },
+    "error_prioritized_sft__minus__base": {
+      "drug_order_difference": [
+        0.05032984208176022,
+        0.05543476988314178
+      ],
+      "patient_cluster_ci95": [
+        [
+          0.03349813738991646,
+          0.042755418348020977
+        ],
+        [
+          0.06687648936012702,
+          0.0685999450360497
+        ]
+      ]
+    },
+    "error_prioritized_sft__minus__uniform_sft": {
+      "drug_order_difference": [
+        -0.0026253785739951963,
+        0.00022145999242914605
+      ],
+      "patient_cluster_ci95": [
+        [
+          -0.006697121651750416,
+          -0.003137107855506431
+        ],
+        [
+          0.0013392579121088593,
+          0.003525722383682243
+        ]
+      ]
+    },
+    "uniform_sft__minus__guard_selected_top_k_tools": {
+      "drug_order_difference": [
+        -0.024746162927981097,
+        -0.016245952348403092
+      ],
+      "patient_cluster_ci95": [
+        [
+          -0.03673401067477388,
+          -0.025568710986317165
+        ],
+        [
+          -0.013158049665892515,
+          -0.00699476111647875
+        ]
+      ]
+    },
+    "error_prioritized_sft__minus__guard_selected_top_k_tools": {
+      "drug_order_difference": [
+        -0.027371541501976293,
+        -0.016024492355973946
+      ],
+      "patient_cluster_ci95": [
+        [
+          -0.040038826406875096,
+          -0.025935010463258523
+        ],
+        [
+          -0.014914143944946908,
+          -0.005919234329645733
+        ]
+      ]
+    }
+  },
+  "verification": [
+    {
+      "method": "base",
+      "independent_recount": "passed"
+    },
+    {
+      "method": "uniform_sft_round_1",
+      "independent_recount": "passed"
+    },
+    {
+      "method": "uniform_sft_round_2",
+      "independent_recount": "passed"
+    },
+    {
+      "method": "uniform_sft_round_3",
+      "independent_recount": "passed"
+    },
+    {
+      "method": "error_prioritized_sft_round_1",
+      "independent_recount": "passed"
+    },
+    {
+      "method": "error_prioritized_sft_round_2",
+      "independent_recount": "passed"
+    },
+    {
+      "method": "error_prioritized_sft_round_3",
+      "independent_recount": "passed"
+    }
+  ],
+  "interval_note": "Descriptive paired patient-cluster intervals, 2000 replicates, no multiple-comparison adjustment.",
+  "mean_gold_drugs": 6.784,
+  "mean_reachable_gold_drugs": 3.802
+}

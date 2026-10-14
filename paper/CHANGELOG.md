@@ -1,5 +1,13 @@
 # Manuscript change log / 论文变更记录
 
+## 2026-10-14 — v0.9 and v0.17 complete; real order compiler verified
+
+- Recounted all seven local QLoRA states on 500 new admissions; ordinary and prioritized updates trail direct top-8 tools.
+- Completed the grounded/no-grounding × learned/no-skill controls and exact intermediate skill evaluation; preserved nonmonotonicity and transfer regressions.
+- Added typed-order and rollback probes, complete-task FHIR learning protocol, budget-before-request checks and expanded execution diagram.
+- Continued binary local supervision and Gemini transfer; began provider-order-time validity audit.
+
+
 ## 2026-10-14 — v0.14/v0.16 executed; interrupted runs recovered
 
 - Completed all v0.8 seeds and v0.11 API requests after the user restored credits; retained invalidated history.

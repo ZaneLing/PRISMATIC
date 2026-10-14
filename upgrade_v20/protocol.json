@@ -1,0 +1,23 @@
+{
+  "purpose": "Resolve the known distinction between intended medication start and provider order authoring.",
+  "cohort": "Existing v4 admission/starttime-in-next-6h targets, used only for audit, not a newly filtered performance cohort.",
+  "join_keys": [
+    "prescriptions.poe_id -> poe.poe_id",
+    "prescriptions.pharmacy_id -> pharmacy.pharmacy_id"
+  ],
+  "identity_checks": [
+    "subject_id",
+    "hadm_id"
+  ],
+  "timestamps": [
+    "poe.ordertime",
+    "pharmacy.entertime",
+    "pharmacy.verifiedtime"
+  ],
+  "privacy": "All row-level joins remain restricted/local; public outputs are aggregate counts.",
+  "sources": [
+    "https://mimic.mit.edu/docs/iv/modules/hosp/poe.html",
+    "https://mimic.mit.edu/docs/iv/modules/hosp/pharmacy.html",
+    "https://mimic.mit.edu/docs/iv/modules/hosp/prescriptions.html"
+  ]
+}

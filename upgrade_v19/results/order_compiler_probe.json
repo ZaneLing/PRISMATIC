@@ -1,0 +1,44 @@
+{
+  "literal_benchmark_shape": {
+    "post_http_status": 201,
+    "read_http_status": 200,
+    "dosage_fields_preserved": false
+  },
+  "canonical_r4_shape": {
+    "post_http_status": 201,
+    "read_http_status": 200,
+    "dosage_fields_preserved": true
+  },
+  "mapping_audit": {
+    "changes": [
+      {
+        "path": "dosageInstruction[0].route",
+        "conversion": "string -> CodeableConcept.text; text preserved verbatim"
+      }
+    ],
+    "semantic_warnings": [
+      {
+        "path": "dosageInstruction[0].doseAndRate[0].rateQuantity",
+        "kind": "duration_unit_in_rate_field",
+        "action": "preserved; no inferred rate or duration conversion",
+        "clinical_semantics_validated": false
+      }
+    ]
+  },
+  "counts_before": {
+    "Patient": 695,
+    "MedicationRequest": 21991,
+    "Observation": 563426,
+    "ServiceRequest": 0
+  },
+  "counts_after": {
+    "Patient": 695,
+    "MedicationRequest": 21991,
+    "Observation": 563426,
+    "ServiceRequest": 0
+  },
+  "cleanup_verified": true,
+  "model_calls": 0,
+  "source": "https://hl7.org/fhir/R4/dosage-definitions.html#Dosage.route",
+  "scope": "Structural serialization only. The duration-like rate field is preserved and explicitly not clinically validated."
+}

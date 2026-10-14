@@ -15,8 +15,8 @@ flowchart TD
     F --> G[Training prescription feedback]
     G --> H[Attribute omissions, extra drugs and field errors]
     H --> I[Candidate artifact edits]
-    I --> J[Proposal-validation selection]
-    J --> K[Independent guard: fixes and regressions]
+    I --> J[Declared development selection]
+    J --> K[Study-specific guard or author-core gate]
     K --> L[Accept new version or retain prior state]
     L --> B
     L --> C
@@ -29,11 +29,11 @@ Test labels never enter the update loop. Schema validity does not establish clin
 | Object | Update | Evidence | Experiment |
 |---|---|---|---|
 | Drug policy W | Refit on accumulated training cases | Parameter hashes, freeze-W ablation | v0.7 complete |
-| Episode memory M | Add observed training episodes | Membership and freeze-M ablation | v0.7 complete; v0.8 running |
+| Episode memory M | Add observed training episodes | Membership and freeze-M ablation | v0.7/v0.8 complete |
 | Order tool T | Learn context-conditioned joint field templates | Template/parameter hashes, freeze-T ablation | v0.7 complete |
-| Language skills K | LLM edits reusable procedures from its errors | Full text changes, fixes/regressions, remove-K ablation | v0.8 running |
-| Evidence-tool configuration | Learn focus terms for exact dialogue excerpts | Config changes and ablation | v0.8 running; tool code fixed |
-| LLM parameters | QLoRA, uniform versus error-prioritized sampling | Actual adapter hashes, equal-budget generation evaluation | v0.9 running |
+| Language skills K | LLM edits reusable procedures from its errors | Full text changes, fixes/regressions, remove-K ablation | v0.8 complete; full RxRSI accepted no change |
+| Evidence-tool configuration | Learn focus terms for exact dialogue excerpts | Config changes and ablation | v0.8 complete; tool code fixed |
+| LLM parameters | QLoRA, uniform versus error-prioritized sampling | Actual adapter hashes, equal-budget generation evaluation | v0.9 complete; v0.15 running |
 
 These studies isolate distinct objects; their fully combined superiority has not been established. v0.7 is supervised artifact learning, v0.8 tests LLM-authored persistent skills, and v0.9 updates LLM weights.
 
@@ -48,3 +48,27 @@ The three-seed v0.7 accepted curves improve from 8k to 40k cases. However, the f
 Observed drug/route/dose/unit labels support automatic evaluation without mandatory clinician review. Missing attributes remain unknown. Optional clinical review can assess acceptable alternatives and safety absent from GT.
 
 MIMIC inputs currently use chief complaint, acuity and home-medication proxies; source entry timestamps remain incomplete. Public option selection is not free full-order generation. Official RxEval/SafeRx test data are unavailable locally, so runnable datasets remain the immediate priority.
+
+## Implemented execution paths and limits
+
+1. **Local orders:** patient proxies → frozen candidate catalogue → Qwen selection → exact recorded order templates. v0.9 updates real LoRA weights, but over-selects and loses to direct top-8 tools. v0.15 tests explicit binary exclusion supervision. These paths do not generate unseen doses.
+2. **Public decisions:** dialogue/options → optional label retrieval → optional learned skill injection → a single choice. v0.17 evolves one skill through three accepted edits, scores 501/988 versus fixed grounding 499 and author GRASP 502, and regresses on RxQA.
+3. **Interactive prescriptions:** available task/context → FHIR search → conditional ordering → typed order compiler → real write → complete field readback → finish. Invalid action feedback consumes the existing eight-turn budget. v0.19 will compare fixed and evolving skill versions on the full released task splits.
+
+The route compiler is a manual engineering improvement, not an automatically evolved tool. The model weights are fixed in public skill experiments. GRASP-based studies use the credited author's probe/epoch-validation selection, not the independent guard used in some other studies. All of these distinctions remain in the reported protocol.
+
+```mermaid
+flowchart LR
+  A[Task and available patient state] --> B[FHIR records]
+  B --> C[LLM with accepted skills]
+  C --> D{Legal action?}
+  D -- No, within 8 calls --> C
+  D -- Order --> E[Lossless typed compiler]
+  E --> F[Local FHIR write]
+  F --> G{Stored fields preserved?}
+  G -- No --> C
+  G -- Yes --> H[Finish and score]
+  H --> I[Training-only feedback]
+  I --> J[Propose skills and validate]
+  J --> C
+```

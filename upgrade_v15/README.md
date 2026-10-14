@@ -7,3 +7,7 @@ The v0.9 guard set reveals over-selection: the target averages 3.635 reachable d
 The model, three feedback blocks, 400 sampled cases/100 steps per round, uniform versus error-prioritized feedback, guard selection and 500 test memberships match v0.9. Both arms restart from the original backbone. Equal steps and output caps do not mean identical training target-token counts. The representation change must beat both the ID-format study and direct-tool controls before it supports a benefit claim.
 
 All data/weights remain local. `protocol.json` records that v0.9 test results did not exist when this design was frozen. Three parser contracts verify exact length, explicit negatives and cache identity. No result is filled before generation-based evaluation.
+
+## Execution update — 14 October 2026
+
+The preceding v0.9 test completed and passed independent recount. The queued binary-intervention process has now started. `results/*_rounds.json` records progress; no unfinished test score is reported.

@@ -1,0 +1,36 @@
+{
+  "source_commit": "9d7d125a3e9b46ed591692475eb07aff4ae67d34",
+  "optimizer": "Unmodified author GRASP core; new real-FHIR task adapter",
+  "train_n": 96,
+  "validation_n": 80,
+  "id_test_n": 64,
+  "heldout_task_type_test_n": 60,
+  "feedback_batches": 4,
+  "cases_per_batch": 24,
+  "proposal_slots": 4,
+  "balanced_training_probe_n": 12,
+  "max_action_calls": 8,
+  "actor_tokens": 512,
+  "proposer_tokens": 3072,
+  "model": "deepseek/deepseek-v4.1-flash",
+  "evolving": [
+    "Language skill files"
+  ],
+  "fixed": [
+    "FHIR compiler",
+    "protocol feedback",
+    "backbone weights"
+  ],
+  "controls": [
+    "literal direct tools",
+    "fixed compiled/verified harness"
+  ],
+  "serialized_episodes": true,
+  "episode_cache": "Exact code/mode/case/skill digest; complete already-executed episodes may replay. Physical operations and logical cost are distinguished.",
+  "actor_inputs": "instruction/context and actual tool replies only; no sol/eval_MRN fields",
+  "feedback": "Patient-ID-redacted training traces and automatic original/state grades; no test labels in learning.",
+  "patient_split_note": "Official task splits overlap in patients; not patient-disjoint.",
+  "state_score": "Original reference criteria plus all submitted canonical fields preserved on readback. Duration-like legacy rate fields remain semantically unvalidated.",
+  "selection": "End-of-epoch best validation checkpoint from the author core, before ID/OOD testing.",
+  "cost_cap_cumulative_usd": 28
+}

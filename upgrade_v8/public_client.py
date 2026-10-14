@@ -4,10 +4,25 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent
 LOCAL=Path.home()/'Desktop/PRISMATIC/upgrade_v2/.local/rxrsi-v8'
 LOCAL.mkdir(exist_ok=True)
-LOCK=threading.Lock()
+LOCK=threading.RLock()
 BLOCK_FILE=LOCAL/'api-unavailable.json'
+_LEDGER_STATE={'path':None,'position':0,'cost':0.0}
 
 class PublicAPIUnavailable(RuntimeError):pass
+
+def ledger_total():
+    """Incrementally read append-only charges, including other running workers."""
+    path=LOCAL/'usage.jsonl'
+    with LOCK:
+        if not path.exists():return 0.0
+        if _LEDGER_STATE['path']!=str(path) or path.stat().st_size<_LEDGER_STATE['position']:
+            _LEDGER_STATE.update(path=str(path),position=0,cost=0.0)
+        with path.open('rb') as stream:
+            stream.seek(_LEDGER_STATE['position']);tail=stream.read()
+        end=tail.rfind(b'\n')+1
+        for line in tail[:end].splitlines():_LEDGER_STATE['cost']+=json.loads(line).get('cost_usd',0) or 0
+        _LEDGER_STATE['position']+=end
+        return _LEDGER_STATE['cost']
 
 def digest(x):return hashlib.sha256(json.dumps(x,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
 
@@ -47,8 +62,11 @@ def request(messages,model,max_tokens,role='actor',temperature=0,cache_salt=None
             except json.JSONDecodeError:time.sleep(.05)
         raise RuntimeError('Incomplete response cache; raw file retained for inspection')
     if BLOCK_FILE.exists():raise PublicAPIUnavailable('OpenRouter unavailable; cached outputs remain readable. Restore account access and clear the local block before resuming.')
+    cost_cap=float(os.getenv('RXRSI_PUBLIC_COST_CAP_USD','15'))
+    if ledger_total()>=cost_cap:raise RuntimeError('Public evaluation cost cap reached before request; cached progress retained')
     key=credentials();last=None
     for retry in range(3):
+        if ledger_total()>=cost_cap:raise RuntimeError('Public evaluation cost cap reached before retry; cached progress retained')
         try:
             req=urllib.request.Request('https://openrouter.ai/api/v1/chat/completions',data=json.dumps(body).encode(),
                 headers={'Authorization':'Bearer '+key,'Content-Type':'application/json','X-Title':'RxRSIAgent public benchmark evolution'},method='POST')
@@ -64,9 +82,9 @@ def request(messages,model,max_tokens,role='actor',temperature=0,cache_salt=None
                 temporary=path.with_suffix(f'.{os.getpid()}.{threading.get_ident()}.tmp')
                 temporary.write_text(json.dumps(row,ensure_ascii=False)+'\n');os.replace(temporary,path)
                 with (LOCAL/'usage.jsonl').open('a') as f:f.write(json.dumps({k:v for k,v in row.items() if k!='raw'})+'\n')
-                total=sum(json.loads(s).get('cost_usd',0) or 0 for s in (LOCAL/'usage.jsonl').read_text().splitlines())
-            cost_cap=float(os.getenv('RXRSI_PUBLIC_COST_CAP_USD','15'))
-            if total>cost_cap:raise RuntimeError('Public evaluation cost cap reached; cached progress retained')
+                ledger_total()
+            # Retain this successful reply. The next uncached request checks
+            # the cap; already in-flight concurrent calls may finish above it.
             return row
         except urllib.error.HTTPError as e:
             last='HTTP_'+str(e.code)

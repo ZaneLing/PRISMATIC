@@ -1,0 +1,61 @@
+{
+  "status": "complete",
+  "counts": {
+    "target_rows": 1788195,
+    "admissions": 142768,
+    "with_ordertime": 1743666,
+    "with_entertime": 1788195,
+    "with_verifiedtime": 1786884,
+    "order_before_admission": 42005,
+    "order_in_next_6h": 1425392,
+    "order_after_6h": 276269,
+    "entered_before_admission": 9,
+    "entered_in_next_6h": 1777546,
+    "poe_identity_mismatch": 438,
+    "pharmacy_identity_mismatch": 0,
+    "frequency_present": 1786892,
+    "duration_present": 177090,
+    "basal_rate_present": 20795
+  },
+  "split_counts": [
+    {
+      "split": "test",
+      "target_rows": 180593,
+      "with_ordertime": 176797,
+      "order_before_admission": 4072,
+      "order_in_next_6h": 144540
+    },
+    {
+      "split": "train",
+      "target_rows": 1427246,
+      "with_ordertime": 1391302,
+      "order_before_admission": 33688,
+      "order_in_next_6h": 1136565
+    },
+    {
+      "split": "val",
+      "target_rows": 180356,
+      "with_ordertime": 175567,
+      "order_before_admission": 4245,
+      "order_in_next_6h": 144287
+    }
+  ],
+  "start_minus_order_hours_quantiles_01_50_99": [
+    -210.04619444444435,
+    0.5638888888888889,
+    4.651666666666666
+  ],
+  "duplicate_link_keys": {
+    "poe": 0,
+    "pharmacy": 0
+  },
+  "temporal_count_policy": "Only exact subject_id AND hadm_id matches supply timestamps. Conflicting or missing admission links remain unknown, and conflicts are explicitly counted.",
+  "interpretation": "Orders scheduled to start after admission may already have been authored before admission. Existing scores remain historical start-window agreement, not proven prospective new-order prediction.",
+  "next_protocol": "Build targets from provider ordertime, and inputs only from information recorded by the decision timestamp; do not merely filter old start-window targets, which would miss newly authored orders with different start times.",
+  "identity_conflict_detail": {
+    "poe_subject_mismatch": 0,
+    "poe_admission_mismatch": 438,
+    "pharmacy_subject_mismatch": 0,
+    "pharmacy_admission_mismatch": 0
+  }
+}

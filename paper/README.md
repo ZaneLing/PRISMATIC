@@ -1,6 +1,6 @@
 # PRISMATIC / RxRSIAgent manuscript and execution index
 
-**Target: ACL 2027. API recovery is complete: all v0.8 seeds and v0.11 requests are scored from received responses. v0.14 real-FHIR development pilot and v0.16 budget repair have executed results; v0.9 test generation and v0.17 grounded skill evolution continue.** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
+**Target: ACL 2027. v0.9 local parameter tests and v0.17 grounded skill/round evaluations are complete and independently recounted. v0.15 binary supervision and v0.18 Gemini artifact transfer are running; full FHIR skill learning is queued after them.** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
 
 ## Start here
 
@@ -33,15 +33,18 @@ GT-based evaluation does not require clinician review. Missing attributes remain
 
 | Version | Record | Evidence |
 | --- | --- | --- |
-| v0.17 | [Grounded skill experiment](../upgrade_v17/README.md) | Running: fixed label evidence plus credited author-core optimizer |
+| v0.20 | [Order-entry audit](../upgrade_v20/RESULTS.en.md) | 1.788M target rows, actual provider/pharmacy clocks, explicit identity conflicts |
+| v0.19 | [Real-order compiler probes](../upgrade_v19/RESULTS.en.md) | Actual field preservation and rollback; full FHIR learning queued |
+| v0.18 | [Backbone-transfer protocol](../upgrade_v18/protocol.json) | Gemini four-method frozen-artifact comparison running |
+| v0.17 | [Grounded skill results](../upgrade_v17/RESULTS.en.md) | Four matched components, all frozen rounds, transfer and paired intervals |
 | v0.16 | [Budget repair results](../upgrade_v16/RESULTS.en.md) | Completed 190-question Gemini development repair; 2,048-token follow-up complete; four-method backbone transfer queued |
-| v0.15 | [Pre-test intervention](../upgrade_v15/README.md) | Binary candidate output protocol frozen before v0.9 test scoring; local training queued |
+| v0.15 | [Pre-test intervention](../upgrade_v15/README.md) | Binary candidate output protocol frozen before v0.9 test scoring; local training running |
 | v0.14 | [Real FHIR results](../upgrade_v14/RESULTS.en.md) | Five integration probes and matched 16-task model pilot |
 | v0.13 | [Executed outcome-verifier results](../upgrade_v13/RESULTS.en.md) | Three seeds, same two-call budget, uniform/error-prioritized updates and full-data supervision |
 | v0.12 | [Executed gate/round results](../upgrade_v12/RESULTS.en.md) | Three-seed cached replay, evolving routing parameters, regressions and fixed-tool control |
 | v0.11 | [Completed executed results](../upgrade_v11/RESULTS.en.md) | All indication/Gemini requests recovered under the original protocol |
 | v0.10 | [Executed results](../upgrade_v10/RESULTS.en.md) | Unmodified author GRASP core, scoped-skill failure and paired analysis |
-| v0.9 | [Protocol / running](../upgrade_v9/README.md) | Local QLoRA, matched uniform/error-prioritized updates |
+| v0.9 | [Completed results](../upgrade_v9/RESULTS.en.md) | 500-case all-checkpoint QLoRA evaluation and direct tool controls |
 | v0.8 | [Results / three seeds complete](../upgrade_v8/RESULTS.en.md) | Public language-artifact evolution, named task adaptations, transfer |
 | v0.7 | [Executed results](../upgrade_v7/RESULTS.en.md) | Three seeds, new 4k test, artifact ablations, stronger equal-data controls |
 | v0.6 | [Results](../upgrade_v6/RESULTS.en.md), [design](../upgrade_v6/DESIGN.en.md) | Raw orders, GT automatic feedback, policy evolution, reported baselines and negative replay/planner ablations |

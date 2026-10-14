@@ -1,5 +1,17 @@
 # PRISMATIC manuscript completion and execution plan
 
+## Latest completion: all local checkpoints and skill trajectories (14 October 2026)
+
+- **v0.9 complete and independently recounted:** uniform drug/order F1 0.28694/0.19115; error priority 0.28432/0.19137; direct top-8 tools remain stronger at 0.31169/0.20739. All states, 500 admissions/494 patients and paired intervals are delivered.
+- **v0.17 complete:** grounded skills score 501/988, fixed grounding 499, author GRASP 502. Fixed-test trajectory is 499→499→475→493→501; RxQA 188→188→175→175→183. Actual text, hashes, repairs/regressions and cost are released; improvement is not monotonic.
+- **v0.19 engineering probes complete:** a literal route string returns HTTP 201 but loses fields; typed FHIR conversion preserves them. Actual field-loss rollback and budgeted repair feedback are verified. Full-task skill learning is queued after Gemini.
+- **Running:** v0.15 binary supervision and v0.18 four-method Gemini artifact transfer.
+- **New validity audit v0.20:** join provider ordertime and pharmacy entertime to measure already-authored orders in prior starttime targets and design a stricter prospective order protocol.
+
+[Current results](CURRENT_RESULTS.en.md) · [Local parameters](../upgrade_v9/RESULTS.en.md) · [Skill trajectories](../upgrade_v17/RESULTS.en.md)
+
+---
+
 ## Latest increment: API recovery, real FHIR and budget repair (14 October 2026)
 
 This is the current state; older sections preserve historical plans and credit interruptions.
