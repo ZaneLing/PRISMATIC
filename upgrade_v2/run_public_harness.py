@@ -251,7 +251,8 @@ def run(data_dir: Path, direct_path: Path, output: Path,
         "model_results": scores,
         "limitations": ["MCQ scaffold pilot, not prescription generation or clinical validation",
                         "grounding checks only exact quote presence, not medical correctness",
-                        "small deterministic sample; exploratory confidence intervals"],
+                        ("full deduplicated public set; exploratory confidence intervals"
+                         if len(cases) == 2000 else "selected deterministic sample; exploratory confidence intervals")],
     }
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     output.with_name(output.stem + "_predictions.json").write_text(

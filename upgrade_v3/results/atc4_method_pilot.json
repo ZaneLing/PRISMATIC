@@ -1,0 +1,85 @@
+{
+  "task": "MIMIC-IV/ED historical 6h all-route ATC-L4 order-set prediction; not clinical correctness",
+  "population": "all eligible ED-to-hospital admissions; no future-order inclusion rule",
+  "method_comparison_status": "pilot: three locally executed methods; paper architectures and full harness pending",
+  "split": "patient disjoint, same fixed test cases for every row",
+  "sampled_admissions": {
+    "train": 40000,
+    "val": 4000,
+    "test": 4000
+  },
+  "sampled_patients": {
+    "train": 30071,
+    "val": 3022,
+    "test": 3115
+  },
+  "label_space": "top 80 ATC-L4 codes by training prevalence only",
+  "prediction_budget": "exactly 5 ATC-L4 codes per case",
+  "case_retrieval_neighbors": 30,
+  "label_coverage_in_test": 0.96197,
+  "test_cases_with_no_mapped_label": 1296,
+  "metrics_test": {
+    "train_prevalence": {
+      "precision_at_5": 0.24325,
+      "micro_recall_at_5": 0.34007,
+      "macro_recall_at_5_nonempty": 0.38172,
+      "micro_f1_at_5": 0.28362,
+      "hit_rate_at_5": 0.56
+    },
+    "case_retrieval": {
+      "precision_at_5": 0.2809,
+      "micro_recall_at_5": 0.3927,
+      "macro_recall_at_5_nonempty": 0.44267,
+      "micro_f1_at_5": 0.32752,
+      "hit_rate_at_5": 0.59125
+    },
+    "direct_tfidf_sgd": {
+      "precision_at_5": 0.3314,
+      "micro_recall_at_5": 0.4633,
+      "macro_recall_at_5_nonempty": 0.51542,
+      "micro_f1_at_5": 0.3864,
+      "hit_rate_at_5": 0.61975
+    }
+  },
+  "metrics_validation": {
+    "case_retrieval": {
+      "precision_at_5": 0.27615,
+      "micro_recall_at_5": 0.39343,
+      "macro_recall_at_5_nonempty": 0.44929,
+      "micro_f1_at_5": 0.32452,
+      "hit_rate_at_5": 0.58175
+    },
+    "direct_tfidf_sgd": {
+      "precision_at_5": 0.32655,
+      "micro_recall_at_5": 0.46524,
+      "macro_recall_at_5_nonempty": 0.52475,
+      "micro_f1_at_5": 0.38375,
+      "hit_rate_at_5": 0.6075
+    }
+  },
+  "paired_test_micro_f1": {
+    "direct_minus_retrieval": {
+      "delta_second_minus_first": 0.05888,
+      "patient_bootstrap_95pct": [
+        0.05329,
+        0.06463
+      ],
+      "patients": 3115,
+      "draws": 2000
+    },
+    "retrieval_minus_prevalence": {
+      "delta_second_minus_first": 0.0439,
+      "patient_bootstrap_95pct": [
+        0.03806,
+        0.04997
+      ],
+      "patients": 3115,
+      "draws": 2000
+    }
+  },
+  "disclosures": [
+    "ATC-L4 NDC mapping incomplete; see atc4_mapping_audit.json",
+    "all metrics compare historical orders rather than appropriateness or safety",
+    "no post-decision diagnosis, procedures, labs, or prescriptions used as input"
+  ]
+}

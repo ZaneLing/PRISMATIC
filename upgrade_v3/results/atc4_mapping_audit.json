@@ -1,0 +1,53 @@
+{
+  "task": "historical all-route ATC-L4 order-set prediction within 6h; not clinical correctness",
+  "population": "all ED-to-hospital admissions with admission during ED stay; no future-order inclusion rule",
+  "source_map": "SafeDrug official RXCUI2atc4.csv commit 88ce5c377dcdc2aa01aaa88f5478dfa4373ba49a",
+  "source_map_sha256": "162fefc5cc374ac545501dec0d3738cb7a362e1e08b46b64d1a779eaeda7888e",
+  "ndc_normalization": "only standard 10-digit hyphenated or exact 11-digit forms; ambiguous NDC excluded",
+  "public_unambiguous_ndc": 94056,
+  "gsn_fallback": {
+    "training_patients_only": true,
+    "minimum_mapped_orders": 10,
+    "minimum_purity": 0.98,
+    "accepted_gsn_codes": 696
+  },
+  "drug_name_fallback": {
+    "training_patients_only": true,
+    "minimum_mapped_orders": 10,
+    "minimum_purity": 0.98,
+    "accepted_names": 429
+  },
+  "split": "patient-disjoint BLAKE2b(patient-split-2026), 80/10/10",
+  "orders": {
+    "all": 1788195,
+    "with_11digit_ndc": 1526004,
+    "mapped_ndc": 601467,
+    "mapped_train_gsn_fallback": 114642,
+    "mapped_train_drug_name_fallback": 100239,
+    "unmapped": 971847,
+    "unique_atc4": 253,
+    "mapped_fraction": 0.45652
+  },
+  "cohort_by_split": {
+    "test": {
+      "admissions": 20364,
+      "patients": 10810,
+      "with_mapped_label": 13697,
+      "mapped_label_instances": 72132
+    },
+    "train": {
+      "admissions": 160840,
+      "patients": 85596,
+      "with_mapped_label": 107553,
+      "mapped_label_instances": 565743
+    },
+    "val": {
+      "admissions": 20546,
+      "patients": 10691,
+      "with_mapped_label": 13514,
+      "mapped_label_instances": 71431
+    }
+  },
+  "restricted_source_cohort": "/Users/bytedance/Desktop/MedTreeBench/dataset/restricted/prismatic-v3/admission_cohort_6h.parquet",
+  "restricted_patient_level_output": "/Users/bytedance/Desktop/MedTreeBench/dataset/restricted/prismatic-v3/cohort_atc4_6h.parquet"
+}

@@ -112,10 +112,11 @@ def run(path: Path, output: Path, count: int, models: list[str], workers: int) -
         "generation": {"temperature": 0, "max_tokens": 128,
                        "deepseek_reasoning_effort": "none"},
         "model_results": scores,
-        "limitations": ["selected subset, not the full 300-question benchmark",
+        "limitations": [("full 300-question public OpenFDA subset; BNF items are unavailable"
+                         if len(cases) == 300 else "selected subset, not the full 300-question public OpenFDA set"),
                         "four-choice knowledge/reasoning is distinct from real prescription construction",
                         "single-pharmacist review per item and selection bias in source benchmark",
-                        "original option positions are imbalanced in this sample: 46% of gold answers are C"],
+                        "original option positions may be imbalanced; report gold_option_counts"],
     }
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     output.with_name(output.stem + "_predictions.json").write_text(

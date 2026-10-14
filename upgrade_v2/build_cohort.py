@@ -26,7 +26,7 @@ def source(root: Path, relative: str) -> str:
     return str(path).replace("'", "''")
 
 
-def build(root: Path, hours: int, output: Path) -> dict:
+def build(root: Path, hours: int, output: Path, include_unlabeled: bool = False) -> dict:
     if not 1 <= hours <= 24:
         raise ValueError("hours must be between 1 and 24")
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -95,6 +95,7 @@ def build(root: Path, hours: int, output: Path) -> dict:
     """)
 
     escaped_output = str(output).replace("'", "''")
+    label_join = "LEFT JOIN" if include_unlabeled else "JOIN"
     con.execute(f"""
         COPY (
             SELECT b.subject_id, b.hadm_id, b.stay_id, b.decision_time,
@@ -103,12 +104,13 @@ def build(root: Path, hours: int, output: Path) -> dict:
                    COALESCE(h.home_meds, '') AS home_meds,
                    COALESCE(h.home_med_count, 0) AS home_med_count,
                    h.max_home_med_charttime,
-                   l.target_codes, l.target_count,
+                   COALESCE(l.target_codes, []::VARCHAR[]) AS target_codes,
+                   COALESCE(l.target_count, 0) AS target_count,
                    l.min_target_starttime, l.max_target_starttime
             FROM base b
             LEFT JOIN triage_input t ON b.stay_id = t.stay_id
             LEFT JOIN home_med_input h ON b.stay_id = h.stay_id
-            JOIN labels l ON b.hadm_id = l.hadm_id
+            {label_join} labels l ON b.hadm_id = l.hadm_id
         ) TO '{escaped_output}' (FORMAT PARQUET, COMPRESSION ZSTD)
     """)
     audit = con.execute(f"""
@@ -133,6 +135,8 @@ def build(root: Path, hours: int, output: Path) -> dict:
     """).fetchone()
     result = {
         "task": "historical_oral_gsn_set_within_hours_after_hospital_admission",
+        "selection": ("all ED-to-hospital admissions at decision time; zero-order labels retained"
+                      if include_unlabeled else "requires a future oral-GSN order"),
         "hours": hours,
         "base_admissions_with_ed_stay_covering_admission": base_count,
         "cohort_admissions": audit[0],
@@ -163,5 +167,8 @@ if __name__ == "__main__":
     parser.add_argument("--restricted", type=Path, default=DEFAULT_RESTRICTED)
     parser.add_argument("--hours", type=int, default=6)
     parser.add_argument("--output", type=Path, default=LOCAL_DIR / "cohort_6h.parquet")
+    parser.add_argument("--include-unlabeled", action="store_true",
+                        help="Keep all ED-to-hospital admissions; do not select on future oral orders")
     args = parser.parse_args()
-    print(json.dumps(build(args.restricted, args.hours, args.output), indent=2, ensure_ascii=False))
+    print(json.dumps(build(args.restricted, args.hours, args.output,
+                           include_unlabeled=args.include_unlabeled), indent=2, ensure_ascii=False))

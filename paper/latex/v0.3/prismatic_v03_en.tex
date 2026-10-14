@@ -1,0 +1,113 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{booktabs,tabularx,array,multirow}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue}
+\newcommand{\pending}{\textit{pending}}
+\title{PRISMATIC v0.3: A Time-Frozen, Method-Level Evaluation Protocol for Evolving Prescription Support}
+\author{PRISMATIC research draft\\Version 0.3 --- 14 October 2026}
+\date{}
+\begin{document}
+\maketitle
+\begin{abstract}
+Medication-set prediction from historical orders does not establish clinical prescribing quality. We therefore redesign PRISMATIC around a common decision-time snapshot, patient-disjoint split, ATC level-4 medication space, method-level comparison, and blinded clinical review. On a restricted MIMIC-IV v3.1 plus MIMIC-IV-ED v2.2 cohort, 201,750 ED-to-hospital admissions are included without selecting on future medication orders. A pinned public NDC map plus training-patient-only GSN and drug-name fallbacks maps 45.652\% of 1,788,195 six-hour orders to ATC-L4. In a 40,000/4,000/4,000 admission train/validation/test pilot, all methods receive the same pre-admission text and output exactly five of the 80 most frequent training ATC-L4 classes. Test micro-F1 is 0.2836 for prevalence, 0.3275 for case retrieval, and 0.3864 for a direct TF-IDF/SGD predictor. These are historical-order overlap scores, not safety scores. GAMENet, SafeDrug, SafeRx-Agent, and the full prescription harness remain unscored in the registered main table pending temporally valid adaptation, complete order output, and review. We specify a 200-case, two-reviewer blinded protocol and separate full public RxSafeBench/RxQA evaluations. No previously published score is imported into the main table.
+\end{abstract}
+
+\section{Introduction}
+The 2025 PRISMATIC design proposed multi-agent prescription review. The current research question is narrower and testable: as locally reviewed cases accumulate, can a system learn when supportive drugs and fluids are indicated while reducing harmful omissions, unnecessary orders, drug--drug interactions (DDIs), and renal-dose mistakes? A model comparison on multiple-choice questions does not answer a method-level prescription question. This version makes the \emph{rows of the primary table methods}, fixes one patient cohort and output space, and distinguishes completed pilot rows from preregistered but unmeasured rows. The earlier v0.2 multiple-choice comparison is retained only as a secondary experiment \cite{prismatic-v02}.
+
+\section{Related work and comparability}
+GAMENet uses sequential visit diagnoses, procedures, medication history, EHR co-occurrence and DDI graph memory \cite{gamenet}. SafeDrug adds molecular information and DDI constraints \cite{safedrug}. SafeRx-Agent describes an ATC-L4 multi-agent medication recommender with supportive-care and verification roles \cite{saferx}. DREAM provides a recent unified benchmark implementation of legacy models \cite{dream}. Their original scores and data pipelines differ from an admission-time ED prescribing decision. Discharge diagnoses, later procedures or later prescriptions cannot be used as inputs here. Any adaptation must be named an \emph{independent admission-time reproduction}; a network with its critical inputs removed is not an exact paper reproduction. RxSafeBench and RxQA test public medication reasoning questions \cite{rxsafe,rxqa}; MedAgentBench tests FHIR EHR tool actions and state \cite{medagent}. None is a substitute for blinded review of complete patient-specific orders.
+
+\section{Methods}
+\subsection{Decision point, cohort and medication space}
+The decision point is hospital admission during an ED stay. Inputs currently available and audited are ED chief complaint and triage acuity, vitals, admission metadata, and medication reconciliation charted by that time. Targets are all-route prescriptions started in the next six hours. All 201,750 admissions meeting the ED-time criterion are retained, including those with no future oral or mapped ATC order. The same BLAKE2b patient hash assigns 80/10/10 train/validation/test splits before admission subsampling; repeat admissions never cross splits. No discharge diagnoses, later laboratories or later medication orders enter predictors.
+
+The ATC-L4 map is the official SafeDrug \texttt{RXCUI2atc4.csv} file pinned to commit \texttt{88ce5c3} and SHA-256 \texttt{162fefc5...daeda7888e}. Standard 10-digit hyphenated NDCs are converted to 11 digits; ambiguous NDC-to-ATC assignments are discarded. Two fallbacks accept a GSN or exact normalized drug name only when at least 10 \emph{training-patient} mapped orders agree on one code at $\geq 98\%$ purity. Test labels never build fallback maps. This produces 253 observed ATC-L4 classes and 816,348 mapped orders (45.652\%); 971,847 orders remain unmapped. The low coverage limits external validity and forbids treating an absent ATC label as an absent clinical order.
+
+\begin{table}[t]
+\centering\small
+\caption{Dataset registry. Primary clinical and tool endpoints are still pending.}
+\label{tab:data}
+\begin{tabularx}{\linewidth}{@{}p{2.0cm}X p{2.5cm}@{}}
+\toprule
+Dataset & Same-case task and population & Endpoint/status \\
+\midrule
+MIMIC-ED6-ATC4 & Restricted MIMIC-IV/ED; admission snapshot; six-hour all-route ATC-L4 set; 201,750 admissions, 107,097 patients & Method main table; pilot overlap \\
+Clinical-200 & Up to 25 common test admissions in each of 8 supportive-order strata & Blinded safety review pending \\
+RxSafeBench-full & All 2,000 deduplicated public fictional three-option cases under pinned source & Secondary accuracy \\
+RxQA-full & All 300 public OpenFDA pharmacist-reviewed four-option questions & Secondary accuracy \\
+MedAgentBench & 300 FHIR EHR workflow tasks and real tool state & Tool success pending \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Methods, budgets and outcomes}
+For the current pilot, the prevalence baseline, TF-IDF-based 30-neighbor case retrieval, and direct TF-IDF plus one-vs-rest SGD use exactly the same 40,000 training admissions, 4,000 validation admissions, 4,000 test admissions, pre-decision input fields and top-80 training-derived ATC-L4 label space. Every method outputs five codes per case. Their training compute is not matched, so the present table controls cases and output cardinality rather than total compute. We report precision@5, micro-recall@5 over all mapped labels, and micro-F1@5. The 1,296 test cases with no mapped order remain in precision denominators; macro recall excludes them. The top-80 space covers 96.197\% of mapped test label instances. This is an \emph{order-overlap} task, not appropriateness.
+
+The definitive comparison will add GAMENet and SafeDrug from pinned code, an independently reproduced SafeRx-Agent if no executable reference is released, a direct model, retrieval, and the complete PRISMATIC harness. All use the same patient split, label vocabulary, candidate limit, available evidence and scoring code. Foundation model is held fixed across direct, retrieval-augmented and harness arms; inference call and token budgets are reported separately. GAMENet/SafeDrug input adaptation and availability of molecular/DDI resources are explicit study variables. DDI and clinical error rates are left blank until a validated knowledge source and complete order output exist.
+
+\section{Results}
+\begin{table}[t]
+\centering\small
+\caption{\textbf{Primary method table (MIMIC-ED6-ATC4).} Same 4,000 test admissions, top-80 training classes and five predictions per case for completed pilot rows. A dash means no same-protocol result exists; it is not a score of zero. Published paper scores are never copied into this table.}
+\label{tab:main}
+\begin{tabular}{@{}p{4.0cm}ccccc@{}}
+\toprule
+Method & P@5 & R@5 & F1@5 & DDI & Clinical error \\
+\midrule
+Training prevalence & .2433 & .3401 & .2836 & -- & -- \\
+Case retrieval, 30 neighbors & .2809 & .3927 & .3275 & -- & -- \\
+Direct TF-IDF/SGD & .3314 & .4633 & .3864 & -- & -- \\
+GAMENet, admission-time adaptation & -- & -- & -- & -- & -- \\
+SafeDrug, admission-time adaptation & -- & -- & -- & -- & -- \\
+SafeRx-Agent, independent reproduction & -- & -- & -- & -- & -- \\
+PRISMATIC full harness & -- & -- & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:main} is organized by method, not by foundation model. Direct prediction exceeds case retrieval by 0.05888 in micro-F1 (patient-cluster paired bootstrap 95\% interval [0.05329, 0.06463]; 3,115 test patients and 2,000 draws), but this is not a claim of clinical superiority. The 54.348\% unmapped order fraction is a major threat to ranking stability. The completed rows establish the exact cohort, split, mapping and scorer that later method reproductions must use. They do not establish that a full harness outperforms historical methods.
+
+\subsection{Public secondary tests and clinical review status}
+The earlier v0.2 fixed 60-case RxSafeBench pilot gave a mixed harness effect across three foundation models, with paired intervals covering zero \cite{prismatic-v02}. In the full public sets, \texttt{deepseek/deepseek-v4.1-flash} directly answered 924/2,000 deduplicated RxSafeBench cases (46.2\%) and 186/300 RxQA OpenFDA questions (62.0\%). On the same 2,000 RxSafeBench cases, a normal second call reached 878/2,000 (43.9\%) and a two-call quote-gated scaffold reached 952/2,000 (47.6\%). The scaffold's paired change against direct answer was +1.4 percentage points (95\% bootstrap interval $[-1.1,+3.85]$); it corrected 338 initially wrong answers and harmed 310 initially correct answers. These are secondary multiple-choice tests, never inserted into Table~\ref{tab:main}, and quote presence does not validate medical reasoning.
+
+\begin{table}[t]
+\centering\small
+\caption{Public secondary tasks using one fixed DeepSeek model. RxSafeBench arms share the same initial responses; repeat and quote-gated scaffold each use two total calls. Costs are service-reported for the full arm.}
+\label{tab:public}
+\begin{tabular}{@{}p{4.8cm}rrr@{}}
+\toprule
+Task and method & Correct / N & Accuracy & Cost (USD) \\
+\midrule
+RxSafeBench, direct & 924/2,000 & 46.2\% & 0.1486 \\
+RxSafeBench, normal repeat & 878/2,000 & 43.9\% & 0.2764 \\
+RxSafeBench, quote-gated scaffold & 952/2,000 & 47.6\% & 0.5006 \\
+RxQA OpenFDA, direct & 186/300 & 62.0\% & 0.0114 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A two-reviewer case manifest contains 200 held-out test admissions, 25 in each historical saline/ondansetron/bowel-regimen stratum. The reviewers will be blinded to method identity, original orders and each other's scores. The primary clinical endpoint is the fraction of cases with at least one adjudicated serious or critical prescribing error. Secondary ratings cover supportive-drug indication, missed and unnecessary orders, DDI, saline purpose/volume/rate, renal adjustment, abstention and inter-reviewer agreement. ATC-only outputs have \emph{not evaluable} dose and fluid-rate fields; no clinical score is presently available.
+
+\section{Next experimental gates and limitations}
+First, improve mapping with a current licensed RxNorm/ATC source and publish coverage by route, drug class and split. Second, adapt and run GAMENet/SafeDrug under the frozen admission input, recording every missing original input and architecture change; independently implement SafeRx-Agent only against an explicit specification. Third, produce complete, dose-bearing orders and execute the same-budget direct/retrieval/full-harness arms locally on restricted MIMIC. Fourth, release blinded review cards only after timestamped allergy, weight, renal function and fluid-balance extraction is verified, then collect two independent ratings and adjudicate disagreements. Fifth, extend public RxSafeBench/RxQA beyond the completed direct and quote-gated tests, and run MedAgentBench only with live FHIR tool-state checks. Paired patient bootstrap intervals and a preregistered no-regression safety gate are required before claiming improvement with case growth.
+
+Restricted patient-level inputs, predictions and reviewer packets remain under the authorized local directory. Only aggregate audits and public-benchmark outputs enter the repository. No restricted MIMIC text is sent to OpenRouter. Historical orders are observational behavior, not expert ground truth; no current result warrants clinical deployment.
+
+\begin{thebibliography}{9}
+\bibitem{prismatic-v02} PRISMATIC v0.2 research draft, 2026. \url{https://github.com/ZaneLing/PRISMATIC}.
+\bibitem{gamenet} Shang et al. GAMENet, 2019. \url{https://arxiv.org/abs/1809.01852}. Code: \url{https://github.com/sjy1203/GAMENet}.
+\bibitem{safedrug} Yang et al. SafeDrug, 2021. \url{https://arxiv.org/abs/2105.02711}. Code: \url{https://github.com/ycq091044/SafeDrug}.
+\bibitem{saferx} SafeRx-Agent, 2026. \url{https://arxiv.org/abs/2605.29146}.
+\bibitem{dream} DREAM unified medication benchmark, 2026. \url{https://github.com/novzyg/DREAM}.
+\bibitem{rxsafe} RxSafeBench public repository. \url{https://github.com/CAS-SIAT-XinHai/RxSafeBench}.
+\bibitem{rxqa} RxQA public repository. \url{https://github.com/Google-Health/rxqa}.
+\bibitem{medagent} MedAgentBench public repository. \url{https://github.com/stanfordmlgroup/MedAgentBench}.
+\bibitem{mimic} MIMIC-IV v3.1 and MIMIC-IV-ED v2.2. \url{https://physionet.org/content/mimiciv/3.1/}; \url{https://physionet.org/content/mimic-iv-ed/2.2/}.
+\end{thebibliography}
+\end{document}

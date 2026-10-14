@@ -1,0 +1,126 @@
+{
+  "benchmark": "RxSafeBench public simulated three-choice medication safety scenarios",
+  "source_commit": "a25f9a1f173cf034b678c60f051901e86fbbbbb2",
+  "public_sha256": {
+    "RxSafeBench_Contradiction.json": "e9e097408bbc9399768d88a04af3eac46674dac11af35251e51247453765446b",
+    "RxSafeBench_Interaction.json": "d34cc05a98fe4120659b1a899d4cbf206e1a36cf0e1c4a3862efac0ea7f54fc9"
+  },
+  "direct_predictions_sha256": "b6cb5a07c825ae90fcc5421725c257b97da9f39086b36a216298808e71a8215e",
+  "sample": "Same pinned deduplicated hash-sorted 30+30 sample as direct pilot",
+  "n": 2000,
+  "models": [
+    "deepseek/deepseek-v4.1-flash"
+  ],
+  "generation": {
+    "temperature": 0,
+    "second_call_max_tokens": 4096,
+    "workers": 18,
+    "provider": {
+      "zdr": true,
+      "data_collection": "deny"
+    },
+    "deepseek_reasoning_effort": "none"
+  },
+  "uncertainty": {
+    "method": "paired question bootstrap",
+    "draws": 10000,
+    "seed": 20261014
+  },
+  "arms": {
+    "direct": "one-call archived answer",
+    "repeat": "same initial answer + one unstructured reconsideration call",
+    "harness": "same initial answer + one structured evidence review call with bounded revision gate"
+  },
+  "model_results": {
+    "deepseek/deepseek-v4.1-flash": {
+      "arms": {
+        "direct": {
+          "correct": 924,
+          "n": 2000,
+          "accuracy": 0.462,
+          "valid_letter": 1999,
+          "by_type": {
+            "contraindication": {
+              "correct": 588,
+              "n": 1063
+            },
+            "interaction": {
+              "correct": 336,
+              "n": 937
+            }
+          },
+          "cost_usd": 0.148618
+        },
+        "repeat": {
+          "correct": 878,
+          "n": 2000,
+          "accuracy": 0.439,
+          "valid_letter": 2000,
+          "by_type": {
+            "contraindication": {
+              "correct": 558,
+              "n": 1063
+            },
+            "interaction": {
+              "correct": 320,
+              "n": 937
+            }
+          },
+          "cost_usd": 0.127737,
+          "status_counts": {
+            "valid": 2000
+          },
+          "corrected": 72,
+          "harmed": 118,
+          "two_call_cost_usd": 0.276355
+        },
+        "harness": {
+          "correct": 952,
+          "n": 2000,
+          "accuracy": 0.476,
+          "valid_letter": 2000,
+          "by_type": {
+            "contraindication": {
+              "correct": 562,
+              "n": 1063
+            },
+            "interaction": {
+              "correct": 390,
+              "n": 937
+            }
+          },
+          "cost_usd": 0.351971,
+          "status_counts": {
+            "changed": 779,
+            "invalid_contract": 18,
+            "invalid_json": 25,
+            "kept": 1142,
+            "ungrounded_change": 36
+          },
+          "corrected": 338,
+          "harmed": 310,
+          "two_call_cost_usd": 0.500589
+        }
+      },
+      "harness_minus_direct": {
+        "delta": 0.014,
+        "ci95": [
+          -0.011,
+          0.0385
+        ]
+      },
+      "harness_minus_repeat": {
+        "delta": 0.037,
+        "ci95": [
+          0.013,
+          0.0605
+        ]
+      }
+    }
+  },
+  "limitations": [
+    "MCQ scaffold pilot, not prescription generation or clinical validation",
+    "grounding checks only exact quote presence, not medical correctness",
+    "full deduplicated public set; exploratory confidence intervals"
+  ]
+}

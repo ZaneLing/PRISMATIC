@@ -1,0 +1,35 @@
+{
+  "task": "historical_oral_gsn_set_within_hours_after_hospital_admission",
+  "selection": "all ED-to-hospital admissions at decision time; zero-order labels retained",
+  "hours": 6,
+  "base_admissions_with_ed_stay_covering_admission": 201750,
+  "cohort_admissions": 201750,
+  "cohort_patients": 107097,
+  "with_chief_complaint": 201742,
+  "with_pre_admission_medrecon": 149422,
+  "pre_admission_medrecon_rows_in_source": 1692674,
+  "post_admission_medrecon_rows_excluded": 137060,
+  "target_count_quantiles_p10_p50_p90_p99": [
+    0,
+    2,
+    10,
+    17
+  ],
+  "mean_target_count": 3.696,
+  "temporal_violations": 0,
+  "duplicate_admissions": 0,
+  "input_sources": [
+    "ED stay",
+    "ED triage",
+    "medrecon charted by decision_time",
+    "hospital admissions"
+  ],
+  "label_source": "hospital prescriptions, starttime in [decision_time, decision_time + hours)",
+  "excluded_as_inputs": [
+    "discharge notes",
+    "discharge diagnosis",
+    "later labs",
+    "later medications"
+  ],
+  "clinical_interpretation": "historical behavior prediction only; no safety or appropriateness labels"
+}

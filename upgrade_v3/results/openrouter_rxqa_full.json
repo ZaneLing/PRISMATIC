@@ -1,0 +1,54 @@
+{
+  "benchmark": "RxQA OpenFDA four-choice medication reasoning",
+  "source": "https://github.com/Google-Health/rxqa",
+  "source_commit": "203979bf928c1fe9e45aa89e2ed76c3d2a63b503",
+  "population": "public pharmacist-reviewed OpenFDA subset; 300 available questions",
+  "sample": "first N sha256-sorted q_id values; original option order",
+  "cases": 300,
+  "gold_option_counts": {
+    "D": 59,
+    "C": 113,
+    "A": 53,
+    "B": 75
+  },
+  "always_most_common_gold_letter_baseline_accuracy": 0.37667,
+  "difficulty_counts": {
+    "Easy": 91,
+    "Trivial": 49,
+    "Medium": 69,
+    "Hard": 91
+  },
+  "routing": {
+    "zdr": true,
+    "data_collection": "deny"
+  },
+  "generation": {
+    "temperature": 0,
+    "max_tokens": 128,
+    "deepseek_reasoning_effort": "none"
+  },
+  "model_results": {
+    "deepseek/deepseek-v4.1-flash": {
+      "attempted": 300,
+      "completed": 300,
+      "valid_letter": 300,
+      "correct": 186,
+      "accuracy_completed": 0.62,
+      "accuracy_attempted": 0.62,
+      "accuracy_wilson_95pct_completed": [
+        0.56388,
+        0.67308
+      ],
+      "prompt_tokens": 72171,
+      "completion_tokens": 600,
+      "reported_cost_usd": 0.011396,
+      "errors": {}
+    }
+  },
+  "limitations": [
+    "full 300-question public OpenFDA subset; BNF items unavailable",
+    "four-choice knowledge/reasoning is distinct from real prescription construction",
+    "single-pharmacist review per item and selection bias in source benchmark",
+    "original option positions may be imbalanced; see gold_option_counts"
+  ]
+}

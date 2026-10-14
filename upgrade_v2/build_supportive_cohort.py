@@ -68,7 +68,7 @@ def build(base: Path, prescriptions: Path, output: Path) -> dict:
     """, [str(output)]).fetchone()
     report = {
         "task": "historical supportive-order occurrence in first six hours after admission",
-        "population": "ED-to-hospital admissions with at least one oral-GSN order in six hours",
+        "population": "ED-to-hospital admissions in the supplied base cohort; see base cohort audit for selection",
         "admissions": counts[0], "patients": counts[1],
         "positive_admissions": dict(zip(LABELS, counts[2:5])),
         "prevalence": {name: round(counts[i] / counts[0], 5)

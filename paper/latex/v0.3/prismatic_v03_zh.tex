@@ -1,0 +1,109 @@
+\documentclass[UTF8,11pt,a4paper]{ctexart}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{booktabs,tabularx,array}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue}
+\title{PRISMATIC v0.3：面向持续学习的处方辅助系统及其同题跨方法评测}
+\author{PRISMATIC 研究草稿\\版本 0.3，2026 年 10 月 14 日}
+\date{}
+\begin{document}
+\maketitle
+\begin{abstract}
+从历史医嘱预测药物集合，不能证明处方在临床上正确或安全。本文将 PRISMATIC 的评测改为同一决策时点、患者级不交叉切分、统一 ATC 第四级药物空间、以\textbf{方法为行}的主表，以及双人盲评。受限 MIMIC-IV v3.1 和 MIMIC-IV-ED v2.2 的当前六小时队列有 201,750 次急诊转住院入院，不按后续是否开药筛人。固定的公开 NDC 映射与仅用训练患者学习的 GSN、药名回退映射，将 1,788,195 条六小时医嘱中的 45.652\% 编为 ATC-L4。在训练、验证、测试分别抽取 40,000、4,000、4,000 次入院的初试中，三个已完成方法使用相同入院前信息，每例输出训练集前 80 类中的五个 ATC-L4 编码。测试集微平均 F1@5：训练流行度 0.2836、病例检索 0.3275、直接 TF-IDF/SGD 预测 0.3864。这些数值只衡量历史医嘱重合。GAMENet、SafeDrug、SafeRx-Agent 和完整处方 harness 尚无符合该协议的实测分数，主表据实留空。本文同时规定 200 例、两名评审者的盲评程序，并把公开 RxSafeBench 与 RxQA 全量测试单列为次级任务；不把别人的论文原始分数填入主表。
+\end{abstract}
+
+\section{引言}
+2025 年 PRISMATIC 论文提出了多代理处方风险检查。现在更具体的问题是：随着经本地审定的病例增加，系统能否学会辅助药和静脉液体的适应证，同时减少严重漏开、无指征医嘱、药物相互作用（DDI）和肾功能调整错误？以不同模型答选择题的表格无法检验这个主张。因此，本版把处方主表的行改为各篇论文的方法与 PRISMATIC 方法，固定病例、标签空间和输出规则；已运行的结果与登记但尚未运行的方法清楚分开。v0.2 的选择题模型对照作为次级研究保留\cite{v02}。
+
+\section{相关工作和可比性}
+GAMENet 使用跨就诊诊断、操作、用药历史、EHR 共现图与 DDI 图记忆\cite{gamenet}。SafeDrug 进一步使用分子信息与 DDI 约束\cite{safedrug}。SafeRx-Agent 报告了 ATC-L4 的多代理推荐、辅助治疗与安全验证结构\cite{saferx}。DREAM 提供较新的统一基准实现\cite{dream}。这些工作的原始输入和数据流水线，与“急诊入院当时开医嘱”并不相同。出院诊断、后来发生的操作和后来的处方不能作为本任务输入。若为此调整网络，必须称为\textbf{入院时点独立复现}，不能将删去关键输入后的模型称为论文精确复现，也不能把原论文分数横向抄入主表。RxSafeBench、RxQA 是公开药学推理题\cite{rxsafe,rxqa}；MedAgentBench 评测 FHIR 病历工具行为\cite{medagent}。它们都不能代替完整处方的临床盲评。
+
+\section{方法}
+\subsection{决策时点、队列及药物空间}
+决策点设为急诊住院入院时。当前已审计的输入是急诊主诉、分诊紧急程度及生命体征、入院元数据、入院之前已记录的既往用药核对。标签是随后六小时所有给药途径的处方。符合急诊与住院入院时间条件的 201,750 次入院全部保留，包括后来没有口服药或可映射 ATC 医嘱的病例。同一 BLAKE2b 患者哈希先按 80/10/10 分训练、验证、测试，再抽取入院记录；重复入院患者不跨集合。出院诊断、后续检验和后续用药均不输入预测器。
+
+ATC-L4 映射来自 SafeDrug 官方 \texttt{RXCUI2atc4.csv}，固定提交 \texttt{88ce5c3} 与 SHA-256 \texttt{162fefc5...daeda7888e}。标准带连字符的十位 NDC 转成十一位；歧义 NDC 不任意选码。仅在\textbf{训练患者}中有至少十条已映射医嘱，且同一编码一致率不低于 98\% 时，才接受 GSN 或精确规范化药名回退映射。测试标签不参与映射构建。总计观察到 253 个 ATC-L4 类别，816,348 条医嘱获得映射（45.652\%），971,847 条未映射。覆盖不足使“没有 ATC 标签”不能解释成“没有临床医嘱”。
+
+\begin{table}[t]
+\centering\small
+\caption{数据集登记。临床主终点及工具终点尚待完成。}
+\label{tab:data}
+\begin{tabularx}{\linewidth}{@{}p{2.4cm}X p{2.5cm}@{}}
+\toprule
+数据集 & 同病例任务与人群 & 指标/状态 \\
+\midrule
+MIMIC-ED6-ATC4 & 受限 MIMIC-IV/ED；入院快照、六小时全途径 ATC-L4 集合；201,750 次入院、107,097 位患者 & 方法主表；历史重合初试 \\
+Clinical-200 & 三类辅助医嘱历史标签形成八层，每层至多抽共同测试集 25 例 & 双人盲评待做 \\
+RxSafeBench-full & 固定公开源，去重后全部 2,000 个模拟三选一病例 & 次级准确率 \\
+RxQA-full & 公开 OpenFDA 药师审阅的全部 300 道四选一题 & 次级准确率 \\
+MedAgentBench & 300 个 FHIR 病历工具任务 & 工具成功率待做 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{方法、预算与结局}
+当前初试的训练流行度、TF-IDF 的 30 近邻病例检索、直接 TF-IDF 加一对多 SGD，使用完全相同的 40,000 个训练、4,000 个验证、4,000 个测试入院病例、同一时点输入和按训练频率选出的前 80 个 ATC-L4 标签。每例恰好输出五类。三者训练计算量并未匹配，本表目前只控制病例和输出数目。报告 P@5、以全部已映射标签为分母的微平均 R@5 和微平均 F1@5。测试中 1,296 例无已映射医嘱，仍进入精确率分母；宏召回不纳入这些病例。前 80 类覆盖测试集已映射标签实例的 96.197\%。这些都是\textbf{医嘱重合}指标，不是临床适宜性指标。
+
+正式主表将补充固定源码的 GAMENet、SafeDrug；若无可执行参考实现，则在明确规范下独立复现 SafeRx-Agent；并运行直接模型、病例检索和完整 PRISMATIC harness。所有方法必须共用患者切分、标签空间、候选药数、可用证据和评分程序。同一基础模型在直接、检索增强与 harness 臂保持一致，另行报告调用数、token 与费用。原方法的输入改造及分子/DDI 资源覆盖单列记录。验证的药物知识来源和完整剂量医嘱尚未就绪时，DDI 与临床错误率留空。
+
+\section{结果}
+\begin{table}[t]
+\centering\small
+\caption{\textbf{处方主表：按方法比较。}已完成三行共用 MIMIC-ED6-ATC4 的 4,000 个测试入院病例、训练前 80 类、每例五个预测。破折号表示尚无同协议结果，绝非得分为零。没有抄录任何论文原始分数。}
+\label{tab:main}
+\begin{tabular}{@{}p{4.1cm}ccccc@{}}
+\toprule
+方法 & P@5 & R@5 & F1@5 & DDI & 临床错误 \\
+\midrule
+训练集流行度 & .2433 & .3401 & .2836 & -- & -- \\
+病例检索（30 近邻） & .2809 & .3927 & .3275 & -- & -- \\
+直接预测（TF-IDF/SGD） & .3314 & .4633 & .3864 & -- & -- \\
+GAMENet（入院时点改造） & -- & -- & -- & -- & -- \\
+SafeDrug（入院时点改造） & -- & -- & -- & -- & -- \\
+SafeRx-Agent（独立复现） & -- & -- & -- & -- & -- \\
+PRISMATIC 完整 harness & -- & -- & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+表~\ref{tab:main} 的行是方法，不是基础模型。直接预测的微平均 F1 比病例检索高 0.05888（以 3,115 位测试患者为单位、2,000 次配对 bootstrap 的 95\% 区间为 [0.05329, 0.06463]），但不能由此宣称临床优越。54.348\% 医嘱仍未映射，是影响方法排名的重要因素。已完成的三行建立了以后复现都必须使用的队列、切分、映射和评分程序，并不证明完整 harness 已超过历史方法。
+
+\subsection{公开次级实验及临床盲评状态}
+公开次级集上，\texttt{deepseek/deepseek-v4.1-flash} 单次直接回答在 RxSafeBench 全部 2,000 题中答对 924 题（46.2\%），在 RxQA 公开 OpenFDA 全部 300 题中答对 186 题（62.0\%）。在同一 2,000 道 RxSafeBench 题上，普通二次回答为 878/2,000（43.9\%），两次调用的引文门控轻量流程为 952/2,000（47.6\%）。该流程相对首答高 1.4 个百分点，题目配对 bootstrap 的 95\% 区间为 $[-1.1,+3.85]$ 个百分点；它改对 338 题，也改错 310 题。表~\ref{tab:public} 单列公开次级结果，不进入处方主表。引文在原文中出现，不代表医学判断正确。v0.2 的固定 60 题初试中，三个基础模型的增益方向也不一致\cite{v02}。
+
+\begin{table}[t]
+\centering\small
+\caption{公开次级题目，同一个固定 DeepSeek 模型。RxSafeBench 三臂共用首次回答；普通二次和引文门控流程均共调用两次。费用为服务商报告的整臂费用。}
+\label{tab:public}
+\begin{tabular}{@{}p{5.8cm}rrr@{}}
+\toprule
+任务与方法 & 正确题数 & 准确率 & 费用（美元） \\
+\midrule
+RxSafeBench，直接回答 & 924/2,000 & 46.2\% & 0.1486 \\
+RxSafeBench，普通二次回答 & 878/2,000 & 43.9\% & 0.2764 \\
+RxSafeBench，引文门控轻量流程 & 952/2,000 & 47.6\% & 0.5006 \\
+RxQA OpenFDA，直接回答 & 186/300 & 62.0\% & 0.0114 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+临床清单已从共同测试患者抽取 200 例，按盐水、昂丹司琼、肠道管理的历史有无分八层，每层 25 例。两位临床或药师评审者将看不到方法身份、历史医嘱和对方评分。临床主终点为每例至少一项仲裁后的严重或危及生命处方错误。次终点包括辅助药指征、重大漏开及无指征药、DDI、盐水用途/量/速度、肾功能调整、弃权及双评审一致性。仅输出 ATC 集合时，剂量与液体速度项记“不可评”；目前\textbf{没有临床盲评分数}。
+
+\section{后续实验门槛与局限}
+首先，使用当前可授权的 RxNorm/ATC 来源提高覆盖率；按给药途径、药物类别和切分报告映射覆盖。第二，在冻结的入院输入下运行 GAMENet、SafeDrug，逐项记录原论文输入缺失和架构调整；SafeRx-Agent 仅在明确规范下独立复现。第三，生成有剂量、液体量与速度的完整医嘱，以相同病例和调用预算比较直接、检索与完整 harness。第四，审计过敏、体重、入院前肾功能与液体平衡的时间戳后再给评审者病例卡，收集双人独立评分和仲裁。第五，扩展已完成的公开 RxSafeBench/RxQA 直接和引文门控试验；MedAgentBench 必须建立真实 FHIR 工具状态后才报告成功率。随着病例增长的性能提升，须用患者配对区间及预先固定的安全不退化门槛检验。
+
+受限 MIMIC 逐例数据、预测及评审包留在本地授权目录；仓库只存汇总审计和公开题目结果。受限病例不送往 OpenRouter。历史医嘱属于观察到的行为，不是专家正确答案；现有结果不支持临床部署。
+
+\begin{thebibliography}{9}
+\bibitem{v02} PRISMATIC v0.2 研究草稿，2026。\url{https://github.com/ZaneLing/PRISMATIC}。
+\bibitem{gamenet} GAMENet，2019。\url{https://arxiv.org/abs/1809.01852}；代码 \url{https://github.com/sjy1203/GAMENet}。
+\bibitem{safedrug} SafeDrug，2021。\url{https://arxiv.org/abs/2105.02711}；代码 \url{https://github.com/ycq091044/SafeDrug}。
+\bibitem{saferx} SafeRx-Agent，2026。\url{https://arxiv.org/abs/2605.29146}。
+\bibitem{dream} DREAM 统一药物推荐基准，2026。\url{https://github.com/novzyg/DREAM}。
+\bibitem{rxsafe} RxSafeBench 官方公开仓库。\url{https://github.com/CAS-SIAT-XinHai/RxSafeBench}。
+\bibitem{rxqa} RxQA 官方公开仓库。\url{https://github.com/Google-Health/rxqa}。
+\bibitem{medagent} MedAgentBench 官方公开仓库。\url{https://github.com/stanfordmlgroup/MedAgentBench}。
+\bibitem{mimic} MIMIC-IV v3.1 与 MIMIC-IV-ED v2.2。\url{https://physionet.org/content/mimiciv/3.1/}；\url{https://physionet.org/content/mimic-iv-ed/2.2/}。
+\end{thebibliography}
+\end{document}

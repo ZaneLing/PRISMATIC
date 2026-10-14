@@ -182,7 +182,8 @@ def run(data_dir: Path, output: Path, models: list[str], per_type: int, workers:
         "generation": {"temperature": 0, "max_tokens": 128,
                        "deepseek_reasoning_effort": "none"},
         "model_results": scores,
-        "limitations": ["small deterministic pilot; not comparable to full-paper leaderboard",
+        "limitations": [("full deduplicated public set; scoring protocol differs from published leaderboard"
+                         if len(cases) == 2000 else "selected deterministic pilot; not comparable to full-paper leaderboard"),
                         "benchmark gold answers are generated/filtered rather than patient outcomes",
                         "potential answer cue when safe medication name appears in dialogue"],
     }
