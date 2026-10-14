@@ -10,15 +10,17 @@ The v27 rule study shares each round's supervised fits across six arms. v29 shar
 
 ## 2. Completed and independently audited author models
 
-8/15 registered runs are complete and audited in this snapshot. Each row matches all 50 saved epoch records to the original execution log. Fit seconds exclude proposal/guard prediction, checkpoint writing and audit reruns.
+10/15 registered runs are complete and audited in this snapshot. Each row matches all 50 saved epoch records to the original execution log. Fit seconds exclude proposal/guard prediction, checkpoint writing and audit reruns.
 
 | Panel | Method | Seed | Device | Parameters | Steps | Visit exposures | Fit minutes |
 |---|---|---:|---|---:|---:|---:|---:|
 | full | ARMR | 42 | mps | 12,141,073 | 29,750 | 921,450 | 51.39 |
 | full | ARMR | 137 | mps | 12,141,073 | 29,750 | 921,450 | 53.14 |
+| full | ARMR | 2026 | mps | 12,141,073 | 29,750 | 921,450 | 183.58 |
 | full | GAMENet | 42 | cpu | 1,295,952 | 921,450 | 921,450 | 69.76 |
 | full | GAMENet | 137 | cpu | 1,295,952 | 921,450 | 921,450 | 75.84 |
 | full | GAMENet | 2026 | cpu | 1,295,952 | 921,450 | 921,450 | 83.87 |
+| molecular | GAMENet | 42 | cpu | 1,282,588 | 921,450 | 921,450 | 65.20 |
 | molecular | SafeDrug | 42 | cpu | 1,379,598 | 921,450 | 921,450 | 67.86 |
 | molecular | SafeDrug | 137 | cpu | 1,379,598 | 921,450 | 921,450 | 72.12 |
 | molecular | SafeDrug | 2026 | cpu | 1,379,598 | 921,450 | 921,450 | 81.21 |
@@ -27,8 +29,9 @@ The v27 rule study shares each round's supervised fits across six arms. v29 shar
 
 | Panel / method | Audited seeds | Guard patient F1 ± seed SD | Guard patient Jaccard ± seed SD |
 |---|---|---:|---:|
-| full/ARMR | 42, 137 | 0.60869 ± 0.00186 | 0.45326 ± 0.00159 |
+| full/ARMR | 42, 137, 2026 | 0.60864 ± 0.00132 | 0.45327 ± 0.00113 |
 | full/GAMENet | 42, 137, 2026 | 0.52708 ± 0.00664 | 0.37087 ± 0.00643 |
+| molecular/GAMENet | 42 | 0.51055 (one seed) | 0.35689 (one seed) |
 | molecular/SafeDrug | 42, 137, 2026 | 0.53689 ± 0.00244 | 0.38432 ± 0.00223 |
 
 All scores above are on the same 1,231 guard visits / 467 patients, after proposal-only checkpoint selection. An unfinished seed is not filled with zero. This table does not replace the gated final test comparison.

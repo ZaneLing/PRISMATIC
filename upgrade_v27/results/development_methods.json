@@ -64,16 +64,17 @@
         "ARMR": {
           "seeds": [
             42,
-            137
+            137,
+            2026
           ],
-          "runs": 2,
+          "runs": 3,
           "patient_f1": {
-            "mean": 0.6086905788225765,
-            "seed_sd": 0.0018564767701010755
+            "mean": 0.6086363064621891,
+            "seed_sd": 0.0013160887000002982
           },
           "patient_jaccard": {
-            "mean": 0.4532624621823856,
-            "seed_sd": 0.001594435220189118
+            "mean": 0.4532740816528466,
+            "seed_sd": 0.0011276155692305535
           }
         },
         "GAMENet": {
@@ -234,6 +235,12 @@
             "patient_f1": 0.6100033061358302,
             "patient_jaccard": 0.454389898138744,
             "prediction_sha256": "e7ca4c13e7f4771dfd3f0ecab15a60a315bbead176c636bbdfca86108f3b40e2"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.6085277617414147,
+            "patient_jaccard": 0.4532973205937687,
+            "prediction_sha256": "51d733637eb5f3cd71e2ebb640c1d0363f6eac1834b67222e1f52356d376ee3f"
           }
         ],
         "GAMENet": [
@@ -493,27 +500,28 @@
         "ARMR": {
           "matched_seeds": [
             42,
-            137
+            137,
+            2026
           ],
           "fixed_control_reused": false,
           "patient_f1": {
-            "difference": 0.0035913497129633743,
+            "difference": 0.003964347407630894,
             "patient_ci95": [
-              -0.0011469724786889082,
-              0.00843745918954581
+              -0.0007507394633500607,
+              0.00870292751769974
             ],
-            "patients_with_positive_mean_difference": 249,
-            "patients_with_negative_mean_difference": 217,
+            "patients_with_positive_mean_difference": 255,
+            "patients_with_negative_mean_difference": 211,
             "patients_with_zero_mean_difference": 1
           },
           "patient_jaccard": {
-            "difference": 0.004980291839779939,
+            "difference": 0.005284961634595071,
             "patient_ci95": [
-              2.877075073318599e-05,
-              0.009994346359166373
+              0.00036400481151388384,
+              0.010148109281979135
             ],
-            "patients_with_positive_mean_difference": 247,
-            "patients_with_negative_mean_difference": 219,
+            "patients_with_positive_mean_difference": 253,
+            "patients_with_negative_mean_difference": 213,
             "patients_with_zero_mean_difference": 1
           }
         },
@@ -747,6 +755,20 @@
             "seed_sd": null
           }
         },
+        "GAMENet": {
+          "seeds": [
+            42
+          ],
+          "runs": 1,
+          "patient_f1": {
+            "mean": 0.5105526021792993,
+            "seed_sd": null
+          },
+          "patient_jaccard": {
+            "mean": 0.35688848843445414,
+            "seed_sd": null
+          }
+        },
         "SafeDrug": {
           "seeds": [
             42,
@@ -891,6 +913,14 @@
             "patient_f1": 0.581128446210121,
             "patient_jaccard": 0.4297108871974388,
             "prediction_sha256": "5f3fb9506042f58180e85b88e843d898acf6760eed106023212f570020dece03"
+          }
+        ],
+        "GAMENet": [
+          {
+            "seed": 42,
+            "patient_f1": 0.5105526021792993,
+            "patient_jaccard": 0.35688848843445414,
+            "prediction_sha256": "d9f233e4ed962369eb7cd89a079feff627b94812bf66f04d143b10fb851d8d09"
           }
         ],
         "SafeDrug": [
@@ -1147,6 +1177,32 @@
             "patients_with_zero_mean_difference": 272
           }
         },
+        "GAMENet": {
+          "matched_seeds": [
+            42
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": 0.07142432361085235,
+            "patient_ci95": [
+              0.06330075018605459,
+              0.07979592124984136
+            ],
+            "patients_with_positive_mean_difference": 372,
+            "patients_with_negative_mean_difference": 95,
+            "patients_with_zero_mean_difference": 0
+          },
+          "patient_jaccard": {
+            "difference": 0.07352526367803634,
+            "patient_ci95": [
+              0.0654090459929566,
+              0.08183271764782954
+            ],
+            "patients_with_positive_mean_difference": 375,
+            "patients_with_negative_mean_difference": 92,
+            "patients_with_zero_mean_difference": 0
+          }
+        },
         "SafeDrug": {
           "matched_seeds": [
             42,
@@ -1328,6 +1384,8 @@
     "upgrade_v27/results/full-ARMR-seed42.json": "48cb3d951ca65a01c07ffb8c4e4f09e83e9c12cb09dcedcd69b11d4cf6190a65",
     "upgrade_v27/results/full-ARMR-selection-audit-seed137.json": "d661ba1e14546471f491d6ce346d34ea63fe1d4d857487c424ffcc28253625b3",
     "upgrade_v27/results/full-ARMR-seed137.json": "ca26677b9ff65e072d7ceaa394c2a7bcf4f68e2e7db23ce80f06625501fb9f96",
+    "upgrade_v27/results/full-ARMR-selection-audit-seed2026.json": "801d5ed057f65d51b0934a05bb0600fb1aea5546c3679f7f00d28ab126308b0d",
+    "upgrade_v27/results/full-ARMR-seed2026.json": "61800c2f0d7f84843b2d18ca14bad3029edba350a4032d986e81d23daf708054",
     "upgrade_v27/results/full-GAMENet-selection-audit-seed42.json": "dd27a30db5e8766d3dac695914301b964f70a465125f4bcfa6e3905e21fe8dec",
     "upgrade_v27/results/full-GAMENet-seed42.json": "1f1fdc4f336f183b40a9811285d100eb765dd3d9ff82087f168fdc615cf940a8",
     "upgrade_v27/results/full-GAMENet-selection-audit-seed137.json": "3551651c7a6bb712f6d1b6428143f1ade20524024624ec762bbfe8513e13d5b5",
@@ -1344,6 +1402,8 @@
     "upgrade_v27/results/full-rsi-crossfit-audit-seed2026.json": "20d39e89bec4f60fd2d58a290a5ed022216daa61725773b5f01cf510ffbc7697",
     "upgrade_v27/results/full-rsi-seed2026.json": "0c6ed05500d81508db52e47af643ff45b6d6104194f4c06c12e11a3608ce5930",
     "upgrade_v27/results/molecular-controls.json": "73447472d3deb8f35e76a0194344761f85e38555069c982618fa8c00ac12dde1",
+    "upgrade_v27/results/molecular-GAMENet-selection-audit-seed42.json": "85ce409bedd648fa5f67a28800b1a8efdf6e494e2a705d3381e2aee370104de0",
+    "upgrade_v27/results/molecular-GAMENet-seed42.json": "5fdb85e59d1fda9fe701d824185752f98dcac237b1fb535da7aad55e4a4acf61",
     "upgrade_v27/results/molecular-SafeDrug-selection-audit-seed42.json": "1d7b43025b61d7932d5e69a1d31c69a27a26b67bff884819e6b4f03e5fc47547",
     "upgrade_v27/results/molecular-SafeDrug-seed42.json": "de4deeecc12a6d16ac3bdc43c92d1059a45cc5ce40a5fd743cd16094c7e9e662",
     "upgrade_v27/results/molecular-SafeDrug-selection-audit-seed137.json": "7e162c79996916a4700179130b7b903f08ab8dc7bf97694145c3d81f9f7cee70",
@@ -1369,6 +1429,7 @@
     "full-controls/structured_logistic-guard.npy": "b8b7a8d984068c065435e8206e63afad1ddbb39a2032e3059c4357351b795a50",
     "full-ARMR-seed42/guard_probabilities.npy": "1ee9c609fecce2acc93ebaeba90d14b2f5219113f66a000db31c45c360f39b82",
     "full-ARMR-seed137/guard_probabilities.npy": "e7ca4c13e7f4771dfd3f0ecab15a60a315bbead176c636bbdfca86108f3b40e2",
+    "full-ARMR-seed2026/guard_probabilities.npy": "51d733637eb5f3cd71e2ebb640c1d0363f6eac1834b67222e1f52356d376ee3f",
     "full-GAMENet-seed42/guard_probabilities.npy": "090517c6abf5a39ace1431fdde6251acf86444a7951ab9c56289c94c014d2537",
     "full-GAMENet-seed137/guard_probabilities.npy": "a49fb89cf2387619e9caefc26ce32cb3bbe719528858a1585ca155b6c366db66",
     "full-GAMENet-seed2026/guard_probabilities.npy": "f15edfb2d03d36992a9c0e458e0ae1250a1c9879acf5bff1a44603c4a7346190",
@@ -1398,6 +1459,7 @@
     "molecular-controls/last_visit-guard.npy": "f5189103d02bf89d5d336a3b8ddab7613e288de96eb5796f2b48866ee8632c4d",
     "molecular-controls/cosine_knn-guard.npy": "78d64d5edf9b5f8187bc254dd21310396cb3b5d684bdcb827401cb0b20515b75",
     "molecular-controls/structured_logistic-guard.npy": "5f3fb9506042f58180e85b88e843d898acf6760eed106023212f570020dece03",
+    "molecular-GAMENet-seed42/guard_probabilities.npy": "d9f233e4ed962369eb7cd89a079feff627b94812bf66f04d143b10fb851d8d09",
     "molecular-SafeDrug-seed42/guard_probabilities.npy": "8c2598426817087d4c88fa80547fe6dfc8117ba25bfb68692ed29557ac009008",
     "molecular-SafeDrug-seed137/guard_probabilities.npy": "a79a5a862cf4431e5ea931ad255420c4f76c45dd0b51fc0ea463d22c1e99c8ce",
     "molecular-SafeDrug-seed2026/guard_probabilities.npy": "b0fe9a10d4843e4fbd20d5a9760e45928ba99c4724063ff2d9e73daed48a26e1",

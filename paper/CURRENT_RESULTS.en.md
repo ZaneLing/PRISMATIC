@@ -7,15 +7,29 @@
 
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 8/15 author-model runs finish their full 50 epochs, with 486/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 10/15 author-model runs finish their full 50 epochs, with 502/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Recorded method budgets:** the receipt ledger separates shared fits, optimizer steps, proposal searches and logical response prices. It checks completed author-epoch records against their original logs, counts shared policy fitting once, and identifies exact v29-to-v30 model reuse. SafeDrug has 3 audited seeds; molecular guard patient F1 is 0.53689 ± 0.00244. [Actual compute and development results](COMPUTE_ACCOUNTING.en.md)
 
-**Executed cross-method recount:** 52 completed method runs are recounted on the same 1,231 guard visits / 467 patients, with patient-paired intervals using matched seeds. All available conventional, author-core and rule-memory methods are included. This remains a development comparison; the final test is gated. [Cross-method table and every paired contrast](../upgrade_v27/DEVELOPMENT_METHODS.en.md)
+**Executed cross-method recount:** 54 completed method runs are recounted on the same 1,231 guard visits / 467 patients, with patient-paired intervals using matched seeds. All available conventional, author-core and rule-memory methods are included. This remains a development comparison; the final test is gated. [Cross-method table and every paired contrast](../upgrade_v27/DEVELOPMENT_METHODS.en.md)
 
 **Executed eICU learning curves:** all 45 completed policy/tool states are reexecuted on the 2,000-stay development guard, with independent set counts, original proposal choices and acceptance decisions. Raw and accepted trajectories are separate. At 40k encountered cases, raw own-error-minus-uniform drug/order F1 is -0.00655/-0.00264. These guard cases participate in selection; this is not the held-out hospital test. [Raw/accepted curves, three seeds and regressions](../upgrade_v25/DEVELOPMENT_CURVES.en.md)
 
-All three eICU seeds and static-control choices are now frozen. The original queue is executing the 8,005-stay held-out hospital test and independent audit; its results remain pending.
+### Completed eICU held-out hospital test
+
+All three seeds and 13 methods/components finish the same 8,005 stays / 6,227 patients / 16 unseen hospitals. Independent checks cover frozen selections, feedback weights, all saved prediction scores and per-seed patient/hospital intervals. Integer accumulation exactly reproduces all 144 interval bounds after a numerical warning; no scores were replaced. Selected results below are three-seed means; the full report retains all methods, seed SD and raw/accepted curves.
+
+| Method | Drug F1 | Joint-order F1 |
+|---|---:|---:|
+| retrieval_conditional | 0.09501 | 0.02460 |
+| word_char_ensemble | 0.10736 | 0.02847 |
+| full_data_uniform | 0.11956 | 0.03087 |
+| uniform | 0.11825 | 0.02993 |
+| error_prioritized | 0.11306 | 0.02838 |
+| permuted_priority | 0.11474 | 0.02799 |
+| error_priority_initial_tool | 0.11306 | 0.02334 |
+
+[Complete external method table, uncertainty and fitting budgets](../upgrade_v25/RESULTS.en.md)
 
 **Public-data coverage:** a source/identity recount confirms all300 released RxQA OpenFDA questions and all2,000 deduplicated RxSafeBench cases in the historical full-set runs. Later adaptive comparisons use988 frozen test cases, keeping their625/190/197 development cases separate. The unavailable BNF component is excluded. [Exact scope, recounted results and metadata correction](PUBLIC_BENCHMARKS.en.md)
 

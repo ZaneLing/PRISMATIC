@@ -12,7 +12,7 @@ No model call, fit, test prediction or new selection is performed by this analys
 | last_visit | 1 | 0.30154 | 0.21585 |
 | cosine_knn | 1 | 0.55081 | 0.39614 |
 | structured_logistic | 1 | 0.61151 | 0.45742 |
-| ARMR | 2 | 0.60869 ± 0.00186 | 0.45326 ± 0.00159 |
+| ARMR | 3 | 0.60864 ± 0.00132 | 0.45327 ± 0.00113 |
 | GAMENet | 3 | 0.52708 ± 0.00664 | 0.37087 ± 0.00643 |
 | uniform_policy | 3 | 0.61151 ± 0.00000 | 0.45742 ± 0.00000 |
 | greedy_error_rules | 3 | 0.61267 ± 0.00066 | 0.45863 ± 0.00064 |
@@ -29,7 +29,7 @@ No model call, fit, test prediction or new selection is performed by this analys
 | last_visit | 42, 137, 2026 | +31.107 | [+30.044, +32.159] |
 | cosine_knn | 42, 137, 2026 | +6.179 | [+5.547, +6.778] |
 | structured_logistic | 42, 137, 2026 | +0.109 | [+0.048, +0.172] |
-| ARMR | 42, 137 | +0.359 | [-0.115, +0.844] |
+| ARMR | 42, 137, 2026 | +0.396 | [-0.075, +0.870] |
 | GAMENet | 42, 137, 2026 | +8.552 | [+7.882, +9.184] |
 | uniform_policy | 42, 137, 2026 | +0.109 | [+0.048, +0.172] |
 | greedy_error_rules | 42, 137, 2026 | -0.007 | [-0.020, +0.006] |
@@ -45,6 +45,7 @@ No model call, fit, test prediction or new selection is performed by this analys
 | last_visit | 1 | 0.28971 | 0.20613 |
 | cosine_knn | 1 | 0.51751 | 0.36710 |
 | structured_logistic | 1 | 0.58113 | 0.42971 |
+| GAMENet | 1 | 0.51055 | 0.35689 |
 | SafeDrug | 3 | 0.53689 ± 0.00244 | 0.38432 ± 0.00223 |
 | uniform_policy | 3 | 0.58113 ± 0.00000 | 0.42971 ± 0.00000 |
 | greedy_error_rules | 3 | 0.58230 ± 0.00042 | 0.43084 ± 0.00039 |
@@ -61,6 +62,7 @@ No model call, fit, test prediction or new selection is performed by this analys
 | last_visit | 42, 137, 2026 | +29.228 | [+28.076, +30.405] |
 | cosine_knn | 42, 137, 2026 | +6.447 | [+5.720, +7.151] |
 | structured_logistic | 42, 137, 2026 | +0.086 | [+0.001, +0.171] |
+| GAMENet | 42 | +7.142 | [+6.330, +7.980] |
 | SafeDrug | 42, 137, 2026 | +4.509 | [+3.828, +5.157] |
 | uniform_policy | 42, 137, 2026 | +0.086 | [+0.001, +0.171] |
 | greedy_error_rules | 42, 137, 2026 | -0.031 | [-0.062, -0.002] |

@@ -49,6 +49,17 @@ def main():
             block+=f'[Raw/accepted curves, three seeds and regressions](../upgrade_v25/DEVELOPMENT_CURVES.{lang}.md)\n\n'
             if (ROOT/'upgrade_v25/results/frozen_before_test.json').exists() and not (ROOT/'upgrade_v25/results/summary.json').exists():
                 block+=('All three eICU seeds and static-control choices are now frozen. The original queue is executing the 8,005-stay held-out hospital test and independent audit; its results remain pending.\n\n' if lang=='en' else 'eICU 三个种子及全部静态对照的选择现已冻结；原队列正在执行 8,005 次住院的留出医院统一测试及独立核验，测试成绩尚待完成。\n\n')
+            if (ROOT/'upgrade_v25/results/interval_numeric_audit.json').exists():
+                numeric=json.loads((ROOT/'upgrade_v25/results/interval_numeric_audit.json').read_text());assert numeric['status']=='passed'
+                assert numeric['script_sha256']==hashlib.sha256((ROOT/'upgrade_v25/audit_interval_numerics.py').read_bytes()).hexdigest()
+                assert all(hashlib.sha256((ROOT/'upgrade_v25'/name).read_bytes()).hexdigest()==value for name,value in numeric['source_sha256'].items())
+                test=json.loads((ROOT/'upgrade_v25/results/summary.json').read_text());assert test['status']=='complete'
+                block+=('### Completed eICU held-out hospital test\n\n' if lang=='en' else '### eICU 留出医院测试已完成\n\n')
+                block+=('All three seeds and 13 methods/components finish the same 8,005 stays / 6,227 patients / 16 unseen hospitals. Independent checks cover frozen selections, feedback weights, all saved prediction scores and per-seed patient/hospital intervals. Integer accumulation exactly reproduces all 144 interval bounds after a numerical warning; no scores were replaced. Selected results below are three-seed means; the full report retains all methods, seed SD and raw/accepted curves.\n\n' if lang=='en' else '三个种子、13 个方法／组件配置完成同一 8,005 次住院／6,227 人／16 家未见医院测试。已独立核验冻结选择、反馈权重、全部保存预测的计分及逐种子患者／医院区间。数值警告后，整数累加完全复现 144 个区间边界，未替换分数。下表为三个种子的均值；完整报告保留全部方法、种子标准差及原始／接纳曲线。\n\n')
+                block+='| Method | Drug F1 | Joint-order F1 |\n|---|---:|---:|\n'
+                for name in ['retrieval_conditional','word_char_ensemble','full_data_uniform','uniform','error_prioritized','permuted_priority','error_priority_initial_tool']:
+                    v=test['methods'][name];block+=f"| {name} | {v['drug_f1_mean']:.5f} | {v['order_f1_mean']:.5f} |\n"
+                block+=f'\n[Complete external method table, uncertainty and fitting budgets](../upgrade_v25/RESULTS.{lang}.md)\n\n'
         if (PAPER/'public_benchmark_coverage.json').exists():
             block+=('**Public-data coverage:** a source/identity recount confirms all300 released RxQA OpenFDA questions and all2,000 deduplicated RxSafeBench cases in the historical full-set runs. Later adaptive comparisons use988 frozen test cases, keeping their625/190/197 development cases separate. The unavailable BNF component is excluded. ' if lang=='en' else '**公开数据覆盖：** 源记录／题目身份复核证实RxQA公开OpenFDA全部300题已覆盖，历史全量实验覆盖RxSafeBench去重后全部2,000题；后续进化方法使用988题冻结测试，625／190／197开发题分别保留。未获得的BNF部分不计入。')
             block+=f'[Exact scope, recounted results and metadata correction](PUBLIC_BENCHMARKS.{lang}.md)\n\n'
@@ -163,6 +174,9 @@ def main():
         if (ROOT/'upgrade_v32/results/training_progress.json').exists():
             plan+=('**Local repair subtask now executing:** finish the four registered v32 fits. Scoring, independent recount and the gated completion queue are implemented and pass the complete synthetic flow. All four repairs, two neural controls and two retrieval controls receive fixed-threshold and ordinary-calibration comparisons. Every pilot state/threshold and original v31 seed42 selection freezes before guard. This one-round supervised repair still needs multi-round RSI verification. ' if lang=='en' else '**已执行的本地修复子任务：** 完成 v32 四组已登记拟合。评分、独立复算和受前置条件约束的完成队列已实现，并通过完整合成流程。四种修复、两个神经控制和两个检索控制均报告固定阈值与普通校准对比。全部试验状态／阈值及原 v31 seed42 选择冻结后才评价 guard；这一轮监督修复仍需要多轮 RSI 验证。')
             plan+=f'[Actual repair execution and results](../upgrade_v32/RESULTS.{lang}.md)\n\n'
+        if (ROOT/'upgrade_v25/results/interval_numeric_audit.json').exists():
+            plan=plan.replace('4. Continue the eICU external-hospital study already running. Preserve zero-target stays and frozen selection. This supplies a separate transport test, not a directly pooled ATC score.', '4. Completed: eICU tests 13 methods/components across three seeds on 8,005 stays from 16 held-out hospitals. Raw/accepted curves, zero-target strata, component interventions, fitting budgets and independently recounted patient/hospital intervals are delivered. Its native-code protocol remains separate from ATC scores.')
+            plan=plan.replace('4. 继续已启动的eICU跨医院实验，保留零目标病例和冻结版本。它是独立迁移测试，不能直接混入ATC主表。', '4. 已完成：eICU 在16家留出医院的8,005次住院上测试13个方法／组件、三个种子；交付原始／接纳曲线、无目标亚组、组件干预、拟合预算及独立复算的患者／医院区间。原生编码协议与ATC成绩分别报告。')
         plan+=f'[Current actual results](CURRENT_RESULTS.{lang}.md) · [Rule study](../upgrade_v27/RESULTS.{lang}.md) · [FHIR repair](../upgrade_v28/RESULTS.{lang}.md)\n\n'
         plan+=('Earlier entries below are historical snapshots.\n' if lang=='en' else '下方较早条目是历史状态快照。\n')
         update(PAPER/('COMPLETION_PLAN.en.md' if lang=='en' else 'COMPLETION_PLAN.md'),plan)

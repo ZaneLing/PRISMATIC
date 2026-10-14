@@ -166,6 +166,50 @@ EICUDEVROWS
         assert all(hashlib.sha256((ROOT/f'upgrade_v25/results/selection_seed_{s}.json').read_bytes()).hexdigest()==value for s,value in ef['selections_sha256'].items())
         for previous in ['Training is running; no external model score is claimed yet.', 'Static-control training and the gated external test remain unfinished; completed development trajectories are reported separately below.']:
             temporal_section=temporal_section.replace(previous, 'All three seeds and static-control choices are frozen. Unified evaluation of the 8,005-stay external test and its independent audit are now in progress; only completed development trajectories are reported below.')
+    eicu_final=ROOT/'upgrade_v25/results/summary.json';eicu_numeric=ROOT/'upgrade_v25/results/interval_numeric_audit.json'
+    if eicu_final.exists() and eicu_numeric.exists():
+        en=json.loads(eicu_numeric.read_text());et=json.loads(eicu_final.read_text())
+        assert et['status']=='complete' and en['status']=='passed'
+        assert en['script_sha256']==hashlib.sha256((ROOT/'upgrade_v25/audit_interval_numerics.py').read_bytes()).hexdigest()
+        assert all(hashlib.sha256((ROOT/'upgrade_v25'/name).read_bytes()).hexdigest()==value for name,value in en['source_sha256'].items())
+        assert {a['seed'] for a in et['audits']}=={42,137,2026} and all(a['all_prediction_recounts']=='passed' for a in et['audits'])
+        for previous in ['Training is running; no external model score is claimed yet.', 'Static-control training and the gated external test remain unfinished; completed development trajectories are reported separately below.']:
+            temporal_section=temporal_section.replace(previous, 'All three seeds and static-control choices froze before the completed held-out hospital test reported below.')
+        names={'initial_state':'Initial 8k state','prevalence_global':'Prevalence + global tool','reuse_prior_orders':'Prior-order reuse','retrieval_conditional':'30-neighbor retrieval + tool','word_global':'Word policy + global tool','word_conditional':'Word policy + conditional tool','word_char_ensemble':'Word/character ensemble + tool','full_data_uniform':'Full-data uniform (raw 40k)','uniform':'Uniform, development-accepted','error_prioritized':'Own-error, development-accepted','permuted_priority':'Shuffled priorities, accepted','error_priority_initial_tool':'Own-error, initial tool frozen','initial_policy_final_tool':'Initial policy, final tool'}
+        eicu_method_rows=[]
+        for name,label in names.items():
+            z=et['methods'][name]
+            eicu_method_rows.append(f"{label} & {z['drug_f1_mean']:.5f} $\\pm$ {z['drug_f1_sd']:.5f} & {z['order_f1_mean']:.5f} $\\pm$ {z['order_f1_sd']:.5f} & {100*z['empty_fraction']:.2f} "+r'\\')
+        temporal_section+=r'''
+\subsection{Completed External Hospital Test}
+All three seeds and all static choices are frozen before testing 8,005 stays from 6,227 patients and 16 hospitals absent from development. The 3,842 zero-target stays remain included. Independent scoring checks every saved final and raw/accepted checkpoint prediction. Parameter hashes, pre-update feedback probabilities, error weights, matched exposure counts and seen-only order-tool labels are checked. This is an independent metric and provenance audit, not a replay of every test forward pass or optimization trajectory.
+\begin{table*}[t]\centering\small
+\caption{eICU held-out hospital method comparison: three-seed mean $\pm$ sample SD. Native HICL targets and literal route/dosage/frequency tuples differ from the MIMIC ATC task. Medication recall retains out-of-vocabulary targets; joint-order scoring uses complete observed tuples. All methods share the same test stays.}
+\label{tab:eicu-test-methods}
+\begin{tabular}{lrrr}\toprule Method & Drug micro-F1 & Joint-order micro-F1 & Empty (\%)\\\midrule
+EICUTESTROWS
+\bottomrule\end{tabular}\end{table*}
+'''.replace('EICUTESTROWS','\n'.join(eicu_method_rows))
+        reports=[json.loads((ROOT/f'upgrade_v25/results/test_seed_{s}.json').read_text()) for s in [42,137,2026]]
+        eicu_test_growth_rows=[]
+        for r in range(5):
+            values=[str(8000*(r+1))]
+            for arm in ['uniform','error_prioritized','permuted_priority']:
+                values.append(' / '.join(f"{sum(v['raw_curves'][arm][r]['metrics'][k] for v in reports)/3:.5f}" for k in ['drug_micro_f1','core_order_micro_f1']))
+            eicu_test_growth_rows.append(' & '.join(values)+r'\\')
+        temporal_section+=r'''
+\begin{table*}[t]\centering\small
+\caption{Raw checkpoint trajectories on the same eICU test, reported without selecting a test winner. Each cell is the three-seed mean drug / joint-order micro-F1. Accepted-state curves and seed variation are also retained in the release.}
+\label{tab:eicu-test-growth}
+\begin{tabular}{rrrr}\toprule Training stays & Uniform & Own-error priorities & Shuffled priorities\\\midrule
+EICUGROWTHROWS
+\bottomrule\end{tabular}\end{table*}
+'''.replace('EICUGROWTHROWS','\n'.join(eicu_test_growth_rows))
+        own=et['methods']['error_prioritized'];ordinary=et['methods']['uniform'];frozen_tool=et['methods']['error_priority_initial_tool']
+        temporal_section+=f"For development-accepted states, mean own-error-minus-uniform drug/order F1 is {own['drug_f1_mean']-ordinary['drug_f1_mean']:+.5f}/{own['order_f1_mean']-ordinary['order_f1_mean']:+.5f}. Updating the order tool rather than composing the same selected own-error policy with its initial tool changes mean joint-order F1 by {own['order_f1_mean']-frozen_tool['order_f1_mean']:+.5f}. "
+        temporal_section+=r'''The accompanying report gives per-seed, paired patient- and hospital-cluster intervals from 2,000 resamples, without multiplicity correction, plus false nonempty predictions among zero-target stays. Following a floating-matmul warning in the original statistics pass, integer accumulation independently recounts all 36 cluster contrasts (144 interval bounds). All original values are finite and every bound agrees within $10^{-12}$. No prediction or model choice changes in this check.
+
+Logical five-round exposure is identical across feedback arms; the initial fit is physically shared. Static word/character fits and their five-weight/seven-threshold ensemble search have separate recorded budgets. Tool fitting, retrieval and inference are outside the policy-fitting time ledger, and concurrent runtime is not a speed benchmark. These comparisons distinguish case-growth gains, error-assignment effects and learned order-tool effects; they do not establish autonomous clinical reasoning or clinical safety.'''
     parameter_section=r'\paragraph{Execution status.} Local parameter-update experiments are in progress. No fine-tuning gain is claimed before generation-based evaluation is complete.'
     if parameter.exists() and (ROOT/'upgrade_v9/results/summary.json').exists():
         d=json.loads((ROOT/'upgrade_v9/results/summary.json').read_text())

@@ -1,0 +1,614 @@
+{
+  "status": "passed",
+  "trigger": "Floating-matmul runtime warnings in the original audit; numerical cause is not inferred.",
+  "source_sha256": {
+    "results/summary.json": "6c48b1848f6b9cfaf5472a172dee9a94a4d976a47db6d6e3cf8021a1522eab9f",
+    "results/feature_manifest.json": "8252b467c747d0260738e0a6c54525133b6eb05068d2175964c34182ba95e592",
+    "results/frozen_before_test.json": "b6a7ed7c34392d2123ee105f70dcd192d913ecfab33aa322ae89b53a92e37803",
+    "protocol.json": "12b3550efbb105bbc138955139464cd90df59d914a70f141308d904265d7fbc3",
+    "audit_results.py": "a43a06b3ca0d458765ca1e996124b14eeeb1bd93c08f603e3d2e3bf12e40c7e3",
+    "data_contract.py": "8065573bff6759decae7ec6405d2153d5cfc5cd511e0e6080714be078336e395",
+    "results/test_seed_42.json": "b877b6e48938305040a1ef7bd2e41d2b917c50fed675749abb3b15037daad5a1",
+    "results/selection_seed_42.json": "ca4ddef08cd773214f6bba7d4359e6b8a9b1c2e851dc9dc1cea62f1c33565230",
+    "results/test_seed_137.json": "537f6c9570b0d45d6217221b879eb9338576ed57dc395c61fd0f2e5f08de2224",
+    "results/selection_seed_137.json": "c4204b11bfab072c6d3c485872f39b26c4ebb90bad0c22771c5f8bc9382cd257",
+    "results/test_seed_2026.json": "4674d5da55828c00934f7b978ace99ba8d9fa0960ad7da595f0bf34807033a77",
+    "results/selection_seed_2026.json": "0a93730a6b9a776f65a8af6a10f050950bcf75b7b24c9e3de3301c601520395d"
+  },
+  "artifact_sha256": {
+    "seed_42/all_test_predictions.joblib": "b8e0b3fed4ba33cecf2e4dab28c593c2b0e1d9f5c2d27a87536370a40320ddb7",
+    "seed_137/all_test_predictions.joblib": "7aa4d85dcaccbb4f3ddf86989b648f01fd49748fba936e12d777717e157132dc",
+    "seed_2026/all_test_predictions.joblib": "dce066b765b6c152cb06f210c220446f8a243a3d4515bacc4bd0328edb217d96"
+  },
+  "script_sha256": "e942f5a944d6bce85ba626237b4d5ee5affb0330a49b0840b5ddaf5f8f7c3692",
+  "sealed_bundle_sha256": "b71257696013192efbd178df22b9efc9be0202ab33de3c66d4ad20c30c32d6e7",
+  "nonfinite_original_values": [],
+  "cluster_contrasts_recomputed": 36,
+  "interval_bounds_recomputed": 144,
+  "bootstrap_draws": 2000,
+  "seed": 42,
+  "accumulation_dtype": "int64",
+  "maximum_integer_accumulation_bound": 1127087,
+  "maximum_absolute_interval_difference": 0.0,
+  "comparisons": [
+    {
+      "seed": 42,
+      "cluster": "patient",
+      "contrast": "error_prioritized__minus__uniform",
+      "integer_reference_ci95": [
+        [
+          -0.007600392058456771,
+          -0.0027666773306596706
+        ],
+        [
+          -0.0027587759924934297,
+          8.512462301164212e-06
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 42,
+      "cluster": "patient",
+      "contrast": "error_prioritized__minus__permuted_priority",
+      "integer_reference_ci95": [
+        [
+          -0.002235302077713038,
+          -0.00120328619949274
+        ],
+        [
+          0.0028128222641848042,
+          0.0015646608270919445
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 42,
+      "cluster": "patient",
+      "contrast": "error_prioritized__minus__word_char_ensemble",
+      "integer_reference_ci95": [
+        [
+          0.003259292902686384,
+          -0.0010893375878157096
+        ],
+        [
+          0.010997091926517917,
+          0.0033074624577547978
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 42,
+      "cluster": "patient",
+      "contrast": "error_prioritized__minus__error_priority_initial_tool",
+      "integer_reference_ci95": [
+        [
+          0.0,
+          0.0039100219807595375
+        ],
+        [
+          0.0,
+          0.007885201655120638
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 42,
+      "cluster": "patient",
+      "contrast": "uniform__minus__initial_state",
+      "integer_reference_ci95": [
+        [
+          0.019870075687609248,
+          0.008279588965506174
+        ],
+        [
+          0.02960619296141801,
+          0.014402380208174137
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 42,
+      "cluster": "patient",
+      "contrast": "uniform__minus__word_char_ensemble",
+      "integer_reference_ci95": [
+        [
+          0.008801535260033662,
+          0.00044558728533887146
+        ],
+        [
+          0.016004986946832167,
+          0.004515256164086989
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 42,
+      "cluster": "hospital",
+      "contrast": "error_prioritized__minus__uniform",
+      "integer_reference_ci95": [
+        [
+          -0.00789859179411299,
+          -0.0022737568999093385
+        ],
+        [
+          -0.00235316686108721,
+          -0.00048642520537279263
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 42,
+      "cluster": "hospital",
+      "contrast": "error_prioritized__minus__permuted_priority",
+      "integer_reference_ci95": [
+        [
+          -0.0021843713069304247,
+          -0.0013641786438617957
+        ],
+        [
+          0.0022174975518857343,
+          0.0015043149967031353
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 42,
+      "cluster": "hospital",
+      "contrast": "error_prioritized__minus__word_char_ensemble",
+      "integer_reference_ci95": [
+        [
+          0.0015175051098141213,
+          -0.0006418239823404521
+        ],
+        [
+          0.017075607369422957,
+          0.0040316179021508605
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 42,
+      "cluster": "hospital",
+      "contrast": "error_prioritized__minus__error_priority_initial_tool",
+      "integer_reference_ci95": [
+        [
+          0.0,
+          0.00091096136232392
+        ],
+        [
+          0.0,
+          0.016240319450628284
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 42,
+      "cluster": "hospital",
+      "contrast": "uniform__minus__initial_state",
+      "integer_reference_ci95": [
+        [
+          0.012050192640066177,
+          0.0018407081225728587
+        ],
+        [
+          0.03802226021139591,
+          0.026095118202152618
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 42,
+      "cluster": "hospital",
+      "contrast": "uniform__minus__word_char_ensemble",
+      "integer_reference_ci95": [
+        [
+          0.007094774891412733,
+          0.00019555739902965907
+        ],
+        [
+          0.0205201984673615,
+          0.0061516329879140914
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 137,
+      "cluster": "patient",
+      "contrast": "error_prioritized__minus__uniform",
+      "integer_reference_ci95": [
+        [
+          -0.006424945411070037,
+          -0.003384364741514793
+        ],
+        [
+          -0.0009869673299751367,
+          -0.00033671589072414284
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 137,
+      "cluster": "patient",
+      "contrast": "error_prioritized__minus__permuted_priority",
+      "integer_reference_ci95": [
+        [
+          -0.006480198208823052,
+          -0.001455209127876089
+        ],
+        [
+          -0.0012354374039220256,
+          0.0013959168072337797
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 137,
+      "cluster": "patient",
+      "contrast": "error_prioritized__minus__word_char_ensemble",
+      "integer_reference_ci95": [
+        [
+          0.002465160735563514,
+          -0.004232616549175849
+        ],
+        [
+          0.010513803412702537,
+          0.0007329512271901199
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 137,
+      "cluster": "patient",
+      "contrast": "error_prioritized__minus__error_priority_initial_tool",
+      "integer_reference_ci95": [
+        [
+          0.0,
+          0.001989495094237128
+        ],
+        [
+          0.0,
+          0.005196550514400617
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 137,
+      "cluster": "patient",
+      "contrast": "uniform__minus__initial_state",
+      "integer_reference_ci95": [
+        [
+          0.013451620150508081,
+          0.004100160729995638
+        ],
+        [
+          0.022315069683097648,
+          0.009819719740290183
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 137,
+      "cluster": "patient",
+      "contrast": "uniform__minus__word_char_ensemble",
+      "integer_reference_ci95": [
+        [
+          0.006567488237070778,
+          -0.002414561877696537
+        ],
+        [
+          0.013966909774025102,
+          0.00256738236765214
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 137,
+      "cluster": "hospital",
+      "contrast": "error_prioritized__minus__uniform",
+      "integer_reference_ci95": [
+        [
+          -0.007487655525671132,
+          -0.004398106763765869
+        ],
+        [
+          0.0012524160154815766,
+          0.0002331120479118614
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 137,
+      "cluster": "hospital",
+      "contrast": "error_prioritized__minus__permuted_priority",
+      "integer_reference_ci95": [
+        [
+          -0.00689633683479568,
+          -0.0012118454978377231
+        ],
+        [
+          8.650280967266452e-05,
+          0.0013743072058034224
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 137,
+      "cluster": "hospital",
+      "contrast": "error_prioritized__minus__word_char_ensemble",
+      "integer_reference_ci95": [
+        [
+          -0.0006046011898363477,
+          -0.0069501517641246315
+        ],
+        [
+          0.018392233600734234,
+          0.002950865243982378
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 137,
+      "cluster": "hospital",
+      "contrast": "error_prioritized__minus__error_priority_initial_tool",
+      "integer_reference_ci95": [
+        [
+          0.0,
+          0.0006908954069948179
+        ],
+        [
+          0.0,
+          0.00931623364796071
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 137,
+      "cluster": "hospital",
+      "contrast": "uniform__minus__initial_state",
+      "integer_reference_ci95": [
+        [
+          0.007108452626762841,
+          -0.0006607534634080358
+        ],
+        [
+          0.029599022350865638,
+          0.018004037517408342
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 137,
+      "cluster": "hospital",
+      "contrast": "uniform__minus__word_char_ensemble",
+      "integer_reference_ci95": [
+        [
+          0.005425108998246025,
+          -0.004298904769663481
+        ],
+        [
+          0.01879696933937753,
+          0.005636054851088871
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 2026,
+      "cluster": "patient",
+      "contrast": "error_prioritized__minus__uniform",
+      "integer_reference_ci95": [
+        [
+          -0.010339190127227262,
+          -0.0037369226125796642
+        ],
+        [
+          -0.0029629806927727624,
+          0.000834054917758194
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 2026,
+      "cluster": "patient",
+      "contrast": "error_prioritized__minus__permuted_priority",
+      "integer_reference_ci95": [
+        [
+          -0.005053134896468526,
+          -0.0012456680463266755
+        ],
+        [
+          0.0020739972628757925,
+          0.0034107875986418247
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 2026,
+      "cluster": "patient",
+      "contrast": "error_prioritized__minus__word_char_ensemble",
+      "integer_reference_ci95": [
+        [
+          -0.0008919007626346689,
+          -0.0022331324302221505
+        ],
+        [
+          0.007378798566544436,
+          0.003028106035984888
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 2026,
+      "cluster": "patient",
+      "contrast": "error_prioritized__minus__error_priority_initial_tool",
+      "integer_reference_ci95": [
+        [
+          0.0,
+          0.0037268842576354717
+        ],
+        [
+          0.0,
+          0.007567260265565152
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 2026,
+      "cluster": "patient",
+      "contrast": "uniform__minus__initial_state",
+      "integer_reference_ci95": [
+        [
+          0.011131064667566583,
+          0.006380856104936966
+        ],
+        [
+          0.020386721032946625,
+          0.012307182538232602
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 2026,
+      "cluster": "patient",
+      "contrast": "uniform__minus__word_char_ensemble",
+      "integer_reference_ci95": [
+        [
+          0.006211591558878093,
+          -0.0004045256474122681
+        ],
+        [
+          0.013892233816753707,
+          0.004248449571088585
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 2026,
+      "cluster": "hospital",
+      "contrast": "error_prioritized__minus__uniform",
+      "integer_reference_ci95": [
+        [
+          -0.013104323521623691,
+          -0.007813429948180996
+        ],
+        [
+          -0.001685262143581968,
+          0.0026443780525461976
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 2026,
+      "cluster": "hospital",
+      "contrast": "error_prioritized__minus__permuted_priority",
+      "integer_reference_ci95": [
+        [
+          -0.007867046459009668,
+          -0.005789688788013307
+        ],
+        [
+          0.0032983789072643377,
+          0.006033413602151454
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 2026,
+      "cluster": "hospital",
+      "contrast": "error_prioritized__minus__word_char_ensemble",
+      "integer_reference_ci95": [
+        [
+          -0.0023630177552209407,
+          -0.005264351493591147
+        ],
+        [
+          0.012354762097283511,
+          0.006067919930162839
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 2026,
+      "cluster": "hospital",
+      "contrast": "error_prioritized__minus__error_priority_initial_tool",
+      "integer_reference_ci95": [
+        [
+          0.0,
+          0.0017551115668408281
+        ],
+        [
+          0.0,
+          0.012697443214480525
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 2026,
+      "cluster": "hospital",
+      "contrast": "uniform__minus__initial_state",
+      "integer_reference_ci95": [
+        [
+          0.0041196764451643855,
+          0.0014160239598276
+        ],
+        [
+          0.029040218123661574,
+          0.02289682759720736
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    },
+    {
+      "seed": 2026,
+      "cluster": "hospital",
+      "contrast": "uniform__minus__word_char_ensemble",
+      "integer_reference_ci95": [
+        [
+          0.0031515243467089295,
+          0.0005341867672890444
+        ],
+        [
+          0.019847425198826894,
+          0.004263425598301645
+        ]
+      ],
+      "maximum_absolute_difference": 0.0
+    }
+  ],
+  "models_or_choices_changed": false,
+  "original_scores_replaced": false,
+  "api_calls": 0
+}

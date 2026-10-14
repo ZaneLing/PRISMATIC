@@ -1,5 +1,5 @@
 {
-  "status": "training",
+  "status": "selection_frozen",
   "lock": {
     "training_protocol_sha256": "e09ea96c571442994bda0abaa0e8954288d3af77f43b72ced565298100754529",
     "implementation_notes_sha256": "5d2b7e04aa182995a0de9b76776da7c4c3303f865c962628d2c990cd70490c15",
@@ -1359,8 +1359,101 @@
       },
       "checkpoint_selected": false,
       "best_epoch": 15
+    },
+    {
+      "epoch": 49,
+      "train_loss": 0.012935910756111849,
+      "training_seconds": 380.7305990420009,
+      "cumulative_optimizer_steps": 29155,
+      "cumulative_visit_exposures": 903021,
+      "proposal": {
+        "threshold": 0.4,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5349808014844262,
+          "patient_jaccard": 0.38090592072159185,
+          "micro_f1": 0.5511575257430804,
+          "micro_precision": 0.5357802072980264,
+          "micro_recall": 0.5674436090225564,
+          "mean_medications": 12.863926940639269,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.02267915023431777,
+          "ddi_source_covered_pair_fraction": 0.6486337317237157,
+          "known_graph_pair_rate_covered_pairs": 0.03496449402045268,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": false,
+      "best_epoch": 15
+    },
+    {
+      "epoch": 50,
+      "train_loss": 0.011967829587880494,
+      "training_seconds": 379.3386440000013,
+      "cumulative_optimizer_steps": 29750,
+      "cumulative_visit_exposures": 921450,
+      "proposal": {
+        "threshold": 0.4,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5343878189579908,
+          "patient_jaccard": 0.38019424230716437,
+          "micro_f1": 0.5507109004739337,
+          "micro_precision": 0.5345364472753008,
+          "micro_recall": 0.5678947368421052,
+          "mean_medications": 12.904109589041095,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.0227370743693897,
+          "ddi_source_covered_pair_fraction": 0.6447921368035705,
+          "known_graph_pair_rate_covered_pairs": 0.03526264213162438,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": false,
+      "best_epoch": 15
     }
   ],
   "parameters": 12141073,
+  "selection": {
+    "epoch": 15,
+    "threshold": 0.6,
+    "metrics": {
+      "patients": 433,
+      "visits": 1095,
+      "patient_f1": 0.5998516981768158,
+      "patient_jaccard": 0.44384420642592465,
+      "micro_f1": 0.6182641305449509,
+      "micro_precision": 0.5613841339959507,
+      "micro_recall": 0.6879699248120301,
+      "mean_medications": 14.884931506849314,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.02323732599829874,
+      "ddi_source_covered_pair_fraction": 0.6478467910548618,
+      "known_graph_pair_rate_covered_pairs": 0.03586855151425907,
+      "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+    }
+  },
+  "best_model_sha256": "0164ff3bed34e8e2544a9e81ddc32d6919e9e8a8bf22abc7f526ef744471f757",
+  "guard": {
+    "patients": 467,
+    "visits": 1231,
+    "patient_f1": 0.6085277617414147,
+    "patient_jaccard": 0.4532973205937687,
+    "micro_f1": 0.625110172324712,
+    "micro_precision": 0.5705409153952843,
+    "micro_recall": 0.6912219384325851,
+    "mean_medications": 14.642567018683996,
+    "empty_prediction_fraction": 0.0,
+    "empty_target_fraction": 0.0,
+    "known_graph_pair_rate_all_predictions": 0.023492554970533895,
+    "ddi_source_covered_pair_fraction": 0.6392209556219284,
+    "known_graph_pair_rate_covered_pairs": 0.03675185358664732,
+    "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+  },
   "test_inference": false
 }
