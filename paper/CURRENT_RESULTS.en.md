@@ -7,7 +7,7 @@
 
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 11/15 author-model runs finish their full 50 epochs, with 564/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 11/15 author-model runs finish their full 50 epochs, with 588/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Recorded method budgets:** the receipt ledger separates shared fits, optimizer steps, proposal searches and logical response prices. It checks completed author-epoch records against their original logs, counts shared policy fitting once, and identifies exact v29-to-v30 model reuse. SafeDrug has 3 audited seeds; molecular guard patient F1 is 0.53689 ± 0.00244. [Actual compute and development results](COMPUTE_ACCOUNTING.en.md)
 
@@ -81,6 +81,22 @@ The separate probability diagnostic covers the first permuted-uniform adapter (s
 Calibration can eliminate empty outputs by selecting almost every candidate. The zero-prefix/balanced repair selects 20.00/19.91 drugs on average; near-perfect nonempty position agreement therefore does not establish useful discrimination. Three neural states choose the lower grid boundary, so the fixed grid is not exhaustive calibration.
 
 The report-only guard is still pending; its original selection gate and current prerequisites remain in the full report.
+
+**New fixed-cardinality diagnosis:** all states select exactly eight candidates from their saved probabilities. This post-proposal development analysis adds no inference or selection. It distinguishes ranking from output-count effects.
+
+| Method | Ranked drug/order F1 | Permuted drug/order F1 |
+|---|---:|---:|
+| Frozen base | 0.27096/0.18111 | 0.21462/0.14489 |
+| Original failed adapter | 0.28571/0.19405 | 0.20926/0.14101 |
+| GT prefix / uniform | 0.28706/0.19405 | 0.20389/0.13713 |
+| Zero prefix / uniform | 0.23877/0.16171 | 0.23877/0.16041 |
+| GT prefix / balanced | 0.28437/0.19405 | 0.20523/0.13842 |
+| Zero prefix / balanced | 0.22401/0.14877 | 0.20255/0.14618 |
+| Direct retrieval top-8 | 0.28706/0.20181 | 0.28706/0.20181 |
+
+No neural state exceeds retrieval in either F1 under either declared tie rule. Same-slot correlations exceed identity-aligned correlations; frequent cutoff ties make the zero-prefix states sensitive to tie handling. The full report retains both tie rules, within-case AUROC and patient intervals. A numerical-readout precision check remains a next investigation, not an implemented repair.
+
+[Fixed-cardinality ranking diagnosis](../upgrade_v32/RANKING_DIAGNOSTIC.en.md)
 
 ### Memory repair now executing: compatibility and separate confirmation
 

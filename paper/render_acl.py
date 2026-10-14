@@ -351,6 +351,30 @@ A registered one-seed pilot crosses ground-truth versus all-zero training answer
                 repair_boundaries=[name for name,choice in repair_report['selected_thresholds'].items() if choice['threshold'] in [.01,.99]]
                 if repair_boundaries:
                     parameter_section+=f" {len(repair_boundaries)}/6 neural calibration choices reach the declared grid boundary. These results do not establish a globally optimal threshold or exhaustive ordinary calibration; the original grid remains unchanged."
+            for diagnostic_split in ['proposal','guard']:
+                diagnostic_path=ROOT/f'upgrade_v32/results/{diagnostic_split}_rank_diagnostic.json'
+                diagnostic_audit_path=ROOT/f'upgrade_v32/results/{diagnostic_split}_rank_diagnostic_audit.json'
+                if not diagnostic_audit_path.exists():
+                    continue
+                diagnostic_proof=json.loads(diagnostic_audit_path.read_text())
+                assert diagnostic_proof['status']=='passed' and diagnostic_proof['summary_sha256']==hashlib.sha256(diagnostic_path.read_bytes()).hexdigest()
+                assert diagnostic_proof['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v32/audit_rank_diagnostic.py').read_bytes()).hexdigest()
+                diagnostic=json.loads(diagnostic_path.read_text());diagnostic_views=diagnostic['panels']['drug_sha256']
+                parameter_section+=r'''\paragraph{Fixed-cardinality ranking diagnosis.}
+After observing the proposal repair outcomes, we specified and committed an additional diagnostic before computing its endpoints. Every frozen state selects exactly eight candidates by its stored probabilities, using a drug-identity hash to break exact ties; lexical drug-name order provides a declared sensitivity analysis. No new inference, training, checkpoint or threshold selection is added. This post-proposal development analysis does not replace the original endpoints or provide independent confirmation. Fixed cardinality isolates ranking behavior; it is not a clinical prescription-count rule.'''
+                diagnostic_rows=[]
+                for method in diagnostic_views['ranked']['methods']:
+                    diagnostic_cells=[labels[method]]
+                    for diagnostic_view,panel in diagnostic_views.items():
+                        m=panel['methods'][method];diagnostic_cells.append(f"{m['drug_micro_f1']:.4f}/{m['core_order_micro_f1']:.4f}")
+                    diagnostic_rows.append(' & '.join(diagnostic_cells)+r'\\')
+                parameter_section+=r'\begin{table*}[t]\centering\small'+'\n'+r'\caption{'+f"Fixed-eight diagnosis on {diagnostic['cases']} {diagnostic_split} admissions ({diagnostic['patients']} patients). Cells show drug/core-order micro-F1 with identity-hash tie-breaking. All neural states and retrieval have the same medication count. The release retains both tie rules, all paired intervals and rank statistics."+r'}'+'\n'+r'\begin{tabular}{l'+'r'*len(diagnostic_views)+r'}\toprule Method & '+' & '.join(v.capitalize() for v in diagnostic_views)+r'\\\midrule'+'\n'+'\n'.join(diagnostic_rows)+'\n'+r'\bottomrule\end{tabular}\end{table*}'+'\n'
+                if all(m['drug_micro_f1']<=panel['methods']['original_retrieval_top8']['drug_micro_f1'] and m['core_order_micro_f1']<=panel['methods']['original_retrieval_top8']['core_order_micro_f1'] for views in diagnostic['panels'].values() for panel in views.values() for name,m in panel['methods'].items() if name!='original_retrieval_top8'):
+                    parameter_section+=' No neural state exceeds retrieval in either F1 under either tie rule in any reported view.'
+                alignment_diag=diagnostic['score_rank_alignment']['permuted']['teacher_uniform']
+                parameter_section+=f" For teacher-prefix/uniform loss, same-display-slot Spearman correlation is {alignment_diag['same_display_slots_unaligned']['mean_spearman']:.4f}, whereas drug-identity-aligned correlation is {alignment_diag['drug_identity_aligned']['mean_spearman']:.4f}. These within-case averages are consistent with positional dependence but do not establish its causal origin."
+                tie_ranked=diagnostic_views['ranked']['methods']['zero_uniform']['boundary_tie_cases'];tie_permuted=diagnostic_views['permuted']['methods']['zero_uniform']['boundary_tie_cases']
+                parameter_section+=f" Zero-prefix/uniform scores have exact ties across the eighth/ninth cutoff in {tie_ranked}/{diagnostic['cases']} ranked and {tie_permuted}/{diagnostic['cases']} permuted cases. Tie sensitivity warrants a separate numerical-readout check before attributing the failure to learned representations. Independent recount covers {diagnostic_proof['case_probability_bindings_recounted']} probability bindings and {diagnostic_proof['case_selections_recounted']} case selections, including within-case AUROC and 4,000-draw paired patient intervals; neural forward passes are not replayed."
     compatibility_section=''
     if (ROOT/'upgrade_v27/results/cohort_audit.json').exists():
         compatibility_section=r'''\paragraph{Standard-method compatibility panel.}

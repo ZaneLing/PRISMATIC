@@ -275,3 +275,5 @@ v31 首次更新生成了格式合法、内容全零的处方。本试验用相�
 本版是单种子、单轮的监督修复，不能单独证明递归自进化。候选检索工具与剂量模板保持固定。四组训练状态和普通校准阈值冻结后，guard 仍须等待原 v31 seed42 全部选择冻结；guard 成绩不能用于挑选优胜修复。后续仍需多轮自身错误、打乱错误和普通训练对照。
 
 [Protocol](protocol.json) · [Evaluation addendum](evaluation_addendum.json) · [Execution progress](results/progress.json) · [Synthetic scoring preflight](results/evaluation_probe.json) · [Earlier collapse diagnosis](../upgrade_v31/COLLAPSE.zh.md)
+
+另已完成事后提出的固定8药诊断，独立复算按药物身份对齐的排序、位置依赖和截断同分；不改变原有选择。[Fixed-cardinality ranking diagnosis](RANKING_DIAGNOSTIC.zh.md)

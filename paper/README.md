@@ -3,7 +3,7 @@
 <!-- RXRSI_CURRENT_EXECUTION_START -->
 ## Live execution snapshot
 
-The common medication-method study has **11/15** completed 50-epoch author runs (564/750 saved epochs) and **6/6** completed five-round rule runs. The final common test remains gated by the registered selections and audits. These counts describe a saved snapshot; running outputs continue to update.
+The common medication-method study has **11/15** completed 50-epoch author runs (588/750 saved epochs) and **6/6** completed five-round rule runs. The final common test remains gated by the registered selections and audits. These counts describe a saved snapshot; running outputs continue to update.
 
 [中文当前结果](CURRENT_RESULTS.zh.md) · [English current results](CURRENT_RESULTS.en.md) · [Cross-method development comparison](../upgrade_v27/DEVELOPMENT_METHODS.en.md) · [Final common-test table and gate](../upgrade_v30/COMMON_TEST.en.md)
 <!-- RXRSI_CURRENT_EXECUTION_END -->

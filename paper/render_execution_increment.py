@@ -127,6 +127,17 @@ def main():
                 block+=('\nCalibration can eliminate empty outputs by selecting almost every candidate. The zero-prefix/balanced repair selects 20.00/19.91 drugs on average; near-perfect nonempty position agreement therefore does not establish useful discrimination. Three neural states choose the lower grid boundary, so the fixed grid is not exhaustive calibration.\n\n' if lang=='en' else '\n校准可以通过几乎全选来消除空输出：全零前缀／平衡损失平均选20.00／19.91个药物，接近满分的非空位置一致性不能证明区分能力提高。三个神经状态选择网格下界，因此固定网格不是穷尽校准。\n\n')
                 if 'guard' not in rp['audited_splits']:
                     block+=('The report-only guard is still pending; its original selection gate and current prerequisites remain in the full report.\n\n' if lang=='en' else '只用于报告的 guard 尚未完成，原选择门槛和当前前置条件见完整报告。\n\n')
+                ranking_path=ROOT/'upgrade_v32/results/proposal_rank_diagnostic.json';ranking_audit=ROOT/'upgrade_v32/results/proposal_rank_diagnostic_audit.json'
+                if ranking_audit.exists():
+                    ranking_proof=json.loads(ranking_audit.read_text());assert ranking_proof['status']=='passed' and ranking_proof['summary_sha256']==hashlib.sha256(ranking_path.read_bytes()).hexdigest()
+                    ranking=json.loads(ranking_path.read_text());ranking_views=ranking['panels']['drug_sha256']
+                    block+=('**New fixed-cardinality diagnosis:** all states select exactly eight candidates from their saved probabilities. This post-proposal development analysis adds no inference or selection. It distinguishes ranking from output-count effects.\n\n' if lang=='en' else '**新增固定开药数量诊断：** 每个模型按已保存的分数恰好选8个药物。这是事后提出的开发分析，不新增推理或选择，用于区分排序能力与开药数量效应。\n\n')
+                    block+=('| Method | Ranked drug/order F1 | Permuted drug/order F1 |\n' if lang=='en' else '| 方法 | 原排序药物／订单 F1 | 随机排序药物／订单 F1 |\n')+'|---|---:|---:|\n'
+                    for name,m in ranking_views['ranked']['methods'].items():
+                        other=ranking_views['permuted']['methods'][name]
+                        block+=f"| {repair_labels[name][1 if lang=='en' else 0]} | {m['drug_micro_f1']:.5f}/{m['core_order_micro_f1']:.5f} | {other['drug_micro_f1']:.5f}/{other['core_order_micro_f1']:.5f} |\n"
+                    block+=('\nNo neural state exceeds retrieval in either F1 under either declared tie rule. Same-slot correlations exceed identity-aligned correlations; frequent cutoff ties make the zero-prefix states sensitive to tie handling. The full report retains both tie rules, within-case AUROC and patient intervals. A numerical-readout precision check remains a next investigation, not an implemented repair.\n\n' if lang=='en' else '\n两种已声明同分规则下，神经模型均未超过检索的药物或订单F1。按展示位置对齐的相关性高于药物身份对齐；全零前缀状态的截断同分频繁，结果对同分处理敏感。完整报告保留两种规则、病例内AUROC及患者区间。数值读出精度检查属于下一步调查，尚未实现为修复。\n\n')
+                    block+=f'[Fixed-cardinality ranking diagnosis](../upgrade_v32/RANKING_DIAGNOSTIC.{lang}.md)\n\n'
         if (ROOT/'upgrade_v30/protocol.json').exists():
             repaired=json.loads((ROOT/'upgrade_v30/results/summary.json').read_text()) if (ROOT/'upgrade_v30/results/summary.json').exists() else {'panels':{}}
             block+=('### Memory repair now executing: compatibility and separate confirmation\n\n' if lang=='en' else '### 记忆改进已实际运行：旧记忆兼容性与独立确认\n\n')
@@ -196,6 +207,8 @@ def main():
         if (ROOT/'upgrade_v32/results/training_progress.json').exists():
             if 'proposal' in rp['audited_splits']:
                 plan+=('**Local repair subtask:** all four fits and the complete eight-method proposal comparison pass independent audits. Fixed-threshold class balancing reduces empty outputs, while calibration often selects nearly all candidates; none of the new repairs beats direct top-8 point estimates. Continue the registered multi-round control and report-only guard queue. ' if lang=='en' else '**本地修复子任务：** 四组拟合及完整八方法 proposal 对照均通过独立核验。固定阈值下的类别平衡减少空输出，校准后则常接近全选；新修复的点估计仍未超过直接前8检索。继续已登记的多轮对照和只用于报告的 guard 队列。')
+                if (ROOT/'upgrade_v32/results/proposal_rank_diagnostic_audit.json').exists():
+                    plan+=('The additional fixed-eight diagnosis is also independently recounted: positional dependence and frequent cutoff ties remain. Next isolate numerical-readout precision before changing training or candidate-specific scoring; this investigation has not yet been executed. ' if lang=='en' else '追加的固定8药诊断也已独立复算：位置依赖和频繁截断同分仍存在。下一步先隔离数值读出精度，再决定训练或逐药评分改动；该精度调查尚未执行。')
             elif rp['completed_optimizer_fits'] == 4 and 'training_audit_sha256' in rp.get('gates', {}).get('proposal', {}).get('proof', {}):
                 plan+=('**Local repair subtask:** all four registered v32 fits have passed the training audit. Continue the original proposal scoring and independent recount queue, then wait for all original v31 seed42 selections to freeze before report-only guard evaluation. ' if lang=='en' else '**本地修复子任务：** v32 四组已登记拟合均已通过训练核验。继续原有 proposal 评分与独立复算队列；全部原 v31 seed42 选择冻结后，才能评价只用于报告的 guard。')
             else:

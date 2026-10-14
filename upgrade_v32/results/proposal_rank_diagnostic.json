@@ -1,0 +1,2844 @@
+{
+  "status": "executed_pending_independent_audit",
+  "split": "proposal",
+  "cases": 100,
+  "patients": 97,
+  "diagnostic_lock_sha256": "b17669b40bbf5bb1ec26c20a77b15f1f6c4331e09b9381940c5a744bf0096e77",
+  "parent_summary_sha256": "f54cd51bdf677be19b81ba2c98b012be7103eee56d535e7d3a7c3466d5c846d4",
+  "parent_audit_sha256": "0c334b210dab72c0fa3851be2a317dd4dea32f8cdc0036a8b125ed81c9007fae",
+  "private_selections_sha256": "aea9c3b49970ea266dbf92091b953a76ab75290c195691a0a3014aed5bd2182f",
+  "panels": {
+    "drug_sha256": {
+      "ranked": {
+        "methods": {
+          "frozen_base": {
+            "cases": 100,
+            "drug_micro_f1": 0.27095908786049633,
+            "drug_precision": 0.2525,
+            "drug_recall": 0.29232995658465993,
+            "core_order_micro_f1": 0.18111254851228978,
+            "known_field_accuracy_given_correct_drug": 0.8654646324549237,
+            "known_fields_scored": 721,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.22603581818639307,
+            "patients": 97,
+            "patient_drug_f1": 0.20869558491731557,
+            "patient_order_f1": 0.1411087155644694,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 14,
+            "within_case_auroc_mean": 0.6800627908235863,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "original_failed_adapter": {
+            "cases": 100,
+            "drug_micro_f1": 0.2857142857142857,
+            "drug_precision": 0.26625,
+            "drug_recall": 0.30824891461649784,
+            "core_order_micro_f1": 0.19404915912031048,
+            "known_field_accuracy_given_correct_drug": 0.8664921465968587,
+            "known_fields_scored": 764,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.2398817224172981,
+            "patients": 97,
+            "patient_drug_f1": 0.2182846081843255,
+            "patient_order_f1": 0.14953380405323285,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 13,
+            "within_case_auroc_mean": 0.7001728062340008,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "teacher_uniform": {
+            "cases": 100,
+            "drug_micro_f1": 0.2870556673373575,
+            "drug_precision": 0.2675,
+            "drug_recall": 0.3096960926193922,
+            "core_order_micro_f1": 0.19404915912031048,
+            "known_field_accuracy_given_correct_drug": 0.8668407310704961,
+            "known_fields_scored": 766,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.24055241322883397,
+            "patients": 97,
+            "patient_drug_f1": 0.21928040718210337,
+            "patient_order_f1": 0.1500461183678516,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 9,
+            "within_case_auroc_mean": 0.698176799986617,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "zero_uniform": {
+            "cases": 100,
+            "drug_micro_f1": 0.23876592890677398,
+            "drug_precision": 0.2225,
+            "drug_recall": 0.2575976845151954,
+            "core_order_micro_f1": 0.16170763260025872,
+            "known_field_accuracy_given_correct_drug": 0.8600311041990669,
+            "known_fields_scored": 643,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.20023678075351636,
+            "patients": 97,
+            "patient_drug_f1": 0.18949046883818388,
+            "patient_order_f1": 0.1294505676545034,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 93,
+            "within_case_auroc_mean": 0.5685314782095489,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "teacher_balanced": {
+            "cases": 100,
+            "drug_micro_f1": 0.28437290409121396,
+            "drug_precision": 0.265,
+            "drug_recall": 0.3068017366136035,
+            "core_order_micro_f1": 0.19404915912031048,
+            "known_field_accuracy_given_correct_drug": 0.8659658344283837,
+            "known_fields_scored": 761,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.23921103160576224,
+            "patients": 97,
+            "patient_drug_f1": 0.21761618938386496,
+            "patient_order_f1": 0.14978901579116138,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 12,
+            "within_case_auroc_mean": 0.6892698811355815,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "zero_balanced": {
+            "cases": 100,
+            "drug_micro_f1": 0.22401073105298458,
+            "drug_precision": 0.20875,
+            "drug_recall": 0.24167872648335745,
+            "core_order_micro_f1": 0.14877102199223805,
+            "known_field_accuracy_given_correct_drug": 0.8578512396694215,
+            "known_fields_scored": 605,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.18639087652261133,
+            "patients": 97,
+            "patient_drug_f1": 0.17800141970431707,
+            "patient_order_f1": 0.11694330204797179,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 84,
+            "within_case_auroc_mean": 0.5603648411785166,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "original_retrieval_top8": {
+            "cases": 100,
+            "drug_micro_f1": 0.2870556673373575,
+            "drug_precision": 0.2675,
+            "drug_recall": 0.3096960926193922,
+            "core_order_micro_f1": 0.2018111254851229,
+            "known_field_accuracy_given_correct_drug": 0.8686605981794538,
+            "known_fields_scored": 769,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.24443339641124018,
+            "patients": 97,
+            "patient_drug_f1": 0.2200690484143877,
+            "patient_order_f1": 0.15476579416815597,
+            "compiler_schema_failures": 0
+          }
+        },
+        "contrasts": {
+          "frozen_base_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.01609657947686116,
+              "micro_f1_patient_ci95": [
+                -0.03274440561333085,
+                0.0013344242918097847
+              ],
+              "patient_f1_difference": -0.011373463497072217,
+              "patient_f1_ci95": [
+                -0.025106087524372774,
+                0.0026303872685136133
+              ],
+              "positive_admission_contrast": 12,
+              "negative_admission_contrast": 22,
+              "zero_admission_contrast": 66,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.020698576972833116,
+              "micro_f1_patient_ci95": [
+                -0.03686116337451327,
+                -0.003954720516560343
+              ],
+              "patient_f1_difference": -0.013657078603686562,
+              "patient_f1_ci95": [
+                -0.02704315980722296,
+                -0.00041597296023891927
+              ],
+              "positive_admission_contrast": 10,
+              "negative_admission_contrast": 21,
+              "zero_admission_contrast": 69,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "original_failed_adapter_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.0013413816230717912,
+              "micro_f1_patient_ci95": [
+                -0.015161957270847681,
+                0.012396694214875994
+              ],
+              "patient_f1_difference": -0.0017844402300623008,
+              "patient_f1_ci95": [
+                -0.012987664957281648,
+                0.009476991871058412
+              ],
+              "positive_admission_contrast": 13,
+              "negative_admission_contrast": 15,
+              "zero_admission_contrast": 72,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0077619663648124115,
+              "micro_f1_patient_ci95": [
+                -0.019685221078134484,
+                0.0041076264449177394
+              ],
+              "patient_f1_difference": -0.0052319901149231185,
+              "patient_f1_ci95": [
+                -0.014974667775821997,
+                0.004254833317750218
+              ],
+              "positive_admission_contrast": 8,
+              "negative_admission_contrast": 13,
+              "zero_admission_contrast": 79,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_uniform_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": 0.0,
+              "micro_f1_patient_ci95": [
+                -0.01184234892787528,
+                0.01159056337896729
+              ],
+              "patient_f1_difference": -0.0007886412322843928,
+              "patient_f1_ci95": [
+                -0.010249054771315378,
+                0.008718582489576066
+              ],
+              "positive_admission_contrast": 11,
+              "negative_admission_contrast": 11,
+              "zero_admission_contrast": 78,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0077619663648124115,
+              "micro_f1_patient_ci95": [
+                -0.01758534414345641,
+                0.002490893524283919
+              ],
+              "patient_f1_difference": -0.004719675800304385,
+              "patient_f1_ci95": [
+                -0.012611924977785738,
+                0.0028752246942289664
+              ],
+              "positive_admission_contrast": 5,
+              "negative_admission_contrast": 11,
+              "zero_admission_contrast": 84,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_uniform_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.04828973843058351,
+              "micro_f1_patient_ci95": [
+                -0.07728275651284022,
+                -0.018624451319880473
+              ],
+              "patient_f1_difference": -0.030578579576203885,
+              "patient_f1_ci95": [
+                -0.05483593103438258,
+                -0.007031319203026038
+              ],
+              "positive_admission_contrast": 13,
+              "negative_admission_contrast": 32,
+              "zero_admission_contrast": 55,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.04010349288486417,
+              "micro_f1_patient_ci95": [
+                -0.06547346598259352,
+                -0.015180283157158319
+              ],
+              "patient_f1_difference": -0.025315226513652533,
+              "patient_f1_ci95": [
+                -0.046129281839854555,
+                -0.005398228631712377
+              ],
+              "positive_admission_contrast": 12,
+              "negative_admission_contrast": 31,
+              "zero_admission_contrast": 57,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_balanced_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.002682763246143527,
+              "micro_f1_patient_ci95": [
+                -0.015332081802399311,
+                0.010289554598236236
+              ],
+              "patient_f1_difference": -0.002452859030522836,
+              "patient_f1_ci95": [
+                -0.013228456534904518,
+                0.008264409588298027
+              ],
+              "positive_admission_contrast": 10,
+              "negative_admission_contrast": 13,
+              "zero_admission_contrast": 77,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0077619663648124115,
+              "micro_f1_patient_ci95": [
+                -0.018880393442154902,
+                0.0037744229479934896
+              ],
+              "patient_f1_difference": -0.0049767783769945895,
+              "patient_f1_ci95": [
+                -0.014526293691631085,
+                0.004062532591301661
+              ],
+              "positive_admission_contrast": 7,
+              "negative_admission_contrast": 12,
+              "zero_admission_contrast": 81,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_balanced_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.06304493628437291,
+              "micro_f1_patient_ci95": [
+                -0.09079588353932873,
+                -0.03552118277528115
+              ],
+              "patient_f1_difference": -0.042067628710070665,
+              "patient_f1_ci95": [
+                -0.06457618274713071,
+                -0.019758089995708262
+              ],
+              "positive_admission_contrast": 11,
+              "negative_admission_contrast": 37,
+              "zero_admission_contrast": 52,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.05304010349288485,
+              "micro_f1_patient_ci95": [
+                -0.07792493849762575,
+                -0.026418773059878827
+              ],
+              "patient_f1_difference": -0.03782249212018417,
+              "patient_f1_ci95": [
+                -0.05894547735048977,
+                -0.015845630118283726
+              ],
+              "positive_admission_contrast": 11,
+              "negative_admission_contrast": 37,
+              "zero_admission_contrast": 52,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_uniform_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": 0.01609657947686116,
+              "micro_f1_patient_ci95": [
+                0.002629462041226742,
+                0.029413177827184698
+              ],
+              "patient_f1_difference": 0.010584822264787824,
+              "patient_f1_ci95": [
+                -0.0008124752137630753,
+                0.02228776262676392
+              ],
+              "positive_admission_contrast": 17,
+              "negative_admission_contrast": 7,
+              "zero_admission_contrast": 76,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": 0.012936610608020704,
+              "micro_f1_patient_ci95": [
+                0.0013131116377088226,
+                0.024611797722624996
+              ],
+              "patient_f1_difference": 0.008937402803382177,
+              "patient_f1_ci95": [
+                -0.0014282912105077446,
+                0.01909879067095562
+              ],
+              "positive_admission_contrast": 13,
+              "negative_admission_contrast": 5,
+              "zero_admission_contrast": 82,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_uniform_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": 0.0013413816230717912,
+              "micro_f1_patient_ci95": [
+                -0.007550306422815227,
+                0.010044099972555806
+              ],
+              "patient_f1_difference": 0.000995798997777908,
+              "patient_f1_ci95": [
+                -0.006381396483252423,
+                0.008388533192361707
+              ],
+              "positive_admission_contrast": 6,
+              "negative_admission_contrast": 5,
+              "zero_admission_contrast": 89,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": 0.0,
+              "micro_f1_patient_ci95": [
+                -0.00908000466115434,
+                0.00896301166148953
+              ],
+              "patient_f1_difference": 0.0005123143146187337,
+              "patient_f1_ci95": [
+                -0.006937281739889368,
+                0.007894931141899002
+              ],
+              "positive_admission_contrast": 6,
+              "negative_admission_contrast": 6,
+              "zero_admission_contrast": 88,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_uniform_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": -0.03219315895372235,
+              "micro_f1_patient_ci95": [
+                -0.060098393852694915,
+                -0.0028178106289237035
+              ],
+              "patient_f1_difference": -0.019205116079131668,
+              "patient_f1_ci95": [
+                -0.04119530122405289,
+                0.0026332816703296324
+              ],
+              "positive_admission_contrast": 18,
+              "negative_admission_contrast": 27,
+              "zero_admission_contrast": 55,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.019404915912031057,
+              "micro_f1_patient_ci95": [
+                -0.04065386082140903,
+                0.0029658191133506238
+              ],
+              "patient_f1_difference": -0.011658147909965971,
+              "patient_f1_ci95": [
+                -0.029452546694768975,
+                0.006373137212429099
+              ],
+              "positive_admission_contrast": 16,
+              "negative_admission_contrast": 25,
+              "zero_admission_contrast": 59,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_uniform_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": -0.04694835680751172,
+              "micro_f1_patient_ci95": [
+                -0.07351303612346802,
+                -0.018017394557186952
+              ],
+              "patient_f1_difference": -0.028794139346141584,
+              "patient_f1_ci95": [
+                -0.05135478882457195,
+                -0.005327086780340785
+              ],
+              "positive_admission_contrast": 13,
+              "negative_admission_contrast": 31,
+              "zero_admission_contrast": 56,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.03234152652005176,
+              "micro_f1_patient_ci95": [
+                -0.052923119777158786,
+                -0.009459140314403458
+              ],
+              "patient_f1_difference": -0.020083236398729415,
+              "patient_f1_ci95": [
+                -0.03827307590118433,
+                -0.0009366107585656282
+              ],
+              "positive_admission_contrast": 12,
+              "negative_admission_contrast": 29,
+              "zero_admission_contrast": 59,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_balanced_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": 0.013413816230717635,
+              "micro_f1_patient_ci95": [
+                0.0,
+                0.026578957257135796
+              ],
+              "patient_f1_difference": 0.008920604466549381,
+              "patient_f1_ci95": [
+                -0.0023785762590300776,
+                0.0200921871067415
+              ],
+              "positive_admission_contrast": 15,
+              "negative_admission_contrast": 7,
+              "zero_admission_contrast": 78,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": 0.012936610608020704,
+              "micro_f1_patient_ci95": [
+                0.0,
+                0.025975562898639837
+              ],
+              "patient_f1_difference": 0.008680300226691973,
+              "patient_f1_ci95": [
+                -0.002311150905222999,
+                0.01949207593666359
+              ],
+              "positive_admission_contrast": 13,
+              "negative_admission_contrast": 6,
+              "zero_admission_contrast": 81,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_balanced_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": -0.0013413816230717357,
+              "micro_f1_patient_ci95": [
+                -0.00934610675196162,
+                0.006671896545865252
+              ],
+              "patient_f1_difference": -0.0006684188004605351,
+              "patient_f1_ci95": [
+                -0.006763949401592637,
+                0.005426770952548174
+              ],
+              "positive_admission_contrast": 4,
+              "negative_admission_contrast": 5,
+              "zero_admission_contrast": 91,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": 0.0,
+              "micro_f1_patient_ci95": [
+                -0.006451717028676166,
+                0.006333122229259025
+              ],
+              "patient_f1_difference": 0.000255211737928529,
+              "patient_f1_ci95": [
+                -0.004769198963559194,
+                0.0055940249108078115
+              ],
+              "positive_admission_contrast": 3,
+              "negative_admission_contrast": 3,
+              "zero_admission_contrast": 94,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_balanced_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": -0.04694835680751175,
+              "micro_f1_patient_ci95": [
+                -0.07542322921893116,
+                -0.019110679043997353
+              ],
+              "patient_f1_difference": -0.030694165212998448,
+              "patient_f1_ci95": [
+                -0.05388731660435906,
+                -0.008050464944389905
+              ],
+              "positive_admission_contrast": 16,
+              "negative_admission_contrast": 30,
+              "zero_admission_contrast": 54,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.03234152652005173,
+              "micro_f1_patient_ci95": [
+                -0.056289635494112464,
+                -0.007499415887850445
+              ],
+              "patient_f1_difference": -0.024165413516497605,
+              "patient_f1_ci95": [
+                -0.045220187020638944,
+                -0.003084525393208642
+              ],
+              "positive_admission_contrast": 13,
+              "negative_admission_contrast": 29,
+              "zero_admission_contrast": 58,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_balanced_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": -0.06170355466130112,
+              "micro_f1_patient_ci95": [
+                -0.08892161936418001,
+                -0.03295940448877489
+              ],
+              "patient_f1_difference": -0.040283188480008364,
+              "patient_f1_ci95": [
+                -0.06311467965345438,
+                -0.01683668043868614
+              ],
+              "positive_admission_contrast": 10,
+              "negative_admission_contrast": 35,
+              "zero_admission_contrast": 55,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.04527813712807244,
+              "micro_f1_patient_ci95": [
+                -0.06671028996440181,
+                -0.02094222569719732
+              ],
+              "patient_f1_difference": -0.03259050200526105,
+              "patient_f1_ci95": [
+                -0.0524496356645029,
+                -0.011149501364974716
+              ],
+              "positive_admission_contrast": 10,
+              "negative_admission_contrast": 34,
+              "zero_admission_contrast": 56,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          }
+        }
+      },
+      "permuted": {
+        "methods": {
+          "frozen_base": {
+            "cases": 100,
+            "drug_micro_f1": 0.21462105969148224,
+            "drug_precision": 0.2,
+            "drug_recall": 0.23154848046309695,
+            "core_order_micro_f1": 0.1448900388098318,
+            "known_field_accuracy_given_correct_drug": 0.856140350877193,
+            "known_fields_scored": 570,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.179755549250657,
+            "patients": 97,
+            "patient_drug_f1": 0.16594476539926453,
+            "patient_order_f1": 0.11604869649140673,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 8,
+            "within_case_auroc_mean": 0.5505730886273029,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "original_failed_adapter": {
+            "cases": 100,
+            "drug_micro_f1": 0.20925553319919518,
+            "drug_precision": 0.195,
+            "drug_recall": 0.22575976845151954,
+            "core_order_micro_f1": 0.1410090556274256,
+            "known_field_accuracy_given_correct_drug": 0.8527827648114902,
+            "known_fields_scored": 557,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.1751322944133104,
+            "patients": 97,
+            "patient_drug_f1": 0.16292854167958418,
+            "patient_order_f1": 0.11345511904682241,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 14,
+            "within_case_auroc_mean": 0.5365480455643659,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "teacher_uniform": {
+            "cases": 100,
+            "drug_micro_f1": 0.20389000670690813,
+            "drug_precision": 0.19,
+            "drug_recall": 0.2199710564399421,
+            "core_order_micro_f1": 0.1371280724450194,
+            "known_field_accuracy_given_correct_drug": 0.8484288354898336,
+            "known_fields_scored": 541,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.17050903957596375,
+            "patients": 97,
+            "patient_drug_f1": 0.15873845644644258,
+            "patient_order_f1": 0.11028955837025375,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 12,
+            "within_case_auroc_mean": 0.5194503894977532,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "zero_uniform": {
+            "cases": 100,
+            "drug_micro_f1": 0.23876592890677398,
+            "drug_precision": 0.2225,
+            "drug_recall": 0.2575976845151954,
+            "core_order_micro_f1": 0.16041397153945666,
+            "known_field_accuracy_given_correct_drug": 0.8634222919937206,
+            "known_fields_scored": 637,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.19958995022311532,
+            "patients": 97,
+            "patient_drug_f1": 0.18552489492049282,
+            "patient_order_f1": 0.12652421461804272,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 89,
+            "within_case_auroc_mean": 0.54810659214232,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "teacher_balanced": {
+            "cases": 100,
+            "drug_micro_f1": 0.2052313883299799,
+            "drug_precision": 0.19125,
+            "drug_recall": 0.22141823444283648,
+            "core_order_micro_f1": 0.1384217335058215,
+            "known_field_accuracy_given_correct_drug": 0.8516483516483516,
+            "known_fields_scored": 546,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.1718265609179007,
+            "patients": 97,
+            "patient_drug_f1": 0.15991694846180543,
+            "patient_order_f1": 0.11154168808812026,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 15,
+            "within_case_auroc_mean": 0.5408228572282192,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "zero_balanced": {
+            "cases": 100,
+            "drug_micro_f1": 0.20254862508383636,
+            "drug_precision": 0.18875,
+            "drug_recall": 0.21852387843704776,
+            "core_order_micro_f1": 0.1461836998706339,
+            "known_field_accuracy_given_correct_drug": 0.8686679174484052,
+            "known_fields_scored": 533,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.17436616247723513,
+            "patients": 97,
+            "patient_drug_f1": 0.15840722911337096,
+            "patient_order_f1": 0.11779152422373924,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 80,
+            "within_case_auroc_mean": 0.4906837047246455,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "original_retrieval_top8": {
+            "cases": 100,
+            "drug_micro_f1": 0.2870556673373575,
+            "drug_precision": 0.2675,
+            "drug_recall": 0.3096960926193922,
+            "core_order_micro_f1": 0.2018111254851229,
+            "known_field_accuracy_given_correct_drug": 0.8686605981794538,
+            "known_fields_scored": 769,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.24443339641124018,
+            "patients": 97,
+            "patient_drug_f1": 0.2200690484143877,
+            "patient_order_f1": 0.15476579416815597,
+            "compiler_schema_failures": 0
+          }
+        },
+        "contrasts": {
+          "frozen_base_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.07243460764587525,
+              "micro_f1_patient_ci95": [
+                -0.09825970572468473,
+                -0.04535984505938388
+              ],
+              "patient_f1_difference": -0.05412428301512323,
+              "patient_f1_ci95": [
+                -0.07691954807538078,
+                -0.03163238116101294
+              ],
+              "positive_admission_contrast": 8,
+              "negative_admission_contrast": 41,
+              "zero_admission_contrast": 51,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.05692108667529108,
+              "micro_f1_patient_ci95": [
+                -0.08274985941281295,
+                -0.030033929192026323
+              ],
+              "patient_f1_difference": -0.03871709767674919,
+              "patient_f1_ci95": [
+                -0.058592559026411174,
+                -0.018555181957117757
+              ],
+              "positive_admission_contrast": 8,
+              "negative_admission_contrast": 35,
+              "zero_admission_contrast": 57,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "original_failed_adapter_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.07780013413816231,
+              "micro_f1_patient_ci95": [
+                -0.10609063384281864,
+                -0.047975812227130946
+              ],
+              "patient_f1_difference": -0.057140506734803614,
+              "patient_f1_ci95": [
+                -0.08237733037517465,
+                -0.032153111519002985
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 41,
+              "zero_admission_contrast": 50,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.06080206985769729,
+              "micro_f1_patient_ci95": [
+                -0.08784280660746523,
+                -0.03213981477325127
+              ],
+              "patient_f1_difference": -0.04131067512133349,
+              "patient_f1_ci95": [
+                -0.06348995023910244,
+                -0.01894353691218565
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 35,
+              "zero_admission_contrast": 56,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_uniform_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.08316566063044936,
+              "micro_f1_patient_ci95": [
+                -0.11154995031930458,
+                -0.05409060239157327
+              ],
+              "patient_f1_difference": -0.06133059196794524,
+              "patient_f1_ci95": [
+                -0.08561356778743445,
+                -0.03744709336208655
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 42,
+              "zero_admission_contrast": 49,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0646830530401035,
+              "micro_f1_patient_ci95": [
+                -0.09170072285396805,
+                -0.036485870576856386
+              ],
+              "patient_f1_difference": -0.04447623579790218,
+              "patient_f1_ci95": [
+                -0.06537077977041575,
+                -0.023215340393610836
+              ],
+              "positive_admission_contrast": 10,
+              "negative_admission_contrast": 37,
+              "zero_admission_contrast": 53,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_uniform_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.04828973843058351,
+              "micro_f1_patient_ci95": [
+                -0.07450285603982097,
+                -0.02060490444911237
+              ],
+              "patient_f1_difference": -0.03454415349389495,
+              "patient_f1_ci95": [
+                -0.05606997322597073,
+                -0.01327359393472568
+              ],
+              "positive_admission_contrast": 15,
+              "negative_admission_contrast": 38,
+              "zero_admission_contrast": 47,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.04139715394566623,
+              "micro_f1_patient_ci95": [
+                -0.06375985397330793,
+                -0.01866628407460545
+              ],
+              "patient_f1_difference": -0.02824157955011325,
+              "patient_f1_ci95": [
+                -0.045880175965986134,
+                -0.011273583825601886
+              ],
+              "positive_admission_contrast": 11,
+              "negative_admission_contrast": 34,
+              "zero_admission_contrast": 55,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_balanced_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.0818242790073776,
+              "micro_f1_patient_ci95": [
+                -0.11053332709324366,
+                -0.05307161462738067
+              ],
+              "patient_f1_difference": -0.06015209995258239,
+              "patient_f1_ci95": [
+                -0.08482459946624414,
+                -0.036734459643752305
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 41,
+              "zero_admission_contrast": 50,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.06338939197930141,
+              "micro_f1_patient_ci95": [
+                -0.09172283134799285,
+                -0.03472199043168671
+              ],
+              "patient_f1_difference": -0.04322410608003566,
+              "patient_f1_ci95": [
+                -0.06442205930797669,
+                -0.022008305753249312
+              ],
+              "positive_admission_contrast": 10,
+              "negative_admission_contrast": 35,
+              "zero_admission_contrast": 55,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_balanced_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.08450704225352113,
+              "micro_f1_patient_ci95": [
+                -0.1109710269474479,
+                -0.05799100096345038
+              ],
+              "patient_f1_difference": -0.061661819301016774,
+              "patient_f1_ci95": [
+                -0.08570023727614795,
+                -0.038409790479117724
+              ],
+              "positive_admission_contrast": 8,
+              "negative_admission_contrast": 42,
+              "zero_admission_contrast": 50,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.055627425614488996,
+              "micro_f1_patient_ci95": [
+                -0.08089622407933462,
+                -0.029592183827057764
+              ],
+              "patient_f1_difference": -0.03697426994441673,
+              "patient_f1_ci95": [
+                -0.058027554865429334,
+                -0.015522070154278981
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 33,
+              "zero_admission_contrast": 58,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_uniform_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": -0.010731052984574108,
+              "micro_f1_patient_ci95": [
+                -0.02183174415797745,
+                0.0
+              ],
+              "patient_f1_difference": -0.00720630895282201,
+              "patient_f1_ci95": [
+                -0.016018071427258827,
+                0.0013956836405290287
+              ],
+              "positive_admission_contrast": 5,
+              "negative_admission_contrast": 13,
+              "zero_admission_contrast": 82,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0077619663648124115,
+              "micro_f1_patient_ci95": [
+                -0.018259420761109105,
+                0.0026179297914342143
+              ],
+              "patient_f1_difference": -0.005759138121152987,
+              "patient_f1_ci95": [
+                -0.014277420270907728,
+                0.002658890727327987
+              ],
+              "positive_admission_contrast": 6,
+              "negative_admission_contrast": 12,
+              "zero_admission_contrast": 82,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_uniform_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": -0.005365526492287054,
+              "micro_f1_patient_ci95": [
+                -0.012887639195249878,
+                0.0013880458672502099
+              ],
+              "patient_f1_difference": -0.004190085233141627,
+              "patient_f1_ci95": [
+                -0.010294491944279605,
+                0.000891205014916352
+              ],
+              "positive_admission_contrast": 2,
+              "negative_admission_contrast": 6,
+              "zero_admission_contrast": 92,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0038809831824062058,
+              "micro_f1_patient_ci95": [
+                -0.010652463382157112,
+                0.0026093907882787817
+              ],
+              "patient_f1_difference": -0.0031655606765686878,
+              "patient_f1_ci95": [
+                -0.008823318480238372,
+                0.0016433501373517977
+              ],
+              "positive_admission_contrast": 2,
+              "negative_admission_contrast": 5,
+              "zero_admission_contrast": 93,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_uniform_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": 0.024144869215291742,
+              "micro_f1_patient_ci95": [
+                0.0,
+                0.04758831927901112
+              ],
+              "patient_f1_difference": 0.019580129521228284,
+              "patient_f1_ci95": [
+                0.00014913589587185692,
+                0.039040229288758145
+              ],
+              "positive_admission_contrast": 29,
+              "negative_admission_contrast": 17,
+              "zero_admission_contrast": 54,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": 0.01552393272962485,
+              "micro_f1_patient_ci95": [
+                -0.002569416438888142,
+                0.03245951382225993
+              ],
+              "patient_f1_difference": 0.010475518126635941,
+              "patient_f1_ci95": [
+                -0.005483924771636073,
+                0.025784568128233508
+              ],
+              "positive_admission_contrast": 24,
+              "negative_admission_contrast": 13,
+              "zero_admission_contrast": 63,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_uniform_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": 0.029510395707578796,
+              "micro_f1_patient_ci95": [
+                0.006296784359936576,
+                0.05111477327048961
+              ],
+              "patient_f1_difference": 0.022596353240908668,
+              "patient_f1_ci95": [
+                0.0029555716699901325,
+                0.041861697785560266
+              ],
+              "positive_admission_contrast": 30,
+              "negative_admission_contrast": 16,
+              "zero_admission_contrast": 54,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": 0.019404915912031057,
+              "micro_f1_patient_ci95": [
+                0.0,
+                0.03730357412289671
+              ],
+              "patient_f1_difference": 0.01306909557122024,
+              "patient_f1_ci95": [
+                -0.003943426800687478,
+                0.029591387537931838
+              ],
+              "positive_admission_contrast": 25,
+              "negative_admission_contrast": 13,
+              "zero_admission_contrast": 62,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_balanced_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": -0.009389671361502344,
+              "micro_f1_patient_ci95": [
+                -0.02001363445467608,
+                0.0012497593687786246
+              ],
+              "patient_f1_difference": -0.006027816937459157,
+              "patient_f1_ci95": [
+                -0.014421136886494693,
+                0.0017278701858750478
+              ],
+              "positive_admission_contrast": 4,
+              "negative_admission_contrast": 11,
+              "zero_admission_contrast": 85,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0064683053040103244,
+              "micro_f1_patient_ci95": [
+                -0.01612928255341304,
+                0.002724795640326988
+              ],
+              "patient_f1_difference": -0.004507008403286467,
+              "patient_f1_ci95": [
+                -0.012642116747503422,
+                0.003038514501692885
+              ],
+              "positive_admission_contrast": 5,
+              "negative_admission_contrast": 10,
+              "zero_admission_contrast": 85,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_balanced_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": -0.00402414486921529,
+              "micro_f1_patient_ci95": [
+                -0.011165582225826191,
+                0.0026918353567074865
+              ],
+              "patient_f1_difference": -0.003011593217778774,
+              "patient_f1_ci95": [
+                -0.008468382991578836,
+                0.0017588554057626467
+              ],
+              "positive_admission_contrast": 2,
+              "negative_admission_contrast": 5,
+              "zero_admission_contrast": 93,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0025873221216041187,
+              "micro_f1_patient_ci95": [
+                -0.0088938475632022,
+                0.003593301055925462
+              ],
+              "patient_f1_difference": -0.001913430958702167,
+              "patient_f1_ci95": [
+                -0.007011454480078427,
+                0.0023084639848423016
+              ],
+              "positive_admission_contrast": 2,
+              "negative_admission_contrast": 4,
+              "zero_admission_contrast": 94,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_balanced_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": -0.012072434607645871,
+              "micro_f1_patient_ci95": [
+                -0.034084102217284196,
+                0.010488408967885566
+              ],
+              "patient_f1_difference": -0.007537536285893542,
+              "patient_f1_ci95": [
+                -0.027544079531643034,
+                0.012593483258926756
+              ],
+              "positive_admission_contrast": 20,
+              "negative_admission_contrast": 25,
+              "zero_admission_contrast": 55,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": 0.001293661060802087,
+              "micro_f1_patient_ci95": [
+                -0.020318429661941112,
+                0.022021931391817042
+              ],
+              "patient_f1_difference": 0.001742827732332461,
+              "patient_f1_ci95": [
+                -0.01575341500915038,
+                0.019164150846362023
+              ],
+              "positive_admission_contrast": 19,
+              "negative_admission_contrast": 15,
+              "zero_admission_contrast": 66,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_balanced_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": -0.006706908115358817,
+              "micro_f1_patient_ci95": [
+                -0.03094063757641587,
+                0.017874128782542815
+              ],
+              "patient_f1_difference": -0.004521312566213159,
+              "patient_f1_ci95": [
+                -0.02590825568523496,
+                0.017343112408235026
+              ],
+              "positive_admission_contrast": 21,
+              "negative_admission_contrast": 25,
+              "zero_admission_contrast": 54,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": 0.005174644243208293,
+              "micro_f1_patient_ci95": [
+                -0.017473244130320982,
+                0.027077757239679628
+              ],
+              "patient_f1_difference": 0.0043364051769167605,
+              "patient_f1_ci95": [
+                -0.014787421403484685,
+                0.022820817926756123
+              ],
+              "positive_admission_contrast": 22,
+              "negative_admission_contrast": 17,
+              "zero_admission_contrast": 61,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          }
+        }
+      }
+    },
+    "drug_lexical": {
+      "ranked": {
+        "methods": {
+          "frozen_base": {
+            "cases": 100,
+            "drug_micro_f1": 0.26961770623742454,
+            "drug_precision": 0.25125,
+            "drug_recall": 0.29088277858176553,
+            "core_order_micro_f1": 0.17981888745148772,
+            "known_field_accuracy_given_correct_drug": 0.8647140864714087,
+            "known_fields_scored": 717,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.22471829684445613,
+            "patients": 97,
+            "patient_drug_f1": 0.20779912593031424,
+            "patient_order_f1": 0.14034506531628307,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 14,
+            "within_case_auroc_mean": 0.6800627908235863,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "original_failed_adapter": {
+            "cases": 100,
+            "drug_micro_f1": 0.28303152246814217,
+            "drug_precision": 0.26375,
+            "drug_recall": 0.3053545586107091,
+            "core_order_micro_f1": 0.19146183699870634,
+            "known_field_accuracy_given_correct_drug": 0.8652575957727873,
+            "known_fields_scored": 757,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.23724667973342425,
+            "patients": 97,
+            "patient_drug_f1": 0.21578309211397984,
+            "patient_order_f1": 0.1470322879828872,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 13,
+            "within_case_auroc_mean": 0.7001728062340008,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "teacher_uniform": {
+            "cases": 100,
+            "drug_micro_f1": 0.2857142857142857,
+            "drug_precision": 0.26625,
+            "drug_recall": 0.30824891461649784,
+            "core_order_micro_f1": 0.1927554980595084,
+            "known_field_accuracy_given_correct_drug": 0.8663171690694627,
+            "known_fields_scored": 763,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.23923489188689706,
+            "patients": 97,
+            "patient_drug_f1": 0.21799174738828894,
+            "patient_order_f1": 0.14875745857403713,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 9,
+            "within_case_auroc_mean": 0.698176799986617,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "zero_uniform": {
+            "cases": 100,
+            "drug_micro_f1": 0.20254862508383636,
+            "drug_precision": 0.18875,
+            "drug_recall": 0.21852387843704776,
+            "core_order_micro_f1": 0.13971539456662355,
+            "known_field_accuracy_given_correct_drug": 0.8528864059590316,
+            "known_fields_scored": 537,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.17113200982522997,
+            "patients": 97,
+            "patient_drug_f1": 0.15684020260600895,
+            "patient_order_f1": 0.10856074305597525,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 93,
+            "within_case_auroc_mean": 0.5685314782095489,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "teacher_balanced": {
+            "cases": 100,
+            "drug_micro_f1": 0.2870556673373575,
+            "drug_precision": 0.2675,
+            "drug_recall": 0.3096960926193922,
+            "core_order_micro_f1": 0.19534282018111254,
+            "known_field_accuracy_given_correct_drug": 0.8647594278283485,
+            "known_fields_scored": 769,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.24119924375923502,
+            "patients": 97,
+            "patient_drug_f1": 0.21968321261203846,
+            "patient_order_f1": 0.15061375805920263,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 12,
+            "within_case_auroc_mean": 0.6892698811355815,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "zero_balanced": {
+            "cases": 100,
+            "drug_micro_f1": 0.19852448021462105,
+            "drug_precision": 0.185,
+            "drug_recall": 0.2141823444283647,
+            "core_order_micro_f1": 0.1332470892626132,
+            "known_field_accuracy_given_correct_drug": 0.8509433962264151,
+            "known_fields_scored": 530,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.16588578473861712,
+            "patients": 97,
+            "patient_drug_f1": 0.1535850046829241,
+            "patient_order_f1": 0.10171232117301333,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 84,
+            "within_case_auroc_mean": 0.5603648411785166,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "original_retrieval_top8": {
+            "cases": 100,
+            "drug_micro_f1": 0.2870556673373575,
+            "drug_precision": 0.2675,
+            "drug_recall": 0.3096960926193922,
+            "core_order_micro_f1": 0.2018111254851229,
+            "known_field_accuracy_given_correct_drug": 0.8686605981794538,
+            "known_fields_scored": 769,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.24443339641124018,
+            "patients": 97,
+            "patient_drug_f1": 0.2200690484143877,
+            "patient_order_f1": 0.15476579416815597,
+            "compiler_schema_failures": 0
+          }
+        },
+        "contrasts": {
+          "frozen_base_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.017437961099932953,
+              "micro_f1_patient_ci95": [
+                -0.03405443663678863,
+                0.0
+              ],
+              "patient_f1_difference": -0.012269922484073548,
+              "patient_f1_ci95": [
+                -0.02589338601432122,
+                0.0017143484389032773
+              ],
+              "positive_admission_contrast": 12,
+              "negative_admission_contrast": 23,
+              "zero_admission_contrast": 65,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.021992238033635175,
+              "micro_f1_patient_ci95": [
+                -0.03787938609085168,
+                -0.0052489146835716805
+              ],
+              "patient_f1_difference": -0.0144207288518729,
+              "patient_f1_ci95": [
+                -0.02762494175801324,
+                -0.0011957165714350459
+              ],
+              "positive_admission_contrast": 10,
+              "negative_admission_contrast": 22,
+              "zero_admission_contrast": 68,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "original_failed_adapter_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.004024144869215318,
+              "micro_f1_patient_ci95": [
+                -0.017426273458444996,
+                0.009589369938177666
+              ],
+              "patient_f1_difference": -0.004285956300407956,
+              "patient_f1_ci95": [
+                -0.014856017647859439,
+                0.006421649703898228
+              ],
+              "positive_admission_contrast": 11,
+              "negative_admission_contrast": 15,
+              "zero_admission_contrast": 74,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.010349288486416558,
+              "micro_f1_patient_ci95": [
+                -0.02199255433218305,
+                0.0012594855489309646
+              ],
+              "patient_f1_difference": -0.007733506185268774,
+              "patient_f1_ci95": [
+                -0.01704766936891806,
+                0.0009572611935572794
+              ],
+              "positive_admission_contrast": 6,
+              "negative_admission_contrast": 13,
+              "zero_admission_contrast": 81,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_uniform_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.0013413816230717912,
+              "micro_f1_patient_ci95": [
+                -0.013210257905724164,
+                0.01015526365772723
+              ],
+              "patient_f1_difference": -0.002077301026098821,
+              "patient_f1_ci95": [
+                -0.011341803464830671,
+                0.007000671817977307
+              ],
+              "positive_admission_contrast": 10,
+              "negative_admission_contrast": 11,
+              "zero_admission_contrast": 79,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.009055627425614499,
+              "micro_f1_patient_ci95": [
+                -0.018439411848139575,
+                0.0
+              ],
+              "patient_f1_difference": -0.006008335594118813,
+              "patient_f1_ci95": [
+                -0.013517052696792736,
+                0.0011142827299523493
+              ],
+              "positive_admission_contrast": 4,
+              "negative_admission_contrast": 11,
+              "zero_admission_contrast": 85,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_uniform_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.08450704225352113,
+              "micro_f1_patient_ci95": [
+                -0.1122246384319711,
+                -0.05584863998600822
+              ],
+              "patient_f1_difference": -0.06322884580837884,
+              "patient_f1_ci95": [
+                -0.08685157509753698,
+                -0.03999113316326915
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 41,
+              "zero_admission_contrast": 50,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.06209573091849935,
+              "micro_f1_patient_ci95": [
+                -0.08759124087591239,
+                -0.036335427827322825
+              ],
+              "patient_f1_difference": -0.04620505111218068,
+              "patient_f1_ci95": [
+                -0.06721370409357837,
+                -0.026415046394455084
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 35,
+              "zero_admission_contrast": 56,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_balanced_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": 0.0,
+              "micro_f1_patient_ci95": [
+                -0.013029528303088735,
+                0.013396071748589058
+              ],
+              "patient_f1_difference": -0.00038583580234929915,
+              "patient_f1_ci95": [
+                -0.011301670947888821,
+                0.0105503658212576
+              ],
+              "positive_admission_contrast": 12,
+              "negative_admission_contrast": 13,
+              "zero_admission_contrast": 75,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.006468305304010352,
+              "micro_f1_patient_ci95": [
+                -0.018193159585231534,
+                0.00520172978977026
+              ],
+              "patient_f1_difference": -0.004152036108953344,
+              "patient_f1_ci95": [
+                -0.01372913628208008,
+                0.0050235586914206725
+              ],
+              "positive_admission_contrast": 8,
+              "negative_admission_contrast": 12,
+              "zero_admission_contrast": 80,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_balanced_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.08853118712273644,
+              "micro_f1_patient_ci95": [
+                -0.11665691114997229,
+                -0.061949739328771604
+              ],
+              "patient_f1_difference": -0.06648404373146366,
+              "patient_f1_ci95": [
+                -0.09017010468085279,
+                -0.04490487190046398
+              ],
+              "positive_admission_contrast": 7,
+              "negative_admission_contrast": 44,
+              "zero_admission_contrast": 49,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0685640362225097,
+              "micro_f1_patient_ci95": [
+                -0.0936241982526998,
+                -0.04380559117788405
+              ],
+              "patient_f1_difference": -0.0530534729951426,
+              "patient_f1_ci95": [
+                -0.07442583454414546,
+                -0.03270308057935404
+              ],
+              "positive_admission_contrast": 8,
+              "negative_admission_contrast": 41,
+              "zero_admission_contrast": 51,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_uniform_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": 0.01609657947686116,
+              "micro_f1_patient_ci95": [
+                0.002619344291325723,
+                0.029890024512226963
+              ],
+              "patient_f1_difference": 0.010192621457974727,
+              "patient_f1_ci95": [
+                -0.0015614413221044278,
+                0.022122976991561443
+              ],
+              "positive_admission_contrast": 18,
+              "negative_admission_contrast": 8,
+              "zero_admission_contrast": 74,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": 0.012936610608020677,
+              "micro_f1_patient_ci95": [
+                0.0012360367518715089,
+                0.0249532222035145
+              ],
+              "patient_f1_difference": 0.008412393257754086,
+              "patient_f1_ci95": [
+                -0.0023494978675390908,
+                0.01906908417088829
+              ],
+              "positive_admission_contrast": 14,
+              "negative_admission_contrast": 6,
+              "zero_admission_contrast": 80,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_uniform_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": 0.002682763246143527,
+              "micro_f1_patient_ci95": [
+                -0.004422396887527308,
+                0.010397062815058663
+              ],
+              "patient_f1_difference": 0.0022086552743091348,
+              "patient_f1_ci95": [
+                -0.0036097683289761746,
+                0.008503983657266357
+              ],
+              "positive_admission_contrast": 5,
+              "negative_admission_contrast": 3,
+              "zero_admission_contrast": 92,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": 0.0012936610608020593,
+              "micro_f1_patient_ci95": [
+                -0.006397952655150363,
+                0.009253292453061135
+              ],
+              "patient_f1_difference": 0.0017251705911499604,
+              "patient_f1_ci95": [
+                -0.0041662409755193665,
+                0.007991475878073839
+              ],
+              "positive_admission_contrast": 5,
+              "negative_admission_contrast": 4,
+              "zero_admission_contrast": 91,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_uniform_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": -0.06706908115358817,
+              "micro_f1_patient_ci95": [
+                -0.0917446232516168,
+                -0.04086879313360151
+              ],
+              "patient_f1_difference": -0.050958923324305294,
+              "patient_f1_ci95": [
+                -0.07164234295788624,
+                -0.030835062480614267
+              ],
+              "positive_admission_contrast": 10,
+              "negative_admission_contrast": 39,
+              "zero_admission_contrast": 51,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.04010349288486417,
+              "micro_f1_patient_ci95": [
+                -0.06279235010304969,
+                -0.016570273767995386
+              ],
+              "patient_f1_difference": -0.03178432226030778,
+              "patient_f1_ci95": [
+                -0.050272501511566516,
+                -0.013249664486977486
+              ],
+              "positive_admission_contrast": 12,
+              "negative_admission_contrast": 31,
+              "zero_admission_contrast": 57,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_uniform_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": -0.08048289738430581,
+              "micro_f1_patient_ci95": [
+                -0.10625366133628883,
+                -0.05296056146256364
+              ],
+              "patient_f1_difference": -0.058942889507970886,
+              "patient_f1_ci95": [
+                -0.08079837398010904,
+                -0.036655618648537835
+              ],
+              "positive_admission_contrast": 8,
+              "negative_admission_contrast": 44,
+              "zero_admission_contrast": 48,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.05174644243208279,
+              "micro_f1_patient_ci95": [
+                -0.07324643078833021,
+                -0.03001346457961233
+              ],
+              "patient_f1_difference": -0.038471544926911905,
+              "patient_f1_ci95": [
+                -0.05642771289879048,
+                -0.020241380365488754
+              ],
+              "positive_admission_contrast": 8,
+              "negative_admission_contrast": 35,
+              "zero_admission_contrast": 57,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_balanced_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": 0.017437961099932953,
+              "micro_f1_patient_ci95": [
+                0.004175220265755207,
+                0.03026184386556639
+              ],
+              "patient_f1_difference": 0.011884086681724249,
+              "patient_f1_ci95": [
+                0.0006678442337933044,
+                0.023105012140547426
+              ],
+              "positive_admission_contrast": 17,
+              "negative_admission_contrast": 6,
+              "zero_admission_contrast": 77,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": 0.015523932729624823,
+              "micro_f1_patient_ci95": [
+                0.0026542360232267143,
+                0.028112572539546958
+              ],
+              "patient_f1_difference": 0.010268692742919555,
+              "patient_f1_ci95": [
+                -0.0006887525895258442,
+                0.02099678481121777
+              ],
+              "positive_admission_contrast": 14,
+              "negative_admission_contrast": 5,
+              "zero_admission_contrast": 81,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_balanced_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": 0.004024144869215318,
+              "micro_f1_patient_ci95": [
+                -0.002668445630420291,
+                0.010951403148528384
+              ],
+              "patient_f1_difference": 0.003900120498058657,
+              "patient_f1_ci95": [
+                -0.000974812558575399,
+                0.009617201097871174
+              ],
+              "positive_admission_contrast": 5,
+              "negative_admission_contrast": 2,
+              "zero_admission_contrast": 93,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": 0.0038809831824062058,
+              "micro_f1_patient_ci95": [
+                -0.00132279512246401,
+                0.009791921664626668
+              ],
+              "patient_f1_difference": 0.0035814700763154295,
+              "patient_f1_ci95": [
+                -0.0009372071227741197,
+                0.009039027982326971
+              ],
+              "positive_admission_contrast": 4,
+              "negative_admission_contrast": 1,
+              "zero_admission_contrast": 95,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_balanced_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": -0.07109322602280349,
+              "micro_f1_patient_ci95": [
+                -0.0997984246972101,
+                -0.043955678143427795
+              ],
+              "patient_f1_difference": -0.05421412124739011,
+              "patient_f1_ci95": [
+                -0.0772352783459148,
+                -0.03252624337891943
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 34,
+              "zero_admission_contrast": 57,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.046571798188874525,
+              "micro_f1_patient_ci95": [
+                -0.07058861285207281,
+                -0.02348042837301519
+              ],
+              "patient_f1_difference": -0.0386327441432697,
+              "patient_f1_ci95": [
+                -0.0593395149282899,
+                -0.02044415239315483
+              ],
+              "positive_admission_contrast": 8,
+              "negative_admission_contrast": 32,
+              "zero_admission_contrast": 60,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_balanced_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": -0.08450704225352113,
+              "micro_f1_patient_ci95": [
+                -0.11174649859943976,
+                -0.05814614479252748
+              ],
+              "patient_f1_difference": -0.062198087431055704,
+              "patient_f1_ci95": [
+                -0.08505814104328932,
+                -0.040448069471150455
+              ],
+              "positive_admission_contrast": 7,
+              "negative_admission_contrast": 41,
+              "zero_admission_contrast": 52,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.05821474773609314,
+              "micro_f1_patient_ci95": [
+                -0.07926896422047922,
+                -0.03681748665885723
+              ],
+              "patient_f1_difference": -0.045319966809873824,
+              "patient_f1_ci95": [
+                -0.06438548871270705,
+                -0.026670167677195974
+              ],
+              "positive_admission_contrast": 5,
+              "negative_admission_contrast": 36,
+              "zero_admission_contrast": 59,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          }
+        }
+      },
+      "permuted": {
+        "methods": {
+          "frozen_base": {
+            "cases": 100,
+            "drug_micro_f1": 0.21462105969148224,
+            "drug_precision": 0.2,
+            "drug_recall": 0.23154848046309695,
+            "core_order_micro_f1": 0.1448900388098318,
+            "known_field_accuracy_given_correct_drug": 0.8558875219683656,
+            "known_fields_scored": 569,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.179755549250657,
+            "patients": 97,
+            "patient_drug_f1": 0.16594476539926453,
+            "patient_order_f1": 0.11604869649140673,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 8,
+            "within_case_auroc_mean": 0.5505730886273029,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "original_failed_adapter": {
+            "cases": 100,
+            "drug_micro_f1": 0.20791415157612342,
+            "drug_precision": 0.19375,
+            "drug_recall": 0.22431259044862517,
+            "core_order_micro_f1": 0.1410090556274256,
+            "known_field_accuracy_given_correct_drug": 0.8517179023508138,
+            "known_fields_scored": 553,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.1744616036017745,
+            "patients": 97,
+            "patient_drug_f1": 0.16133305812533777,
+            "patient_order_f1": 0.1127187420217856,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 14,
+            "within_case_auroc_mean": 0.5365480455643659,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "teacher_uniform": {
+            "cases": 100,
+            "drug_micro_f1": 0.20389000670690813,
+            "drug_precision": 0.19,
+            "drug_recall": 0.2199710564399421,
+            "core_order_micro_f1": 0.1371280724450194,
+            "known_field_accuracy_given_correct_drug": 0.8484288354898336,
+            "known_fields_scored": 541,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.17050903957596375,
+            "patients": 97,
+            "patient_drug_f1": 0.15873845644644258,
+            "patient_order_f1": 0.11028955837025375,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 12,
+            "within_case_auroc_mean": 0.5194503894977532,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "zero_uniform": {
+            "cases": 100,
+            "drug_micro_f1": 0.21059691482226695,
+            "drug_precision": 0.19625,
+            "drug_recall": 0.2272069464544139,
+            "core_order_micro_f1": 0.1410090556274256,
+            "known_field_accuracy_given_correct_drug": 0.8545454545454545,
+            "known_fields_scored": 550,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.17580298522484628,
+            "patients": 97,
+            "patient_drug_f1": 0.16381504256431575,
+            "patient_order_f1": 0.11195385349387951,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 89,
+            "within_case_auroc_mean": 0.54810659214232,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "teacher_balanced": {
+            "cases": 100,
+            "drug_micro_f1": 0.20657276995305165,
+            "drug_precision": 0.1925,
+            "drug_recall": 0.22286541244573083,
+            "core_order_micro_f1": 0.13971539456662355,
+            "known_field_accuracy_given_correct_drug": 0.850909090909091,
+            "known_fields_scored": 550,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.1731440822598376,
+            "patients": 97,
+            "patient_drug_f1": 0.1607086740867633,
+            "patient_order_f1": 0.11221068420890537,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 15,
+            "within_case_auroc_mean": 0.5408228572282192,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "zero_balanced": {
+            "cases": 100,
+            "drug_micro_f1": 0.17974513749161636,
+            "drug_precision": 0.1675,
+            "drug_recall": 0.1939218523878437,
+            "core_order_micro_f1": 0.12677878395860284,
+            "known_field_accuracy_given_correct_drug": 0.8525641025641025,
+            "known_fields_scored": 468,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.15326196072510961,
+            "patients": 97,
+            "patient_drug_f1": 0.13829944019721332,
+            "patient_order_f1": 0.09964497690393943,
+            "compiler_schema_failures": 0,
+            "boundary_tie_cases": 80,
+            "within_case_auroc_mean": 0.4906837047246455,
+            "within_case_auroc_eligible_cases": 67,
+            "within_case_auroc_excluded_cases": 33
+          },
+          "original_retrieval_top8": {
+            "cases": 100,
+            "drug_micro_f1": 0.2870556673373575,
+            "drug_precision": 0.2675,
+            "drug_recall": 0.3096960926193922,
+            "core_order_micro_f1": 0.2018111254851229,
+            "known_field_accuracy_given_correct_drug": 0.8686605981794538,
+            "known_fields_scored": 769,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 800,
+            "mean_predicted_drugs": 8.0,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.24443339641124018,
+            "patients": 97,
+            "patient_drug_f1": 0.2200690484143877,
+            "patient_order_f1": 0.15476579416815597,
+            "compiler_schema_failures": 0
+          }
+        },
+        "contrasts": {
+          "frozen_base_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.07243460764587525,
+              "micro_f1_patient_ci95": [
+                -0.09825970572468473,
+                -0.04535984505938388
+              ],
+              "patient_f1_difference": -0.05412428301512323,
+              "patient_f1_ci95": [
+                -0.07691954807538078,
+                -0.03163238116101294
+              ],
+              "positive_admission_contrast": 8,
+              "negative_admission_contrast": 41,
+              "zero_admission_contrast": 51,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.05692108667529108,
+              "micro_f1_patient_ci95": [
+                -0.08274985941281295,
+                -0.030033929192026323
+              ],
+              "patient_f1_difference": -0.03871709767674919,
+              "patient_f1_ci95": [
+                -0.058592559026411174,
+                -0.018555181957117757
+              ],
+              "positive_admission_contrast": 8,
+              "negative_admission_contrast": 35,
+              "zero_admission_contrast": 57,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "original_failed_adapter_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.07914151576123407,
+              "micro_f1_patient_ci95": [
+                -0.10673809124283262,
+                -0.05013795111056356
+              ],
+              "patient_f1_difference": -0.05873599028905005,
+              "patient_f1_ci95": [
+                -0.08332563578150014,
+                -0.03483991640227278
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 41,
+              "zero_admission_contrast": 50,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.06080206985769729,
+              "micro_f1_patient_ci95": [
+                -0.08667529107373867,
+                -0.033117231416188685
+              ],
+              "patient_f1_difference": -0.04204705214637032,
+              "patient_f1_ci95": [
+                -0.06323868376060658,
+                -0.02091247705120457
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 35,
+              "zero_admission_contrast": 56,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_uniform_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.08316566063044936,
+              "micro_f1_patient_ci95": [
+                -0.11154995031930458,
+                -0.05409060239157327
+              ],
+              "patient_f1_difference": -0.06133059196794524,
+              "patient_f1_ci95": [
+                -0.08561356778743445,
+                -0.03744709336208655
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 42,
+              "zero_admission_contrast": 49,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0646830530401035,
+              "micro_f1_patient_ci95": [
+                -0.09170072285396805,
+                -0.036485870576856386
+              ],
+              "patient_f1_difference": -0.04447623579790218,
+              "patient_f1_ci95": [
+                -0.06537077977041575,
+                -0.023215340393610836
+              ],
+              "positive_admission_contrast": 10,
+              "negative_admission_contrast": 37,
+              "zero_admission_contrast": 53,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_uniform_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.07645875251509054,
+              "micro_f1_patient_ci95": [
+                -0.10407546226886556,
+                -0.04701134530718142
+              ],
+              "patient_f1_difference": -0.05625400585007201,
+              "patient_f1_ci95": [
+                -0.07885882217721342,
+                -0.03353749620596457
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 39,
+              "zero_admission_contrast": 52,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.06080206985769729,
+              "micro_f1_patient_ci95": [
+                -0.08753868592934065,
+                -0.033660258721418604
+              ],
+              "patient_f1_difference": -0.04281194067427643,
+              "patient_f1_ci95": [
+                -0.06254754408092872,
+                -0.023646788958077265
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 37,
+              "zero_admission_contrast": 54,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_balanced_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.08048289738430583,
+              "micro_f1_patient_ci95": [
+                -0.10911656763844335,
+                -0.05142195048137192
+              ],
+              "patient_f1_difference": -0.059360374327624504,
+              "patient_f1_ci95": [
+                -0.08391513641508418,
+                -0.03548101055938782
+              ],
+              "positive_admission_contrast": 9,
+              "negative_admission_contrast": 42,
+              "zero_admission_contrast": 49,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.06209573091849935,
+              "micro_f1_patient_ci95": [
+                -0.09000756238230989,
+                -0.03314880514335716
+              ],
+              "patient_f1_difference": -0.04255510995925055,
+              "patient_f1_ci95": [
+                -0.06373139153573054,
+                -0.020946980840616594
+              ],
+              "positive_admission_contrast": 10,
+              "negative_admission_contrast": 36,
+              "zero_admission_contrast": 54,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_balanced_minus_retrieval": {
+            "drug": {
+              "micro_f1_difference": -0.10731052984574113,
+              "micro_f1_patient_ci95": [
+                -0.13470298290866575,
+                -0.07827775444934781
+              ],
+              "patient_f1_difference": -0.08176960821717444,
+              "patient_f1_ci95": [
+                -0.10791858482985545,
+                -0.05618783952452371
+              ],
+              "positive_admission_contrast": 8,
+              "negative_admission_contrast": 49,
+              "zero_admission_contrast": 43,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.07503234152652005,
+              "micro_f1_patient_ci95": [
+                -0.10187339524187694,
+                -0.04775573109547921
+              ],
+              "patient_f1_difference": -0.05512081726421651,
+              "patient_f1_ci95": [
+                -0.07773725810703395,
+                -0.03233416125555209
+              ],
+              "positive_admission_contrast": 11,
+              "negative_admission_contrast": 41,
+              "zero_admission_contrast": 48,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_uniform_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": -0.010731052984574108,
+              "micro_f1_patient_ci95": [
+                -0.02183174415797745,
+                0.0
+              ],
+              "patient_f1_difference": -0.00720630895282201,
+              "patient_f1_ci95": [
+                -0.016018071427258827,
+                0.0013956836405290287
+              ],
+              "positive_admission_contrast": 5,
+              "negative_admission_contrast": 13,
+              "zero_admission_contrast": 82,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0077619663648124115,
+              "micro_f1_patient_ci95": [
+                -0.018259420761109105,
+                0.0026179297914342143
+              ],
+              "patient_f1_difference": -0.005759138121152987,
+              "patient_f1_ci95": [
+                -0.014277420270907728,
+                0.002658890727327987
+              ],
+              "positive_admission_contrast": 6,
+              "negative_admission_contrast": 12,
+              "zero_admission_contrast": 82,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_uniform_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": -0.00402414486921529,
+              "micro_f1_patient_ci95": [
+                -0.01087726289633457,
+                0.002659574468085124
+              ],
+              "patient_f1_difference": -0.002594601678895192,
+              "patient_f1_ci95": [
+                -0.007563162378353361,
+                0.0018073807635663529
+              ],
+              "positive_admission_contrast": 2,
+              "negative_admission_contrast": 5,
+              "zero_admission_contrast": 93,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0038809831824062058,
+              "micro_f1_patient_ci95": [
+                -0.010489510489510467,
+                0.002557832213894203
+              ],
+              "patient_f1_difference": -0.0024291836515318577,
+              "patient_f1_ci95": [
+                -0.007229610266338694,
+                0.0018799438887371308
+              ],
+              "positive_admission_contrast": 2,
+              "negative_admission_contrast": 5,
+              "zero_admission_contrast": 93,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_uniform_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": -0.00402414486921529,
+              "micro_f1_patient_ci95": [
+                -0.02822737486882329,
+                0.0218514488488105
+              ],
+              "patient_f1_difference": -0.0021297228349487773,
+              "patient_f1_ci95": [
+                -0.02324249137841188,
+                0.018375409342339683
+              ],
+              "positive_admission_contrast": 23,
+              "negative_admission_contrast": 24,
+              "zero_admission_contrast": 53,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0038809831824062058,
+              "micro_f1_patient_ci95": [
+                -0.023840427723365604,
+                0.015290531461352409
+              ],
+              "patient_f1_difference": -0.004094842997527243,
+              "patient_f1_ci95": [
+                -0.0220548577346038,
+                0.0133271737617393
+              ],
+              "positive_admission_contrast": 18,
+              "negative_admission_contrast": 17,
+              "zero_admission_contrast": 65,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_uniform_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": 0.002682763246143527,
+              "micro_f1_patient_ci95": [
+                -0.020379547028694902,
+                0.026482411453680677
+              ],
+              "patient_f1_difference": 0.002481984438978041,
+              "patient_f1_ci95": [
+                -0.01761047830145582,
+                0.023291974262761993
+              ],
+              "positive_admission_contrast": 24,
+              "negative_admission_contrast": 24,
+              "zero_admission_contrast": 52,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": 0.0,
+              "micro_f1_patient_ci95": [
+                -0.019207754189530586,
+                0.0189278716656066
+              ],
+              "patient_f1_difference": -0.000764888527906113,
+              "patient_f1_ci95": [
+                -0.018175889578948824,
+                0.016351980484753895
+              ],
+              "positive_admission_contrast": 20,
+              "negative_admission_contrast": 20,
+              "zero_admission_contrast": 60,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_balanced_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": -0.00804828973843058,
+              "micro_f1_patient_ci95": [
+                -0.01918514571059204,
+                0.002825109010318445
+              ],
+              "patient_f1_difference": -0.005236091312501273,
+              "patient_f1_ci95": [
+                -0.014253439160731442,
+                0.003466610355482393
+              ],
+              "positive_admission_contrast": 6,
+              "negative_admission_contrast": 12,
+              "zero_admission_contrast": 82,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.005174644243208265,
+              "micro_f1_patient_ci95": [
+                -0.015482054890921887,
+                0.005280702558028454
+              ],
+              "patient_f1_difference": -0.0038380122825013574,
+              "patient_f1_ci95": [
+                -0.012442078592583327,
+                0.004494716950273043
+              ],
+              "positive_admission_contrast": 7,
+              "negative_admission_contrast": 11,
+              "zero_admission_contrast": 82,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "teacher_balanced_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": -0.0013413816230717635,
+              "micro_f1_patient_ci95": [
+                -0.008202745344057509,
+                0.005387751756920114
+              ],
+              "patient_f1_difference": -0.0006243840385744548,
+              "patient_f1_ci95": [
+                -0.005688631915890866,
+                0.0041696506781406855
+              ],
+              "positive_admission_contrast": 3,
+              "negative_admission_contrast": 4,
+              "zero_admission_contrast": 93,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.0012936610608020593,
+              "micro_f1_patient_ci95": [
+                -0.007899934167215267,
+                0.005211981527627761
+              ],
+              "patient_f1_difference": -0.0005080578128802277,
+              "patient_f1_ci95": [
+                -0.005427346644619309,
+                0.004101336968489645
+              ],
+              "positive_admission_contrast": 3,
+              "negative_admission_contrast": 4,
+              "zero_admission_contrast": 93,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_balanced_minus_frozen_base": {
+            "drug": {
+              "micro_f1_difference": -0.03487592219986588,
+              "micro_f1_patient_ci95": [
+                -0.05974123017982666,
+                -0.010389441836554103
+              ],
+              "patient_f1_difference": -0.027645325202051207,
+              "patient_f1_ci95": [
+                -0.049978073253860916,
+                -0.0061815670352543
+              ],
+              "positive_admission_contrast": 16,
+              "negative_admission_contrast": 29,
+              "zero_admission_contrast": 55,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.01811125485122897,
+              "micro_f1_patient_ci95": [
+                -0.04109790491539081,
+                0.0037249178750026132
+              ],
+              "patient_f1_difference": -0.016403719587467322,
+              "patient_f1_ci95": [
+                -0.036026036341530586,
+                0.0017224841057467111
+              ],
+              "positive_admission_contrast": 17,
+              "negative_admission_contrast": 23,
+              "zero_admission_contrast": 60,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          },
+          "zero_balanced_minus_original_failed_adapter": {
+            "drug": {
+              "micro_f1_difference": -0.02816901408450706,
+              "micro_f1_patient_ci95": [
+                -0.05260044120451434,
+                -0.005203936638450799
+              ],
+              "patient_f1_difference": -0.02303361792812439,
+              "patient_f1_ci95": [
+                -0.04489089779330103,
+                -0.002395625914812101
+              ],
+              "positive_admission_contrast": 16,
+              "negative_admission_contrast": 26,
+              "zero_admission_contrast": 58,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            },
+            "core_order": {
+              "micro_f1_difference": -0.014230271668822764,
+              "micro_f1_patient_ci95": [
+                -0.037630662020905925,
+                0.007640040235036675
+              ],
+              "patient_f1_difference": -0.013073765117846192,
+              "patient_f1_ci95": [
+                -0.033033814341048566,
+                0.005142601734493878
+              ],
+              "positive_admission_contrast": 18,
+              "negative_admission_contrast": 22,
+              "zero_admission_contrast": 60,
+              "patients": 97,
+              "admission_count_interpretation": "F1 fixes/regressions for two-state contrasts; algebraic interaction signs for four-state contrasts"
+            }
+          }
+        }
+      }
+    }
+  },
+  "top8_view_invariance": {
+    "drug_sha256": {
+      "permuted": {
+        "frozen_base": {
+          "cases": 100,
+          "drug_set_agreement": 0.0,
+          "mean_jaccard": 0.3771171051171052,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 0.3771171051171052
+        },
+        "original_failed_adapter": {
+          "cases": 100,
+          "drug_set_agreement": 0.0,
+          "mean_jaccard": 0.34196736596736604,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 0.34196736596736604
+        },
+        "teacher_uniform": {
+          "cases": 100,
+          "drug_set_agreement": 0.0,
+          "mean_jaccard": 0.33766855366855375,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 0.33766855366855375
+        },
+        "zero_uniform": {
+          "cases": 100,
+          "drug_set_agreement": 0.0,
+          "mean_jaccard": 0.3594902874902875,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 0.3594902874902875
+        },
+        "teacher_balanced": {
+          "cases": 100,
+          "drug_set_agreement": 0.0,
+          "mean_jaccard": 0.3477802197802199,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 0.3477802197802199
+        },
+        "zero_balanced": {
+          "cases": 100,
+          "drug_set_agreement": 0.0,
+          "mean_jaccard": 0.27992363192363195,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 0.27992363192363195
+        },
+        "original_retrieval_top8": {
+          "cases": 100,
+          "drug_set_agreement": 1.0,
+          "mean_jaccard": 1.0,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 1.0
+        }
+      }
+    },
+    "drug_lexical": {
+      "permuted": {
+        "frozen_base": {
+          "cases": 100,
+          "drug_set_agreement": 0.0,
+          "mean_jaccard": 0.37735952935952943,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 0.37735952935952943
+        },
+        "original_failed_adapter": {
+          "cases": 100,
+          "drug_set_agreement": 0.0,
+          "mean_jaccard": 0.3405687645687646,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 0.3405687645687646
+        },
+        "teacher_uniform": {
+          "cases": 100,
+          "drug_set_agreement": 0.0,
+          "mean_jaccard": 0.34013897213897226,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 0.34013897213897226
+        },
+        "zero_uniform": {
+          "cases": 100,
+          "drug_set_agreement": 0.0,
+          "mean_jaccard": 0.33120235320235314,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 0.33120235320235314
+        },
+        "teacher_balanced": {
+          "cases": 100,
+          "drug_set_agreement": 0.0,
+          "mean_jaccard": 0.3475377955377957,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 0.3475377955377957
+        },
+        "zero_balanced": {
+          "cases": 100,
+          "drug_set_agreement": 0.0,
+          "mean_jaccard": 0.28256365856365856,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 0.28256365856365856
+        },
+        "original_retrieval_top8": {
+          "cases": 100,
+          "drug_set_agreement": 1.0,
+          "mean_jaccard": 1.0,
+          "nonempty_union_cases": 100,
+          "nonempty_union_mean_jaccard": 1.0
+        }
+      }
+    }
+  },
+  "score_rank_alignment": {
+    "permuted": {
+      "frozen_base": {
+        "drug_identity_aligned": {
+          "mean_spearman": 0.2429088864900636,
+          "eligible_cases": 100,
+          "constant_vector_cases": 0
+        },
+        "same_display_slots_unaligned": {
+          "mean_spearman": 0.7274279543421361,
+          "eligible_cases": 100,
+          "constant_vector_cases": 0
+        }
+      },
+      "original_failed_adapter": {
+        "drug_identity_aligned": {
+          "mean_spearman": 0.21228456627911046,
+          "eligible_cases": 100,
+          "constant_vector_cases": 0
+        },
+        "same_display_slots_unaligned": {
+          "mean_spearman": 0.7961742772506811,
+          "eligible_cases": 100,
+          "constant_vector_cases": 0
+        }
+      },
+      "teacher_uniform": {
+        "drug_identity_aligned": {
+          "mean_spearman": 0.19791884459231215,
+          "eligible_cases": 100,
+          "constant_vector_cases": 0
+        },
+        "same_display_slots_unaligned": {
+          "mean_spearman": 0.8168845540749773,
+          "eligible_cases": 100,
+          "constant_vector_cases": 0
+        }
+      },
+      "zero_uniform": {
+        "drug_identity_aligned": {
+          "mean_spearman": 0.12379213586957945,
+          "eligible_cases": 100,
+          "constant_vector_cases": 0
+        },
+        "same_display_slots_unaligned": {
+          "mean_spearman": 0.18124529786770577,
+          "eligible_cases": 100,
+          "constant_vector_cases": 0
+        }
+      },
+      "teacher_balanced": {
+        "drug_identity_aligned": {
+          "mean_spearman": 0.24096120525683878,
+          "eligible_cases": 100,
+          "constant_vector_cases": 0
+        },
+        "same_display_slots_unaligned": {
+          "mean_spearman": 0.7641837937885646,
+          "eligible_cases": 100,
+          "constant_vector_cases": 0
+        }
+      },
+      "zero_balanced": {
+        "drug_identity_aligned": {
+          "mean_spearman": -0.0018612528888258095,
+          "eligible_cases": 100,
+          "constant_vector_cases": 0
+        },
+        "same_display_slots_unaligned": {
+          "mean_spearman": 0.15050613607471997,
+          "eligible_cases": 100,
+          "constant_vector_cases": 0
+        }
+      }
+    }
+  },
+  "new_model_inference": 0,
+  "api_calls": 0,
+  "test_predictions_read": false,
+  "scope": "No checkpoint, threshold, arm or promotion changes; no new inference, training, API requests, or test access. This is not an originally preregistered endpoint or independent confirmation."
+}

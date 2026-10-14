@@ -152,6 +152,10 @@ def main():
                   ('This pilot is one-seed, one-round supervised repair. It does not by itself show recursive self-improvement. Fixed candidate retrieval and dose templates do not evolve. After the four training states and ordinary thresholds freeze, the guard waits for all original v31 seed42 selections to freeze as well; guard scores cannot choose a winning repair. Multi-round own-error, shuffled-error and uniform controls remain necessary.' if en else
                    '本版是单种子、单轮的监督修复，不能单独证明递归自进化。候选检索工具与剂量模板保持固定。四组训练状态和普通校准阈值冻结后，guard 仍须等待原 v31 seed42 全部选择冻结；guard 成绩不能用于挑选优胜修复。后续仍需多轮自身错误、打乱错误和普通训练对照。'), '',
                   '[Protocol](protocol.json) · [Evaluation addendum](evaluation_addendum.json) · [Execution progress](results/progress.json) · [Synthetic scoring preflight](results/evaluation_probe.json) · [Earlier collapse diagnosis](../upgrade_v31/COLLAPSE.' + lang + '.md)', '']
+        if (HERE / 'results/proposal_rank_diagnostic_audit.json').exists():
+            lines += [('A separate post-proposal diagnosis fixes every output to eight medications and independently recounts drug-identity ranking, position sensitivity and cutoff ties. It changes no original selection. ' if en else
+                       '另已完成事后提出的固定8药诊断，独立复算按药物身份对齐的排序、位置依赖和截断同分；不改变原有选择。') +
+                      f'[Fixed-cardinality ranking diagnosis](RANKING_DIAGNOSTIC.{lang}.md)', '']
         (HERE / f'RESULTS.{lang}.md').write_text('\n'.join(lines))
     print(json.dumps({'completed_fits': len(completed), 'audited_splits': progress['audited_splits']}), flush=True)
 
