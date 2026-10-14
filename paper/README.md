@@ -1,26 +1,39 @@
-# PRISMATIC 论文版本索引 / Versioned manuscript index
+# PRISMATIC manuscript and execution index
 
-**当前版本 / Current version: v0.3（2026-10-14）**
+**Active draft: v0.4-dev (2026-10-14), English only.** The existing [English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place. Its directory name preserves the editor path; the draft version appears inside the manuscript. The template is the original AAMAS class from the supplied ZIP, with provenance recorded [here](latex/v0.3/template_provenance.json). The updated source compiled successfully in the Codex editor.
 
-## 主表在哪里？/ Where is the main table?
+## 下一步完整计划 / Completion plan
 
-- **主表：**[v0.3 中文 LaTeX，表 2](latex/v0.3/prismatic_v03_zh.tex) / [v0.3 English LaTeX, Table 2](latex/v0.3/prismatic_v03_en.tex)。两份源文件已用 Codex 内置 LaTeX 编译器成功编译。
-- **主表行是方法：**训练集流行度、病例检索、直接预测、GAMENet、SafeDrug、SafeRx-Agent、PRISMATIC 完整 harness。现有前三行来自同一 MIMIC 测试集的本地实跑；后四行没有可比结果，故留空。
-- **主表数据集：**受限 MIMIC-IV v3.1 + MIMIC-IV-ED v2.2；201,750 次符合急诊入院时间条件的记录全部保留，不按未来医嘱筛人；入院时点可见信息预测后六小时医嘱；ATC-L4 编码；按患者不交叉切分。初试共用 40,000/4,000/4,000 入院记录和每例五个预测。映射只覆盖 45.652% 的六小时医嘱，因此这是历史医嘱重合初试，尚非临床安全主张。
-- **公开次级集：**RxSafeBench 去重全量 2,000 题及 RxQA OpenFDA 全量 300 题。选择题模型结果、v0.2 的轻量 harness 试验均不进入处方主表。
-- **双人临床盲评：**[中英文规程](../upgrade_v3/CLINICAL_REVIEW_PROTOCOL.md)及共同测试集 200 例的本地受限清单已准备；实际处方输出和双人评分尚未完成。
+**[完整 Markdown 计划：实验、比较方法、实施步骤、验收和交付台账](COMPLETION_PLAN.md)**
 
-## 版本 / Releases
+[Full English plan](COMPLETION_PLAN.en.md) · [Compilation verification](latex/v0.3/compile_check.json)
 
-| 版本 | 日期 | 中文 | English | 主表性质 |
-| --- | --- | --- | --- | --- |
-| v0.3 | 2026-10-14 | [LaTeX 论文](latex/v0.3/prismatic_v03_zh.tex) | [LaTeX paper](latex/v0.3/prismatic_v03_en.tex) | 以方法为行的 MIMIC ATC-L4 处方主表；已跑三行、四行待复现 |
-| v0.2 | 2026-10-14 | [Markdown 归档](versions/v0.2-2026-10-14.zh.md) | [Markdown archive](versions/v0.2-2026-10-14.en.md) | RxSafeBench 60 题、按基础模型对比的轻量 harness 试验 |
-| v0.1 | 2026-10-14 | [Markdown 初版](versions/v0.1-2026-10-14.zh.md) | [Markdown first report](versions/v0.1-2026-10-14.en.md) | 病例增长和初期模型测试 |
+The plan covers a common-protocol method comparison, reviewed-case growth, mechanism ablations, two-reviewer clinical evaluation, full public benchmarks, and real FHIR tool-state evaluation. Planned experiments are not completed results.
 
-## 更新规则 / Update contract
+This increment completes P00 (English AAMAS template) and P01a (label observability audit). The next stage is P01b/P02: verify information availability, audit mapping by route, define complete orders and unknown-label scoring, and freeze the confirmatory patient split. See the [execution report](../upgrade_v4/README.md).
 
-1. 新实验保留旧版，新增独立编号的中英文 LaTeX 源文件；两份必须成功编译，并在[变更记录](CHANGELOG.md)中写明新增结果、协议变化和未完成项。
-2. 主表只写同一数据、时间冻结输入、患者切分、药物空间和指标下重跑的结果。其他论文报告的原始分数放相关工作，永不抄进主表。
-3. 每个数字须可追溯到[映射审计](../upgrade_v3/results/atc4_mapping_audit.json)、[方法初试](../upgrade_v3/results/atc4_method_pilot.json)或[公开全量结果](../upgrade_v3/results)。受限逐例数据留在本地授权目录。
-4. 临床适宜性、DDI、肾功能及盐水剂量/速度只在完整订单输出和双人审定后填入；历史医嘱重合率不替代这些终点。
+## Where is the main table?
+
+- **Table 2 in the [active English paper](latex/v0.3/prismatic_v03_en.tex)** compares methods on MIMIC. Prevalence, case retrieval and direct SGD have pilot results; GAMENet, SafeDrug, SafeRx-Agent and full harness remain unmeasured under the common protocol.
+- **Dataset:** restricted MIMIC-IV v3.1 + MIMIC-IV-ED v2.2; 201,750 ED-to-hospital admissions, 107,097 patients; patient-disjoint splits; six-hour all-route prescription targets in ATC-L4. The pilot uses 40,000/4,000/4,000 admissions, top-80 training classes and five predictions per admission.
+- **Observability:** 45.652% of raw six-hour orders map to ATC-L4. Of the pilot's 4,000 test admissions, 1,144 have no recorded raw order in the window and 152 have orders but no mapped label. These are different missing-target conditions; neither establishes a clinical need for no medication. See the [audit](../upgrade_v4/results/label_observability_audit.json).
+- **Public secondary tasks:** RxSafeBench deduplicated 2,000 questions and RxQA OpenFDA 300 questions. Their multiple-choice results are separate from the prescribing main table.
+- **Clinical evaluation:** two reviewers are available; the [review protocol](../upgrade_v3/CLINICAL_REVIEW_PROTOCOL.md) and a local 200-case manifest exist. Complete candidate orders and independent ratings are pending.
+
+## Versions
+
+| Version | Record | Evidence |
+| --- | --- | --- |
+| v0.4-dev | [Active English source](latex/v0.3/prismatic_v03_en.tex), [plan](COMPLETION_PLAN.md), [change log](CHANGELOG.md) | Original ZIP template; label observability audit; expanded completion protocol |
+| v0.3 | [Frozen Git snapshot](https://github.com/ZaneLing/PRISMATIC/tree/289bf4c0fc90df12c3f6e851c32ac63f257cc281/paper), [experiment records](../upgrade_v3/README.md) | Three MIMIC method pilot rows and full public secondary runs |
+| v0.2 | [English archive](versions/v0.2-2026-10-14.en.md), [Chinese archive](versions/v0.2-2026-10-14.zh.md) | 60-question lightweight harness pilot |
+| v0.1 | [English archive](versions/v0.1-2026-10-14.en.md), [Chinese archive](versions/v0.1-2026-10-14.zh.md) | Initial case-growth and model experiments |
+
+The old Chinese LaTeX is retained as an archive and is no longer maintained as an active manuscript.
+
+## Update contract
+
+1. Update the active English source in place, compile it, and append completed evidence, protocol changes and outstanding work to the plan and change log. Preserve historical versions through Git.
+2. Main-table scores require the same data, decision-time inputs, patient split, drug space and scorer. Never copy another paper's original score into this table.
+3. Trace every numeric result to a versioned aggregate output and run manifest. Keep restricted case-level data and credentials outside the public repository.
+4. Fill clinical appropriateness, DDI, renal adjustment and saline purpose/dose/rate endpoints only after generating evaluable orders and obtaining the required adjudication. Historical order overlap does not establish these outcomes.

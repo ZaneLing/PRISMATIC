@@ -1,0 +1,80 @@
+{
+  "protocol": "P01a-label-observability-v1",
+  "cohort_sha256": "8b86c7672f45339c95663d198be6fa1a0f5c50a293e894926a8f5443aebdfad5",
+  "scope": "MIMIC-IV/ED admission during ED stay; recorded prescriptions starttime in [admission, admission+6h)",
+  "scopes": {
+    "all": {
+      "admissions": 201750,
+      "patients": 107097,
+      "status_counts": {
+        "at_least_one_mapped_class": 134764,
+        "no_recorded_order_in_window": 58982,
+        "orders_present_but_no_mapped_class": 8004
+      },
+      "raw_order_rows_6h": 1788195,
+      "mapped_class_instances": 709306,
+      "admissions_with_unparseable_starttime_rows": 497,
+      "unparseable_starttime_rows_any_time": 2364
+    },
+    "train": {
+      "admissions": 160840,
+      "patients": 85596,
+      "status_counts": {
+        "at_least_one_mapped_class": 107553,
+        "no_recorded_order_in_window": 46886,
+        "orders_present_but_no_mapped_class": 6401
+      },
+      "raw_order_rows_6h": 1427246,
+      "mapped_class_instances": 565743,
+      "admissions_with_unparseable_starttime_rows": 389,
+      "unparseable_starttime_rows_any_time": 1897
+    },
+    "val": {
+      "admissions": 20546,
+      "patients": 10691,
+      "status_counts": {
+        "at_least_one_mapped_class": 13514,
+        "no_recorded_order_in_window": 6233,
+        "orders_present_but_no_mapped_class": 799
+      },
+      "raw_order_rows_6h": 180356,
+      "mapped_class_instances": 71431,
+      "admissions_with_unparseable_starttime_rows": 45,
+      "unparseable_starttime_rows_any_time": 134
+    },
+    "test": {
+      "admissions": 20364,
+      "patients": 10810,
+      "status_counts": {
+        "at_least_one_mapped_class": 13697,
+        "no_recorded_order_in_window": 5863,
+        "orders_present_but_no_mapped_class": 804
+      },
+      "raw_order_rows_6h": 180593,
+      "mapped_class_instances": 72132,
+      "admissions_with_unparseable_starttime_rows": 63,
+      "unparseable_starttime_rows_any_time": 333
+    },
+    "v03_test_sample_4000": {
+      "admissions": 4000,
+      "patients": 3115,
+      "status_counts": {
+        "at_least_one_mapped_class": 2704,
+        "no_recorded_order_in_window": 1144,
+        "orders_present_but_no_mapped_class": 152
+      },
+      "raw_order_rows_6h": 36134,
+      "mapped_class_instances": 14306,
+      "admissions_with_unparseable_starttime_rows": 11,
+      "unparseable_starttime_rows_any_time": 18
+    }
+  },
+  "limits": [
+    "No recorded order does not establish no clinical need.",
+    "Partially mapped cases can still contain missing drug classes.",
+    "Medication starttime is not necessarily authoring or availability time.",
+    "Current benchmark encoders use chiefcomplaint, acuity, home_meds only.",
+    "v0.3 hash test results have been inspected; they are developmental evidence.",
+    "Current train-derived mapping used the full training patient pool, beyond the 40000-admission model sample."
+  ]
+}

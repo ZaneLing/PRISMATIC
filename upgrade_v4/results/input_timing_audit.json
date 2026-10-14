@@ -1,0 +1,137 @@
+{
+  "run_id": "P01b-input-timing-v1",
+  "cohort_sha256": "8b86c7672f45339c95663d198be6fa1a0f5c50a293e894926a8f5443aebdfad5",
+  "source_headers": {
+    "triage": {
+      "columns": [
+        "subject_id",
+        "stay_id",
+        "temperature",
+        "heartrate",
+        "resprate",
+        "o2sat",
+        "sbp",
+        "dbp",
+        "pain",
+        "acuity",
+        "chiefcomplaint"
+      ],
+      "timestamp_columns": []
+    },
+    "medrecon": {
+      "columns": [
+        "subject_id",
+        "stay_id",
+        "charttime",
+        "name",
+        "gsn",
+        "ndc",
+        "etc_rn",
+        "etccode",
+        "etcdescription"
+      ],
+      "timestamp_columns": [
+        "charttime"
+      ]
+    },
+    "vitalsign": {
+      "columns": [
+        "subject_id",
+        "stay_id",
+        "charttime",
+        "temperature",
+        "heartrate",
+        "resprate",
+        "o2sat",
+        "sbp",
+        "dbp",
+        "rhythm",
+        "pain"
+      ],
+      "timestamp_columns": [
+        "charttime"
+      ]
+    },
+    "labevents": {
+      "columns": [
+        "labevent_id",
+        "subject_id",
+        "hadm_id",
+        "specimen_id",
+        "itemid",
+        "order_provider_id",
+        "charttime",
+        "storetime",
+        "value",
+        "valuenum",
+        "valueuom",
+        "ref_range_lower",
+        "ref_range_upper",
+        "flag",
+        "priority",
+        "comments"
+      ],
+      "timestamp_columns": [
+        "charttime",
+        "storetime"
+      ]
+    },
+    "prescriptions": {
+      "columns": [
+        "subject_id",
+        "hadm_id",
+        "pharmacy_id",
+        "poe_id",
+        "poe_seq",
+        "order_provider_id",
+        "starttime",
+        "stoptime",
+        "drug_type",
+        "drug",
+        "formulary_drug_cd",
+        "gsn",
+        "ndc",
+        "prod_strength",
+        "form_rx",
+        "dose_val_rx",
+        "dose_unit_rx",
+        "form_val_disp",
+        "form_unit_disp",
+        "doses_per_24_hrs",
+        "route"
+      ],
+      "timestamp_columns": [
+        "starttime",
+        "stoptime"
+      ]
+    }
+  },
+  "cohort_checks": {
+    "admissions": 201750,
+    "missing_decision_time": 0,
+    "home_med_charttime_after_decision": 0,
+    "home_med_missing_charttime": 0,
+    "admissions_with_home_meds": 149422,
+    "admissions_with_chiefcomplaint": 201742,
+    "admissions_with_acuity": 196610,
+    "duplicate_admissions": 0,
+    "patients_in_multiple_splits": 0
+  },
+  "actual_predictor_fields": [
+    "chiefcomplaint",
+    "acuity",
+    "home_meds"
+  ],
+  "conclusions": {
+    "triage": "No per-row timestamp in this source; admission-time availability of chiefcomplaint and acuity is assumed, not verified.",
+    "medrecon": "Charttime is bounded by the builder; absence of storetime prevents verifying entry availability.",
+    "labs": "Not used by current predictors. Future inputs must gate both charttime and storetime; audit not yet performed on lab rows.",
+    "vitals": "Triage vitals are stored but not used by current predictors. Timestamped vitalsign rows can support a future charttime filter; entry time remains unverified.",
+    "targets": "Prescription starttime defines the historical target window; it is not an order-authoring timestamp."
+  },
+  "next_required_work": [
+    "Define a primary input policy and prespecified sensitivity excluding fields without verified availability.",
+    "Audit clinical evidence fields before generating review cards.",
+    "Do not claim zero prospective information leakage from zero charttime violations."
+  ]
+}

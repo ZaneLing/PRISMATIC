@@ -1,5 +1,7 @@
 # PRISMATIC v0.3 experiments / v0.3 实验说明
 
+> Historical experiment record. The active manuscript is now English only and uses the original ZIP's AAMAS template. See the [paper index](../paper/README.md), [completion plan](../paper/COMPLETION_PLAN.md), and [v0.4 label observability audit](../upgrade_v4/README.md). The original v0.3 manuscript is preserved in Git commit `289bf4c0fc90df12c3f6e851c32ac63f257cc281`.
+
 The [Chinese](../paper/latex/v0.3/prismatic_v03_zh.tex) and [English](../paper/latex/v0.3/prismatic_v03_en.tex) manuscripts are standalone LaTeX files and have both compiled successfully in the Codex desktop editor. Table 2 is the method-level MIMIC prescription table. Rows with `--` have no same-protocol score. Do not copy published GAMENet, SafeDrug or SafeRx-Agent scores into it.
 
 中英文论文均为独立 LaTeX 源文件，已编译成功。表 2 的行是处方方法；`--` 表示尚无同协议分数，不应填入其他论文的原始数值。
@@ -7,7 +9,7 @@ The [Chinese](../paper/latex/v0.3/prismatic_v03_zh.tex) and [English](../paper/l
 ## Private MIMIC task / 受限 MIMIC 任务
 
 - Dataset: MIMIC-IV v3.1 + MIMIC-IV-ED v2.2 under `/Users/bytedance/Desktop/MedTreeBench/dataset/restricted`.
-- Decision: admission during ED stay. Features: chief complaint, acuity, vitals, admission metadata, pre-admission medication reconciliation. Targets: prescriptions starting in the next six hours, all routes, ATC-L4 (five-character codes).
+- Decision: admission during ED stay. Cohort fields include chief complaint, acuity, vitals, admission metadata and pre-admission medication reconciliation; the three pilot predictors actually use chief complaint, acuity and home-medication text. Field availability at the decision time requires further audit. Targets: prescriptions starting in the next six hours, all routes, ATC-L4 (five-character codes).
 - Source cohort: **all 201,750** ED-to-hospital admissions satisfying the decision-time criterion, 107,097 patients. Admissions with no subsequent oral drug or mappable ATC order remain included. The older v0.2 cohort selected on a future oral order; v0.3 removes that condition.
 - Split: patient-disjoint deterministic BLAKE2b salt `patient-split-2026`, 80/10/10, before admission sampling.
 - Public mapping: SafeDrug official `data/input/RXCUI2atc4.csv`, commit `88ce5c377dcdc2aa01aaa88f5478dfa4373ba49a`, SHA-256 `162fefc5cc374ac545501dec0d3738cb7a362e1e08b46b64d1a779eaeda7888e`. Only unambiguous NDC mappings; GSN and drug-name fallback learned on training patients at ≥10 observations and ≥98% purity.
