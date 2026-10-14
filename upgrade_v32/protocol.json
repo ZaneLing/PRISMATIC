@@ -1,0 +1,55 @@
+{
+  "study": "v32 controlled decision-supervision repair pilot",
+  "registration": "After the observed v31 first-update collapse and its frozen-checkpoint probability diagnosis, before any v32 data preparation, fitting, calibration or inference. Development-only mechanism pilot, not a completed RSI or test claim.",
+  "question": "Does removing ground-truth answer prefixes during training repair the mismatch with all-zero-prefix scoring, and does training-only class balancing add benefit under matched decision supervision?",
+  "source_training_sha256": "2bfa6a088fb1897420af9d9f97964f659680a70716255c782a51d1aa8f285330",
+  "source_cases_sha256": "5177426dfdd5f61a0f5f1898f78cf4bd555f182f4d1d5c79e2890d42a30e7912",
+  "source_adapter_sha256": "864fe1562859cda2918da80d2727d35bd98af7caa8fa8a5ca91323991e174743",
+  "data": "Exactly the400 stored seed42 permuted-uniform round1 training sequences from v31; preserve their candidate fields, original ranks, permutations and membership. All100 original proposal admissions in ranked/permuted views. The existing200 guard admissions remain gated until v31 seed42 freezes all its choices and every v32 pilot state/threshold is frozen. No old test cases.",
+  "seed": 42,
+  "arms": [
+    "teacher_uniform",
+    "zero_uniform",
+    "teacher_balanced",
+    "zero_balanced"
+  ],
+  "factors": {
+    "prefix": "teacher retains previous GT decision tokens during training; zero replaces every decision token in the model input by0 independently of GT. The separate target remains the actual20 labels. All inference uses the same zero-prefix scaffold.",
+    "loss": "Both factors supervise only20 binary decision positions using logits1-minus-logits0, conditional on those two tokens. Uniform weights every label equally. Balanced positive weight equals total negative/positive slots in the400 training sequences; normalize the weighted loss by weight mass per batch. No syntax-token loss in any of the four arms."
+  },
+  "training_budget": {
+    "optimizer_steps": 100,
+    "batch_size": 4,
+    "learning_rate": 0.0001,
+    "seed": 42,
+    "lora_layers": 8,
+    "lora_rank": 8,
+    "lora_scale": 20.0,
+    "lora_dropout": 0.0,
+    "max_sequence_length": 1536,
+    "gradient_checkpointing": true,
+    "fresh_original_base_and_adapter_for_each_arm": true,
+    "expected_binary_target_decisions": 8000
+  },
+  "backbone": "Same local mlx-community/Qwen3-4B-Instruct-2507-4bit revision50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b, mlx_lm0.32.0. Weights and all data remain local.",
+  "implementation": "Use the original decoder hidden states and original vocabulary head, projecting only the20 decision-position hidden states before selecting0/1 logits. Before fitting, verify numerical equivalence with the full vocabulary forward pass on synthetic inputs. Verify teacher/zero target alignment, zero-prefix label blindness, weighting, finite gradients and complete batch/step exposure. No newly learned output head, arbitrary dose or fallback prescription.",
+  "inference": "Score all20 positions in one forward pass with an all-zero decision scaffold. P(1)=softmax(logits0,logits1). Build orders from the fixed candidate catalogue. This is a language-backbone decision scorer with a deterministic compiler, not free generation.",
+  "controls": [
+    "frozen_base_zero_prefix_scores",
+    "v31_first_failed_adapter_zero_prefix_scores",
+    "original_retrieval_top8",
+    "all20_candidate_tools"
+  ],
+  "calibration": "Report both the fixed0.5 binary decision rule and a separately calibrated global threshold for every neural state, including base and original failed adapter. Grid0.01..0.99 by0.01; choose maximum average drug/core-order microF1 over the two proposal views, retaining the highest threshold on ties within1e-12. One threshold is shared across views; no fit or threshold uses guard labels. This ordinary calibration is explicitly separated from training gains.",
+  "evaluation": "Publish every arm and both decoder endpoints, proposal scores, binary AUROC/BCE, empty/invalid rates, candidate-set invariance, micro drug/core-order F1 and patient-average F1. After all pilot states/thresholds freeze and v31 seed42 choices freeze, evaluate all states on all200 report-only guard admissions in ranked/permuted/reversed views. Do not choose a winning arm on guard. Retain raw outputs, adapter hashes and all training logs.",
+  "contrasts": [
+    "zero_uniform minus teacher_uniform: prefix intervention under uniform binary loss",
+    "zero_balanced minus teacher_balanced: prefix intervention under balanced binary loss",
+    "zero_balanced minus zero_uniform: class balancing under zero-prefix training",
+    "teacher_balanced minus teacher_uniform: class balancing under GT-prefix training",
+    "difference-in-differences of the two factors",
+    "each trained state minus frozen base under identical decoding/calibration",
+    "original failed adapter with calibration minus same adapter with fixed0.5: calibration-only effect"
+  ],
+  "scope": "One-seed, one-round supervised engineering pilot after observed development failures. It does not establish feedback-specific RSI, case-growth learning, clinical safety, prospective order generation or superiority. The ongoing v31 three-seed evolution remains immutable and continues. A viable repair must later enter matched uniform/own-error/shuffled-error multi-round comparisons before an RSI claim."
+}
