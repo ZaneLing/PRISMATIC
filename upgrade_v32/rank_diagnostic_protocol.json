@@ -1,0 +1,21 @@
+{
+  "name": "Fixed-cardinality and identity-aligned ranking diagnostic",
+  "stage": "Post-proposal diagnostic specified before computing its new endpoints",
+  "parent_release_commit": "6b6e1eaa",
+  "known_parent_proposal_summary_sha256": "f54cd51bdf677be19b81ba2c98b012be7103eee56d535e7d3a7c3466d5c846d4",
+  "motivation": "The four repairs trail retrieval after registered calibration; some nearly select all twenty candidates. Determine whether useful within-case discrimination remains when every method emits the same number of medications.",
+  "k": 8,
+  "neural_states": ["frozen_base", "original_failed_adapter", "teacher_uniform", "zero_uniform", "teacher_balanced", "zero_balanced"],
+  "control": "original_retrieval_top8",
+  "tie_rules": ["drug_sha256", "drug_lexical"],
+  "primary_tie_rule": "drug_sha256",
+  "tie_hash_prefix": "rxrsi-v32-top8-v1|",
+  "selection": "Descending stored probability; exact ties use the declared drug-identity key. No labels, displayed positions or retrieval ranks break neural-score ties. Drug lexical order is the prespecified sensitivity analysis.",
+  "scoring": "Retain parent drug/core-order F1, precision, recall and all unreachable reference drugs; copy the selected candidate order templates. Report every state and both tie rules. Fixed-cardinality output is a diagnostic and cannot establish appropriate prescription cardinality.",
+  "contrasts": "Each neural state minus retrieval; each new repair minus frozen base and minus original failed adapter. Both drug and core-order F1; existing 4000 paired patient bootstrap draws with seed 32032, descriptive intervals without multiplicity adjustment.",
+  "rank_statistics": ["Within-case positive-versus-negative AUROC with half credit for exact ties; omit and count cases lacking either class", "Mean within-case Spearman correlation between ranked and changed-view scores after drug-identity alignment; separately report correlation of the same displayed slots", "Fixed-top-eight drug-set agreement and Jaccard after changing candidate order", "Exact score ties spanning positions eight and nine, before any identity tie-breaking"],
+  "constant_scores": "Spearman correlation is undefined if either score vector is constant; count excluded cases and report null when all are excluded.",
+  "splits": "Proposal now; reused guard only after its original parent evaluation and independent audit complete. This addendum does not open the parent guard gate or any test.",
+  "selection_effect": "No checkpoint, threshold, arm or promotion changes; no new inference, training, API requests, or test access. This is not an originally preregistered endpoint or independent confirmation.",
+  "reporting": "Publish aggregate results only after an independent selection, metric and interval recount. Raw cases, identity alignments and selections remain restricted. Neural forward passes are inherited from the parent audited probability cache and are not reexecuted."
+}
