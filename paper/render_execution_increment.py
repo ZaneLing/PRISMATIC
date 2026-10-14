@@ -19,7 +19,20 @@ def main():
         block=('## Current executed increment — rule memory and tool repair\n\n' if lang=='en' else '## 当前增量：真实规则进化与工具修复\n\n')
         if (PAPER/'execution_status.json').exists() and json.loads((PAPER/'execution_status.json').read_text())['api']['status']=='waiting_for_credit':
             block+=('**Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.\n\n' if lang=='en' else '**执行状态：** 上次充值后，新OpenRouter请求再次返回HTTP402。未完成的API分支已保存断点，等待补充额度；已完成结果及独立本地训练／审计继续。缺失请求不计作模型错误。\n\n')
+        elif (PAPER/'execution_status.json').exists() and json.loads((PAPER/'execution_status.json').read_text())['api']['status']=='restored_actual_completion_verified':
+            block+=('**Execution notice:** a real OpenRouter completion verified restored access after recharge. Interrupted studies resume from saved receipts under their original protocols and budgets; missing requests are not model errors.\n\n' if lang=='en' else '**执行状态：** 充值后已用真实OpenRouter响应验证访问恢复。中断实验从原回执继续，保持原协议和预算；缺失请求不计作模型错误。\n\n')
         block+=(f'**Actual training:** {complete}/6 rule runs finish five rounds; {nr}/15 author-model runs finish their full 50 epochs, with {epochs}/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.\n\n' if lang=='en' else f'**实际运行：** {complete}/6组规则实验完成五轮；作者神经方法{nr}/15组完成各自50轮，总计已完成{epochs}/750轮。训练与审计队列继续，正式ATC-L4测试主表等待全部已登记版本和核验完成后统一运行。\n\n')
+        if (ROOT/'upgrade_v31/results/progress.json').exists():
+            progress=json.loads((ROOT/'upgrade_v31/results/progress.json').read_text())
+            block+=('### Parameter repair: randomized positions and causal learning controls\n\n' if lang=='en' else '### 参数修复：候选位置随机化与学习机制对照\n\n')
+            block+=('v0.31 runs four arms across three seeds and three rounds: ranked uniform, permuted uniform, permuted own-error and permuted shuffled-error updates. Each round uses the same 400-example/100-step budget. Original retrieval ranks and candidate order fields remain visible. This tests whether weight updates learn drug decisions beyond display position, and whether own errors add value over ordinary training. Candidate tools and order templates stay fixed.\n\n' if lang=='en' else 'v0.31已运行四种方法、三个种子、三轮：原排序普通更新、随机位置普通更新、随机位置自身错误优先、随机位置打乱错误权重。每轮均为400样本／100步，保留原检索排名和候选订单字段。它检验参数更新能否摆脱展示位置依赖，以及自身错误是否比普通学习更有价值。候选工具和订单模板固定。\n\n')
+            block+=(f"Completed optimizer runs: **{progress['optimizer_runs_with_complete_receipts']}/36**; fully audited seeds: **{len(progress['seeds_fully_audited'])}/3**. Old test cases are excluded. Proposal selects checkpoints; the reused 200-case guard is exploratory development evidence, not an untouched test.\n\n" if lang=='en' else f"已完成训练回执：**{progress['optimizer_runs_with_complete_receipts']}/36**；完整核验种子：**{len(progress['seeds_fully_audited'])}/3**。排除旧测试病例。proposal选择检查点；复用的200例guard属于探索性开发证据，不是未触碰测试。\n\n")
+            p=ROOT/'upgrade_v31/results/audit-seed42.json'
+            if p.exists():
+                base=json.loads(p.read_text())['base_proposal']
+                block+='| State on 100 proposal cases | Ranked drug/order F1 | Permuted drug/order F1 |\n|---|---:|---:|\n'
+                block+=f"| Frozen base | {base['ranked']['drug_micro_f1']:.5f}/{base['ranked']['core_order_micro_f1']:.5f} | {base['permuted']['drug_micro_f1']:.5f}/{base['permuted']['core_order_micro_f1']:.5f} |\n\n"
+            block+=f'[Actual parameter updates, audit and results](../upgrade_v31/RESULTS.{lang}.md)\n\n'
         if (ROOT/'upgrade_v30/protocol.json').exists():
             repaired=json.loads((ROOT/'upgrade_v30/results/summary.json').read_text()) if (ROOT/'upgrade_v30/results/summary.json').exists() else {'panels':{}}
             block+=('### Memory repair now executing: compatibility and separate confirmation\n\n' if lang=='en' else '### 记忆改进已实际运行：旧记忆兼容性与独立确认\n\n')
@@ -70,7 +83,8 @@ def main():
 3. Finish the eight-condition real-FHIR C/S/K factorial across 80 validation, 64 ID and 60 held-out-type tasks. Report every condition, original strict scores, resource integrity, budgets and paired effects. Audit raw-page arithmetic; do not replace old results with posthoc value extraction.
 4. Continue the eICU external-hospital study already running. Preserve zero-target stays and frozen selection. This supplies a separate transport test, not a directly pooled ATC score.
 5. Complete the seven-arm isolated-witness program study and its registered carryover/new-edit diagnosis. The next 14-arm compatibility/confirmation factorial is now registered, implemented and running, with separately learned trajectories under greedy, own-error and shuffled evidence. Complete every seed and independent gate/output audit; report raw final-round and proposal-selected endpoints before claiming improved transfer.
-6. Keep the existing English LaTeX source, bilingual results entry and versioned reports synchronized. Only completed audited experiments enter score tables; compilation and GitHub pushes are checked explicitly.
+6. Complete the registered local v0.31 parameter experiment: four arms, three seeds, three rounds, equal 400-example/100-step updates. Independently check feedback before updates, sampled targets, changed adapters, raw/accepted curves, positional invariance and patient intervals. All per-seed choices freeze before guard evaluation; old tests remain excluded.
+7. Keep the existing English LaTeX source, bilingual results entry and versioned reports synchronized. Only completed audited experiments enter score tables; compilation and GitHub pushes are checked explicitly.
 
 ''' if lang=='en' else '''## 当前执行队列：具体交付状态
 
@@ -79,7 +93,8 @@ def main():
 3. 完成真实FHIR的C/S/K八组合：80验证、64同类、60未见任务类型。报告每组合原严格成绩、真实资源完整性、预算和配对效果；重建原始分页算术，不用事后提取数值替换旧分数。
 4. 继续已启动的eICU跨医院实验，保留零目标病例和冻结版本。它是独立迁移测试，不能直接混入ATC主表。
 5. 完成七臂隔离witness程序研究及已登记的旧记忆／新编辑诊断。后续14臂兼容性／独立确认组合实验已经登记、实现并运行；贪心、自身错误和打乱证据各自重新学习轨迹。完成所有种子与验证／输出独立核验，同时报告末轮原状态与proposal选择状态，再判断是否改善迁移。
-6. 持续同步现有英文LaTeX、中英文总览及版本报告；只有完成且核验的实验填分数，并确认编译和GitHub同步。
+6. 完成已登记的本地v0.31参数实验：四臂、三个种子、三轮，均为400样本／100步。逐项核验更新前反馈、抽样目标、变化的适配器、原始／接纳曲线、位置不变性与患者区间；每个种子全部选择冻结后评价guard，排除旧测试集。
+7. 持续同步现有英文LaTeX、中英文总览及版本报告；只有完成且核验的实验填分数，并确认编译和GitHub同步。
 
 ''')
         plan+=f'[Current actual results](CURRENT_RESULTS.{lang}.md) · [Rule study](../upgrade_v27/RESULTS.{lang}.md) · [FHIR repair](../upgrade_v28/RESULTS.{lang}.md)\n\n'
@@ -99,6 +114,8 @@ Earlier paragraphs below describe retained study versions; this snapshot governs
         readme+='\n**New mechanism executing:** v0.29 permanently separates fit/witness patients, adds a strong ordinary calibration control and lets the language agent synthesize conditional programs. Only independently audited development results are published. [Conditional-program study](upgrade_v29/RESULTS.en.md) · [中文机制与结果](upgrade_v29/RESULTS.zh.md).\n'
     if (ROOT/'upgrade_v30/protocol.json').exists():
         readme+='\n**Current improvement:** the registered 14-arm v0.30 factorial tests old-memory compatibility and whole-update confirmation on separate patients, with greedy and shuffled controls. [Actual gate study](upgrade_v30/RESULTS.en.md) · [中文验证机制与结果](upgrade_v30/RESULTS.zh.md).\n'
+    if (ROOT/'upgrade_v31/protocol.json').exists():
+        readme+='\n**Local parameter intervention:** v0.31 randomizes candidate display positions while preserving retrieval ranks, comparing ordinary, own-error and shuffled-error QLoRA under matched budgets. Three seeds and all raw/accepted checkpoints are registered; only independently audited results are reported. [Parameter study](upgrade_v31/RESULTS.en.md) · [中文参数进化](upgrade_v31/RESULTS.zh.md).\n'
     if (PAPER/'execution_status.json').exists() and json.loads((PAPER/'execution_status.json').read_text())['api']['status']=='waiting_for_credit':
         readme+='\n**API status:** a new HTTP402 interrupted unfinished API branches; saved checkpoints and completed scores are retained. Local training/audits continue. [Execution status](paper/execution_status.json).\n'
     update(ROOT/'README.md',readme)

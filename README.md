@@ -3,7 +3,7 @@
 <!-- RXRSI_CURRENT_EXECUTION_START -->
 ## Current execution snapshot
 
-The rule-memory study completes **6/6 five-round runs**; genuine author-model baselines complete **4/15 full 50-epoch runs** (261/750 epochs saved). Independent development audits quantify the small memory increment against greedy/random/shuffled controls. A common test evaluator is implemented and stays closed until every selection and audit freezes.
+The rule-memory study completes **6/6 five-round runs**; genuine author-model baselines complete **4/15 full 50-epoch runs** (315/750 epochs saved). Independent development audits quantify the small memory increment against greedy/random/shuffled controls. A common test evaluator is implemented and stays closed until every selection and audit freezes.
 
 The real-FHIR factorial executes fixed answer-contract/statistics repairs and frozen learned skills in all eight combinations. This is exploratory execution repair, not autonomous tool-code evolution. All completed audited cells, costs and limits are maintained in the reports.
 
@@ -15,7 +15,7 @@ Earlier paragraphs below describe retained study versions; this snapshot governs
 
 **Current improvement:** the registered 14-arm v0.30 factorial tests old-memory compatibility and whole-update confirmation on separate patients, with greedy and shuffled controls. [Actual gate study](upgrade_v30/RESULTS.en.md) · [中文验证机制与结果](upgrade_v30/RESULTS.zh.md).
 
-**API status:** a new HTTP402 interrupted unfinished API branches; saved checkpoints and completed scores are retained. Local training/audits continue. [Execution status](paper/execution_status.json).
+**Local parameter intervention:** v0.31 randomizes candidate display positions while preserving retrieval ranks, comparing ordinary, own-error and shuffled-error QLoRA under matched budgets. Three seeds and all raw/accepted checkpoints are registered; only independently audited results are reported. [Parameter study](upgrade_v31/RESULTS.en.md) · [中文参数进化](upgrade_v31/RESULTS.zh.md).
 <!-- RXRSI_CURRENT_EXECUTION_END -->
 
 

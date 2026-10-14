@@ -1,0 +1,51 @@
+{
+  "status": "partial",
+  "seed": 42,
+  "lock_sha256": "0c89d6e5c7dd1a926f8832e854093613fe22542c60ec9892e8510c020a4dcb63",
+  "auditor_sha256": "bd2a396bc3919cd1115826d5698fbf53674dc635993b88506ad7d654d1225e69",
+  "base_proposal": {
+    "ranked": {
+      "cases": 100,
+      "drug_micro_f1": 0.168462291870715,
+      "drug_precision": 0.2606060606060606,
+      "drug_recall": 0.12445730824891461,
+      "core_order_micro_f1": 0.10223048327137546,
+      "known_field_accuracy_given_correct_drug": 0.8376623376623377,
+      "known_fields_scored": 308,
+      "core_gold_orders": 746,
+      "core_predicted_orders": 330,
+      "mean_predicted_drugs": 3.3,
+      "empty_fraction": 0.05,
+      "promotion_score": 0.13534638757104522,
+      "invalid_json": 0,
+      "raw_strict_invalid_json": 0,
+      "empty_reasoning_envelope_removed": 0
+    },
+    "permuted": {
+      "cases": 100,
+      "drug_micro_f1": 0.14129353233830846,
+      "drug_precision": 0.22611464968152867,
+      "drug_recall": 0.10274963820549927,
+      "core_order_micro_f1": 0.09433962264150944,
+      "known_field_accuracy_given_correct_drug": 0.852,
+      "known_fields_scored": 250,
+      "core_gold_orders": 746,
+      "core_predicted_orders": 314,
+      "mean_predicted_drugs": 3.14,
+      "empty_fraction": 0.01,
+      "promotion_score": 0.11781657748990895,
+      "invalid_json": 0,
+      "raw_strict_invalid_json": 0,
+      "empty_reasoning_envelope_removed": 0
+    }
+  },
+  "arms": {
+    "permuted_uniform": [],
+    "ranked_uniform": [],
+    "permuted_own_error": [],
+    "permuted_shuffled_error": []
+  },
+  "guard": {},
+  "test_inference": false,
+  "scope": "Independent source/prompt/GT/feedback/sampling reconstruction, finite changed adapter tensors,100-step execution receipts and output regrading. Optimizer trajectory is not independently refit; guard is reused development data and old tests are not scored."
+}

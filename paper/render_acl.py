@@ -175,6 +175,19 @@ A subsequent development-only experiment freezes the base model and both selecte
 POSITIONROWS
 \bottomrule\end{tabular}\end{table*}
 All saved outputs, remapped candidates and immutable case receipts pass independent recounting. Explicit-rank permutation reduces priority drug F1 from 0.27471 to 0.17441, a difference of $-0.10030$ with patient-cluster interval $[-0.13508,-0.06646]$. Both adapters select display prefixes in 100\% of nontrivial permuted masks, versus 1.5\% for the base model; all 2,400 outputs parse successfully. Reordering sensitivity with rank information retained is evidence of a representation weakness; it does not alone establish the cause of training collapse or clinical reasoning. No prompt winner is promoted from these results.'''.replace('POSITIONROWS',rr)
+    if (ROOT/'upgrade_v31/results/data_audit.json').exists():
+        parameter_section+=r'''\paragraph{Registered position-randomized parameter intervention.}
+A subsequent local study compares ranked uniform, permuted uniform, permuted own-error and permuted shuffled-error QLoRA updates across three seeds and three case-growth rounds. Original retrieval ranks, candidate identities and order fields remain visible. Each round scores a fresh 600-admission feedback block before sampling 400 accumulated admissions for 100 steps (batch four); earlier priorities retain their original pre-update errors. All arms share a completion-only loss correction excluding a trailing padded target, verified before generation and fitting. This correction does not establish the cause of earlier collapse. Candidate tools and order templates remain fixed.
+
+The 100-case proposal score averages ranked and permuted views and may retain the base model. Training continues from each latest raw adapter. All per-seed selections freeze before evaluating every raw state on the reused 200-case guard under ranked, permuted and reversed views. The 500 previous test admissions are excluded. An executed data audit checks 33,300 transformed views, zero patient-role overlap and no target truncation (maximum 1,005 of 1,536 tokens). This is exploratory development work on the legacy admission-proxy task, with incomplete entry-time provenance; it does not generate novel doses.'''
+        p=ROOT/'upgrade_v31/results/audit-seed42.json'
+        if p.exists():
+            q=json.loads(p.read_text())['base_proposal']
+            parameter_section+=f"\nThe independently recounted frozen-base drug/order F1 on proposal is {q['ranked']['drug_micro_f1']:.5f}/{q['ranked']['core_order_micro_f1']:.5f} for ranked views and {q['permuted']['drug_micro_f1']:.5f}/{q['permuted']['core_order_micro_f1']:.5f} for permuted views. These are selection-set reference scores, not evidence of an intervention gain."
+        p=ROOT/'upgrade_v31/results/progress.json'
+        if p.exists():
+            q=json.loads(p.read_text())
+            parameter_section+=f" At this snapshot, {q['optimizer_runs_with_complete_receipts']}/36 optimizer runs have completion receipts and {len(q['seeds_fully_audited'])}/3 seeds have complete independent audits. Running jobs do not establish superiority."
     compatibility_section=''
     if (ROOT/'upgrade_v27/results/cohort_audit.json').exists():
         compatibility_section=r'''\paragraph{Standard-method compatibility panel.}
