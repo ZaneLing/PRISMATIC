@@ -1,0 +1,74 @@
+# PRISMATIC 2: Case Growth, Supportive Orders, and Safety Review — Research Upgrade and Preliminary Results
+
+**Date: 2026-10-14. Research prototype; not for clinical prescribing.** Code is in this directory and machine-readable results are in [`results/`](results/). The Chinese counterpart is [`REPORT_ZH.md`](REPORT_ZH.md).
+
+## 1. Research questions for the revised paper
+
+The 2025 PRISMATIC combined multi-agent prescription generation, risk inspection, and DSWA/DFCM feedback updates. The revised study separates three questions that need different evidence:
+
+1. **Learning historical behavior:** As the case count grows from 250 to 40,000, does the system better predict supportive orders such as IV 0.9% saline, ondansetron, and senna/docusate?
+2. **Clinical appropriateness:** Was a historical order actually indicated for that patient? Agreement with an order cannot answer this; independent pharmacist or physician adjudication is required.
+3. **Safety review:** Can an evidence-traceable review of a draft order reduce serious misses while controlling false alerts and unintended edits, using a bounded revision or a request for missing information?
+
+The proposed architecture is **time-frozen chart snapshot → primary/supportive candidate heads → similar-case memory and evidence retrieval → independent rule/model review → bounded edit or abstention → clinician feedback → offline version gate**. Updates may use only new training cases; the frozen test set never feeds back. A useful memory item should include context, order, clinician adjudication, rationale, and evidence version, rather than a drug name alone. This round has historical order labels but no adjudicated rationale; it cannot establish that the model learned clinicians' reasoning.
+
+## 2. Recent work and dataset alignment
+
+| Work | Task and data | Relevance to PRISMATIC 2 | This round |
+| --- | --- | --- | --- |
+| [SafeRx-Agent, 2026](https://arxiv.org/abs/2605.29146) | MIMIC-III/IV; ATC level-4 medication sets; specialty experts, an **always-on supportive-care expert**, and a safety verifier | A generic supportive-care agent is already present in the literature. Reproduce GAMENet, SafeDrug, direct prompting, and agent comparisons on a common ATC-L4 task | Current GSN/six-hour admission task differs; **scores are not directly compared** |
+| [RxEval, 2026](https://arxiv.org/abs/2605.14543) | 1,547 prescription-level questions from 584 patients; drug-dose-route triples | Motivates dose, route, and time-trajectory assessment | No verifiable public download link on the paper page; not run |
+| [RxSafeBench, BIBM 2025](https://github.com/CAS-SIAT-XinHai/RxSafeBench) | 2,443 public simulated consultation scenarios; three-choice contraindication and interaction tasks | Immediate external test of medication-safety reasoning under a common prompt | 30 sampled per type, 60 total |
+| [RxQA / AMIE, Nature 2026](https://github.com/Google-Health/rxqa) | Public 300-question pharmacist-revised OpenFDA multiple-choice subset; BNF subset withheld for licensing | Tests medication knowledge/reasoning, not complete prescribing | Fixed hash sample of 100 questions |
+| [MedAgentBench, 2025](https://github.com/stanfordmlgroup/MedAgentBench) | 300 FHIR virtual-EHR tasks, requiring a service environment and official reference evaluator | Next-stage tool-use, order workflow, and state-change testing | Environment and official grading not established; not run |
+| [HealthFlow, 2026](https://github.com/yhzhu99/HealthFlow) | Public EHR workflow benchmarks and reusable experience memory | Mechanism comparator for writing back reviewed experience; its task is EHR analysis | Method comparison only |
+
+The paper and official repository links above were checked as of this date. **Subtracting scores across these papers is invalid** because decision time, code system, candidate space, sample, prompt, and metric differ. A direct method comparison needs one shared dataset, split, drug vocabulary, and inference budget.
+
+## 3. Local case-growth experiment
+
+The restricted local sources are MIMIC-IV v3.1 hospital prescriptions and MIMIC-IV-ED v2.2. The decision point is hospital admission. Inputs are the ED chief complaint, triage acuity, and home medications charted before admission; targets are orders beginning within the next six hours. This pilot reuses the cohort of **125,853 admissions / 71,736 patients with at least one oral GSN order in six hours**, so it applies only to that selected population. Recorded temporal and duplicate-admission violations were both zero.
+
+The supportive labels are IV isotonic saline (exact name matching, excluding explicitly named flushes/carriers), ondansetron, and senna/docusate. Positive admissions were **36,454 (28.97%)**, **25,804 (20.50%)**, and **58,483 (46.47%)**, respectively. Some saline orders may still be drug carriers; this round did not adjudicate volume, rate, indication, or appropriateness.
+
+After a patient-disjoint hash split, the test sample stays fixed at 1,000 admissions. Training grows cumulatively through 250, 1,000, 4,000, 16,000, and 40,000 cases. Comparators are a prevalence score, a cosine-similarity memory of the nearest 30 cases, and an incremental SGD logistic model. They use only pre-decision text features and never update from test labels. Average precision (AP) measures ranking; higher is better.
+
+| Training cases seen | Prevalence macro AP | Case-memory macro AP | Incremental-model macro AP |
+| ---: | ---: | ---: | ---: |
+| 250 | 0.3223 | 0.4195 | 0.3683 |
+| 1,000 | 0.3223 | 0.4195 | 0.4370 |
+| 4,000 | 0.3223 | 0.4290 | 0.4047 |
+| 16,000 | 0.3223 | 0.4461 | 0.4567 |
+| 40,000 | 0.3223 | **0.4585** | **0.4995** |
+
+![Case-growth curve for historical supportive orders](results/evolution_curve.png)
+
+For 40,000 versus 250 cases, patient-bootstrap 95% intervals for the macro-AP change are **+0.0114 to +0.0664** for case memory and **+0.0985 to +0.1600** for the incremental model. Intermediate points can decline, so improvement is not guaranteed for every batch. At 40,000 cases, incremental-model AP is **0.4638** for saline, **0.4538** for ondansetron, and **0.5808** for bowel-regimen orders. These are historical-order predictions. The full AUROC, Brier scores, and positive counts are in [`evolution_curve.json`](results/evolution_curve.json).
+
+In the earlier oral-medication task (six-hour horizon, 4,000 test admissions, five GSN predictions per case), popularity achieved macro Recall@5 **0.2995** and TF-IDF+SGD **0.3547**. The 24-hour sensitivity task gave **0.2352** and **0.2990**. A 32-case local Qwen3-4B interface check gave **0.2256**; this is an interface probe, not a model ranking. See [`baseline_results_6h.json`](results/baseline_results_6h.json) and [`llm_pilot_comparison.json`](results/llm_pilot_comparison.json).
+
+## 4. OpenRouter public-benchmark pilot
+
+Requests use `provider.zdr=true`, `provider.data_collection=deny`, temperature zero, and one answer per question. The compared models are `openai/gpt-6.1-sol`, `google/gemini-3.8-flash`, and `deepseek/deepseek-v4.1-flash`. RxSafeBench sampling deduplicates by dialogue plus correct medication and balances the gold A/B/C positions; RxQA retains its original option order. Result files record the exact upstream commit, sampling rule, completion rate, tokens, and cost.
+
+| Model | RxSafeBench: 60 contraindication/interaction items | RxQA OpenFDA: 100 items | Reported cost for the two final runs |
+| --- | ---: | ---: | ---: |
+| GPT-6.1 Sol | 35/60, 58.3%; valid letters 58/60 | **79/100, 79%**; valid letters 96/100 | US$0.1779 |
+| Gemini 3.8 Flash | 35/60, 58.3%; valid letters 59/60 | **77/100, 77%**; valid letters 100/100 | US$0.1120 |
+| DeepSeek V4.1 Flash | 29/60, 48.3%; valid letters 60/60 | **64/100, 64%**; valid letters 100/100 | US$0.0081 |
+
+In two of the 60 RxSafeBench scenarios, the correct drug name occurs in the dialogue, a possible answer cue. The paired accuracy difference between GPT-6.1 Sol and Gemini is zero, with a 95% bootstrap interval of **−10.0 to +10.0 percentage points**. Each model's +10.0-point difference over DeepSeek has an interval spanning zero. This sample does not establish a model ranking. RxQA's original option positions are imbalanced: 46 of the 100 gold answers are C, so the **always-C baseline is 46%**. GPT versus Gemini differs by 2 points with a paired interval of **−4 to +8**; GPT and Gemini exceed DeepSeek by **15 points [6,24]** and **13 points [5,22]**, respectively. DeepSeek requests explicitly disable reasoning while the other models use their defaults, another comparison limitation. Aggregates, item predictions, and paired intervals are in the [`RxSafeBench results`](results/openrouter_rxsafe_pilot.json), [`RxQA results`](results/openrouter_rxqa_pilot.json), and [`paired comparison`](results/public_paired_comparison.json). These public tests measure simulated safety choice and pharmacology QA, respectively. They do not show complete, appropriate prescription generation and cannot be combined arithmetically with MIMIC AP/Recall.
+
+## 5. Next experiments for a publishable paper
+
+1. **Adjudicate rationales:** Stratify at least 200 cases across saline, antiemetic, bowel-regimen, and omitted-supportive-order groups. Two blinded pharmacists/clinicians should label indicated, not indicated, or insufficient information. For saline, distinguish maintenance, resuscitation, drug carrier, and flush use, including volume, rate, overload risk, and omission rationale.
+2. **Align the comparison task:** Map MIMIC-IV and usable eICU orders to a shared RxNorm/ATC-L4 vocabulary. On identical patient splits, run GAMENet, SafeDrug, reproducible parts of SafeRx-Agent, direct prompting with the same backbone, RAG, and the full harness. If author mappings or weights are unavailable, label it an independent reproduction rather than importing published scores.
+3. **Evaluate the prescription:** Add medication, dose, route, frequency, and timing. Run RxEval under its original protocol if data become available; otherwise construct an independently adjudicated prescription-level set. Report sensitivity, false alerts, and newly introduced harm for interactions, contraindications, renal adjustment, and unsupported supportive drugs.
+4. **Ablate evolution:** Fix the base model and token budget. Compare no memory, cases only, reviewed rationale, evidence, and the safety gate at five case counts and at least three seeds. Report patient-clustered uncertainty on unseen patients. Add negative feedback and rollback; reject versions that regress on serious safety endpoints.
+5. **Test workflows:** Use MedAgentBench/FHIR for order reading, state changes, and tool-error recovery. Blindly evaluate clinician review time, abstention, and error localization. Clinicians retain all real prescribing decisions.
+
+## 6. Privacy, reproducibility, and interpretation
+
+All patient-level MIMIC cohorts, models, prompts, and predictions remain in restricted local storage. [PhysioNet's 2025 guidance](https://physionet.org/news/post/llm-responsible-use/) requires explicit verification of zero retention, no training, and no human review for third-party LLM services. This round therefore sends only public RxSafeBench/RxQA content to OpenRouter. The API key is read from the process environment and is never committed to Git.
+
+Reproduction entry points are in [`README.md`](README.md); the stepwise research protocol is in [`EXPERIMENT_PLAN.md`](EXPERIMENT_PLAN.md). Current evidence supports the limited claim that additional historical cases can improve ranking of some supportive orders. It **does not establish** that the system has learned clinical reasoning or made prescribing safer. Those stronger claims are prespecified goals of the next annotation and safety studies.

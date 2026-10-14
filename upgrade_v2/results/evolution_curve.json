@@ -1,0 +1,378 @@
+{
+  "task": "historical supportive-order prediction (saline IV, ondansetron, bowel regimen)",
+  "split": "patient-disjoint deterministic 80/10/10 hash; cumulative train prefixes; fixed test sample",
+  "training_cases_available": 40000,
+  "test_cases": 1000,
+  "train_test_patient_overlap": 0,
+  "features": "pre-decision ED chief complaint, acuity, home medication reconciliation",
+  "case_memory": "top-30 cosine-similar prior cases with weighted votes and a two-observation prevalence prior",
+  "online_model": "per-label SGD logistic loss, cumulative partial_fit without test feedback",
+  "limitation": "historical clinician order matching, not medical appropriateness or safety; pilot conditioned on an oral order",
+  "macro_ap_delta_40000_minus_250_95pct_patient_bootstrap": {
+    "memory": [
+      0.01144,
+      0.06644
+    ],
+    "online": [
+      0.09848,
+      0.16001
+    ]
+  },
+  "curves": [
+    {
+      "cases_seen": 250,
+      "positive_train_cases": {
+        "saline_iv": 69,
+        "ondansetron": 51,
+        "bowel_regimen": 111
+      },
+      "prevalence_baseline": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.312,
+          "auroc": 0.5,
+          "brier": 0.21595
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.205,
+          "auroc": 0.5,
+          "brier": 0.16298
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.45,
+          "auroc": 0.5,
+          "brier": 0.24754
+        },
+        "macro_average_precision": 0.32233
+      },
+      "case_memory_knn30": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.4328,
+          "auroc": 0.60216,
+          "brier": 0.20837
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.29907,
+          "auroc": 0.58776,
+          "brier": 0.16033
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.52666,
+          "auroc": 0.55554,
+          "brier": 0.2452
+        },
+        "macro_average_precision": 0.41951
+      },
+      "incremental_sgd": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.35655,
+          "auroc": 0.54142,
+          "brier": 0.31076
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.28411,
+          "auroc": 0.59169,
+          "brier": 0.19348
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.46424,
+          "auroc": 0.51453,
+          "brier": 0.42051
+        },
+        "macro_average_precision": 0.3683
+      }
+    },
+    {
+      "cases_seen": 1000,
+      "positive_train_cases": {
+        "saline_iv": 280,
+        "ondansetron": 206,
+        "bowel_regimen": 493
+      },
+      "prevalence_baseline": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.312,
+          "auroc": 0.5,
+          "brier": 0.21568
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.205,
+          "auroc": 0.5,
+          "brier": 0.16298
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.45,
+          "auroc": 0.5,
+          "brier": 0.24935
+        },
+        "macro_average_precision": 0.32233
+      },
+      "case_memory_knn30": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.43463,
+          "auroc": 0.61607,
+          "brier": 0.20672
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.33318,
+          "auroc": 0.61805,
+          "brier": 0.15666
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.49065,
+          "auroc": 0.55763,
+          "brier": 0.25142
+        },
+        "macro_average_precision": 0.41949
+      },
+      "incremental_sgd": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.4144,
+          "auroc": 0.56182,
+          "brier": 0.27858
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.37079,
+          "auroc": 0.65133,
+          "brier": 0.19576
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.52579,
+          "auroc": 0.55205,
+          "brier": 0.42452
+        },
+        "macro_average_precision": 0.43699
+      }
+    },
+    {
+      "cases_seen": 4000,
+      "positive_train_cases": {
+        "saline_iv": 1154,
+        "ondansetron": 826,
+        "bowel_regimen": 1886
+      },
+      "prevalence_baseline": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.312,
+          "auroc": 0.5,
+          "brier": 0.21521
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.205,
+          "auroc": 0.5,
+          "brier": 0.16298
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.45,
+          "auroc": 0.5,
+          "brier": 0.24796
+        },
+        "macro_average_precision": 0.32233
+      },
+      "case_memory_knn30": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.43935,
+          "auroc": 0.61302,
+          "brier": 0.20678
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.32376,
+          "auroc": 0.64564,
+          "brier": 0.15626
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.52399,
+          "auroc": 0.59578,
+          "brier": 0.24157
+        },
+        "macro_average_precision": 0.42903
+      },
+      "incremental_sgd": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.3596,
+          "auroc": 0.57352,
+          "brier": 0.29583
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.34025,
+          "auroc": 0.67293,
+          "brier": 0.31033
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.51437,
+          "auroc": 0.5694,
+          "brier": 0.38531
+        },
+        "macro_average_precision": 0.40474
+      }
+    },
+    {
+      "cases_seen": 16000,
+      "positive_train_cases": {
+        "saline_iv": 4728,
+        "ondansetron": 3311,
+        "bowel_regimen": 7402
+      },
+      "prevalence_baseline": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.312,
+          "auroc": 0.5,
+          "brier": 0.21493
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.205,
+          "auroc": 0.5,
+          "brier": 0.16298
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.45,
+          "auroc": 0.5,
+          "brier": 0.24766
+        },
+        "macro_average_precision": 0.32233
+      },
+      "case_memory_knn30": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.46678,
+          "auroc": 0.6455,
+          "brier": 0.20139
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.36384,
+          "auroc": 0.68439,
+          "brier": 0.15114
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.50764,
+          "auroc": 0.56665,
+          "brier": 0.24542
+        },
+        "macro_average_precision": 0.44609
+      },
+      "incremental_sgd": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.45529,
+          "auroc": 0.63966,
+          "brier": 0.25448
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.38831,
+          "auroc": 0.68466,
+          "brier": 0.163
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.52637,
+          "auroc": 0.59852,
+          "brier": 0.31977
+        },
+        "macro_average_precision": 0.45666
+      }
+    },
+    {
+      "cases_seen": 40000,
+      "positive_train_cases": {
+        "saline_iv": 11682,
+        "ondansetron": 8245,
+        "bowel_regimen": 18526
+      },
+      "prevalence_baseline": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.312,
+          "auroc": 0.5,
+          "brier": 0.21505
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.205,
+          "auroc": 0.5,
+          "brier": 0.16298
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.45,
+          "auroc": 0.5,
+          "brier": 0.24767
+        },
+        "macro_average_precision": 0.32233
+      },
+      "case_memory_knn30": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.47652,
+          "auroc": 0.63619,
+          "brier": 0.20155
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.38747,
+          "auroc": 0.69922,
+          "brier": 0.14796
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.51141,
+          "auroc": 0.57702,
+          "brier": 0.24445
+        },
+        "macro_average_precision": 0.45847
+      },
+      "incremental_sgd": {
+        "saline_iv": {
+          "prevalence": 0.312,
+          "average_precision": 0.46382,
+          "auroc": 0.62078,
+          "brier": 0.2161
+        },
+        "ondansetron": {
+          "prevalence": 0.205,
+          "average_precision": 0.45383,
+          "auroc": 0.72514,
+          "brier": 0.15089
+        },
+        "bowel_regimen": {
+          "prevalence": 0.45,
+          "average_precision": 0.58082,
+          "auroc": 0.62627,
+          "brier": 0.28364
+        },
+        "macro_average_precision": 0.49949
+      }
+    }
+  ]
+}

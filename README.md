@@ -44,3 +44,15 @@ To execute the main script within the Poetry environment, run:
 ```bash
 poetry run python workflow.py
 ```
+
+## 2026 research upgrade / 2026 年研究升级
+
+The [PRISMATIC 2 research prototype](upgrade_v2/README.md) adds a
+time-bounded, patient-disjoint MIMIC pilot; a case-count learning curve for
+supportive orders; structured review-harness checks; and public RxSafeBench
+and RxQA model comparisons through OpenRouter. Read the
+[English report](upgrade_v2/REPORT_EN.md) or
+[中文报告](upgrade_v2/REPORT_ZH.md) for the methods, results, and limits.
+Only aggregate restricted-data results and public-benchmark predictions are
+tracked in this repository. This is research software, not clinical prescribing
+software.

@@ -1,0 +1,78 @@
+{
+  "benchmark": "RxSafeBench public simulated three-choice medication safety scenarios",
+  "source": "https://github.com/CAS-SIAT-XinHai/RxSafeBench",
+  "source_commit": "a25f9a1f173cf034b678c60f051901e86fbbbbb2",
+  "sample": "deduplicate by dialogue plus correct drug, then first N sha256-sorted cases per type, fixed option rotation A/B/C",
+  "cases": 60,
+  "cases_per_type": 30,
+  "gold_option_counts": {
+    "A": 20,
+    "B": 20,
+    "C": 20
+  },
+  "safe_drug_name_in_dialogue_count": 2,
+  "routing": {
+    "zdr": true,
+    "data_collection": "deny"
+  },
+  "generation": {
+    "temperature": 0,
+    "max_tokens": 128,
+    "deepseek_reasoning_effort": "none"
+  },
+  "model_results": {
+    "openai/gpt-6.1-sol": {
+      "attempted": 60,
+      "completed": 60,
+      "valid_letter": 58,
+      "correct": 35,
+      "accuracy_completed": 0.58333,
+      "accuracy_attempted": 0.58333,
+      "accuracy_by_type": {
+        "contraindication": 0.6,
+        "interaction": 0.56667
+      },
+      "prompt_tokens": 26876,
+      "completion_tokens": 2878,
+      "reported_cost_usd": 0.082532,
+      "errors": {}
+    },
+    "google/gemini-3.8-flash": {
+      "attempted": 60,
+      "completed": 60,
+      "valid_letter": 59,
+      "correct": 35,
+      "accuracy_completed": 0.58333,
+      "accuracy_attempted": 0.58333,
+      "accuracy_by_type": {
+        "contraindication": 0.56667,
+        "interaction": 0.6
+      },
+      "prompt_tokens": 28559,
+      "completion_tokens": 7193,
+      "reported_cost_usd": 0.048393,
+      "errors": {}
+    },
+    "deepseek/deepseek-v4.1-flash": {
+      "attempted": 60,
+      "completed": 60,
+      "valid_letter": 60,
+      "correct": 29,
+      "accuracy_completed": 0.48333,
+      "accuracy_attempted": 0.48333,
+      "accuracy_by_type": {
+        "contraindication": 0.56667,
+        "interaction": 0.4
+      },
+      "prompt_tokens": 27412,
+      "completion_tokens": 120,
+      "reported_cost_usd": 0.004099,
+      "errors": {}
+    }
+  },
+  "limitations": [
+    "small deterministic pilot; not comparable to full-paper leaderboard",
+    "benchmark gold answers are generated/filtered rather than patient outcomes",
+    "potential answer cue when safe medication name appears in dialogue"
+  ]
+}

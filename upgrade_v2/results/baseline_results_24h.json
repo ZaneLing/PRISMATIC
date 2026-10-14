@@ -1,0 +1,96 @@
+{
+  "task": "historical oral GSN set prediction; not clinical safety or correctness",
+  "split": "patient-disjoint deterministic hash; 80/10/10 before sampling",
+  "sampled_admissions": {
+    "train": 40000,
+    "val": 4000,
+    "test": 4000
+  },
+  "sampled_patients": {
+    "train": 29275,
+    "val": 3031,
+    "test": 3062
+  },
+  "patient_overlap_across_splits": 0,
+  "label_space_top_n_from_train_only": 64,
+  "test_true_label_coverage_by_label_space": 0.62536,
+  "predictions_per_case_k": 5,
+  "validation_models": {
+    "popularity": {
+      "precision_at_k": 0.36155,
+      "micro_recall_at_k_all_targets": 0.20782,
+      "macro_recall_at_k_all_targets": 0.24024,
+      "hit_rate_at_k": 0.80875,
+      "micro_f1_at_k": 0.26393
+    },
+    "tfidf_nb_chief": {
+      "precision_at_k": 0.3846,
+      "micro_recall_at_k_all_targets": 0.22107,
+      "macro_recall_at_k_all_targets": 0.25526,
+      "hit_rate_at_k": 0.831,
+      "micro_f1_at_k": 0.28076
+    },
+    "tfidf_nb_chief_home": {
+      "precision_at_k": 0.4334,
+      "micro_recall_at_k_all_targets": 0.24912,
+      "macro_recall_at_k_all_targets": 0.28421,
+      "hit_rate_at_k": 0.87125,
+      "micro_f1_at_k": 0.31638
+    },
+    "tfidf_sgd_chief_home": {
+      "precision_at_k": 0.46645,
+      "micro_recall_at_k_all_targets": 0.26811,
+      "macro_recall_at_k_all_targets": 0.30274,
+      "hit_rate_at_k": 0.89925,
+      "micro_f1_at_k": 0.34051
+    }
+  },
+  "selected_model_by_validation_macro_recall": "tfidf_sgd_chief_home",
+  "models": {
+    "popularity": {
+      "precision_at_k": 0.36115,
+      "micro_recall_at_k_all_targets": 0.20366,
+      "macro_recall_at_k_all_targets": 0.23517,
+      "hit_rate_at_k": 0.804,
+      "micro_f1_at_k": 0.26045
+    },
+    "tfidf_nb_chief": {
+      "precision_at_k": 0.3828,
+      "micro_recall_at_k_all_targets": 0.21587,
+      "macro_recall_at_k_all_targets": 0.24846,
+      "hit_rate_at_k": 0.834,
+      "micro_f1_at_k": 0.27606,
+      "macro_recall_delta_vs_popularity_95pct_patient_bootstrap": [
+        0.00936,
+        0.01802
+      ]
+    },
+    "tfidf_nb_chief_home": {
+      "precision_at_k": 0.4349,
+      "micro_recall_at_k_all_targets": 0.24525,
+      "macro_recall_at_k_all_targets": 0.27961,
+      "hit_rate_at_k": 0.87725,
+      "micro_f1_at_k": 0.31363,
+      "macro_recall_delta_vs_popularity_95pct_patient_bootstrap": [
+        0.03987,
+        0.0483
+      ]
+    },
+    "tfidf_sgd_chief_home": {
+      "precision_at_k": 0.471,
+      "micro_recall_at_k_all_targets": 0.26561,
+      "macro_recall_at_k_all_targets": 0.29902,
+      "hit_rate_at_k": 0.89125,
+      "micro_f1_at_k": 0.33967,
+      "macro_recall_delta_vs_popularity_95pct_patient_bootstrap": [
+        0.05912,
+        0.06864
+      ]
+    }
+  },
+  "saved_models_in_restricted_local_dir": [
+    "tfidf_nb_chief",
+    "tfidf_nb_chief_home",
+    "tfidf_sgd_chief_home"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "n_cases": 32,
+  "task": "tiny local smoke test on identical held-out cases; exploratory only",
+  "popularity": {
+    "precision_at_k": 0.4,
+    "micro_recall_at_k_all_targets": 0.28194,
+    "macro_recall_at_k_all_targets": 0.31198,
+    "hit_rate_at_k": 0.8125,
+    "micro_f1_at_k": 0.33075
+  },
+  "tfidf_sgd_chief_home": {
+    "precision_at_k": 0.45,
+    "micro_recall_at_k_all_targets": 0.31718,
+    "macro_recall_at_k_all_targets": 0.3402,
+    "hit_rate_at_k": 0.90625,
+    "micro_f1_at_k": 0.37209
+  },
+  "llm": {
+    "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+    "revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+    "task": "local historical code-selection smoke test; no safety or efficacy inference",
+    "n_cases": 32,
+    "valid_structured_output_rate": 0.9688,
+    "mean_codes_returned": 4.844,
+    "precision_at_5_budget": 0.3,
+    "micro_recall_at_5_all_targets": 0.2115,
+    "macro_recall_at_5_all_targets": 0.2256,
+    "elapsed_seconds": 53.0
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "RxSafeBench": {
+    "matched_questions": 60,
+    "models": {
+      "openai/gpt-6.1-sol": {
+        "correct": 35,
+        "accuracy": 0.58333,
+        "wilson_95pct": [
+          0.45728,
+          0.69936
+        ]
+      },
+      "google/gemini-3.8-flash": {
+        "correct": 35,
+        "accuracy": 0.58333,
+        "wilson_95pct": [
+          0.45728,
+          0.69936
+        ]
+      },
+      "deepseek/deepseek-v4.1-flash": {
+        "correct": 29,
+        "accuracy": 0.48333,
+        "wilson_95pct": [
+          0.36175,
+          0.60692
+        ]
+      }
+    },
+    "paired_deltas": {
+      "openai/gpt-6.1-sol minus google/gemini-3.8-flash": {
+        "accuracy_difference": 0.0,
+        "bootstrap_95pct": [
+          -0.1,
+          0.1
+        ],
+        "discordant_a_only": 5,
+        "discordant_b_only": 5
+      },
+      "openai/gpt-6.1-sol minus deepseek/deepseek-v4.1-flash": {
+        "accuracy_difference": 0.1,
+        "bootstrap_95pct": [
+          -0.03333,
+          0.23333
+        ],
+        "discordant_a_only": 12,
+        "discordant_b_only": 6
+      },
+      "google/gemini-3.8-flash minus deepseek/deepseek-v4.1-flash": {
+        "accuracy_difference": 0.1,
+        "bootstrap_95pct": [
+          -0.05,
+          0.25
+        ],
+        "discordant_a_only": 14,
+        "discordant_b_only": 8
+      }
+    }
+  },
+  "RxQA_OpenFDA": {
+    "matched_questions": 100,
+    "models": {
+      "openai/gpt-6.1-sol": {
+        "correct": 79,
+        "accuracy": 0.79,
+        "wilson_95pct": [
+          0.7002,
+          0.85834
+        ]
+      },
+      "google/gemini-3.8-flash": {
+        "correct": 77,
+        "accuracy": 0.77,
+        "wilson_95pct": [
+          0.67846,
+          0.84157
+        ]
+      },
+      "deepseek/deepseek-v4.1-flash": {
+        "correct": 64,
+        "accuracy": 0.64,
+        "wilson_95pct": [
+          0.54235,
+          0.72729
+        ]
+      }
+    },
+    "paired_deltas": {
+      "openai/gpt-6.1-sol minus google/gemini-3.8-flash": {
+        "accuracy_difference": 0.02,
+        "bootstrap_95pct": [
+          -0.04,
+          0.08
+        ],
+        "discordant_a_only": 6,
+        "discordant_b_only": 4
+      },
+      "openai/gpt-6.1-sol minus deepseek/deepseek-v4.1-flash": {
+        "accuracy_difference": 0.15,
+        "bootstrap_95pct": [
+          0.06,
+          0.24
+        ],
+        "discordant_a_only": 20,
+        "discordant_b_only": 5
+      },
+      "google/gemini-3.8-flash minus deepseek/deepseek-v4.1-flash": {
+        "accuracy_difference": 0.13,
+        "bootstrap_95pct": [
+          0.05,
+          0.22
+        ],
+        "discordant_a_only": 17,
+        "discordant_b_only": 4
+      }
+    }
+  }
+}
