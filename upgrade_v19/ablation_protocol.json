@@ -1,0 +1,29 @@
+{
+  "study": "v19 frozen single-skill attribution addendum",
+  "registration": "After learning and before either ablation is executed. Main direct/fixed test rows were already observed; evolving-arm test rows were not yet available. Exploratory mechanism attribution, not a fresh confirmation.",
+  "model": "deepseek/deepseek-v4.1-flash",
+  "conditions": {
+    "name_only": "fhir_patient_name_search_url_encoding.md",
+    "lab_only": "lab_code_text_fallback_probe.md"
+  },
+  "frozen_skill_sha256": {
+    "lab_code_text_fallback_probe.md": "41c0b1815f88a88c9c1ac89599d062b3a96bb35b864fda71175df415140fe480",
+    "fhir_patient_name_search_url_encoding.md": "731f86f04e258db9c28c6e9416428143ae3b6a5f9a358eff1229f53af77d1088"
+  },
+  "splits": {
+    "id_test": 64,
+    "test": 60
+  },
+  "controls": "Reuse completed, independently audited fixed compiled (neither skill) and evolving compiled (both skills) from the main study.",
+  "fixed": "Same task cases, compiled executor, lossless reference view, readback criteria, actor 8 calls x 512 tokens, model and exact skill text; no further learning or checkpoint/prompt selection.",
+  "endpoints": [
+    "state/reference correctness",
+    "calls/cost",
+    "remove-one paired fixes/regressions",
+    "two-skill factorial interaction",
+    "task and patient paired bootstrap4000"
+  ],
+  "cumulative_successful_response_cap_usd": 28,
+  "start_gate": "Main full study summary complete, original resource counts restored, no owned active write journal.",
+  "claim_boundary": "One learned skill pair and one seed, overlapping patients and reused main outputs. Generated skill rationales/examples are hypotheses, not validated clinical facts or execution receipts. This can attribute realized behavior to removal of a frozen artifact but cannot establish general RSI or clinical appropriateness."
+}
