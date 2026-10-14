@@ -23,9 +23,59 @@
       "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
     }
   },
-  "arms": {},
+  "arms": {
+    "teacher_uniform": {
+      "arm": "teacher_uniform",
+      "optimizer_steps": 100,
+      "binary_target_decisions_expected": 8000,
+      "seconds": 1739.2368150000693,
+      "adapter_sha256": "03e345d3b72d3bb91d060bb83b2aa7d9e25d3d8d84aa251ab0331bef5186595f",
+      "training_log_sha256": "245c2be39472463cb52f394cb8fab7d31af3bf3cffe13456e51cf3fd1cf403e8",
+      "command": [
+        "/Users/bytedance/Desktop/PRISMATIC/upgrade_v2/.venv-llm/bin/python",
+        "/Users/bytedance/Desktop/PRISMATIC/github/upgrade_v32/train_cli.py",
+        "--decision-arm",
+        "teacher_uniform",
+        "--decision-config",
+        "/Users/bytedance/Desktop/MedTreeBench/dataset/restricted/prismatic-v32/decision_config.json",
+        "--model",
+        "/Users/bytedance/Desktop/PRISMATIC/upgrade_v2/.local/models/qwen3-4b-instruct-2507-4bit",
+        "--train",
+        "--data",
+        "/Users/bytedance/Desktop/MedTreeBench/dataset/restricted/prismatic-v32/data",
+        "--fine-tune-type",
+        "lora",
+        "--mask-prompt",
+        "--num-layers",
+        "8",
+        "--batch-size",
+        "4",
+        "--iters",
+        "100",
+        "--learning-rate",
+        "0.0001",
+        "--steps-per-report",
+        "20",
+        "--steps-per-eval",
+        "100",
+        "--val-batches",
+        "8",
+        "--save-every",
+        "100",
+        "--max-seq-length",
+        "1536",
+        "--adapter-path",
+        "/Users/bytedance/Desktop/MedTreeBench/dataset/restricted/prismatic-v32/teacher_uniform/adapter",
+        "--seed",
+        "42",
+        "--config",
+        "/Users/bytedance/Desktop/PRISMATIC/github/upgrade_v32/training_config.yaml",
+        "--grad-checkpoint"
+      ]
+    }
+  },
   "proposal_scores_available": false,
   "guard_or_test_inference": false,
   "api_calls": 0,
-  "current_arm": "teacher_uniform"
+  "current_arm": "zero_uniform"
 }

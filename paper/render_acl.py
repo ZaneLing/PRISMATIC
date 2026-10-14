@@ -244,12 +244,51 @@ Public molecular lookup resolves 746 CIDs and validates structures spanning 399 
             compatibility_section=compatibility_section.replace("SafeDrug still requires complete cohort-specific molecular/substructure compatibility; the probe's synthetic mask is never used as an experimental resource. No trained method score is claimed at this preparation stage.",r'''Full resources now contain 627 molecular graphs and 863 BRICS fragments; no synthetic mask is used for training. Dense/sparse forward and registered-gradient probes agree, and the released fixed molecular embedding is persisted in checkpoints. A separate 219-class molecular panel retains all visits, including three empty-target test visits, and explicitly excludes 5,613 test target occurrences. ARMR/GAMENet run in both spaces and SafeDrug in the molecular space, for three seeds and 50 full epochs each. Proposal Jaccard selects checkpoints/thresholds, guard reports development performance, and testing waits for all baseline and future RxRSI states to freeze. Equal case exposure is not equal FLOPs. The released SafeDrug training script's negative-cap coefficient conflicts with Eq.~19; the adapted run uses the paper's nonnegative cap \citep{safedrug}.''')
         if (ROOT/'upgrade_v27/results/control_audit.json').exists():
             audit=json.loads((ROOT/'upgrade_v27/results/control_audit.json').read_text());assert audit['status']=='passed'
-            rr='\n'.join(f"{panel} & {name.replace('_',' ')} & {z['patient_f1']:.4f} & {z['patient_jaccard']:.4f} \\\\" for panel,p in audit['panels'].items() for name,z in p['methods'].items())
+            dev_method_rows=[f"{panel} & {name.replace('_',' ')} & 1 & {z['patient_f1']:.4f} & {z['patient_jaccard']:.4f} \\\\" for panel,p in audit['panels'].items() for name,z in p['methods'].items()]
+            accounting=ROOT/'paper/compute_accounting.json'
+            if accounting.exists():
+                costs=json.loads(accounting.read_text());assert costs['script_sha256']==hashlib.sha256((ROOT/'paper/build_compute_accounting.py').read_bytes()).hexdigest()
+                assert all(hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==h for name,h in costs['source_sha256'].items())
+                for name,z in costs['author_method_summary'].items():
+                    panel,method=name.split('/');vals=[]
+                    for key in ['guard_patient_f1','guard_patient_jaccard']:
+                        q=z[key];vals.append(f"{q['mean']:.4f}"+(f" $\\pm$ {q['seed_sd']:.4f}" if q['seed_sd'] is not None else ''))
+                    dev_method_rows.append(f"{panel} & {method} & {len(z['seeds'])} & "+' & '.join(vals)+r'\\')
+            rule_summary=ROOT/'upgrade_v27/results/rsi_development_summary.json'
+            if rule_summary.exists():
+                for panel,p in json.loads(rule_summary.read_text())['panels'].items():
+                    for arm,label in [('greedy_error_rules','Greedy candidate-rule memory'),('own_error_rule_agent','RxRSI candidate-rule memory')]:
+                        vals=[]
+                        for key in ['patient_f1','patient_jaccard']:
+                            q=p['methods'][arm][key];vals.append(f"{q['mean']:.4f}"+(f" $\\pm$ {q['seed_sd']:.4f}" if q['seed_sd'] is not None else ''))
+                        dev_method_rows.append(f"{panel} & {label} & {len(p['seeds'])} & "+' & '.join(vals)+r'\\')
+            rr='\n'.join(dev_method_rows)
             compatibility_section+=r'''\begin{table*}[t]\centering\small
-\caption{Completed conventional methods on 1,231 guard visits from 467 patients. Choices freeze on separate proposal data; independent raw-source reconstruction reproduces saved predictions exactly. These development results are not the pending neural/RxRSI test comparison.}
-\begin{tabular}{llrr}\toprule Label panel & Method & Patient-average F1 & Patient-average Jaccard\\\midrule
+\caption{Executed cross-method development comparison on the same 1,231 guard visits from 467 patients. Each label panel is separate. Choices use proposal data; only completed independently audited runs are included, with mean $\pm$ sample seed SD when available. Unfinished seeds remain pending. This table does not replace the gated final test main table.}
+\begin{tabular}{llrrr}\toprule Label panel & Method & Runs & Patient-average F1 & Patient-average Jaccard\\\midrule
 CONTROLROWS
 \bottomrule\end{tabular}\end{table*}'''.replace('CONTROLROWS',rr)
+            if accounting.exists():
+                compatibility_section+=r'''\paragraph{Recorded computation and selection budgets.}
+Each author neural run uses 50 epochs, 921,450 visit exposures, and 300 epoch/threshold choices on proposal data. Native batching produces 29,750 ARMR optimizer steps versus 921,450 for GAMENet/SafeDrug in the completed runs. ARMR uses Apple MPS and the other two CPU; concurrent work makes recorded fit times unsuitable as an isolated speed ranking. Five-round rule and synthesized-program runs each record 30 shared model-collection fits (three regularization candidates and three cross-fit models per round). These fits are counted once across their six or seven arms; the later 14-arm gate study reuses the corresponding synthesized-program fits exactly. Its memory induction and verification still consume computation. The released ledger distinguishes fit timers, broader conventional-method timing blocks, and logical proposal prices. Logical response reuse is not fresh account spend; FLOPs and complete isolated runtime are not measured.'''
+            paired_development=ROOT/'upgrade_v27/results/development_methods.json'
+            if paired_development.exists():
+                comparison=json.loads(paired_development.read_text());assert comparison['script_sha256']==hashlib.sha256((ROOT/'upgrade_v27/summarize_development_methods.py').read_bytes()).hexdigest()
+                assert all(hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==h for name,h in comparison['source_sha256'].items())
+                total=sum(sum(row['runs'] for row in p['methods'].values()) for p in comparison['panels'].values())
+                compatibility_section+=r'\paragraph{Paired cross-method development analysis.} '+f'A separate saved-output recount covers {total} completed method runs on the same guard patients. For RxRSI candidate-rule memory minus each author method, the patient-F1 differences on matched available seeds are '
+                effects=[]
+                for panel,p in comparison['panels'].items():
+                    for name in ['ARMR','GAMENet','SafeDrug']:
+                        if name not in p['own_rule_agent_minus_control']:continue
+                        item=p['own_rule_agent_minus_control'][name];q=item['patient_f1'];lo,hi=q['patient_ci95']
+                        effects.append(f"{name} ({panel}, {len(item['matched_seeds'])} seeds): {100*q['difference']:+.3f} pp, interval $[{100*lo:+.3f},{100*hi:+.3f}]$")
+                compatibility_section+='; '.join(effects)+'. '
+                effects=[]
+                for panel,p in comparison['panels'].items():
+                    q=p['own_rule_agent_minus_control']['greedy_error_rules']['patient_f1'];lo,hi=q['patient_ci95']
+                    effects.append(f"{panel}: {100*q['difference']:+.3f} pp $[{100*lo:+.3f},{100*hi:+.3f}]$")
+                compatibility_section+='Against greedy memory, the corresponding differences are '+'; '.join(effects)+r'''. These 4,000-draw patient intervals condition on the observed matched seeds and have no multiplicity correction. All comparisons, including conventional and shuffled controls, remain in the release. Gains over an older architecture do not establish an advantage of the language-agent update mechanism; this reused development analysis does not select a model or establish final-test superiority.'''
         if (ROOT/'upgrade_v27/rsi_addendum.json').exists():
             compatibility_section+=r'''
 \paragraph{Executable rule-memory evolution.}

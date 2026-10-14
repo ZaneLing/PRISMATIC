@@ -1,5 +1,15 @@
 # Manuscript change log / 论文变更记录
 
+## 2026-10-15 — completed author seeds, matched-patient method comparison and compute receipts
+
+- SafeDrug completes and independently verifies all three 50-epoch runs in the molecular space. GAMENet completes and verifies all three full-space runs. ARMR full-space seed2026 and the remaining molecular author runs continue under the original 50-epoch protocol.
+- Recount all currently completed conventional, author-core and six rule-memory methods on the identical 1,231 guard visits / 467 patients. Reconstruct source labels and ordering, verify every published aggregate and audited rule-score array, then compute 4,000-draw paired patient intervals using matched completed seeds. No model inference, test prediction or method reselection is performed.
+- Report stronger results against some older architectures alongside the unresolved ARMR difference and the greedy/shuffled controls. The own-error rule agent is not consistently best; retained failures constrain the interpretation of RSI.
+- Recount original epoch logs, optimizer steps, case exposures and shared fitting events. Each author neural run receives 921,450 visit exposures and 300 epoch/threshold choices; native optimizer steps differ. Count shared policies once, verify v29-to-v30 reuse, and distinguish logical response prices from physical spend. Missing timers remain unmeasured.
+- The first v32 repair arm finishes its original 100 steps; the second starts. All four fits and their audits remain required before repair proposal scoring. Update the existing English manuscript and bilingual result entries with the actual receipts.
+
+SafeDrug 与完整空间 GAMENet 的三个种子均已完成并核验。新增同一患者、匹配种子的跨方法配对分析，以及实际计算预算账本；保留贪心／打乱对照优势与尚不确定的差异，不把开发集比较称为最终测试领先。v32 首组真实修复已训练完成，后续组继续。
+
 ## 2026-10-15 — v0.32 repair scoring implemented and verified before evaluation
 
 - Implement the full eight-method repair comparison: four prefix/loss arms, frozen base, original failed adapter, original retrieval top-8, and all-20 candidates. Preserve fixed 0.5 and identically proposal-calibrated endpoints, calibration-only effects, all factorial contrasts, empty-output rates and candidate-position invariance.

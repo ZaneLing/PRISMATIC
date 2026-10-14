@@ -1,0 +1,1432 @@
+{
+  "status": "partial_audited_development",
+  "panels": {
+    "full": {
+      "visits": 1231,
+      "patients": 467,
+      "methods": {
+        "prevalence": {
+          "seeds": [
+            "fixed"
+          ],
+          "runs": 1,
+          "patient_f1": {
+            "mean": 0.4579400269239452,
+            "seed_sd": null
+          },
+          "patient_jaccard": {
+            "mean": 0.30679543653071745,
+            "seed_sd": null
+          }
+        },
+        "last_visit": {
+          "seeds": [
+            "fixed"
+          ],
+          "runs": 1,
+          "patient_f1": {
+            "mean": 0.3015351096428114,
+            "seed_sd": null
+          },
+          "patient_jaccard": {
+            "mean": 0.21585246169452915,
+            "seed_sd": null
+          }
+        },
+        "cosine_knn": {
+          "seeds": [
+            "fixed"
+          ],
+          "runs": 1,
+          "patient_f1": {
+            "mean": 0.5508109654002408,
+            "seed_sd": null
+          },
+          "patient_jaccard": {
+            "mean": 0.3961419089395257,
+            "seed_sd": null
+          }
+        },
+        "structured_logistic": {
+          "seeds": [
+            "fixed"
+          ],
+          "runs": 1,
+          "patient_f1": {
+            "mean": 0.6115087705436607,
+            "seed_sd": null
+          },
+          "patient_jaccard": {
+            "mean": 0.4574231649018693,
+            "seed_sd": null
+          }
+        },
+        "ARMR": {
+          "seeds": [
+            42,
+            137
+          ],
+          "runs": 2,
+          "patient_f1": {
+            "mean": 0.6086905788225765,
+            "seed_sd": 0.0018564767701010755
+          },
+          "patient_jaccard": {
+            "mean": 0.4532624621823856,
+            "seed_sd": 0.001594435220189118
+          }
+        },
+        "GAMENet": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.5270793056901772,
+            "seed_sd": 0.006638803297081456
+          },
+          "patient_jaccard": {
+            "mean": 0.37086863304786366,
+            "seed_sd": 0.006432206895173672
+          }
+        },
+        "uniform_policy": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.6115087705436607,
+            "seed_sd": 0.0
+          },
+          "patient_jaccard": {
+            "mean": 0.4574231649018693,
+            "seed_sd": 0.0
+          }
+        },
+        "greedy_error_rules": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.6126698161281171,
+            "seed_sd": 0.0006556203368462962
+          },
+          "patient_jaccard": {
+            "mean": 0.4586256922328025,
+            "seed_sd": 0.0006410118109084429
+          }
+        },
+        "random_candidate_rules": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.6120528218774628,
+            "seed_sd": 0.00031276602670749946
+          },
+          "patient_jaccard": {
+            "mean": 0.4579105593529869,
+            "seed_sd": 0.00026640281435346867
+          }
+        },
+        "own_error_rule_agent": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.61260065386982,
+            "seed_sd": 0.0005741646769332896
+          },
+          "patient_jaccard": {
+            "mean": 0.4585590432874417,
+            "seed_sd": 0.0005666996007131742
+          }
+        },
+        "shuffled_evidence_rule_agent": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.6121886970741873,
+            "seed_sd": 0.00037826954804861304
+          },
+          "patient_jaccard": {
+            "mean": 0.45810926350124687,
+            "seed_sd": 0.0004370016966320106
+          }
+        },
+        "matched_proposals_without_witness_gate": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.6125099474332214,
+            "seed_sd": 0.0008746717619954435
+          },
+          "patient_jaccard": {
+            "mean": 0.4584015804816886,
+            "seed_sd": 0.0010206791491597681
+          }
+        }
+      },
+      "method_runs": {
+        "prevalence": [
+          {
+            "seed": "fixed",
+            "patient_f1": 0.4579400269239452,
+            "patient_jaccard": 0.30679543653071745,
+            "prediction_sha256": "0cae78b488c42652e1df1d82be68d3021612b7c665932ef4c51c7163db0f64fe"
+          }
+        ],
+        "last_visit": [
+          {
+            "seed": "fixed",
+            "patient_f1": 0.3015351096428114,
+            "patient_jaccard": 0.21585246169452915,
+            "prediction_sha256": "c6486ebac85a4db9c15b5df767b6237254703e76b27150d469bb1cb163d27467"
+          }
+        ],
+        "cosine_knn": [
+          {
+            "seed": "fixed",
+            "patient_f1": 0.5508109654002408,
+            "patient_jaccard": 0.3961419089395257,
+            "prediction_sha256": "0cbb617e0219365d2e3f295059c7aaeed4b57f349ecb79e7819f47591b57b6e8"
+          }
+        ],
+        "structured_logistic": [
+          {
+            "seed": "fixed",
+            "patient_f1": 0.6115087705436607,
+            "patient_jaccard": 0.4574231649018693,
+            "prediction_sha256": "b8b7a8d984068c065435e8206e63afad1ddbb39a2032e3059c4357351b795a50"
+          }
+        ],
+        "ARMR": [
+          {
+            "seed": 42,
+            "patient_f1": 0.6073778515093227,
+            "patient_jaccard": 0.4521350262260272,
+            "prediction_sha256": "1ee9c609fecce2acc93ebaeba90d14b2f5219113f66a000db31c45c360f39b82"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.6100033061358302,
+            "patient_jaccard": 0.454389898138744,
+            "prediction_sha256": "e7ca4c13e7f4771dfd3f0ecab15a60a315bbead176c636bbdfca86108f3b40e2"
+          }
+        ],
+        "GAMENet": [
+          {
+            "seed": 42,
+            "patient_f1": 0.521066484785587,
+            "patient_jaccard": 0.3650469553342968,
+            "prediction_sha256": "090517c6abf5a39ace1431fdde6251acf86444a7951ab9c56289c94c014d2537"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.5259676828990013,
+            "patient_jaccard": 0.36978518385896997,
+            "prediction_sha256": "a49fb89cf2387619e9caefc26ce32cb3bbe719528858a1585ca155b6c366db66"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.5342037493859433,
+            "patient_jaccard": 0.3777737599503242,
+            "prediction_sha256": "f15edfb2d03d36992a9c0e458e0ae1250a1c9879acf5bff1a44603c4a7346190"
+          }
+        ],
+        "uniform_policy": [
+          {
+            "seed": 42,
+            "patient_f1": 0.6115087705436607,
+            "patient_jaccard": 0.4574231649018693,
+            "prediction_sha256": "73ceab8de90b672170041874c04479320d6fd3bea13aa35bb403843319f36d8d"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.6115087705436607,
+            "patient_jaccard": 0.4574231649018693,
+            "prediction_sha256": "73ceab8de90b672170041874c04479320d6fd3bea13aa35bb403843319f36d8d"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.6115087705436607,
+            "patient_jaccard": 0.4574231649018693,
+            "prediction_sha256": "73ceab8de90b672170041874c04479320d6fd3bea13aa35bb403843319f36d8d"
+          }
+        ],
+        "greedy_error_rules": [
+          {
+            "seed": 42,
+            "patient_f1": 0.6123355651498855,
+            "patient_jaccard": 0.4582875087441403,
+            "prediction_sha256": "325c7b05fbb2c271d5e93a68a62145ac46f3fb76d6755ee963a923b49d608411"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.6122486855176047,
+            "patient_jaccard": 0.4582245909504125,
+            "prediction_sha256": "a2dbd36a7ad20a6f6dbd7499f14f35394ae9b2b4363f98aa1c37d88a360dbf33"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.6134251977168612,
+            "patient_jaccard": 0.45936497700385465,
+            "prediction_sha256": "4b2baa48b911f9da8d4d8e70392759b3467ff57bd319c62623f3424e1c5078b1"
+          }
+        ],
+        "random_candidate_rules": [
+          {
+            "seed": 42,
+            "patient_f1": 0.6118271323384048,
+            "patient_jaccard": 0.45775970707773456,
+            "prediction_sha256": "ccddacf3915c48a8cc9fc22360c6762eb1692bfb4694f0f0063dc574ba3937f5"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.6119214930173095,
+            "patient_jaccard": 0.45775381496538686,
+            "prediction_sha256": "00b418e6504aa5d10253db1724d962959253c4e7f63083c85ac12622424b07ea"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.6124098402766741,
+            "patient_jaccard": 0.4582181560158394,
+            "prediction_sha256": "05add14c16f58cd42652c9b0a6d1a16356f121b29f86fa6f5048fbef30ad2067"
+          }
+        ],
+        "own_error_rule_agent": [
+          {
+            "seed": 42,
+            "patient_f1": 0.6124397498272011,
+            "patient_jaccard": 0.4583877772598264,
+            "prediction_sha256": "a6c2a0c47bf3d826c3162d2e2de380e2913918202a45869004f85f3e58091e89"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.6121241072438783,
+            "patient_jaccard": 0.45809773078450466,
+            "prediction_sha256": "da958fea581b420bbf36e8f6d6d99316d70f7c8ac5815c5a32709ca1bc9c5bbf"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.6132381045383806,
+            "patient_jaccard": 0.45919162181799406,
+            "prediction_sha256": "1c6bab34ad6712747e290a4c966c3a2615b85ba39deefeea18c9f43c17eea397"
+          }
+        ],
+        "shuffled_evidence_rule_agent": [
+          {
+            "seed": 42,
+            "patient_f1": 0.6121821746213082,
+            "patient_jaccard": 0.4580505288672884,
+            "prediction_sha256": "5f7a4a7de08b247db01536b3a97a96958c589590e8fb1a655d8e4aa149064ee6"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.6118137309296088,
+            "patient_jaccard": 0.4577045995233411,
+            "prediction_sha256": "3f20f8294cdd02f7830041f6ef360bff5ae668c8951f159f4f8a076bde58c3db"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.6125701856716449,
+            "patient_jaccard": 0.45857266211311115,
+            "prediction_sha256": "023b45c557682a438ae6b75a90523e7b8d412b24e89f37a65ade001c96ef2516"
+          }
+        ],
+        "matched_proposals_without_witness_gate": [
+          {
+            "seed": 42,
+            "patient_f1": 0.6115400195356374,
+            "patient_jaccard": 0.4572395159447619,
+            "prediction_sha256": "5236c897a416cc8f26a670aac4d348d356ff4e6c3bde6c8cc8b3a253807ad88d"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.6127510249405114,
+            "patient_jaccard": 0.4588123469739592,
+            "prediction_sha256": "977437739bc9e2b44db63209b8421159c69946b540cbc73bc465193c64bf8a7f"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.6132387978235153,
+            "patient_jaccard": 0.45915287852634473,
+            "prediction_sha256": "d17115ff5d7e97fb0e5c1e51688f9e6628d70ea0f1dc6f1d052a2a0a1159bd80"
+          }
+        ]
+      },
+      "own_rule_agent_minus_control": {
+        "prevalence": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": true,
+          "patient_f1": {
+            "difference": 0.15466062694587474,
+            "patient_ci95": [
+              0.1458434763659379,
+              0.16331105733059256
+            ],
+            "patients_with_positive_mean_difference": 446,
+            "patients_with_negative_mean_difference": 21,
+            "patients_with_zero_mean_difference": 0
+          },
+          "patient_jaccard": {
+            "difference": 0.1517636067567242,
+            "patient_ci95": [
+              0.14282148310984122,
+              0.16061931801502097
+            ],
+            "patients_with_positive_mean_difference": 445,
+            "patients_with_negative_mean_difference": 22,
+            "patients_with_zero_mean_difference": 0
+          }
+        },
+        "last_visit": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": true,
+          "patient_f1": {
+            "difference": 0.3110655442270086,
+            "patient_ci95": [
+              0.3004408010752367,
+              0.32159246747371173
+            ],
+            "patients_with_positive_mean_difference": 462,
+            "patients_with_negative_mean_difference": 5,
+            "patients_with_zero_mean_difference": 0
+          },
+          "patient_jaccard": {
+            "difference": 0.2427065815929125,
+            "patient_ci95": [
+              0.23293292417958836,
+              0.25266273255054533
+            ],
+            "patients_with_positive_mean_difference": 460,
+            "patients_with_negative_mean_difference": 6,
+            "patients_with_zero_mean_difference": 1
+          }
+        },
+        "cosine_knn": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": true,
+          "patient_f1": {
+            "difference": 0.061789688469579274,
+            "patient_ci95": [
+              0.055469233065197375,
+              0.06777889900516211
+            ],
+            "patients_with_positive_mean_difference": 399,
+            "patients_with_negative_mean_difference": 66,
+            "patients_with_zero_mean_difference": 2
+          },
+          "patient_jaccard": {
+            "difference": 0.06241713434791589,
+            "patient_ci95": [
+              0.05621427024357065,
+              0.06829388083108365
+            ],
+            "patients_with_positive_mean_difference": 397,
+            "patients_with_negative_mean_difference": 68,
+            "patients_with_zero_mean_difference": 2
+          }
+        },
+        "structured_logistic": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": true,
+          "patient_f1": {
+            "difference": 0.0010918833261593394,
+            "patient_ci95": [
+              0.000479003381111116,
+              0.0017199229457806236
+            ],
+            "patients_with_positive_mean_difference": 96,
+            "patients_with_negative_mean_difference": 73,
+            "patients_with_zero_mean_difference": 298
+          },
+          "patient_jaccard": {
+            "difference": 0.0011358783855724135,
+            "patient_ci95": [
+              0.0004894519277957223,
+              0.0017953935992103254
+            ],
+            "patients_with_positive_mean_difference": 95,
+            "patients_with_negative_mean_difference": 74,
+            "patients_with_zero_mean_difference": 298
+          }
+        },
+        "ARMR": {
+          "matched_seeds": [
+            42,
+            137
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": 0.0035913497129633743,
+            "patient_ci95": [
+              -0.0011469724786889082,
+              0.00843745918954581
+            ],
+            "patients_with_positive_mean_difference": 249,
+            "patients_with_negative_mean_difference": 217,
+            "patients_with_zero_mean_difference": 1
+          },
+          "patient_jaccard": {
+            "difference": 0.004980291839779939,
+            "patient_ci95": [
+              2.877075073318599e-05,
+              0.009994346359166373
+            ],
+            "patients_with_positive_mean_difference": 247,
+            "patients_with_negative_mean_difference": 219,
+            "patients_with_zero_mean_difference": 1
+          }
+        },
+        "GAMENet": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": 0.08552134817964278,
+            "patient_ci95": [
+              0.07882035147348618,
+              0.09184484805261195
+            ],
+            "patients_with_positive_mean_difference": 420,
+            "patients_with_negative_mean_difference": 46,
+            "patients_with_zero_mean_difference": 1
+          },
+          "patient_jaccard": {
+            "difference": 0.08769041023957799,
+            "patient_ci95": [
+              0.08079517570576085,
+              0.09427463836830906
+            ],
+            "patients_with_positive_mean_difference": 421,
+            "patients_with_negative_mean_difference": 45,
+            "patients_with_zero_mean_difference": 1
+          }
+        },
+        "uniform_policy": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": 0.0010918833261593394,
+            "patient_ci95": [
+              0.000479003381111116,
+              0.0017199229457806236
+            ],
+            "patients_with_positive_mean_difference": 96,
+            "patients_with_negative_mean_difference": 73,
+            "patients_with_zero_mean_difference": 298
+          },
+          "patient_jaccard": {
+            "difference": 0.0011358783855724135,
+            "patient_ci95": [
+              0.0004894519277957223,
+              0.0017953935992103254
+            ],
+            "patients_with_positive_mean_difference": 95,
+            "patients_with_negative_mean_difference": 74,
+            "patients_with_zero_mean_difference": 298
+          }
+        },
+        "greedy_error_rules": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": -6.916225829711258e-05,
+            "patient_ci95": [
+              -0.00019591878070488776,
+              6.014939157802039e-05
+            ],
+            "patients_with_positive_mean_difference": 13,
+            "patients_with_negative_mean_difference": 29,
+            "patients_with_zero_mean_difference": 425
+          },
+          "patient_jaccard": {
+            "difference": -6.664894536081382e-05,
+            "patient_ci95": [
+              -0.00022037534063984636,
+              9.600002051212545e-05
+            ],
+            "patients_with_positive_mean_difference": 13,
+            "patients_with_negative_mean_difference": 29,
+            "patients_with_zero_mean_difference": 425
+          }
+        },
+        "random_candidate_rules": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": 0.0005478319923571925,
+            "patient_ci95": [
+              0.00018878072031834926,
+              0.0009293837644763398
+            ],
+            "patients_with_positive_mean_difference": 101,
+            "patients_with_negative_mean_difference": 59,
+            "patients_with_zero_mean_difference": 307
+          },
+          "patient_jaccard": {
+            "difference": 0.0006484839344547335,
+            "patient_ci95": [
+              0.000251696258998983,
+              0.0010505933919853455
+            ],
+            "patients_with_positive_mean_difference": 100,
+            "patients_with_negative_mean_difference": 59,
+            "patients_with_zero_mean_difference": 308
+          }
+        },
+        "shuffled_evidence_rule_agent": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": 0.0004119567956327188,
+            "patient_ci95": [
+              -1.547888358779429e-05,
+              0.0008368422633951286
+            ],
+            "patients_with_positive_mean_difference": 110,
+            "patients_with_negative_mean_difference": 84,
+            "patients_with_zero_mean_difference": 273
+          },
+          "patient_jaccard": {
+            "difference": 0.0004497797861947805,
+            "patient_ci95": [
+              -1.1738464786100818e-05,
+              0.0008985037493358035
+            ],
+            "patients_with_positive_mean_difference": 112,
+            "patients_with_negative_mean_difference": 81,
+            "patients_with_zero_mean_difference": 274
+          }
+        },
+        "matched_proposals_without_witness_gate": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": 9.07064365986564e-05,
+            "patient_ci95": [
+              -0.00037946585417547774,
+              0.0005776267875733051
+            ],
+            "patients_with_positive_mean_difference": 98,
+            "patients_with_negative_mean_difference": 123,
+            "patients_with_zero_mean_difference": 246
+          },
+          "patient_jaccard": {
+            "difference": 0.00015746280575309216,
+            "patient_ci95": [
+              -0.00036076282796928817,
+              0.0006775761141156742
+            ],
+            "patients_with_positive_mean_difference": 97,
+            "patients_with_negative_mean_difference": 124,
+            "patients_with_zero_mean_difference": 246
+          }
+        }
+      }
+    },
+    "molecular": {
+      "visits": 1231,
+      "patients": 467,
+      "methods": {
+        "prevalence": {
+          "seeds": [
+            "fixed"
+          ],
+          "runs": 1,
+          "patient_f1": {
+            "mean": 0.4255457105085726,
+            "seed_sd": null
+          },
+          "patient_jaccard": {
+            "mean": 0.28088793881579105,
+            "seed_sd": null
+          }
+        },
+        "last_visit": {
+          "seeds": [
+            "fixed"
+          ],
+          "runs": 1,
+          "patient_f1": {
+            "mean": 0.28970831972835276,
+            "seed_sd": null
+          },
+          "patient_jaccard": {
+            "mean": 0.2061280065410479,
+            "seed_sd": null
+          }
+        },
+        "cosine_knn": {
+          "seeds": [
+            "fixed"
+          ],
+          "runs": 1,
+          "patient_f1": {
+            "mean": 0.5175109127714278,
+            "seed_sd": null
+          },
+          "patient_jaccard": {
+            "mean": 0.3671036980279282,
+            "seed_sd": null
+          }
+        },
+        "structured_logistic": {
+          "seeds": [
+            "fixed"
+          ],
+          "runs": 1,
+          "patient_f1": {
+            "mean": 0.581128446210121,
+            "seed_sd": null
+          },
+          "patient_jaccard": {
+            "mean": 0.4297108871974388,
+            "seed_sd": null
+          }
+        },
+        "SafeDrug": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.5368911529375899,
+            "seed_sd": 0.002437516246990297
+          },
+          "patient_jaccard": {
+            "mean": 0.38432304923739735,
+            "seed_sd": 0.002225294327087124
+          }
+        },
+        "uniform_policy": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.581128446210121,
+            "seed_sd": 0.0
+          },
+          "patient_jaccard": {
+            "mean": 0.4297108871974388,
+            "seed_sd": 0.0
+          }
+        },
+        "greedy_error_rules": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.5822974927861614,
+            "seed_sd": 0.0004233293404733213
+          },
+          "patient_jaccard": {
+            "mean": 0.43084219960539927,
+            "seed_sd": 0.0003874354201468977
+          }
+        },
+        "random_candidate_rules": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.5822042101584609,
+            "seed_sd": 0.0005515974022092013
+          },
+          "patient_jaccard": {
+            "mean": 0.43078071632253545,
+            "seed_sd": 0.0005796461333028669
+          }
+        },
+        "own_error_rule_agent": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.5819847074293947,
+            "seed_sd": 0.00014276873410917496
+          },
+          "patient_jaccard": {
+            "mean": 0.43048593450173217,
+            "seed_sd": 0.0001374194400345567
+          }
+        },
+        "shuffled_evidence_rule_agent": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.58254915675782,
+            "seed_sd": 0.00028954281819552256
+          },
+          "patient_jaccard": {
+            "mean": 0.4310537364162144,
+            "seed_sd": 0.0002673664896657536
+          }
+        },
+        "matched_proposals_without_witness_gate": {
+          "seeds": [
+            42,
+            137,
+            2026
+          ],
+          "runs": 3,
+          "patient_f1": {
+            "mean": 0.5820183216907783,
+            "seed_sd": 0.0006698556129232754
+          },
+          "patient_jaccard": {
+            "mean": 0.430503860657145,
+            "seed_sd": 0.0007013971183757339
+          }
+        }
+      },
+      "method_runs": {
+        "prevalence": [
+          {
+            "seed": "fixed",
+            "patient_f1": 0.4255457105085726,
+            "patient_jaccard": 0.28088793881579105,
+            "prediction_sha256": "b60fe70e9f6a3bf1d364bff678d7c3dd5037d56cd217f3fa5b3c59fb58397737"
+          }
+        ],
+        "last_visit": [
+          {
+            "seed": "fixed",
+            "patient_f1": 0.28970831972835276,
+            "patient_jaccard": 0.2061280065410479,
+            "prediction_sha256": "f5189103d02bf89d5d336a3b8ddab7613e288de96eb5796f2b48866ee8632c4d"
+          }
+        ],
+        "cosine_knn": [
+          {
+            "seed": "fixed",
+            "patient_f1": 0.5175109127714278,
+            "patient_jaccard": 0.3671036980279282,
+            "prediction_sha256": "78d64d5edf9b5f8187bc254dd21310396cb3b5d684bdcb827401cb0b20515b75"
+          }
+        ],
+        "structured_logistic": [
+          {
+            "seed": "fixed",
+            "patient_f1": 0.581128446210121,
+            "patient_jaccard": 0.4297108871974388,
+            "prediction_sha256": "5f3fb9506042f58180e85b88e843d898acf6760eed106023212f570020dece03"
+          }
+        ],
+        "SafeDrug": [
+          {
+            "seed": 42,
+            "patient_f1": 0.5394984179730747,
+            "patient_jaccard": 0.38673118919611216,
+            "prediction_sha256": "8c2598426817087d4c88fa80547fe6dfc8117ba25bfb68692ed29557ac009008"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.5346693089897316,
+            "patient_jaccard": 0.38234271815725174,
+            "prediction_sha256": "a79a5a862cf4431e5ea931ad255420c4f76c45dd0b51fc0ea463d22c1e99c8ce"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.5365057318499634,
+            "patient_jaccard": 0.38389524035882816,
+            "prediction_sha256": "b0fe9a10d4843e4fbd20d5a9760e45928ba99c4724063ff2d9e73daed48a26e1"
+          }
+        ],
+        "uniform_policy": [
+          {
+            "seed": 42,
+            "patient_f1": 0.581128446210121,
+            "patient_jaccard": 0.4297108871974388,
+            "prediction_sha256": "86b6ba204622311226c6668bf3dfb0aad167a6d61638386d4e34e8567c49628b"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.581128446210121,
+            "patient_jaccard": 0.4297108871974388,
+            "prediction_sha256": "86b6ba204622311226c6668bf3dfb0aad167a6d61638386d4e34e8567c49628b"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.581128446210121,
+            "patient_jaccard": 0.4297108871974388,
+            "prediction_sha256": "86b6ba204622311226c6668bf3dfb0aad167a6d61638386d4e34e8567c49628b"
+          }
+        ],
+        "greedy_error_rules": [
+          {
+            "seed": 42,
+            "patient_f1": 0.5827847960065871,
+            "patient_jaccard": 0.4312861283624947,
+            "prediction_sha256": "fc05fa0c775db55718a2d72ca7eeb14b86b167b67df440ca4c90b571cadef25e"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.5820871489682453,
+            "patient_jaccard": 0.4306682107284352,
+            "prediction_sha256": "4e57e9166b0d62a43c71467f30e8142182348cb27ebee4eb91637942a1c8536b"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.5820205333836519,
+            "patient_jaccard": 0.43057225972526797,
+            "prediction_sha256": "c35f8f6cae920b29b0bcaee1b4b94ca37deb10d6e8b3db071256436ee71fa9fe"
+          }
+        ],
+        "random_candidate_rules": [
+          {
+            "seed": 42,
+            "patient_f1": 0.5817905098200232,
+            "patient_jaccard": 0.43030385028972784,
+            "prediction_sha256": "b2306a1431bfd394306cfcf9784490fcdb399d9709c0349990393ca1b43da946"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.5819916575181919,
+            "patient_jaccard": 0.43061240773801956,
+            "prediction_sha256": "f05e438c1cfca9a6a690ccd21ec3cab0466220ce5ecf09ee98eb78e8f1a2abab"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.5828304631371677,
+            "patient_jaccard": 0.43142589093985895,
+            "prediction_sha256": "c7bf302bb80daf0d02d35f7b20473ddc3223729349ee30e0244b9450a137972e"
+          }
+        ],
+        "own_error_rule_agent": [
+          {
+            "seed": 42,
+            "patient_f1": 0.5819769257901516,
+            "patient_jaccard": 0.43041375211249056,
+            "prediction_sha256": "d9dfd4668ed00ed7e771c4ae6ba83d0c660f2f358ddb8b54461a420d1071ef85"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.5821312078419865,
+            "patient_jaccard": 0.43064440371526136,
+            "prediction_sha256": "4c8e691978da5e8f74140b8c18be0bb180f609d228f2f4093e7cf3a26aa01341"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.5818459886560459,
+            "patient_jaccard": 0.4303996476774446,
+            "prediction_sha256": "78434287f2d11c5b9b8541a585782ddf32d33eca2e3c512049e0c81819c77e8a"
+          }
+        ],
+        "shuffled_evidence_rule_agent": [
+          {
+            "seed": 42,
+            "patient_f1": 0.582624449516292,
+            "patient_jaccard": 0.43115741358159226,
+            "prediction_sha256": "80b3f60688cb06410e66a8f57015a95caeeb3bcd1934b43400745cc5e063c784"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.5822294052670389,
+            "patient_jaccard": 0.43075005835323976,
+            "prediction_sha256": "1b86cd976cc0162522f02ad17b06e00c1115a58aa3787e7f24ab755e5efb2479"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.5827936154901291,
+            "patient_jaccard": 0.4312537373138113,
+            "prediction_sha256": "8c170c3b3308ffea5fe3966f6968d5f148ddff3e4a81fe01fc7595fe43cabf74"
+          }
+        ],
+        "matched_proposals_without_witness_gate": [
+          {
+            "seed": 42,
+            "patient_f1": 0.5813110402625578,
+            "patient_jaccard": 0.4297598012714245,
+            "prediction_sha256": "ed316cf0b8cdc591484f9af62f1f37139a8892e8b5f1f1645cf975c281a77384"
+          },
+          {
+            "seed": 137,
+            "patient_f1": 0.582643110479076,
+            "patient_jaccard": 0.43115290955612046,
+            "prediction_sha256": "7075cbbbf131a5fea59a0bca0778bf9ccbb9effa2a6c4ea87991f55f3ff156b8"
+          },
+          {
+            "seed": 2026,
+            "patient_f1": 0.5821008143307009,
+            "patient_jaccard": 0.43059887114389006,
+            "prediction_sha256": "19811edcc0f099b9f42a72bdda8c9e25f0543ce87f56ac7f8a773bfe50af8889"
+          }
+        ]
+      },
+      "own_rule_agent_minus_control": {
+        "prevalence": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": true,
+          "patient_f1": {
+            "difference": 0.1564389969208221,
+            "patient_ci95": [
+              0.14662658777236587,
+              0.16620240035637815
+            ],
+            "patients_with_positive_mean_difference": 445,
+            "patients_with_negative_mean_difference": 22,
+            "patients_with_zero_mean_difference": 0
+          },
+          "patient_jaccard": {
+            "difference": 0.1495979956859411,
+            "patient_ci95": [
+              0.13997553999367743,
+              0.15935692842879848
+            ],
+            "patients_with_positive_mean_difference": 448,
+            "patients_with_negative_mean_difference": 19,
+            "patients_with_zero_mean_difference": 0
+          }
+        },
+        "last_visit": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": true,
+          "patient_f1": {
+            "difference": 0.292276387701042,
+            "patient_ci95": [
+              0.280763993312231,
+              0.30404658536399887
+            ],
+            "patients_with_positive_mean_difference": 464,
+            "patients_with_negative_mean_difference": 3,
+            "patients_with_zero_mean_difference": 0
+          },
+          "patient_jaccard": {
+            "difference": 0.22435792796068424,
+            "patient_ci95": [
+              0.2138084832484586,
+              0.23537928245506762
+            ],
+            "patients_with_positive_mean_difference": 459,
+            "patients_with_negative_mean_difference": 8,
+            "patients_with_zero_mean_difference": 0
+          }
+        },
+        "cosine_knn": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": true,
+          "patient_f1": {
+            "difference": 0.06447379465796693,
+            "patient_ci95": [
+              0.0572010863024418,
+              0.07150948713769974
+            ],
+            "patients_with_positive_mean_difference": 389,
+            "patients_with_negative_mean_difference": 75,
+            "patients_with_zero_mean_difference": 3
+          },
+          "patient_jaccard": {
+            "difference": 0.06338223647380395,
+            "patient_ci95": [
+              0.0566722294519642,
+              0.07005032468088605
+            ],
+            "patients_with_positive_mean_difference": 387,
+            "patients_with_negative_mean_difference": 76,
+            "patients_with_zero_mean_difference": 4
+          }
+        },
+        "structured_logistic": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": true,
+          "patient_f1": {
+            "difference": 0.0008562612192735888,
+            "patient_ci95": [
+              9.443084999425715e-06,
+              0.0017068403515148837
+            ],
+            "patients_with_positive_mean_difference": 99,
+            "patients_with_negative_mean_difference": 96,
+            "patients_with_zero_mean_difference": 272
+          },
+          "patient_jaccard": {
+            "difference": 0.000775047304293417,
+            "patient_ci95": [
+              -9.513758571045315e-05,
+              0.0016619891759935268
+            ],
+            "patients_with_positive_mean_difference": 100,
+            "patients_with_negative_mean_difference": 95,
+            "patients_with_zero_mean_difference": 272
+          }
+        },
+        "SafeDrug": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": 0.04509355449180479,
+            "patient_ci95": [
+              0.03828061964877811,
+              0.05156645155231597
+            ],
+            "patients_with_positive_mean_difference": 343,
+            "patients_with_negative_mean_difference": 124,
+            "patients_with_zero_mean_difference": 0
+          },
+          "patient_jaccard": {
+            "difference": 0.04616288526433483,
+            "patient_ci95": [
+              0.039534248975571444,
+              0.05250973857386751
+            ],
+            "patients_with_positive_mean_difference": 343,
+            "patients_with_negative_mean_difference": 123,
+            "patients_with_zero_mean_difference": 1
+          }
+        },
+        "uniform_policy": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": 0.0008562612192735888,
+            "patient_ci95": [
+              9.443084999425715e-06,
+              0.0017068403515148837
+            ],
+            "patients_with_positive_mean_difference": 99,
+            "patients_with_negative_mean_difference": 96,
+            "patients_with_zero_mean_difference": 272
+          },
+          "patient_jaccard": {
+            "difference": 0.000775047304293417,
+            "patient_ci95": [
+              -9.513758571045315e-05,
+              0.0016619891759935268
+            ],
+            "patients_with_positive_mean_difference": 100,
+            "patients_with_negative_mean_difference": 95,
+            "patients_with_zero_mean_difference": 272
+          }
+        },
+        "greedy_error_rules": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": -0.00031278535676668753,
+            "patient_ci95": [
+              -0.000620989998462263,
+              -1.60161212721559e-05
+            ],
+            "patients_with_positive_mean_difference": 34,
+            "patients_with_negative_mean_difference": 70,
+            "patients_with_zero_mean_difference": 363
+          },
+          "patient_jaccard": {
+            "difference": -0.0003562651036671019,
+            "patient_ci95": [
+              -0.0006723124863927126,
+              -5.7658328067980296e-05
+            ],
+            "patients_with_positive_mean_difference": 35,
+            "patients_with_negative_mean_difference": 69,
+            "patients_with_zero_mean_difference": 363
+          }
+        },
+        "random_candidate_rules": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": -0.00021950272906623138,
+            "patient_ci95": [
+              -0.0008809591714312821,
+              0.000438524125766975
+            ],
+            "patients_with_positive_mean_difference": 119,
+            "patients_with_negative_mean_difference": 111,
+            "patients_with_zero_mean_difference": 237
+          },
+          "patient_jaccard": {
+            "difference": -0.0002947818208033008,
+            "patient_ci95": [
+              -0.0009477895410221924,
+              0.00034878627738968253
+            ],
+            "patients_with_positive_mean_difference": 121,
+            "patients_with_negative_mean_difference": 108,
+            "patients_with_zero_mean_difference": 238
+          }
+        },
+        "shuffled_evidence_rule_agent": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": -0.0005644493284252957,
+            "patient_ci95": [
+              -0.0011418166413842956,
+              -2.724012948872953e-05
+            ],
+            "patients_with_positive_mean_difference": 95,
+            "patients_with_negative_mean_difference": 107,
+            "patients_with_zero_mean_difference": 265
+          },
+          "patient_jaccard": {
+            "difference": -0.0005678019144822601,
+            "patient_ci95": [
+              -0.0011592656200854067,
+              -3.028760592769727e-05
+            ],
+            "patients_with_positive_mean_difference": 93,
+            "patients_with_negative_mean_difference": 109,
+            "patients_with_zero_mean_difference": 265
+          }
+        },
+        "matched_proposals_without_witness_gate": {
+          "matched_seeds": [
+            42,
+            137,
+            2026
+          ],
+          "fixed_control_reused": false,
+          "patient_f1": {
+            "difference": -3.361426138352658e-05,
+            "patient_ci95": [
+              -0.000553293305144733,
+              0.0004725130945298339
+            ],
+            "patients_with_positive_mean_difference": 116,
+            "patients_with_negative_mean_difference": 102,
+            "patients_with_zero_mean_difference": 249
+          },
+          "patient_jaccard": {
+            "difference": -1.7926155412832005e-05,
+            "patient_ci95": [
+              -0.0005524142700072205,
+              0.0005037927359463233
+            ],
+            "patients_with_positive_mean_difference": 118,
+            "patients_with_negative_mean_difference": 99,
+            "patients_with_zero_mean_difference": 250
+          }
+        }
+      }
+    }
+  },
+  "source_sha256": {
+    "upgrade_v27/results/cohort_manifest.json": "359fb7f32c878b221b0b69ad7df18c0f757ef9385043e601e01d00276279a6a5",
+    "upgrade_v27/results/cohort_audit.json": "6d48397fb63de12d1305b8524e1e74b25e5f429962aa03a3f76d8403ac572dfa",
+    "upgrade_v27/results/model_resource_manifest.json": "6462cb0614a1bd9550c3136f5b566f41d9b52823bab1c7a5a4ee31ffe1e7ffae",
+    "upgrade_v27/results/full-controls.json": "eabb33747696fd7b8477b409577df1e4b3240f01623c30ff849138669f7aaf78",
+    "upgrade_v27/results/control_audit.json": "0d7141cf33879808b7983318fc79beafb346be5f6742c7fcf3483e16a86afb89",
+    "upgrade_v27/results/full-ARMR-selection-audit-seed42.json": "1936edbf7a1dfd715618febfe12c57b4d95f0ec4b5ea2f00802abfa7d2eb17ac",
+    "upgrade_v27/results/full-ARMR-seed42.json": "48cb3d951ca65a01c07ffb8c4e4f09e83e9c12cb09dcedcd69b11d4cf6190a65",
+    "upgrade_v27/results/full-ARMR-selection-audit-seed137.json": "d661ba1e14546471f491d6ce346d34ea63fe1d4d857487c424ffcc28253625b3",
+    "upgrade_v27/results/full-ARMR-seed137.json": "ca26677b9ff65e072d7ceaa394c2a7bcf4f68e2e7db23ce80f06625501fb9f96",
+    "upgrade_v27/results/full-GAMENet-selection-audit-seed42.json": "dd27a30db5e8766d3dac695914301b964f70a465125f4bcfa6e3905e21fe8dec",
+    "upgrade_v27/results/full-GAMENet-seed42.json": "1f1fdc4f336f183b40a9811285d100eb765dd3d9ff82087f168fdc615cf940a8",
+    "upgrade_v27/results/full-GAMENet-selection-audit-seed137.json": "3551651c7a6bb712f6d1b6428143f1ade20524024624ec762bbfe8513e13d5b5",
+    "upgrade_v27/results/full-GAMENet-seed137.json": "af6417eb2f2301bd022154b5b90ed8f63ec33b8307c7f67ef7026795452c9537",
+    "upgrade_v27/results/full-GAMENet-selection-audit-seed2026.json": "af9720f611c09ac830fbe6e48758ea69ea7bfbc0e1f1397462d204b04caf9330",
+    "upgrade_v27/results/full-GAMENet-seed2026.json": "94a1d11c539978f8086500bc0a9530d3a3c81768220a90edb62bdd177e39ade2",
+    "upgrade_v27/results/full-rsi-learning-audit-seed42.json": "d059e0a5a5e00066516a59cd21f1e36bafb4950d37b799163021422018106857",
+    "upgrade_v27/results/full-rsi-crossfit-audit-seed42.json": "ddbb954352196859744e017d42c71ccc12bbf8afe782fece52baec5892a952f4",
+    "upgrade_v27/results/full-rsi-seed42.json": "bac380e0cf703f8d9b446392dd156443034e200814c09eb8b65db9b07bc66a24",
+    "upgrade_v27/results/full-rsi-learning-audit-seed137.json": "d6343ad979a5b7e13c9690c8bbeef75a551e5808f2b8c03104464be32335f4b9",
+    "upgrade_v27/results/full-rsi-crossfit-audit-seed137.json": "8e27aa9040ae1dfff68bbef54f1fa0967afce2c50a08cb0688485ff8ba7df892",
+    "upgrade_v27/results/full-rsi-seed137.json": "8e34acf5380c84471ec1681c4fb3bec2da5c2b2075bf82a7ac0b211af3646b3f",
+    "upgrade_v27/results/full-rsi-learning-audit-seed2026.json": "bdccfbf5d4a65f38bfc54cfe3ec6634bf6a1b9024b652e503b1c3f358abf9b66",
+    "upgrade_v27/results/full-rsi-crossfit-audit-seed2026.json": "20d39e89bec4f60fd2d58a290a5ed022216daa61725773b5f01cf510ffbc7697",
+    "upgrade_v27/results/full-rsi-seed2026.json": "0c6ed05500d81508db52e47af643ff45b6d6104194f4c06c12e11a3608ce5930",
+    "upgrade_v27/results/molecular-controls.json": "73447472d3deb8f35e76a0194344761f85e38555069c982618fa8c00ac12dde1",
+    "upgrade_v27/results/molecular-SafeDrug-selection-audit-seed42.json": "1d7b43025b61d7932d5e69a1d31c69a27a26b67bff884819e6b4f03e5fc47547",
+    "upgrade_v27/results/molecular-SafeDrug-seed42.json": "de4deeecc12a6d16ac3bdc43c92d1059a45cc5ce40a5fd743cd16094c7e9e662",
+    "upgrade_v27/results/molecular-SafeDrug-selection-audit-seed137.json": "7e162c79996916a4700179130b7b903f08ab8dc7bf97694145c3d81f9f7cee70",
+    "upgrade_v27/results/molecular-SafeDrug-seed137.json": "47f845576f0f1fc200b38c5dcc7dacfd49262589bff71099391d4551bb46d226",
+    "upgrade_v27/results/molecular-SafeDrug-selection-audit-seed2026.json": "7b51f49dfb0ea14bbdd87014e076dad353f2a32e113ae814ccb06fcffa4f6349",
+    "upgrade_v27/results/molecular-SafeDrug-seed2026.json": "747d06a3287c9a01e189735b862ce86ed4508563483a08d2b7cac866ee137a8e",
+    "upgrade_v27/results/molecular-rsi-learning-audit-seed42.json": "5a124ed378d08f40e9161e65075f4689fadf9c2d62bdcb93dab3b323673053af",
+    "upgrade_v27/results/molecular-rsi-crossfit-audit-seed42.json": "c367dd0711c9737cbdc9b9078d37169267274e5b104cc5da4b9f69095001068f",
+    "upgrade_v27/results/molecular-rsi-seed42.json": "d348ee9ea9f5d90af6e23150e3ae69ba316ca59a3abcf7ed54aeae18409818c9",
+    "upgrade_v27/results/molecular-rsi-learning-audit-seed137.json": "2144afa93fc0121e6a97d52fa15795935664cd55550af04d97a0b64e84ddf891",
+    "upgrade_v27/results/molecular-rsi-crossfit-audit-seed137.json": "d4baf2beac31896dea1dbf8b35cf91c99f991cf8e8eab5b8b50f3ca454f5b674",
+    "upgrade_v27/results/molecular-rsi-seed137.json": "e62eb8acba526c85c51a6e221e6ebe7ccfcebe4e625a08c8c70864c1553f16ad",
+    "upgrade_v27/results/molecular-rsi-learning-audit-seed2026.json": "66c275c90968ea39e15d5064dde119d63c06fb54889bc72b074970f9690fc368",
+    "upgrade_v27/results/molecular-rsi-crossfit-audit-seed2026.json": "24ae0f42f85fd04235a0f774f6a4ab79959eb106f83602d389d012318528e408",
+    "upgrade_v27/results/molecular-rsi-seed2026.json": "1873af966318d0e66db42c0508c34333aceb269ac1a288420fc04e489fb73dc3"
+  },
+  "private_prediction_sha256": {
+    "visits.joblib": "04a3929430e72889ef8d23b7788b81257267ffba70292205b259b2d03c60ebdf",
+    "full-models.joblib": "e809d7ebe5f75a99904587640cd9387491da0b27ddf6970e8ac0ed39c011bb72",
+    "full-controls/prevalence-guard.npy": "0cae78b488c42652e1df1d82be68d3021612b7c665932ef4c51c7163db0f64fe",
+    "full-controls/last_visit-guard.npy": "c6486ebac85a4db9c15b5df767b6237254703e76b27150d469bb1cb163d27467",
+    "full-controls/cosine_knn-guard.npy": "0cbb617e0219365d2e3f295059c7aaeed4b57f349ecb79e7819f47591b57b6e8",
+    "full-controls/structured_logistic-guard.npy": "b8b7a8d984068c065435e8206e63afad1ddbb39a2032e3059c4357351b795a50",
+    "full-ARMR-seed42/guard_probabilities.npy": "1ee9c609fecce2acc93ebaeba90d14b2f5219113f66a000db31c45c360f39b82",
+    "full-ARMR-seed137/guard_probabilities.npy": "e7ca4c13e7f4771dfd3f0ecab15a60a315bbead176c636bbdfca86108f3b40e2",
+    "full-GAMENet-seed42/guard_probabilities.npy": "090517c6abf5a39ace1431fdde6251acf86444a7951ab9c56289c94c014d2537",
+    "full-GAMENet-seed137/guard_probabilities.npy": "a49fb89cf2387619e9caefc26ce32cb3bbe719528858a1585ca155b6c366db66",
+    "full-GAMENet-seed2026/guard_probabilities.npy": "f15edfb2d03d36992a9c0e458e0ae1250a1c9879acf5bff1a44603c4a7346190",
+    "full-rsi-seed42/audited-guard-patient-scores.npz": "64239321dcc647b5cba0094e8c67e756c16d34f0e02d79948580eb45591f00f9",
+    "full-rsi-seed42/uniform_policy-guard.npy": "73ceab8de90b672170041874c04479320d6fd3bea13aa35bb403843319f36d8d",
+    "full-rsi-seed42/greedy_error_rules-guard.npy": "325c7b05fbb2c271d5e93a68a62145ac46f3fb76d6755ee963a923b49d608411",
+    "full-rsi-seed42/random_candidate_rules-guard.npy": "ccddacf3915c48a8cc9fc22360c6762eb1692bfb4694f0f0063dc574ba3937f5",
+    "full-rsi-seed42/own_error_rule_agent-guard.npy": "a6c2a0c47bf3d826c3162d2e2de380e2913918202a45869004f85f3e58091e89",
+    "full-rsi-seed42/shuffled_evidence_rule_agent-guard.npy": "5f7a4a7de08b247db01536b3a97a96958c589590e8fb1a655d8e4aa149064ee6",
+    "full-rsi-seed42/matched_proposals_without_witness_gate-guard.npy": "5236c897a416cc8f26a670aac4d348d356ff4e6c3bde6c8cc8b3a253807ad88d",
+    "full-rsi-seed137/audited-guard-patient-scores.npz": "d63f436304767b166a92a279581cb7153fcb4108dd221197da35de85dbb8d11b",
+    "full-rsi-seed137/uniform_policy-guard.npy": "73ceab8de90b672170041874c04479320d6fd3bea13aa35bb403843319f36d8d",
+    "full-rsi-seed137/greedy_error_rules-guard.npy": "a2dbd36a7ad20a6f6dbd7499f14f35394ae9b2b4363f98aa1c37d88a360dbf33",
+    "full-rsi-seed137/random_candidate_rules-guard.npy": "00b418e6504aa5d10253db1724d962959253c4e7f63083c85ac12622424b07ea",
+    "full-rsi-seed137/own_error_rule_agent-guard.npy": "da958fea581b420bbf36e8f6d6d99316d70f7c8ac5815c5a32709ca1bc9c5bbf",
+    "full-rsi-seed137/shuffled_evidence_rule_agent-guard.npy": "3f20f8294cdd02f7830041f6ef360bff5ae668c8951f159f4f8a076bde58c3db",
+    "full-rsi-seed137/matched_proposals_without_witness_gate-guard.npy": "977437739bc9e2b44db63209b8421159c69946b540cbc73bc465193c64bf8a7f",
+    "full-rsi-seed2026/audited-guard-patient-scores.npz": "6b1c7030d7abf2cd926dbc83d1e99e4d602c4f813eab100a2c6f08b948c7bca6",
+    "full-rsi-seed2026/uniform_policy-guard.npy": "73ceab8de90b672170041874c04479320d6fd3bea13aa35bb403843319f36d8d",
+    "full-rsi-seed2026/greedy_error_rules-guard.npy": "4b2baa48b911f9da8d4d8e70392759b3467ff57bd319c62623f3424e1c5078b1",
+    "full-rsi-seed2026/random_candidate_rules-guard.npy": "05add14c16f58cd42652c9b0a6d1a16356f121b29f86fa6f5048fbef30ad2067",
+    "full-rsi-seed2026/own_error_rule_agent-guard.npy": "1c6bab34ad6712747e290a4c966c3a2615b85ba39deefeea18c9f43c17eea397",
+    "full-rsi-seed2026/shuffled_evidence_rule_agent-guard.npy": "023b45c557682a438ae6b75a90523e7b8d412b24e89f37a65ade001c96ef2516",
+    "full-rsi-seed2026/matched_proposals_without_witness_gate-guard.npy": "d17115ff5d7e97fb0e5c1e51688f9e6628d70ea0f1dc6f1d052a2a0a1159bd80",
+    "molecular-models.joblib": "b861af74c5099fa39cf0507033af18da8e90344c15706cdd673ae6ec83a8ec9a",
+    "molecular-controls/prevalence-guard.npy": "b60fe70e9f6a3bf1d364bff678d7c3dd5037d56cd217f3fa5b3c59fb58397737",
+    "molecular-controls/last_visit-guard.npy": "f5189103d02bf89d5d336a3b8ddab7613e288de96eb5796f2b48866ee8632c4d",
+    "molecular-controls/cosine_knn-guard.npy": "78d64d5edf9b5f8187bc254dd21310396cb3b5d684bdcb827401cb0b20515b75",
+    "molecular-controls/structured_logistic-guard.npy": "5f3fb9506042f58180e85b88e843d898acf6760eed106023212f570020dece03",
+    "molecular-SafeDrug-seed42/guard_probabilities.npy": "8c2598426817087d4c88fa80547fe6dfc8117ba25bfb68692ed29557ac009008",
+    "molecular-SafeDrug-seed137/guard_probabilities.npy": "a79a5a862cf4431e5ea931ad255420c4f76c45dd0b51fc0ea463d22c1e99c8ce",
+    "molecular-SafeDrug-seed2026/guard_probabilities.npy": "b0fe9a10d4843e4fbd20d5a9760e45928ba99c4724063ff2d9e73daed48a26e1",
+    "molecular-rsi-seed42/audited-guard-patient-scores.npz": "8e5bd97e0b27590538400d8ecc44cb491316d671d32fb34f61cab386c01a2b51",
+    "molecular-rsi-seed42/uniform_policy-guard.npy": "86b6ba204622311226c6668bf3dfb0aad167a6d61638386d4e34e8567c49628b",
+    "molecular-rsi-seed42/greedy_error_rules-guard.npy": "fc05fa0c775db55718a2d72ca7eeb14b86b167b67df440ca4c90b571cadef25e",
+    "molecular-rsi-seed42/random_candidate_rules-guard.npy": "b2306a1431bfd394306cfcf9784490fcdb399d9709c0349990393ca1b43da946",
+    "molecular-rsi-seed42/own_error_rule_agent-guard.npy": "d9dfd4668ed00ed7e771c4ae6ba83d0c660f2f358ddb8b54461a420d1071ef85",
+    "molecular-rsi-seed42/shuffled_evidence_rule_agent-guard.npy": "80b3f60688cb06410e66a8f57015a95caeeb3bcd1934b43400745cc5e063c784",
+    "molecular-rsi-seed42/matched_proposals_without_witness_gate-guard.npy": "ed316cf0b8cdc591484f9af62f1f37139a8892e8b5f1f1645cf975c281a77384",
+    "molecular-rsi-seed137/audited-guard-patient-scores.npz": "273607a1aaa4c2907c6239dd3654b349022b06a4e8a0266715ab906b0fee8741",
+    "molecular-rsi-seed137/uniform_policy-guard.npy": "86b6ba204622311226c6668bf3dfb0aad167a6d61638386d4e34e8567c49628b",
+    "molecular-rsi-seed137/greedy_error_rules-guard.npy": "4e57e9166b0d62a43c71467f30e8142182348cb27ebee4eb91637942a1c8536b",
+    "molecular-rsi-seed137/random_candidate_rules-guard.npy": "f05e438c1cfca9a6a690ccd21ec3cab0466220ce5ecf09ee98eb78e8f1a2abab",
+    "molecular-rsi-seed137/own_error_rule_agent-guard.npy": "4c8e691978da5e8f74140b8c18be0bb180f609d228f2f4093e7cf3a26aa01341",
+    "molecular-rsi-seed137/shuffled_evidence_rule_agent-guard.npy": "1b86cd976cc0162522f02ad17b06e00c1115a58aa3787e7f24ab755e5efb2479",
+    "molecular-rsi-seed137/matched_proposals_without_witness_gate-guard.npy": "7075cbbbf131a5fea59a0bca0778bf9ccbb9effa2a6c4ea87991f55f3ff156b8",
+    "molecular-rsi-seed2026/audited-guard-patient-scores.npz": "3058acf159f43a146de1a695ca6b2a6972cc7b087ced79fffec8d8b66ffe0943",
+    "molecular-rsi-seed2026/uniform_policy-guard.npy": "86b6ba204622311226c6668bf3dfb0aad167a6d61638386d4e34e8567c49628b",
+    "molecular-rsi-seed2026/greedy_error_rules-guard.npy": "c35f8f6cae920b29b0bcaee1b4b94ca37deb10d6e8b3db071256436ee71fa9fe",
+    "molecular-rsi-seed2026/random_candidate_rules-guard.npy": "c7bf302bb80daf0d02d35f7b20473ddc3223729349ee30e0244b9450a137972e",
+    "molecular-rsi-seed2026/own_error_rule_agent-guard.npy": "78434287f2d11c5b9b8541a585782ddf32d33eca2e3c512049e0c81819c77e8a",
+    "molecular-rsi-seed2026/shuffled_evidence_rule_agent-guard.npy": "8c170c3b3308ffea5fe3966f6968d5f148ddff3e4a81fe01fc7595fe43cabf74",
+    "molecular-rsi-seed2026/matched_proposals_without_witness_gate-guard.npy": "19811edcc0f099b9f42a72bdda8c9e25f0543ce87f56ac7f8a773bfe50af8889"
+  },
+  "new_model_inference": 0,
+  "test_predictions_read": false,
+  "bootstrap_draws": 4000,
+  "bootstrap_seed": 27033,
+  "scope": "Post-training cross-method recount on the reused guard; no method/threshold selection. Paired patient intervals average available matched seeds first, without multiplicity correction or seed-population uncertainty. Prior checkpoint/source audits are retained; this analysis does not reexecute neural forwards.",
+  "script_sha256": "177f0261dc2f6f0654023328ee6bfb87e01ec909cd5b9180d30ca18f988266c1"
+}

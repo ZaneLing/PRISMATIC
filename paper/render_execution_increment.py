@@ -22,6 +22,20 @@ def main():
         elif (PAPER/'execution_status.json').exists() and json.loads((PAPER/'execution_status.json').read_text())['api']['status']=='restored_actual_completion_verified':
             block+=('**Execution notice:** a real OpenRouter completion verified restored access after recharge. Interrupted studies resume from saved receipts under their original protocols and budgets; missing requests are not model errors.\n\n' if lang=='en' else '**执行状态：** 充值后已用真实OpenRouter响应验证访问恢复。中断实验从原回执继续，保持原协议和预算；缺失请求不计作模型错误。\n\n')
         block+=(f'**Actual training:** {complete}/6 rule runs finish five rounds; {nr}/15 author-model runs finish their full 50 epochs, with {epochs}/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.\n\n' if lang=='en' else f'**实际运行：** {complete}/6组规则实验完成五轮；作者神经方法{nr}/15组完成各自50轮，总计已完成{epochs}/750轮。训练与审计队列继续，正式ATC-L4测试主表等待全部已登记版本和核验完成后统一运行。\n\n')
+        accounting=PAPER/'compute_accounting.json'
+        if accounting.exists():
+            ledger=json.loads(accounting.read_text())
+            block+=('**Recorded method budgets:** the receipt ledger separates shared fits, optimizer steps, proposal searches and logical response prices. It checks completed author-epoch records against their original logs, counts shared policy fitting once, and identifies exact v29-to-v30 model reuse. ' if lang=='en' else '**实际方法预算：** 回执账本分别列出共享拟合、优化步数、proposal 搜索及逻辑响应价格；将已完成作者方法的逐轮记录与原日志对齐，共享拟合只计一次，并核对 v29 到 v30 的模型原样复用。')
+            sd=ledger['author_method_summary'].get('molecular/SafeDrug')
+            if sd:
+                f=sd['guard_patient_f1'];formatted=f"{f['mean']:.5f}"+(f" ± {f['seed_sd']:.5f}" if f['seed_sd'] is not None else '')
+                block+=(f"SafeDrug has {len(sd['seeds'])} audited seeds; molecular guard patient F1 is {formatted}. " if lang=='en' else f"SafeDrug 已核验 {len(sd['seeds'])} 个种子，分子药物空间 guard 患者平均 F1 为 {formatted}。")
+            block+=f'[Actual compute and development results](COMPUTE_ACCOUNTING.{lang}.md)\n\n'
+        development=ROOT/'upgrade_v27/results/development_methods.json'
+        if development.exists():
+            d=json.loads(development.read_text());count=sum(sum(r['runs'] for r in p['methods'].values()) for p in d['panels'].values())
+            block+=(f"**Executed cross-method recount:** {count} completed method runs are recounted on the same 1,231 guard visits / 467 patients, with patient-paired intervals using matched seeds. All available conventional, author-core and rule-memory methods are included. This remains a development comparison; the final test is gated. " if lang=='en' else f"**已执行跨方法复算：** 同一 1,231 次 guard 就诊／467 人上，重算 {count} 组已完成方法运行，并按匹配种子给出患者配对区间。所有已完成的传统、作者核心及规则记忆方法均纳入。此表属于开发集对照；最终测试继续等待前置条件。")
+            block+=f'[Cross-method table and every paired contrast](../upgrade_v27/DEVELOPMENT_METHODS.{lang}.md)\n\n'
         if (PAPER/'public_benchmark_coverage.json').exists():
             block+=('**Public-data coverage:** a source/identity recount confirms all300 released RxQA OpenFDA questions and all2,000 deduplicated RxSafeBench cases in the historical full-set runs. Later adaptive comparisons use988 frozen test cases, keeping their625/190/197 development cases separate. The unavailable BNF component is excluded. ' if lang=='en' else '**公开数据覆盖：** 源记录／题目身份复核证实RxQA公开OpenFDA全部300题已覆盖，历史全量实验覆盖RxSafeBench去重后全部2,000题；后续进化方法使用988题冻结测试，625／190／197开发题分别保留。未获得的BNF部分不计入。')
             block+=f'[Exact scope, recounted results and metadata correction](PUBLIC_BENCHMARKS.{lang}.md)\n\n'

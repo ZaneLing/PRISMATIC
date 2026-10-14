@@ -8,13 +8,13 @@ v31 首次更新生成了格式合法、内容全零的处方。本试验用相�
 
 ## 2. 真实完成情况
 
-- 已完成训练: **0/4**
+- 已完成训练: **1/4**
 - 已独立复算成绩分组: **暂无**
 - API 请求: **0**
 
 | Arm | Steps | Fit seconds | Adapter SHA-256 (prefix) |
 |---|---:|---:|---|
-| teacher_uniform | pending | — | — |
+| teacher_uniform | 100 | 1739.2 | 03e345d3b72d |
 | zero_uniform | pending | — | — |
 | teacher_balanced | pending | — | — |
 | zero_balanced | pending | — | — |

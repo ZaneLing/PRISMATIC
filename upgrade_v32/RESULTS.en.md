@@ -8,13 +8,13 @@ A fixed 0.5 threshold measures the uncalibrated decision behavior. A second endp
 
 ## 2. Actual completion
 
-- Completed fits: **0/4**
+- Completed fits: **1/4**
 - Independently audited score panels: **none yet**
 - API requests: **0**
 
 | Arm | Steps | Fit seconds | Adapter SHA-256 (prefix) |
 |---|---:|---:|---|
-| teacher_uniform | pending | — | — |
+| teacher_uniform | 100 | 1739.2 | 03e345d3b72d |
 | zero_uniform | pending | — | — |
 | teacher_balanced | pending | — | — |
 | zero_balanced | pending | — | — |

@@ -1,0 +1,1230 @@
+{
+  "status": "receipt_recount_complete",
+  "author_runs": [
+    {
+      "panel": "full",
+      "method": "ARMR",
+      "seed": 42,
+      "epochs": 50,
+      "optimizer_steps": 29750,
+      "visit_exposures": 921450,
+      "parameters": 12141073,
+      "device": "mps",
+      "summed_training_seconds": 3083.65464529,
+      "selected_epoch": 17,
+      "proposal_epoch_threshold_candidates": 300,
+      "guard_patient_f1": 0.6073778515093227,
+      "guard_patient_jaccard": 0.4521350262260272
+    },
+    {
+      "panel": "full",
+      "method": "ARMR",
+      "seed": 137,
+      "epochs": 50,
+      "optimizer_steps": 29750,
+      "visit_exposures": 921450,
+      "parameters": 12141073,
+      "device": "mps",
+      "summed_training_seconds": 3188.448513955999,
+      "selected_epoch": 14,
+      "proposal_epoch_threshold_candidates": 300,
+      "guard_patient_f1": 0.6100033061358301,
+      "guard_patient_jaccard": 0.454389898138744
+    },
+    {
+      "panel": "full",
+      "method": "GAMENet",
+      "seed": 42,
+      "epochs": 50,
+      "optimizer_steps": 921450,
+      "visit_exposures": 921450,
+      "parameters": 1295952,
+      "device": "cpu",
+      "summed_training_seconds": 4185.4372060840005,
+      "selected_epoch": 18,
+      "proposal_epoch_threshold_candidates": 300,
+      "guard_patient_f1": 0.521066484785587,
+      "guard_patient_jaccard": 0.3650469553342969
+    },
+    {
+      "panel": "full",
+      "method": "GAMENet",
+      "seed": 137,
+      "epochs": 50,
+      "optimizer_steps": 921450,
+      "visit_exposures": 921450,
+      "parameters": 1295952,
+      "device": "cpu",
+      "summed_training_seconds": 4550.208972165998,
+      "selected_epoch": 34,
+      "proposal_epoch_threshold_candidates": 300,
+      "guard_patient_f1": 0.5259676828990013,
+      "guard_patient_jaccard": 0.36978518385896997
+    },
+    {
+      "panel": "full",
+      "method": "GAMENet",
+      "seed": 2026,
+      "epochs": 50,
+      "optimizer_steps": 921450,
+      "visit_exposures": 921450,
+      "parameters": 1295952,
+      "device": "cpu",
+      "summed_training_seconds": 5032.050670043,
+      "selected_epoch": 41,
+      "proposal_epoch_threshold_candidates": 300,
+      "guard_patient_f1": 0.5342037493859433,
+      "guard_patient_jaccard": 0.3777737599503242
+    },
+    {
+      "panel": "molecular",
+      "method": "SafeDrug",
+      "seed": 42,
+      "epochs": 50,
+      "optimizer_steps": 921450,
+      "visit_exposures": 921450,
+      "parameters": 1379598,
+      "device": "cpu",
+      "summed_training_seconds": 4071.6836167469996,
+      "selected_epoch": 22,
+      "proposal_epoch_threshold_candidates": 300,
+      "guard_patient_f1": 0.5394984179730747,
+      "guard_patient_jaccard": 0.38673118919611216
+    },
+    {
+      "panel": "molecular",
+      "method": "SafeDrug",
+      "seed": 137,
+      "epochs": 50,
+      "optimizer_steps": 921450,
+      "visit_exposures": 921450,
+      "parameters": 1379598,
+      "device": "cpu",
+      "summed_training_seconds": 4327.426957375998,
+      "selected_epoch": 30,
+      "proposal_epoch_threshold_candidates": 300,
+      "guard_patient_f1": 0.5346693089897315,
+      "guard_patient_jaccard": 0.38234271815725174
+    },
+    {
+      "panel": "molecular",
+      "method": "SafeDrug",
+      "seed": 2026,
+      "epochs": 50,
+      "optimizer_steps": 921450,
+      "visit_exposures": 921450,
+      "parameters": 1379598,
+      "device": "cpu",
+      "summed_training_seconds": 4872.849713750999,
+      "selected_epoch": 45,
+      "proposal_epoch_threshold_candidates": 300,
+      "guard_patient_f1": 0.5365057318499634,
+      "guard_patient_jaccard": 0.3838952403588281
+    }
+  ],
+  "shared_policy_runs": [
+    {
+      "version": 27,
+      "panel": "full",
+      "seed": 42,
+      "rounds": 5,
+      "fit_events": 30,
+      "unique_fit_labels": 30,
+      "repeated_fit_events": 0,
+      "fit_input_rows_summed": 277995,
+      "summed_fit_seconds": 400.91387720999995,
+      "methods_sharing_fits": [
+        "uniform_policy",
+        "greedy_error_rules",
+        "random_candidate_rules",
+        "own_error_rule_agent",
+        "shuffled_evidence_rule_agent",
+        "matched_proposals_without_witness_gate"
+      ],
+      "final_policy_fit_patients": 7115,
+      "final_policy_fit_visits": 18429,
+      "logical_proposals_by_arm": {
+        "uniform_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_error_rules": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "random_candidate_rules": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_error_rule_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.00231959,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_evidence_rule_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0019360108800000001,
+          "unpriced_logical_calls": 0
+        },
+        "matched_proposals_without_witness_gate": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        }
+      }
+    },
+    {
+      "version": 27,
+      "panel": "full",
+      "seed": 137,
+      "rounds": 5,
+      "fit_events": 30,
+      "unique_fit_labels": 30,
+      "repeated_fit_events": 0,
+      "fit_input_rows_summed": 277255,
+      "summed_fit_seconds": 397.86917116899997,
+      "methods_sharing_fits": [
+        "uniform_policy",
+        "greedy_error_rules",
+        "random_candidate_rules",
+        "own_error_rule_agent",
+        "shuffled_evidence_rule_agent",
+        "matched_proposals_without_witness_gate"
+      ],
+      "final_policy_fit_patients": 7115,
+      "final_policy_fit_visits": 18429,
+      "logical_proposals_by_arm": {
+        "uniform_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_error_rules": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "random_candidate_rules": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_error_rule_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0021828603999999997,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_evidence_rule_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0020669300000000002,
+          "unpriced_logical_calls": 0
+        },
+        "matched_proposals_without_witness_gate": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        }
+      }
+    },
+    {
+      "version": 27,
+      "panel": "full",
+      "seed": 2026,
+      "rounds": 5,
+      "fit_events": 30,
+      "unique_fit_labels": 30,
+      "repeated_fit_events": 0,
+      "fit_input_rows_summed": 275445,
+      "summed_fit_seconds": 384.72858429,
+      "methods_sharing_fits": [
+        "uniform_policy",
+        "greedy_error_rules",
+        "random_candidate_rules",
+        "own_error_rule_agent",
+        "shuffled_evidence_rule_agent",
+        "matched_proposals_without_witness_gate"
+      ],
+      "final_policy_fit_patients": 7115,
+      "final_policy_fit_visits": 18429,
+      "logical_proposals_by_arm": {
+        "uniform_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_error_rules": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "random_candidate_rules": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_error_rule_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0026492024,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_evidence_rule_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.002722629,
+          "unpriced_logical_calls": 0
+        },
+        "matched_proposals_without_witness_gate": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        }
+      }
+    },
+    {
+      "version": 29,
+      "panel": "full",
+      "seed": 42,
+      "rounds": 5,
+      "fit_events": 30,
+      "unique_fit_labels": 30,
+      "repeated_fit_events": 0,
+      "fit_input_rows_summed": 220615,
+      "summed_fit_seconds": 301.85067466799995,
+      "methods_sharing_fits": [
+        "raw_policy",
+        "calibrated_policy",
+        "greedy_conditional_memory",
+        "random_conditional_memory",
+        "own_error_program_agent",
+        "shuffled_evidence_program_agent",
+        "matched_proposals_no_witness"
+      ],
+      "final_policy_fit_patients": 5692,
+      "final_policy_fit_visits": 14728,
+      "logical_proposals_by_arm": {
+        "raw_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "calibrated_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_conditional_memory": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "random_conditional_memory": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_error_program_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.009829753,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_evidence_program_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.008904818,
+          "unpriced_logical_calls": 0
+        },
+        "matched_proposals_no_witness": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        }
+      }
+    },
+    {
+      "version": 29,
+      "panel": "full",
+      "seed": 137,
+      "rounds": 5,
+      "fit_events": 30,
+      "unique_fit_labels": 30,
+      "repeated_fit_events": 0,
+      "fit_input_rows_summed": 220720,
+      "summed_fit_seconds": 304.56901683100006,
+      "methods_sharing_fits": [
+        "raw_policy",
+        "calibrated_policy",
+        "greedy_conditional_memory",
+        "random_conditional_memory",
+        "own_error_program_agent",
+        "shuffled_evidence_program_agent",
+        "matched_proposals_no_witness"
+      ],
+      "final_policy_fit_patients": 5692,
+      "final_policy_fit_visits": 14665,
+      "logical_proposals_by_arm": {
+        "raw_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "calibrated_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_conditional_memory": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "random_conditional_memory": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_error_program_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.002998732,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_evidence_program_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0039902259999999995,
+          "unpriced_logical_calls": 0
+        },
+        "matched_proposals_no_witness": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        }
+      }
+    },
+    {
+      "version": 29,
+      "panel": "full",
+      "seed": 2026,
+      "rounds": 5,
+      "fit_events": 30,
+      "unique_fit_labels": 30,
+      "repeated_fit_events": 0,
+      "fit_input_rows_summed": 220475,
+      "summed_fit_seconds": 303.9817288319998,
+      "methods_sharing_fits": [
+        "raw_policy",
+        "calibrated_policy",
+        "greedy_conditional_memory",
+        "random_conditional_memory",
+        "own_error_program_agent",
+        "shuffled_evidence_program_agent",
+        "matched_proposals_no_witness"
+      ],
+      "final_policy_fit_patients": 5692,
+      "final_policy_fit_visits": 14643,
+      "logical_proposals_by_arm": {
+        "raw_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "calibrated_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_conditional_memory": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "random_conditional_memory": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_error_program_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.011460372,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_evidence_program_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0096546338,
+          "unpriced_logical_calls": 0
+        },
+        "matched_proposals_no_witness": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        }
+      }
+    },
+    {
+      "version": 27,
+      "panel": "molecular",
+      "seed": 42,
+      "rounds": 5,
+      "fit_events": 30,
+      "unique_fit_labels": 30,
+      "repeated_fit_events": 0,
+      "fit_input_rows_summed": 277995,
+      "summed_fit_seconds": 315.9270140390001,
+      "methods_sharing_fits": [
+        "uniform_policy",
+        "greedy_error_rules",
+        "random_candidate_rules",
+        "own_error_rule_agent",
+        "shuffled_evidence_rule_agent",
+        "matched_proposals_without_witness_gate"
+      ],
+      "final_policy_fit_patients": 7115,
+      "final_policy_fit_visits": 18429,
+      "logical_proposals_by_arm": {
+        "uniform_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_error_rules": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "random_candidate_rules": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_error_rule_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0021026496,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_evidence_rule_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.00197816,
+          "unpriced_logical_calls": 0
+        },
+        "matched_proposals_without_witness_gate": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        }
+      }
+    },
+    {
+      "version": 27,
+      "panel": "molecular",
+      "seed": 137,
+      "rounds": 5,
+      "fit_events": 30,
+      "unique_fit_labels": 30,
+      "repeated_fit_events": 0,
+      "fit_input_rows_summed": 277255,
+      "summed_fit_seconds": 315.69533045599997,
+      "methods_sharing_fits": [
+        "uniform_policy",
+        "greedy_error_rules",
+        "random_candidate_rules",
+        "own_error_rule_agent",
+        "shuffled_evidence_rule_agent",
+        "matched_proposals_without_witness_gate"
+      ],
+      "final_policy_fit_patients": 7115,
+      "final_policy_fit_visits": 18429,
+      "logical_proposals_by_arm": {
+        "uniform_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_error_rules": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "random_candidate_rules": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_error_rule_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0019966050000000003,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_evidence_rule_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0015489364,
+          "unpriced_logical_calls": 0
+        },
+        "matched_proposals_without_witness_gate": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        }
+      }
+    },
+    {
+      "version": 27,
+      "panel": "molecular",
+      "seed": 2026,
+      "rounds": 5,
+      "fit_events": 30,
+      "unique_fit_labels": 30,
+      "repeated_fit_events": 0,
+      "fit_input_rows_summed": 275445,
+      "summed_fit_seconds": 305.076774123,
+      "methods_sharing_fits": [
+        "uniform_policy",
+        "greedy_error_rules",
+        "random_candidate_rules",
+        "own_error_rule_agent",
+        "shuffled_evidence_rule_agent",
+        "matched_proposals_without_witness_gate"
+      ],
+      "final_policy_fit_patients": 7115,
+      "final_policy_fit_visits": 18429,
+      "logical_proposals_by_arm": {
+        "uniform_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_error_rules": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "random_candidate_rules": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_error_rule_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0014124344,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_evidence_rule_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.00228722,
+          "unpriced_logical_calls": 0
+        },
+        "matched_proposals_without_witness_gate": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        }
+      }
+    },
+    {
+      "version": 29,
+      "panel": "molecular",
+      "seed": 42,
+      "rounds": 5,
+      "fit_events": 30,
+      "unique_fit_labels": 30,
+      "repeated_fit_events": 0,
+      "fit_input_rows_summed": 220615,
+      "summed_fit_seconds": 243.41877620899984,
+      "methods_sharing_fits": [
+        "raw_policy",
+        "calibrated_policy",
+        "greedy_conditional_memory",
+        "random_conditional_memory",
+        "own_error_program_agent",
+        "shuffled_evidence_program_agent",
+        "matched_proposals_no_witness"
+      ],
+      "final_policy_fit_patients": 5692,
+      "final_policy_fit_visits": 14728,
+      "logical_proposals_by_arm": {
+        "raw_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "calibrated_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_conditional_memory": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "random_conditional_memory": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_error_program_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0084569242,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_evidence_program_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0075711386,
+          "unpriced_logical_calls": 0
+        },
+        "matched_proposals_no_witness": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        }
+      }
+    },
+    {
+      "version": 29,
+      "panel": "molecular",
+      "seed": 137,
+      "rounds": 5,
+      "fit_events": 30,
+      "unique_fit_labels": 30,
+      "repeated_fit_events": 0,
+      "fit_input_rows_summed": 220720,
+      "summed_fit_seconds": 241.96375404299997,
+      "methods_sharing_fits": [
+        "raw_policy",
+        "calibrated_policy",
+        "greedy_conditional_memory",
+        "random_conditional_memory",
+        "own_error_program_agent",
+        "shuffled_evidence_program_agent",
+        "matched_proposals_no_witness"
+      ],
+      "final_policy_fit_patients": 5692,
+      "final_policy_fit_visits": 14665,
+      "logical_proposals_by_arm": {
+        "raw_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "calibrated_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_conditional_memory": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "random_conditional_memory": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_error_program_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.009239325,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_evidence_program_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.008385371999999999,
+          "unpriced_logical_calls": 0
+        },
+        "matched_proposals_no_witness": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        }
+      }
+    },
+    {
+      "version": 29,
+      "panel": "molecular",
+      "seed": 2026,
+      "rounds": 5,
+      "fit_events": 30,
+      "unique_fit_labels": 30,
+      "repeated_fit_events": 0,
+      "fit_input_rows_summed": 220475,
+      "summed_fit_seconds": 244.60159270500003,
+      "methods_sharing_fits": [
+        "raw_policy",
+        "calibrated_policy",
+        "greedy_conditional_memory",
+        "random_conditional_memory",
+        "own_error_program_agent",
+        "shuffled_evidence_program_agent",
+        "matched_proposals_no_witness"
+      ],
+      "final_policy_fit_patients": 5692,
+      "final_policy_fit_visits": 14643,
+      "logical_proposals_by_arm": {
+        "raw_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "calibrated_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_conditional_memory": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "random_conditional_memory": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_error_program_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.010049755,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_evidence_program_agent": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.009082690000000001,
+          "unpriced_logical_calls": 0
+        },
+        "matched_proposals_no_witness": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        }
+      }
+    }
+  ],
+  "conventional_controls": [
+    {
+      "panel": "full",
+      "method": "prevalence",
+      "recorded_seconds": 0.0,
+      "timing_measured": false,
+      "configuration_candidates": 1,
+      "proposal_configuration_threshold_candidates": 6,
+      "shared_feature_seconds": 3.061667666000001,
+      "timing_scope": "The recorded cosine/LR block includes proposal search and guard prediction. Prevalence/last-visit zero is an unmeasured sentinel, not zero runtime. Feature construction is shared."
+    },
+    {
+      "panel": "full",
+      "method": "last_visit",
+      "recorded_seconds": 0.0,
+      "timing_measured": false,
+      "configuration_candidates": 1,
+      "proposal_configuration_threshold_candidates": 6,
+      "shared_feature_seconds": 3.061667666000001,
+      "timing_scope": "The recorded cosine/LR block includes proposal search and guard prediction. Prevalence/last-visit zero is an unmeasured sentinel, not zero runtime. Feature construction is shared."
+    },
+    {
+      "panel": "full",
+      "method": "cosine_knn",
+      "recorded_seconds": 2.5735871249999995,
+      "timing_measured": true,
+      "configuration_candidates": 3,
+      "proposal_configuration_threshold_candidates": 18,
+      "shared_feature_seconds": 3.061667666000001,
+      "timing_scope": "The recorded cosine/LR block includes proposal search and guard prediction. Prevalence/last-visit zero is an unmeasured sentinel, not zero runtime. Feature construction is shared."
+    },
+    {
+      "panel": "full",
+      "method": "structured_logistic",
+      "recorded_seconds": 92.086370291,
+      "timing_measured": true,
+      "configuration_candidates": 3,
+      "proposal_configuration_threshold_candidates": 18,
+      "shared_feature_seconds": 3.061667666000001,
+      "timing_scope": "The recorded cosine/LR block includes proposal search and guard prediction. Prevalence/last-visit zero is an unmeasured sentinel, not zero runtime. Feature construction is shared."
+    },
+    {
+      "panel": "molecular",
+      "method": "prevalence",
+      "recorded_seconds": 0.0,
+      "timing_measured": false,
+      "configuration_candidates": 1,
+      "proposal_configuration_threshold_candidates": 6,
+      "shared_feature_seconds": 3.2830525410000035,
+      "timing_scope": "The recorded cosine/LR block includes proposal search and guard prediction. Prevalence/last-visit zero is an unmeasured sentinel, not zero runtime. Feature construction is shared."
+    },
+    {
+      "panel": "molecular",
+      "method": "last_visit",
+      "recorded_seconds": 0.0,
+      "timing_measured": false,
+      "configuration_candidates": 1,
+      "proposal_configuration_threshold_candidates": 6,
+      "shared_feature_seconds": 3.2830525410000035,
+      "timing_scope": "The recorded cosine/LR block includes proposal search and guard prediction. Prevalence/last-visit zero is an unmeasured sentinel, not zero runtime. Feature construction is shared."
+    },
+    {
+      "panel": "molecular",
+      "method": "cosine_knn",
+      "recorded_seconds": 3.8928809169999994,
+      "timing_measured": true,
+      "configuration_candidates": 3,
+      "proposal_configuration_threshold_candidates": 18,
+      "shared_feature_seconds": 3.2830525410000035,
+      "timing_scope": "The recorded cosine/LR block includes proposal search and guard prediction. Prevalence/last-visit zero is an unmeasured sentinel, not zero runtime. Feature construction is shared."
+    },
+    {
+      "panel": "molecular",
+      "method": "structured_logistic",
+      "recorded_seconds": 87.22338804099999,
+      "timing_measured": true,
+      "configuration_candidates": 3,
+      "proposal_configuration_threshold_candidates": 18,
+      "shared_feature_seconds": 3.2830525410000035,
+      "timing_scope": "The recorded cosine/LR block includes proposal search and guard prediction. Prevalence/last-visit zero is an unmeasured sentinel, not zero runtime. Feature construction is shared."
+    }
+  ],
+  "reused_policy_runs": [
+    {
+      "version": 30,
+      "panel": "full",
+      "seed": 42,
+      "source_fit_run": "v29/full/42",
+      "new_policy_fits": 0,
+      "methods_sharing_fits": [
+        "raw_policy",
+        "calibrated_policy",
+        "greedy_C0P0",
+        "greedy_C0P1",
+        "greedy_C1P0",
+        "greedy_C1P1",
+        "own_C0P0",
+        "own_C0P1",
+        "own_C1P0",
+        "own_C1P1",
+        "shuffled_C0P0",
+        "shuffled_C0P1",
+        "shuffled_C1P0",
+        "shuffled_C1P1"
+      ],
+      "logical_proposals_by_arm": {
+        "raw_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "calibrated_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_C0P0": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_C0P1": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_C1P0": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_C1P1": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_C0P0": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.007824036,
+          "unpriced_logical_calls": 0
+        },
+        "own_C0P1": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.006230795,
+          "unpriced_logical_calls": 0
+        },
+        "own_C1P0": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.006230795,
+          "unpriced_logical_calls": 0
+        },
+        "own_C1P1": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.006230795,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_C0P0": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.006156264999999999,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_C0P1": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0058889649999999995,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_C1P0": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0058889649999999995,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_C1P1": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0058889649999999995,
+          "unpriced_logical_calls": 0
+        }
+      }
+    },
+    {
+      "version": 30,
+      "panel": "molecular",
+      "seed": 42,
+      "source_fit_run": "v29/molecular/42",
+      "new_policy_fits": 0,
+      "methods_sharing_fits": [
+        "raw_policy",
+        "calibrated_policy",
+        "greedy_C0P0",
+        "greedy_C0P1",
+        "greedy_C1P0",
+        "greedy_C1P1",
+        "own_C0P0",
+        "own_C0P1",
+        "own_C1P0",
+        "own_C1P1",
+        "shuffled_C0P0",
+        "shuffled_C0P1",
+        "shuffled_C1P0",
+        "shuffled_C1P1"
+      ],
+      "logical_proposals_by_arm": {
+        "raw_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "calibrated_policy": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_C0P0": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_C0P1": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_C1P0": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "greedy_C1P1": {
+          "logical_calls": 0,
+          "known_logical_response_usd": 0.0,
+          "unpriced_logical_calls": 0
+        },
+        "own_C0P0": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0093362372,
+          "unpriced_logical_calls": 0
+        },
+        "own_C0P1": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.0093384348,
+          "unpriced_logical_calls": 0
+        },
+        "own_C1P0": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.008774139200000001,
+          "unpriced_logical_calls": 0
+        },
+        "own_C1P1": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.008807475200000001,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_C0P0": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.008314072,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_C0P1": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.008355824,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_C1P0": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.008274163999999999,
+          "unpriced_logical_calls": 0
+        },
+        "shuffled_C1P1": {
+          "logical_calls": 5,
+          "known_logical_response_usd": 0.008274163999999999,
+          "unpriced_logical_calls": 0
+        }
+      }
+    }
+  ],
+  "pending": [
+    "full/ARMR/2026",
+    "v30/full/137",
+    "v30/full/2026",
+    "molecular/ARMR/42",
+    "molecular/ARMR/137",
+    "molecular/ARMR/2026",
+    "molecular/GAMENet/42",
+    "molecular/GAMENet/137",
+    "molecular/GAMENet/2026",
+    "v30/molecular/137",
+    "v30/molecular/2026"
+  ],
+  "source_sha256": {
+    "upgrade_v27/results/cohort_manifest.json": "359fb7f32c878b221b0b69ad7df18c0f757ef9385043e601e01d00276279a6a5",
+    "upgrade_v27/results/full-ARMR-seed42.json": "48cb3d951ca65a01c07ffb8c4e4f09e83e9c12cb09dcedcd69b11d4cf6190a65",
+    "upgrade_v27/results/full-ARMR-selection-audit-seed42.json": "1936edbf7a1dfd715618febfe12c57b4d95f0ec4b5ea2f00802abfa7d2eb17ac",
+    "upgrade_v27/results/full-ARMR-seed137.json": "ca26677b9ff65e072d7ceaa394c2a7bcf4f68e2e7db23ce80f06625501fb9f96",
+    "upgrade_v27/results/full-ARMR-selection-audit-seed137.json": "d661ba1e14546471f491d6ce346d34ea63fe1d4d857487c424ffcc28253625b3",
+    "upgrade_v27/results/full-GAMENet-seed42.json": "1f1fdc4f336f183b40a9811285d100eb765dd3d9ff82087f168fdc615cf940a8",
+    "upgrade_v27/results/full-GAMENet-selection-audit-seed42.json": "dd27a30db5e8766d3dac695914301b964f70a465125f4bcfa6e3905e21fe8dec",
+    "upgrade_v27/results/full-GAMENet-seed137.json": "af6417eb2f2301bd022154b5b90ed8f63ec33b8307c7f67ef7026795452c9537",
+    "upgrade_v27/results/full-GAMENet-selection-audit-seed137.json": "3551651c7a6bb712f6d1b6428143f1ade20524024624ec762bbfe8513e13d5b5",
+    "upgrade_v27/results/full-GAMENet-seed2026.json": "94a1d11c539978f8086500bc0a9530d3a3c81768220a90edb62bdd177e39ade2",
+    "upgrade_v27/results/full-GAMENet-selection-audit-seed2026.json": "af9720f611c09ac830fbe6e48758ea69ea7bfbc0e1f1397462d204b04caf9330",
+    "upgrade_v27/results/full-controls.json": "eabb33747696fd7b8477b409577df1e4b3240f01623c30ff849138669f7aaf78",
+    "upgrade_v27/results/full-rsi-seed42.json": "bac380e0cf703f8d9b446392dd156443034e200814c09eb8b65db9b07bc66a24",
+    "upgrade_v27/results/full-rsi-learning-audit-seed42.json": "d059e0a5a5e00066516a59cd21f1e36bafb4950d37b799163021422018106857",
+    "upgrade_v27/results/full-rsi-seed137.json": "8e34acf5380c84471ec1681c4fb3bec2da5c2b2075bf82a7ac0b211af3646b3f",
+    "upgrade_v27/results/full-rsi-learning-audit-seed137.json": "d6343ad979a5b7e13c9690c8bbeef75a551e5808f2b8c03104464be32335f4b9",
+    "upgrade_v27/results/full-rsi-seed2026.json": "0c6ed05500d81508db52e47af643ff45b6d6104194f4c06c12e11a3608ce5930",
+    "upgrade_v27/results/full-rsi-learning-audit-seed2026.json": "bdccfbf5d4a65f38bfc54cfe3ec6634bf6a1b9024b652e503b1c3f358abf9b66",
+    "upgrade_v29/results/full-seed42.json": "81798c4e103a1e9e6169191601dbd3653637f33ea36b381e932130e51f2c2374",
+    "upgrade_v29/results/full-audit-seed42.json": "cbb9d9df0c487dcf4bda1bf76ab1e9eef74709a3fdfb794252cc2b22f42343b8",
+    "upgrade_v29/results/full-seed137.json": "136970aeece12718dfb1177b82b6df154ef35a9e78ae2180788d3f089d4ba1d1",
+    "upgrade_v29/results/full-audit-seed137.json": "e372928a97b9f896a0cacdacc07598a028dc2b8d9676b6a1c015663e9885b19a",
+    "upgrade_v29/results/full-seed2026.json": "bf5873a59f39fdec81e44e9872caa8bf4c58a8c303c0027076da531f1d693ee0",
+    "upgrade_v29/results/full-audit-seed2026.json": "71fcbcb4d33bb347c8dab37b1e7c53f2cea9fb2508454aedfb55d773953049c3",
+    "upgrade_v30/results/full-seed42.json": "6d6b9af33c11414c5340d992ef75afe8e89ec3844299a9ee7e9070d7d9506afa",
+    "upgrade_v30/results/full-audit-seed42.json": "8df39fc75902ae1d0538a8724020542e0ea5f10dd4c53b1fd48750c346200ad2",
+    "upgrade_v27/results/molecular-SafeDrug-seed42.json": "de4deeecc12a6d16ac3bdc43c92d1059a45cc5ce40a5fd743cd16094c7e9e662",
+    "upgrade_v27/results/molecular-SafeDrug-selection-audit-seed42.json": "1d7b43025b61d7932d5e69a1d31c69a27a26b67bff884819e6b4f03e5fc47547",
+    "upgrade_v27/results/molecular-SafeDrug-seed137.json": "47f845576f0f1fc200b38c5dcc7dacfd49262589bff71099391d4551bb46d226",
+    "upgrade_v27/results/molecular-SafeDrug-selection-audit-seed137.json": "7e162c79996916a4700179130b7b903f08ab8dc7bf97694145c3d81f9f7cee70",
+    "upgrade_v27/results/molecular-SafeDrug-seed2026.json": "747d06a3287c9a01e189735b862ce86ed4508563483a08d2b7cac866ee137a8e",
+    "upgrade_v27/results/molecular-SafeDrug-selection-audit-seed2026.json": "7b51f49dfb0ea14bbdd87014e076dad353f2a32e113ae814ccb06fcffa4f6349",
+    "upgrade_v27/results/molecular-controls.json": "73447472d3deb8f35e76a0194344761f85e38555069c982618fa8c00ac12dde1",
+    "upgrade_v27/results/molecular-rsi-seed42.json": "d348ee9ea9f5d90af6e23150e3ae69ba316ca59a3abcf7ed54aeae18409818c9",
+    "upgrade_v27/results/molecular-rsi-learning-audit-seed42.json": "5a124ed378d08f40e9161e65075f4689fadf9c2d62bdcb93dab3b323673053af",
+    "upgrade_v27/results/molecular-rsi-seed137.json": "e62eb8acba526c85c51a6e221e6ebe7ccfcebe4e625a08c8c70864c1553f16ad",
+    "upgrade_v27/results/molecular-rsi-learning-audit-seed137.json": "2144afa93fc0121e6a97d52fa15795935664cd55550af04d97a0b64e84ddf891",
+    "upgrade_v27/results/molecular-rsi-seed2026.json": "1873af966318d0e66db42c0508c34333aceb269ac1a288420fc04e489fb73dc3",
+    "upgrade_v27/results/molecular-rsi-learning-audit-seed2026.json": "66c275c90968ea39e15d5064dde119d63c06fb54889bc72b074970f9690fc368",
+    "upgrade_v29/results/molecular-seed42.json": "8ae53da5f4b51898a0e6aa4bd38f4511dc7862d196c2a1a43fe78bb4a76897dd",
+    "upgrade_v29/results/molecular-audit-seed42.json": "c549a6bc522ae5afed4333a9ad90c8f2e5db7cba2e06cd49f8dce0ce29d213bf",
+    "upgrade_v29/results/molecular-seed137.json": "193f86bee2a798b2934d7854580108e39a02091cbdb705be93a7fec580797f21",
+    "upgrade_v29/results/molecular-audit-seed137.json": "2db62a1959ded98b8c7d3c5ebbc2eb8ffcd4c538b50330c8067ebe1f2ad5011a",
+    "upgrade_v29/results/molecular-seed2026.json": "a7ab79c646353d5e311e9abcb1ac85a56e72aabc1e8540a8207221eb95eea37e",
+    "upgrade_v29/results/molecular-audit-seed2026.json": "fe07db07d32c1bc718caee05cdf5ec35aea876c537144517926523e759723295",
+    "upgrade_v30/results/molecular-seed42.json": "7139ee71ee0bc8dc2b5d8348dec2b0e1dc7dd9a93a638c72b1efc460f2974788",
+    "upgrade_v30/results/molecular-audit-seed42.json": "17bffe9f2fa0ddb4f3d17090decad8eaa688176de670751521fb1bc1f8114125"
+  },
+  "private_receipt_sha256": {
+    "prismatic-v27/full-ARMR-seed42.log": "a3f55752a5d987f9d7dd599b5a01dd95f86757d2fbb9a40693164124c7e1b189",
+    "prismatic-v27/full-ARMR-seed137.log": "92fef848b3f4a95c9720b082b60563e526900f7b43bc184398a74a57f7385d51",
+    "prismatic-v27/full-GAMENet-seed42.log": "afa5b88fcd635495f9425309076921c0012d374180fa849738318d1bb39681b6",
+    "prismatic-v27/full-GAMENet-seed137.log": "0368c599525d3d4c27393607e00460f82beecb66256f48e9efa3c3205c4d6f9c",
+    "prismatic-v27/full-GAMENet-seed2026.log": "f579cd245cd4d1a8f61cfcc27df6cf3f685a4e280c321a8989c7f56b6551d9c4",
+    "prismatic-v27/full-rsi-seed42/fit_events.jsonl": "739e36127ab6ae879672b9da90db929bdf88b23632bc41e2022fa108396c9cd8",
+    "prismatic-v27/full-rsi-seed137/fit_events.jsonl": "599590147b0c16732115b021d2f9c8a8425d506b0a8336e5a40ab11eefeacc6e",
+    "prismatic-v27/full-rsi-seed2026/fit_events.jsonl": "2889bdf6ec163518ecaff31425f48a6113dfea7b57fa64d9c88852a14e1bad03",
+    "prismatic-v29/full-seed42/fit_events.jsonl": "cdff58769aaedb2094c5c18dcbb235c4937a7d73db7d7feea6124eafefdde802",
+    "prismatic-v29/full-seed137/fit_events.jsonl": "43641c4db9a439397cf4dc3e181a5d4af453290fbe1088f5354c28896e187146",
+    "prismatic-v29/full-seed2026/fit_events.jsonl": "25295058a7574a064953425d8f08ca55f8bee4cee4e4d5594ffa25686cf59a52",
+    "prismatic-v29/full-seed42/round1/complete.json": "f86a5322adae08bc7e27b595a829f1d2e12fd5edf26aea30f7c2950fd61e089d",
+    "prismatic-v29/full-seed42/round2/complete.json": "8663fad17ce8c4e69c6eb36b49a026318497a959d42cb88fedb624a3a135eb10",
+    "prismatic-v29/full-seed42/round3/complete.json": "be81f7274f8b6a3b6a8da6078efb1cd60b024aa2a15f2fb4f4d52aba052d067f",
+    "prismatic-v29/full-seed42/round4/complete.json": "39b68ff2d3f3be427eb7f9bdd7544d9c42a5ac5c2f401956679aa1aca16907ff",
+    "prismatic-v29/full-seed42/round5/complete.json": "26f2d2633440b12ba7e3c6cd42b6e630a9657635d9d68c6e95a86c3fc5d91545",
+    "prismatic-v27/molecular-SafeDrug-seed42.log": "53ed0c46aec2d09d774d2f93c41ae439d942ba4185a63e0f0b404645c8fec2e7",
+    "prismatic-v27/molecular-SafeDrug-seed137.log": "cd6b890026cf204972dd158d39a5d427b48db9761448182e3dac693db39a4371",
+    "prismatic-v27/molecular-SafeDrug-seed2026.log": "7481bcde2d32c48de0602de79d1290edf025cecd0c5e16da85de18cd76bf8d08",
+    "prismatic-v27/molecular-rsi-seed42/fit_events.jsonl": "ab88daf9a058fca30eb843ebf91cf2c51069f83d7311cb8e5efff70c33c6f5f5",
+    "prismatic-v27/molecular-rsi-seed137/fit_events.jsonl": "67fc282ca593c660c615bb79e9384c1093987231e3dc1810b93192e80f37401d",
+    "prismatic-v27/molecular-rsi-seed2026/fit_events.jsonl": "a472caf58174683b166a0d15badc0433d1eb629a15fd9ba88fa8923284959f2e",
+    "prismatic-v29/molecular-seed42/fit_events.jsonl": "3eaf411809def8638ae4aac0ac798bcae7adbe262dce98571b83ca65cf0e17ad",
+    "prismatic-v29/molecular-seed137/fit_events.jsonl": "a983392f26728fc62a296fe94a9883aaad69dd90389e604e256b0f5044466558",
+    "prismatic-v29/molecular-seed2026/fit_events.jsonl": "e8c81932ba3a5faaa9da6526d622e85023a937a4bfc968c8aeb8810b0346e6ab",
+    "prismatic-v29/molecular-seed42/round1/complete.json": "009d4d48f105b21c557c48c7dd7ca608908a6f14b5ca494ed48bbd9f24f1be83",
+    "prismatic-v29/molecular-seed42/round2/complete.json": "9332344cf1052ebf9da7ef5b565ec9343e37851c20543fcad5933c0a163e1d10",
+    "prismatic-v29/molecular-seed42/round3/complete.json": "f62187e67c682ef145abdb93b1414d5b54c8fc7ef6bf93a75accf9a922c0159f",
+    "prismatic-v29/molecular-seed42/round4/complete.json": "568cd5f26f60f17c9879a588b2f869c1d47abdd0cf45baf912fe0491516313db",
+    "prismatic-v29/molecular-seed42/round5/complete.json": "5018dc440c7077fa8600f6250d2315c1ea8713366e8b155f9a59325c65924b75"
+  },
+  "new_model_fits": 0,
+  "new_api_calls": 0,
+  "test_predictions_read": false,
+  "scope": "Recount of recorded costs and prior audited development results. Timing is not independent profiling, GPU time, FLOPs or a complete expenditure ledger; concurrent jobs share hardware. Logical response prices are not fresh physical spend.",
+  "author_method_summary": {
+    "full/ARMR": {
+      "seeds": [
+        42,
+        137
+      ],
+      "guard_patient_f1": {
+        "mean": 0.6086905788225764,
+        "seed_sd": 0.0018564767701009972
+      },
+      "guard_patient_jaccard": {
+        "mean": 0.4532624621823856,
+        "seed_sd": 0.001594435220189118
+      },
+      "summed_training_seconds": {
+        "mean": 3136.0515796229993,
+        "seed_sd": 74.10045516050008
+      }
+    },
+    "full/GAMENet": {
+      "seeds": [
+        42,
+        137,
+        2026
+      ],
+      "guard_patient_f1": {
+        "mean": 0.5270793056901772,
+        "seed_sd": 0.006638803297081456
+      },
+      "guard_patient_jaccard": {
+        "mean": 0.37086863304786366,
+        "seed_sd": 0.006432206895173647
+      },
+      "summed_training_seconds": {
+        "mean": 4589.232282764333,
+        "seed_sd": 424.6536275798247
+      }
+    },
+    "molecular/SafeDrug": {
+      "seeds": [
+        42,
+        137,
+        2026
+      ],
+      "guard_patient_f1": {
+        "mean": 0.5368911529375899,
+        "seed_sd": 0.0024375162469903473
+      },
+      "guard_patient_jaccard": {
+        "mean": 0.38432304923739735,
+        "seed_sd": 0.002225294327087129
+      },
+      "summed_training_seconds": {
+        "mean": 4423.986762624666,
+        "seed_sd": 409.2183106110979
+      }
+    }
+  },
+  "script_sha256": "981cc5387b9a40fd2d583d79047fe449c59056447424386871c2dbedd2b2a764"
+}
