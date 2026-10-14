@@ -3,7 +3,7 @@
 <!-- RXRSI_CURRENT_EXECUTION_START -->
 ## Live execution snapshot
 
-The common medication-method study has **8/15** completed 50-epoch author runs (478/750 saved epochs) and **6/6** completed five-round rule runs. The final common test remains gated by the registered selections and audits. These counts describe a saved snapshot; running outputs continue to update.
+The common medication-method study has **8/15** completed 50-epoch author runs (486/750 saved epochs) and **6/6** completed five-round rule runs. The final common test remains gated by the registered selections and audits. These counts describe a saved snapshot; running outputs continue to update.
 
 [中文当前结果](CURRENT_RESULTS.zh.md) · [English current results](CURRENT_RESULTS.en.md) · [Cross-method development comparison](../upgrade_v27/DEVELOPMENT_METHODS.en.md) · [Final common-test table and gate](../upgrade_v30/COMMON_TEST.en.md)
 <!-- RXRSI_CURRENT_EXECUTION_END -->
@@ -63,7 +63,7 @@ GT-based evaluation does not require clinician review. Missing attributes remain
 | v0.28 | [FHIR factorial](../upgrade_v28/RESULTS.en.md) | Twenty-three of24 cells audited; fixed engineering repairs distinguished from learned frozen skills |
 | v0.27 | [Author-method compatibility](../upgrade_v27/RESULTS.en.md) | Common patient splits and ATC-L4 spaces; genuine author-model training and gated test evaluator |
 | v0.26 | [Position diagnostic](../upgrade_v26/README.en.md) | 200 existing development cases,3 fixed states,4 rank-preserving display conditions; complete and audited |
-| v0.25 | [External method experiment](../upgrade_v25/RESULTS.en.md), [development curves](../upgrade_v25/DEVELOPMENT_CURVES.en.md) | 45 development states reexecuted; raw/accepted curves separate; 8,005-stay test remains gated |
+| v0.25 | [External method experiment](../upgrade_v25/RESULTS.en.md), [development curves](../upgrade_v25/DEVELOPMENT_CURVES.en.md) | 45 development states reexecuted; all selections frozen; 8,005-stay test and independent audit executing |
 | v0.24 | [External eICU audit](../upgrade_v24/RESULTS.en.md) | 142,485 stays; hospital/patient-disjoint partition and HICL/time coverage audited; no model scores |
 | v0.23 | [Matched feedback results](../upgrade_v23/RESULTS.en.md) | Three seeds/five rounds audited; uniform learning is stronger than error priorities |
 | v0.22 | [Numerical-state development pilot](../upgrade_v22/RESULTS.en.md) | Guard point gain passes the declared rule; intervals include zero; no test scoring |

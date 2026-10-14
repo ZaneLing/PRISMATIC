@@ -160,6 +160,12 @@ EICUDEVROWS
         accepted_diff=ec['final_own_error_minus_control']['accepted']['uniform']['mean']
         temporal_section+=f"At the raw 40k checkpoint, own-error-minus-uniform drug/order F1 differences are {diff['drug_micro_f1']:+.5f}/{diff['core_order_micro_f1']:+.5f}; for the final guard-accepted states they are {accepted_diff['drug_micro_f1']:+.5f}/{accepted_diff['core_order_micro_f1']:+.5f}. "
         temporal_section+=r'''Case-growth gains and feedback-assignment gains must therefore be evaluated separately. Guard acceptance creates a selection effect, and the horizontal axis counts encountered cases even when an earlier policy/tool bundle is retained. Raw regressions are preserved. These descriptive development differences do not establish generalization, clinical safety, or autonomous language-agent evolution; no test bundle is opened by this diagnostic.'''
+    eicu_freeze=ROOT/'upgrade_v25/results/frozen_before_test.json'
+    if eicu_freeze.exists() and not (ROOT/'upgrade_v25/results/summary.json').exists():
+        ef=json.loads(eicu_freeze.read_text())
+        assert all(hashlib.sha256((ROOT/f'upgrade_v25/results/selection_seed_{s}.json').read_bytes()).hexdigest()==value for s,value in ef['selections_sha256'].items())
+        for previous in ['Training is running; no external model score is claimed yet.', 'Static-control training and the gated external test remain unfinished; completed development trajectories are reported separately below.']:
+            temporal_section=temporal_section.replace(previous, 'All three seeds and static-control choices are frozen. Unified evaluation of the 8,005-stay external test and its independent audit are now in progress; only completed development trajectories are reported below.')
     parameter_section=r'\paragraph{Execution status.} Local parameter-update experiments are in progress. No fine-tuning gain is claimed before generation-based evaluation is complete.'
     if parameter.exists() and (ROOT/'upgrade_v9/results/summary.json').exists():
         d=json.loads((ROOT/'upgrade_v9/results/summary.json').read_text())
@@ -218,7 +224,12 @@ The 100-case proposal score averages ranked and permuted views and may retain th
                 parameter_section+=f" The completed first ranked-uniform update scores {a['drug_micro_f1']:.5f}/{a['core_order_micro_f1']:.5f} under ranked presentation and {b['drug_micro_f1']:.5f}/{b['core_order_micro_f1']:.5f} after candidate permutation, with {100*a['empty_fraction']:.1f}\\%/{100*b['empty_fraction']:.1f}\\% empty outputs. This single-round control shows that lower training loss and an improved ranked-view score can coexist with worse permuted-view performance; it does not establish position-robust learning."
             failed=[(arm,r['round']) for arm,rows in parameter_audit['arms'].items() for r in rows if all(m['empty_fraction']==1 for m in r['proposal'].values())]
             if failed:
-                parameter_section+=f" In seed42, {len(failed)} completed raw checkpoint(s) return empty prescriptions on all100 proposal admissions in each view. Their drug/order micro-F1 is zero, and the predefined promotion rule retains a prior state. These failures remain reported; decreasing training loss is not evidence of effective prescription learning."
+                failed_labels=', '.join(f"{arm.replace('_',' ')} (round {r})" for arm,r in failed)
+                parameter_section+=f" In seed42, {len(failed)} completed raw checkpoint(s)---{failed_labels}---return empty prescriptions on all 100 proposal admissions in each view. Their drug/order micro-F1 is zero, and the predefined promotion rule retains a prior state. These failures remain reported; decreasing training loss is not evidence of effective prescription learning."
+                if all(m.get('invalid_json')==0 for arm,rows in parameter_audit['arms'].items() for r in rows if (arm,r['round']) in failed for m in r['proposal'].values()):
+                    parameter_section+=' All these empty responses pass the registered parser; the zero scores reflect the decoded decisions.'
+                if any(arm=='permuted_own_error' for arm,r in failed):
+                    parameter_section+=' Prioritizing the model\'s own error cases has not prevented collapse in this completed update; a decision-supervision repair is evaluated separately below.'
         p=ROOT/'upgrade_v31/results/progress.json'
         if p.exists():
             q=json.loads(p.read_text())

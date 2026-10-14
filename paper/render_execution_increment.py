@@ -47,6 +47,8 @@ def main():
             delta=ec['final_own_error_minus_control']['raw']['uniform']['mean']
             block+=(f"At 40k encountered cases, raw own-error-minus-uniform drug/order F1 is {delta['drug_micro_f1']:+.5f}/{delta['core_order_micro_f1']:+.5f}. These guard cases participate in selection; this is not the held-out hospital test. " if lang=='en' else f"累计 40k 病例时，原始状态中自身错误优先相对普通训练的药物／订单 F1 差为 {delta['drug_micro_f1']:+.5f}/{delta['core_order_micro_f1']:+.5f}。此 guard 参与版本选择，不能当作留出医院测试。")
             block+=f'[Raw/accepted curves, three seeds and regressions](../upgrade_v25/DEVELOPMENT_CURVES.{lang}.md)\n\n'
+            if (ROOT/'upgrade_v25/results/frozen_before_test.json').exists() and not (ROOT/'upgrade_v25/results/summary.json').exists():
+                block+=('All three eICU seeds and static-control choices are now frozen. The original queue is executing the 8,005-stay held-out hospital test and independent audit; its results remain pending.\n\n' if lang=='en' else 'eICU 三个种子及全部静态对照的选择现已冻结；原队列正在执行 8,005 次住院的留出医院统一测试及独立核验，测试成绩尚待完成。\n\n')
         if (PAPER/'public_benchmark_coverage.json').exists():
             block+=('**Public-data coverage:** a source/identity recount confirms all300 released RxQA OpenFDA questions and all2,000 deduplicated RxSafeBench cases in the historical full-set runs. Later adaptive comparisons use988 frozen test cases, keeping their625/190/197 development cases separate. The unavailable BNF component is excluded. ' if lang=='en' else '**公开数据覆盖：** 源记录／题目身份复核证实RxQA公开OpenFDA全部300题已覆盖，历史全量实验覆盖RxSafeBench去重后全部2,000题；后续进化方法使用988题冻结测试，625／190／197开发题分别保留。未获得的BNF部分不计入。')
             block+=f'[Exact scope, recounted results and metadata correction](PUBLIC_BENCHMARKS.{lang}.md)\n\n'
@@ -60,7 +62,7 @@ def main():
         if (ROOT/'upgrade_v31/results/progress.json').exists():
             progress=json.loads((ROOT/'upgrade_v31/results/progress.json').read_text())
             block+=('### Parameter repair: randomized positions and causal learning controls\n\n' if lang=='en' else '### 参数修复：候选位置随机化与学习机制对照\n\n')
-            block+=('v0.31 runs four arms across three seeds and three rounds: ranked uniform, permuted uniform, permuted own-error and permuted shuffled-error updates. Each round uses the same 400-example/100-step budget. Original retrieval ranks and candidate order fields remain visible. This tests whether weight updates learn drug decisions beyond display position, and whether own errors add value over ordinary training. Candidate tools and order templates stay fixed.\n\n' if lang=='en' else 'v0.31已运行四种方法、三个种子、三轮：原排序普通更新、随机位置普通更新、随机位置自身错误优先、随机位置打乱错误权重。每轮均为400样本／100步，保留原检索排名和候选订单字段。它检验参数更新能否摆脱展示位置依赖，以及自身错误是否比普通学习更有价值。候选工具和订单模板固定。\n\n')
+            block+=('v0.31 runs four arms across three seeds and three rounds: ranked uniform, permuted uniform, permuted own-error and permuted shuffled-error updates. Each round uses the same 400-example/100-step budget. Original retrieval ranks and candidate order fields remain visible. This tests whether weight updates learn drug decisions beyond display position, and whether own errors add value over ordinary training. Candidate tools and order templates stay fixed.\n\n' if lang=='en' else 'v0.31已登记四种方法、三个种子、三轮，当前正逐组执行：原排序普通更新、随机位置普通更新、随机位置自身错误优先、随机位置打乱错误权重。每轮均为400样本／100步，保留原检索排名和候选订单字段。它检验参数更新能否摆脱展示位置依赖，以及自身错误是否比普通学习更有价值。候选工具和订单模板固定。\n\n')
             block+=(f"Completed optimizer runs: **{progress['optimizer_runs_with_complete_receipts']}/36**; fully audited seeds: **{len(progress['seeds_fully_audited'])}/3**. Old test cases are excluded. Proposal selects checkpoints; the reused 200-case guard is exploratory development evidence, not an untouched test.\n\n" if lang=='en' else f"已完成训练回执：**{progress['optimizer_runs_with_complete_receipts']}/36**；完整核验种子：**{len(progress['seeds_fully_audited'])}/3**。排除旧测试病例。proposal选择检查点；复用的200例guard属于探索性开发证据，不是未触碰测试。\n\n")
             p=ROOT/'upgrade_v31/results/audit-seed42.json'
             if p.exists():
@@ -72,16 +74,15 @@ def main():
                     for row in rows:
                         a=row['proposal']['ranked'];b=row['proposal']['permuted'];block+=f"| {arm}, round {row['round']} | {a['drug_micro_f1']:.5f}/{a['core_order_micro_f1']:.5f} | {b['drug_micro_f1']:.5f}/{b['core_order_micro_f1']:.5f} |\n"
                 block+='\n'
-                for arm,rows in evidence['arms'].items():
-                    for row in rows:
-                        if all(m['empty_fraction']==1 for m in row['proposal'].values()):
-                            block+=(f"**Observed failure:** seed42/{arm}/round{row['round']} has100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain. " if lang=='en' else f"**已发现失败：** seed42／{arm}／第{row['round']}轮在两种proposal视图下均100%空输出，药物／订单micro-F1=0；既定升级规则已拒绝该版本，原结果保留。")
-                            diagnosis=ROOT/'upgrade_v31/results/collapse_diagnostic.json';diagnostic_audit=ROOT/'upgrade_v31/results/collapse_diagnostic_audit.json'
-                            if diagnosis.exists() and diagnostic_audit.exists():
-                                d=json.loads(diagnosis.read_text())['states']['permuted_uniform_seed42_round1']['proposal_permuted'];before=d['teacher_forced_ground_truth_prefix']['auroc'];after=d['all_zero_prefix_without_ground_truth']['auroc']
-                                block+=(f"The completed diagnostic independently recounts384 probability vectors. On32 permuted proposal cases, the failed first adapter's AUROC changes from{before:.4f} with oracle GT prefixes to{after:.4f} with label-free zero prefixes, where no decision probability reaches0.5. " if lang=='en' else f"已完成诊断并独立复算384组概率向量：32例打乱排序proposal上，首个失败适配器的AUROC从真值前缀的{before:.4f}降为无标签全零前缀的{after:.4f}，后者无一位置的选择概率达到0.5。")
-                                block+=f'[Diagnosis and figure](../upgrade_v31/COLLAPSE.{lang}.md)\n\n'
-                            else:block+=('The separate logit diagnosis checks class imbalance and decision discrimination without opening guard or test data.\n\n' if lang=='en' else '单独的输出概率诊断正在检查类别不平衡和药物区分能力，不打开guard或测试数据。\n\n')
+                failed=[(arm,row) for arm,rows in evidence['arms'].items() for row in rows if all(m['empty_fraction']==1 for m in row['proposal'].values())]
+                for arm,row in failed:
+                    block+=(f"**Observed failure:** seed42/{arm}/round{row['round']} has 100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain.\n\n" if lang=='en' else f"**已发现失败：** seed42／{arm}／第{row['round']}轮在两种proposal视图下均100%空输出，药物／订单micro-F1=0；既定升级规则已拒绝该版本，原结果保留。\n\n")
+                if failed:
+                    diagnosis=ROOT/'upgrade_v31/results/collapse_diagnostic.json';diagnostic_audit=ROOT/'upgrade_v31/results/collapse_diagnostic_audit.json'
+                    if diagnosis.exists() and diagnostic_audit.exists():
+                        d=json.loads(diagnosis.read_text())['states']['permuted_uniform_seed42_round1']['proposal_permuted'];before=d['teacher_forced_ground_truth_prefix']['auroc'];after=d['all_zero_prefix_without_ground_truth']['auroc']
+                        block+=(f"The separate probability diagnostic covers the first permuted-uniform adapter (seed42, round1) and independently recounts 384 vectors. On 32 permuted proposal cases, AUROC changes from {before:.4f} with oracle GT prefixes to {after:.4f} with label-free zero prefixes, where no decision probability reaches 0.5. " if lang=='en' else f"单独的概率诊断针对首个随机位置普通更新适配器（seed42，第1轮），独立复算384组向量：32例打乱排序proposal上，AUROC从真值前缀的{before:.4f}降为无标签全零前缀的{after:.4f}，后者无一位置的选择概率达到0.5。")
+                        block+=f'[Diagnosis and figure](../upgrade_v31/COLLAPSE.{lang}.md)\n\n'
             block+=f'[Actual parameter updates, audit and results](../upgrade_v31/RESULTS.{lang}.md)\n\n'
         if (ROOT/'upgrade_v32/results/training_progress.json').exists():
             p=json.loads((ROOT/'upgrade_v32/results/training_progress.json').read_text())

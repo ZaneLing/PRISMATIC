@@ -31,7 +31,7 @@ All 45 policy/tool states are reexecuted, with independent checks of proposal th
 
 ## Execution status
 
-Cohort construction and independent timing/membership/code audits passed. Three seed runs have started. The test has not been scored; partial development scores are not a method table. Completion runs freeze checks, sealed evaluation, independent recounting and bilingual reporting.
+All three seeds and static-control choices are frozen. The original queue is executing the unified 8,005-stay held-out hospital test and independent audit. The final method table waits for completion of all results and checks; the development curves above do not replace it.
 
 ## Reproducibility and scope
 

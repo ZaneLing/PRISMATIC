@@ -95,7 +95,13 @@ Changing artifacts are policy parameters, persistent feedback weights and order-
             text+=('\n## 已完成的开发集逐轮复算\n\n45 个参数／工具状态已重新执行，独立核对全部 proposal 阈值、guard 指标与接纳决定。原始曲线和接纳曲线分别展示；这些病例参与开发选择，不能当成留出测试成绩。\n\n' if lang=='zh' else '\n## Completed development trajectory replay\n\nAll 45 policy/tool states are reexecuted, with independent checks of proposal thresholds, guard metrics and acceptance decisions. Raw and accepted curves are separate; these cases participate in development selection and are not a held-out test result.\n\n')
             text+=f'[Development curves and every feedback control](DEVELOPMENT_CURVES.{lang}.md)\n'
         if not complete:
-            text+=('\n## 当前交付\n\n队列构建和独立时序/成员/编码核验已通过，三个种子训练已启动。测试集尚未评分；不将部分开发分数当主表。完成后自动执行冻结检查、统一测试、独立计数和双语报告。\n' if lang=='zh' else '\n## Execution status\n\nCohort construction and independent timing/membership/code audits passed. Three seed runs have started. The test has not been scored; partial development scores are not a method table. Completion runs freeze checks, sealed evaluation, independent recounting and bilingual reporting.\n')
+            frozen=HERE/'results/frozen_before_test.json'
+            if frozen.exists():
+                lock=read(frozen)
+                assert all(sha(HERE/f'results/selection_seed_{s}.json')==value for s,value in lock['selections_sha256'].items())
+                text+=('\n## 当前交付\n\n三个种子和全部静态对照的选择已冻结，原队列正在执行 8,005 次住院的留出医院统一测试和独立核验。最终测试表等待全部结果及核验完成；上方开发曲线不替代测试结果。\n' if lang=='zh' else '\n## Execution status\n\nAll three seeds and static-control choices are frozen. The original queue is executing the unified 8,005-stay held-out hospital test and independent audit. The final method table waits for completion of all results and checks; the development curves above do not replace it.\n')
+            else:
+                text+=('\n## 当前交付\n\n队列构建和独立时序/成员/编码核验已通过，三个种子训练已启动。测试集尚未评分；不将部分开发分数当主表。完成后自动执行冻结检查、统一测试、独立计数和双语报告。\n' if lang=='zh' else '\n## Execution status\n\nCohort construction and independent timing/membership/code audits passed. Three seed runs have started. The test has not been scored; partial development scores are not a method table. Completion runs freeze checks, sealed evaluation, independent recounting and bilingual reporting.\n')
         else:
             table='\n## Completed method comparison / 完整方法主表\n\n| Method | Drug F1 mean ± SD | Joint-order F1 mean ± SD | Empty (%) | Complete predicted tuples (%) |\n|---|---:|---:|---:|---:|\n'
             for name,labels in LABELS.items():

@@ -7,13 +7,15 @@
 
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 8/15 author-model runs finish their full 50 epochs, with 478/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 8/15 author-model runs finish their full 50 epochs, with 486/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Recorded method budgets:** the receipt ledger separates shared fits, optimizer steps, proposal searches and logical response prices. It checks completed author-epoch records against their original logs, counts shared policy fitting once, and identifies exact v29-to-v30 model reuse. SafeDrug has 3 audited seeds; molecular guard patient F1 is 0.53689 ± 0.00244. [Actual compute and development results](COMPUTE_ACCOUNTING.en.md)
 
 **Executed cross-method recount:** 52 completed method runs are recounted on the same 1,231 guard visits / 467 patients, with patient-paired intervals using matched seeds. All available conventional, author-core and rule-memory methods are included. This remains a development comparison; the final test is gated. [Cross-method table and every paired contrast](../upgrade_v27/DEVELOPMENT_METHODS.en.md)
 
 **Executed eICU learning curves:** all 45 completed policy/tool states are reexecuted on the 2,000-stay development guard, with independent set counts, original proposal choices and acceptance decisions. Raw and accepted trajectories are separate. At 40k encountered cases, raw own-error-minus-uniform drug/order F1 is -0.00655/-0.00264. These guard cases participate in selection; this is not the held-out hospital test. [Raw/accepted curves, three seeds and regressions](../upgrade_v25/DEVELOPMENT_CURVES.en.md)
+
+All three eICU seeds and static-control choices are now frozen. The original queue is executing the 8,005-stay held-out hospital test and independent audit; its results remain pending.
 
 **Public-data coverage:** a source/identity recount confirms all300 released RxQA OpenFDA questions and all2,000 deduplicated RxSafeBench cases in the historical full-set runs. Later adaptive comparisons use988 frozen test cases, keeping their625/190/197 development cases separate. The unavailable BNF component is excluded. [Exact scope, recounted results and metadata correction](PUBLIC_BENCHMARKS.en.md)
 
@@ -32,8 +34,13 @@ Completed optimizer runs: **3/36**; fully audited seeds: **0/3**. Old test cases
 | Frozen base | 0.16846/0.10223 | 0.14129/0.09434 |
 | permuted_uniform, round 1 | 0.00000/0.00000 | 0.00000/0.00000 |
 | ranked_uniform, round 1 | 0.23301/0.14815 | 0.10800/0.06960 |
+| permuted_own_error, round 1 | 0.00000/0.00000 | 0.00000/0.00000 |
 
-**Observed failure:** seed42/permuted_uniform/round1 has100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain. The completed diagnostic independently recounts384 probability vectors. On32 permuted proposal cases, the failed first adapter's AUROC changes from0.7385 with oracle GT prefixes to0.5503 with label-free zero prefixes, where no decision probability reaches0.5. [Diagnosis and figure](../upgrade_v31/COLLAPSE.en.md)
+**Observed failure:** seed42/permuted_uniform/round1 has 100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain.
+
+**Observed failure:** seed42/permuted_own_error/round1 has 100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain.
+
+The separate probability diagnostic covers the first permuted-uniform adapter (seed42, round1) and independently recounts 384 vectors. On 32 permuted proposal cases, AUROC changes from 0.7385 with oracle GT prefixes to 0.5503 with label-free zero prefixes, where no decision probability reaches 0.5. [Diagnosis and figure](../upgrade_v31/COLLAPSE.en.md)
 
 [Actual parameter updates, audit and results](../upgrade_v31/RESULTS.en.md)
 
