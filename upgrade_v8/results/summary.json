@@ -1,76 +1,94 @@
 {
   "completed_seeds": [
-    42
+    42,
+    137,
+    2026
   ],
   "methods": {
     "direct": {
-      "accuracy_mean": 0.46153846153846156,
-      "accuracy_sample_sd": null,
+      "accuracy_mean": 0.4615384615384615,
+      "accuracy_sample_sd": 6.798699777552591e-17,
       "seeds": [
-        42
+        42,
+        137,
+        2026
       ],
-      "invalid_total": 1,
+      "invalid_total": 3,
       "mean_logical_inference_cost_usd": 0.11366064976000012
     },
     "cot": {
       "accuracy_mean": 0.4726720647773279,
-      "accuracy_sample_sd": null,
+      "accuracy_sample_sd": 0.0,
       "seeds": [
-        42
+        42,
+        137,
+        2026
       ],
       "invalid_total": 0,
       "mean_logical_inference_cost_usd": 0.13071089463999988
     },
     "self_refine": {
       "accuracy_mean": 0.4757085020242915,
-      "accuracy_sample_sd": null,
+      "accuracy_sample_sd": 0.0,
       "seeds": [
-        42
+        42,
+        137,
+        2026
       ],
       "invalid_total": 0,
       "mean_logical_inference_cost_usd": 0.23226411999999977
     },
     "case_rag": {
       "accuracy_mean": 0.4908906882591093,
-      "accuracy_sample_sd": null,
+      "accuracy_sample_sd": 0.0,
       "seeds": [
-        42
+        42,
+        137,
+        2026
       ],
       "invalid_total": 0,
       "mean_logical_inference_cost_usd": 0.23731394783999968
     },
     "reflexion_adapt": {
-      "accuracy_mean": 0.4726720647773279,
-      "accuracy_sample_sd": null,
+      "accuracy_mean": 0.47638326585695007,
+      "accuracy_sample_sd": 0.006427988827010017,
       "seeds": [
-        42
+        42,
+        137,
+        2026
       ],
       "invalid_total": 0,
-      "mean_logical_inference_cost_usd": 0.13071089463999988
+      "mean_logical_inference_cost_usd": 0.13711725975999997
     },
     "grasp_adapt": {
-      "accuracy_mean": 0.4726720647773279,
-      "accuracy_sample_sd": null,
+      "accuracy_mean": 0.48009446693657215,
+      "accuracy_sample_sd": 0.012855977654019999,
       "seeds": [
-        42
+        42,
+        137,
+        2026
       ],
-      "invalid_total": 0,
-      "mean_logical_inference_cost_usd": 0.13071089463999988
+      "invalid_total": 2,
+      "mean_logical_inference_cost_usd": 0.13891555443999995
     },
     "evotool_adapt": {
       "accuracy_mean": 0.4726720647773279,
-      "accuracy_sample_sd": null,
+      "accuracy_sample_sd": 0.0,
       "seeds": [
-        42
+        42,
+        137,
+        2026
       ],
       "invalid_total": 0,
       "mean_logical_inference_cost_usd": 0.13071089463999988
     },
     "rxrsi": {
       "accuracy_mean": 0.4726720647773279,
-      "accuracy_sample_sd": null,
+      "accuracy_sample_sd": 0.0,
       "seeds": [
-        42
+        42,
+        137,
+        2026
       ],
       "invalid_total": 0,
       "mean_logical_inference_cost_usd": 0.13071089463999988
@@ -160,6 +178,174 @@
       "fixes": 0,
       "regressions": 0,
       "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 137,
+      "baseline": "direct",
+      "accuracy_difference": 0.011133603238866396,
+      "scenario_cluster_ci95": [
+        -0.010121457489878543,
+        0.03137731296325921
+      ],
+      "fixes": 60,
+      "regressions": 49,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 137,
+      "baseline": "cot",
+      "accuracy_difference": 0.0,
+      "scenario_cluster_ci95": [
+        0.0,
+        0.0
+      ],
+      "fixes": 0,
+      "regressions": 0,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 137,
+      "baseline": "self_refine",
+      "accuracy_difference": -0.003036437246963563,
+      "scenario_cluster_ci95": [
+        -0.019230769230769232,
+        0.013157894736842105
+      ],
+      "fixes": 31,
+      "regressions": 34,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 137,
+      "baseline": "case_rag",
+      "accuracy_difference": -0.018218623481781375,
+      "scenario_cluster_ci95": [
+        -0.0425531914893617,
+        0.0070921985815602835
+      ],
+      "fixes": 70,
+      "regressions": 88,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 137,
+      "baseline": "reflexion_adapt",
+      "accuracy_difference": -0.011133603238866396,
+      "scenario_cluster_ci95": [
+        -0.03340080971659919,
+        0.011144883485309016
+      ],
+      "fixes": 57,
+      "regressions": 68,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 137,
+      "baseline": "grasp_adapt",
+      "accuracy_difference": -0.022267206477732792,
+      "scenario_cluster_ci95": [
+        -0.044579533941236066,
+        0.0
+      ],
+      "fixes": 56,
+      "regressions": 78,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 137,
+      "baseline": "evotool_adapt",
+      "accuracy_difference": 0.0,
+      "scenario_cluster_ci95": [
+        0.0,
+        0.0
+      ],
+      "fixes": 0,
+      "regressions": 0,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 2026,
+      "baseline": "direct",
+      "accuracy_difference": 0.011133603238866396,
+      "scenario_cluster_ci95": [
+        -0.010121457489878543,
+        0.03137731296325921
+      ],
+      "fixes": 60,
+      "regressions": 49,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 2026,
+      "baseline": "cot",
+      "accuracy_difference": 0.0,
+      "scenario_cluster_ci95": [
+        0.0,
+        0.0
+      ],
+      "fixes": 0,
+      "regressions": 0,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 2026,
+      "baseline": "self_refine",
+      "accuracy_difference": -0.003036437246963563,
+      "scenario_cluster_ci95": [
+        -0.019230769230769232,
+        0.013157894736842105
+      ],
+      "fixes": 31,
+      "regressions": 34,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 2026,
+      "baseline": "case_rag",
+      "accuracy_difference": -0.018218623481781375,
+      "scenario_cluster_ci95": [
+        -0.0425531914893617,
+        0.0070921985815602835
+      ],
+      "fixes": 70,
+      "regressions": 88,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 2026,
+      "baseline": "reflexion_adapt",
+      "accuracy_difference": 0.0,
+      "scenario_cluster_ci95": [
+        0.0,
+        0.0
+      ],
+      "fixes": 0,
+      "regressions": 0,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 2026,
+      "baseline": "grasp_adapt",
+      "accuracy_difference": 0.0,
+      "scenario_cluster_ci95": [
+        0.0,
+        0.0
+      ],
+      "fixes": 0,
+      "regressions": 0,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 2026,
+      "baseline": "evotool_adapt",
+      "accuracy_difference": 0.0,
+      "scenario_cluster_ci95": [
+        0.0,
+        0.0
+      ],
+      "fixes": 0,
+      "regressions": 0,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
     }
   ],
   "verification": [
@@ -169,11 +355,25 @@
       "independent_correct_recount": "passed",
       "version_hashes": "passed",
       "scenario_test_groups": 987
+    },
+    {
+      "seed": 137,
+      "case_alignment": "passed",
+      "independent_correct_recount": "passed",
+      "version_hashes": "passed",
+      "scenario_test_groups": 987
+    },
+    {
+      "seed": 2026,
+      "case_alignment": "passed",
+      "independent_correct_recount": "passed",
+      "version_hashes": "passed",
+      "scenario_test_groups": 987
     }
   ],
   "shared_public_api_ledger_snapshot": {
-    "requests": 56272,
-    "charged_usd": 9.487178683599941,
+    "requests": 57945,
+    "charged_usd": 10.625470880359945,
     "scope": "Shared ledger for v8 and later public studies, not a v8-only attribution."
   },
   "primary_task": "Derived RxSafeBench option selection, 988 test cases; no original-paper score equivalence."

@@ -19,8 +19,10 @@ class PublicBackend:
             key=digest(messages)
             with self.lock:index=self.calls[key];self.calls[key]+=1
             salt=['grasp-official-core',key,index]
-        return request(messages,self.model,3072 if proposer else 512,'grasp_proposer' if proposer else 'grasp_actor',
-            temperature=self.temperature,cache_salt=salt)['raw']
+        response=request(messages,self.model,3072 if proposer else 512,'grasp_proposer' if proposer else 'grasp_actor',
+            temperature=self.temperature,cache_salt=salt)
+        if response.get('error'):raise RuntimeError('Incomplete transport response; no task score emitted')
+        return response['raw']
 
 class MedicationTask(Task):
     name='rxsafebench-derived-option-selection'

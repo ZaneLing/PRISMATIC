@@ -1,0 +1,33 @@
+{
+  "source": "GRASP pinned benchmark adapter",
+  "source_commit": "9d7d125a3e9b46ed591692475eb07aff4ae67d34",
+  "splits": {
+    "dev": {
+      "n": 96,
+      "sha256": "56965f84c5e4894975abf9af8ba7502f9de6afadc2a836f285a26c67669e31fa"
+    },
+    "val": {
+      "n": 80,
+      "sha256": "0159640f80db83d1b784f61a3d64e7da02aecd9bdfb62cfbdb461e888901efe9"
+    },
+    "id_test": {
+      "n": 64,
+      "sha256": "b18527109c29e8201aa5ca3e0004b8cf1c0ca3c5b111c20d477d1dda72940eb6"
+    },
+    "test": {
+      "n": 60,
+      "sha256": "e1af3a94f1c913d1abb59ed44208111716013d2d7258030f03c7adfb8fb44950"
+    }
+  },
+  "cross_split_case_overlap": {
+    "dev__val": 0,
+    "dev__id_test": 0,
+    "dev__test": 0,
+    "id_test__val": 0,
+    "id_test__test": 0,
+    "test__val": 0
+  },
+  "reference_grader_sha256": "fc9b17d04bb091c3db8ba46b7b65e437a4cbd5252f61339e864b01715628d66e",
+  "test_scores_present": false,
+  "task_protocol": "96 development, 80 validation, 64 in-distribution test, 60 held-out task-type test; eight action rounds in the released configuration."
+}

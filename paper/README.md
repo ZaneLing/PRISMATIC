@@ -1,6 +1,6 @@
 # PRISMATIC / RxRSIAgent manuscript and execution index
 
-**Target: ACL 2027. v0.7, v0.8 seed 42, v0.10, v0.12 and v0.13 complete. v0.9 local training continues; additional v0.8 seeds and parts of v0.11 are incomplete after API credit exhaustion (14 October 2026).** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
+**Target: ACL 2027. API recovery is complete: all v0.8 seeds and v0.11 requests are scored from received responses. v0.14 real-FHIR development pilot and v0.16 budget repair have executed results; v0.9 test generation and v0.17 grounded skill evolution continue.** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
 
 ## Start here
 
@@ -8,6 +8,8 @@
 - [中文真实结果](../upgrade_v7/RESULTS.zh.md) / [English results](../upgrade_v7/RESULTS.en.md)
 - [持续更新计划](COMPLETION_PLAN.md) / [English plan](COMPLETION_PLAN.en.md)
 - [v0.7 evidence and reproduction](../upgrade_v7/README.md), [v0.8 language evolution](../upgrade_v8/README.md), [v0.9 parameter evolution](../upgrade_v9/README.md)
+
+[Current consolidated results](CURRENT_RESULTS.en.md) / [中文总览](CURRENT_RESULTS.zh.md)
 
 ## Where are the main tables?
 
@@ -19,7 +21,7 @@
 
 ## Additional completed comparisons
 
-[Public method table, English](../upgrade_v8/RESULTS.en.md) / [中文](../upgrade_v8/RESULTS.zh.md): Direct 46.15%, CoT 47.27%, Self-Refine 47.57%, case RAG 49.09%, first-seed RxRSI 47.27%. The [unmodified GRASP core](../upgrade_v10/RESULTS.en.md) reaches 50.81% on the same 988 questions; scoped RxRSI remains flat. The [evidence-tool increment](../upgrade_v11/RESULTS.en.md) reaches 48.99% with the validation-selected fixed review. [Three-seed learned routing](../upgrade_v12/RESULTS.en.md) reaches 48.68%/48.79%; it changes parameters but has no stable advantage over the fixed tool.
+[Public method table, English](../upgrade_v8/RESULTS.en.md) / [中文](../upgrade_v8/RESULTS.zh.md): Direct 46.15%, CoT 47.27%, Self-Refine 47.57%, case RAG 49.09%, three-seed RxRSI 47.27%. The [unmodified GRASP core](../upgrade_v10/RESULTS.en.md) reaches 50.81% on the same 988 questions; scoped RxRSI remains flat. The [evidence-tool increment](../upgrade_v11/RESULTS.en.md) reaches 48.99% with the validation-selected fixed review. [Three-seed learned routing](../upgrade_v12/RESULTS.en.md) reaches 48.68%/48.79%; it changes parameters but has no stable advantage over the fixed tool.
 
 ## Current conclusion
 
@@ -31,12 +33,16 @@ GT-based evaluation does not require clinician review. Missing attributes remain
 
 | Version | Record | Evidence |
 | --- | --- | --- |
+| v0.17 | [Grounded skill experiment](../upgrade_v17/README.md) | Running: fixed label evidence plus credited author-core optimizer |
+| v0.16 | [Budget repair results](../upgrade_v16/RESULTS.en.md) | Completed 190-question Gemini development repair; 2,048-token follow-up complete; four-method backbone transfer queued |
+| v0.15 | [Pre-test intervention](../upgrade_v15/README.md) | Binary candidate output protocol frozen before v0.9 test scoring; local training queued |
+| v0.14 | [Real FHIR results](../upgrade_v14/RESULTS.en.md) | Five integration probes and matched 16-task model pilot |
 | v0.13 | [Executed outcome-verifier results](../upgrade_v13/RESULTS.en.md) | Three seeds, same two-call budget, uniform/error-prioritized updates and full-data supervision |
 | v0.12 | [Executed gate/round results](../upgrade_v12/RESULTS.en.md) | Three-seed cached replay, evolving routing parameters, regressions and fixed-tool control |
-| v0.11 | [Partial executed results](../upgrade_v11/RESULTS.en.md) | Completed fixed reviews and router; indication/Gemini incomplete after HTTP 402 |
+| v0.11 | [Completed executed results](../upgrade_v11/RESULTS.en.md) | All indication/Gemini requests recovered under the original protocol |
 | v0.10 | [Executed results](../upgrade_v10/RESULTS.en.md) | Unmodified author GRASP core, scoped-skill failure and paired analysis |
 | v0.9 | [Protocol / running](../upgrade_v9/README.md) | Local QLoRA, matched uniform/error-prioritized updates |
-| v0.8 | [Results / first seed complete](../upgrade_v8/RESULTS.en.md) | Public language-artifact evolution, named task adaptations, transfer |
+| v0.8 | [Results / three seeds complete](../upgrade_v8/RESULTS.en.md) | Public language-artifact evolution, named task adaptations, transfer |
 | v0.7 | [Executed results](../upgrade_v7/RESULTS.en.md) | Three seeds, new 4k test, artifact ablations, stronger equal-data controls |
 | v0.6 | [Results](../upgrade_v6/RESULTS.en.md), [design](../upgrade_v6/DESIGN.en.md) | Raw orders, GT automatic feedback, policy evolution, reported baselines and negative replay/planner ablations |
 | v0.5 | [Results](../upgrade_v5/RESULTS.en.md), [frozen paper](https://github.com/ZaneLing/PRISMATIC/tree/1f488edbbf6a8c22423bcbb0a5cf6585c5a81bb2/paper) | Empty-output repair, stronger ranking and residual memory |

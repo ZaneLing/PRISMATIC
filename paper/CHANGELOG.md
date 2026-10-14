@@ -1,5 +1,13 @@
 # Manuscript change log / 论文变更记录
 
+## 2026-10-14 — v0.14/v0.16 executed; interrupted runs recovered
+
+- Completed all v0.8 seeds and v0.11 API requests after the user restored credits; retained invalidated history.
+- Executed real FHIR CRUD/atomicity/cleanup and a 16-task matched model pilot; independently regraded and verified fixture/resource coverage.
+- Repaired Gemini completion-budget truncation on development data; original settings and negative evidence comparisons preserved.
+- Updated English paper and bilingual consolidated results. Queued v0.15 binary supervision and started v0.17 grounded skill learning.
+
+
 ## v0.13 complete — 2026-10-14
 
 - Added outcome-aware verification after both draft/review answers exist; compared uniform and reachable-error-prioritized feedback across three orders and four rounds. 新增核验器真实参数迭代。

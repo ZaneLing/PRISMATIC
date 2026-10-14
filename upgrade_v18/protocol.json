@@ -1,0 +1,19 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "max_output_tokens": 2048,
+  "reasoning_effort": "low",
+  "test_n": 988,
+  "calls_per_case": 1,
+  "methods": [
+    "cot",
+    "frozen_author_grasp",
+    "fixed_grounded",
+    "frozen_grounded_grasp"
+  ],
+  "skill_selection": "Transfer frozen DeepSeek-learned v10 and v17 skills unchanged; no Gemini skill learning or test-based selection.",
+  "token_selection": "v16 development-only budget study, before Gemini test scoring",
+  "prompt": "Same MedicationTask prompt/option parser; only declared label evidence and skill injection differ.",
+  "scope": "Same derived RxSafeBench split, not original benchmark equivalence; cross-backbone artifact transfer.",
+  "cost_cap_cumulative_usd": 25,
+  "cost_note": "After explicit user funding recovery. Engineering ledger cap includes historical public studies; not a per-method inference cost."
+}

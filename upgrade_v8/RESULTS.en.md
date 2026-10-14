@@ -1,19 +1,19 @@
 # RxRSIAgent v0.8: executed language-artifact evolution
 
-Completed evolution-order seeds: 42. Missing seeds are not counted as completed. The fixed backbone is DeepSeek-V4.1-Flash. All methods share the scenario-group split: 625 train / 190 proposal / 197 guard / 988 test cases. This is a derived medication-option task; original free-generation paper scores are not directly comparable.
+Completed evolution-order seeds: 42, 137, 2026. Missing seeds are not counted as completed. The fixed backbone is DeepSeek-V4.1-Flash. All methods share the scenario-group split: 625 train / 190 proposal / 197 guard / 988 test cases. This is a derived medication-option task; original free-generation paper scores are not directly comparable.
 
 ## Method comparison
 
 | Method | Accuracy (%) | Seed SD (pp) | Invalid outputs |
 |---|---:|---:|---:|
-| Direct | 46.15 | — | 1 |
-| CoT | 47.27 | — | 0 |
-| Self-Refine | 47.57 | — | 0 |
-| Case RAG | 49.09 | — | 0 |
-| Reflexion adaptation | 47.27 | — | 0 |
-| GRASP adaptation | 47.27 | — | 0 |
-| EvoTool adaptation | 47.27 | — | 0 |
-| RxRSI | 47.27 | — | 0 |
+| Direct | 46.15 | 0.00 | 3 |
+| CoT | 47.27 | 0.00 | 0 |
+| Self-Refine | 47.57 | 0.00 | 0 |
+| Case RAG | 49.09 | 0.00 | 0 |
+| Reflexion adaptation | 47.64 | 0.64 | 0 |
+| GRASP adaptation | 48.01 | 1.29 | 2 |
+| EvoTool adaptation | 47.27 | 0.00 | 0 |
+| RxRSI | 47.27 | 0.00 | 0 |
 
 The named Reflexion, GRASP and EvoTool rows are independent task adaptations, not official reproductions. All evolution methods receive four candidate-evaluation slots per round; proposal costs can differ. Invalid outputs count as wrong. Across-seed SD measures training-order sensitivity, not independent patient sampling uncertainty.
 

@@ -1,5 +1,5 @@
 {
-  "status": "partial",
+  "status": "complete_deepseek_study",
   "complete_test_methods": {
     "cot": {
       "n": 988,
@@ -75,15 +75,38 @@
           0.048582995951417005
         ]
       }
-    }
-  },
-  "unscored": {
+    },
     "indication": {
-      "missing_responses": 153,
-      "received_responses": 835,
-      "accuracy": null
+      "n": 988,
+      "correct": 478,
+      "accuracy": 0.48380566801619435,
+      "invalid": 1,
+      "input_tokens": 2097968,
+      "output_tokens": 134251,
+      "cost_usd": 0.3921415693600001,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 310
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 168
+        }
+      },
+      "versus_cot": {
+        "fixes": 123,
+        "regressions": 112,
+        "difference": 0.011133603238866396,
+        "scenario_cluster_ci95": [
+          -0.020202020202020204,
+          0.03951367781155015
+        ]
+      }
     }
   },
+  "unscored": {},
   "test_n": 988,
-  "verification": "Independent counts and exact case alignment passed; transport failures excluded from scoring."
+  "verification": "Independent counts and exact case alignment passed; transport failures excluded from scoring.",
+  "second_backbone_status": "complete_development_pilot"
 }

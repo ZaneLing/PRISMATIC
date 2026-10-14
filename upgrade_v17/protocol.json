@@ -1,0 +1,32 @@
+{
+  "source_commit": "9d7d125a3e9b46ed591692475eb07aff4ae67d34",
+  "core_modified": false,
+  "attribution": "GRASP author core optimizer plus RxRSI grounded task harness; no novel optimizer claim",
+  "seed": 42,
+  "train": 625,
+  "validation": 387,
+  "test": 988,
+  "transfer": 300,
+  "round_size": 157,
+  "candidate_slots": 4,
+  "probe_n": 40,
+  "actor_tokens": 512,
+  "proposer_tokens": 3072,
+  "test_calls_per_case": 1,
+  "evidence_profile": "balanced (fixed before this experiment)",
+  "evolving_objects": [
+    "language skill files"
+  ],
+  "fixed_objects": [
+    "LLM weights",
+    "retrieval source code",
+    "label corpus",
+    "profile"
+  ],
+  "controls": [
+    "same evidence and actor without skill updates",
+    "v10 author core without label evidence"
+  ],
+  "test_selection": "Freeze best skills on validation before test; same test was observed in earlier development, so exploratory extension.",
+  "restricted_data_sent": false
+}

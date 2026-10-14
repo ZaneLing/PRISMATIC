@@ -26,6 +26,6 @@ python run_evolution.py --seed 137
 python run_evolution.py --seed 2026
 ```
 
-Set `OPENROUTER_API_KEY` locally. Requests are resumable by a content hash. Private working caches contain only public benchmark requests/responses. Reported per-method inference costs represent logical request usage, including reused cached answers; the usage ledger records actual charged calls separately. A $15 ledger cap is enforced after completed requests.
+Set `OPENROUTER_API_KEY` locally. Requests are resumable by a content hash. Private working caches contain only public benchmark requests/responses. Reported per-method inference costs represent logical request usage, including reused cached answers; the usage ledger records actual charged calls separately. A default $15 cumulative ledger cap is enforced after completed requests. A declared subsequent funded study can set `RXRSI_PUBLIC_COST_CAP_USD`; this engineering cap does not change previously recorded method costs.
 
 Full before/after artifacts, candidate scores, guard fixes/regressions and rejected proposals are retained. A changed artifact alone does not prove improvement. Repeated guard use is development selection.

@@ -1,8 +1,51 @@
 {
   "model": "google/gemini-3.8-flash",
-  "status": "incomplete",
-  "reason": "HTTP 402: account credits unavailable",
-  "requested_cases": 190,
-  "completed_api_responses": 0,
-  "accuracy": null
+  "split": "proposal",
+  "n": 190,
+  "test_evaluated": false,
+  "methods": {
+    "cot": {
+      "n": 190,
+      "correct": 72,
+      "accuracy": 0.37894736842105264,
+      "invalid": 69,
+      "input_tokens": 106201,
+      "output_tokens": 71296,
+      "cost_usd": 0.3470107499999999,
+      "subgroups": {
+        "contraindication": {
+          "n": 101,
+          "correct": 53
+        },
+        "interaction": {
+          "n": 89,
+          "correct": 19
+        }
+      }
+    },
+    "safety_evidence": {
+      "n": 190,
+      "correct": 62,
+      "accuracy": 0.3263157894736842,
+      "invalid": 85,
+      "input_tokens": 318454,
+      "output_tokens": 75374,
+      "cost_usd": 0.521493,
+      "subgroups": {
+        "contraindication": {
+          "n": 101,
+          "correct": 48
+        },
+        "interaction": {
+          "n": 89,
+          "correct": 14
+        }
+      },
+      "versus_cot": {
+        "fixes": 7,
+        "regressions": 17,
+        "retained_correct": 55
+      }
+    }
+  }
 }

@@ -33,10 +33,11 @@ def json_object(raw):
             except ValueError:pass
     return {}
 
-def request(messages,model,max_tokens,role='actor',temperature=0,cache_salt=None):
+def request(messages,model,max_tokens,role='actor',temperature=0,cache_salt=None,reasoning_effort=None):
     body={'model':model,'messages':messages,'temperature':temperature,'max_tokens':max_tokens,
           'provider':{'zdr':True,'data_collection':'deny'}}
     if model.startswith('deepseek/'):body['reasoning']={'effort':'none'}
+    if reasoning_effort is not None:body['reasoning']={'effort':reasoning_effort}
     signature=digest(body) if cache_salt is None else digest([body,cache_salt])
     folder=LOCAL/'cache';folder.mkdir(exist_ok=True);path=folder/(signature+'.json')
     if path.exists():
@@ -56,13 +57,16 @@ def request(messages,model,max_tokens,role='actor',temperature=0,cache_salt=None
             usage=payload.get('usage') or {};content=payload.get('choices',[{}])[0].get('message',{}).get('content') or ''
             row={'raw':content,'input_tokens':usage.get('prompt_tokens',0),'output_tokens':usage.get('completion_tokens',0),
                  'cost_usd':usage.get('cost',0),'model_returned':payload.get('model'),
+                 'finish_reason':payload.get('choices',[{}])[0].get('finish_reason'),
+                 'reasoning_tokens':(usage.get('completion_tokens_details') or {}).get('reasoning_tokens'),
                  'seconds':time.time()-start,'request_sha256':signature,'role':role}
             with LOCK:
                 temporary=path.with_suffix(f'.{os.getpid()}.{threading.get_ident()}.tmp')
                 temporary.write_text(json.dumps(row,ensure_ascii=False)+'\n');os.replace(temporary,path)
                 with (LOCAL/'usage.jsonl').open('a') as f:f.write(json.dumps({k:v for k,v in row.items() if k!='raw'})+'\n')
                 total=sum(json.loads(s).get('cost_usd',0) or 0 for s in (LOCAL/'usage.jsonl').read_text().splitlines())
-            if total>15:raise RuntimeError('Public evaluation cost cap reached; cached progress retained')
+            cost_cap=float(os.getenv('RXRSI_PUBLIC_COST_CAP_USD','15'))
+            if total>cost_cap:raise RuntimeError('Public evaluation cost cap reached; cached progress retained')
             return row
         except urllib.error.HTTPError as e:
             last='HTTP_'+str(e.code)

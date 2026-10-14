@@ -1,0 +1,30 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "reasoning_metadata": {
+    "mandatory": true,
+    "default_enabled": true,
+    "supported_efforts": [
+      "high",
+      "medium",
+      "low"
+    ],
+    "default_effort": "medium"
+  },
+  "configurations": [
+    {
+      "cap": 512,
+      "effort": "low"
+    },
+    {
+      "cap": 1024,
+      "effort": "low"
+    }
+  ],
+  "selection_cases": "First 30 proposal cases, same for both settings",
+  "selection_rule": "Minimize invalid count, then maximize accuracy, then prefer lower cap.",
+  "remaining_development": "Run all 190 proposal cases for CoT and safety evidence under the selected setting.",
+  "test_used": false,
+  "prompt_unchanged": true,
+  "baseline": "v11 original 512 cap/default reasoning is retained, not overwritten.",
+  "source": "https://openrouter.ai/docs/guides/best-practices/reasoning-tokens"
+}

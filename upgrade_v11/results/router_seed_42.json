@@ -61,11 +61,23 @@
       }
     },
     "indication": {
-      "status": "incomplete",
       "n": 988,
-      "completed_requests": 835,
-      "transport_errors": 153,
-      "accuracy": null
+      "correct": 478,
+      "accuracy": 0.48380566801619435,
+      "invalid": 1,
+      "input_tokens": 2097968,
+      "output_tokens": 134251,
+      "cost_usd": 0.3921415693600001,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 310
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 168
+        }
+      }
     },
     "rxrsi_evidence_router": {
       "n": 988,
@@ -273,6 +285,5 @@
     "regressions": 119,
     "retained_correct": 365
   },
-  "static_selected_action": "balanced",
-  "comparison_status": "Partial: indication control incomplete; other listed method rows have no transport failures."
+  "static_selected_action": "balanced"
 }

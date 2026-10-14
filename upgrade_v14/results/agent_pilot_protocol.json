@@ -1,0 +1,18 @@
+{
+  "dataset": "MedAgentBench released GRASP split, development only",
+  "n": 16,
+  "selection": "First two cases of each of eight development task types",
+  "methods": [
+    "direct_tool",
+    "verified_state_harness"
+  ],
+  "max_model_calls": 8,
+  "max_output_tokens": 512,
+  "model": "deepseek/deepseek-v4.1-flash",
+  "tool_protocol": "Actual local HTTP writes for both methods; original trace grade and persisted-state grade reported separately.",
+  "evolution": false,
+  "test_used": false,
+  "patient_fields_in_actor": "Only released instruction/context and queried public fixture resources. eval_MRN/sol never enter actor prompts.",
+  "response_cap_characters": 60000,
+  "model_transport_failure": "Stop, retain complete cases, emit no score for unavailable calls."
+}

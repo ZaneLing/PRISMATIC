@@ -1,0 +1,57 @@
+{
+  "status": "complete",
+  "split": "proposal",
+  "n": 190,
+  "setting": {
+    "cap": 2048,
+    "effort": "low"
+  },
+  "test_evaluated": false,
+  "methods": {
+    "cot": {
+      "n": 190,
+      "correct": 105,
+      "accuracy": 0.5526315789473685,
+      "invalid": 2,
+      "input_tokens": 106201,
+      "output_tokens": 75410,
+      "cost_usd": 0.36243825,
+      "subgroups": {
+        "contraindication": {
+          "n": 101,
+          "correct": 71
+        },
+        "interaction": {
+          "n": 89,
+          "correct": 34
+        }
+      },
+      "finish_length": 2
+    },
+    "safety_evidence": {
+      "n": 190,
+      "correct": 100,
+      "accuracy": 0.5263157894736842,
+      "invalid": 1,
+      "input_tokens": 318454,
+      "output_tokens": 58983,
+      "cost_usd": 0.46002675,
+      "subgroups": {
+        "contraindication": {
+          "n": 101,
+          "correct": 67
+        },
+        "interaction": {
+          "n": 89,
+          "correct": 33
+        }
+      },
+      "finish_length": 2
+    }
+  },
+  "evidence_vs_cot": {
+    "fixes": 11,
+    "regressions": 16,
+    "retained_correct": 89
+  }
+}

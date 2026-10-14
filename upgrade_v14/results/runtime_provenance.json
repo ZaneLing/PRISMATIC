@@ -1,0 +1,50 @@
+{
+  "status": "downloaded_and_verified",
+  "official_repository": "https://github.com/stanfordmlgroup/MedAgentBench",
+  "image_repository": "jyxsu6/medagentbench",
+  "image_manifest_digest": "sha256:3fb83d7ed71c5476f9eb6212bd440a909ef7505922bbc757dc488a8fc0701966",
+  "selected_layers": [
+    {
+      "index": 34,
+      "digest": "sha256:cf24bb040d00b25e8875d9e29d35843ab1d071e6634216d13bba4da5df295f3e",
+      "compressed_bytes": 304610847,
+      "files": [
+        {
+          "path": "app/main.war",
+          "size": 325806976
+        }
+      ]
+    },
+    {
+      "index": 36,
+      "digest": "sha256:8c209be0364556925ea46efeabb889ef654a155017320338eb597ae02c82e36a",
+      "compressed_bytes": 5122,
+      "files": [
+        {
+          "path": "configs/application.yaml",
+          "size": 14312
+        }
+      ]
+    },
+    {
+      "index": 37,
+      "digest": "sha256:9bfc4212d77cdac9f149bcfeb92a1a12cff9da8eb1aac51e873f05c896f4b722",
+      "compressed_bytes": 1422059730,
+      "files": [
+        {
+          "path": "data/test_db.mv.db",
+          "size": 4468314112
+        }
+      ]
+    }
+  ],
+  "jre": {
+    "vendor": "Amazon Corretto",
+    "version": "21.0.12.12.1",
+    "sha256": "8594556550766865662411ef3a7a71a66df9a9065f28a7b318a5352bda91b6a4",
+    "source": "https://corretto.aws/downloads/resources/21.0.12.12.1/amazon-corretto-21.0.12.12.1-macosx-aarch64.tar.gz"
+  },
+  "runtime_difference": "Official app and public database extracted unchanged; native macOS aarch64 JRE replaces Linux amd64 container runtime. Equivalence still requires live capability and benchmark validation.",
+  "system_installation": false,
+  "raw_restricted_data_used": false
+}

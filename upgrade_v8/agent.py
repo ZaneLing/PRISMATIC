@@ -25,6 +25,7 @@ def normalize_state(state):
 class Agent:
     def __init__(self,train,model):
         self.by_id={c['id']:c for c in train};self.train=train;self.model=model
+        self.output_token_limit=512;self.request_options={}
         self.vec=TfidfVectorizer(analyzer='char_wb',ngram_range=(3,5),max_features=24000,min_df=2)
         self.x=self.vec.fit_transform([self.context(c) for c in train]);self.indices={c['id']:i for i,c in enumerate(train)}
 
@@ -58,7 +59,7 @@ class Agent:
         prompt+='Current question:\n'+c['dialogue']+'\nOptions:\n'+'\n'.join(f'{chr(65+i)}. {o}' for i,o in enumerate(c['options']))
         if initial is not None:prompt+='\nPrevious draft: '+str(initial)+'\nRecheck the draft against the patient facts and all options. Correct it only when warranted.'
         prompt+='\nReturn JSON only: {"evidence":"short decisive evidence","final":"one option letter"}.'
-        result=request([{'role':'system','content':'Solve a verified public, fictional medication benchmark.'},{'role':'user','content':prompt}],self.model,512)
+        result=request([{'role':'system','content':'Solve a verified public, fictional medication benchmark.'},{'role':'user','content':prompt}],self.model,self.output_token_limit,**self.request_options)
         parsed=json_object(result['raw']);prediction=parsed.get('final') if isinstance(parsed,dict) else None
         if isinstance(prediction,str):prediction=prediction.strip().upper()
         if prediction not in [chr(65+i) for i in range(len(c['options']))]:prediction=None

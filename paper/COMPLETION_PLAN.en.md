@@ -1,5 +1,20 @@
 # PRISMATIC manuscript completion and execution plan
 
+## Latest increment: API recovery, real FHIR and budget repair (14 October 2026)
+
+This is the current state; older sections preserve historical plans and credit interruptions.
+
+1. **Complete:** all three v0.8 seeds and all v0.11 indication/Gemini requests, independently recounted; invalidated archives retained.
+2. **Complete:** v0.14 five real-FHIR integration checks and a matched 16-task development pilot: direct tools 10/16 versus fixed verified harness 8/16.
+3. **Complete:** v0.16 Gemini development repair: 72→100 correct and 69→16 invalid CoT answers among 190 questions. The 2,048-token follow-up is complete: CoT 105/190 with 2 invalid; evidence 100/190 with 1 invalid.
+4. **Running:** v0.9 training and guard selection are frozen for both arms; all checkpoint predictions on the 500-case test are being generated before independent recount and top-k tool comparison.
+5. **Queued after local GPU work:** v0.15 binary inclusion supervision, same patients and training budget; protocol was frozen before v0.9 test scoring.
+6. **Running:** v0.17 combines the strongest completed author GRASP core with frozen label evidence, controlling against no-evolution evidence and no-evidence GRASP under one-call inference.
+
+[Consolidated method tables and evolution evidence](CURRENT_RESULTS.en.md). Only audited completed scores enter the paper. Failed superiority hypotheses remain visible and motivate specific next interventions.
+
+---
+
 ## Execution increment: v0.13 complete (2026-10-14)
 
 [Complete English report](../upgrade_v13/RESULTS.en.md) / [中文](../upgrade_v13/RESULTS.zh.md). At the same two-call budget, incremental uniform verification reaches 49.12±0.23%, error-prioritized verification 49.02±0.06%, fixed review 48.99%, and full-data ordinary verification 47.87%. Three seeds/four rounds, coefficient/feedback hashes, repairs/regressions, independent counts and full-call accounting are complete. Neither evolving verifier exceeds the author GRASP core's 50.81%. The existing English paper's common-task table is updated and compiles.

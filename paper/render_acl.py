@@ -19,14 +19,16 @@ def run():
     public=ROOT/'upgrade_v8/results/public_results_seed_42.json';parameter=ROOT/'upgrade_v9/results/parameter_results.json'
     public_section=r'\paragraph{Execution status.} The public language-artifact experiment is running; incomplete evaluations are not presented as final results.'
     if public.exists():
-        d=json.loads(public.read_text());pr='\n'.join(f"{name.replace('_',' ')} & {z['accuracy']*100:.2f} & {2 if name=='self_refine' else 1} \\\\" for name,z in d['methods'].items())
+        d=json.loads((ROOT/'upgrade_v8/results/summary.json').read_text())
+        pr='\n'.join(f"{name.replace('_',' ')} & {z['accuracy_mean']*100:.2f} $\\pm$ {z['accuracy_sample_sd']*100:.2f} & {2 if name=='self_refine' else 1} \\\\" for name,z in d['methods'].items())
         if (ROOT/'upgrade_v10/results/grasp_core_seed_42.json').exists():
             pr+=r'''
 Author GRASP core + task adapter & 50.81 & 1\\
 Scoped RxRSI skills & 47.27 & 1\\'''
         if (ROOT/'upgrade_v11/results/summary.json').exists():
             evidence=json.loads((ROOT/'upgrade_v11/results/summary.json').read_text())
-            for key,label in [('balanced','Fixed balanced evidence'),('safety','Fixed safety evidence')]:
+            for key,label in [('balanced','Fixed balanced evidence'),('safety','Fixed safety evidence'),('indication','Fixed indication evidence')]:
+                if key not in evidence['complete_test_methods']:continue
                 pr+=f"\n{label} & {100*evidence['complete_test_methods'][key]['accuracy']:.2f} & 2 \\\\"
         if (ROOT/'upgrade_v12/results/summary.json').exists():
             gates=json.loads((ROOT/'upgrade_v12/results/summary.json').read_text())['gate_summaries']
@@ -38,10 +40,10 @@ Scoped RxRSI skills & 47.27 & 1\\'''
             for key,label in [('uniform','Incremental verifier: uniform'),('error_prioritized','Incremental verifier: priority')]:
                 z=verifier['arms'][key];pr+=f"\n{label} & {100*z['accuracy_mean']:.2f} $\\pm$ {100*z['accuracy_sample_sd']:.2f} & 2 \\\\"
         public_section=r'''\begin{table}[t]\centering\small
-\caption{Executed method comparison on the same 988 derived RxSafeBench questions with DeepSeek-V4.1-Flash. Router rows are three-order means $\pm$ SD; other evolving rows use seed 42. Calls are mean test-time model calls; development costs differ. This is a development comparison, not original benchmark score equivalence.}
-\begin{tabular}{lrr}\toprule Method & Accuracy (\%) & Calls\\\midrule
+\caption{Executed method comparison on the same 988 derived RxSafeBench questions with DeepSeek-V4.1-Flash. Rows with $\pm$ report three evolution orders; fixed outputs are reused across orders. Author-core and scoped-skill rows use seed 42. Calls are mean test-time model calls; development costs differ. This is a development comparison, not original benchmark score equivalence.}
+\begin{tabularx}{\columnwidth}{@{}Xrr@{}}\toprule Method & Accuracy (\%) & Calls\\\midrule
 PUBLICROWS
-\bottomrule\end{tabular}\end{table}'''.replace('PUBLICROWS',pr)
+\bottomrule\end{tabularx}\end{table}'''.replace('PUBLICROWS',pr)
     core_path=ROOT/'upgrade_v10/results/grasp_core_seed_42.json'
     scoped_path=ROOT/'upgrade_v10/results/scoped_rsi_seed_42.json'
     if core_path.exists() and scoped_path.exists():
@@ -55,15 +57,17 @@ We learn action-benefit routing from complete counterfactual training outputs. A
 
 Across three orders, separate-guard routing reaches 48.68$\pm$0.61\%; pooled routing reaches 48.79$\pm$0.54\%, against the selected fixed tool's 48.99\%. Mean runtime calls are 1.710 and 1.490, respectively. Coefficients, intercepts and thresholds change; LLM weights, retrieval code and labels stay fixed. Full version hashes and per-round repairs/regressions are released. An accepted pooled update for seed 2026 reduces test correctness from 480 to 476. Thus accepted updates need not generalize, and parameter changes alone do not establish recursive improvement. This offline trace replay makes no new requests, but generating counterfactual development traces has an explicit model-call cost. It is a development extension on an already observed test, not untouched confirmation.
 
-\paragraph{Incomplete requests are unscored.}
-Account-credit exhaustion interrupted 153/988 indication-review requests and all 380 Gemini development requests. A later language-evolution seed has 713 unfinished GRASP-adaptation test requests; another has an incomplete round-four selection, which is rolled back before resumption. These evaluations are marked incomplete, not zero accuracy. The client now stops on account errors, and the scorer rejects transport failures. The complete seed-42 and author-core results are unaffected. Received malformed outputs still count as errors.'''
+\paragraph{Transport recovery and output validity.}
+Credit exhaustion interrupted indication review, Gemini development requests and two language-evolution orders. After account restoration, these runs resumed under their existing protocols; the invalid round-four selection was rolled back before resumption. All three language-evolution seeds are now complete, and indication review scores 478/988 (48.38\%). The client stops on account errors and the scorer rejects transport failures. Received malformed outputs still count as errors. Original invalidated summaries remain archived; they are not model scores.
+
+The completed Gemini-3.8-Flash development pilot illustrates a separate token-budget failure. With its default reasoning setting and 512-token completion cap, CoT scores 72/190 with 69 invalid outputs; safety evidence scores 62/190 with 85 invalid outputs. Most invalid generations reach the output cap. A declared development-only repair selects low reasoning and a 1,024-token cap from two settings on the first 30 proposal cases. On all 190 proposal cases, CoT reaches 100/190 with 16 invalid outputs and evidence reaches 94/190 with 13. The 30-case selection subset contains only contraindication questions, a limitation of this pilot. A separately declared 2,048-token follow-up further reaches 105/190 with two invalid CoT outputs and 100/190 with one invalid evidence output. The setting is selected on development only. These are budget-sensitive development measurements, not a cross-backbone test claim.'''
     if (ROOT/'upgrade_v13/results/summary.json').exists():
         public_section+=r'''\subsection{Outcome-Aware Verification}
 The pre-tool router cannot assess a revision it has not observed. A subsequent verifier consumes both the initial answer and the completed balanced evidence review, then chooses between them. Its features encode option mentions, nearby negative/positive terms and optionally separate fixed hashes of the question and both responses. Training targets the revision's correctness change. Uniform and error-prioritized updates use identical accumulated cases and 18 proposal candidates per round. Feedback weights are computed before updating and emphasize reachable selection errors; neither answer being correct provides no reachable repair. The same proposal/guard split controls promotion, and a full-data ordinary supervised verifier is included.
 
 Three-order final accuracy is 49.12$\pm$0.23\% for uniform updates and 49.02$\pm$0.06\% for error priorities, compared with 48.99\% for fixed review and 47.87\% for the full-data verifier. Only one update is accepted in each of two runs; four runs remain unchanged. Both responses are charged even when the initial answer is returned. These small exploratory changes do not surpass the author-core GRASP control or establish a feedback-prioritization advantage. Parameter, weight and transition journals are released; actual language-model weight updates are tested separately below.'''
     parameter_section=r'\paragraph{Execution status.} Local parameter-update experiments are in progress. No fine-tuning gain is claimed before generation-based evaluation is complete.'
-    if parameter.exists():
+    if parameter.exists() and (ROOT/'upgrade_v9/results/summary.json').exists():
         d=json.loads(parameter.read_text());rr=f"Frozen Qwen3-4B & {d['base']['drug_micro_f1']:.4f} & {d['base']['core_order_micro_f1']:.4f} \\\\\n"
         rr+='\n'.join(f"{name.replace('_',' ')} & {v['selected_test']['drug_micro_f1']:.4f} & {v['selected_test']['core_order_micro_f1']:.4f} \\\\" for name,v in d['arms'].items())
         parameter_section=r'''\begin{table}[t]\centering\small
@@ -183,6 +187,11 @@ A local Qwen3-4B QLoRA study compares uniform supervised updates with feedback-p
 The Qwen chat template can emit an empty reasoning envelope before valid JSON. The parser removes only that empty envelope uniformly for all checkpoints, retains strict and normalized validity, and rebinds cached outputs to the current case. These repairs occurred on development data before test scoring; raw generations and learned weights are unchanged.
 
 PARAMETERSECTION
+
+\section{Study D: Executed FHIR Tools}
+We extract the unchanged application and public database from the digest-pinned official MedAgentBench image and run its HAPI FHIR 7.6.0 service on a native Java runtime. Five executed probes cover creation, readback, versioned updates, atomic rejection and cleanup. Original counts are restored: 695 patients, 21,991 medication requests and 563,426 observations. Runtime equivalence beyond these checks is not assumed.
+
+The released benchmark wrapper records accepted POST actions without performing the HTTP write; its reference grader checks trajectories. Our development adapter performs actual writes for both methods, reports the reference trajectory criterion separately from persisted-state checks, and removes only resources it creates. A 16-case pilot uses the first two cases from each of eight development task types, DeepSeek-V4.1-Flash and at most eight 512-token action calls. Direct tool use succeeds on 10/16; a fixed workflow/preflight/readback harness succeeds on 8/16. All 11 created resources pass readback checks and are cleaned up. Invalid-action counts are one and three, respectively. These small development results expose protocol and retrieval failures; they are neither full benchmark scores nor evidence of self-improvement. No restricted MIMIC records enter this service.
 
 \section{Limitations}
 The completed structured-order experiment uses admission-proxy inputs. Triage has no verified entry timestamp and medication reconciliation lacks storetime; temporal availability is therefore not fully established. Candidate vocabularies and one-template-per-drug output limit recall. Recorded prescriptions may omit clinically acceptable alternatives, and agreement does not prove indication or safety. Current language-artifact baselines are task adaptations, not official reruns. Repeated development selection can overfit; independent tests, multiple evolution orders, transfer and matched optimization budgets are necessary before claiming general RSI benefits. External RxEval and SafeRx data access remains unresolved.

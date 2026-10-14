@@ -1,0 +1,7 @@
+{
+  "official_commit": "99260117137b09f04837a8c18d18a1107efa55ae",
+  "source_url": "https://raw.githubusercontent.com/stanfordmlgroup/MedAgentBench/99260117137b09f04837a8c18d18a1107efa55ae/src/server/tasks/medagentbench/__init__.py",
+  "sha256": "d31253d5ea40c033d64e1b43599b4a258de55c3512aab79f66c623a488116668",
+  "post_branch": "elif r.startswith('POST'):\n                    try:\n                        payload = json.loads('\\n'.join(r.split('\\n')[1:]))\n                    except Exception as e:\n                        session.inject({\"role\": \"user\", \"content\": \"Invalid POST request\"})\n                    else:\n                        session.inject({\"role\": \"user\", \"content\": \"POST request accepted and executed successfully. Please call FINISH if you have got answers for all the questions and finished all the requested tasks\"})\n                ",
+  "interpretation": "The released wrapper accepts syntactically valid POST payloads in history without an HTTP POST. Real state persistence is a separately added validation."
+}

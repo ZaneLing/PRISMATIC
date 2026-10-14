@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "kind": "engineering_integration_probe_not_agent_score",
+  "fhir_version": "4.0.1",
+  "software": {
+    "name": "HAPI FHIR Server",
+    "version": "7.6.0"
+  },
+  "bind": "127.0.0.1:18080",
+  "counts_before": {
+    "Patient": 695,
+    "MedicationRequest": 21991,
+    "Observation": 563426,
+    "ServiceRequest": 0
+  },
+  "counts_after": {
+    "Patient": 695,
+    "MedicationRequest": 21991,
+    "Observation": 563426,
+    "ServiceRequest": 0
+  },
+  "checks": [
+    {
+      "check": "patient_create_read",
+      "passed": true
+    },
+    {
+      "check": "medication_create_and_referenced_patient_readback",
+      "passed": true
+    },
+    {
+      "check": "medication_update_and_version_change",
+      "passed": true
+    },
+    {
+      "check": "invalid_transaction_rejected_without_partial_patient",
+      "passed": true
+    },
+    {
+      "check": "created_resources_deleted_and_original_counts_restored",
+      "passed": true
+    }
+  ],
+  "restricted_records_used": false,
+  "model_calls": 0,
+  "scope": "Official public image application/database on native JRE. Actual HTTP writes/readbacks are tested. Original benchmark wrapper scores POST traces without executing them; this probe is separately reported."
+}

@@ -1,19 +1,19 @@
 # RxRSIAgent v0.8：真实语言技能进化实验
 
-已完整完成的训练顺序种子：42。未完成种子不计入汇总。固定 DeepSeek-V4.1-Flash，所有方法共用 625 训练 / 190 候选选择 / 197 退化检查 / 988 测试。这里是 RxSafeBench 衍生选药题，不能与原论文自由生成分数混排。
+已完整完成的训练顺序种子：42, 137, 2026。未完成种子不计入汇总。固定 DeepSeek-V4.1-Flash，所有方法共用 625 训练 / 190 候选选择 / 197 退化检查 / 988 测试。这里是 RxSafeBench 衍生选药题，不能与原论文自由生成分数混排。
 
 ## 同数据方法主表
 
 | Method | Accuracy (%) | Seed SD (pp) | Invalid outputs |
 |---|---:|---:|---:|
-| Direct | 46.15 | — | 1 |
-| CoT | 47.27 | — | 0 |
-| Self-Refine | 47.57 | — | 0 |
-| Case RAG | 49.09 | — | 0 |
-| Reflexion adaptation | 47.27 | — | 0 |
-| GRASP adaptation | 47.27 | — | 0 |
-| EvoTool adaptation | 47.27 | — | 0 |
-| RxRSI | 47.27 | — | 0 |
+| Direct | 46.15 | 0.00 | 3 |
+| CoT | 47.27 | 0.00 | 0 |
+| Self-Refine | 47.57 | 0.00 | 0 |
+| Case RAG | 49.09 | 0.00 | 0 |
+| Reflexion adaptation | 47.64 | 0.64 | 0 |
+| GRASP adaptation | 48.01 | 1.29 | 2 |
+| EvoTool adaptation | 47.27 | 0.00 | 0 |
+| RxRSI | 47.27 | 0.00 | 0 |
 
 Reflexion、GRASP、EvoTool 为独立任务适配，未称官方复现。每轮都有四个候选评价名额，提议 token 成本可能不同。无效输出计错；跨种子标准差衡量训练顺序敏感性。
 

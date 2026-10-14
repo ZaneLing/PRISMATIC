@@ -99,10 +99,23 @@
       }
     },
     "grasp_adapt": {
-      "status": "incomplete",
       "n": 988,
-      "transport_errors": 713,
-      "accuracy": null
+      "correct": 489,
+      "accuracy": 0.4949392712550607,
+      "invalid": 2,
+      "input_tokens": 1058411,
+      "output_tokens": 69142,
+      "cost_usd": 0.15532487404000014,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 315
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 174
+        }
+      }
     },
     "evotool_adapt": {
       "n": 988,
@@ -380,26 +393,26 @@
         "state_sha256": "9449be201ae0caa03d6fa3fbaf9d3dc05a1f2b2c9f6f9857f610aed40637e733",
         "score": {
           "n": 988,
-          "correct": 159,
-          "accuracy": 0.16093117408906882,
-          "invalid": 713,
-          "input_tokens": 300260,
-          "output_tokens": 18677,
-          "cost_usd": 0.04263173000000001,
+          "correct": 489,
+          "accuracy": 0.4949392712550607,
+          "invalid": 2,
+          "input_tokens": 1058411,
+          "output_tokens": 69142,
+          "cost_usd": 0.15532487404000014,
           "subgroups": {
             "contraindication": {
               "n": 536,
-              "correct": 152
+              "correct": 315
             },
             "interaction": {
               "n": 452,
-              "correct": 7
+              "correct": 174
             }
           }
         },
-        "fixes": 24,
-        "regressions": 332,
-        "retained_correct": 135
+        "fixes": 78,
+        "regressions": 56,
+        "retained_correct": 411
       }
     ],
     "evotool_adapt": [
@@ -756,7 +769,5 @@
       "regressions": 0,
       "retained_correct": 193
     }
-  },
-  "status": "incomplete",
-  "incomplete_reason": "GRASP test has 713 HTTP 402 failures; other rows retained but whole-seed comparison is incomplete."
+  }
 }
