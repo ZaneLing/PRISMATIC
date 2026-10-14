@@ -1,0 +1,17 @@
+{
+  "study": "External eICU order-task feasibility and hospital-held-out split audit",
+  "stage": "Data/protocol audit only; no model selection or prediction scores",
+  "source": "Local credentialed eICU-CRD v2.0 patient/medication/lab tables",
+  "decision_minutes": 360,
+  "target_window_minutes": [360,720],
+  "cohort": "Adults (age >=18 including >89), unit follow-up >=720 minutes, nonmissing unique patient/hospital IDs, and at least one medication-table row somewhere in the stay. This conditions retrospectively on medication documentation. Include zero new-order target stays.",
+  "targets": "All medication records with drugorderoffset >=360 and <720. Do not filter by final cancellation flag, because no cancellation time is supplied. Missing names/attributes are counted, not silently mapped or invented.",
+  "prior_order_context": "drugorderoffset <360; authoring offset is available, but no separate medication storage-time field or field-version history establishes prospective availability",
+  "lab_context": "labresultoffset and labresultrevisedoffset both <=360; finite numeric values only; later revisions excluded",
+  "label_space": "Separate eICU raw-name space. HICL availability is audited but is not assumed equivalent to RxNorm or MIMIC labels. Intended core tuple is drug name/route/dosage string/frequency, separate from MIMIC's dose/unit tuple.",
+  "hospital_partition": "sha256('rxrsi-eicu-v24:'+hospitalid) first 16 hexadecimal digits modulo 10:0=test,1=guard,2=proposal,3..9=train. Fixed before inspecting model scores.",
+  "patient_overlap": "If a unique patient occurs in multiple hospital partitions, keep that patient's stays only in the highest-priority partition (test>guard>proposal>train); drop other stays. Hospitals never move between partitions.",
+  "audit_outputs": "Aggregate coverage, time/missingness checks, patient/hospital overlaps and private membership/source hashes. No raw cases or identifiers published.",
+  "claim_boundary": "Potential external hospital-held-out evaluation with a different ICU order task; not MIMIC zero-shot transfer, not a completed experiment, not proven prospective availability. No test model scores until methods and training/selection budgets are separately frozen.",
+  "sources": ["https://eicu.mit.edu/eicutables/medication/", "https://eicu.mit.edu/eicutables/lab/", "https://eicu.mit.edu/eicutables/patient/"]
+}
