@@ -1,0 +1,15 @@
+{
+  "phase": "Development-only typed-state intervention; no v21 test scoring",
+  "motivation": "The v21 policy serializes numerical labs and prior doses into text. Development coverage is80.8% for drug names and75.4% for joint templates, while prior-order reuse covers only16.1% of future target drugs.",
+  "data": "Exactly v21 train40000/proposal2000/guard2000; no test labels or predictions used by this pilot",
+  "representation_fit": "Initial8000 training contexts only. Top512 prior drug names, top64 lab-item/unit pairs; numerical features require30 observations. Median and5th/95th-percentile scales fixed from those contexts; clipped standardized values plus explicit observed flags. L2-normalized sparse features.",
+  "views": ["typed_state", "word_plus_typed_state"],
+  "policy": "One-vs-rest logistic SGD, max60 iterations, tol0.001, seed42, alpha in1e-6/1e-5/1e-4",
+  "order_tool": "Frozen full-data v21 seed42 conditional order tool using its original word features; isolate selection representation rather than change dose templates",
+  "thresholds": [0.1,0.15,0.2,0.25,0.3,0.4,0.5],
+  "selection": "Choose one candidate over views/regularizers/thresholds by mean drug/core-order F1 on proposal; evaluate that single candidate on guard",
+  "control": "The v21 seed42 word/character ensemble chosen on proposal, evaluated on the same guard with its original selected template option",
+  "guard_rule": "Composite improves and neither endpoint decreases more than0.002; a passed pilot is not a test win or an RSI claim",
+  "next_step": "Only a promising development intervention justifies a separately registered round/seed study; any reuse of already observed v21 test must be labeled exploratory",
+  "privacy": "Local CPU only; all cases, features, state statistics, weights and predictions remain restricted"
+}
