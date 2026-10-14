@@ -25,6 +25,10 @@ def main():
         if (ROOT/'upgrade_v30/common_test_addendum.json').exists():
             block+=('**Common main-table extension:** all v29/v30 program methods, frozen raw rounds and proposal-selected states are now registered for the exact v27 test cases and label spaces. The evaluator and independent prediction reexecution are implemented; execution waits for every author method and all program audits. ' if lang=='en' else '**统一主表衔接：** v29/v30全部程序方法、冻结原始轮次和proposal选择状态，已登记在完全相同的v27测试病例与药物空间中对比。评估器和独立预测重执行已实现，等待全部作者方法与程序核验完成后执行。')
             block+=f'[Common test table and protocol](../upgrade_v30/COMMON_TEST.{lang}.md)\n\n'
+        if (PAPER/'exposure_registry_audit.json').exists():
+            exposure=json.loads((PAPER/'exposure_registry_audit.json').read_text());assert exposure['status']=='passed'
+            block+=(f"**Prior-case audit:** {exposure['families_checked']} recorded families and {exposure['roles_checked']} roles are independently reconstructed. Excluding prior/reserved patients from the890 current test patients freezes **{exposure['retained_test_patients']} patients / {exposure['retained_test_visits']} visits** before test predictions. The full main table is unchanged; this is a separate sensitivity subset with explicit registry-coverage limits. " if lang=='en' else f"**历史病例核验：** 独立重建{exposure['families_checked']}类记录／{exposure['roles_checked']}种角色。在原890位测试患者中排除历史使用／预留患者后，于测试预测前冻结 **{exposure['retained_test_patients']}位患者／{exposure['retained_test_visits']}次就诊**。完整主表不变，新增单独的敏感性子集，并明确登记记录的覆盖局限。")
+            block+=f'[Membership audit and subgroup results](EXPOSURE.{lang}.md)\n\n'
         if (ROOT/'upgrade_v31/results/progress.json').exists():
             progress=json.loads((ROOT/'upgrade_v31/results/progress.json').read_text())
             block+=('### Parameter repair: randomized positions and causal learning controls\n\n' if lang=='en' else '### 参数修复：候选位置随机化与学习机制对照\n\n')
@@ -87,7 +91,8 @@ def main():
 4. Continue the eICU external-hospital study already running. Preserve zero-target stays and frozen selection. This supplies a separate transport test, not a directly pooled ATC score.
 5. Complete the seven-arm isolated-witness program study and its registered carryover/new-edit diagnosis. The next 14-arm compatibility/confirmation factorial is now registered, implemented and running, with separately learned trajectories under greedy, own-error and shuffled evidence. Complete every seed and independent gate/output audit; report raw final-round and proposal-selected endpoints before claiming improved transfer.
 6. Complete the registered local v0.31 parameter experiment: four arms, three seeds, three rounds, equal 400-example/100-step updates. Independently check feedback before updates, sampled targets, changed adapters, raw/accepted curves, positional invariance and patient intervals. All per-seed choices freeze before guard evaluation; old tests remain excluded.
-7. Keep the existing English LaTeX source, bilingual results entry and versioned reports synchronized. Only completed audited experiments enter score tables; compilation and GitHub pushes are checked explicitly.
+7. Regrade the exact frozen common-test predictions on the independently audited prior-case-excluded318-patient/801-visit subset and the complementary group, with no reselection. Keep the complete original main table. The implemented queue waits for both parent test audits; report the registry's coverage limits.
+8. Keep the existing English LaTeX source, bilingual results entry and versioned reports synchronized. Only completed audited experiments enter score tables; compilation and GitHub pushes are checked explicitly.
 
 ''' if lang=='en' else '''## 当前执行队列：具体交付状态
 
@@ -97,7 +102,8 @@ def main():
 4. 继续已启动的eICU跨医院实验，保留零目标病例和冻结版本。它是独立迁移测试，不能直接混入ATC主表。
 5. 完成七臂隔离witness程序研究及已登记的旧记忆／新编辑诊断。后续14臂兼容性／独立确认组合实验已经登记、实现并运行；贪心、自身错误和打乱证据各自重新学习轨迹。完成所有种子与验证／输出独立核验，同时报告末轮原状态与proposal选择状态，再判断是否改善迁移。
 6. 完成已登记的本地v0.31参数实验：四臂、三个种子、三轮，均为400样本／100步。逐项核验更新前反馈、抽样目标、变化的适配器、原始／接纳曲线、位置不变性与患者区间；每个种子全部选择冻结后评价guard，排除旧测试集。
-7. 持续同步现有英文LaTeX、中英文总览及版本报告；只有完成且核验的实验填分数，并确认编译和GitHub同步。
+7. 对同一冻结测试预测，补算已独立核验的历史病例排除子集（318位患者／801次就诊）及补集，不重新选择模型；保留完整原主表。已实现队列等待两套父测试核验，并报告历史记录覆盖局限。
+8. 持续同步现有英文LaTeX、中英文总览及版本报告；只有完成且核验的实验填分数，并确认编译和GitHub同步。
 
 ''')
         plan+=f'[Current actual results](CURRENT_RESULTS.{lang}.md) · [Rule study](../upgrade_v27/RESULTS.{lang}.md) · [FHIR repair](../upgrade_v28/RESULTS.{lang}.md)\n\n'

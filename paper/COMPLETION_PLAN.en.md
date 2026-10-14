@@ -9,7 +9,8 @@
 4. Continue the eICU external-hospital study already running. Preserve zero-target stays and frozen selection. This supplies a separate transport test, not a directly pooled ATC score.
 5. Complete the seven-arm isolated-witness program study and its registered carryover/new-edit diagnosis. The next 14-arm compatibility/confirmation factorial is now registered, implemented and running, with separately learned trajectories under greedy, own-error and shuffled evidence. Complete every seed and independent gate/output audit; report raw final-round and proposal-selected endpoints before claiming improved transfer.
 6. Complete the registered local v0.31 parameter experiment: four arms, three seeds, three rounds, equal 400-example/100-step updates. Independently check feedback before updates, sampled targets, changed adapters, raw/accepted curves, positional invariance and patient intervals. All per-seed choices freeze before guard evaluation; old tests remain excluded.
-7. Keep the existing English LaTeX source, bilingual results entry and versioned reports synchronized. Only completed audited experiments enter score tables; compilation and GitHub pushes are checked explicitly.
+7. Regrade the exact frozen common-test predictions on the independently audited prior-case-excluded318-patient/801-visit subset and the complementary group, with no reselection. Keep the complete original main table. The implemented queue waits for both parent test audits; report the registry's coverage limits.
+8. Keep the existing English LaTeX source, bilingual results entry and versioned reports synchronized. Only completed audited experiments enter score tables; compilation and GitHub pushes are checked explicitly.
 
 [Current actual results](CURRENT_RESULTS.en.md) · [Rule study](../upgrade_v27/RESULTS.en.md) · [FHIR repair](../upgrade_v28/RESULTS.en.md)
 

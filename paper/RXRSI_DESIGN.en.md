@@ -2,6 +2,26 @@
 
 Target: ACL 2027. Beating prior methods is a research objective, never a patient-level inference instruction.
 
+## Current parameter experiment: drug decisions beyond display position
+
+v0.31 updates local Qwen3-4B low-rank adapters while keeping the backbone, candidate generator and order templates fixed. Each round predicts600 new admissions before computing errors against reachable prescription targets, samples400 accumulated admissions and performs100 optimizer steps. Three seeds and three rounds compare ranked uniform, permuted uniform, own-error priority and shuffled own-error priority updates.
+
+```mermaid
+flowchart TD
+  A[New600 admissions and latest raw adapter] --> B[Predict before computing prescription errors]
+  B --> C[Sample400 accumulated cases uniformly or by recorded errors]
+  C --> D[Keep candidate fields and original retrieval ranks; change display order by arm]
+  D --> E[Complete20-position supervision and100 adapter steps]
+  E --> A
+  E --> P[Separate proposal:100 ranked and100 permuted views]
+  P --> S[Select checkpoint, including the frozen base option]
+  S --> F[Freeze all four arms and three rounds]
+  F --> G[200 guard admissions: ranked, permuted, reversed]
+  G --> H[Raw and accepted curves, empty outputs, position sensitivity, fixes and regressions]
+```
+
+Training continues from the latest raw adapter; proposal selects the serving candidate. Both trajectories remain visible. Earlier cases keep their original pre-update errors rather than receiving fresh scoring each round. A distinct feedback benefit requires own-error updates to outperform ordinary and shuffled controls; changing parameter hashes or falling training loss is insufficient. [Actual execution and results](../upgrade_v31/RESULTS.en.md).
+
 ## Current implementation: verify memory as the policy changes
 
 The v0.30 agent reuses the independently audited v0.29 base policies and learns new rule trajectories. After each case-growth step, **C** checks whether old rules still help under the changed policy. New edits are verified on witness group **A**. **P** then confirms the whole memory on a separate group **B**. If a gate fails, the system clears the correction memory and continues using the calibrated medication policy.
@@ -51,7 +71,7 @@ flowchart TD
 | Verification policy | Fixed in the main arm | Same proposals without the witness gate |
 | Language-model weights and tool code | Fixed in this experiment | No claim of autonomous weight/tool evolution |
 
-All raw round states are retained. Witness patients are excluded from every fit and candidate statistic; within-round adaptive verification remains disclosed. Rule associations do not establish clinical indications, dose correctness or human-like reasoning. [Current conditional-program rounds](../upgrade_v29/RESULTS.en.md). The preceding [v0.27 study](../upgrade_v27/RESULTS.en.md) tests memory/policy substitutions and has weaker witness isolation. A new replay diagnosis separates prior-memory compatibility from new-edit transfer; it does not yet implement a compatibility repair.
+All raw round states are retained. Witness patients are excluded from every fit and candidate statistic; within-round adaptive verification remains disclosed. Rule associations do not establish clinical indications, dose correctness or human-like reasoning. [Current conditional-program rounds](../upgrade_v29/RESULTS.en.md). The preceding [v0.27 study](../upgrade_v27/RESULTS.en.md) tests memory/policy substitutions and has weaker witness isolation. Six audited replay runs separate prior-memory compatibility from new-edit transfer; the v0.30 factorial above implements the resulting compatibility/confirmation intervention and reports completed audited seeds.
 
 The separate v0.28 real-FHIR experiment repairs answer contracts and source-bound lab statistics while learned skills stay frozen. Those human-written repairs are evaluated in a full factorial and are not labeled self-evolution. [Execution results](../upgrade_v28/RESULTS.en.md).
 
@@ -86,7 +106,7 @@ Test labels never enter the update loop. Schema validity does not establish clin
 | Order tool T | Learn context-conditioned joint field templates | Template/parameter hashes, freeze-T ablation | v0.7 complete |
 | Language skills K | LLM edits reusable procedures from its errors | Full text changes, fixes/regressions, remove-K ablation | v0.8 complete; full RxRSI accepted no change |
 | Evidence-tool configuration | Learn focus terms for exact dialogue excerpts | Config changes and ablation | v0.8 complete; tool code fixed |
-| LLM parameters | QLoRA, uniform versus error-prioritized sampling | Actual adapter hashes, equal-budget generation evaluation | v0.9 complete; v0.15 complete; v0.26 position diagnostic complete |
+| LLM parameters | QLoRA, uniform versus error-prioritized sampling | Actual adapter hashes, equal-budget generation evaluation | v0.9/v0.15/v0.26 complete; v0.31 four-arm, three-seed position-randomized training running |
 
 These studies isolate distinct objects; their fully combined superiority has not been established. v0.7 is supervised artifact learning, v0.8 tests LLM-authored persistent skills, and v0.9 updates LLM weights.
 

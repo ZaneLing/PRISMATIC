@@ -1,12 +1,14 @@
 # PRISMATIC / RxRSIAgent manuscript and execution index
 
-**Target: ACL 2027. v0.9 local parameter tests and v0.17 grounded skill/round evaluations are complete and independently recounted. v0.18 Gemini artifact transfer is complete; v0.15 binary supervision is complete, including rejected collapse and an explicit feedback-receipt limitation; the v0.21 temporal method suite and v0.22 development pilot are complete, the v0.23 matched-feedback study is complete, eICU v0.25 three-seed training is running, and FHIR skill learning restarts under a declared development grading revision.** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
+**Target: ACL 2027.** The [current method tables and execution status](CURRENT_RESULTS.en.md) distinguish completed audited results from running work. All six isolated-witness program runs are audited; author-method training, the memory-gate factorial, local position-randomized parameter updates and eICU hospital evaluation are in progress. The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place using the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
 
 ## Start here
 
 - [中文系统流程与进化对象](RXRSI_DESIGN.zh.md) / [English design](RXRSI_DESIGN.en.md)
 - [中文当前主表](CURRENT_RESULTS.zh.md) / [Current English method tables](CURRENT_RESULTS.en.md)
 - [持续更新计划](COMPLETION_PLAN.md) / [English plan](COMPLETION_PLAN.en.md)
+- [历史病例与冻结子集核验](EXPOSURE.zh.md) / [Exposure audit and frozen subset](EXPOSURE.en.md)
+- [共同测试主表入口](../upgrade_v30/COMMON_TEST.zh.md) / [Frozen common-test comparison](../upgrade_v30/COMMON_TEST.en.md)
 - [v0.7 evidence and reproduction](../upgrade_v7/README.md), [v0.8 language evolution](../upgrade_v8/README.md), [v0.9 parameter evolution](../upgrade_v9/README.md)
 
 [Current consolidated results](CURRENT_RESULTS.en.md) / [中文总览](CURRENT_RESULTS.zh.md)
@@ -33,7 +35,12 @@ GT-based evaluation does not require clinician review. Missing attributes remain
 
 | Version | Record | Evidence |
 | --- | --- | --- |
-| v0.26 | [Position diagnostic](../upgrade_v26/README.en.md) | 200 existing development cases,3 fixed states,4 rank-preserving display conditions; running |
+| v0.31 | [Parameter intervention](../upgrade_v31/RESULTS.en.md) | Four arms, three seeds, three rounds; position randomization with original ranks retained; training running |
+| v0.30 | [Memory gates](../upgrade_v30/RESULTS.en.md) | Fourteen arms isolate old-memory compatibility and separate whole-update confirmation; audited completed seeds reported |
+| v0.29 | [Program synthesis](../upgrade_v29/RESULTS.en.md) | All six five-round runs independently audited; permanent witness separation, ordinary calibration, greedy/random/shuffled controls |
+| v0.28 | [FHIR factorial](../upgrade_v28/RESULTS.en.md) | Twenty-three of24 cells audited; fixed engineering repairs distinguished from learned frozen skills |
+| v0.27 | [Author-method compatibility](../upgrade_v27/RESULTS.en.md) | Common patient splits and ATC-L4 spaces; genuine author-model training and gated test evaluator |
+| v0.26 | [Position diagnostic](../upgrade_v26/README.en.md) | 200 existing development cases,3 fixed states,4 rank-preserving display conditions; complete and audited |
 | v0.25 | [External method experiment](../upgrade_v25/RESULTS.en.md) | Native-code cohort audited; 8,005 test stays; three seeds running, no test score |
 | v0.24 | [External eICU audit](../upgrade_v24/RESULTS.en.md) | 142,485 stays; hospital/patient-disjoint partition and HICL/time coverage audited; no model scores |
 | v0.23 | [Matched feedback results](../upgrade_v23/RESULTS.en.md) | Three seeds/five rounds audited; uniform learning is stronger than error priorities |

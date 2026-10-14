@@ -5,9 +5,11 @@
 
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 6/15 author-model runs finish their full 50 epochs, with 330/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 6/15 author-model runs finish their full 50 epochs, with 350/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Common main-table extension:** all v29/v30 program methods, frozen raw rounds and proposal-selected states are now registered for the exact v27 test cases and label spaces. The evaluator and independent prediction reexecution are implemented; execution waits for every author method and all program audits. [Common test table and protocol](../upgrade_v30/COMMON_TEST.en.md)
+
+**Prior-case audit:** 11 recorded families and 38 roles are independently reconstructed. Excluding prior/reserved patients from the890 current test patients freezes **318 patients / 801 visits** before test predictions. The full main table is unchanged; this is a separate sensitivity subset with explicit registry-coverage limits. [Membership audit and subgroup results](EXPOSURE.en.md)
 
 ### Parameter repair: randomized positions and causal learning controls
 

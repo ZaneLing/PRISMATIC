@@ -328,6 +328,12 @@ Before common-test inference, a separate addendum registers all seven conditiona
 \begin{tabular}{p{.48\textwidth}rrr}\toprule Method & Patient F1 & Patient Jaccard & Micro F1\\\midrule
 COMMONROWS
 \bottomrule\end{tabular}\end{table*}'''.replace('PANEL',panel).replace('COMMONROWS','\n'.join(rows_test))
+    if (ROOT/'paper/exposure_registry_audit.json').exists():
+        exposure=json.loads((ROOT/'paper/exposure_registry_audit.json').read_text());assert exposure['status']=='passed'
+        compatibility_section+=r'''\paragraph{Prior-case-excluded sensitivity subset.}
+Before common-test predictions, a separate registered identity audit reconstructs eleven recorded MIMIC-IV experiment families and thirty-eight data roles. Their union includes 69,839 previously used or conservatively reserved patients. Of the 890 current test patients, 572 occur in that union. The complementary 318 patients retain all 801 original test visits, with zero prior-record intersection, and the identical subset applies to both medication spaces. Independent reconstruction checks original deterministic sampling, stored identities, membership digests and complete patient-visit retention. Early samples lack original membership digests; their source/code hashes and reconstructed counts remain explicit.
+
+The all-patient main table is unchanged. An implemented evaluator waits for both parent test audits, then regrades the exact immutable predictions for the retained and excluded groups without fitting or checkpoint selection. Membership never uses labels, predictions or scores. This registry covers named PRISMATIC histories, not foundation-model pretraining, undocumented experiments or external use; it is a prior-record-excluded sensitivity analysis, not proof of globally untouched confirmation. Group composition differences also preclude a causal interpretation of exposure. No subgroup performance score is available at this snapshot.'''
     fhir_results=''
     if (ROOT/'upgrade_v19/results/summary.json').exists():
         fhir=json.loads((ROOT/'upgrade_v19/results/summary.json').read_text())
