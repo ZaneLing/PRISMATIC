@@ -8,6 +8,7 @@ sys.path.insert(0,str(HERE.parent/'upgrade_v8'))
 from public_client import request as model_request,digest
 from probe_fhir_state import request as http_request,BASE
 from order_compiler import compile_order
+from reference_compat import reference_view
 
 
 def grader_module():
@@ -87,10 +88,12 @@ def run_case(case,method,grader,actor=None,compile_payloads=False,repair_protoco
                                 code,_=http_request('GET',reference);tools.append({'method':'GET','path':reference,'status':code,'harness_preflight':True});preflight &= code==200
                     if not preflight:message='Invalid POST request: verify the resource type and existing Patient reference.'
                     else:
-                        stored_payload,compile_audit=compile_order(payload) if compile_payloads else (payload,{'changes':[],'semantic_warnings':[]})
+                        stored_payload,compile_audit=compile_order(payload)
+                        submitted_payload=stored_payload if compile_payloads else payload
+                        compile_audit['applied_to_submission']=compile_payloads
                         compilation_audits.append(compile_audit)
-                        code,result=http_request('POST',path,stored_payload);tools.append({'method':'POST','path':path,'status':code})
-                        audit={'canonical_payload':stored_payload,'create_status':code,'create_receipt':result,'readback_status':None,'readback':None,'persisted':False,'rolled_back':False}
+                        code,result=http_request('POST',path,submitted_payload);tools.append({'method':'POST','path':path,'status':code})
+                        audit={'submitted_payload':submitted_payload,'canonical_payload':stored_payload,'create_status':code,'create_receipt':result,'readback_status':None,'readback':None,'persisted':False,'rolled_back':False}
                         write_audits.append(audit)
                         if code==201 and isinstance(result,dict) and result.get('id'):
                             new_path=path+'/'+result['id'];created.append(new_path);journal.write_text(json.dumps(created))
@@ -119,19 +122,22 @@ def run_case(case,method,grader,actor=None,compile_payloads=False,repair_protoco
                 message='Invalid action. Return exactly one GET URL, POST URL followed by JSON, or FINISH([...]). Do not add explanatory prose. This retry consumes the same eight-turn budget.'
                 original_message=message
             history.append({'role':'user','content':message});live.append({'role':'user','content':message});original.append({'role':'user','content':original_message})
-        def grade(trace):
+        def grade(trace,kind):
             if answer is None or status!='completed':return False
             obj=types.SimpleNamespace(history=[types.SimpleNamespace(**x) for x in trace],result=answer)
             try:return bool(getattr(grader,case['id'].split('_')[0])(case,obj,BASE))
             except Exception as error:
-                grader_errors.append({'exception':type(error).__name__,'trace_kind':'original' if trace is original else 'live'})
+                grader_errors.append({'exception':type(error).__name__,'trace_kind':kind})
                 raise RuntimeError('Reference grading failed; incomplete evaluator evidence must not become a model score') from None
-        trace_correct=grade(original);live_correct=grade(live)
+        semantic_trace,projection_audits=reference_view(live)
+        trace_correct=grade(original,'original');legacy_live=grade(live,'live');live_correct=grade(semantic_trace,'semantic')
         return {'case_id':case['id'],'method':method,'status':status,'original_trace_correct':trace_correct,
             'live_execution_correct':live_correct and all(active_post_checks),'writes':len(created),'write_checks':post_checks,'model_calls':len(usage),
             'tool_calls':len(tools),'cost_usd':sum(x['cost_usd'] or 0 for x in usage),'usage':usage,'tools':tools,'history':history,
             'answer':answer,'cleanup':'performed_in_finally','cleanup_checks':cleanup_checks,'protocol_repairs':protocol_repairs,'compilation_audits':compilation_audits,
-            'original_trace':original,'live_trace':live,'active_post_checks':active_post_checks,'write_audits':write_audits,'grader_errors':grader_errors}
+            'original_trace':original,'live_trace':live,'semantic_trace':semantic_trace,'legacy_live_reference_correct':legacy_live,
+            'semantic_reference_correct':live_correct,'reference_projection_audits':projection_audits,'grading_revision':'lossless_reference_views_v2',
+            'active_post_checks':active_post_checks,'write_audits':write_audits,'grader_errors':grader_errors}
     finally:
         failed=[]
         for path in reversed(created):

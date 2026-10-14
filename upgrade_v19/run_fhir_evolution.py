@@ -19,14 +19,16 @@ def main():
         'proposal_slots':4,'balanced_training_probe_n':12,'max_action_calls':8,'actor_tokens':512,'proposer_tokens':3072,
         'model':'deepseek/deepseek-v4.1-flash','evolving':['Language skill files'],'fixed':['FHIR compiler','protocol feedback','backbone weights'],
         'controls':['literal direct tools','fixed compiled/verified harness'],'serialized_episodes':True,
-        'episode_cache':'Exact code/mode/case/skill digest; complete already-executed episodes may replay. Physical operations and logical cost are distinguished.',
+        'episode_cache':'Revision2 exact code/mode/case/skill digest. Legacy compiled episodes may be adopted only with successful field-preserving readbacks/cleanup, unchanged compiler output and exact case/skills. Only grades are recomputed; learned legacy skills are discarded. Physical operations and logical cost are distinguished.',
         'actor_inputs':'instruction/context and actual tool replies only; no sol/eval_MRN fields',
-        'feedback':'Patient-ID-redacted training traces and automatic original/state grades; only task1 includes literal sol, all other literal targets remain null and use the reference grader; no test labels in learning.',
+        'feedback':'Patient-ID-redacted training traces and revised automatic state grades; only task1 includes literal sol, all other literal targets remain null and use the reference grader; no test labels in learning.',
         'patient_split_note':'Official task splits overlap in patients; not patient-disjoint.',
-        'state_score':'Original reference criteria plus all submitted canonical fields preserved on readback. Duration-like legacy rate fields remain semantically unvalidated.',
+        'state_score':'Unchanged original reference evaluated through lossless legacy shape views, AND canonical intent fields preserved on real readback. Singleton note arrays become legacy objects and text-only route objects become legacy strings for grading only. Same projection and canonical intent comparison apply to every arm; original raw grades are reported separately. Not an unmodified official benchmark score. Duration-like legacy rate fields remain semantically unvalidated.',
+        'grading_revision':'Development discovered13 false negatives from FHIR R4 note arrays. Prior run stopped before selection/test, archived and restarted with empty skills. No ID/OOD test informed this revision; see results/grading_revision.json.',
         'selection':'End-of-epoch best validation checkpoint from the author core, before ID/OOD testing.',
         'cost_cap_cumulative_usd':28}
     save(HERE/'protocol.json',protocol)
+    if '--register-only' in sys.argv:return
     # Finish the funded model comparison first; avoid charging competing studies.
     while True:
         processes=subprocess.check_output(['ps','-axo','command'],text=True)
@@ -41,6 +43,7 @@ def main():
     pin=subprocess.check_output(['git','rev-parse','HEAD'],cwd=RESOURCE,text=True).strip();assert pin==protocol['source_commit']
     assert not subprocess.check_output(['git','diff','--','grasp'],cwd=RESOURCE,text=True).strip()
     counts={r:total(r) for r in ['Patient','MedicationRequest','Observation','ServiceRequest']}
+    assert counts==json.loads((HERE/'results/grading_revision.json').read_text())['resource_counts_after_stop']
     task=FHIRTask();folder=LOCAL/'grasp-v19';folder.mkdir(exist_ok=True);empty=folder/'empty';empty.mkdir(exist_ok=True)
     config={'agent':{'module':'fhir_task.FHIRBackend','parameters':{'model':protocol['model'],'temperature':0}},'skills':{'base_dir':str(empty)},'_resume':True,
         'cycle':{'epochs':1,'update_every':24,'batch_concurrency':1,'max_proposals':1,'max_learned_skills':6,'grpo_k':4,'grpo_eval_n':12,'run_baseline':True,'proposal_temperature':.7,'seed':42}}
@@ -56,6 +59,7 @@ def main():
                 r=environment.rollout(case,actor);rows.append(r.raw)
             save(folder/(name+'-'+split+'.json'),rows)
             report['methods'][name][split]={'n':len(rows),'trace_correct':sum(r['original_trace_correct'] for r in rows),'state_correct':sum(r['live_execution_correct'] for r in rows),
+                'legacy_live_reference_correct':sum(r['legacy_live_reference_correct'] for r in rows),'semantic_reference_correct':sum(r['semantic_reference_correct'] for r in rows),
                 'model_calls':sum(r['model_calls'] for r in rows),'tool_calls':sum(r['tool_calls'] for r in rows),'logical_cost_usd':sum(r['cost_usd'] for r in rows),
                 'writes':sum(r['writes'] for r in rows),'failed_readback':sum(not all(r['write_checks']) for r in rows)}
             save(HERE/'results/method_results.json',report);print(json.dumps({'method':name,'split':split,**report['methods'][name][split]}),flush=True)

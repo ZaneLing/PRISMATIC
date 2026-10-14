@@ -3,6 +3,9 @@ import copy
 
 def compile_order(payload):
     out=copy.deepcopy(payload);changes=[];warnings=[]
+    if out.get('resourceType')=='ServiceRequest' and isinstance(out.get('note'),dict):
+        out['note']=[out['note']]
+        changes.append({'path':'note','conversion':'Annotation object -> singleton Annotation array; all fields preserved'})
     if out.get('resourceType')=='MedicationRequest':
         for i,dosage in enumerate(out.get('dosageInstruction') or []):
             if isinstance(dosage.get('route'),str):

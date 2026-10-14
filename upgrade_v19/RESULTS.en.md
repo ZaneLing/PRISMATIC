@@ -13,14 +13,24 @@ FHIR R4 defines the route as CodeableConcept. The compiler preserves the origina
 
 A second executed probe intentionally triggers field loss, detects it, deletes only the newly created resource, and returns repair feedback within the original action budget. All resource counts return to their initial values. These are synthetic engineering probes with zero language-model calls, not agent success scores.
 
-## Full task experiment queued
+## Full task experiment: development grading revision
 
 The declared comparison uses 96 development, 80 validation, 64 ID test and 60 held-out-task-type test tasks. The fixed compiled harness adds typed serialization, field readback and format-error feedback within eight calls. The evolving arm uses the unchanged, credited GRASP core to edit persistent skills; compiler code and backbone weights stay fixed. A literal direct-tool control is included. Four 24-case feedback batches, four proposal slots, 12-case balanced training probes, actor cap 512 and proposer cap 3,072 are recorded before testing.
 
 Episodes execute serially to avoid shared-state interference; exact previously executed code/case/skill episodes can replay from cache. Task GT fields never enter actor prompts. Patient IDs in training feedback are redacted. Released task splits overlap in patients and are not patient-disjoint.
 
-The full agent experiment is queued after the Gemini and intermediate-skill evaluations. No unfinished agent result is claimed. See `protocol.json` and the actual probe records in `results/`.
+The Gemini comparison has completed. The first FHIR learning run was stopped during development after a confirmed grading incompatibility; the revised study restarts from empty skills. No ID/OOD test result or learning gain is claimed yet. See `protocol.json` and the actual probe records in `results/`.
 
 ## Task-schema repair before learning
 
 The first launch stopped before any episode because only task1 has a literal `sol`. Other task types use reference functions against FHIR state. The adapter now preserves absent literal answers as null and uses the unchanged reference grader; it does not fabricate answers. All300 released task records load, all ten grader functions exist, and five execution/label-isolation contracts pass. The queue now requires the Gemini comparison to be complete, not merely an exited process. See `results/task_schema_audit.json`.
+
+## Development-discovered reference compatibility revision
+
+The unchanged reference expects `ServiceRequest.note` as an object, while FHIR R4 defines a repeated Annotation field. Thirteen development episodes had correct final active writes but were graded false because the model used the valid singleton array. Those episodes included an earlier rolled-back write; their changed repair trajectories are **not** reused by the revised learning run. [FHIR R4 ServiceRequest.note](https://hl7.org/fhir/R4/servicerequest-definitions.html#ServiceRequest.note).
+
+The revised endpoint applies declared lossless shape views to the reference grader: singleton note arrays become legacy objects; text-only route objects become legacy strings. Text and all other fields are unchanged. Multiple notes and coded route objects are not collapsed. Every method uses the same grader view and canonical-intent readback comparison. Literal direct submissions remain literal; server normalization of a note object is accepted when all fields survive. Actual field loss still fails.
+
+The original raw reference scores remain separately reported. This is an adapted execution endpoint, not an unmodified official score. The compiler is fixed engineering; corrected scores do not demonstrate agent evolution.
+
+Validation regraded all 13 existing development receipts: the correct active writes pass, altered incorrect notes fail, and simulated active-field loss fails. Eight execution/compatibility contracts pass. No model calls or new physical writes were needed for this validation. Patient/MedicationRequest/Observation/ServiceRequest counts were restored to 695/21,991/563,426/0. The invalid learning state is archived; only exact compiled episodes with unchanged submission/feedback and successful readback/cleanup are eligible for reuse, with original costs retained. See `results/reference_revision_audit.json`, `results/grading_revision.json` and the revised `protocol.json`.

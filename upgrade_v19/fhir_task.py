@@ -7,7 +7,9 @@ sys.path[:0]=[str(RESOURCE),str(ROOT/'upgrade_v8'),str(ROOT/'upgrade_v10'),str(R
 from grasp import Task,Rollout
 from grasp_task import PublicBackend
 from public_client import digest,request
-from fhir_executor import run_case,grader_module,LOCAL
+from fhir_executor import run_case,grader_module,LOCAL,BASE
+from order_compiler import compile_order
+from reference_compat import regrade_cached
 STATE_LOCK=threading.Lock()
 
 class FHIRBackend(PublicBackend):
@@ -34,8 +36,31 @@ class FHIRTask(Task):
         for split in ['dev','val','id_test','test']:
             p=folder/f'split_{split}.json';assert hashlib.sha256(p.read_bytes()).hexdigest()==manifest['splits'][split]['sha256']
             self.parts[split]=json.loads(p.read_text())
-        self.cache=LOCAL/'learning-v19';self.cache.mkdir(exist_ok=True)
-        self.code_hash=digest([hashlib.sha256((HERE/f).read_bytes()).hexdigest() for f in ['fhir_executor.py','order_compiler.py','fhir_task.py']])
+        self.cache=LOCAL/'learning-v19-rev2';self.cache.mkdir(exist_ok=True)
+        self.code_hash=digest([hashlib.sha256((HERE/f).read_bytes()).hexdigest() for f in ['fhir_executor.py','order_compiler.py','reference_compat.py','fhir_task.py']])
+
+    def adopt_legacy(self,sample,skills):
+        # Replay only identical physical compiled episodes. Failed readbacks or
+        # changed submitted bodies would alter the next actor turn and must run
+        # again. No learned skill state from the invalidated run is adopted.
+        if self.mode!='compiled':return None
+        revision=json.loads((HERE/'results/grading_revision.json').read_text())
+        old_digest=digest([revision['legacy_code_hash'],self.mode,sample['id'],skills])
+        path=LOCAL/'learning-v19'/(old_digest+'.json')
+        if not path.exists():return None
+        row=json.loads(path.read_text())
+        if row['case_id']!=sample['id'] or row['method']!='verified_state_harness' or row.get('grader_errors'):return None
+        if not all(row['write_checks']) or not all(row['active_post_checks']):return None
+        if len(row['cleanup_checks'])!=row['writes'] or any(c['status'] not in (200,204) for c in row['cleanup_checks']):return None
+        for w in row['write_audits']:
+            if w['create_status']!=201 or not w['persisted'] or w['rolled_back']:return None
+            p=w['canonical_payload'];stored=w['readback']
+            if compile_order(p)[0]!=p:return None
+            if w['readback_status']!=200 or any(stored.get(k)!=v for k,v in p.items() if k not in ['id','meta']):return None
+        revised=regrade_cached(row,sample,self.grader,BASE)
+        revised.update(physical_episode_digest=old_digest,cache_adoption='legacy physical receipts; unchanged payload/actor replies; revised grades only',
+            legacy_cache_sha256=hashlib.sha256(path.read_bytes()).hexdigest())
+        return revised
 
     def samples(self,split):
         # Only task1 supplies a literal solution. Other released task types are
@@ -49,17 +74,21 @@ class FHIRTask(Task):
         with STATE_LOCK:
             if path.exists():row=json.loads(path.read_text())
             else:
-                backend=agent
-                while hasattr(backend,'agent'):backend=backend.agent
-                def actor(history):
-                    agent.inference(history);return backend.latest.response
-                compiled=self.mode=='compiled'
-                row=run_case(sample,'verified_state_harness' if compiled else 'direct_tool',self.grader,actor=actor,compile_payloads=compiled,repair_protocol=compiled)
+                row=self.adopt_legacy(sample,skills)
+                if row is None:
+                    backend=agent
+                    while hasattr(backend,'agent'):backend=backend.agent
+                    def actor(history):
+                        agent.inference(history);return backend.latest.response
+                    compiled=self.mode=='compiled'
+                    row=run_case(sample,'verified_state_harness' if compiled else 'direct_tool',self.grader,actor=actor,compile_payloads=compiled,repair_protocol=compiled)
                 path.write_text(json.dumps(row,indent=2)+'\n')
         # Source IDs are scheduling/evaluation data only, never actor inputs.
         # Feedback history is redacted to discourage identity-specific skills.
         summary={k:row[k] for k in ['case_id','status','original_trace_correct','live_execution_correct','model_calls','tool_calls','cost_usd','writes','write_checks','protocol_repairs','compilation_audits']}
-        summary.update(episode_digest=signature,grader_exception_count=len(row.get('grader_errors',[])))
+        summary.update(episode_digest=signature,physical_episode_digest=row.get('physical_episode_digest',signature),
+            legacy_live_reference_correct=row['legacy_live_reference_correct'],semantic_reference_correct=row['semantic_reference_correct'],
+            grading_revision=row['grading_revision'],grader_exception_count=len(row.get('grader_errors',[])))
         return Rollout(history=redact(row['history']),agent_actions=redact([m['content'] for m in row['history'] if m['role']=='assistant']),
             answer=row['answer'] or '',status=row['status'],raw=summary)
 
