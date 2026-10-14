@@ -12,7 +12,7 @@
 7. 对同一冻结测试预测，补算已独立核验的历史病例排除子集（318位患者／801次就诊）及补集，不重新选择模型；保留完整原主表。已实现队列等待两套父测试核验，并报告历史记录覆盖局限。
 8. 持续同步现有英文LaTeX、中英文总览及版本报告；只有完成且核验的实验填分数，并确认编译和GitHub同步。
 
-**本地修复子任务：** v32 四组已登记拟合均已通过训练核验。继续原有 proposal 评分与独立复算队列；全部原 v31 seed42 选择冻结后，才能评价只用于报告的 guard。四种修复、两个神经控制和两个检索控制均报告固定阈值与普通校准对比。全部试验状态／阈值在评价 guard 前冻结；这一轮监督修复仍需要多轮 RSI 验证。[Actual repair execution and results](../upgrade_v32/RESULTS.zh.md)
+**本地修复子任务：** 四组拟合及完整八方法 proposal 对照均通过独立核验。固定阈值下的类别平衡减少空输出，校准后则常接近全选；新修复的点估计仍未超过直接前8检索。继续已登记的多轮对照和只用于报告的 guard 队列。四种修复、两个神经控制和两个检索控制均报告固定阈值与普通校准对比。全部试验状态／阈值在评价 guard 前冻结；这一轮监督修复仍需要多轮 RSI 验证。[Actual repair execution and results](../upgrade_v32/RESULTS.zh.md)
 
 [Current actual results](CURRENT_RESULTS.zh.md) · [Rule study](../upgrade_v27/RESULTS.zh.md) · [FHIR repair](../upgrade_v28/RESULTS.zh.md)
 

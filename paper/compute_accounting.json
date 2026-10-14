@@ -108,6 +108,21 @@
     },
     {
       "panel": "molecular",
+      "method": "GAMENet",
+      "seed": 137,
+      "epochs": 50,
+      "optimizer_steps": 921450,
+      "visit_exposures": 921450,
+      "parameters": 1282588,
+      "device": "cpu",
+      "summed_training_seconds": 2758.2854455009992,
+      "selected_epoch": 39,
+      "proposal_epoch_threshold_candidates": 300,
+      "guard_patient_f1": 0.5036201233276675,
+      "guard_patient_jaccard": 0.3504414220140191
+    },
+    {
+      "panel": "molecular",
       "method": "SafeDrug",
       "seed": 42,
       "epochs": 50,
@@ -1106,7 +1121,6 @@
     "molecular/ARMR/42",
     "molecular/ARMR/137",
     "molecular/ARMR/2026",
-    "molecular/GAMENet/137",
     "molecular/GAMENet/2026",
     "v30/molecular/137",
     "v30/molecular/2026"
@@ -1142,6 +1156,8 @@
     "upgrade_v30/results/full-audit-seed42.json": "8df39fc75902ae1d0538a8724020542e0ea5f10dd4c53b1fd48750c346200ad2",
     "upgrade_v27/results/molecular-GAMENet-seed42.json": "5fdb85e59d1fda9fe701d824185752f98dcac237b1fb535da7aad55e4a4acf61",
     "upgrade_v27/results/molecular-GAMENet-selection-audit-seed42.json": "85ce409bedd648fa5f67a28800b1a8efdf6e494e2a705d3381e2aee370104de0",
+    "upgrade_v27/results/molecular-GAMENet-seed137.json": "e525cf2e23bd1f09f6acdef03cc880c30f363c213e81bfe245a24c4ec3b1090b",
+    "upgrade_v27/results/molecular-GAMENet-selection-audit-seed137.json": "f36c81b123867cd824e68adeebd1414bbfea832a15441e6dbcf790cf3dfdaad6",
     "upgrade_v27/results/molecular-SafeDrug-seed42.json": "de4deeecc12a6d16ac3bdc43c92d1059a45cc5ce40a5fd743cd16094c7e9e662",
     "upgrade_v27/results/molecular-SafeDrug-selection-audit-seed42.json": "1d7b43025b61d7932d5e69a1d31c69a27a26b67bff884819e6b4f03e5fc47547",
     "upgrade_v27/results/molecular-SafeDrug-seed137.json": "47f845576f0f1fc200b38c5dcc7dacfd49262589bff71099391d4551bb46d226",
@@ -1183,6 +1199,7 @@
     "prismatic-v29/full-seed42/round4/complete.json": "39b68ff2d3f3be427eb7f9bdd7544d9c42a5ac5c2f401956679aa1aca16907ff",
     "prismatic-v29/full-seed42/round5/complete.json": "26f2d2633440b12ba7e3c6cd42b6e630a9657635d9d68c6e95a86c3fc5d91545",
     "prismatic-v27/molecular-GAMENet-seed42.log": "84c61f94237f990478a9d8a2b655be5ecc91e7f659580d70a90e0a611754431b",
+    "prismatic-v27/molecular-GAMENet-seed137.log": "e93d5ec8028ae053af7af8e891e36e1b50cb6c1b993b242dca24e47117c2c90f",
     "prismatic-v27/molecular-SafeDrug-seed42.log": "53ed0c46aec2d09d774d2f93c41ae439d942ba4185a63e0f0b404645c8fec2e7",
     "prismatic-v27/molecular-SafeDrug-seed137.log": "cd6b890026cf204972dd158d39a5d427b48db9761448182e3dac693db39a4371",
     "prismatic-v27/molecular-SafeDrug-seed2026.log": "7481bcde2d32c48de0602de79d1290edf025cecd0c5e16da85de18cd76bf8d08",
@@ -1243,19 +1260,20 @@
     },
     "molecular/GAMENet": {
       "seeds": [
-        42
+        42,
+        137
       ],
       "guard_patient_f1": {
-        "mean": 0.5105526021792993,
-        "seed_sd": null
+        "mean": 0.5070863627534834,
+        "seed_sd": 0.004902002806421204
       },
       "guard_patient_jaccard": {
-        "mean": 0.35688848843445414,
-        "seed_sd": null
+        "mean": 0.35366495522423663,
+        "seed_sd": 0.004558764384649685
       },
       "summed_training_seconds": {
-        "mean": 3911.9688436680017,
-        "seed_sd": null
+        "mean": 3335.1271445845005,
+        "seed_sd": 815.7773541862272
       }
     },
     "molecular/SafeDrug": {

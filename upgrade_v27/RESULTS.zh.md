@@ -39,8 +39,9 @@ SafeDrug稀疏图、固定分子嵌入的检查点保存，以及ARMR的CPU/GPU�
 | full | GAMENet | 137 | 50 | selection_frozen |
 | full | GAMENet | 2026 | 50 | selection_frozen |
 | full | GAMENet | 42 | 50 | selection_frozen |
-| molecular | ARMR | 42 | 0 | training |
-| molecular | GAMENet | 137 | 1 | training |
+| molecular | ARMR | 42 | 10 | training |
+| molecular | GAMENet | 137 | 50 | selection_frozen |
+| molecular | GAMENet | 2026 | 3 | training |
 | molecular | GAMENet | 42 | 50 | selection_frozen |
 | molecular | SafeDrug | 137 | 50 | selection_frozen |
 | molecular | SafeDrug | 2026 | 50 | selection_frozen |
@@ -105,6 +106,7 @@ Queued seeds/panels are not counted as completed. Snapshot of saved epoch receip
 | full | GAMENet | 137 | 0.52597 | 0.36979 |
 | full | GAMENet | 2026 | 0.53420 | 0.37777 |
 | full | GAMENet | 42 | 0.52107 | 0.36505 |
+| molecular | GAMENet | 137 | 0.50362 | 0.35044 |
 | molecular | GAMENet | 42 | 0.51055 | 0.35689 |
 | molecular | SafeDrug | 137 | 0.53467 | 0.38234 |
 | molecular | SafeDrug | 2026 | 0.53651 | 0.38390 |

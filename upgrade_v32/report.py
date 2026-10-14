@@ -80,6 +80,31 @@ def main():
                 lines += [('No independently audited score is available. Pending prerequisites: ' if en else '尚无通过独立复算的成绩。当前前置条件：') + ', '.join(gates[split]['pending'] or ['evaluation_and_recount']) + '.', '']
                 continue
             lines += [f"{z['cases']} admissions / {z['patients']} patients. " + ('Proposal is used to select thresholds; the reused guard is report-only development data. This is not an untouched test.' if en else 'proposal 用于选择阈值；复用的 guard 只报告开发结果，不是未经查看的测试集。'), '']
+            fixes = list(spec['arms'])
+            if all(panel['methods'][arm]['drug_micro_f1'] < panel['methods']['original_retrieval_top8']['drug_micro_f1']
+                   and panel['methods'][arm]['core_order_micro_f1'] < panel['methods']['original_retrieval_top8']['core_order_micro_f1']
+                   for views in z['endpoints'].values() for panel in views.values() for arm in fixes):
+                lines += [('**Main finding:** every new repair has lower drug and core-order F1 point estimates than direct retrieval top-8 in every reported view, both at threshold 0.5 and after the registered calibration. Reduced empty outputs do not establish a winning repair. All registered paired intervals are reported in the tables below.' if en else
+                           '**主要发现：** 在全部已报告排序、固定 0.5 阈值及已登记校准下，四种新修复的药物和核心订单 F1 点估计都低于直接检索前 8 个候选。空输出减少仍未形成胜出的修复；全部配对区间保留在下方。'), '']
+            calibrated = z['endpoints']['proposal_calibrated']
+            if all(panel['methods']['zero_balanced']['mean_predicted_drugs'] >= 19.5 for panel in calibrated.values()):
+                description = '; '.join(f"{kind}: {panel['methods']['zero_balanced']['mean_predicted_drugs']:.2f} / 20, precision {panel['methods']['zero_balanced']['drug_precision']:.5f}" for kind, panel in calibrated.items())
+                lines += [('**Over-selection after calibration:** zero-prefix/balanced selects nearly every candidate (' + description + '). Its high nonempty position agreement can therefore reflect nearly full candidate sets, not improved discrimination. The all-20 control makes this behavior visible.' if en else
+                           '**校准后的过度选择：** 全零前缀／平衡损失几乎选中全部候选（' + description + '）。较高的非空位置一致性因此可能来自几乎全选，不能证明区分药物的能力改善；全部 20 个候选直接输出的对照揭示了这一点。'), '']
+            boundary = [name for name, choice in z['selected_thresholds'].items() if choice['threshold'] in [.01, .99]]
+            if boundary:
+                lines += [('**Calibration boundary:** ' + ', '.join(boundary) + ' select an endpoint of the fixed 0.01–0.99 grid. These are the registered grid results, not evidence of a globally optimal threshold or exhaustive ordinary calibration. The grid and selected values remain frozen.' if en else
+                           '**校准边界：** ' + ', '.join(boundary) + ' 选择了固定 0.01–0.99 网格的端点。这里报告的是已登记网格结果，不代表全局最优阈值或穷尽普通校准方案；网格与选择保持冻结。'), '']
+            figure_path = HERE / f'results/{split}_figure.json'
+            if figure_path.exists():
+                fig = json.loads(figure_path.read_text())
+                assert fig['summary_sha256'] == sha(HERE / f'results/{split}_summary.json')
+                assert fig['audit_sha256'] == sha(HERE / f'results/{split}_audit.json')
+                assert fig['script_sha256'] == sha(HERE / 'plot_results.py')
+                assert fig['png_sha256'] == sha(HERE / f'{split}_repair.png')
+                lines += [f'![Fixed and calibrated scores for every method]({split}_repair.png)', '',
+                          ('Points show the same frozen model before/after ordinary threshold calibration. All controls remain visible; uncertainty and precision/recall are reported in the tables below.' if en else
+                           '每对点表示同一冻结模型采用固定阈值／普通校准后的表现，保留全部对照；配对不确定性及精确率／召回率见下表。'), '']
             for endpoint, views in z['endpoints'].items():
                 lines += [f'### {endpoint}', '', '| View | Method | Threshold | Drug micro-F1 | Core-order micro-F1 | Empty % | Binary AUROC |', '|---|---|---:|---:|---:|---:|---:|']
                 for kind, panel in views.items():

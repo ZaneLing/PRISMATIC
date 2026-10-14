@@ -7,11 +7,11 @@
 
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 10/15 author-model runs finish their full 50 epochs, with 542/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 11/15 author-model runs finish their full 50 epochs, with 564/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Recorded method budgets:** the receipt ledger separates shared fits, optimizer steps, proposal searches and logical response prices. It checks completed author-epoch records against their original logs, counts shared policy fitting once, and identifies exact v29-to-v30 model reuse. SafeDrug has 3 audited seeds; molecular guard patient F1 is 0.53689 ± 0.00244. [Actual compute and development results](COMPUTE_ACCOUNTING.en.md)
 
-**Executed cross-method recount:** 54 completed method runs are recounted on the same 1,231 guard visits / 467 patients, with patient-paired intervals using matched seeds. All available conventional, author-core and rule-memory methods are included. This remains a development comparison; the final test is gated. [Cross-method table and every paired contrast](../upgrade_v27/DEVELOPMENT_METHODS.en.md)
+**Executed cross-method recount:** 55 completed method runs are recounted on the same 1,231 guard visits / 467 patients, with patient-paired intervals using matched seeds. All available conventional, author-core and rule-memory methods are included. This remains a development comparison; the final test is gated. [Cross-method table and every paired contrast](../upgrade_v27/DEVELOPMENT_METHODS.en.md)
 
 **Executed eICU learning curves:** all 45 completed policy/tool states are reexecuted on the 2,000-stay development guard, with independent set counts, original proposal choices and acceptance decisions. Raw and accepted trajectories are separate. At 40k encountered cases, raw own-error-minus-uniform drug/order F1 is -0.00655/-0.00264. These guard cases participate in selection; this is not the held-out hospital test. [Raw/accepted curves, three seeds and regressions](../upgrade_v25/DEVELOPMENT_CURVES.en.md)
 
@@ -63,7 +63,24 @@ The separate probability diagnostic covers the first permuted-uniform adapter (s
 
 [Actual parameter updates, audit and results](../upgrade_v31/RESULTS.en.md)
 
-**Controlled decision repair:** v32 crosses teacher/zero answer prefixes with uniform/balanced binary-decision loss on the same 400 examples and 100 steps per arm. 4/4 fits have completion receipts. No repair performance score is available yet. The implemented scorer separates fixed 0.5 decisions, proposal calibration and weight-update effects. Its independent recount covers all thresholds, unreachable GT, patient intervals and empty-output/invariance diagnostics; the 120 synthetic bindings are preflight checks, not clinical results. [Actual repair results and gates](../upgrade_v32/RESULTS.en.md)
+**Controlled decision repair:** v32 crosses teacher/zero answer prefixes with uniform/balanced binary-decision loss on the same 400 examples and 100 steps per arm. 4/4 fits have completion receipts. Independently recounted score panels: proposal. All four repairs, the base, failed adapter and direct retrieval controls remain in the report. The implemented scorer separates fixed 0.5 decisions, proposal calibration and weight-update effects. Its independent recount covers all thresholds, unreachable GT, patient intervals and empty-output/invariance diagnostics; the 120 synthetic bindings are preflight checks, not clinical results. [Actual repair results and gates](../upgrade_v32/RESULTS.en.md)
+
+**Completed repair mechanism comparison:** 100 proposal admissions / 97 patients, one training seed. Below are registered calibration results; these same cases select thresholds. Every repair remains below top-8 retrieval in drug/order F1 point estimates under both fixed and calibrated endpoints.
+
+| Method | Ranked drug/order F1 | Permuted drug/order F1 | Mean drugs ranked/permuted |
+|---|---:|---:|---:|
+| Frozen base | 0.23439/0.15850 | 0.17663/0.10683 | 4.78/3.96 |
+| Original failed adapter | 0.27879/0.19352 | 0.24955/0.17346 | 16.62/15.37 |
+| GT prefix / uniform | 0.26502/0.18536 | 0.26103/0.18330 | 19.73/19.60 |
+| Zero prefix / uniform | 0.26480/0.18506 | 0.26383/0.18333 | 19.45/18.94 |
+| GT prefix / balanced | 0.26986/0.18828 | 0.25979/0.18145 | 18.14/17.34 |
+| Zero prefix / balanced | 0.26310/0.18427 | 0.26398/0.18487 | 20.00/19.91 |
+| Direct retrieval top-8 | 0.28706/0.20181 | 0.28706/0.20181 | 8.00/8.00 |
+| All 20 candidates | 0.26310/0.18427 | 0.26310/0.18427 | 20.00/20.00 |
+
+Calibration can eliminate empty outputs by selecting almost every candidate. The zero-prefix/balanced repair selects 20.00/19.91 drugs on average; near-perfect nonempty position agreement therefore does not establish useful discrimination. Three neural states choose the lower grid boundary, so the fixed grid is not exhaustive calibration.
+
+The report-only guard is still pending; its original selection gate and current prerequisites remain in the full report.
 
 ### Memory repair now executing: compatibility and separate confirmation
 

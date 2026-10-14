@@ -113,6 +113,20 @@ def main():
                 block+=('No repair performance score is available yet. ' if lang=='en' else '尚无修复性能成绩。')
             block+=('The implemented scorer separates fixed 0.5 decisions, proposal calibration and weight-update effects. Its independent recount covers all thresholds, unreachable GT, patient intervals and empty-output/invariance diagnostics; the 120 synthetic bindings are preflight checks, not clinical results. ' if lang=='en' else '已实现评分器分开报告固定 0.5 阈值、proposal 校准及权重更新的效果；独立复算覆盖全部阈值、候选外真值、患者区间、空输出与位置不变性。120 个合成绑定是执行预检，不属于临床成绩。')
             block+=f'[Actual repair results and gates](../upgrade_v32/RESULTS.{lang}.md)\n\n'
+            if 'proposal' in rp['audited_splits']:
+                repair_path=ROOT/'upgrade_v32/results/proposal_summary.json';repair_proof=json.loads((ROOT/'upgrade_v32/results/proposal_audit.json').read_text())
+                assert repair_proof['status']=='passed' and repair_proof['summary_sha256']==hashlib.sha256(repair_path.read_bytes()).hexdigest()
+                assert repair_proof['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v32/audit_evaluation.py').read_bytes()).hexdigest()
+                repair_summary=json.loads(repair_path.read_text());repair_views=repair_summary['endpoints']['proposal_calibrated']
+                repair_labels={'frozen_base':('基础模型','Frozen base'),'original_failed_adapter':('原失败适配器','Original failed adapter'),'teacher_uniform':('真实前缀＋普通损失','GT prefix / uniform'),'zero_uniform':('全零前缀＋普通损失','Zero prefix / uniform'),'teacher_balanced':('真实前缀＋类别平衡','GT prefix / balanced'),'zero_balanced':('全零前缀＋类别平衡','Zero prefix / balanced'),'original_retrieval_top8':('直接检索前8','Direct retrieval top-8'),'all20_candidate_tools':('全部20个候选','All 20 candidates')}
+                block+=('**Completed repair mechanism comparison:** 100 proposal admissions / 97 patients, one training seed. Below are registered calibration results; these same cases select thresholds. Every repair remains below top-8 retrieval in drug/order F1 point estimates under both fixed and calibrated endpoints.\n\n' if lang=='en' else '**已完成修复机制对照：** 100 次 proposal 住院／97 人、一个训练种子。下表为已登记校准结果，同一批病例参与阈值选择。固定及校准两个端点下，全部修复的药物／订单 F1 点估计仍低于前8检索。\n\n')
+                block+=('| Method | Ranked drug/order F1 | Permuted drug/order F1 | Mean drugs ranked/permuted |\n' if lang=='en' else '| 方法 | 原排序药物／订单 F1 | 随机排序药物／订单 F1 | 平均开药数：原／随机 |\n')+'|---|---:|---:|---:|\n'
+                for name,labels in repair_labels.items():
+                    ranked=repair_views['ranked']['methods'][name];permuted=repair_views['permuted']['methods'][name]
+                    block+=f"| {labels[1 if lang=='en' else 0]} | {ranked['drug_micro_f1']:.5f}/{ranked['core_order_micro_f1']:.5f} | {permuted['drug_micro_f1']:.5f}/{permuted['core_order_micro_f1']:.5f} | {ranked['mean_predicted_drugs']:.2f}/{permuted['mean_predicted_drugs']:.2f} |\n"
+                block+=('\nCalibration can eliminate empty outputs by selecting almost every candidate. The zero-prefix/balanced repair selects 20.00/19.91 drugs on average; near-perfect nonempty position agreement therefore does not establish useful discrimination. Three neural states choose the lower grid boundary, so the fixed grid is not exhaustive calibration.\n\n' if lang=='en' else '\n校准可以通过几乎全选来消除空输出：全零前缀／平衡损失平均选20.00／19.91个药物，接近满分的非空位置一致性不能证明区分能力提高。三个神经状态选择网格下界，因此固定网格不是穷尽校准。\n\n')
+                if 'guard' not in rp['audited_splits']:
+                    block+=('The report-only guard is still pending; its original selection gate and current prerequisites remain in the full report.\n\n' if lang=='en' else '只用于报告的 guard 尚未完成，原选择门槛和当前前置条件见完整报告。\n\n')
         if (ROOT/'upgrade_v30/protocol.json').exists():
             repaired=json.loads((ROOT/'upgrade_v30/results/summary.json').read_text()) if (ROOT/'upgrade_v30/results/summary.json').exists() else {'panels':{}}
             block+=('### Memory repair now executing: compatibility and separate confirmation\n\n' if lang=='en' else '### 记忆改进已实际运行：旧记忆兼容性与独立确认\n\n')
@@ -180,7 +194,9 @@ def main():
 
 ''')
         if (ROOT/'upgrade_v32/results/training_progress.json').exists():
-            if rp['completed_optimizer_fits'] == 4 and 'training_audit_sha256' in rp.get('gates', {}).get('proposal', {}).get('proof', {}):
+            if 'proposal' in rp['audited_splits']:
+                plan+=('**Local repair subtask:** all four fits and the complete eight-method proposal comparison pass independent audits. Fixed-threshold class balancing reduces empty outputs, while calibration often selects nearly all candidates; none of the new repairs beats direct top-8 point estimates. Continue the registered multi-round control and report-only guard queue. ' if lang=='en' else '**本地修复子任务：** 四组拟合及完整八方法 proposal 对照均通过独立核验。固定阈值下的类别平衡减少空输出，校准后则常接近全选；新修复的点估计仍未超过直接前8检索。继续已登记的多轮对照和只用于报告的 guard 队列。')
+            elif rp['completed_optimizer_fits'] == 4 and 'training_audit_sha256' in rp.get('gates', {}).get('proposal', {}).get('proof', {}):
                 plan+=('**Local repair subtask:** all four registered v32 fits have passed the training audit. Continue the original proposal scoring and independent recount queue, then wait for all original v31 seed42 selections to freeze before report-only guard evaluation. ' if lang=='en' else '**本地修复子任务：** v32 四组已登记拟合均已通过训练核验。继续原有 proposal 评分与独立复算队列；全部原 v31 seed42 选择冻结后，才能评价只用于报告的 guard。')
             else:
                 plan+=('**Local repair subtask now executing:** finish and audit the four registered v32 fits, then run the implemented scoring and independent recount queue. ' if lang=='en' else '**正在执行的本地修复子任务：** 完成并核验 v32 四组已登记拟合，再运行已实现的评分与独立复算队列。')
