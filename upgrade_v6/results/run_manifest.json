@@ -1,0 +1,53 @@
+{
+  "version": "RxRSIAgent-v0.6",
+  "recorded_at_utc": "2026-10-14T09:53:19.743709+00:00",
+  "parent_commit": "1f488edbbf6a8c22423bcbb0a5cf6585c5a81bb2",
+  "python": "3.9.6 (default, Apr 17 2026, 18:15:52) \n[Clang 21.0.0 (clang-2100.1.1.101)]",
+  "research_dependencies": {
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "pyarrow": "21.0.0",
+    "duckdb": "1.4.5",
+    "scikit-learn": "1.6.1",
+    "joblib": "1.5.3",
+    "matplotlib": "3.9.4"
+  },
+  "llm": {
+    "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+    "revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+    "weights_updated": false,
+    "temperature": 0,
+    "max_tokens": 384
+  },
+  "private_evidence": "~/Desktop/MedTreeBench/dataset/restricted/prismatic-v6; not included in repository",
+  "private_inputs": "prismatic-v4/cohort.parquet and mapped_orders.parquet; raw order fields retained",
+  "privacy": "Patient inputs, GT, predictions, training errors and checkpoints stay local. Public files contain aggregate scores only.",
+  "status": "Development increment. External matched-protocol superiority and unique evolution benefit not established.",
+  "files_sha256": {
+    "upgrade_v6/DESIGN.en.md": "aba0556336f8f3e6d848ffa1ac518f4d8f0f7f4f29324ebc94bc804b78c4b114",
+    "upgrade_v6/DESIGN.zh.md": "f1f0e1055d018551ed1adf4d6612157ab83235419cae0ccb4c403d87a8fa537b",
+    "upgrade_v6/README.md": "2d696787e4307c9a84f3f1edba1af8b7bd2a520cb757961c5b529b8e196e4d47",
+    "upgrade_v6/RESULTS.en.md": "7812ccb13dd7ef0b58638196dac64561af2afa3d487106418838466f032f9868",
+    "upgrade_v6/RESULTS.zh.md": "0a00448c297332bc6e9b7c1eda97955fe5d2d7621e2c128acd4db8640f4259a5",
+    "upgrade_v6/architecture.png": "40b13f74c8bcad78fd60b51c7abffb6fbef98f9db00e1ea6d7a717e9dc575398",
+    "upgrade_v6/draw_architecture.py": "7be828e93773cea34942d88adbda6ae16bd3269e6f02da7a3325e9db6261c88a",
+    "upgrade_v6/protocol.json": "0496042199c06f6ca6ec00bc6e30b714858391fc11cb8f84a4839db9f55159c3",
+    "upgrade_v6/render_delivery.py": "ce52ceffc1f111d16162c2f7b9a1fe485402f51434cb9c64c923fb3f8a09dd00",
+    "upgrade_v6/reported_baselines.json": "8cfc7e0b87585c2c208753aa63a7c26fd1aa8b2b2ea35806d2d21979f36dd088",
+    "upgrade_v6/results/agent_validation_gate.json": "7e028ebd7ecfd8b5beaa07515431c5270268c58a1a4f1a34b682c29a104af3d7",
+    "upgrade_v6/results/error_replay_protocol.json": "51591dfd74faa54bc4406c7ae16df5d018b06e8468f5e341828d419e246ff8ba",
+    "upgrade_v6/results/error_replay_results.json": "10d67c1154d2d7d1a6571fd3801ae1cac8c5c98027ca875943e02a67c8cbdaba",
+    "upgrade_v6/results/error_replay_selection.json": "f927b284b30d0a9d9653ec6cbfa270b3797a2a3c5e30d2ad1736297aa7fc24a6",
+    "upgrade_v6/results/frozen_selection.json": "1a9421bfccab4eb7b27ddbc0cb6e82cb796713d949d3b41bcf11c99f672529ee",
+    "upgrade_v6/results/local_agent_results.json": "4d9da2b376f83841962141df8c95a410bf842fde3d8fbbe588024a742aad4bc5",
+    "upgrade_v6/results/order_evolution_results.json": "ee061ed3f0a70f444a0c0c048007422326212e8345b3c60227260fc04e6a2382",
+    "upgrade_v6/results/verification.json": "c3dcc86113b6124d05ca25d12ac975fad26594476df8532d6606c4fdd35b7ace",
+    "upgrade_v6/run_error_replay.py": "8edac33ef76e727567ecc29b6438c6f2f9457875cb4470655eb759a78ea4f947",
+    "upgrade_v6/run_evolution.py": "cf5352930769d49e7e202a5d2f636a4682855c50c543e8b11b1a115862f78659",
+    "upgrade_v6/run_local_agent.py": "211976b3e8258c6335125d66b2b3ef207cac42680c9e36ae9cc02a4a5597d2a0",
+    "upgrade_v6/rx_agent.py": "abc8c2ab43daa5182861dd43853122a46be6d2394e434ec570da01ce9751d97c",
+    "upgrade_v6/test_rx_agent.py": "a4fec7fbba002a124b687adc2ffb493f3cee29360cc001b79ac0472474e37247",
+    "upgrade_v6/verify_results.py": "5c54a307786a59e8815fa3878bbb48ded0581923a57330f0c0a113cc98476980"
+  },
+  "active_manuscript_sha256": "90edd67ecea785aa7ddccc1d7f351c406fca976f1afa38570e5f3a94e9f558a8"
+}

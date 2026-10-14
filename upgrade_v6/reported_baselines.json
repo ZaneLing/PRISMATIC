@@ -1,0 +1,233 @@
+{
+  "convention": "All values below are author-reported, not locally reproduced. Each protocol_id defines its own comparison panel. Our ED6 raw-name/micro-F1 results must not be ranked against these panels.",
+  "papers": [
+    {
+      "id": "gamenet-original",
+      "title": "GAMENet",
+      "url": "https://arxiv.org/pdf/1809.01852",
+      "location": "Tables 2 and 3",
+      "dataset": "MIMIC-III",
+      "protocol_id": "GAMENet-145-ATC3",
+      "patients": 6350,
+      "visits": 15016,
+      "drug_classes": 145,
+      "task": "first-24-hour medication set, longitudinal diagnosis/procedure inputs",
+      "experiments": [
+        "medication prediction",
+        "DDI",
+        "memory and DDI ablations"
+      ],
+      "reported": [
+        {
+          "method": "GAMENet",
+          "f1": 0.6081,
+          "jaccard": 0.4509,
+          "prauc": 0.6904,
+          "ddi": 0.0749
+        }
+      ]
+    },
+    {
+      "id": "safedrug-original",
+      "title": "SafeDrug",
+      "url": "https://arxiv.org/pdf/2105.02711",
+      "location": "Tables 1 and 2",
+      "dataset": "MIMIC-III",
+      "protocol_id": "SafeDrug-131-ATC3",
+      "patients": 6350,
+      "visits": 14995,
+      "drug_classes": 131,
+      "experiments": [
+        "medication prediction",
+        "DDI",
+        "molecular encoder ablations",
+        "efficiency",
+        "DDI trade-off"
+      ],
+      "reported": [
+        {
+          "method": "GAMENet as reported by SafeDrug",
+          "f1": 0.6626,
+          "jaccard": 0.5067,
+          "prauc": 0.7631,
+          "ddi": 0.0864
+        },
+        {
+          "method": "SafeDrug",
+          "f1": 0.6768,
+          "jaccard": 0.5213,
+          "prauc": 0.7647,
+          "ddi": 0.0589
+        }
+      ]
+    },
+    {
+      "id": "saferx",
+      "title": "SafeRx-Agent",
+      "url": "https://arxiv.org/html/2605.29146v1",
+      "location": "Section 5, Table 2",
+      "dataset": "MIMIC-IV / MIMIC-III",
+      "protocol_id": "SafeRx-ATC4",
+      "development_cases_mimiciv": 100,
+      "test_cases_mimiciv": 1586,
+      "mimiciii_patients": 901,
+      "experiments": [
+        "four shared LLM backbones",
+        "traditional and agent baselines",
+        "safety filtering",
+        "DDI and contraindications",
+        "expert routing ablations"
+      ],
+      "reported": [
+        {
+          "method": "GAMENet (reported in SafeRx)",
+          "mimiciv_f1": 0.3356,
+          "mimiciii_f1": 0.2153
+        },
+        {
+          "method": "SafeDrug (reported in SafeRx)",
+          "mimiciv_f1": 0.3519,
+          "mimiciii_f1": 0.2361
+        },
+        {
+          "method": "SafeRx / GPT-5.2 / no safety filter",
+          "mimiciv_f1": 0.4138,
+          "mimiciii_f1": 0.2812
+        },
+        {
+          "method": "SafeRx / GPT-5.2 / safety filter",
+          "mimiciv_f1": 0.3934,
+          "mimiciii_f1": 0.2641
+        },
+        {
+          "method": "SafeRx / Claude Sonnet-4.6 / no safety filter",
+          "mimiciv_f1": 0.4325,
+          "mimiciii_f1": 0.2758
+        },
+        {
+          "method": "SafeRx / Claude Sonnet-4.6 / safety filter",
+          "mimiciv_f1": 0.4229,
+          "mimiciii_f1": 0.2667
+        }
+      ]
+    },
+    {
+      "id": "medagentsim",
+      "title": "MedAgentSim",
+      "url": "https://arxiv.org/html/2503.22678v1",
+      "location": "Section 4, Tables 1 and 2",
+      "protocol_id": "MedAgentSim-diagnosis",
+      "datasets": {
+        "NEJM": 15,
+        "NEJM_Extended": 120,
+        "MedQA": 106,
+        "MedQA_Extended": 214,
+        "MIMIC_IV": 288
+      },
+      "experiments": [
+        "diagnostic accuracy",
+        "measurement/memory/reasoning/ensemble ablations",
+        "bias analysis"
+      ],
+      "reported": [
+        {
+          "method": "MedAgentSim / Llama-3.3-70B",
+          "mimiciv_diagnosis_accuracy_percent": 79.5
+        }
+      ],
+      "not_prescription_f1": true
+    },
+    {
+      "id": "medagentbench",
+      "title": "MedAgentBench",
+      "url": "https://arxiv.org/abs/2501.14654",
+      "location": "300-task version abstract",
+      "protocol_id": "MedAgentBench-300",
+      "tasks": 300,
+      "patients": 100,
+      "task_categories": 10,
+      "experiments": [
+        "FHIR task success",
+        "task-type analysis"
+      ],
+      "reported": [
+        {
+          "method": "Claude-3.5-Sonnet-v2",
+          "success_percent": 69.67
+        }
+      ],
+      "not_prescription_f1": true
+    },
+    {
+      "id": "grasp",
+      "title": "GRASP",
+      "url": "https://arxiv.org/html/2605.29668v1",
+      "location": "Tables 1 and 8",
+      "protocol_id": "GRASP-MAB-split",
+      "datasets": [
+        "MedAgentBench",
+        "MedAgentBench-v2",
+        "FHIR-AgentBench",
+        "DBBench",
+        "OS Interaction",
+        "ALFWorld",
+        "WebShop"
+      ],
+      "mab_split": {
+        "development": 96,
+        "validation": 80,
+        "test": 64,
+        "ood": 60
+      },
+      "experiments": [
+        "skill-library evolution",
+        "regression-aware promotion",
+        "OOD",
+        "cross-model transfer",
+        "multiple seeds"
+      ],
+      "reported": [
+        {
+          "method": "GRASP / gpt-oss-120b",
+          "mab_test_percent": 88.8,
+          "mab_test_sd": 5.8,
+          "mab_v2_test_percent": 76.9,
+          "mab_v2_test_sd": 4.0
+        }
+      ],
+      "not_prescription_f1": true
+    },
+    {
+      "id": "rxeval",
+      "title": "RxEval",
+      "url": "https://arxiv.org/html/2605.14543v1",
+      "location": "Table 2",
+      "protocol_id": "RxEval-prescription-MCQ",
+      "task": "timepoint-specific medication-dose-route option selection",
+      "experiments": [
+        "16 LLMs",
+        "prescription exact match",
+        "Jaccard/precision/recall/F1",
+        "clinical trajectory analysis"
+      ],
+      "reported": [
+        {
+          "method": "Gemini-3.1-Pro",
+          "f1_percent": 77.1,
+          "exact_match_percent": 46.1
+        },
+        {
+          "method": "Qwen3.6-27B",
+          "f1_percent": 71.7,
+          "exact_match_percent": 40.0
+        }
+      ],
+      "not_unconstrained_generation": true,
+      "dataset": "MIMIC-IV; 1,547 prescription questions, 587 admissions, 584 patients",
+      "test_questions": 1547,
+      "patients": 584,
+      "admissions": 587,
+      "averaging": "macro average over question-level set scores"
+    }
+  ]
+}

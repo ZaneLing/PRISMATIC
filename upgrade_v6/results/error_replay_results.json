@@ -1,0 +1,45 @@
+{
+  "run_id": "RxRSI-v6-error-replay-r2",
+  "winner": {
+    "error_weight": 0,
+    "order_mode": "global",
+    "threshold": 0.2,
+    "validation": {
+      "cases": 4000,
+      "drug_micro_f1": 0.4047367508160015,
+      "drug_precision": 0.38986603481272214,
+      "drug_recall": 0.42078688524590163,
+      "core_order_micro_f1": 0.27347025581819284,
+      "known_field_accuracy_given_correct_drug": 0.8603444517113582,
+      "known_fields_scored": 45870,
+      "core_gold_orders": 32909,
+      "core_predicted_orders": 32919,
+      "saline_presence_f1": 0.8275751245380042,
+      "mean_predicted_drugs": 8.22975,
+      "empty_fraction": 0.08475,
+      "promotion_score": 0.33910350331709715
+    }
+  },
+  "test": {
+    "cases": 4000,
+    "drug_micro_f1": 0.40668072491672014,
+    "drug_precision": 0.38801574573552994,
+    "drug_recall": 0.42723215719009855,
+    "core_order_micro_f1": 0.2800271899751744,
+    "known_field_accuracy_given_correct_drug": 0.8628986541812761,
+    "known_fields_scored": 47629,
+    "core_gold_orders": 33377,
+    "core_predicted_orders": 34295,
+    "saline_presence_f1": 0.8356316373434776,
+    "mean_predicted_drugs": 8.57375,
+    "empty_fraction": 0.0755,
+    "promotion_score": 0.34335395744594727
+  },
+  "feedback_cases": 32000,
+  "elapsed_seconds": 46.779473304748535,
+  "limits": [
+    "r2 development revision after inspecting r1 failures; not confirmation.",
+    "Error-weighted supervised replay changes the prescription policy, not the frozen LLM weights.",
+    "All candidate grids and the zero-weight control are retained; best test score is never selected."
+  ]
+}

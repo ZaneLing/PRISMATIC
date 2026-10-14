@@ -1,0 +1,23 @@
+{
+  "system": "RxRSIAgent",
+  "version": "v0.6-r1",
+  "objective": "Improve prescription generation and benchmark performance as ground-truth training cases accumulate. Outperforming prior methods is a paper hypothesis, never an inference instruction.",
+  "training_checkpoints": [8000, 16000, 32000, 40000],
+  "validation_admissions": 4000,
+  "development_test_admissions": 4000,
+  "drug_vocabulary": "top 128 normalized raw drug names in the initial 8000 training admissions; fixed thereafter; includes unmapped drugs and fluids",
+  "inputs": "same admission-proxy complaint, acuity and home medicines as v4/v5; no future target fields",
+  "ground_truth": "observed six-hour prescription names, route, dose value, dose unit, doses per 24 hours; no clinician annotation prerequisite",
+  "thresholds": [0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5],
+  "max_orders": 20,
+  "retrieval_neighbors": 30,
+  "promotion_score": "0.5 * drug-set micro-F1 + 0.5 * complete-core-order micro-F1 on validation only",
+  "evolution": "ground-truth error ledger, expanded training-case memory, refitted prescription policy, updated joint order templates, validation promotion and retained previous version",
+  "training_feedback_only": true,
+  "llm_pilot_per_split": 20,
+  "llm": "local frozen Qwen3-4B-Instruct-2507 4bit; plan and select template IDs; structured compiler expands complete order fields",
+  "unobserved_fields": ["indication", "fluid_purpose", "infusion_rate", "renal_adjustment_rationale"],
+  "clinical_review": "optional secondary evaluation of unobserved clinical attributes; never blocks supervised experiments",
+  "published_baselines": "Use cited reported scores without reimplementation; protocol-specific panels. Evaluate our method on those protocols before a head-to-head superiority claim.",
+  "status": "development experiment; not an independently held-out confirmatory test"
+}

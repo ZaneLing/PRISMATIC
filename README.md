@@ -1,10 +1,12 @@
 # PRISMATIC: ***P***rescription ***R***isk ***I***nspection ***S***ystem for ***M***ulti-***A***gent ***T***actical ***I***nteraction in ***C***linical Decision
 
-## Current research status — v0.5 (14 October 2026)
+## Current research status — RxRSIAgent v0.6 (14 October 2026)
 
-[中文实验结果](upgrade_v5/RESULTS.zh.md) · [English results](upgrade_v5/RESULTS.en.md) · [Implemented architecture / 结构图](upgrade_v5/ARCHITECTURE.md) · [English paper](paper/latex/v0.3/prismatic_v03_en.tex) · [Versioned completion plan](paper/COMPLETION_PLAN.md)
+[中文设计与流程图](upgrade_v6/DESIGN.zh.md) · [中文结果](upgrade_v6/RESULTS.zh.md) · [English results](upgrade_v6/RESULTS.en.md) · [English paper](paper/latex/v0.3/prismatic_v03_en.tex) · [Versioned plan](paper/COMPLETION_PLAN.md)
 
-The v0.5 experiments diagnose and repair excessive empty predictions, evaluate stronger statistical rankers and training-only residual memory, and preserve negative results. Historical medication overlap is not clinical safety. Faithful SafeRx-Agent/SafeDrug comparisons and clinician-rated complete orders remain outstanding. The 2025 description below is retained as historical project context; it is not evidence for the current evaluation.
+RxRSIAgent generates structured prescriptions using a learned policy, joint order tools and an evaluated local LLM planning branch. Ground-truth training prescriptions drive policy, memory and template updates; clinician review is not a prerequisite. On a fixed 4,000-case raw-order development test, increasing training data from 8k to 40k raises drug F1 from 0.35841 to 0.40668. Ordinary same-data training matches the selected variant, and error-weighted replay did not improve validation. Published results are cited directly by protocol; external-benchmark superiority remains unproven. See the [reproducible evidence](upgrade_v6/README.md).
+
+The 2025 description below is retained as historical project context, not evidence for the current evaluation.
 
 ## Original 2025 project description
 
@@ -56,8 +58,8 @@ poetry run python workflow.py
 ## 2026 research upgrade / 2026 年研究升级
 
 **Start with the [versioned paper index / 持续更新的论文入口](paper/README.md).**
-The [current Chinese manuscript](paper/versions/v0.2-2026-10-14.zh.md#41-主表同题配对的-rxsafebench-结果)
-and [current English manuscript](paper/versions/v0.2-2026-10-14.en.md#41-primary-table-paired-rxsafebench-results)
+The [archived v0.2 Chinese manuscript](paper/versions/v0.2-2026-10-14.zh.md#41-主表同题配对的-rxsafebench-结果)
+and [archived v0.2 English manuscript](paper/versions/v0.2-2026-10-14.en.md#41-primary-table-paired-rxsafebench-results)
 place the paired harness comparison in Table 2 and identify its public
 RxSafeBench dataset. Older reports remain archived by version.
 

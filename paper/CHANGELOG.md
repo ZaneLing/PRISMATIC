@@ -1,5 +1,15 @@
 # Manuscript change log / 论文变更记录
 
+## v0.6-r1/r2 — 2026-10-14
+
+- Redesigned the current system as **RxRSIAgent**, with explicit prescription workflow and GT-supervised policy/memory/template updates. 新增可读流程图与中英文设计文档。
+- Removed clinician review and reimplementation of every published baseline as prerequisites. 有 GT 的字段直接自动评价；原论文分数按协议直接引用。
+- Executed 40k/4k/4k raw-order experiments including saline records. Drug F1 0.35841 → 0.40668; selected core-order F1 0.28003. 固定药名空间来自初始 8k，测试订单覆盖 85.34%。
+- Executed 32k pre-update error-feedback records and 0/0.25/1 replay ablations. Zero extra weighting wins; same-data ordinary training matches the selected policy. 保留负消融，不把数据增长误称为独有机制收益。
+- Executed local LLM planners on 20 validation + 20 test cases; validation selects learned-policy output. LLM 参数未更新，技能自动编辑和 SFT 未伪报为完成。
+- Added source-reported GAMENet, SafeDrug, SafeRx, RxEval, MedAgentSim, MedAgentBench and GRASP datasets/results. Main Table 2 is reported protocol panels; Table 3 is actual local method comparison.
+- Passed 7 contract tests and independent aggregate recomputation, with patient-disjoint checks and 2,000 patient-cluster bootstrap replicates. Updated the existing English paper in place and compiled with the built-in compiler.
+
 ## v0.4 execution r1 / order normalization r2 — 2026-10-14
 
 - Executed train-40k-only mapping and route audit: 814,254/1,788,195 orders mapped; IV coverage 19.518%; all 240,310 saline-name proxy rows unmapped. 执行映射与途径审计，保留未知而不补造药物编码。

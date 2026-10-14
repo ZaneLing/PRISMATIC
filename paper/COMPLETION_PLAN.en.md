@@ -1,5 +1,43 @@
 # PRISMATIC manuscript completion and execution plan
 
+## Active execution version: P3 / RxRSIAgent v0.6 (14 October 2026)
+
+**This section and the [RxRSIAgent design](../upgrade_v6/DESIGN.en.md) supersede conflicting requirements in the historical P1/P2 plan retained below.**
+
+Outperforming published methods is the paper objective, not a runtime instruction. Existing prescription GT supports automatic training, typed error feedback and evaluation without clinician review. Human assessment is optional for attributes absent from GT. Published scores may be cited directly with their dataset, protocol, metric and source table; reproducing all baselines is not required. Our own matched-protocol measurements are required before claiming superiority.
+
+The current paper's **Table 2** contains protocol-separated reported literature scores. **Table 3** contains executed 4,000-case raw-order comparisons. Earlier ATC scores are a different task.
+
+### Completed v0.6 increment
+
+| Work | Executed evidence |
+| --- | --- |
+| Prescription workflow | Patient state → prescription tools → selected planner/policy → structured order compiler |
+| GT evaluation | Drug-set F1, exact drug/route/dose/unit tuple F1, observed-field accuracy, saline occurrence |
+| Accumulated cases | 8k/16k/32k/40k; fixed-test drug F1 0.35841 → 0.40668 |
+| Error replay | 32k pre-update training feedback records; strengths 0/0.25/1; validation selects zero extra weighting |
+| Order templates | Global versus similar-case comparison; selected core-order F1 0.28003; same-40k ordinary training matches it |
+| Actual local LLM | 20 validation + 20 test; catalogue/experience/policy drug F1 0.27350/0.32000/0.42997; policy selected on validation |
+| Literature registry | GAMENet, SafeDrug, SafeRx, RxEval, MedAgentSim, MedAgentBench and GRASP protocols/results |
+| Verification | Seven contract tests; independent recomputation; disjoint patient splits; 2,000 patient-cluster bootstrap replicates |
+
+[Results](../upgrade_v6/RESULTS.en.md) · [Code and evidence map](../upgrade_v6/README.md)
+
+### Ordered remaining experiments
+
+1. **RxEval:** verify formal release and access, retain the 1,547-question medication/dose/route option task, execute direct/RxRSI, cite published baselines; report macro F1, exact match and budgets.
+2. **SafeRx ATC-L4:** align IV/III membership, inputs, labels and scoring, then run our method only. Label approximate membership as an adaptation rather than a strict head-to-head result.
+3. **Richer order task:** timepoint trajectories, verified allergy/renal facts, ingredient normalization and broader order coverage including saline.
+4. **Mechanism benefit:** equal-data ordinary training, episode retrieval, typed error replay and skill editing; training-only proposals and separate passing/failing regression probes.
+5. **Parameter evolution:** same-backbone memory/SFT/combined/GT-preference experiments. LLM-weight updates must be executed before they are claimed.
+6. **Confirmation:** freeze configurations, evaluate independent patients and multiple seeds, and report paired intervals.
+
+LLM weights remain frozen in v0.6. Skill editing, LLM fine-tuning and matched external-benchmark superiority are unfinished. Existing RxSafeBench/RxQA results remain secondary evidence; real FHIR evaluation remains a tool-capability supplement.
+
+---
+
+## Historical P1/P2 plan (retained for provenance)
+
 Version P1, 14 October 2026. [Chinese plan and execution ledger](COMPLETION_PLAN.md). The active manuscript is English only and uses the original AAMAS template from the supplied ZIP. Planned experiments and acceptance criteria are not achieved results.
 
 ## 1. Deliverables and claims

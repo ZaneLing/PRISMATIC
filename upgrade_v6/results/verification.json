@@ -1,0 +1,29 @@
+{
+  "independent_set_count_verification": "passed",
+  "verified_growth_checkpoints": [
+    8000,
+    16000,
+    32000,
+    40000
+  ],
+  "verified_r2_test_cases": 4000,
+  "verified_llm_cases_per_split": 20,
+  "patient_split_disjoint": true,
+  "test_patients": 3115,
+  "paired_patient_bootstrap": {
+    "replicates": 2000,
+    "seed": 42,
+    "comparison": "r2 selected versus initial 8k",
+    "drug_f1_difference": 0.0482683455508322,
+    "drug_f1_difference_ci95": [
+      0.044468828444973255,
+      0.05234247340525479
+    ],
+    "core_f1_difference": 0.03698285802651877,
+    "core_f1_difference_ci95": [
+      0.033205475872354714,
+      0.04082128287066136
+    ],
+    "interpretation": "Developmental data-growth comparison; not a unique mechanism effect or external-baseline superiority."
+  }
+}

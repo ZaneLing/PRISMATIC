@@ -1,0 +1,190 @@
+{
+  "val": {
+    "metrics": {
+      "catalogue_planner": {
+        "cases": 20,
+        "drug_micro_f1": 0.24277456647398843,
+        "drug_precision": 0.4117647058823529,
+        "drug_recall": 0.1721311475409836,
+        "core_order_micro_f1": 0.16091954022988506,
+        "known_field_accuracy_given_correct_drug": 0.8533333333333334,
+        "known_fields_scored": 75,
+        "core_gold_orders": 123,
+        "core_predicted_orders": 51,
+        "saline_presence_f1": 0.7096774193548387,
+        "mean_predicted_drugs": 2.55,
+        "empty_fraction": 0.0,
+        "promotion_score": 0.20184705335193676
+      },
+      "experience_planner": {
+        "cases": 20,
+        "drug_micro_f1": 0.20725388601036268,
+        "drug_precision": 0.28169014084507044,
+        "drug_recall": 0.16393442622950818,
+        "core_order_micro_f1": 0.12371134020618557,
+        "known_field_accuracy_given_correct_drug": 0.8472222222222222,
+        "known_fields_scored": 72,
+        "core_gold_orders": 123,
+        "core_predicted_orders": 71,
+        "saline_presence_f1": 0.7096774193548387,
+        "mean_predicted_drugs": 3.55,
+        "empty_fraction": 0.0,
+        "promotion_score": 0.1654826131082741
+      },
+      "learned_policy": {
+        "cases": 20,
+        "drug_micro_f1": 0.3680555555555556,
+        "drug_precision": 0.3192771084337349,
+        "drug_recall": 0.4344262295081967,
+        "core_order_micro_f1": 0.2698961937716263,
+        "known_field_accuracy_given_correct_drug": 0.8617021276595744,
+        "known_fields_scored": 188,
+        "core_gold_orders": 123,
+        "core_predicted_orders": 166,
+        "saline_presence_f1": 0.7586206896551724,
+        "mean_predicted_drugs": 8.3,
+        "empty_fraction": 0.1,
+        "promotion_score": 0.31897587466359095
+      },
+      "rxrsi_selected": {
+        "cases": 20,
+        "drug_micro_f1": 0.3680555555555556,
+        "drug_precision": 0.3192771084337349,
+        "drug_recall": 0.4344262295081967,
+        "core_order_micro_f1": 0.2698961937716263,
+        "known_field_accuracy_given_correct_drug": 0.8617021276595744,
+        "known_fields_scored": 188,
+        "core_gold_orders": 123,
+        "core_predicted_orders": 166,
+        "saline_presence_f1": 0.7586206896551724,
+        "mean_predicted_drugs": 8.3,
+        "empty_fraction": 0.1,
+        "promotion_score": 0.31897587466359095
+      }
+    },
+    "cost": {
+      "catalogue_planner": {
+        "input_tokens": 35367,
+        "output_tokens": 1057,
+        "seconds": 57.54125928878784
+      },
+      "experience_planner": {
+        "input_tokens": 51138,
+        "output_tokens": 1209,
+        "seconds": 81.61633157730103
+      },
+      "learned_policy": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "seconds": 0
+      }
+    },
+    "invalid_responses": {
+      "catalogue_planner": 0,
+      "experience_planner": 0,
+      "learned_policy": 0
+    }
+  },
+  "test": {
+    "metrics": {
+      "catalogue_planner": {
+        "cases": 20,
+        "drug_micro_f1": 0.27350427350427353,
+        "drug_precision": 0.5333333333333333,
+        "drug_recall": 0.1839080459770115,
+        "core_order_micro_f1": 0.21666666666666667,
+        "known_field_accuracy_given_correct_drug": 0.868421052631579,
+        "known_fields_scored": 114,
+        "core_gold_orders": 180,
+        "core_predicted_orders": 60,
+        "saline_presence_f1": 0.8,
+        "mean_predicted_drugs": 3.0,
+        "empty_fraction": 0.0,
+        "promotion_score": 0.2450854700854701
+      },
+      "experience_planner": {
+        "cases": 20,
+        "drug_micro_f1": 0.32,
+        "drug_precision": 0.43564356435643564,
+        "drug_recall": 0.25287356321839083,
+        "core_order_micro_f1": 0.24199288256227758,
+        "known_field_accuracy_given_correct_drug": 0.86875,
+        "known_fields_scored": 160,
+        "core_gold_orders": 180,
+        "core_predicted_orders": 101,
+        "saline_presence_f1": 0.875,
+        "mean_predicted_drugs": 5.05,
+        "empty_fraction": 0.0,
+        "promotion_score": 0.28099644128113876
+      },
+      "learned_policy": {
+        "cases": 20,
+        "drug_micro_f1": 0.42996742671009774,
+        "drug_precision": 0.49624060150375937,
+        "drug_recall": 0.3793103448275862,
+        "core_order_micro_f1": 0.30670926517571884,
+        "known_field_accuracy_given_correct_drug": 0.8468085106382979,
+        "known_fields_scored": 235,
+        "core_gold_orders": 180,
+        "core_predicted_orders": 133,
+        "saline_presence_f1": 0.9333333333333333,
+        "mean_predicted_drugs": 6.65,
+        "empty_fraction": 0.2,
+        "promotion_score": 0.36833834594290826
+      },
+      "rxrsi_selected": {
+        "cases": 20,
+        "drug_micro_f1": 0.42996742671009774,
+        "drug_precision": 0.49624060150375937,
+        "drug_recall": 0.3793103448275862,
+        "core_order_micro_f1": 0.30670926517571884,
+        "known_field_accuracy_given_correct_drug": 0.8468085106382979,
+        "known_fields_scored": 235,
+        "core_gold_orders": 180,
+        "core_predicted_orders": 133,
+        "saline_presence_f1": 0.9333333333333333,
+        "mean_predicted_drugs": 6.65,
+        "empty_fraction": 0.2,
+        "promotion_score": 0.36833834594290826
+      }
+    },
+    "cost": {
+      "catalogue_planner": {
+        "input_tokens": 34788,
+        "output_tokens": 892,
+        "seconds": 55.47054648399353
+      },
+      "experience_planner": {
+        "input_tokens": 50643,
+        "output_tokens": 1318,
+        "seconds": 84.45814323425293
+      },
+      "learned_policy": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "seconds": 0
+      }
+    },
+    "invalid_responses": {
+      "catalogue_planner": 0,
+      "experience_planner": 0,
+      "learned_policy": 0
+    }
+  },
+  "run_id": "RxRSI-v6-local-agent-20-r1",
+  "fingerprint": "6765d6fef94091c416cd38030ae65beda8a7050add312ac05e83409342585ce0",
+  "validation_gate": {
+    "chosen": "learned_policy",
+    "validation_scores": {
+      "catalogue_planner": 0.20184705335193676,
+      "experience_planner": 0.1654826131082741,
+      "learned_policy": 0.31897587466359095
+    },
+    "fingerprint": "6765d6fef94091c416cd38030ae65beda8a7050add312ac05e83409342585ce0"
+  },
+  "limits": [
+    "20-case developmental pilot, not the 4000-case policy experiment.",
+    "LLM selects among learned templates; novel dose synthesis and LLM fine-tuning are not executed.",
+    "Indication and fluid-role correctness are not scored without those GT fields."
+  ]
+}

@@ -1,42 +1,45 @@
-# PRISMATIC manuscript and execution index
+# PRISMATIC / RxRSIAgent manuscript and execution index
 
-**Active draft: v0.5-dev (2026-10-14), English only.** The existing [English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place. Its directory name preserves the editor path; the draft version appears inside the manuscript. The template is the original AAMAS class from the supplied ZIP, with provenance recorded [here](latex/v0.3/template_provenance.json). The updated source compiled successfully in the Codex editor.
+**Active English draft: v0.6 (14 October 2026).** The [existing English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is edited in place, retaining the original AAMAS template from the supplied ZIP. Its path is unchanged for the open editor. See [template provenance](latex/v0.3/template_provenance.json) and [compilation check](latex/v0.3/compile_check.json).
 
-**Latest executed batch: v0.5 r1. [真实实验结果（中文）](../upgrade_v5/RESULTS.zh.md) / [English results](../upgrade_v5/RESULTS.en.md) / [Architecture / 结构图](../upgrade_v5/ARCHITECTURE.md).** Table 2 retains the original failures and adds repaired LLM review, validation-gated inference and stronger 4,000-case candidate rankers. Training-only residual-memory growth is measured separately; its fusion negative result is preserved. SafeDrug, SafeRx-Agent and clinically complete orders remain unscored.
+## Start here
 
-## 下一步完整计划 / Completion plan
+- [中文：RxRSIAgent 流程、进化设计、后续实验](../upgrade_v6/DESIGN.zh.md) / [English design](../upgrade_v6/DESIGN.en.md)
+- [中文真实结果](../upgrade_v6/RESULTS.zh.md) / [English results](../upgrade_v6/RESULTS.en.md)
+- [完整持续更新计划](COMPLETION_PLAN.md) / [Versioned English plan](COMPLETION_PLAN.en.md)
+- [Executable code and evidence map](../upgrade_v6/README.md)
 
-**[完整 Markdown 计划：实验、比较方法、实施步骤、验收和交付台账](COMPLETION_PLAN.md)**
+## Where are the main tables?
 
-[Full English plan](COMPLETION_PLAN.en.md) · [Compilation verification](latex/v0.3/compile_check.json)
+- **Table 1:** literature datasets, task definitions and experiment types.
+- **Table 2:** directly cited, author-reported GAMENet, SafeDrug, SafeRx-Agent and RxEval results, grouped by protocol. Reimplementation is not required. Our matched-protocol rows remain to be measured.
+- **Table 3:** executed local raw-order comparison on the same 4,000 development-test admissions. Methods include retrieval, the initial 8k policy, accumulated 40k policies and the selected RxRSIAgent variant.
+- **Tables 4–5:** case-growth experiment and actual local LLM planning pilot.
 
-The plan covers a common-protocol method comparison, reviewed-case growth, mechanism ablations, two-reviewer clinical evaluation, full public benchmarks, and real FHIR tool-state evaluation. Planned experiments are not completed results.
+The current task uses MIMIC-IV/ED 40k/4k/4k patient-disjoint admissions and six-hour prescription targets. Its 128 raw-name vocabulary is frozen from the first 8k training cases; names, route, dose, unit and observed frequency are scored. It is distinct from older ATC-L4 pilots. Unknown clinical attributes remain unscored.
 
-The latest increment repairs excessive empty outputs, executes validation-selected ranking, runs a training-only residual-memory curve and evaluates the local LLM on the same 50 cases. A new confirmatory split, compatible SafeDrug/SafeRx resources and clinical ratings remain outstanding. See the [execution report](../upgrade_v5/RESULTS.en.md).
+GT-based training and evaluation **do not require clinician review**. Two-reviewer assessment remains optional for additional clinical questions absent from GT. Existing clinical-review preparation is preserved as a supplementary resource.
 
-## Where is the main table?
+## Latest evidence
 
-- **Table 2 in the [active English paper](latex/v0.3/prismatic_v03_en.tex)** compares methods on MIMIC. Panel A contains prevalence, retrieval, SGD, GAMENet text adaptation and v5 static/memory ranking on 4,000 admissions. Panel B uses identical nested 50 cases for the original methods plus parser-only repair, revised review and validation-gated PRISMATIC. Never compare scores across the two sample sizes as if they were the same test.
-- **Dataset:** restricted MIMIC-IV v3.1 + MIMIC-IV-ED v2.2; 201,750 ED-to-hospital admissions, 107,097 patients; patient-disjoint splits; six-hour all-route prescription targets in ATC-L4. The pilot uses 40,000/4,000/4,000 admissions, top-80 training classes and five predictions per admission.
-- **Observability:** the revised train-40k-only mapper covers 45.535% of raw six-hour orders (v0.3: 45.652%). Of the pilot's 4,000 admissions, 1,144 have no recorded raw order and 152 have unmapped-only orders. These are distinct unknown-target conditions. See the [mapping audit](../upgrade_v4/results/mapping_protocol_audit.json).
-- **Public secondary tasks:** RxSafeBench deduplicated 2,000 questions and RxQA OpenFDA 300 questions. Their multiple-choice results are separate from the prescribing main table.
-- **Clinical evaluation:** two reviewers are available; the [review protocol](../upgrade_v3/CLINICAL_REVIEW_PROTOCOL.md) and a local 200-case manifest exist. Complete candidate orders and independent ratings are pending.
+Drug F1 improves from 0.35841 to 0.40668 with 8k → 40k training cases. Selected core-order F1 is 0.28003. Same-40k ordinary training matches the selected variant; error-prioritized replay does not add a demonstrated benefit. Validation also selects direct learned-policy output over the tested LLM planners. The system updates policy parameters, case memory and joint templates, while LLM weights remain frozen.
 
 ## Versions
 
 | Version | Record | Evidence |
 | --- | --- | --- |
-| v0.5-dev | [Active English source](latex/v0.3/prismatic_v03_en.tex), [executed evidence](../upgrade_v5/RESULTS.en.md) | Empty-output repair; conditional memory growth; stronger ranking; negative fusion ablation |
-| v0.4-dev | [Active English source](latex/v0.3/prismatic_v03_en.tex), [plan](COMPLETION_PLAN.md), [change log](CHANGELOG.md) | Original ZIP template; label observability audit; expanded completion protocol |
-| v0.3 | [Frozen Git snapshot](https://github.com/ZaneLing/PRISMATIC/tree/289bf4c0fc90df12c3f6e851c32ac63f257cc281/paper), [experiment records](../upgrade_v3/README.md) | Three MIMIC method pilot rows and full public secondary runs |
-| v0.2 | [English archive](versions/v0.2-2026-10-14.en.md), [Chinese archive](versions/v0.2-2026-10-14.zh.md) | 60-question lightweight harness pilot |
-| v0.1 | [English archive](versions/v0.1-2026-10-14.en.md), [Chinese archive](versions/v0.1-2026-10-14.zh.md) | Initial case-growth and model experiments |
+| v0.6 | [Results](../upgrade_v6/RESULTS.en.md), [design](../upgrade_v6/DESIGN.en.md) | Raw orders, GT automatic feedback, policy evolution, reported baselines and negative replay/planner ablations |
+| v0.5 | [Results](../upgrade_v5/RESULTS.en.md), [frozen paper](https://github.com/ZaneLing/PRISMATIC/tree/1f488edbbf6a8c22423bcbb0a5cf6585c5a81bb2/paper) | Empty-output repair, stronger ranking and residual memory |
+| v0.4 | [Results](../upgrade_v4/RESULTS.en.md) | Time/mapping audits, adapted methods and original harness failures |
+| v0.3 | [Frozen paper](https://github.com/ZaneLing/PRISMATIC/tree/289bf4c0fc90df12c3f6e851c32ac63f257cc281/paper) | Initial common-cohort comparison and full public secondary runs |
+| v0.2 | [English archive](versions/v0.2-2026-10-14.en.md), [中文](versions/v0.2-2026-10-14.zh.md) | Paired 60-question harness pilot |
+| v0.1 | [English archive](versions/v0.1-2026-10-14.en.md), [中文](versions/v0.1-2026-10-14.zh.md) | Initial model and case-growth experiments |
 
-The old Chinese LaTeX is retained as an archive and is no longer maintained as an active manuscript.
+The Chinese LaTeX is an archive; only the English paper is maintained.
 
 ## Update contract
 
-1. Update the active English source in place, compile it, and append completed evidence, protocol changes and outstanding work to the plan and change log. Preserve historical versions through Git.
-2. Main-table scores require the same data, decision-time inputs, patient split, drug space and scorer. Never copy another paper's original score into this table.
-3. Trace every numeric result to a versioned aggregate output and run manifest. Keep restricted case-level data and credentials outside the public repository.
-4. Fill clinical appropriateness, DDI, renal adjustment and saline purpose/dose/rate endpoints only after generating evaluable orders and obtaining the required adjudication. Historical order overlap does not establish these outcomes.
+1. Update the active English source in place, compile, update both Markdown languages, and synchronize GitHub. Preserve previous versions and failures.
+2. Cite published baselines directly with source tables and protocol identifiers. Claim a numerical win only after measuring our method under the corresponding protocol.
+3. Link executed values to aggregate outputs and manifests. Keep restricted records, traces, checkpoints and credentials outside GitHub.
+4. Evaluate observed GT automatically. Use optional rules or human assessment for additional attributes, with their coverage stated.
