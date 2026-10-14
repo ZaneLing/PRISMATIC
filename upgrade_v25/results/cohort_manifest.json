@@ -1,0 +1,58 @@
+{
+  "status": "cohort_built",
+  "protocol_sha256": "12b3550efbb105bbc138955139464cd90df59d914a70f141308d904265d7fbc3",
+  "label_complete_population": 134482,
+  "excluded_incomplete_identity_stays": 8003,
+  "splits": {
+    "train": {
+      "stays": 40000,
+      "patients": 35249,
+      "hospitals": 124,
+      "zero_target_stays": 19105,
+      "unique_drug_targets": 62056,
+      "all_joint_targets": 70277,
+      "complete_joint_targets": 52637
+    },
+    "proposal": {
+      "stays": 2000,
+      "patients": 1914,
+      "hospitals": 13,
+      "zero_target_stays": 820,
+      "unique_drug_targets": 4074,
+      "all_joint_targets": 4523,
+      "complete_joint_targets": 3105
+    },
+    "guard": {
+      "stays": 2000,
+      "patients": 1912,
+      "hospitals": 17,
+      "zero_target_stays": 1001,
+      "unique_drug_targets": 2963,
+      "all_joint_targets": 3398,
+      "complete_joint_targets": 2564
+    },
+    "test": {
+      "stays": 8005,
+      "patients": 6227,
+      "hospitals": 16,
+      "zero_target_stays": 3842,
+      "unique_drug_targets": 13994,
+      "all_joint_targets": 15594,
+      "complete_joint_targets": 11853
+    }
+  },
+  "source_rows": {
+    "members": 52005,
+    "targets": 98875,
+    "prior": 836014,
+    "labs": 1215286
+  },
+  "files_sha256": {
+    "cases.joblib": "b5bf01ab68f93ac91e230e37c9653b38ef955aef219417c30ce42f1081f6c133",
+    "members.parquet": "f72372efb7c979a88d2f7787669e943f1f9051040d0dd4027644443a8559be05",
+    "targets.parquet": "2a690855aa1c3743dc9a18ec64ec75cf3a092c7788af8e81f61742416ded25cf",
+    "prior.parquet": "004074b954992969d992ae23b97b663de47ae7976f3d7a97c167de578eead48b",
+    "labs.parquet": "4cbfacfe8eed073058e33fd4ac6b571193ba1c3262771f4d3466f82f0079681a"
+  },
+  "no_model_scores": true
+}
