@@ -1,0 +1,947 @@
+[
+  {
+    "round": 0,
+    "active": {
+      "cards": []
+    },
+    "state_sha256": "fc0bd2acea704167af98496f07fa8186a780d5c76192848148a68b2d92f0cf52",
+    "guard": {
+      "n": 197,
+      "correct": 103,
+      "accuracy": 0.5228426395939086,
+      "invalid": 0,
+      "input_tokens": 106564,
+      "output_tokens": 12208,
+      "cost_usd": 0.02470524548000001,
+      "subgroups": {
+        "contraindication": {
+          "n": 114,
+          "correct": 74
+        },
+        "interaction": {
+          "n": 83,
+          "correct": 29
+        }
+      }
+    },
+    "accepted": true
+  },
+  {
+    "round": 1,
+    "training_seen": 156,
+    "active": {
+      "cards": []
+    },
+    "state_sha256": "fc0bd2acea704167af98496f07fa8186a780d5c76192848148a68b2d92f0cf52",
+    "accepted": false,
+    "guard_transition": {
+      "fixes": 0,
+      "regressions": 0,
+      "retained_correct": 103
+    },
+    "guard": {
+      "n": 197,
+      "correct": 103,
+      "accuracy": 0.5228426395939086,
+      "invalid": 0,
+      "input_tokens": 106564,
+      "output_tokens": 12208,
+      "cost_usd": 0.02470524548000001,
+      "subgroups": {
+        "contraindication": {
+          "n": 114,
+          "correct": 74
+        },
+        "interaction": {
+          "n": 83,
+          "correct": 29
+        }
+      }
+    },
+    "selected_candidate": "unchanged",
+    "candidate_audit": [
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "gi-infection-metronidazole-preference",
+              "all_terms": [
+                "abdominal pain",
+                "diarrhea"
+              ],
+              "any_terms": [
+                "gastrointestinal infection",
+                "stomach infection",
+                "bloating",
+                "sharp pain in my lower abdomen",
+                "no fever",
+                "no vomiting",
+                "no blood in my stool"
+              ],
+              "rule": "When abdominal pain and diarrhea are present without fever, vomiting, or blood in stool, and the dialogue suggests a gastrointestinal infection (bacterial or parasitic), choose an antiparasitic/antiprotozoal agent such as metronidazole (Flagyl) over antibiotics not preferred for GI infection and over unrelated antineoplastics. If tramadol is also present, do not select clindamycin solely because it is an antibiotic; match the stated GI infection indication."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      },
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "arterial-thrombosis-with-nsaid-ulcer-risk",
+              "all_terms": [
+                "clopidogrel"
+              ],
+              "any_terms": [
+                "arterial thrombotic event",
+                "nsaids",
+                "nsaid-induced gastric ulcers",
+                "chest discomfort",
+                "arm discomfort",
+                "high blood pressure",
+                "high cholesterol"
+              ],
+              "rule": "When clopidogrel is used and the dialogue states risk of arterial thrombotic events plus regular NSAID use or concern for NSAID-induced gastric ulcers, choose a combined antiplatelet plus gastroprotective proton-pump inhibitor product (aspirin/omeprazole) rather than a statin alone or an unrelated antiepileptic. If only cholesterol is discussed without NSAID ulcer risk, a statin may be appropriate; do not substitute a statin when the stated target is thrombotic prevention with gastric protection."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101878,
+          "output_tokens": 12265,
+          "cost_usd": 0.024807485999999997,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 1
+      },
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "dish-msk-nsaid-choice",
+              "all_terms": [
+                "stiffness",
+                "pain in my neck and back"
+              ],
+              "any_terms": [
+                "diffuse idiopathic skeletal hyperostosis",
+                "dish",
+                "limited movement",
+                "swelling in my hands and feet",
+                "fluid retention",
+                "weight gain"
+              ],
+              "rule": "When neck/back stiffness and pain suggest DISH and the patient has swelling/fluid retention or recent weight gain, choose an NSAID appropriate for musculoskeletal stiffness/pain (e.g., ibuprofen) rather than naproxen if the dialogue emphasizes fluid retention, and avoid antibiotics such as ciprofloxacin because they lack DISH indication and can cause tendon/musculoskeletal adverse effects. Do not select an antibiotic for a musculoskeletal stiffness presentation."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      },
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "pe-anticoagulation-adherence-alternative",
+              "all_terms": [
+                "shortness of breath",
+                "chest pain"
+              ],
+              "any_terms": [
+                "pulmonary embolism",
+                "long plane ride",
+                "immobile",
+                "difficulty taking medications",
+                "hard time remembering",
+                "strict medication schedule",
+                "warfarin"
+              ],
+              "rule": "When pulmonary embolism is suspected and the patient reports difficulty adhering to a strict medication schedule or remembering warfarin dosing, avoid choosing warfarin or its brand equivalent as the best option; prefer an alternative anticoagulant strategy that does not require the same strict adherence/monitoring, and do not select a histamine-2 blocker such as famotidine for PE treatment. If adherence is not an issue and warfarin is the only anticoagulant option, it may be considered; the adherence barrier should change the choice."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 102150,
+          "output_tokens": 12288,
+          "cost_usd": 0.024933321999999997,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 3
+      }
+    ],
+    "proposal_record": {
+      "raw": "{\"diagnosis\":\"Medication-choice agent failures cluster around mismatches between stated indication (infection type, thrombotic risk with gastroprotection, musculoskeletal pain, anticoagulation adherence, GIST after imatinib, PCP with warfarin monitoring, glabellar lines, depression with appetite/weight gain) and selected drug class; successes show correct matching of topical antifungal for oral thrush, analgesic compatible with gabapentin, and avoiding hepatotoxic lymphoma drug with Kynamro. Proposed edits encode narrow, conditional drug-selection rules keyed to observable indication and risk-factor phrases, preserving successful reasoning without memorizing letters or case IDs.\",\"edits\":[{\"id\":\"gi-infection-metronidazole-preference\",\"all_terms\":[\"abdominal pain\",\"diarrhea\"],\"any_terms\":[\"gastrointestinal infection\",\"stomach infection\",\"bloating\",\"sharp pain in my lower abdomen\",\"no fever\",\"no vomiting\",\"no blood in my stool\"],\"rule\":\"When abdominal pain and diarrhea are present without fever, vomiting, or blood in stool, and the dialogue suggests a gastrointestinal infection (bacterial or parasitic), choose an antiparasitic/antiprotozoal agent such as metronidazole (Flagyl) over antibiotics not preferred for GI infection and over unrelated antineoplastics. If tramadol is also present, do not select clindamycin solely because it is an antibiotic; match the stated GI infection indication.\"},{\"id\":\"arterial-thrombosis-with-nsaid-ulcer-risk\",\"all_terms\":[\"clopidogrel\"],\"any_terms\":[\"arterial thrombotic event\",\"NSAIDs\",\"NSAID-induced gastric ulcers\",\"chest discomfort\",\"arm discomfort\",\"high blood pressure\",\"high cholesterol\"],\"rule\":\"When clopidogrel is used and the dialogue states risk of arterial thrombotic events plus regular NSAID use or concern for NSAID-induced gastric ulcers, choose a combined antiplatelet plus gastroprotective proton-pump inhibitor product (aspirin/omeprazole) rather than a statin alone or an unrelated antiepileptic. If only cholesterol is discussed without NSAID ulcer risk, a statin may be appropriate; do not substitute a statin when the stated target is thrombotic prevention with gastric protection.\"},{\"id\":\"dish-msk-nsaid-choice\",\"all_terms\":[\"stiffness\",\"pain in my neck and back\"],\"any_terms\":[\"diffuse idiopathic skeletal hyperostosis\",\"DISH\",\"limited movement\",\"swelling in my hands and feet\",\"fluid retention\",\"weight gain\"],\"rule\":\"When neck/back stiffness and pain suggest DISH and the patient has swelling/fluid retention or recent weight gain, choose an NSAID appropriate for musculoskeletal stiffness/pain (e.g., ibuprofen) rather than naproxen if the dialogue emphasizes fluid retention, and avoid antibiotics such as ciprofloxacin because they lack DISH indication and can cause tendon/musculoskeletal adverse effects. Do not select an antibiotic for a musculoskeletal stiffness presentation.\"},{\"id\":\"pe-anticoagulation-adherence-alternative\",\"all_terms\":[\"shortness of breath\",\"chest pain\"],\"any_terms\":[\"pulmonary embolism\",\"long plane ride\",\"immobile\",\"difficulty taking medications\",\"hard time remembering\",\"strict medication schedule\",\"warfarin\"],\"rule\":\"When pulmonary embolism is suspected and the patient reports difficulty adhering to a strict medication schedule or remembering warfarin dosing, avoid choosing warfarin or its brand equivalent as the best option; prefer an alternative anticoagulant strategy that does not require the same strict adherence/monitoring, and do not select a histamine-2 blocker such as famotidine for PE treatment. If adherence is not an issue and warfarin is the only anticoagulant option, it may be considered; the adherence barrier should change the choice.\"}]}",
+      "input_tokens": 5972,
+      "output_tokens": 784,
+      "cost_usd": 0.001704,
+      "model_returned": "deepseek/deepseek-v4.1-flash",
+      "seconds": 4.626428127288818,
+      "request_sha256": "5a133fbdf163ca76d3e8a07459e44de10f4e03886b4b15918a72083112ee1cb3",
+      "role": "scoped_rsi_proposer"
+    }
+  },
+  {
+    "round": 2,
+    "training_seen": 312,
+    "active": {
+      "cards": []
+    },
+    "state_sha256": "fc0bd2acea704167af98496f07fa8186a780d5c76192848148a68b2d92f0cf52",
+    "accepted": false,
+    "guard_transition": {
+      "fixes": 0,
+      "regressions": 0,
+      "retained_correct": 103
+    },
+    "guard": {
+      "n": 197,
+      "correct": 103,
+      "accuracy": 0.5228426395939086,
+      "invalid": 0,
+      "input_tokens": 106564,
+      "output_tokens": 12208,
+      "cost_usd": 0.02470524548000001,
+      "subgroups": {
+        "contraindication": {
+          "n": 114,
+          "correct": 74
+        },
+        "interaction": {
+          "n": 83,
+          "correct": 29
+        }
+      }
+    },
+    "selected_candidate": "unchanged",
+    "candidate_audit": [
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "tinea-corporis-topical-antifungal",
+              "all_terms": [
+                "tinea corporis",
+                "itchy rash"
+              ],
+              "any_terms": [
+                "ringworm",
+                "arm rash",
+                "growing rash"
+              ],
+              "rule": "When the dialogue states tinea corporis/ringworm with an itchy enlarging rash, prefer a topical antifungal option such as ketoconazole over systemic antifungals or unrelated sedatives; if both topical and systemic antifungals are present, choose the topical azole unless the dialogue specifies extensive or recalcitrant disease."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      },
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "suspected-dvt-pe-anticoagulant",
+              "all_terms": [
+                "long flight",
+                "family history of deep vein thrombosis"
+              ],
+              "any_terms": [
+                "leg swelling",
+                "leg pain",
+                "short of breath",
+                "immobility"
+              ],
+              "rule": "When a long flight or immobility is accompanied by leg swelling/pain or shortness of breath and a family history of deep vein thrombosis, treat the presentation as suspected DVT/PE and prefer an anticoagulant such as rivaroxaban or its brand xarelto over antiplatelet aspirin or a diuretic such as lasix."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      },
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "perioral-dermatitis-erythromycin-or-clindamycin",
+              "all_terms": [
+                "perioral dermatitis"
+              ],
+              "any_terms": [
+                "rash around the mouth",
+                "red itchy scaly",
+                "new toothpaste",
+                "mouthwash"
+              ],
+              "rule": "When the diagnosis is perioral dermatitis, especially with a rash around the mouth and recent toothpaste or mouthwash exposure, choose a topical or oral macrolide/lincosamide option such as erythromycin or clindamycin; do not choose an anticoagulant such as xarelto solely because of a family history of irregular heart rhythm."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      },
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "syringomyelia-neuropathic-pain-asthma",
+              "all_terms": [
+                "syringomyelia"
+              ],
+              "any_terms": [
+                "numbness and weakness in my hands",
+                "chronic pain in my neck and back",
+                "burning sensation in my hands",
+                "asthma"
+              ],
+              "rule": "When syringomyelia is suspected with numbness/weakness, neck or back pain, or burning hand pain and the patient also has asthma, prefer a neuropathic pain agent such as pregabalin; avoid tramadol because of respiratory depression risk with asthma, and avoid ocrelizumab because it is not indicated for syringomyelia."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      }
+    ],
+    "proposal_record": {
+      "raw": "{\"diagnosis\":\"The agent often chose an antifungal, anticoagulant, or unrelated drug when the dialogue clearly named a different condition. The successful cases show the need to first anchor on the stated diagnosis and then choose the option that directly treats that diagnosis while respecting the patient’s current medication or comorbidity. The proposed cards add narrow, reusable checks for fungal skin infection, suspected DVT/PE, perioral dermatitis, and neuropathic pain with asthma.\",\"edits\":[{\"id\":\"tinea-corporis-topical-antifungal\",\"all_terms\":[\"tinea corporis\",\"itchy rash\"],\"any_terms\":[\"ringworm\",\"arm rash\",\"growing rash\"],\"rule\":\"When the dialogue states tinea corporis/ringworm with an itchy enlarging rash, prefer a topical antifungal option such as ketoconazole over systemic antifungals or unrelated sedatives; if both topical and systemic antifungals are present, choose the topical azole unless the dialogue specifies extensive or recalcitrant disease.\"},{\"id\":\"suspected-dvt-pe-anticoagulant\",\"all_terms\":[\"long flight\",\"family history of deep vein thrombosis\"],\"any_terms\":[\"leg swelling\",\"leg pain\",\"short of breath\",\"immobility\"],\"rule\":\"When a long flight or immobility is accompanied by leg swelling/pain or shortness of breath and a family history of deep vein thrombosis, treat the presentation as suspected DVT/PE and prefer an anticoagulant such as rivaroxaban or its brand xarelto over antiplatelet aspirin or a diuretic such as lasix.\"},{\"id\":\"perioral-dermatitis-erythromycin-or-clindamycin\",\"all_terms\":[\"perioral dermatitis\"],\"any_terms\":[\"rash around the mouth\",\"red itchy scaly\",\"new toothpaste\",\"mouthwash\"],\"rule\":\"When the diagnosis is perioral dermatitis, especially with a rash around the mouth and recent toothpaste or mouthwash exposure, choose a topical or oral macrolide/lincosamide option such as erythromycin or clindamycin; do not choose an anticoagulant such as xarelto solely because of a family history of irregular heart rhythm.\"},{\"id\":\"syringomyelia-neuropathic-pain-asthma\",\"all_terms\":[\"syringomyelia\"],\"any_terms\":[\"numbness and weakness in my hands\",\"chronic pain in my neck and back\",\"burning sensation in my hands\",\"asthma\"],\"rule\":\"When syringomyelia is suspected with numbness/weakness, neck or back pain, or burning hand pain and the patient also has asthma, prefer a neuropathic pain agent such as pregabalin; avoid tramadol because of respiratory depression risk with asthma, and avoid ocrelizumab because it is not indicated for syringomyelia.\"}]}",
+      "input_tokens": 6216,
+      "output_tokens": 583,
+      "cost_usd": 0.00162215,
+      "model_returned": "deepseek/deepseek-v4.1-flash",
+      "seconds": 3.2207653522491455,
+      "request_sha256": "d25c48bc56b8e8522518f6fb0ddb748d0062b472ff29974ac4f0a02337ae7c37",
+      "role": "scoped_rsi_proposer"
+    }
+  },
+  {
+    "round": 3,
+    "training_seen": 468,
+    "active": {
+      "cards": []
+    },
+    "state_sha256": "fc0bd2acea704167af98496f07fa8186a780d5c76192848148a68b2d92f0cf52",
+    "accepted": false,
+    "guard_transition": {
+      "fixes": 0,
+      "regressions": 0,
+      "retained_correct": 103
+    },
+    "guard": {
+      "n": 197,
+      "correct": 103,
+      "accuracy": 0.5228426395939086,
+      "invalid": 0,
+      "input_tokens": 106564,
+      "output_tokens": 12208,
+      "cost_usd": 0.02470524548000001,
+      "subgroups": {
+        "contraindication": {
+          "n": 114,
+          "correct": 74
+        },
+        "interaction": {
+          "n": 83,
+          "correct": 29
+        }
+      }
+    },
+    "selected_candidate": "unchanged",
+    "candidate_audit": [
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "asthma_exacerbation_hydrocodone",
+              "all_terms": [
+                "asthma",
+                "wheezing",
+                "shortness of breath",
+                "hydrocodone"
+              ],
+              "any_terms": [
+                "norco",
+                "acetaminophen and hydrocodone",
+                "respiratory depression",
+                "exacerbated"
+              ],
+              "rule": "If the patient has asthma with wheezing and shortness of breath worsening at night and is taking a hydrocodone-containing medication such as Norco, then choose a systemic corticosteroid (e.g., dexamethasone) for acute asthma control; avoid choosing a drug unrelated to asthma or a macrolide as first-line unless infection is explicitly suspected."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      },
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "suspected_lung_cancer_smoking_history",
+              "all_terms": [
+                "persistent cough",
+                "chest pain",
+                "weight loss",
+                "smoking"
+              ],
+              "any_terms": [
+                "difficulty swallowing",
+                "dysphagia",
+                "lung disease",
+                "chronic bronchitis",
+                "asthma",
+                "secondhand smoke"
+              ],
+              "rule": "If the patient has persistent cough, chest pain, unexplained weight loss, and a smoking history with or without dysphagia or prior lung disease, then when options include a lung-cancer-directed therapy and a non-oncologic drug, choose the lung-cancer-directed therapy (e.g., durvalumab/Imfinzi or etoposide) rather than aspirin or other unrelated agents; do not choose a chemotherapy agent unless the option set lacks a targeted immunotherapy or the dialogue specifies chemotherapy regimen context."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      },
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "refractory_complex_partial_seizures_valproate",
+              "all_terms": [
+                "seizures",
+                "valproic acid"
+              ],
+              "any_terms": [
+                "complex partial seizures",
+                "still persist",
+                "twice a week",
+                "not controlled",
+                "refractory"
+              ],
+              "rule": "If the patient has complex partial seizures that persist despite valproic acid, then choose an antiepileptic indicated as adjunctive therapy for refractory complex partial seizures (e.g., vigabatrin/Sabril) over non-antiepileptic drugs such as prednisolone or estradiol; do not choose a drug without antiseizure indication."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      },
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "postpartum_suspected_dvt",
+              "all_terms": [
+                "leg pain",
+                "swelling",
+                "recent childbirth"
+              ],
+              "any_terms": [
+                "deep-vein-thrombosis",
+                "dvt",
+                "long flight",
+                "warm to the touch",
+                "8 days ago",
+                "postpartum"
+              ],
+              "rule": "If a postpartum patient (within recent days after childbirth) has unilateral leg pain and swelling with warmth and suspected DVT, then choose low-molecular-weight heparin (e.g., enoxaparin/Lovenox) as the preferred anticoagulant; avoid direct oral anticoagulants (e.g., apixaban/Eliquis) and thrombolytics (e.g., urokinase) unless there is a specific indication such as massive PE or hemodynamic instability."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      }
+    ],
+    "proposal_record": {
+      "raw": "{\"diagnosis\":\"The agent often selects a plausible but wrong drug because it ignores key risk factors or prior failed therapy. Four narrow skills target: (1) acute asthma exacerbation with hydrocodone-containing medication, (2) suspected lung cancer with smoking and lung disease history, (3) refractory complex partial seizures on valproic acid, (4) suspected DVT in postpartum patient. Each skill fires only when all specified terms and at least one any-term appear as whole phrases, and gives a conditional drug-choice rule preserving successful reasoning from correct cases.\",\"edits\":[{\"id\":\"asthma_exacerbation_hydrocodone\",\"all_terms\":[\"asthma\",\"wheezing\",\"shortness of breath\",\"hydrocodone\"],\"any_terms\":[\"Norco\",\"acetaminophen and hydrocodone\",\"respiratory depression\",\"exacerbated\"],\"rule\":\"If the patient has asthma with wheezing and shortness of breath worsening at night and is taking a hydrocodone-containing medication such as Norco, then choose a systemic corticosteroid (e.g., dexamethasone) for acute asthma control; avoid choosing a drug unrelated to asthma or a macrolide as first-line unless infection is explicitly suspected.\"},{\"id\":\"suspected_lung_cancer_smoking_history\",\"all_terms\":[\"persistent cough\",\"chest pain\",\"weight loss\",\"smoking\"],\"any_terms\":[\"difficulty swallowing\",\"dysphagia\",\"lung disease\",\"chronic bronchitis\",\"asthma\",\"secondhand smoke\"],\"rule\":\"If the patient has persistent cough, chest pain, unexplained weight loss, and a smoking history with or without dysphagia or prior lung disease, then when options include a lung-cancer-directed therapy and a non-oncologic drug, choose the lung-cancer-directed therapy (e.g., durvalumab/Imfinzi or etoposide) rather than aspirin or other unrelated agents; do not choose a chemotherapy agent unless the option set lacks a targeted immunotherapy or the dialogue specifies chemotherapy regimen context.\"},{\"id\":\"refractory_complex_partial_seizures_valproate\",\"all_terms\":[\"seizures\",\"valproic acid\"],\"any_terms\":[\"complex partial seizures\",\"still persist\",\"twice a week\",\"not controlled\",\"refractory\"],\"rule\":\"If the patient has complex partial seizures that persist despite valproic acid, then choose an antiepileptic indicated as adjunctive therapy for refractory complex partial seizures (e.g., vigabatrin/Sabril) over non-antiepileptic drugs such as prednisolone or estradiol; do not choose a drug without antiseizure indication.\"},{\"id\":\"postpartum_suspected_dvt\",\"all_terms\":[\"leg pain\",\"swelling\",\"recent childbirth\"],\"any_terms\":[\"deep-vein-thrombosis\",\"DVT\",\"long flight\",\"warm to the touch\",\"8 days ago\",\"postpartum\"],\"rule\":\"If a postpartum patient (within recent days after childbirth) has unilateral leg pain and swelling with warmth and suspected DVT, then choose low-molecular-weight heparin (e.g., enoxaparin/Lovenox) as the preferred anticoagulant; avoid direct oral anticoagulants (e.g., apixaban/Eliquis) and thrombolytics (e.g., urokinase) unless there is a specific indication such as massive PE or hemodynamic instability.\"}]}",
+      "input_tokens": 5779,
+      "output_tokens": 699,
+      "cost_usd": 0.00161015,
+      "model_returned": "deepseek/deepseek-v4.1-flash",
+      "seconds": 2.9270529747009277,
+      "request_sha256": "1ddc16f33ca139186f3e0fce0a2c5af7c51ac299c3d4324a6ca65be7a7bf1e9c",
+      "role": "scoped_rsi_proposer"
+    }
+  },
+  {
+    "round": 4,
+    "training_seen": 625,
+    "active": {
+      "cards": []
+    },
+    "state_sha256": "fc0bd2acea704167af98496f07fa8186a780d5c76192848148a68b2d92f0cf52",
+    "accepted": false,
+    "guard_transition": {
+      "fixes": 0,
+      "regressions": 0,
+      "retained_correct": 103
+    },
+    "guard": {
+      "n": 197,
+      "correct": 103,
+      "accuracy": 0.5228426395939086,
+      "invalid": 0,
+      "input_tokens": 106564,
+      "output_tokens": 12208,
+      "cost_usd": 0.02470524548000001,
+      "subgroups": {
+        "contraindication": {
+          "n": 114,
+          "correct": 74
+        },
+        "interaction": {
+          "n": 83,
+          "correct": 29
+        }
+      }
+    },
+    "selected_candidate": "unchanged",
+    "candidate_audit": [
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "immunosuppressant-choice-in-autoimmune-hepatitis-with-hypertension",
+              "all_terms": [
+                "autoimmune hepatitis",
+                "high blood pressure"
+              ],
+              "any_terms": [
+                "joint pain",
+                "yellow eyes",
+                "yellow skin",
+                "borderline high blood pressure"
+              ],
+              "rule": "When autoimmune hepatitis is suspected and the patient has elevated blood pressure or hypertension, prefer a corticosteroid with lower systemic hypertensive effect over other immunosuppressants or unrelated drugs; avoid choosing a drug that is not used for autoimmune hepatitis or that can worsen hypertension."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      },
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "anticoagulation-for-prosthetic-heart-valve-with-clopidogrel",
+              "all_terms": [
+                "prosthetic heart valves",
+                "clopidogrel"
+              ],
+              "any_terms": [
+                "shortness of breath",
+                "ankle swelling",
+                "prosthetic valve"
+              ],
+              "rule": "When a patient has prosthetic heart valves and is already taking clopidogrel, choose a vitamin K antagonist anticoagulant for valve-related thromboembolism prevention rather than an antiplatelet, antidepressant, or direct oral anticoagulant unless a specific contraindication is documented."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      },
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "avoid-cyp-interaction-with-lisdexamfetamine-for-obsessive-social-anxiety",
+              "all_terms": [
+                "lisdexamfetamine"
+              ],
+              "any_terms": [
+                "obsessive thoughts",
+                "social anxiety",
+                "social interactions",
+                "compulsive behaviors"
+              ],
+              "rule": "When obsessive thoughts or social anxiety symptoms occur in a patient taking lisdexamfetamine, prefer an SSRI with lower CYP450 interaction risk for these symptoms rather than a tricyclic, anticholinergic, or another SSRI with higher interaction potential."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      },
+      {
+        "candidate": {
+          "cards": [
+            {
+              "id": "complement-inhibitor-choice-for-complement-mediated-disease-on-azathioprine",
+              "all_terms": [
+                "azathioprine",
+                "complement-mediated"
+              ],
+              "any_terms": [
+                "dark urine",
+                "shortness of breath",
+                "fatigue"
+              ],
+              "rule": "When a complement-mediated rare disease is suspected in a patient already taking azathioprine, choose the established first-line complement inhibitor for that presentation rather than an antifungal or a second-line complement inhibitor, unless the first-line agent is contraindicated."
+            }
+          ]
+        },
+        "metrics": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 101739,
+          "output_tokens": 12269,
+          "cost_usd": 0.024872935999999995,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 90
+        },
+        "activated_cases": 0
+      }
+    ],
+    "proposal_record": {
+      "raw": "{\n  \"diagnosis\": \"The agent often chooses a plausible drug but misses the preferred first-line or safer option when a specific interacting drug or comorbidity is present. Successful cases show that the correct choice is usually the one with both the right indication and the lowest interaction/worsening risk. Four narrowly applicable reusable skills are proposed to encode these conditional distinctions without memorizing answers.\",\n  \"edits\": [\n    {\n      \"id\": \"immunosuppressant-choice-in-autoimmune-hepatitis-with-hypertension\",\n      \"all_terms\": [\n        \"autoimmune hepatitis\",\n        \"high blood pressure\"\n      ],\n      \"any_terms\": [\n        \"joint pain\",\n        \"yellow eyes\",\n        \"yellow skin\",\n        \"borderline high blood pressure\"\n      ],\n      \"rule\": \"When autoimmune hepatitis is suspected and the patient has elevated blood pressure or hypertension, prefer a corticosteroid with lower systemic hypertensive effect over other immunosuppressants or unrelated drugs; avoid choosing a drug that is not used for autoimmune hepatitis or that can worsen hypertension.\"\n    },\n    {\n      \"id\": \"anticoagulation-for-prosthetic-heart-valve-with-clopidogrel\",\n      \"all_terms\": [\n        \"prosthetic heart valves\",\n        \"clopidogrel\"\n      ],\n      \"any_terms\": [\n        \"shortness of breath\",\n        \"ankle swelling\",\n        \"prosthetic valve\"\n      ],\n      \"rule\": \"When a patient has prosthetic heart valves and is already taking clopidogrel, choose a vitamin K antagonist anticoagulant for valve-related thromboembolism prevention rather than an antiplatelet, antidepressant, or direct oral anticoagulant unless a specific contraindication is documented.\"\n    },\n    {\n      \"id\": \"avoid-cyp-interaction-with-lisdexamfetamine-for-obsessive-social-anxiety\",\n      \"all_terms\": [\n        \"lisdexamfetamine\"\n      ],\n      \"any_terms\": [\n        \"obsessive thoughts\",\n        \"social anxiety\",\n        \"social interactions\",\n        \"compulsive behaviors\"\n      ],\n      \"rule\": \"When obsessive thoughts or social anxiety symptoms occur in a patient taking lisdexamfetamine, prefer an SSRI with lower CYP450 interaction risk for these symptoms rather than a tricyclic, anticholinergic, or another SSRI with higher interaction potential.\"\n    },\n    {\n      \"id\": \"complement-inhibitor-choice-for-complement-mediated-disease-on-azathioprine\",\n      \"all_terms\": [\n        \"azathioprine\",\n        \"complement-mediated\"\n      ],\n      \"any_terms\": [\n        \"dark urine\",\n        \"shortness of breath\",\n        \"fatigue\"\n      ],\n      \"rule\": \"When a complement-mediated rare disease is suspected in a patient already taking azathioprine, choose the established first-line complement inhibitor for that presentation rather than an antifungal or a second-line complement inhibitor, unless the first-line agent is contraindicated.\"\n    }\n  ]\n}",
+      "input_tokens": 5794,
+      "output_tokens": 623,
+      "cost_usd": 0.00154071,
+      "model_returned": "deepseek/deepseek-v4.1-flash",
+      "seconds": 2.7839879989624023,
+      "request_sha256": "607f02509d31fced2a5066a8ba22580285d337e3aeca400de0da1dd11d87d590",
+      "role": "scoped_rsi_proposer"
+    }
+  }
+]

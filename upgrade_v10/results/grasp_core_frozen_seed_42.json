@@ -1,0 +1,40 @@
+{
+  "source_commit": "9d7d125a3e9b46ed591692475eb07aff4ae67d34",
+  "core_modified": false,
+  "adapter": "grasp_task.py",
+  "seed": 42,
+  "train_n": 625,
+  "validation_n": 387,
+  "configuration": {
+    "agent": {
+      "module": "grasp_task.PublicBackend",
+      "parameters": {
+        "model": "deepseek/deepseek-v4.1-flash",
+        "temperature": 0
+      }
+    },
+    "skills": {
+      "base_dir": "/Users/bytedance/Desktop/PRISMATIC/upgrade_v2/.local/rxrsi-v8/official-grasp-seed-42/empty-base"
+    },
+    "_resume": true,
+    "cycle": {
+      "epochs": 1,
+      "update_every": 157,
+      "batch_concurrency": 10,
+      "max_proposals": 1,
+      "max_learned_skills": 6,
+      "grpo_k": 4,
+      "grpo_eval_n": 40,
+      "run_baseline": true,
+      "proposal_temperature": 0.7,
+      "seed": 42
+    }
+  },
+  "frozen_skill_sha256": {
+    "contraindication_screen_before_letter_choice.md": "180aed4c6d8a6201e5afbb9c62a03aaf382507d5013951c5d9f4eeb2ecaed82d",
+    ".history/contraindication_screen_before_letter_choice_v1.md": "a99bda27d98179c4a114d9177dd1bfdad66189dd2435c2684c78f3885088f5a6",
+    ".history/contraindication_screen_before_letter_choice_v2.md": "c5a4323f74f3ae1db3d459627a594e97c5e54fd02f14aed9f0bdb8cc0dd6f4cc"
+  },
+  "test_labels_used_for_updates": false,
+  "comparison_note": "Author core on our new task adapter; not an original MedAgentBench or FHIR-AgentBench score. Training/proposal cost differs from v8."
+}

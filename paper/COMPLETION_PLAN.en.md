@@ -12,6 +12,13 @@ This section supersedes historical plans below. The user has no official RxEval/
 
 v0.7 full-system mean drug/order F1 is 0.39920/0.27865 versus 0.40209/0.28110 for the word/character control. This is not a win. The saline-presence endpoint is removed; common prescription metrics cover all items.
 
+### Added execution record: first v0.8 seed / v0.10 / v0.11
+
+- v0.8 seed 42 completes eight methods, four rounds, ablations and all RxQA questions; two other seeds continue. [Results](../upgrade_v8/RESULTS.en.md). All RxRSI updates in this seed are rejected; the curve is flat.
+- v0.10 executes the unmodified author GRASP core: 50.81% on the same 988 questions versus CoT 47.27%; scoped RxRSI does not improve. [Comparison and reflection](../upgrade_v10/RESULTS.en.md).
+- v0.9 fixes empty-reasoning-envelope parsing and identical-prompt cache case binding on development, retaining the original failures and unchanged weights; both three-round parameter arms continue.
+- v0.11 retrieves name-matched label records for 623 of 699 public drug options, covering about 93% of test option occurrences. Evidence utility is first evaluated only on development data.
+
 ### Iteration and maturity gates
 
 1. Complete v0.8/v0.9; audit changed objects, rejected proposals, fixes/regressions, cost and ablations; update the paper with actual results.

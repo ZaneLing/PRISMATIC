@@ -8,6 +8,7 @@ from mlx_lm.sample_utils import make_sampler
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parent/'upgrade_v7'))
 from rx_agent import compile_selection,score,hash_data
+from selection_parser import compile_model_selection,bind_cached_output
 PRIVATE=Path.home()/'Desktop/MedTreeBench/dataset/restricted/prismatic-v9'
 MODEL=Path.home()/'Desktop/PRISMATIC/upgrade_v2/.local/models/qwen3-4b-instruct-2507-4bit'
 
@@ -19,7 +20,9 @@ def infer(cases,adapter=None):
     cache=PRIVATE/'inference';cache.mkdir(exist_ok=True);records={};pending=[]
     for c in cases:
         sig=hash_data([version,c['messages'],128]);path=cache/(sig+'.json')
-        if path.exists():records[c['case_id']]=json.loads(path.read_text())
+        if path.exists():
+            row=bind_cached_output(json.loads(path.read_text()),c)
+            records[c['case_id']]=row
         else:pending.append((c,path))
     if pending:
         model,tok=load(str(MODEL),adapter_path=str(adapter) if adapter else None)
@@ -27,7 +30,7 @@ def infer(cases,adapter=None):
             chunk=pending[lo:lo+32];prompts=[tok.apply_chat_template(c['messages'],tokenize=True,add_generation_prompt=True,return_dict=False) for c,path in chunk]
             start=time.time();response=batch_generate(model,tok,prompts,max_tokens=128,sampler=make_sampler(temp=0),prefill_batch_size=4,completion_batch_size=16)
             for (c,path),raw in zip(chunk,response.texts):
-                parsed=compile_selection(raw,c['catalogue']);row={'case_id':c['case_id'],'raw':raw,**parsed,'adapter_sha256':version,'seconds_per_batch_case':(time.time()-start)/len(chunk)}
+                parsed=compile_model_selection(raw,c['catalogue']);row={'case_id':c['case_id'],'raw':raw,**parsed,'adapter_sha256':version,'seconds_per_batch_case':(time.time()-start)/len(chunk)}
                 save(path,row);records[c['case_id']]=row
             print(json.dumps({'stage':'local_inference','adapter':version[:12],'completed':min(lo+32,len(pending)),'total':len(pending)}),flush=True)
         del model,tok;gc.collect();mx.clear_cache()
@@ -36,6 +39,8 @@ def infer(cases,adapter=None):
 def metric(rows,cases):
     assert [r['case_id'] for r in rows]==[c['case_id'] for c in cases]
     out=score([r['orders'] for r in rows],[c['gold'] for c in cases]);out['invalid_json']=sum(r['status']=='invalid_json' for r in rows)
+    out['raw_strict_invalid_json']=sum(r.get('raw_strict_status',r['status'])=='invalid_json' for r in rows)
+    out['empty_reasoning_envelope_removed']=sum(r.get('empty_reasoning_envelope_removed',False) for r in rows)
     return out
 
 def run(arms):

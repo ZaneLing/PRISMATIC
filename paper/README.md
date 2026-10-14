@@ -1,6 +1,6 @@
 # PRISMATIC / RxRSIAgent manuscript and execution index
 
-**Target: ACL 2027. v0.7 completed; v0.8/v0.9 running (14 October 2026).** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
+**Target: ACL 2027. v0.7 complete; v0.8 first seed and v0.10 complete; remaining v0.8 seeds, v0.9 and v0.11 running (14 October 2026).** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
 
 ## Start here
 
@@ -17,6 +17,10 @@
 - **Table 4:** frozen-checkpoint case-growth trajectory.
 - Public language-agent and local QLoRA tables are inserted as their evaluations finish. Incomplete experiments are explicitly marked.
 
+## Additional completed comparisons
+
+[Public method table, English](../upgrade_v8/RESULTS.en.md) / [中文](../upgrade_v8/RESULTS.zh.md): Direct 46.15%, CoT 47.27%, Self-Refine 47.57%, case RAG 49.09%, first-seed RxRSI 47.27%. The [unmodified GRASP core](../upgrade_v10/RESULTS.en.md) reaches 50.81% on the same 988 questions; scoped RxRSI remains flat. These failures drive the [evidence-tool increment](../upgrade_v11/README.md).
+
 ## Current conclusion
 
 v0.7 selected-state mean drug/order F1 is **0.39920 / 0.27865**; the stronger equal-data word/character ensemble reaches **0.40209 / 0.28110**. Three-seed accepted-state curves improve with accumulated cases, but ordinary learning remains a strong explanation. Conditional order tools help; expanding case memory is not consistently beneficial. This motivates the ongoing language-artifact and parameter studies.
@@ -27,6 +31,8 @@ GT-based evaluation does not require clinician review. Missing attributes remain
 
 | Version | Record | Evidence |
 | --- | --- | --- |
+| v0.11 | [Evidence-tool study / running](../upgrade_v11/README.md) | Public label source and coverage audit, development-only utility check |
+| v0.10 | [Executed results](../upgrade_v10/RESULTS.en.md) | Unmodified author GRASP core, scoped-skill failure and paired analysis |
 | v0.9 | [Protocol / running](../upgrade_v9/README.md) | Local QLoRA, matched uniform/error-prioritized updates |
 | v0.8 | [Protocol / running](../upgrade_v8/README.md) | Public language-artifact evolution, named task adaptations, transfer |
 | v0.7 | [Executed results](../upgrade_v7/RESULTS.en.md) | Three seeds, new 4k test, artifact ablations, stronger equal-data controls |

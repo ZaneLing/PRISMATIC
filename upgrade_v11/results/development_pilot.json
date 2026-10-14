@@ -1,0 +1,98 @@
+{
+  "split": "proposal",
+  "n": 190,
+  "test_evaluated": false,
+  "methods": {
+    "cot": {
+      "n": 190,
+      "correct": 90,
+      "accuracy": 0.47368421052631576,
+      "invalid": 1,
+      "input_tokens": 101739,
+      "output_tokens": 12269,
+      "cost_usd": 0.024872935999999995,
+      "subgroups": {
+        "contraindication": {
+          "n": 101,
+          "correct": 56
+        },
+        "interaction": {
+          "n": 89,
+          "correct": 34
+        }
+      }
+    },
+    "balanced": {
+      "n": 190,
+      "correct": 90,
+      "accuracy": 0.47368421052631576,
+      "invalid": 1,
+      "input_tokens": 297621,
+      "output_tokens": 13515,
+      "cost_usd": 0.05695414764,
+      "subgroups": {
+        "contraindication": {
+          "n": 101,
+          "correct": 57
+        },
+        "interaction": {
+          "n": 89,
+          "correct": 33
+        }
+      },
+      "versus_cot": {
+        "fixes": 22,
+        "regressions": 22,
+        "retained_correct": 68
+      }
+    },
+    "safety": {
+      "n": 190,
+      "correct": 93,
+      "accuracy": 0.48947368421052634,
+      "invalid": 0,
+      "input_tokens": 297468,
+      "output_tokens": 13670,
+      "cost_usd": 0.050257291600000024,
+      "subgroups": {
+        "contraindication": {
+          "n": 101,
+          "correct": 56
+        },
+        "interaction": {
+          "n": 89,
+          "correct": 37
+        }
+      },
+      "versus_cot": {
+        "fixes": 22,
+        "regressions": 19,
+        "retained_correct": 71
+      }
+    },
+    "indication": {
+      "n": 190,
+      "correct": 90,
+      "accuracy": 0.47368421052631576,
+      "invalid": 0,
+      "input_tokens": 298576,
+      "output_tokens": 12967,
+      "cost_usd": 0.04825109684000002,
+      "subgroups": {
+        "contraindication": {
+          "n": 101,
+          "correct": 57
+        },
+        "interaction": {
+          "n": 89,
+          "correct": 33
+        }
+      },
+      "versus_cot": {
+        "fixes": 20,
+        "regressions": 20,
+        "retained_correct": 70
+      }
+    }
+  }
+}

@@ -24,3 +24,9 @@ python run_parameter_evolution.py  # local MLX environment
 ```
 
 `results/*_rounds.json` stores actual adapter hashes, sample membership hashes, guard metrics and training time. `results/parameter_results.json` will contain generated test predictions' aggregate scores, not training-loss proxies. All checkpoints and patient-level predictions stay in the restricted directory.
+
+## Development-stage parser repair
+
+The first adapted model emitted a leading empty `<think></think>` envelope before otherwise valid JSON. The original strict parser marked all 200 guard responses invalid. `selection_parser.py` now removes only this empty envelope for every arm/checkpoint and preserves both strict and normalized validity. Raw model outputs and trained weights are unchanged. Nonempty reasoning and malformed JSON remain invalid. A second fix rebinds cached identical-prompt outputs to the current case and catalogue; the alignment assertion exposed the issue before test scoring. Four regression tests pass. The original strict-parser journal remains archived.
+
+The separate `run_tool_control.py --freeze-only` chooses a frozen-candidate top-k control on guard data. Its test evaluation waits until both LLM arms have frozen their selections. This measures whether LLM training improves over using the same tools directly.

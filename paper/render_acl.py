@@ -25,6 +25,11 @@ def run():
 \begin{tabular}{lrr}\toprule Method & Correct / N & Accuracy (\%)\\\midrule
 PUBLICROWS
 \bottomrule\end{tabular}\end{table}'''.replace('PUBLICROWS',pr)
+    core_path=ROOT/'upgrade_v10/results/grasp_core_seed_42.json'
+    scoped_path=ROOT/'upgrade_v10/results/scoped_rsi_seed_42.json'
+    if core_path.exists() and scoped_path.exists():
+        public_section+=r'''\paragraph{Stronger implementation control.}
+The unmodified author GRASP core, pinned to commit \texttt{9d7d125a}, is also executed through our new option-selection task adapter. It retains the released failure classification, skill proposals, balanced probes, regression gate and skill injection. This is not an original MedAgentBench rerun. It scores 502/988 (50.81\%) versus CoT's 467/988 (47.27\%), repairing 102 cases and regressing 67. The descriptive paired scenario-cluster 95\% interval for the gain is [0.91, 6.07] percentage points. Its RxQA result is 189/300 versus CoT's 193/300. Our additional scope-conditioned skill variant accepts no update and remains at 467/988: candidate rules activate on only 0--3 proposal cases. This negative result motivates a subsequent drug-label evidence-tool study, which is still in development. The author core and scoped variant use different development-selection mechanisms; their proposal cap is 3,072 tokens and inference cap is 512. No unrestricted method superiority is inferred.'''
     parameter_section=r'\paragraph{Execution status.} Local parameter-update experiments are in progress. No fine-tuning gain is claimed before generation-based evaluation is complete.'
     if parameter.exists():
         d=json.loads(parameter.read_text());rr=f"Frozen Qwen3-4B & {d['base']['drug_micro_f1']:.4f} & {d['base']['core_order_micro_f1']:.4f} \\\\\n"
@@ -102,7 +107,7 @@ At round $r$, let the persistent state be $S_r=(W_r,M_r,T_r,K_r)$: prescription-
 \caption{Inference and training feedback. Test labels enter scoring only. Different experiments isolate different evolving objects.}
 \end{figure}
 
-For an incoming training block, predictions precede ground-truth feedback. Error records identify omissions, extra drugs and observed-field mismatches. The updater proposes artifact changes. The candidate is selected on proposal validation; a patient-disjoint guard set then checks whether it improves the composite objective without excessive regression in either primary endpoint. Old states are retained. The guard is reused across rounds and is therefore a development resource, not an untouched test.
+For an incoming training block in the language and parameter studies, predictions precede ground-truth feedback. Error records identify omissions, extra drugs and observed-field mismatches. The updater proposes artifact changes. The candidate is selected on proposal validation; a patient-disjoint guard set then checks whether it improves the composite objective without excessive regression in either primary endpoint. Old states are retained. The guard is reused across rounds and is therefore a development resource, not an untouched test.
 
 Each version records the parent, edited objects, data membership hashes, artifact hashes, validation scores, acceptance, improvements and regressions. A changing memory size or hash demonstrates that an artifact changed; leave-one-object-out evaluation is required to demonstrate that it helped. LLM weights, tool configuration and executable tool code are distinct objects and are never conflated.
 
@@ -142,6 +147,8 @@ PUBLICSECTION
 
 \section{Study C: Parameter Evolution}
 A local Qwen3-4B QLoRA study compares uniform supervised updates with feedback-prioritized updates, holding the initial-8k candidate tools fixed. Three disjoint feedback blocks contain 600 new training admissions each. Both arms make pre-update predictions, train on 400 sampled examples for 100 optimizer steps per round, and use the same 200-case guard. Feedback weights target reachable candidate-selection errors rather than blaming the language model for drugs missing from its fixed catalogue. A separate 500-admission test excludes all patients in the earlier v0.6/v0.7 tests.
+
+The Qwen chat template can emit an empty reasoning envelope before valid JSON. The parser removes only that empty envelope uniformly for all checkpoints, retains strict and normalized validity, and rebinds cached outputs to the current case. These repairs occurred on development data before test scoring; raw generations and learned weights are unchanged.
 
 PARAMETERSECTION
 

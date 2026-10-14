@@ -2,7 +2,10 @@
   "version": "v0.9-local-parameter-evolution",
   "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
   "revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
-  "arms": ["uniform_sft", "error_prioritized_sft"],
+  "arms": [
+    "uniform_sft",
+    "error_prioritized_sft"
+  ],
   "rounds": 3,
   "new_feedback_cases_per_round": 600,
   "training_examples_per_round": 400,
@@ -19,5 +22,6 @@
   "feedback_sampling": "Both arms predict the same new training cases before seeing GT. Uniform samples from accumulated cases. Prioritized samples with weight 1+3*(1-reachable_action_F1), without replacement; both train on 400 rows per round. Empty/empty action sets score 1. GT drugs absent from the fixed catalogue remain in evaluation recall but do not drive selection-module feedback.",
   "selection": "Keep the highest guard composite checkpoint for inference; continue training the latest checkpoint in both arms. Test is scored only after all round choices are frozen.",
   "evaluation": "Drug/core-order F1, output validity, round curves, adapter hashes, matched training and inference counts. This task selects supplied templates; novel dose generation is not claimed.",
-  "privacy": "All patient data, feedback, adapters and generation stay local. No cloud training or uploads."
+  "privacy": "All patient data, feedback, adapters and generation stay local. No cloud training or uploads.",
+  "generation_envelope": "Uniformly remove only a leading empty <think> whitespace </think> envelope before JSON parsing; report strict and normalized validity. Applied on development before any test evaluation."
 }

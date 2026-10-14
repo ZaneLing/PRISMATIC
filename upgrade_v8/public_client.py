@@ -30,12 +30,18 @@ def json_object(raw):
             except ValueError:pass
     return {}
 
-def request(messages,model,max_tokens,role='actor'):
-    body={'model':model,'messages':messages,'temperature':0,'max_tokens':max_tokens,
+def request(messages,model,max_tokens,role='actor',temperature=0,cache_salt=None):
+    body={'model':model,'messages':messages,'temperature':temperature,'max_tokens':max_tokens,
           'provider':{'zdr':True,'data_collection':'deny'}}
     if model.startswith('deepseek/'):body['reasoning']={'effort':'none'}
-    signature=digest(body);folder=LOCAL/'cache';folder.mkdir(exist_ok=True);path=folder/(signature+'.json')
-    if path.exists():return json.loads(path.read_text())
+    signature=digest(body) if cache_salt is None else digest([body,cache_salt])
+    folder=LOCAL/'cache';folder.mkdir(exist_ok=True);path=folder/(signature+'.json')
+    if path.exists():
+        # Compatibility with a concurrently finishing pre-atomic writer.
+        for attempt in range(4):
+            try:return json.loads(path.read_text())
+            except json.JSONDecodeError:time.sleep(.05)
+        raise RuntimeError('Incomplete response cache; raw file retained for inspection')
     key=credentials();last=None
     for retry in range(3):
         try:
@@ -48,7 +54,8 @@ def request(messages,model,max_tokens,role='actor'):
                  'cost_usd':usage.get('cost',0),'model_returned':payload.get('model'),
                  'seconds':time.time()-start,'request_sha256':signature,'role':role}
             with LOCK:
-                path.write_text(json.dumps(row,ensure_ascii=False)+'\n')
+                temporary=path.with_suffix(f'.{os.getpid()}.{threading.get_ident()}.tmp')
+                temporary.write_text(json.dumps(row,ensure_ascii=False)+'\n');os.replace(temporary,path)
                 with (LOCAL/'usage.jsonl').open('a') as f:f.write(json.dumps({k:v for k,v in row.items() if k!='raw'})+'\n')
                 total=sum(json.loads(s).get('cost_usd',0) or 0 for s in (LOCAL/'usage.jsonl').read_text().splitlines())
             if total>15:raise RuntimeError('Public evaluation cost cap reached; cached progress retained')

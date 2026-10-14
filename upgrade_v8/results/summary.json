@@ -1,0 +1,179 @@
+{
+  "completed_seeds": [
+    42
+  ],
+  "methods": {
+    "direct": {
+      "accuracy_mean": 0.46153846153846156,
+      "accuracy_sample_sd": null,
+      "seeds": [
+        42
+      ],
+      "invalid_total": 1,
+      "mean_logical_inference_cost_usd": 0.11366064976000012
+    },
+    "cot": {
+      "accuracy_mean": 0.4726720647773279,
+      "accuracy_sample_sd": null,
+      "seeds": [
+        42
+      ],
+      "invalid_total": 0,
+      "mean_logical_inference_cost_usd": 0.13071089463999988
+    },
+    "self_refine": {
+      "accuracy_mean": 0.4757085020242915,
+      "accuracy_sample_sd": null,
+      "seeds": [
+        42
+      ],
+      "invalid_total": 0,
+      "mean_logical_inference_cost_usd": 0.23226411999999977
+    },
+    "case_rag": {
+      "accuracy_mean": 0.4908906882591093,
+      "accuracy_sample_sd": null,
+      "seeds": [
+        42
+      ],
+      "invalid_total": 0,
+      "mean_logical_inference_cost_usd": 0.23731394783999968
+    },
+    "reflexion_adapt": {
+      "accuracy_mean": 0.4726720647773279,
+      "accuracy_sample_sd": null,
+      "seeds": [
+        42
+      ],
+      "invalid_total": 0,
+      "mean_logical_inference_cost_usd": 0.13071089463999988
+    },
+    "grasp_adapt": {
+      "accuracy_mean": 0.4726720647773279,
+      "accuracy_sample_sd": null,
+      "seeds": [
+        42
+      ],
+      "invalid_total": 0,
+      "mean_logical_inference_cost_usd": 0.13071089463999988
+    },
+    "evotool_adapt": {
+      "accuracy_mean": 0.4726720647773279,
+      "accuracy_sample_sd": null,
+      "seeds": [
+        42
+      ],
+      "invalid_total": 0,
+      "mean_logical_inference_cost_usd": 0.13071089463999988
+    },
+    "rxrsi": {
+      "accuracy_mean": 0.4726720647773279,
+      "accuracy_sample_sd": null,
+      "seeds": [
+        42
+      ],
+      "invalid_total": 0,
+      "mean_logical_inference_cost_usd": 0.13071089463999988
+    }
+  },
+  "paired_comparisons": [
+    {
+      "seed": 42,
+      "baseline": "direct",
+      "accuracy_difference": 0.011133603238866396,
+      "scenario_cluster_ci95": [
+        -0.010121457489878543,
+        0.03137731296325921
+      ],
+      "fixes": 60,
+      "regressions": 49,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 42,
+      "baseline": "cot",
+      "accuracy_difference": 0.0,
+      "scenario_cluster_ci95": [
+        0.0,
+        0.0
+      ],
+      "fixes": 0,
+      "regressions": 0,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 42,
+      "baseline": "self_refine",
+      "accuracy_difference": -0.003036437246963563,
+      "scenario_cluster_ci95": [
+        -0.019230769230769232,
+        0.013157894736842105
+      ],
+      "fixes": 31,
+      "regressions": 34,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 42,
+      "baseline": "case_rag",
+      "accuracy_difference": -0.018218623481781375,
+      "scenario_cluster_ci95": [
+        -0.0425531914893617,
+        0.0070921985815602835
+      ],
+      "fixes": 70,
+      "regressions": 88,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 42,
+      "baseline": "reflexion_adapt",
+      "accuracy_difference": 0.0,
+      "scenario_cluster_ci95": [
+        0.0,
+        0.0
+      ],
+      "fixes": 0,
+      "regressions": 0,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 42,
+      "baseline": "grasp_adapt",
+      "accuracy_difference": 0.0,
+      "scenario_cluster_ci95": [
+        0.0,
+        0.0
+      ],
+      "fixes": 0,
+      "regressions": 0,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    },
+    {
+      "seed": 42,
+      "baseline": "evotool_adapt",
+      "accuracy_difference": 0.0,
+      "scenario_cluster_ci95": [
+        0.0,
+        0.0
+      ],
+      "fixes": 0,
+      "regressions": 0,
+      "interval_note": "Descriptive paired interval; not multiplicity-adjusted."
+    }
+  ],
+  "verification": [
+    {
+      "seed": 42,
+      "case_alignment": "passed",
+      "independent_correct_recount": "passed",
+      "version_hashes": "passed",
+      "scenario_test_groups": 987
+    }
+  ],
+  "actual_api_ledger_snapshot": {
+    "requests": 34074,
+    "charged_usd": 5.1538616401199855
+  },
+  "primary_task": "Derived RxSafeBench option selection, 988 test cases; no original-paper score equivalence."
+}

@@ -1,0 +1,1016 @@
+[
+  {
+    "round": 0,
+    "active": {
+      "skills": [],
+      "focus_terms": [],
+      "memory_ids": [],
+      "modules": {
+        "patient_evidence": "Identify the stated condition, current medicines and relevant patient facts.",
+        "safety_check": "Check patient-specific contraindications and drug interactions without inventing facts.",
+        "option_selection": "Choose the option that best satisfies both indication and patient-specific safety."
+      }
+    },
+    "state_sha256": "2937dc8b17a6786f2503011c0e76fc6c417aec90a883013af8c2be19fd1fa6f1",
+    "proposal": {
+      "n": 190,
+      "correct": 90,
+      "accuracy": 0.47368421052631576,
+      "invalid": 1,
+      "input_tokens": 101739,
+      "output_tokens": 12269,
+      "cost_usd": 0.024872935999999995,
+      "subgroups": {
+        "contraindication": {
+          "n": 101,
+          "correct": 56
+        },
+        "interaction": {
+          "n": 89,
+          "correct": 34
+        }
+      }
+    },
+    "guard": {
+      "n": 197,
+      "correct": 103,
+      "accuracy": 0.5228426395939086,
+      "invalid": 0,
+      "input_tokens": 106564,
+      "output_tokens": 12208,
+      "cost_usd": 0.02470524548000001,
+      "subgroups": {
+        "contraindication": {
+          "n": 114,
+          "correct": 74
+        },
+        "interaction": {
+          "n": 83,
+          "correct": 29
+        }
+      }
+    },
+    "accepted": true,
+    "memory_cases": 0
+  },
+  {
+    "round": 1,
+    "training_seen": 156,
+    "active": {
+      "skills": [],
+      "focus_terms": [],
+      "memory_ids": [],
+      "modules": {
+        "patient_evidence": "Identify the stated condition, current medicines and relevant patient facts.",
+        "safety_check": "Check patient-specific contraindications and drug interactions without inventing facts.",
+        "option_selection": "Choose the option that best satisfies both indication and patient-specific safety."
+      }
+    },
+    "state_sha256": "2937dc8b17a6786f2503011c0e76fc6c417aec90a883013af8c2be19fd1fa6f1",
+    "accepted": false,
+    "selected_proposal": 2,
+    "candidates": [
+      {
+        "index": 0,
+        "state_sha256": "2db2979947ad3f166253631b2ee5928989bb62c61b1c293b27b5da8baf234b8d",
+        "score": {
+          "n": 190,
+          "correct": 94,
+          "accuracy": 0.49473684210526314,
+          "invalid": 0,
+          "input_tokens": 187808,
+          "output_tokens": 14064,
+          "cost_usd": 0.04525984000000004,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 61
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 33
+            }
+          }
+        },
+        "delta": {
+          "fixes": 14,
+          "regressions": 10,
+          "retained_correct": 80
+        }
+      },
+      {
+        "index": 1,
+        "state_sha256": "150d89a50843596432d2935649fe215ca19640eaa8dfe6edbe4ea7ff7a4a86ad",
+        "score": {
+          "n": 190,
+          "correct": 92,
+          "accuracy": 0.4842105263157895,
+          "invalid": 0,
+          "input_tokens": 164248,
+          "output_tokens": 12867,
+          "cost_usd": 0.018523420000000013,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 58
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "delta": {
+          "fixes": 10,
+          "regressions": 8,
+          "retained_correct": 82
+        }
+      },
+      {
+        "index": 2,
+        "state_sha256": "3cf1a4fdcba40fe611fb138f1b8b881e483bc754bbd7a340a71340216f8440a6",
+        "score": {
+          "n": 190,
+          "correct": 97,
+          "accuracy": 0.5105263157894737,
+          "invalid": 0,
+          "input_tokens": 173368,
+          "output_tokens": 13272,
+          "cost_usd": 0.014606814959999999,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 64
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 33
+            }
+          }
+        },
+        "delta": {
+          "fixes": 14,
+          "regressions": 7,
+          "retained_correct": 83
+        }
+      },
+      {
+        "index": 3,
+        "state_sha256": "5ffff874545bbe7385c84d59458315b64e56d84c1709b9304495665f61b3b0b2",
+        "score": {
+          "n": 190,
+          "correct": 95,
+          "accuracy": 0.5,
+          "invalid": 0,
+          "input_tokens": 184388,
+          "output_tokens": 12249,
+          "cost_usd": 0.041565408000000026,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 61
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "delta": {
+          "fixes": 12,
+          "regressions": 7,
+          "retained_correct": 83
+        }
+      }
+    ],
+    "guard_transition": {
+      "fixes": 7,
+      "regressions": 13,
+      "retained_correct": 90
+    },
+    "proposal": {
+      "n": 190,
+      "correct": 97,
+      "accuracy": 0.5105263157894737,
+      "invalid": 0,
+      "input_tokens": 173368,
+      "output_tokens": 13272,
+      "cost_usd": 0.014606814959999999,
+      "subgroups": {
+        "contraindication": {
+          "n": 101,
+          "correct": 64
+        },
+        "interaction": {
+          "n": 89,
+          "correct": 33
+        }
+      }
+    },
+    "guard": {
+      "n": 197,
+      "correct": 103,
+      "accuracy": 0.5228426395939086,
+      "invalid": 0,
+      "input_tokens": 106564,
+      "output_tokens": 12208,
+      "cost_usd": 0.02470524548000001,
+      "subgroups": {
+        "contraindication": {
+          "n": 114,
+          "correct": 74
+        },
+        "interaction": {
+          "n": 83,
+          "correct": 29
+        }
+      }
+    },
+    "artifact_changes": {
+      "skills": {
+        "before_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "after_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "changed": false
+      },
+      "focus_terms": {
+        "before_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "after_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "changed": false
+      },
+      "memory_ids": {
+        "before_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "after_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "changed": false
+      },
+      "modules": {
+        "before_sha256": "55ac0adc337874a81b9b35e696a1f0896d08b0e894b1a9a769c897ad68316223",
+        "after_sha256": "55ac0adc337874a81b9b35e696a1f0896d08b0e894b1a9a769c897ad68316223",
+        "changed": false
+      }
+    },
+    "memory_cases": 0,
+    "proposal_record": [
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent under-weighted the stated active condition and the patient's existing treatment in favor of surface symptoms, causing off-target or contraindicated choices; it also failed to use drug-class safety logic (route, systemic exposure, interaction with current therapy) and treated unrelated comorbidities as primary drivers.\",\n  \"skills\": [\n    {\n      \"id\": \"anchor_to_stated_condition\",\n      \"text\": \"Before comparing options, restate the working diagnosis or the condition the visit is actually about, and require every candidate to have a plausible indication for that condition. If a candidate only treats a symptom, comorbidity, or side effect rather than the stated condition, rank it lower unless the question explicitly asks for symptomatic or preventive therapy.\"\n    },\n    {\n      \"id\": \"reconcile_current_medications\",\n      \"text\": \"List the patient's current medicines and what each is treating, then check whether the proposed option duplicates, antagonizes, or compounds toxicity with any of them. A new drug that treats the same target as an existing therapy is usually not additive; prefer options that address an untreated aspect of the condition or that intentionally combine mechanisms only when clinically justified.\"\n    },\n    {\n      \"id\": \"route_and_systemic_exposure\",\n      \"text\": \"When two options share a drug class, prefer the route or formulation with the lowest systemic exposure that still treats the local or stated problem, especially when systemic therapy carries known class risks. Do not assume one route is always safer; use the stated condition and patient factors to decide.\"\n    },\n    {\n      \"id\": \"do_not_invent_facts\",\n      \"text\": \"Only use patient facts that were explicitly stated. A missing laboratory value, test result, or history is not evidence for or against an option. If a decision depends on an unstated fact, say what is needed rather than assuming it is present or absent.\"\n    },\n    {\n      \"id\": \"separate_indication_from_comorbidity\",\n      \"text\": \"Use comorbidities and concurrent conditions primarily as safety modifiers and contraindication checks, not as the reason to pick a drug that does not treat the stated condition. The option must first fit the indication, then survive the patient-specific safety screen.\"\n    },\n    {\n      \"id\": \"class_safety_logic\",\n      \"text\": \"Before selecting, identify the drug class and its signature risks (bleeding, seizure threshold, cardiac conduction, immunosuppression, hormonal effects, GI ulceration, etc.). Match those risks against the patient's stated conditions and current medicines; eliminate options whose class risk is unacceptable given the stated facts.\"\n    },\n    {\n      \"id\": \"active_disease_over_background_history\",\n      \"text\": \"When the case describes an active, worsening problem, prioritize options that treat that active process. Historical conditions that are stable, controlled, or distant should inform safety and monitoring but should not displace treatment of the current active problem.\"\n    },\n    {\n      \"id\": \"dose_and_monitoring_are_part_of_fit\",\n      \"text\": \"An option is only appropriate if its expected monitoring and dose adjustment can plausibly be done given the patient's stated situation. If a candidate requires intensive monitoring or dose titration that the case does not support, note that as a reason to prefer an alternative.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"stated active condition\",\n    \"current medicines\",\n    \"drug class risk\",\n    \"route of administration\",\n    \"systemic exposure\",\n    \"contraindication\",\n    \"interaction\",\n    \"indication match\",\n    \"missing fact not present\",\n    \"monitoring requirement\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Extract the working diagnosis, the active problem being treated, all current medicines with their indications, and only explicitly stated patient facts. Mark any unstated fact as unknown and do not use it as if present.\",\n    \"safety_check\": \"Screen each candidate against stated comorbidities, current medicines, and drug-class risks. Treat stable historical conditions as monitoring modifiers, not as the primary indication. If an option requires an unstated fact to be safe, flag it as unsupported.\",\n    \"option_selection\": \"Select the option whose indication matches the stated active condition, whose route and systemic exposure fit the patient's situation, whose class risks are acceptable given current medicines and comorbidities, and whose monitoring needs are feasible. Do not choose an option that treats only a symptom, comorbidity, or side effect unless the case explicitly asks for that.\"\n  }\n}",
+        "input_tokens": 4177,
+        "output_tokens": 934,
+        "cost_usd": 0.001305645,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 4.894680023193359,
+        "request_sha256": "93470f0543a2ca1de1abb8b8740be73eed2da1cdf7611e91eac79229e8ff69ca",
+        "role": "proposer"
+      },
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent over-weighted the first plausible indication it recognized and under-used the full patient context: current medicines, comorbidity, and prior therapy. It also treated a drug that is merely present in the history as automatically disqualifying, and sometimes chose a less-supported option when two drugs shared the same indication. The fix is to extract all stated facts, then compare every option against indication, patient-specific safety, and whether the option is the best-supported choice for the stated condition.\",\n  \"skills\": [\n    {\n      \"id\": \"extract_all_stated_facts\",\n      \"text\": \"Before choosing, list the stated diagnosis or syndrome, every current medicine, relevant past medical history, and any recent or active infection. Do not infer a fact that is not stated.\"\n    },\n    {\n      \"id\": \"indication_first\",\n      \"text\": \"Eliminate options that do not treat the stated condition or syndrome. A drug with no matching indication should not be selected even if it is otherwise familiar or safe.\"\n    },\n    {\n      \"id\": \"current_med_safety\",\n      \"text\": \"When a current medicine is named, check whether the candidate option interacts with it or duplicates its effect. If no interaction is stated, do not invent one; if an interaction is stated or well established, prefer an alternative that still treats the condition.\"\n    },\n    {\n      \"id\": \"comorbidity_and_immunity\",\n      \"text\": \"Adjust for stated comorbidity and immune status. In immunosuppressed or transplant patients, avoid treatments that could worsen infection, and prefer agents indicated for the suspected infection or for rejection prevention as appropriate.\"\n    },\n    {\n      \"id\": \"best_supported_among_indicated\",\n      \"text\": \"When more than one option is indicated for the condition, choose the one best supported for that specific presentation, severity, or patient context rather than the first indicated option.\"\n    },\n    {\n      \"id\": \"avoid_contraindicated_or_wrong_class\",\n      \"text\": \"Reject options from the wrong drug class for the stated problem, and reject options that are contraindicated or likely harmful given the patient's stated condition.\"\n    },\n    {\n      \"id\": \"no_benchmark_shortcuts\",\n      \"text\": \"Do not use case identifiers, answer letters, or position-based shortcuts. Base every choice only on the stated clinical facts and general drug knowledge.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"stated diagnosis\",\n    \"current medicines\",\n    \"comorbidity\",\n    \"immunosuppression\",\n    \"indication\",\n    \"contraindication\",\n    \"drug interaction\",\n    \"best-supported option\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Extract the stated condition or syndrome, all current medicines, relevant past medical history, immune status, and any active or recent infection. Treat only explicitly stated facts as present.\",\n    \"safety_check\": \"Check each candidate against the patient's stated condition, current medicines, comorbidity, and immune status. Do not invent a missing fact or a missing interaction; do not treat a listed medicine as automatically disqualifying unless the interaction or contraindication is stated or well established.\",\n    \"option_selection\": \"First eliminate options without the correct indication or from the wrong class. Then, among remaining indicated options, choose the one best supported for the specific presentation and safest for this patient's stated context.\"\n  }\n}",
+        "input_tokens": 4039,
+        "output_tokens": 713,
+        "cost_usd": 0.00191048,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 4.026596784591675,
+        "request_sha256": "66bdc9811b3a61110c4d8f4a9166a97e8dbc5e0ffa3c5a6312a3e5d1a32013c4",
+        "role": "proposer"
+      },
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent over-weighted surface drug-class familiarity and under-used the stated diagnosis plus patient-specific facts (comorbidities, interacting medicines, fluid retention, infection severity). It also treated near-equivalent options as interchangeable and sometimes picked a plausible-but-not-indicated drug. Failures cluster around: (1) not anchoring on the named/implied condition, (2) ignoring stated contraindications or interactions, (3) failing to distinguish first-line vs. supportive vs. irrelevant options, and (4) confusing brand/generic equivalents.\",\n  \"skills\": [\n    {\n      \"id\": \"anchor_on_stated_diagnosis\",\n      \"text\": \"First restate the working diagnosis from the dialogue. Eliminate any option that does not treat that condition, even if it is a common or familiar drug. Only then compare remaining options on safety and patient fit.\"\n    },\n    {\n      \"id\": \"indication_before_safety\",\n      \"text\": \"Rank options by whether they are indicated for the stated condition. A drug that is safe but not indicated should lose to an indicated drug unless the indicated drug is contraindicated or clearly unsafe for this patient.\"\n    },\n    {\n      \"id\": \"patient_specific_contraindications\",\n      \"text\": \"Explicitly check each candidate against stated comorbidities and current medicines. Do not assume a missing fact is absent; if a key safety fact is not stated, treat it as unknown and prefer the option whose safety does not depend on that unknown.\"\n    },\n    {\n      \"id\": \"interaction_and_organ_risk\",\n      \"text\": \"When a current medicine is named, consider interactions and additive risks (bleeding, sedation, serotonergic effects, renal/hepatic load, blood pressure effects). Prefer options that do not compound the patient's existing problem.\"\n    },\n    {\n      \"id\": \"first_line_vs_alternative\",\n      \"text\": \"Distinguish first-line treatment from second-line, adjunctive, or symptomatic options. When two options are in the same class, choose the one that is standard for the specific presentation and avoids the patient's stated risk.\"\n    },\n    {\n      \"id\": \"avoid_plausible_but_wrong_class\",\n      \"text\": \"Do not select a drug merely because it is used somewhere in the same body system. Match the mechanism to the pathophysiology: antibiotics for bacterial infection, replacement hormones for deficiency, immunosuppressants for autoimmune disease, etc.\"\n    },\n    {\n      \"id\": \"brand_generic_equivalence\",\n      \"text\": \"Recognize when two options are the same active drug under different names. If both are otherwise appropriate, prefer the option that is the standard formulary name for the indication, but do not treat them as different mechanisms.\"\n    },\n    {\n      \"id\": \"symptom_cluster_reasoning\",\n      \"text\": \"Use the full symptom cluster, not a single symptom, to infer the condition. Fatigue plus dizziness on standing plus weight loss suggests adrenal insufficiency; recurrent oral ulcers plus fever suggests aphthous stomatitis; cataplexy plus sleepiness suggests narcolepsy.\"\n    },\n    {\n      \"id\": \"fluid_and_electrolyte_caution\",\n      \"text\": \"When fluid retention, edema, hypertension, or kidney stones are stated, avoid drugs that worsen those problems and prefer options that treat the underlying cause without adding fluid or electrolyte burden.\"\n    },\n    {\n      \"id\": \"infection_treatment_priority\",\n      \"text\": \"For suspected bacterial infection, an appropriate antibiotic is required; anti-inflammatory or symptomatic drugs are not substitutes. Choose the antibiotic that matches the organism and is safe with the patient's current medicines.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"indicated for the stated diagnosis\",\n    \"first-line vs alternative\",\n    \"patient-specific contraindication\",\n    \"drug interaction\",\n    \"brand-generic equivalence\",\n    \"symptom cluster\",\n    \"fluid retention\",\n    \"antibiotic for bacterial infection\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Extract the working diagnosis, the full symptom cluster, current medicines, comorbidities, and any stated risks (bleeding, fluid retention, renal, cardiac, serotonergic). Mark unknown facts as unknown rather than absent.\",\n    \"safety_check\": \"For each candidate, check indication first, then contraindications and interactions with stated medicines and comorbidities. Prefer options whose safety does not rely on unstated facts.\",\n    \"option_selection\": \"Choose the option that is both indicated for the stated condition and safest for this patient. Eliminate non-indicated, wrong-class, and risk-compounding options before comparing within-class alternatives.\"\n  }\n}",
+        "input_tokens": 3889,
+        "output_tokens": 976,
+        "cost_usd": 0.00217243,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 6.262109041213989,
+        "request_sha256": "b500b3428bf91e18ecb4fdacf4cc8a96b02b571ecbbeec5d4148527442e41680",
+        "role": "proposer"
+      },
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent over-weighted the most familiar or first-line drug for the stated diagnosis and under-weighted the patient's already-stated medication, prior therapy, and contraindication context. It also sometimes treated a diagnostic or supportive agent as if it were the treatment target, and it failed to distinguish between drug classes and formulations when the indication required a specific route or systemic effect.\",\n  \"skills\": [\n    {\n      \"id\": \"current_medication_first\",\n      \"text\": \"Before selecting a new medicine, explicitly restate the patient's current medicines and ask whether the proposed option is duplicative, interacting, or already failed. If the patient is already on a drug for the same indication, do not choose that same drug again unless the question is about continuation or optimization.\"\n    },\n    {\n      \"id\": \"diagnosis_treatment_match\",\n      \"text\": \"Match the option to the stated diagnosis, not to a symptom or a related condition. If the diagnosis is an infection, choose an anti-infective active against that organism; if it is a hormone deficiency, choose replacement therapy; if it is an inflammatory or immune condition, choose an immunomodulator or corticosteroid appropriate to the severity and route.\"\n    },\n    {\n      \"id\": \"contraindication_and_immunosuppression\",\n      \"text\": \"When the patient is immunosuppressed, on chemotherapy, or has a transplant, avoid live vaccines and avoid systemic corticosteroids when they could worsen an active infection. Prefer targeted antimicrobial therapy over broad immunosuppression in suspected herpes-zoster or other active infections.\"\n    },\n    {\n      \"id\": \"route_and_formulation_matter\",\n      \"text\": \"Do not treat different formulations or routes as interchangeable. An intra-articular or intralesional corticosteroid is not the same as a systemic corticosteroid for a systemic disease such as hemolytic anemia. Choose the formulation that matches the intended site and systemic need.\"\n    },\n    {\n      \"id\": \"diagnostic_agent_not_treatment\",\n      \"text\": \"A diagnostic or imaging agent is not the therapeutic answer unless the question asks for it. If the patient is taking a diagnostic tracer, use it only as context; select the actual treatment for the diagnosed condition.\"\n    },\n    {\n      \"id\": \"avoid_contraindicated_or_irrelevant_options\",\n      \"text\": \"Eliminate options that are not indicated for the stated condition or that are contraindicated by the patient's current state. Do not choose a drug merely because it is familiar for a related symptom; verify the indication against the working diagnosis.\"\n    },\n    {\n      \"id\": \"safety_check_without_inventing\",\n      \"text\": \"Check interactions and contraindications only from facts stated in the case. If a fact is missing, do not assume it is present or absent; instead, note the uncertainty and choose the option that is safest under the stated facts.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"current medication\",\n    \"already taking\",\n    \"contraindicated\",\n    \"immunosuppressed\",\n    \"route\",\n    \"formulation\",\n    \"diagnostic agent\",\n    \"indication\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Identify the stated condition, all current medicines including any diagnostic or supportive agents, prior failed or ongoing therapy, immune status, and relevant organ function or pregnancy facts. Do not infer missing facts.\",\n    \"safety_check\": \"Check patient-specific contraindications and interactions using only stated facts. Flag immunosuppression, active infection, renal or hepatic impairment, and current drugs that overlap with the proposed option. Do not invent absent facts.\",\n    \"option_selection\": \"Choose the option that best satisfies the working diagnosis and the patient-specific safety context. Prefer targeted therapy over symptomatic or unrelated therapy, avoid duplicating a current medicine, and match route and formulation to the intended effect.\"\n  }\n}",
+        "input_tokens": 4050,
+        "output_tokens": 809,
+        "cost_usd": 0.00199764,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 6.5919599533081055,
+        "request_sha256": "eef954987651e46e70533d228a706c7c29bffcc8fc7f7340fc3a8f71478608c3",
+        "role": "proposer"
+      }
+    ],
+    "training_feedback_count": 156
+  },
+  {
+    "round": 2,
+    "training_seen": 312,
+    "active": {
+      "skills": [],
+      "focus_terms": [],
+      "memory_ids": [],
+      "modules": {
+        "patient_evidence": "Identify the stated condition, current medicines and relevant patient facts.",
+        "safety_check": "Check patient-specific contraindications and drug interactions without inventing facts.",
+        "option_selection": "Choose the option that best satisfies both indication and patient-specific safety."
+      }
+    },
+    "state_sha256": "2937dc8b17a6786f2503011c0e76fc6c417aec90a883013af8c2be19fd1fa6f1",
+    "accepted": false,
+    "selected_proposal": 2,
+    "candidates": [
+      {
+        "index": 0,
+        "state_sha256": "5e7c3ff78f667fc41cc6c6ec53fc664b393214837ac8a6064d0d9d2da6f40370",
+        "score": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 0,
+          "input_tokens": 172228,
+          "output_tokens": 12428,
+          "cost_usd": 0.03865905599999999,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 59
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 31
+            }
+          }
+        },
+        "delta": {
+          "fixes": 10,
+          "regressions": 10,
+          "retained_correct": 80
+        }
+      },
+      {
+        "index": 1,
+        "state_sha256": "903b475b992ba71363a7e9d676119365312880a6a36356909710ec98d623f0a9",
+        "score": {
+          "n": 190,
+          "correct": 96,
+          "accuracy": 0.5052631578947369,
+          "invalid": 0,
+          "input_tokens": 163868,
+          "output_tokens": 11727,
+          "cost_usd": 0.028461429999999992,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 61
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 35
+            }
+          }
+        },
+        "delta": {
+          "fixes": 13,
+          "regressions": 7,
+          "retained_correct": 83
+        }
+      },
+      {
+        "index": 2,
+        "state_sha256": "057ddb3f77cb4500468333f43809c36c07f55cb07a1a78f5c64089cb45773a54",
+        "score": {
+          "n": 190,
+          "correct": 97,
+          "accuracy": 0.5105263157894737,
+          "invalid": 1,
+          "input_tokens": 166718,
+          "output_tokens": 13089,
+          "cost_usd": 0.024607625999999983,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 59
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 38
+            }
+          }
+        },
+        "delta": {
+          "fixes": 17,
+          "regressions": 10,
+          "retained_correct": 80
+        }
+      },
+      {
+        "index": 3,
+        "state_sha256": "6512a762afbcebdfb81ceb3ca6cf990e9be85c3580aa4e9eae9b1a3396b2c9c0",
+        "score": {
+          "n": 190,
+          "correct": 97,
+          "accuracy": 0.5105263157894737,
+          "invalid": 0,
+          "input_tokens": 175458,
+          "output_tokens": 13004,
+          "cost_usd": 0.022147098000000014,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 60
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 37
+            }
+          }
+        },
+        "delta": {
+          "fixes": 19,
+          "regressions": 12,
+          "retained_correct": 78
+        }
+      }
+    ],
+    "guard_transition": {
+      "fixes": 7,
+      "regressions": 14,
+      "retained_correct": 89
+    },
+    "proposal": {
+      "n": 190,
+      "correct": 97,
+      "accuracy": 0.5105263157894737,
+      "invalid": 1,
+      "input_tokens": 166718,
+      "output_tokens": 13089,
+      "cost_usd": 0.024607625999999983,
+      "subgroups": {
+        "contraindication": {
+          "n": 101,
+          "correct": 59
+        },
+        "interaction": {
+          "n": 89,
+          "correct": 38
+        }
+      }
+    },
+    "guard": {
+      "n": 197,
+      "correct": 103,
+      "accuracy": 0.5228426395939086,
+      "invalid": 0,
+      "input_tokens": 106564,
+      "output_tokens": 12208,
+      "cost_usd": 0.02470524548000001,
+      "subgroups": {
+        "contraindication": {
+          "n": 114,
+          "correct": 74
+        },
+        "interaction": {
+          "n": 83,
+          "correct": 29
+        }
+      }
+    },
+    "artifact_changes": {
+      "skills": {
+        "before_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "after_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "changed": false
+      },
+      "focus_terms": {
+        "before_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "after_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "changed": false
+      },
+      "memory_ids": {
+        "before_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "after_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "changed": false
+      },
+      "modules": {
+        "before_sha256": "55ac0adc337874a81b9b35e696a1f0896d08b0e894b1a9a769c897ad68316223",
+        "after_sha256": "55ac0adc337874a81b9b35e696a1f0896d08b0e894b1a9a769c897ad68316223",
+        "changed": false
+      }
+    },
+    "memory_cases": 0,
+    "proposal_record": [
+      {
+        "raw": "{\n  \"diagnosis\": \"Failures came from anchoring on a superficially plausible comorbidity or drug-mechanism story instead of the stated diagnosis-plus-safety logic: indications were sometimes overridden by non-contraindications (e.g., a tolerable or unspecified interaction), and an answer was selected that either lacked the indicated mechanism or was actually contraindicated/less appropriate for the stated condition. Two cases also exposed a conflict between the prior evidence and the stated diagnosis, where the selected option matched a secondary feature rather than the primary indication.\",\n  \"skills\": [\n    {\n      \"id\": \"indication_first\",\n      \"text\": \"When the stated diagnosis is clear, first identify the drug class specifically indicated for that diagnosis; only then use patient-specific safety to refine the choice. Do not let a secondary concern displace the indicated mechanism unless that concern is an actual stated contraindication.\"\n    },\n    {\n      \"id\": \"real_not_assumed_contraindication\",\n      \"text\": \"Treat only explicitly stated contraindications, allergies, interactions, or organ-function limits as barriers. A comorbidity that is not explicitly declared incompatible does not by itself eliminate an otherwise indicated drug.\"\n    },\n    {\n      \"id\": \"mechanism_mismatch\",\n      \"text\": \"Reject options whose mechanism does not plausibly treat the stated condition, even if the option is familiar or has some unrelated proposed benefit. Symptomatic or supportive drugs are not substitutes for disease-directed therapy unless no indicated option exists.\"\n    },\n    {\n      \"id\": \"conflict_resolution\",\n      \"text\": \"If prior evidence conflicts with the stated diagnosis, resolve by the stated diagnosis and the option that directly treats it; do not select a drug merely because it aligns with a secondary or incidental feature.\"\n    },\n    {\n      \"id\": \"comorbidity_priority\",\n      \"text\": \"When the diagnosis implies a choice among otherwise indicated drugs, prefer the option that is both indicated and least likely to aggravate a stated comorbidity (e.g., vasospastic disease, hyperthyroidism, cardiac disease). Only stated, relevant comorbidities should drive this preference.\"\n    },\n    {\n      \"id\": \"missing_fact_handling\",\n      \"text\": \"Do not invent a missing patient fact to justify or reject an option. If a contraindication or interaction is absent from the case, do not treat it as present; base the choice on stated indication and stated safety facts only.\"\n    },\n    {\n      \"id\": \"secondary_benefit_check\",\n      \"text\": \"When two options are both plausibly indicated, compare mechanism of action, contraindication risk from stated facts, and whether one option better addresses the primary condition rather than only a secondary symptom.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"stated diagnosis\",\n    \"indicated mechanism\",\n    \"explicit contraindication\",\n    \"stated comorbidity\",\n    \"primary vs secondary indication\",\n    \"no invented facts\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Extract the stated diagnosis, current medicines, explicitly stated allergies/contraindications, and relevant comorbidities. Mark unstated facts as absent rather than inferred.\",\n    \"safety_check\": \"Use only explicitly stated contraindications, interactions, and comorbidity-related risks. Do not assume a risk from a drug class or missing laboratory value unless the case states it.\",\n    \"option_selection\": \"Select the option whose mechanism directly treats the stated diagnosis while respecting stated safety facts. If multiple options are indicated, prefer the one least likely to worsen a stated relevant comorbidity or interact with current therapy.\"\n  }\n}",
+        "input_tokens": 4240,
+        "output_tokens": 741,
+        "cost_usd": 0.00118866,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 4.472448110580444,
+        "request_sha256": "00c5b44b06cbe4db208e99c8ddf2aa36678abc57011ae0b8095f0a98ab7a7db3",
+        "role": "proposer"
+      },
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent often confuses a relevant prior medication or comorbidity with the indication for the current problem, selects a drug that is less appropriate because of an unstated assumption, and fails to distinguish first-line disease-specific therapy from supportive or non-indicated options.\",\n  \"skills\": [\n    {\n      \"id\": \"indication_first\",\n      \"text\": \"Before comparing safety, confirm that each candidate is actually indicated for the diagnosed condition; exclude options that treat unrelated systems or have no plausible disease match.\"\n    },\n    {\n      \"id\": \"current_medication_context\",\n      \"text\": \"When the patient reports a current medicine, use it only as context for interactions, contraindications, or prior treatment response; do not let it replace the indication for the new problem unless the case explicitly asks about that medicine.\"\n    },\n    {\n      \"id\": \"prior_treatment_response\",\n      \"text\": \"If the patient says a drug for the same problem is not working or is not working well, favor an alternative in the same indicated class rather than repeating the same agent or choosing an unrelated drug.\"\n    },\n    {\n      \"id\": \"organ_safety_preference\",\n      \"text\": \"When the patient has a stated organ-related concern such as prior liver enzyme elevation, prefer an indicated option with a safer organ-specific profile and avoid assuming that all drugs in the class carry identical risk.\"\n    },\n    {\n      \"id\": \"infection_organism_match\",\n      \"text\": \"For suspected infections, match the antimicrobial spectrum to the stated organism or syndrome; do not select antibacterials for fungal syndromes or antifungals for bacterial syndromes unless the case gives a mixed or unclear picture.\"\n    },\n    {\n      \"id\": \"missing_fact_not_present\",\n      \"text\": \"Treat allergies, intolerances, renal failure, pregnancy, or other disqualifying facts as absent unless they are explicitly stated; do not invent a contraindication to justify an option.\"\n    },\n    {\n      \"id\": \"mutation_or_specialty_target\",\n      \"text\": \"When a diagnosis includes a molecular subtype, receptor status, or other targeted qualifier, prefer the drug that matches that qualifier and exclude otherwise active drugs that lack the required target or indication.\"\n    },\n    {\n      \"id\": \"complement_disorder_target\",\n      \"text\": \"For complement-mediated disorders, recognize that terminal complement inhibitors are disease-directed, while immunomodulators or stimulants are not substitutes unless the case explicitly supports them.\"\n    },\n    {\n      \"id\": \"avoid_benchmark_shortcuts\",\n      \"text\": \"Do not encode case identifiers, option letters, or answer-position heuristics; base each selection only on the stated diagnosis, patient facts, and drug properties.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"indicated for the stated diagnosis\",\n    \"prior treatment failure\",\n    \"organ-specific safety\",\n    \"organism match\",\n    \"molecular target\",\n    \"missing fact not present\",\n    \"avoid non-indicated supportive drugs\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Extract the active diagnosis, current medicines with indication and response, prior organ or infection history, and any molecular or syndrome qualifiers. Do not transform a historical medication or comorbidity into the indication for the current problem.\",\n    \"safety_check\": \"Use only stated patient facts to assess contraindications and interactions. Do not invent missing allergies, organ failure, pregnancy, or intolerance. Consider whether a prior organ concern or current medicine narrows the safer choice within an indicated class.\",\n    \"option_selection\": \"First eliminate options without an indication for the stated diagnosis. Then prefer the option that best matches syndrome, organism, molecular target, prior treatment response, and patient-specific safety. If the patient already failed a drug for the same problem, choose a different indicated alternative rather than repeating it.\"\n  }\n}",
+        "input_tokens": 4347,
+        "output_tokens": 805,
+        "cost_usd": 0.001248555,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 7.46806788444519,
+        "request_sha256": "c03e8969a6f6d584ccc25bc4cae3dcff2c0af2dd0d66ac18c4b064fa6c285014",
+        "role": "proposer"
+      },
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent over-weighted the first plausible indication and ignored patient-specific safety modifiers (immunosuppression, cardiac history, drug interactions, bowel status) and drug-class distinctions, causing wrong or unsafe choices.\",\n  \"skills\": [\n    {\n      \"id\": \"indication_first\",\n      \"text\": \"First identify the active problem from the stated symptoms and diagnosis, then require the candidate drug to have a recognized indication for that problem; exclude drugs used for unrelated conditions.\"\n    },\n    {\n      \"id\": \"safety_modifiers\",\n      \"text\": \"Before selecting, scan for patient-specific contraindications or cautions: immunosuppression, cardiac disease, pregnancy, renal/hepatic disease, bowel obstruction/constipation, and current medicines. A drug that treats the indication but worsens a stated vulnerability is not the best choice.\"\n    },\n    {\n      \"id\": \"interaction_check\",\n      \"text\": \"When the patient is on interacting medicines (e.g., warfarin, isotretinoin, beta-blockers), prefer an effective option with the lowest interaction burden; do not choose a same-class alternative that shares a known serious interaction when a safer effective alternative exists.\"\n    },\n    {\n      \"id\": \"class_distinction\",\n      \"text\": \"Distinguish drugs within the same class by formulation, route, and interaction profile; do not treat two same-class agents as interchangeable when one is already in use or has a worse safety profile for this patient.\"\n    },\n    {\n      \"id\": \"already_in_use\",\n      \"text\": \"If the patient is already taking a medicine that matches an option, that option is usually not the new choice unless the question asks about continuation, adherence, or dose adjustment.\"\n    },\n    {\n      \"id\": \"no_invented_facts\",\n      \"text\": \"Do not assume a missing allergy, infection, pregnancy, or lab value. Base the choice only on facts stated in the dialogue and general drug knowledge.\"\n    },\n    {\n      \"id\": \"symptom_specific_treatment\",\n      \"text\": \"Match treatment to the specific syndrome: infection to an antibiotic active against the suspected organism, inflammatory skin disease to a topical anti-inflammatory, angina to an antianginal, hyperkalemia to a potassium-lowering agent, diarrhea to an antidiarrheal only when infection is not the primary concern.\"\n    },\n    {\n      \"id\": \"avoid_contraindicated_symptom_relief\",\n      \"text\": \"When a symptom could be caused by an infection or obstruction, avoid drugs that suppress bowel motility or mask infection unless the diagnosis and safety are established.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"indication\",\n    \"contraindication\",\n    \"drug interaction\",\n    \"immunosuppression\",\n    \"cardiac history\",\n    \"same-class alternative\",\n    \"already in use\",\n    \"missing fact\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Extract the stated condition, current medicines, relevant history, and symptom pattern. Do not infer absent allergies, labs, pregnancy, or infections.\",\n    \"safety_check\": \"Check patient-specific contraindications, interactions, and disease-state cautions. Reject options that treat the indication but worsen a stated vulnerability or interact with current therapy.\",\n    \"option_selection\": \"Choose the option with a clear indication for the active problem and the best patient-specific safety profile. Prefer safer effective alternatives over same-class agents already in use or with worse interactions.\"\n  }\n}",
+        "input_tokens": 4182,
+        "output_tokens": 731,
+        "cost_usd": 0.00131155,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 3.858361005783081,
+        "request_sha256": "bfb59bd09948c08db01cc7ac09fd119dba79bbb0b87311b4bb257ca5585a7218",
+        "role": "proposer"
+      },
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent over-weighted the most familiar or first-line-sounding drug and under-weighted the patient's current medication, comorbidity, and the specific indication implied by the full symptom picture. It also treated absent contraindications as permission to choose a plausible but less appropriate option, and sometimes ignored that a drug was already in use or that a safer same-class alternative existed.\",\n  \"skills\": [\n    {\n      \"id\": \"current_medication_primacy\",\n      \"text\": \"When the patient is already taking a medicine, treat that as a strong signal: do not select the same drug as the answer unless the question is explicitly about continuing or optimizing it. Prefer an alternative that addresses the same indication without duplicating current therapy.\"\n    },\n    {\n      \"id\": \"comorbidity_safety_filter\",\n      \"text\": \"Before choosing, filter options through stated comorbidities. If a condition such as hypertension, arrhythmia, or hypotension is present, prefer agents with a favorable profile for that condition and avoid drugs that could worsen it.\"\n    },\n    {\n      \"id\": \"indication_over_familiarity\",\n      \"text\": \"Match the option to the specific diagnosis implied by the full symptom cluster, not to the most familiar drug in the class. A drug that is generally used for a related condition may be wrong if the patient's presentation points to a narrower indication.\"\n    },\n    {\n      \"id\": \"same_class_safer_alternative\",\n      \"text\": \"When two options are in the same therapeutic class, choose the one with the better safety profile for this patient's comorbidity or current medication, rather than the more commonly used or more potent member of the class.\"\n    },\n    {\n      \"id\": \"absent_fact_not_permission\",\n      \"text\": \"Do not treat a missing contraindication, interaction, or allergy as if it were absent. If the patient has not been asked about a relevant safety fact, do not assume it is safe; prefer the option that is least likely to cause harm given what is known.\"\n    },\n    {\n      \"id\": \"adjunct_vs_first_line\",\n      \"text\": \"Distinguish first-line treatment from adjunct or rescue therapy. If the diagnosis calls for initial immunosuppression or replacement therapy, do not choose a drug that is typically added later or used only in non-responders.\"\n    },\n    {\n      \"id\": \"symptom_cluster_to_diagnosis\",\n      \"text\": \"Translate the full symptom cluster into the most specific diagnosis before selecting a drug. Fever, joint pain, foamy urine, photosensitivity, and rash point to a systemic autoimmune renal process, not merely to generic inflammation.\"\n    },\n    {\n      \"id\": \"drug_purpose_check\",\n      \"text\": \"For each option, state its primary purpose. Eliminate any drug whose main indication is unrelated to the patient's problem, even if it belongs to a plausible broader category.\"\n    },\n    {\n      \"id\": \"interaction_and_effect_check\",\n      \"text\": \"Check whether the candidate drug interacts with current medicines or shares their adverse effects. If a current drug already causes the patient's problem, avoid adding another drug that can worsen the same problem.\"\n    },\n    {\n      \"id\": \"replacement_vs_supplement\",\n      \"text\": \"In deficiency states, distinguish active hormone or vitamin forms used for specific organ failure from standard replacement therapy used for nutritional deficiency. Choose the form that matches the stated cause and severity.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"current medication\",\n    \"comorbidity\",\n    \"contraindication\",\n    \"interaction\",\n    \"first-line\",\n    \"adjunct\",\n    \"same class\",\n    \"specific indication\",\n    \"symptom cluster\",\n    \"replacement therapy\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Extract the stated diagnosis or syndrome, all current medicines with doses if given, comorbidities, allergies, and the full symptom cluster. Mark any relevant safety fact that was not asked about as unknown rather than absent.\",\n    \"safety_check\": \"Screen each option against current medicines and comorbidities. Do not assume a missing contraindication is absent. Prefer the option least likely to duplicate current therapy, worsen a comorbidity, or add to an existing adverse effect.\",\n    \"option_selection\": \"Choose the option that best matches the specific indication and the patient's safety profile. When options are in the same class, prefer the one with the better comorbidity fit. Distinguish first-line from adjunct or rescue therapy, and eliminate drugs whose primary purpose is unrelated.\"\n  }\n}",
+        "input_tokens": 4202,
+        "output_tokens": 957,
+        "cost_usd": 0.00143941,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 5.689570665359497,
+        "request_sha256": "d52eb9583a83f63426fe6c7681e818117d9ad0d2c829f6ee1a08d6cbbf085cf9",
+        "role": "proposer"
+      }
+    ],
+    "training_feedback_count": 156
+  },
+  {
+    "round": 3,
+    "training_seen": 468,
+    "active": {
+      "skills": [],
+      "focus_terms": [],
+      "memory_ids": [],
+      "modules": {
+        "patient_evidence": "Identify the stated condition, current medicines and relevant patient facts.",
+        "safety_check": "Check patient-specific contraindications and drug interactions without inventing facts.",
+        "option_selection": "Choose the option that best satisfies both indication and patient-specific safety."
+      }
+    },
+    "state_sha256": "2937dc8b17a6786f2503011c0e76fc6c417aec90a883013af8c2be19fd1fa6f1",
+    "accepted": false,
+    "selected_proposal": 2,
+    "candidates": [
+      {
+        "index": 0,
+        "state_sha256": "c94c74ee124d38df5175ef51853b67f7dd943121babf6e19931da55d1b105cc0",
+        "score": {
+          "n": 190,
+          "correct": 93,
+          "accuracy": 0.48947368421052634,
+          "invalid": 0,
+          "input_tokens": 171468,
+          "output_tokens": 13127,
+          "cost_usd": 0.0112562832,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 58
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 35
+            }
+          }
+        },
+        "delta": {
+          "fixes": 13,
+          "regressions": 10,
+          "retained_correct": 80
+        }
+      },
+      {
+        "index": 1,
+        "state_sha256": "3fff9174ed271569456279db86977913e9f85aee69a8296a8116421d2ed0e401",
+        "score": {
+          "n": 190,
+          "correct": 90,
+          "accuracy": 0.47368421052631576,
+          "invalid": 1,
+          "input_tokens": 177168,
+          "output_tokens": 13184,
+          "cost_usd": 0.017893439999999993,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 57
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 33
+            }
+          }
+        },
+        "delta": {
+          "fixes": 12,
+          "regressions": 12,
+          "retained_correct": 78
+        }
+      },
+      {
+        "index": 2,
+        "state_sha256": "7c71c72319078fbd451942e4222bbcc15ec516e9e8a1546e862b03499ad1a8a5",
+        "score": {
+          "n": 190,
+          "correct": 96,
+          "accuracy": 0.5052631578947369,
+          "invalid": 0,
+          "input_tokens": 203768,
+          "output_tokens": 12535,
+          "cost_usd": 0.029340390000000004,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 62
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "delta": {
+          "fixes": 12,
+          "regressions": 6,
+          "retained_correct": 84
+        }
+      },
+      {
+        "index": 3,
+        "state_sha256": "6663adfcb4aca125ae9cafe29b09abcd7916745914cb02f2041afd8ff2ef7433",
+        "score": {
+          "n": 190,
+          "correct": 93,
+          "accuracy": 0.48947368421052634,
+          "invalid": 0,
+          "input_tokens": 165008,
+          "output_tokens": 13480,
+          "cost_usd": 0.029921039999999993,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 59
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 34
+            }
+          }
+        },
+        "delta": {
+          "fixes": 11,
+          "regressions": 8,
+          "retained_correct": 82
+        }
+      }
+    ],
+    "guard_transition": {
+      "fixes": 11,
+      "regressions": 14,
+      "retained_correct": 89
+    },
+    "proposal": {
+      "n": 190,
+      "correct": 96,
+      "accuracy": 0.5052631578947369,
+      "invalid": 0,
+      "input_tokens": 203768,
+      "output_tokens": 12535,
+      "cost_usd": 0.029340390000000004,
+      "subgroups": {
+        "contraindication": {
+          "n": 101,
+          "correct": 62
+        },
+        "interaction": {
+          "n": 89,
+          "correct": 34
+        }
+      }
+    },
+    "guard": {
+      "n": 197,
+      "correct": 103,
+      "accuracy": 0.5228426395939086,
+      "invalid": 0,
+      "input_tokens": 106564,
+      "output_tokens": 12208,
+      "cost_usd": 0.02470524548000001,
+      "subgroups": {
+        "contraindication": {
+          "n": 114,
+          "correct": 74
+        },
+        "interaction": {
+          "n": 83,
+          "correct": 29
+        }
+      }
+    },
+    "artifact_changes": {
+      "skills": {
+        "before_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "after_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "changed": false
+      },
+      "focus_terms": {
+        "before_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "after_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "changed": false
+      },
+      "memory_ids": {
+        "before_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "after_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "changed": false
+      },
+      "modules": {
+        "before_sha256": "55ac0adc337874a81b9b35e696a1f0896d08b0e894b1a9a769c897ad68316223",
+        "after_sha256": "55ac0adc337874a81b9b35e696a1f0896d08b0e894b1a9a769c897ad68316223",
+        "changed": false
+      }
+    },
+    "memory_cases": 0,
+    "proposal_record": [
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent over-weighted the most salient diagnosis and ignored the patient's current medicines, allergy history, and prior treatment failures, causing it to pick options that were either contraindicated, duplicative, or not indicated. It also treated a missing fact as present and failed to distinguish symptom relief from prophylaxis.\",\n  \"skills\": [\n    {\n      \"id\": \"current_medication_interaction_scan\",\n      \"text\": \"Before selecting an option, explicitly list every current medicine named by the patient and check whether any candidate would interact with it. If a candidate is known to inhibit or induce the metabolism of a current medicine, avoid it unless no safer indicated alternative exists.\"\n    },\n    {\n      \"id\": \"contraindication_from_history\",\n      \"text\": \"Treat prior cancer, severe allergy, organ failure, pregnancy, and similar history as hard safety constraints. Exclude any candidate that is generally contraindicated in that history, even if it is otherwise indicated for the presenting problem.\"\n    },\n    {\n      \"id\": \"prior_treatment_failure\",\n      \"text\": \"When the patient is already on a drug for the same condition and symptoms are worsening or not improving, do not choose another drug from the same mechanistic class. Prefer an agent with a different mechanism that is indicated for the same condition.\"\n    },\n    {\n      \"id\": \"indication_before_safety\",\n      \"text\": \"First identify the single best-supported indication for the presenting syndrome. Then filter candidates by patient-specific safety. Do not let a safe but non-indicated drug win over an indicated drug unless the indicated drug is contraindicated.\"\n    },\n    {\n      \"id\": \"prophylaxis_vs_treatment\",\n      \"text\": \"Distinguish whether the question asks for prevention/prophylaxis or acute treatment. A drug that relieves an attack is not automatically the right answer for prophylaxis, and vice versa.\"\n    },\n    {\n      \"id\": \"missing_fact_not_present\",\n      \"text\": \"If a patient fact is not stated, treat it as unknown rather than assuming it is absent or normal. Do not use an unstated fact to justify safety or to rule out a contraindication.\"\n    },\n    {\n      \"id\": \"symptom_driven_diagnosis\",\n      \"text\": \"Match the option to the dominant documented symptom cluster, not to a distant or incidental history detail. Incidental findings should modify safety, not replace the indication.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"current medication\",\n    \"contraindication\",\n    \"prior treatment failure\",\n    \"indication\",\n    \"prophylaxis\",\n    \"missing fact\",\n    \"symptom cluster\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Extract the stated condition, every current medicine, prior failed medicines, allergy/cancer/organ history, and the dominant symptom cluster. Mark unstated facts as unknown.\",\n    \"safety_check\": \"Screen each candidate against current medicines for interactions and against past medical history for contraindications. Exclude same-class retries after prior treatment failure. Do not invent absent facts.\",\n    \"option_selection\": \"Choose the candidate that is indicated for the dominant symptom cluster and passes the safety screen. If the question is about prophylaxis, prefer a prophylactic agent over an acute reliever.\"\n  }\n}",
+        "input_tokens": 4057,
+        "output_tokens": 695,
+        "cost_usd": 0.00124011,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 4.021852016448975,
+        "request_sha256": "2d58dccaf100675e4e4e5e66a930be84af5c7847e404128d65450109953b36b5",
+        "role": "proposer"
+      },
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent over-weighted the presence of a current medication as a reason to avoid or downgrade otherwise indicated options, and under-weighted the primary stated diagnosis and the option's direct indication. It also treated plausible but unstated risks as if they were established contraindications, and sometimes chose a less-supported option when a clearly indicated option existed.\",\n  \"skills\": [\n    {\n      \"id\": \"indication_first\",\n      \"text\": \"When choosing a medication, first match the option to the stated diagnosis or syndrome. A drug that is not indicated for the active problem should not be selected merely because it seems safer or has fewer interactions.\"\n    },\n    {\n      \"id\": \"current_meds_not_auto_exclusion\",\n      \"text\": \"A current medication is a safety consideration, not an automatic exclusion. Only avoid or downgrade an option if there is a specific, clinically meaningful interaction or contraindication supported by the patient facts; do not invent interactions from general drug-class overlap.\"\n    },\n    {\n      \"id\": \"missing_facts_not_present\",\n      \"text\": \"Do not assume a missing patient fact is present. If a contraindication, allergy, pregnancy, renal failure, or other safety fact is not stated, do not treat it as confirmed; instead, note the uncertainty and choose the best-supported option based on stated facts.\"\n    },\n    {\n      \"id\": \"severity_and_line_of_therapy\",\n      \"text\": \"Consider severity and line of therapy. For mild or moderate conditions, first-line or standard indicated treatments generally outrank systemic steroids, sedatives, or broad-spectrum antibiotics unless the case facts specifically support a different choice.\"\n    },\n    {\n      \"id\": \"avoid_sedative_anticholinergic_traps\",\n      \"text\": \"When allergy or mild symptoms are present, do not default to sedating antihistamines or other agents with prominent CNS or anticholinergic effects if a safer indicated option exists. Use them only when the case facts make them the best-supported choice.\"\n    },\n    {\n      \"id\": \"match_drug_to_specific_condition\",\n      \"text\": \"Match the drug to the specific condition named in the case. For example, do not choose a diabetes drug that lowers glucose for hypoglycemia, do not choose a sedative for allergy, and do not choose an obesity drug for infection.\"\n    },\n    {\n      \"id\": \"interaction_check_specific\",\n      \"text\": \"When checking interactions, name the specific interacting pair and the expected clinical consequence. If no specific interaction is stated or well established, do not downgrade an otherwise indicated option solely because another medication is present.\"\n    },\n    {\n      \"id\": \"prefer_best_supported_single_option\",\n      \"text\": \"Among options, prefer the one that best satisfies both the stated indication and patient-specific safety. If two options are both plausible, choose the one with the strongest direct indication and fewest unsupported safety concerns.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"stated diagnosis\",\n    \"current medication\",\n    \"specific interaction\",\n    \"contraindication\",\n    \"first-line\",\n    \"indication\",\n    \"missing fact\",\n    \"sedating antihistamine\",\n    \"hypoglycemia\",\n    \"rescue therapy\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Identify the stated condition, current medicines, and relevant patient facts. Separate confirmed facts from absent or uncertain facts; do not fill gaps with assumptions.\",\n    \"safety_check\": \"Check patient-specific contraindications and drug interactions only when supported by stated facts. Name the specific drug pair and consequence; do not treat a current medication as an automatic exclusion.\",\n    \"option_selection\": \"Choose the option that best satisfies the stated indication and patient-specific safety. Prioritize direct indication, appropriate severity/line of therapy, and avoid selecting non-indicated or unsafe options based on unsupported concerns.\"\n  }\n}",
+        "input_tokens": 3896,
+        "output_tokens": 818,
+        "cost_usd": 0.00128786,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 4.021744966506958,
+        "request_sha256": "9efbef4b3240b5f5d5d53e33a9b808c8258a7062fba13d349e0f636b3019becc",
+        "role": "proposer"
+      },
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent repeatedly chose an option based on a plausible indication while ignoring that the selected drug was contraindicated, mechanistically unsuitable, or that the reference choice matched the exact indication more specifically. It also tended to accept a drug just because it treated a symptom or related condition, rather than checking whether the option directly addressed the suspected diagnosis and whether the patient's current medication or stated history made that option unsafe. In several cases, the agent failed to distinguish between a drug that is merely familiar or commonly used for a symptom and the drug that is specifically indicated for the suspected disease.\",\n  \"skills\": [\n    {\n      \"id\": \"exact_indication_first\",\n      \"text\": \"When selecting a medication, first identify the suspected diagnosis or the most specific indication implied by the patient's presentation. Then prefer the option whose labeled or well-established indication directly matches that diagnosis. Do not choose a drug merely because it can relieve a nonspecific symptom such as pain, swelling, itching, or fatigue if a more disease-specific option is available.\"\n    },\n    {\n      \"id\": \"contraindication_and_interaction_screen\",\n      \"text\": \"Before finalizing any medication choice, explicitly screen the patient's stated history, current medicines, and relevant conditions for contraindications, warnings, or clinically significant interactions. If the patient has a condition or current drug that makes an option unsafe, avoid it even when its indication otherwise seems plausible. If the safety information is not stated, do not invent a contraindication or interaction, but also do not ignore one that is stated.\"\n    },\n    {\n      \"id\": \"mechanism_mismatch_check\",\n      \"text\": \"Check whether the proposed drug's mechanism makes sense for the suspected problem. If the patient is already on a drug from the same mechanistic class and has had an inadequate response or worsening symptoms, do not simply choose another drug from that same class unless the evidence supports it. Consider an alternative mechanism when the current mechanism appears to be failing or when the disease requires a different pathway.\"\n    },\n    {\n      \"id\": \"avoid_symptom_only_or_unrelated_options\",\n      \"text\": \"Reject options that treat only a secondary symptom or an unrelated condition when the suspected diagnosis is more specific. For example, a diuretic is not a treatment for a thrombotic clot, an antibiotic is not a treatment for reflux, and an antidepressant is not a treatment for unexplained weight loss or fatigue without a matching indication. Match the drug to the suspected disease, not just to one complaint.\"\n    },\n    {\n      \"id\": \"no_fact_invention\",\n      \"text\": \"Do not treat a missing patient fact as present. If the dialogue does not state a diagnosis, allergy, laboratory result, or medication interaction, do not assume it exists to justify or reject an option. Base the decision only on facts explicitly provided or clearly implied by the clinical presentation.\"\n    },\n    {\n      \"id\": \"safety_precedence_over_familiarity\",\n      \"text\": \"When two or more options are plausible for the indication, prefer the one with the best patient-specific safety profile given the stated facts. Do not default to the most familiar or most commonly used drug if it has a stated contraindication, a problematic interaction, or a less specific indication compared with another option.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"suspected diagnosis\",\n    \"specific indication\",\n    \"contraindication\",\n    \"drug interaction\",\n    \"current medication\",\n    \"mechanism of action\",\n    \"inadequate response\",\n    \"symptom relief\",\n    \"patient-specific safety\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Extract the patient's stated symptoms, suspected diagnosis, current medicines, allergies, and relevant medical history. Distinguish between a definite diagnosis and a preliminary concern. Do not add facts that are not stated or clearly implied.\",\n    \"safety_check\": \"Screen each candidate medication against the patient's stated conditions, current medicines, allergies, and relevant history for contraindications and clinically significant interactions. If a safety fact is missing, do not invent one; if a safety issue is stated, treat it as decisive unless another option is clearly safer.\",\n    \"option_selection\": \"Choose the option whose specific indication best matches the suspected diagnosis while also satisfying patient-specific safety. Prefer direct disease-modifying or disease-specific treatment over symptom-only or unrelated treatment. When the patient is already failing a drug from one mechanistic class, consider an alternative mechanism if supported by the presentation.\"\n  }\n}",
+        "input_tokens": 4017,
+        "output_tokens": 934,
+        "cost_usd": 0.001279245,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 17.030970096588135,
+        "request_sha256": "0f7582c05780d4c229703b0f91344bab2b699de2041ac3fb02eae4ecce889f95",
+        "role": "proposer"
+      },
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent repeatedly chose the most familiar or standard therapy for the stated indication while overlooking interactions and contraindications, and did not consistently distinguish active treatment from prophylaxis, brand name from generic, or first-line from less-preferred options.\",\n  \"skills\": [\n    {\n      \"id\": \"indication_match\",\n      \"text\": \"Match the option to the active problem being treated, not merely to the patient's chronic condition. Distinguish acute treatment from prophylaxis, and do not choose an option that treats a different problem.\"\n    },\n    {\n      \"id\": \"interaction_check\",\n      \"text\": \"Before selecting, check every current medicine for additive, opposing, or harmful interactions with each option, even when the option is otherwise indicated.\"\n    },\n    {\n      \"id\": \"patient_fact_completeness\",\n      \"text\": \"Use only facts explicitly stated in the case. Do not assume missing allergies, kidney function, pregnancy status, or lab values, and do not let a missing fact rule out an otherwise appropriate option without evidence.\"\n    },\n    {\n      \"id\": \"contraindication_check\",\n      \"text\": \"For each relevant option, ask whether any stated patient-specific factor is a contraindication or precaution. If a stated factor makes an option unsafe, avoid it even if it matches the indication.\"\n    },\n    {\n      \"id\": \"current_medication_duplication\",\n      \"text\": \"If the patient is already taking a medicine or a drug in the same class, do not choose the same agent again unless the question clearly asks about continuing or optimizing it. Prefer a non-duplicative option when one exists.\"\n    },\n    {\n      \"id\": \"generic_brand_consistency\",\n      \"text\": \"Recognize that generic and brand names of the same drug refer to the same medication. Do not select two options that are the same active agent, and do not treat one as preferable merely because the name differs.\"\n    },\n    {\n      \"id\": \"treatment_setting\",\n      \"text\": \"Match the option to the care setting and acuity implied by the case. Acute or severe presentations may require a different choice than chronic or stable management.\"\n    },\n    {\n      \"id\": \"safety_over_familiarity\",\n      \"text\": \"Do not default to the most familiar or textbook option if a stated patient factor makes it less safe. Resolve conflicts by satisfying indication first, then patient-specific safety.\"\n    },\n    {\n      \"id\": \"severity_progression\",\n      \"text\": \"If the patient is worsening or not improving despite an appropriate current medicine, consider that the diagnosis, dose, or drug choice may need escalation or replacement rather than simply continuing the same therapy.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"indication\",\n    \"contraindication\",\n    \"interaction\",\n    \"current medications\",\n    \"prophylaxis versus treatment\",\n    \"generic versus brand\",\n    \"duplication\",\n    \"severity\",\n    \"acute versus chronic\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Extract the stated active problem, current medicines, relevant past history, and acuity. Note explicitly what is not stated instead of filling gaps.\",\n    \"safety_check\": \"For each plausible option, check patient-specific contraindications, interactions with current medicines, duplication of current therapy, generic/brand equivalence, and whether the option is appropriate for the current severity and setting.\",\n    \"option_selection\": \"Choose the option that best treats the active condition while remaining safe for this patient. Do not choose a familiar or standard option if a stated factor or interaction makes it unsafe. Do not choose a less-preferred option merely because it is safer if it does not treat the active problem.\"\n  }\n}",
+        "input_tokens": 4079,
+        "output_tokens": 779,
+        "cost_usd": 0.001085415,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 4.118182897567749,
+        "request_sha256": "62abdbb7c6253fe660b29f8c1f91c06a586d29796aee3105b6705d52adb5ae16",
+        "role": "proposer"
+      }
+    ],
+    "training_feedback_count": 156
+  },
+  {
+    "round": 4,
+    "training_seen": 625,
+    "active": {
+      "skills": [],
+      "focus_terms": [],
+      "memory_ids": [],
+      "modules": {
+        "patient_evidence": "Identify the stated condition, current medicines and relevant patient facts.",
+        "safety_check": "Check patient-specific contraindications and drug interactions without inventing facts.",
+        "option_selection": "Choose the option that best satisfies both indication and patient-specific safety."
+      }
+    },
+    "state_sha256": "2937dc8b17a6786f2503011c0e76fc6c417aec90a883013af8c2be19fd1fa6f1",
+    "accepted": false,
+    "selected_proposal": 1,
+    "candidates": [
+      {
+        "index": 0,
+        "state_sha256": "80d74266c71bc268399867ff5d145c74c5b013875f7e3e1d08dbce9a0aee9c44",
+        "score": {
+          "n": 190,
+          "correct": 87,
+          "accuracy": 0.45789473684210524,
+          "invalid": 0,
+          "input_tokens": 170138,
+          "output_tokens": 12702,
+          "cost_usd": 0.05218332000000002,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 56
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 31
+            }
+          }
+        },
+        "delta": {
+          "fixes": 12,
+          "regressions": 15,
+          "retained_correct": 75
+        }
+      },
+      {
+        "index": 1,
+        "state_sha256": "245c45a1b6794bed313bb5a41dd7053e1b821663769c3ad5d8b6ec187e0d4ee8",
+        "score": {
+          "n": 190,
+          "correct": 100,
+          "accuracy": 0.5263157894736842,
+          "invalid": 0,
+          "input_tokens": 166338,
+          "output_tokens": 14383,
+          "cost_usd": 0.02546002199999999,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 62
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 38
+            }
+          }
+        },
+        "delta": {
+          "fixes": 19,
+          "regressions": 9,
+          "retained_correct": 81
+        }
+      },
+      {
+        "index": 2,
+        "state_sha256": "5ee4008084d6224ad914baad628ddbbb4f2de0bfdc868705b5809a83589ee44f",
+        "score": {
+          "n": 190,
+          "correct": 95,
+          "accuracy": 0.5,
+          "invalid": 0,
+          "input_tokens": 167098,
+          "output_tokens": 12919,
+          "cost_usd": 0.05429651999999998,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 55
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 40
+            }
+          }
+        },
+        "delta": {
+          "fixes": 14,
+          "regressions": 9,
+          "retained_correct": 81
+        }
+      },
+      {
+        "index": 3,
+        "state_sha256": "a5f03795082e56cb6e7476c02d5626c92fb0ef28763896bcec25adf13e461563",
+        "score": {
+          "n": 190,
+          "correct": 96,
+          "accuracy": 0.5052631578947369,
+          "invalid": 0,
+          "input_tokens": 168048,
+          "output_tokens": 13295,
+          "cost_usd": 0.05503272000000003,
+          "subgroups": {
+            "contraindication": {
+              "n": 101,
+              "correct": 63
+            },
+            "interaction": {
+              "n": 89,
+              "correct": 33
+            }
+          }
+        },
+        "delta": {
+          "fixes": 14,
+          "regressions": 8,
+          "retained_correct": 82
+        }
+      }
+    ],
+    "guard_transition": {
+      "fixes": 10,
+      "regressions": 16,
+      "retained_correct": 87
+    },
+    "proposal": {
+      "n": 190,
+      "correct": 100,
+      "accuracy": 0.5263157894736842,
+      "invalid": 0,
+      "input_tokens": 166338,
+      "output_tokens": 14383,
+      "cost_usd": 0.02546002199999999,
+      "subgroups": {
+        "contraindication": {
+          "n": 101,
+          "correct": 62
+        },
+        "interaction": {
+          "n": 89,
+          "correct": 38
+        }
+      }
+    },
+    "guard": {
+      "n": 197,
+      "correct": 103,
+      "accuracy": 0.5228426395939086,
+      "invalid": 0,
+      "input_tokens": 106564,
+      "output_tokens": 12208,
+      "cost_usd": 0.02470524548000001,
+      "subgroups": {
+        "contraindication": {
+          "n": 114,
+          "correct": 74
+        },
+        "interaction": {
+          "n": 83,
+          "correct": 29
+        }
+      }
+    },
+    "artifact_changes": {
+      "skills": {
+        "before_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "after_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "changed": false
+      },
+      "focus_terms": {
+        "before_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "after_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "changed": false
+      },
+      "memory_ids": {
+        "before_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "after_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "changed": false
+      },
+      "modules": {
+        "before_sha256": "55ac0adc337874a81b9b35e696a1f0896d08b0e894b1a9a769c897ad68316223",
+        "after_sha256": "55ac0adc337874a81b9b35e696a1f0896d08b0e894b1a9a769c897ad68316223",
+        "changed": false
+      }
+    },
+    "memory_cases": 0,
+    "proposal_record": [
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent over-trusted the clinician's stated diagnosis and prior medication, ignored explicit patient facts that change safety or indication, and defaulted to the first plausible option instead of comparing all options against the full patient picture.\",\n  \"skills\": [\n    {\n      \"id\": \"diagnosis_vs_evidence\",\n      \"text\": \"Treat the clinician's stated diagnosis as a hypothesis, not a fact. Re-derive the problem from the patient's reported symptoms, history, and current medicines before selecting an option.\"\n    },\n    {\n      \"id\": \"current_medication_rule\",\n      \"text\": \"If the patient is already taking a medicine that matches one of the options, do not select that same medicine as the new answer unless the question explicitly asks for continuation or dose adjustment. Prefer an alternative that adds benefit without duplicating therapy.\"\n    },\n    {\n      \"id\": \"explicit_fact_priority\",\n      \"text\": \"When the patient states a condition, allergy, pregnancy, organ problem, or interacting drug, treat it as an active constraint. Do not ignore it just because the clinician does not repeat it in the diagnosis stage.\"\n    },\n    {\n      \"id\": \"indication_first\",\n      \"text\": \"For each option, first ask whether it is indicated for the working diagnosis. Eliminate options that treat an unrelated condition before comparing safety among the remaining indicated options.\"\n    },\n    {\n      \"id\": \"safety_tiebreak\",\n      \"text\": \"When two or more options are indicated, choose the one with the fewest patient-specific contraindications, interactions, and pregnancy or organ-function concerns. If no safety difference is stated, prefer the more standard first-line agent for that diagnosis.\"\n    },\n    {\n      \"id\": \"no_invented_facts\",\n      \"text\": \"Do not assume a contraindication, interaction, or benefit that is not stated or strongly implied by the patient facts. Absence of a stated problem is not evidence that the problem is absent, but it also is not evidence that it is present.\"\n    },\n    {\n      \"id\": \"option_comparison\",\n      \"text\": \"Compare every option against the same criteria: indication, patient-specific safety, current medicines, and pregnancy status. Do not stop at the first option that seems plausible.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"indication\",\n    \"contraindication\",\n    \"interaction\",\n    \"current medication\",\n    \"pregnancy\",\n    \"organ function\",\n    \"first-line\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Extract the working diagnosis, all stated symptoms, past medical history, pregnancy status, organ function, and every current medicine. Treat clinician statements as hypotheses to verify against these facts.\",\n    \"safety_check\": \"For each candidate option, check stated contraindications, drug-drug interactions with current medicines, pregnancy/lactation warnings, and organ-function cautions. Do not invent missing facts.\",\n    \"option_selection\": \"Eliminate options not indicated for the working diagnosis. Among indicated options, prefer the one with the best patient-specific safety profile and avoid duplicating a medicine the patient already takes unless continuation is explicitly requested.\"\n  }\n}",
+        "input_tokens": 4003,
+        "output_tokens": 673,
+        "cost_usd": 0.00185476,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 3.29836106300354,
+        "request_sha256": "e1f4805f62510a189af0c97cc957f63ff29741b134fbba8e13a46cc5d09d4dbe",
+        "role": "proposer"
+      },
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent over-weighted the most salient diagnosis and ignored drug-specific safety, formulation, and interaction details; it also treated brand/generic pairs as different options and missed that some options were not indicated for the stated condition.\",\n  \"skills\": [\n    {\n      \"id\": \"indication_first\",\n      \"text\": \"Before comparing options, restate the working diagnosis and the intended treatment goal; eliminate any option that is not indicated for that diagnosis or goal, even if it is familiar or commonly used.\"\n    },\n    {\n      \"id\": \"drug_specific_safety\",\n      \"text\": \"Check each remaining option against the patient's current medicines, allergies, and comorbidities; prefer the option with the fewest clinically meaningful interactions or contraindications, and do not assume a missing allergy or lab value is absent.\"\n    },\n    {\n      \"id\": \"brand_generic_equivalence\",\n      \"text\": \"Recognize when two options are the same active drug under different names; if both appear, treat them as one therapeutic choice and look for the intended distinction in formulation, route, or indication rather than choosing between identical agents.\"\n    },\n    {\n      \"id\": \"condition_specific_preferences\",\n      \"text\": \"When multiple drugs are indicated, apply condition-specific preferences: for example, first-line or guideline-preferred agents over less preferred alternatives, and agents with a better safety profile for the patient's comorbidity.\"\n    },\n    {\n      \"id\": \"interaction_awareness\",\n      \"text\": \"Explicitly screen for interactions between the proposed treatment and the patient's current medications; if an option is effective but interacts with a current drug, prefer a non-interacting alternative unless the interaction is unavoidable.\"\n    },\n    {\n      \"id\": \"avoid_anchoring\",\n      \"text\": \"Do not let a single dramatic symptom, travel history, or medication dominate the decision; integrate all stated facts and verify that the chosen option addresses the full clinical picture.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"indication\",\n    \"contraindication\",\n    \"drug interaction\",\n    \"brand-generic equivalence\",\n    \"first-line therapy\",\n    \"patient-specific safety\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Identify the stated condition, current medicines, allergies, comorbidities, and relevant patient facts; explicitly note when a fact is missing rather than assuming it is absent.\",\n    \"safety_check\": \"Check patient-specific contraindications, drug interactions, and condition-specific precautions without inventing facts; compare options on safety and prefer the one with the fewest meaningful risks.\",\n    \"option_selection\": \"Choose the option that best satisfies both indication and patient-specific safety; eliminate non-indicated options, recognize duplicate brand/generic choices, and apply condition-specific first-line preferences.\"\n  }\n}",
+        "input_tokens": 3985,
+        "output_tokens": 588,
+        "cost_usd": 0.00080486,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 6.286213159561157,
+        "request_sha256": "bbbc4dbb7b93b5a02b54d8e4f0397143ffd7979178de5294670e87dc30ad9bde",
+        "role": "proposer"
+      },
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent tends to select the option that matches the stated diagnosis or the medication named in the dialogue, but often misses when a safer, better-indicated alternative exists based on patient-specific factors (e.g., current medications, comorbidities, symptom profile). It also fails to weigh the full clinical picture against each option's indication, contraindications, and interaction risks, and sometimes treats a discussed-but-not-recommended drug as the answer.\",\n  \"skills\": [\n    {\n      \"id\": \"indication_match\",\n      \"text\": \"When choosing a medication, first confirm the option is indicated for the patient's active problem(s). If the option treats an unrelated condition, rule it out even if it is otherwise safe.\"\n    },\n    {\n      \"id\": \"interaction_and_contraindication_check\",\n      \"text\": \"For every option, check for interactions with the patient's current medicines and contraindications from stated comorbidities or history. Eliminate any option that has a meaningful interaction or contraindication, even if it is otherwise indicated.\"\n    },\n    {\n      \"id\": \"symptom_safety_tradeoff\",\n      \"text\": \"When multiple options are indicated, prefer the one that best addresses the patient's full symptom profile while minimizing additive risks such as CNS or respiratory depression, seizure risk, or worsening of existing symptoms.\"\n    },\n    {\n      \"id\": \"dialogue_mention_trap\",\n      \"text\": \"Do not automatically choose a medication simply because it was mentioned in the dialogue. A mentioned drug may be inappropriate, ineffective, or unsafe for the patient's current presentation; evaluate it like any other option.\"\n    },\n    {\n      \"id\": \"diagnosis_vs_treatment\",\n      \"text\": \"Match treatment to the working diagnosis, but if the diagnosis is uncertain, choose the option that is safest and most broadly indicated for the described syndrome rather than the one most narrowly tied to a single speculative diagnosis.\"\n    },\n    {\n      \"id\": \"route_and_formulation\",\n      \"text\": \"Consider the route and formulation of each option. A medication that is not appropriate for routine oral use or for the patient's setting should not be selected over an oral option that fits the indication.\"\n    },\n    {\n      \"id\": \"comorbidity_specific_avoidance\",\n      \"text\": \"When the patient has a comorbidity that makes one drug class risky (e.g., respiratory depression risk with opioids, bleeding risk with anticoagulants, mania risk with antidepressants), avoid that class unless no safer indicated option exists.\"\n    },\n    {\n      \"id\": \"no_invented_facts\",\n      \"text\": \"Never assume a patient fact is present unless it is stated or clearly implied in the dialogue. Missing information should reduce confidence, not be filled in with guesses.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"indication\",\n    \"contraindication\",\n    \"interaction\",\n    \"additive CNS depression\",\n    \"respiratory depression\",\n    \"seizure risk\",\n    \"mania risk\",\n    \"bleeding risk\",\n    \"comorbidity\",\n    \"current medications\",\n    \"route of administration\",\n    \"symptom profile\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Identify the stated condition, active symptoms, current medicines, and relevant comorbidities or history. Note what is not stated and do not treat missing facts as present.\",\n    \"safety_check\": \"Check each option for patient-specific contraindications and interactions with current medicines or comorbidities. Eliminate options with meaningful additive risk, even if otherwise indicated.\",\n    \"option_selection\": \"Choose the option that is indicated for the active problem, safe given the patient's full profile, and best matches the symptom pattern. Do not select a drug merely because it was mentioned in the dialogue.\"\n  }\n}",
+        "input_tokens": 3775,
+        "output_tokens": 789,
+        "cost_usd": 0.001143615,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 4.229486703872681,
+        "request_sha256": "e0a8fbe087148decada9eaa77d1d020806c932c66a32d4faf0e58dfe04d051ab",
+        "role": "proposer"
+      },
+      {
+        "raw": "{\n  \"diagnosis\": \"The agent over-relied on superficial drug-class matching and prior guesses, missed patient-specific contraindications (e.g., myasthenia gravis with aminoglycosides), and failed to prefer safer alternatives or first-line standard therapies when multiple options were indicated. It also sometimes ignored stated current medications, lab abnormalities, and diagnosis-specific safety concerns.\",\n  \"skills\": [\n    {\n      \"id\": \"extract_patient_facts\",\n      \"text\": \"Before choosing, explicitly list the stated diagnosis, current medications, allergies, organ function, and relevant labs or symptoms. Do not assume any unstated fact.\"\n    },\n    {\n      \"id\": \"match_indication\",\n      \"text\": \"For each option, ask whether it is indicated for the stated condition. If more than one is indicated, prefer the standard first-line or guideline-recommended agent unless patient-specific factors favor another.\"\n    },\n    {\n      \"id\": \"check_contraindications\",\n      \"text\": \"Screen every option against the patient's stated conditions and current medicines for absolute or relative contraindications. In particular, avoid drugs that worsen a stated disease (e.g., aminoglycosides in myasthenia gravis, benzodiazepines with tramadol, NSAIDs in renal impairment).\"\n    },\n    {\n      \"id\": \"avoid_class_bias\",\n      \"text\": \"Do not choose a drug merely because it belongs to a broad class that sounds relevant. Confirm the specific drug is appropriate for the exact diagnosis and patient context.\"\n    },\n    {\n      \"id\": \"recognize_safety_traps\",\n      \"text\": \"When an option is clearly harmful or non-indicated (e.g., antipsychotic for infection, antifungal for bacterial infection, ADHD drug for acromegaly), eliminate it before comparing remaining options.\"\n    },\n    {\n      \"id\": \"prefer_safer_alternative\",\n      \"text\": \"If two options are both indicated, choose the one with fewer interactions, less contraindication, or better safety profile for this patient. Example: non-sedating anxiolytic over benzodiazepine when on tramadol.\"\n    },\n    {\n      \"id\": \"use_labs_and_symptoms\",\n      \"text\": \"Incorporate stated laboratory abnormalities (e.g., low calcium) and symptoms (e.g., blood in urine, weight loss) into the safety check. Do not ignore them when selecting therapy.\"\n    },\n    {\n      \"id\": \"standard_first_line\",\n      \"text\": \"When multiple drugs are approved for a condition, default to the accepted first-line agent unless a patient-specific reason clearly favors another. For acromegaly, somatostatin analogs are first-line; for renal-cell carcinoma, standard TKIs are preferred over antibiotics.\"\n    },\n    {\n      \"id\": \"no_contraindication_invention\",\n      \"text\": \"Do not invent contraindications or interactions that are not stated or well-established. If no explicit contraindication exists, do not use it to eliminate an otherwise appropriate option.\"\n    },\n    {\n      \"id\": \"review_current_meds\",\n      \"text\": \"Always check the patient's current medication list for interactions with each option. For example, tramadol plus benzodiazepines increases CNS and respiratory depression risk; prefer buspirone when appropriate.\"\n    }\n  ],\n  \"focus_terms\": [\n    \"myasthenia gravis\",\n    \"aminoglycosides\",\n    \"tramadol\",\n    \"benzodiazepines\",\n    \"acromegaly\",\n    \"renal-cell carcinoma\",\n    \"magnesium deficiency\",\n    \"first-line therapy\",\n    \"contraindication\",\n    \"interaction\"\n  ],\n  \"modules\": {\n    \"patient_evidence\": \"Extract the stated diagnosis, current medicines, allergies, lab values, and relevant symptoms. Do not treat a missing fact as present. For example, note myasthenia gravis, tramadol use, low calcium, or blood in urine when stated.\",\n    \"safety_check\": \"For each candidate, ask: Is it contraindicated by any stated condition or current medicine? Does it interact dangerously? Does it worsen a stated problem? Avoid aminoglycosides in myasthenia gravis, benzodiazepines with tramadol, and NSAIDs in renal impairment. Do not invent contraindications.\",\n    \"option_selection\": \"Choose the option that is indicated for the stated diagnosis and has the best patient-specific safety profile. If multiple are indicated, prefer first-line standard therapy unless safety concerns favor another. Eliminate non-indicated or harmful options first.\"\n  }\n}",
+        "input_tokens": 3924,
+        "output_tokens": 960,
+        "cost_usd": 0.00128106,
+        "model_returned": "deepseek/deepseek-v4.1-flash",
+        "seconds": 5.266813039779663,
+        "request_sha256": "e21771f24b0af3651597cad1480dadad12072ff206ae1a81ef9395e50956797b",
+        "role": "proposer"
+      }
+    ],
+    "training_feedback_count": 157
+  }
+]

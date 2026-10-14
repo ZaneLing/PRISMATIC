@@ -1,5 +1,12 @@
 # Manuscript change log / 论文变更记录
 
+## v0.8 first-seed results / v0.10 completed / v0.11 started — 2026-10-14
+
+- Eight public method rows, four checkpoints after initialization, object ablations and RxQA transfer complete for seed 42; all selected RxRSI updates are rejected. 完成首种子，保留持平曲线。
+- The unmodified GRASP core scores 502/988 versus CoT 467/988; paired scenario-cluster interval for the gain is [0.91, 6.07] points. Our scoped-skills variant has insufficient coverage and remains unchanged. 补强作者实现对照并记录失败原因。
+- Fixed Qwen empty reasoning envelope and cache case binding before any local parameter-study test scoring; original strict-parser failure retained. 修复真实工程问题，统一重算。
+- Started public drug-label evidence study: 623/699 names matched; all lookups contain drug names only. 继续根据不足推进 v0.11。
+
 ## v0.7 complete; v0.8/v0.9 execution started — 2026-10-14
 
 - Target changed to ACL 2027; official ACL style embedded in the existing English editor file; built-in compilation succeeds. 目标与格式同步到 ACL，英文原路径保留。

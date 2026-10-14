@@ -4,9 +4,9 @@
 
 [中文流程图](paper/RXRSI_DESIGN.zh.md) · [English design](paper/RXRSI_DESIGN.en.md) · [中文实测结果](upgrade_v7/RESULTS.zh.md) · [English results](upgrade_v7/RESULTS.en.md) · [English ACL paper](paper/latex/v0.3/prismatic_v03_en.tex) · [Versioned plan](paper/COMPLETION_PLAN.md)
 
-**v0.7 is complete; v0.8/v0.9 are running.** The completed three-seed comparison uses 40k training and 4k new test admissions, five checkpoints, 12 method/ablation rows, artifact hashes and repair/regression counts. Mean drug/order F1 is 0.39920/0.27865 for the selected evolving state versus 0.40209/0.28110 for the strongest same-data word/character control. Curves improve with case growth, but unique RSI superiority is not established.
+**v0.7, the first v0.8 seed and v0.10 are complete; remaining v0.8 seeds, v0.9 and v0.11 are running.** The completed three-seed comparison uses 40k training and 4k new test admissions, five checkpoints, 12 method/ablation rows, artifact hashes and repair/regression counts. Mean drug/order F1 is 0.39920/0.27865 for the selected evolving state versus 0.40209/0.28110 for the strongest same-data word/character control. Curves improve with case growth, but unique RSI superiority is not established.
 
-We continue with [LLM-authored skill/memory/tool-configuration evolution](upgrade_v8/README.md) and [actual local QLoRA parameter updates](upgrade_v9/README.md). Missing official RxEval/SafeRx test packages do not block runnable experiments. The active paper uses the official ACL review style and keeps the existing editor path. Only aggregate restricted-data results are public.
+The [public method comparison](upgrade_v8/RESULTS.en.md) and [author-core GRASP control](upgrade_v10/RESULTS.en.md) are available; our language-skill variants have not yet demonstrated a gain. We continue with [drug-label evidence tools](upgrade_v11/README.md), [LLM-authored skill/memory/tool-configuration evolution](upgrade_v8/README.md) and [actual local QLoRA parameter updates](upgrade_v9/README.md). Missing official RxEval/SafeRx test packages do not block runnable experiments. The active paper uses the official ACL review style and keeps the existing editor path. Only aggregate restricted-data results are public.
 
 The 2025 description below is retained as historical project context, not evidence for the current evaluation.
 
