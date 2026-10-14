@@ -1,0 +1,78 @@
+{
+  "run_id": "E01-v5-verification-r1",
+  "python": "3.9.6",
+  "model_revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+  "checks": {
+    "val": {
+      "cases": 50,
+      "metric_recalculation": "passed",
+      "alignment": "passed",
+      "max_generated_tokens_per_new_call": {
+        "retrieval_proposal": 28,
+        "repaired_review": 32,
+        "anchor_only": 0,
+        "anchor_llm_revision": 28
+      },
+      "fallback_counts": {
+        "retrieval_proposal": 0,
+        "repaired_review": 0,
+        "anchor_only": 0,
+        "anchor_llm_revision": 0
+      },
+      "all_clinical_clearance_false": true,
+      "labels_sha256": "c00235e5c4b9f4dd096976e7e9fb081df3907d0e8c4920d809b018738b794ea9",
+      "trace_sha256": "08ebe4a3bdaf8be708198a5c561b0ad19275e9be74ce8c3982b447cfc2e2f039"
+    },
+    "test": {
+      "cases": 50,
+      "metric_recalculation": "passed",
+      "alignment": "passed",
+      "max_generated_tokens_per_new_call": {
+        "retrieval_proposal": 44,
+        "repaired_review": 32,
+        "anchor_only": 0,
+        "anchor_llm_revision": 28
+      },
+      "fallback_counts": {
+        "retrieval_proposal": 0,
+        "repaired_review": 0,
+        "anchor_only": 0,
+        "anchor_llm_revision": 0
+      },
+      "all_clinical_clearance_false": true,
+      "labels_sha256": "7f2a4990085d194c006046fc3be82948821e1480ef6a6b0a9ea4ccd979099532",
+      "trace_sha256": "4231a35ec1e05968a6044b257ea1c20538d5ed39d95bf200c265175a21ca7721"
+    }
+  },
+  "ranker_4000_aggregate_recalculation": "passed",
+  "validation_test_patient_disjoint": true,
+  "embedded_template_unchanged": true,
+  "code_sha256": {
+    "run_seed_robustness.py": "1d19f838bb42bc6121690d408ee02e4c6904caf50977e34c3457b7f29aee77fa",
+    "verify_results.py": "69d6c97012060fe8add227ac3dc339226ee67a56572cc40f47f0123872c03002",
+    "render_results.py": "ed8892657a65dea621c271df7a540f77e27e4486b8a10dc15ae2850fc366de49",
+    "test_core.py": "03149bcda6e3d271a873e631d43e770ca9ab23337551829475c1f62f772302bc",
+    "run_memory_fusion.py": "48f8659d55368e09af1a7a4e089f418f6b0163a107b7ee7048d30d721f19ec84",
+    "core.py": "969ab5b14e24c32e06251b96e05d9aedbfdfacfa6f2cbd206c00ede3b9899ede",
+    "update_paper.py": "d9fb781369a35e2d5b8edecacd0f690bb96b6ee6040b3e989936659a2bef34b2",
+    "ablate_parser.py": "383d1f352ce78744de47ce55cfbb45ba4005751cb88da73fda0e9207c8b0f2e6",
+    "audit_empty.py": "09aca1b00f8fe8baf3e1a6f11374f2d23552a39f1ac21583741cd4d7f8b7ccca",
+    "run_llm_repair.py": "ed8b558866f07d3c6d6197ad4f65f78d53a13f7c3ae33382a0ec54406dedea2b",
+    "update_indexes.py": "d233d528e99332312cb0d48faaf232c7748de2756680f8313a9a38fea744d138",
+    "plot_results.py": "ffdfed7c020c1d50ac125695dee2f886f23bd7318d784ba414cc108f1869a285",
+    "run_rankers.py": "22105a87695660ead73e8ff9746e454d63106c2337b73a61a122082c23714168"
+  },
+  "result_sha256": {
+    "parser_ablation.json": "9fec54b97310f13cf143dd2f3b4f05b8d771556acdf03a4537b8d96ebc9ef4ef",
+    "empty_audit.json": "305bb4bf02566af151d35045a7a2d0ec1382fc9e26f3464d541245ee521f8579",
+    "llm_repair_results.json": "c84418f15061d1fcc245468b789d282a0c2ec36d86119b30bd03e5116c9a9b5d",
+    "seed_robustness.json": "7f1b0589c19c8d5870817bf6c27f161d7dc7975f54e824e20606e24e6c60e560",
+    "memory_fusion_results.json": "2a4a5273b31eccfb5be33f28a40a6bce17704443c2c60d9df889eaba9d0bcf3d",
+    "ranker_selection.json": "5ed74b44ddcfbc455459eb2d085bfd2a67511920d60e06aaa1bc1f8b663629a6",
+    "memory_selection.json": "860f67d890803ef1d52bd48117dc5a634cc9faa971bcd563ef513f1f77478391",
+    "memory_fusion_selection.json": "1f4627e76b583c7f7921620fae53612fe5edef8d0d39a49621581c0f694989bf",
+    "ranker_memory_results.json": "819d444f0f37d863acff5475e9982a825fcfea3a485e57a8ba251c3bcdde23cf",
+    "llm_validation_gate.json": "cff47c950fc9433add0d6bbed2f46c1533d494b84252dead11289eaa11217722",
+    "seed_protocol.json": "cfad04c1a68b099f9c84294cdf8373442bbf964afdb06bb287d4e29acc0553b3"
+  }
+}

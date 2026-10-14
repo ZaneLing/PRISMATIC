@@ -1,0 +1,212 @@
+{
+  "val": {
+    "metrics": {
+      "retrieval_proposal": {
+        "cases": 50,
+        "valid_json_fraction": 0.94,
+        "observed_micro_f1": 0.3050847457627119,
+        "observed_precision": 0.29577464788732394,
+        "observed_recall": 0.315,
+        "mean_predicted_classes": 4.26,
+        "empty_output_fraction": 0.0,
+        "generated_tokens": 1232,
+        "input_tokens": 113869,
+        "arm_seconds": 171.48
+      },
+      "repaired_review": {
+        "cases": 50,
+        "valid_json_fraction": 0.94,
+        "observed_micro_f1": 0.29082774049217003,
+        "observed_precision": 0.2631578947368421,
+        "observed_recall": 0.325,
+        "mean_predicted_classes": 4.94,
+        "empty_output_fraction": 0.0,
+        "generated_tokens": 2636,
+        "input_tokens": 233970,
+        "arm_seconds": 353.69
+      },
+      "anchor_only": {
+        "cases": 50,
+        "valid_json_fraction": 1.0,
+        "observed_micro_f1": 0.3688888888888889,
+        "observed_precision": 0.332,
+        "observed_recall": 0.415,
+        "mean_predicted_classes": 5.0,
+        "empty_output_fraction": 0.0,
+        "generated_tokens": 0,
+        "input_tokens": 0,
+        "arm_seconds": 0
+      },
+      "anchor_llm_revision": {
+        "cases": 50,
+        "valid_json_fraction": 1.0,
+        "observed_micro_f1": 0.3422222222222222,
+        "observed_precision": 0.308,
+        "observed_recall": 0.385,
+        "mean_predicted_classes": 5.0,
+        "empty_output_fraction": 0.0,
+        "generated_tokens": 1400,
+        "input_tokens": 134115,
+        "arm_seconds": 203.65
+      },
+      "gated_harness": {
+        "cases": 50,
+        "valid_json_fraction": 1.0,
+        "observed_micro_f1": 0.3688888888888889,
+        "observed_precision": 0.332,
+        "observed_recall": 0.415,
+        "mean_predicted_classes": 5.0,
+        "empty_output_fraction": 0.0,
+        "generated_tokens": 1400,
+        "input_tokens": 134115,
+        "arm_seconds": 203.65
+      }
+    },
+    "raw_parse_status": {
+      "retrieval_proposal": {
+        "valid": 47,
+        "partial_repair": 3
+      },
+      "repaired_review": {
+        "valid": 47,
+        "partial_repair": 3
+      },
+      "anchor_only": {
+        "structured_ranker": 50
+      },
+      "anchor_llm_revision": {
+        "valid": 50
+      },
+      "gated_harness": {
+        "validation_gate_preserved_anchor": 50
+      }
+    },
+    "graph_flag_count": 124
+  },
+  "test": {
+    "metrics": {
+      "retrieval_proposal": {
+        "cases": 50,
+        "valid_json_fraction": 0.9,
+        "observed_micro_f1": 0.28705882352941176,
+        "observed_precision": 0.30198019801980197,
+        "observed_recall": 0.273542600896861,
+        "mean_predicted_classes": 4.04,
+        "empty_output_fraction": 0.1,
+        "generated_tokens": 1291,
+        "input_tokens": 113861,
+        "arm_seconds": 162.09
+      },
+      "repaired_review": {
+        "cases": 50,
+        "valid_json_fraction": 0.92,
+        "observed_micro_f1": 0.31130063965884863,
+        "observed_precision": 0.2967479674796748,
+        "observed_recall": 0.3273542600896861,
+        "mean_predicted_classes": 4.92,
+        "empty_output_fraction": 0.0,
+        "generated_tokens": 2695,
+        "input_tokens": 234013,
+        "arm_seconds": 339.23
+      },
+      "anchor_only": {
+        "cases": 50,
+        "valid_json_fraction": 1.0,
+        "observed_micro_f1": 0.41014799154334036,
+        "observed_precision": 0.388,
+        "observed_recall": 0.4349775784753363,
+        "mean_predicted_classes": 5.0,
+        "empty_output_fraction": 0.0,
+        "generated_tokens": 0,
+        "input_tokens": 0,
+        "arm_seconds": 0
+      },
+      "anchor_llm_revision": {
+        "cases": 50,
+        "valid_json_fraction": 0.96,
+        "observed_micro_f1": 0.42038216560509556,
+        "observed_precision": 0.39919354838709675,
+        "observed_recall": 0.4439461883408072,
+        "mean_predicted_classes": 4.96,
+        "empty_output_fraction": 0.0,
+        "generated_tokens": 1400,
+        "input_tokens": 133933,
+        "arm_seconds": 196.98
+      },
+      "gated_harness": {
+        "cases": 50,
+        "valid_json_fraction": 0.96,
+        "observed_micro_f1": 0.41014799154334036,
+        "observed_precision": 0.388,
+        "observed_recall": 0.4349775784753363,
+        "mean_predicted_classes": 5.0,
+        "empty_output_fraction": 0.0,
+        "generated_tokens": 1400,
+        "input_tokens": 133933,
+        "arm_seconds": 196.98
+      }
+    },
+    "raw_parse_status": {
+      "retrieval_proposal": {
+        "v4_raw": 50
+      },
+      "repaired_review": {
+        "valid": 46,
+        "partial_repair": 4
+      },
+      "anchor_only": {
+        "structured_ranker": 50
+      },
+      "anchor_llm_revision": {
+        "valid": 48,
+        "partial_repair": 2
+      },
+      "gated_harness": {
+        "validation_gate_preserved_anchor": 50
+      }
+    },
+    "graph_flag_count": 119
+  },
+  "run_id": "E01-v5-local-repair-50-r1",
+  "fingerprint": "70e296a6c404d6583fd3dccc9e9f7c210437e06ab3b6c1cbb6559e3355013907",
+  "gate": {
+    "use_llm_prediction_revision": false,
+    "validation_anchor_f1": 0.3688888888888889,
+    "validation_llm_revision_f1": 0.3422222222222222,
+    "fingerprint": "70e296a6c404d6583fd3dccc9e9f7c210437e06ab3b6c1cbb6559e3355013907",
+    "rule": "strict validation improvement; no test labels used"
+  },
+  "paired_repaired_minus_v4": {
+    "delta": 0.10309874691436913,
+    "patient_bootstrap_95pct": [
+      0.03807306131810716,
+      0.16748327987169198
+    ],
+    "patients": 50,
+    "draws": 2000
+  },
+  "paired_repaired_minus_retrieval": {
+    "delta": 0.024241816129436877,
+    "patient_bootstrap_95pct": [
+      -0.003480065256397252,
+      0.05913951307816549
+    ],
+    "patients": 50,
+    "draws": 2000
+  },
+  "paired_gated_minus_anchor": {
+    "delta": 0.0,
+    "patient_bootstrap_95pct": [
+      0.0,
+      0.0
+    ],
+    "patients": 50,
+    "draws": 2000
+  },
+  "limits": [
+    "Developmental same-50-case repair, not independent confirmation.",
+    "v4 output cap 192; v5 revision cap 384. Actual token counts reported; not exact cost matching.",
+    "No complete-order or clinical improvement claim. Clinical clearance remains false.",
+    "Training-memory growth is separately evaluated at 4,000 cases; this LLM arm uses the validation-selected statistical anchor."
+  ]
+}

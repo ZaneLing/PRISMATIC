@@ -1,0 +1,23 @@
+{
+  "version": "v5-r1",
+  "task": "Developmental historical six-hour ATC-L4 prediction, not executable prescribing",
+  "train": 40000,
+  "validation": 4000,
+  "test": 4000,
+  "classes": 80,
+  "k": 5,
+  "seed": 42,
+  "ranker_alphas": [0.000001, 0.00001, 0.0001],
+  "word_char_weights": [0.25, 0.5, 0.75],
+  "memory_checkpoints": [250, 1000, 4000, 16000, 32000],
+  "memory_beta": [0, 0.1, 0.25, 0.5, 1.0],
+  "neighbors": 30,
+  "selection": "Validation micro-F1@5 only; test results cannot select policies",
+  "growth_scope": "Frozen base ranker and vocabulary; train-only residual episode memory. Vocabulary and mapping fixed from the shared 40k training cohort, so this is conditional memory growth, not an end-to-end low-data claim.",
+  "clinical_policy": "Missing evidence becomes unknown; historical predictions and clinical clearance are separate. No inferred clinical clearance.",
+  "llm": "Same frozen local Qwen3-4B-Instruct-2507 4bit as v4; no restricted data leaves local storage",
+  "llm_validation_cases": 50,
+  "llm_test_cases": 50,
+  "llm_output_cap": 384,
+  "confirmation": "Repeatedly inspected developmental test; independent confirmation remains required"
+}

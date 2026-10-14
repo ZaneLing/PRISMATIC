@@ -1,0 +1,39 @@
+{
+  "selection": {
+    "memory_weights": [
+      0,
+      0.1,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "validation_grid": {
+      "0": 0.38926,
+      "0.1": 0.38944,
+      "0.25": 0.38767,
+      "0.5": 0.37838,
+      "1.0": 0.35368
+    },
+    "selected_memory_weight": 0.1,
+    "memory_version": "a49354b2267c6aa2ddecca55002dd3401fa8016932344f0aee6edfef3ca2fef4",
+    "memory_admissions": 32000,
+    "beta": 0.5,
+    "rule": "validation only; ties prefer less memory"
+  },
+  "test": {
+    "precision_at_5": 0.33435,
+    "micro_recall_at_5": 0.46851,
+    "macro_recall_at_5_nonempty": 0.52185,
+    "micro_f1_at_5": 0.39022,
+    "hit_rate_at_5": 0.6205
+  },
+  "paired_fused_minus_static": {
+    "delta_second_minus_first": -0.00163,
+    "patient_bootstrap_95pct": [
+      -0.00324,
+      0.0
+    ],
+    "patients": 3115,
+    "draws": 2000
+  }
+}

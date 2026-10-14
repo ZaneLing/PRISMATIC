@@ -3101,7 +3101,7 @@
 \settopmatter{printacmref=false}
 \setcopyright{none}
 \title[PRISMATIC]{PRISMATIC: A Method-Level Evaluation of Evolving Prescription Support}
-\subtitle{Research draft v0.4, execution r1 --- 14 October 2026}
+\subtitle{Research draft v0.5, repair and memory experiments --- 14 October 2026}
 \author{Ziyang Ling}
 \email{zaneling@mail.ustc.edu.cn}
 \affiliation{\institution{University of Science and Technology of China}\country{China}}
@@ -3109,7 +3109,7 @@
 \email{Shuyu.Lu@uth.tmc.edu}
 \affiliation{\institution{The University of Texas Health Science Center at Houston}\country{United States}}
 \begin{abstract}
-Medication-set agreement does not establish clinical prescribing quality. We evaluate PRISMATIC using patient-disjoint MIMIC-IV/ED admission snapshots, a common ATC-L4 medication space and explicit unknown-label handling. All 201,750 eligible ED-to-hospital admissions are retained. A dictionary plus fallbacks learned only from the sampled 40,000 training admissions maps 45.535\% of 1,788,195 six-hour orders. On the same 4,000 development admissions, prevalence and retrieval micro-F1@5 are 0.2839 and 0.3281; three-seed mean scores are 0.3864 for TF-IDF/SGD and 0.3436 for an independently adapted, single-visit GAMENet. The adaptation changes the original inputs and training schedule and is not a faithful reproduction. On a nested 50-case local-LLM comparison, direct, ordinary repeat, retrieval and bounded PRISMATIC review achieve observed micro-F1 of 0.2445, 0.2445, 0.2871 and 0.2082. Review improves output validity but abstains on half the cases, reducing recall. A ten-case complete-order probe exposes coding and fluid-information failures. Input timestamps and medication mapping remain incomplete: 2,127 pre-admission lab rows were stored after the decision, and saline-name proxy orders are entirely absent from the ATC mapping. These developmental findings motivate explicit abstention, coverage reporting and independent clinical review; they do not establish clinical superiority or safety.
+Medication-set agreement does not establish clinical prescribing quality. We evaluate PRISMATIC on patient-disjoint MIMIC-IV/ED admission snapshots in a common ATC-L4 space. A training-only mapper covers 45.535\% of six-hour orders; saline-name proxy orders remain unmapped. On 4,000 development admissions, three-seed mean micro-F1@5 is 0.3864 for TF-IDF/SGD, 0.3436 for a text/single-visit GAMENet adaptation, and 0.3918 for a validation-selected word/character ensemble. The earlier 50-case local-LLM harness returned valid empty arrays on half the cases because its reviewer conflated missing clinical evidence with historical prediction. Separating those states and repairing parsing raises free-output review F1 from 0.2082 to 0.3113 and reduces empty responses to 0\%. A separate validation-gated ranking/LLM pipeline achieves 0.4101 on the same 50 cases. A frozen-base experience experiment improves F1 from 0.3473 to 0.3528 as 32,000 training episodes are added, but gains are non-monotonic and memory fusion underperforms the stronger static ranker. The current contribution is a reproducible failure diagnosis and bounded repair, not a clinically validated prescribing agent. Full-order indication, fluid and renal outcomes, faithful contemporary-method comparisons and independent confirmation remain unmeasured.
 \end{abstract}
 \keywords{Prescription support, medication recommendation, multi-agent systems, experience learning, clinical evaluation}
 \begin{document}
@@ -3162,6 +3162,31 @@ The nested 50-case comparison holds local Qwen3-4B-Instruct-2507-4bit weights fi
 \subsection{Complete-order contract}
 Each order records drug name, ingredient ID, formulation, concentration, ATC class, dose/unit, route, frequency, duration, indication, patient evidence and uncertainty. Fluid orders add purpose, volume, rate and reassessment. Unknowns remain null; retrieved cases are not patient-specific evidence. Structural review checks missing fields, invalid numerics, duplicate ingredients, reference existence and missing fluid information, while clinical entailment remains unreviewed. Status is abstained, needs information or needs clinical review; no status authorizes administration. The class-level research graph is not an ingredient-level clinical DDI or renal rule base.
 
+
+% BEGIN V5 METHODS
+\subsection{Failure-aware revision and train-only experience memory}
+The v4 reviewer uniformly requested removal of unsupported medications when allergy, weight and renal evidence were missing. This mixed two different tasks: predicting historical records and authorizing clinical administration. The v5 parser preserves valid code members, distinguishes genuine empty arrays from invalid JSON, and recovers the prior proposal after an invalid revision. Missing clinical evidence creates a \emph{needs-information} state without automatically erasing historical candidates. No candidate receives clinical clearance. Coarse TWOSIDES class flags are queried and presented for inspection, but are not ingredient-level contraindications.
+
+\begin{figure}[t]
+\centering\small
+\fbox{\parbox{0.91\columnwidth}{\centering Admission snapshot and availability audit\\$\downarrow$\\Static word/character ranker + train-only residual memory\\$\downarrow$\\Validation-selected fusion: historical candidates\\$\downarrow$\\Training-case retrieval + coarse risk flags\\$\downarrow$\\Local Qwen revision; parse, salvage or recover\\$\downarrow$\\Validation gate: accept edits or retain candidates\\$\downarrow$\\Historical predictions $\mid$ clinical needs-information state}}
+\caption{Executed v5 pipeline. A separate training-episode loop updates residual memory, replays validation cases, and promotes or retains a version. Test cases never enter that loop. The LLM pipeline is evaluated on 50 test cases; the 4,000-case panel evaluates rankers only. Clinical execution and live FHIR actions are not implemented in this experiment.}
+\label{fig:v5}
+\end{figure}
+
+The static ranker searches word and character TF-IDF models over three fixed regularization values using validation F1. The selected word/character blend has weights 0.25/0.75. We then repeat this fixed configuration for seeds 17, 42 and 73. This is an explicitly stronger statistical baseline, not evidence of LLM reasoning improvement.
+
+For experience growth, a base ranker is trained on 8,000 admissions and frozen. The remaining 32,000 admissions belong to disjoint training patients. Episode $i$ stores an observed-label residual $e_i=y_i-p_0(x_i)$. For the 30 most similar memory cases, the correction is
+\begin{equation}
+ p_m(x)=p_0(x)+\beta\frac{\sum_{i\in N_{30}(x)}s(x,x_i)e_i}{\max(\epsilon,\sum_{i\in N_{30}(x)}s(x,x_i))}.
+\end{equation}
+Scores are ranking quantities, not calibrated clinical probabilities. We replay nested memory sizes 250, 1,000, 4,000, 16,000 and 32,000; choose $\beta\in\{0,.1,.25,.5,1\}$ on 4,000 validation admissions; and promote only a strictly better validation version. The append-only ledger rejects non-training feedback and records content hashes and promotion decisions. Vocabulary and mapping stay fixed from the common 40,000-case cohort; thus this is conditional memory growth, not an end-to-end low-data or prospective chronological study. Historical feedback is not clinician-rated correctness, and LLM weights never change.
+
+A second validation search blends the selected residual-memory scorer with the stronger static ranker using memory weights $\{0,.1,.25,.5,1\}$. A separate 50-case validation set determines whether to accept local-LLM candidate revisions. That decision is frozen before the 50 test inferences. Rejected revisions remain in shadow mode, with their actual inference costs charged. The revised RAG arm reuses the immutable v4 test proposals and independently tests the missing-evidence instruction repair. v4 and v5 generation caps are 192 and 384 tokens; this is not an exactly token-matched comparison.
+
+This design borrows the separation of evidence flags and case-specific verification from SafeRx-Agent \cite{saferx} and the idea of experience replay from MedAgentSim \cite{medagentsim}. It does not reproduce their full architectures. MedAgentBench \cite{medagent} requires real FHIR state evaluation; local transition traces alone are not a benchmark result.
+% END V5 METHODS
+
 \section{Results}
 \begin{table*}[t]
 \centering\small
@@ -3176,6 +3201,10 @@ Training prevalence & 4,000 & 0.2432 & 0.3408 & 0.2839 & 5.00 \\
 Case retrieval (30 neighbors) & 4,000 & 0.2812 & 0.3940 & 0.3281 & 5.00 \\
 TF-IDF/SGD (3-seed mean) & 4,000 & 0.3310 & 0.4639 & 0.3864 & 5.00 \\
 GAMENet text/single-visit adaptation (3-seed mean) & 4,000 & 0.2944 & 0.4125 & 0.3436 & 5.00 \\
+% BEGIN V5 MAINROWS
+Static word/character ensemble (3-seed mean) & 4,000 & 0.3357 & 0.4704 & 0.3918 & 5.00 \\
+PRISMATIC candidate ranker + memory (seed 42; no LLM) & 4,000 & 0.3343 & 0.4685 & 0.3902 & 5.00 \\
+% END V5 MAINROWS
 \midrule
 \multicolumn{6}{l}{\textbf{B. Nested same-case local-LLM pilot}} \\
 Training prevalence & 50 & 0.3560 & 0.3991 & 0.3763 & 5.00 \\
@@ -3186,6 +3215,13 @@ Local LLM direct & 50 & 0.2383 & 0.2511 & 0.2445 & 4.70 \\
 Local LLM ordinary repeat & 50 & 0.2383 & 0.2511 & 0.2445 & 4.70 \\
 Local LLM with case retrieval & 50 & 0.3020 & 0.2735 & 0.2871 & 4.04 \\
 PRISMATIC bounded harness & 50 & 0.3511 & 0.1480 & 0.2082 & 1.88 \\
+% BEGIN V5 PILOTROWS
+v4 RAG + parser repair only (no new call) & 50 & 0.3122 & 0.3094 & 0.3108 & 4.42 \\
+v5 repaired RAG review & 50 & 0.2967 & 0.3274 & 0.3113 & 4.92 \\
+v5 candidate ranker + memory only & 50 & 0.3880 & 0.4350 & 0.4101 & 5.00 \\
+v5 unrestricted anchor LLM revision & 50 & 0.3992 & 0.4439 & 0.4204 & 4.96 \\
+v5 validation-gated PRISMATIC & 50 & 0.3880 & 0.4350 & 0.4101 & 5.00 \\
+% END V5 PILOTROWS
 \midrule
 SafeDrug, compatible ATC-L4 reproduction & -- & -- & -- & -- & -- \\
 SafeRx-Agent, compatible reproduction & -- & -- & -- & -- & -- \\
@@ -3197,6 +3233,39 @@ Clinically complete PRISMATIC harness & -- & -- & -- & -- & -- \\
 Table~\ref{tab:main} reports methods rather than different foundation models. SGD's three-seed mean F1 is 0.3864 (sample SD 0.0007); GAMENet adaptation reaches 0.3436 (SD 0.0022). The seed-42 SGD minus retrieval difference is 0.05888 (patient-bootstrap 95\% interval [0.05325, 0.06460], 3,115 patients, 2,000 draws). Different representations and incomplete mapping prevent a clinical interpretation. The mapped-label-only subset produces higher overlap scores but changes the estimand.
 
 In the local-LLM panel, bounded review lowers F1 relative to retrieval by 0.07886 (95\% patient-bootstrap interval [$-0.13372,-0.02355$]) and relative to ordinary repeat by 0.03634 (interval [$-0.11168,0.03931$]). Output validity is 94\%, 94\%, 90\% and 100\% for direct, repeat, retrieval and harness, respectively. The harness returns an empty set on 50\% of cases. Its higher precision (0.3511) and lower recall (0.1480) show a strong abstention trade-off, not demonstrated safety improvement. Repeat and harness consume 199,348 and 234,313 input tokens and approximately 286.44 and 324.24 accumulated arm seconds. Shared first-call usage is included in each arm.
+
+
+% BEGIN V5 RESULTS
+\subsection{Diagnosing and repairing the empty-output failure}
+All 25 empty v4 outputs are valid arrays. Twenty erase nonempty retrieval proposals; 19 correspond to nonempty observed mapped targets. The empty-output cases lose 20 previously matched target codes. This directly implicates the blanket review instruction rather than JSON syntax failure. The all-or-nothing parser is a separate defect addressed by partial salvage and prior-proposal recovery.
+
+The repaired free-output review reaches F1 0.3113 and empty-output rate 0\%, versus 0.2082 and 50\% previously. Its paired F1 change is +0.10310 (patient-bootstrap 95\% interval [+0.03807,+0.16748]). A genuine empty response is still allowed; no top-five fill rule is applied to this repair arm. The separate candidate-ranker/LLM gate compares validation F1 0.3689 with 0.3422 and rejects LLM edits, retaining the candidate ranker. On the 50 test cases, the gated policy reaches 0.4101. When the ranker is retained, its zero-empty rate follows from its fixed five-candidate budget and is not evidence that every patient needs medication.
+
+A parser-only replay of the old RAG generations already reaches F1 0.31081 with no empty outputs and no additional model call, almost matching the repaired review's 0.31130. Under the old strict parser, the new review instead scores 0.30022 with 8\% empty outputs. The original bounded review stays at 0.20820 and 50\% under both parsers. Thus this increment primarily repairs damage; it does not demonstrate a reasoning gain from the extra review. All new calls generate at most 32 tokens, below either cap. The selected gated policy also remains below the old SGD's same-50-case F1 of 0.42706. Although unrestricted LLM edits perform better than the gated arm on this test, the frozen validation decision is not changed post hoc.
+
+\subsection{What improves as experience grows?}
+The static word/character ensemble achieves three-seed F1 0.39176 with sample 0.00012 0.00012. For seed 42, its paired advantage over the old SGD is 0.00484 (95\% interval [0.00160,0.00803]). This gain belongs to the statistical ranking change; it is not attributed to the LLM review.
+
+\begin{table}[t]
+\centering\small
+\caption{Residual-memory growth with a frozen 8,000-admission base ranker. The representation and medication map are fixed; memory updates use training cases only. Validation chooses each weight. Test scores are developmental.}
+\label{tab:growth}
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+Episodes & $\beta$ & Validation F1 & Test F1 \\
+\midrule
+0 & 0.00 & 0.34827 & 0.34727 \\
+250 & 0.10 & 0.34833 & 0.34844 \\
+1,000 & 0.50 & 0.35009 & 0.35054 \\
+4,000 & 0.50 & 0.35015 & 0.35106 \\
+16,000 & 0.50 & 0.35233 & 0.35334 \\
+32,000 & 0.50 & 0.35368 & 0.35281 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The final memory version improves on its frozen base by 0.00554 (95\% interval [0.00282,0.00833]). However, the test curve peaks at 16,000 episodes and declines at 32,000, although validation prefers the latter. Fusing 10\% of this memory scorer into the stronger static ranker, as selected on validation, yields 0.39022 compared with the static ranker's 0.39185: a paired change of $-0.00163$ (95\% interval [$-0.00324,0.00000$]). We retain this selected policy and negative result rather than switch configurations after inspecting test scores. Experience accumulation helps the weaker frozen base, but this does not establish a general benefit over a stronger supervised model or learning of supportive-drug indications.
+% END V5 RESULTS
 
 \subsection{Input sensitivity and order generation}
 Removing complaint/acuity reduces retrieval F1 from 0.3281 to 0.3139 and three-seed mean SGD F1 from 0.3864 to 0.3695. With no patient text, retrieval reaches 0.2653 and SGD mean 0.2772. The latter control retains seed variation; a seed with poorer optimization is not discarded. This quantifies input dependence without verifying the availability of untimestamped fields.
@@ -3227,7 +3296,7 @@ A two-reviewer case manifest contains 200 development-test admissions, 25 in eac
 \section{Remaining experiments and limitations}
 The data and order protocol is now executable, with unknown availability and mapping explicitly retained. It does not manufacture missing timestamps or clinical truth. SafeDrug's bundled molecular keys are ATC-L3; a validated ATC-L4 molecule/substructure map in the common vocabulary is still missing. SafeRx-Agent additionally requires a compatible current-diagnosis/procedure adapter, specialty routing and versioned indication/contraindication knowledge. Neither is assigned a borrowed score. The available TWOSIDES class graph does not close the ingredient-level clinical knowledge gap.
 
-The bounded harness has executed retrieval and revision but remains incomplete clinically. Next steps are validation-set repair of order encoding/truncation and over-abstention; compatible SafeDrug/SafeRx implementations; complete-order blinded review by the two available reviewers; and controlled reviewed-case growth without test feedback. The repeatedly inspected development test must not be relabeled as unseen confirmation. A new confirmatory patient set, clinical power analysis, renal/fluid evidence extraction, full public secondary arms and live MedAgentBench FHIR evaluation remain required. Negative results and original raw outputs are retained across versions.
+The v5 increment executes over-abstention repair, stronger statistical ranking and training-only residual-memory growth, while preserving the v4 failures. It remains incomplete clinically. Next steps are complete-order encoding/truncation repair; compatible SafeDrug/SafeRx implementations; blinded review by the two available reviewers; and clinician-rated experience growth without test feedback. The present observational memory cannot establish saline indication, volume, rate, or renal-dose competence. The repeatedly inspected development test must not be relabeled as unseen confirmation. A new confirmatory patient set, clinical power analysis, renal/fluid evidence extraction, full public secondary arms and live MedAgentBench FHIR evaluation remain required. Negative results and original raw outputs are retained across versions.
 
 Restricted patient inputs, predictions, training weights and review packets remain local. Only code, protocols and aggregate audits enter the repository. No restricted MIMIC text was sent to OpenRouter. Historical orders are observational behavior, not expert truth; no current result warrants clinical deployment.
 
@@ -3240,6 +3309,7 @@ Restricted patient inputs, predictions, training weights and review packets rema
 \bibitem{rxsafe} RxSafeBench public repository. \url{https://github.com/CAS-SIAT-XinHai/RxSafeBench}.
 \bibitem{rxqa} RxQA public repository. \url{https://github.com/Google-Health/rxqa}.
 \bibitem{medagent} MedAgentBench public repository. \url{https://github.com/stanfordmlgroup/MedAgentBench}.
+\bibitem{medagentsim} Almansoori et al. Self-Evolving Multi-Agent Simulations for Realistic Clinical Interactions, 2025. \url{https://arxiv.org/abs/2503.22678}.
 \bibitem{mimic} MIMIC-IV v3.1 and MIMIC-IV-ED v2.2. \url{https://physionet.org/content/mimiciv/3.1/}; \url{https://physionet.org/content/mimic-iv-ed/2.2/}.
 \end{thebibliography}
 \end{document}

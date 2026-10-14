@@ -153,3 +153,14 @@ See [actual English results](../upgrade_v4/RESULTS.en.md) and the [executed prot
 Three-seed 4,000-case SGD and GAMENet text/single-visit adaptation reach mean F1 .3864 and .3436. A fixed-backbone, identical-50-case direct/repeat/retrieval/bounded-harness comparison yields .2445/.2445/.2871/.2082; the harness does not improve F1 and abstains excessively. Ten-case order generation has 4/10 raw schema validity per arm; explicit-unknown ATC normalization yields 9/10 parseability without implying model correctness. Seven contract tests pass.
 
 The author-linked DDI source is now available, but SafeDrug's compatible ATC-L4 molecular mapping and SafeRx's compatible input/knowledge adapter remain missing. Table 2 in the active English paper distinguishes the 4,000-case and same-50-case panels. Next engineering repairs concern order encoding/truncation and over-abstention on validation data; clinical knowledge, reviewers, case growth and confirmation remain required. Original negative results are preserved.
+
+### v0.5 executed: empty-output repair, ranking and experience updates (2026-10-14)
+
+Delivered [v0.5 executed results](../upgrade_v5/RESULTS.en.md) and the [architecture diagram](../upgrade_v5/ARCHITECTURE.md).
+
+- **E01 engineering repair:** trace all 50 cases; all 25 empty arrays are valid and 20 erase nonempty proposals. Separate historical predictions from clinical unknowns; preserve valid code members and recover invalid revisions.
+- **E01 measurements:** free review F1=0.31130, empty rate=0%, versus v4 0.20820 / 50%. Validation-gated harness F1=0.41015; not a clinically complete order result.
+- **E02/E03 conditional memory:** freeze an 8,000-case base, replay 250/1,000/4,000/16,000/32,000 episodes with 30 neighbors and validation-selected updates. Base/final F1=0.34727/0.35281, non-monotonic. Vocabulary/mapping fixed from the common 40k training cohort; not end-to-end low-data learning.
+- **Strong baseline and negative ablations:** static ensemble three-seed mean 0.39176; 10% memory fusion 0.39022 is worse than seed-42 static 0.39185. Validation also rejects LLM candidate edits. All failures are retained.
+- **Verification:** eight contract tests; independent recalculation of LLM and 4k aggregates; embedded class unchanged; active English source updated in place and checked with the built-in compiler.
+- **Outstanding:** clinician-rated experience, supportive/fluid full orders, ingredient-level knowledge, compatible SafeDrug/SafeRx implementations, independent patient confirmation and live FHIR. No claim of surpassing these original methods.

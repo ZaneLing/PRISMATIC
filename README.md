@@ -1,5 +1,13 @@
 # PRISMATIC: ***P***rescription ***R***isk ***I***nspection ***S***ystem for ***M***ulti-***A***gent ***T***actical ***I***nteraction in ***C***linical Decision
 
+## Current research status — v0.5 (14 October 2026)
+
+[中文实验结果](upgrade_v5/RESULTS.zh.md) · [English results](upgrade_v5/RESULTS.en.md) · [Implemented architecture / 结构图](upgrade_v5/ARCHITECTURE.md) · [English paper](paper/latex/v0.3/prismatic_v03_en.tex) · [Versioned completion plan](paper/COMPLETION_PLAN.md)
+
+The v0.5 experiments diagnose and repair excessive empty predictions, evaluate stronger statistical rankers and training-only residual memory, and preserve negative results. Historical medication overlap is not clinical safety. Faithful SafeRx-Agent/SafeDrug comparisons and clinician-rated complete orders remain outstanding. The 2025 description below is retained as historical project context; it is not evidence for the current evaluation.
+
+## Original 2025 project description
+
 ![](./resources/Prismatic_framework.jpg)
 
 ## A multi-agent architecture leveraging patient statements and clinical knowledge for prescription risk inspection. 

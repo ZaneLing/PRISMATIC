@@ -1,0 +1,50 @@
+{
+  "run_id": "E01-v5-parser-replay-r1",
+  "cases": 50,
+  "new_model_calls": 0,
+  "metrics": {
+    "v4_retrieval_strict": {
+      "observed_micro_f1": 0.28705882352941176,
+      "empty_output_fraction": 0.1,
+      "observed_precision": 0.30198019801980197,
+      "observed_recall": 0.273542600896861,
+      "mean_predicted_classes": 4.04
+    },
+    "v4_retrieval_salvage": {
+      "observed_micro_f1": 0.3108108108108108,
+      "empty_output_fraction": 0.0,
+      "observed_precision": 0.31221719457013575,
+      "observed_recall": 0.3094170403587444,
+      "mean_predicted_classes": 4.42
+    },
+    "v4_bounded_strict": {
+      "observed_micro_f1": 0.2082018927444795,
+      "empty_output_fraction": 0.5,
+      "observed_precision": 0.35106382978723405,
+      "observed_recall": 0.14798206278026907,
+      "mean_predicted_classes": 1.88
+    },
+    "v4_bounded_salvage": {
+      "observed_micro_f1": 0.2082018927444795,
+      "empty_output_fraction": 0.5,
+      "observed_precision": 0.35106382978723405,
+      "observed_recall": 0.14798206278026907,
+      "mean_predicted_classes": 1.88
+    },
+    "v5_repaired_generation_strict": {
+      "observed_micro_f1": 0.30022075055187636,
+      "empty_output_fraction": 0.08,
+      "observed_precision": 0.2956521739130435,
+      "observed_recall": 0.30493273542600896,
+      "mean_predicted_classes": 4.6
+    },
+    "v5_repaired_generation_salvage": {
+      "observed_micro_f1": 0.31130063965884863,
+      "empty_output_fraction": 0.0,
+      "observed_precision": 0.2967479674796748,
+      "observed_recall": 0.3273542600896861,
+      "mean_predicted_classes": 4.92
+    }
+  },
+  "scope": "Same cached raw generations, different parsing only; not an independently selected policy."
+}

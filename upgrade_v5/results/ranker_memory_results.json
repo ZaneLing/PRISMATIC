@@ -1,0 +1,340 @@
+{
+  "run_id": "E01-v5-rankers-memory-r1",
+  "selection": {
+    "protocol_sha256": "2ab9772f055e5d6ac026227de9b57f006a39ba3cca9b832f49fcf4fd523af2f1",
+    "selected": {
+      "word": "word-1e-05",
+      "char": "char-0.0001"
+    },
+    "word_weight": 0.25,
+    "validation_grid": {
+      "word-1e-06": 0.34392,
+      "word-1e-05": 0.38391,
+      "word-0.0001": 0.38138,
+      "char-1e-06": 0.36244,
+      "char-1e-05": 0.38603,
+      "char-0.0001": 0.3872,
+      "ensemble-word-0.25": 0.38926,
+      "ensemble-word-0.5": 0.3892,
+      "ensemble-word-0.75": 0.38703
+    },
+    "membership_sha256": {
+      "train": "e5cc93f5bcb6ca92f7c66c01dc8e1a0187d136c07f24840f2a8dfa5a95b0ee34",
+      "val": "44ecefcb5d8aaf8c128027e15b9848b82902f443427f4ee9a58315d78e27841a",
+      "test": "33f8ca5393b5c61055d5acc49cdd42ee88437a71928872ba761a53bed617b0bc"
+    }
+  },
+  "classes": [
+    "N02BE",
+    "A06AB",
+    "N02AA",
+    "A06AA",
+    "A02BC",
+    "H04AA",
+    "A10AE",
+    "C10AA",
+    "A04AA",
+    "C07AB",
+    "N05BA",
+    "N03AX",
+    "N06AX",
+    "N06AB",
+    "A11CC",
+    "C03CA",
+    "A02BA",
+    "C08CA",
+    "H03AA",
+    "C02DB",
+    "J01DD",
+    "C09AA",
+    "B03BB",
+    "C07AG",
+    "N02AX",
+    "G04CA",
+    "B01AC",
+    "A11DA",
+    "J01DE",
+    "A06AD",
+    "C09CA",
+    "N01AX",
+    "B01AB",
+    "N03AE",
+    "C01CA",
+    "N05AB",
+    "N05AH",
+    "M04AA",
+    "M03BX",
+    "B03BA",
+    "B01AA",
+    "V03AE",
+    "S01EE",
+    "J01DB",
+    "R05CA",
+    "N05CH",
+    "N05CF",
+    "C03DA",
+    "C03AA",
+    "B01AF",
+    "A03FA",
+    "R06AX",
+    "N07BA",
+    "N06AA",
+    "C01BD",
+    "C01DA",
+    "N05CD",
+    "R03DC",
+    "R05DB",
+    "R06AE",
+    "A02BX",
+    "N05BB",
+    "C07AA",
+    "N05AX",
+    "N06DA",
+    "A05AA",
+    "J01DH",
+    "C01AA",
+    "N04BA",
+    "N04BC",
+    "H01CB",
+    "N03AB",
+    "A07DA",
+    "A09AA",
+    "B02BA",
+    "N07BC",
+    "C02CA",
+    "N03AF",
+    "J05AF",
+    "A10BA"
+  ],
+  "metrics": {
+    "selected_word": {
+      "precision_at_5": 0.3316,
+      "micro_recall_at_5": 0.46465,
+      "macro_recall_at_5_nonempty": 0.51664,
+      "micro_f1_at_5": 0.38701,
+      "hit_rate_at_5": 0.62025
+    },
+    "selected_char": {
+      "precision_at_5": 0.3323,
+      "micro_recall_at_5": 0.46563,
+      "macro_recall_at_5_nonempty": 0.51819,
+      "micro_f1_at_5": 0.38783,
+      "hit_rate_at_5": 0.619
+    },
+    "validation_selected_anchor": {
+      "precision_at_5": 0.33575,
+      "micro_recall_at_5": 0.47047,
+      "macro_recall_at_5_nonempty": 0.52364,
+      "micro_f1_at_5": 0.39185,
+      "hit_rate_at_5": 0.6205
+    },
+    "frozen_base_8k": {
+      "precision_at_5": 0.29755,
+      "micro_recall_at_5": 0.41694,
+      "macro_recall_at_5_nonempty": 0.45801,
+      "micro_f1_at_5": 0.34727,
+      "hit_rate_at_5": 0.60425
+    },
+    "promoted_residual_memory": {
+      "precision_at_5": 0.3023,
+      "micro_recall_at_5": 0.4236,
+      "macro_recall_at_5_nonempty": 0.46779,
+      "micro_f1_at_5": 0.35281,
+      "hit_rate_at_5": 0.607
+    }
+  },
+  "growth": [
+    {
+      "memory_size": 0,
+      "beta": 0.0,
+      "validation_f1": 0.34827,
+      "test": {
+        "precision_at_5": 0.29755,
+        "micro_recall_at_5": 0.41694,
+        "macro_recall_at_5_nonempty": 0.45801,
+        "micro_f1_at_5": 0.34727,
+        "hit_rate_at_5": 0.60425
+      }
+    },
+    {
+      "episode_count": 250,
+      "episode_sha256": "9136446949628989834eb35cff7c37f4ae28a55afb22321dda48880d5ef00693",
+      "validation_f1": 0.34833,
+      "beta": 0.1,
+      "memory_size": 250,
+      "validation_beta_grid": {
+        "0": 0.34827,
+        "0.1": 0.34833,
+        "0.25": 0.34786,
+        "0.5": 0.34551,
+        "1.0": 0.33963
+      },
+      "version": "bbd6cebb272a400bb6e6839c757b47d9ac4c94c1fa9fd908fef92f61eaa72e19",
+      "promoted": true,
+      "active_version": "bbd6cebb272a400bb6e6839c757b47d9ac4c94c1fa9fd908fef92f61eaa72e19",
+      "test": {
+        "precision_at_5": 0.29855,
+        "micro_recall_at_5": 0.41834,
+        "macro_recall_at_5_nonempty": 0.45979,
+        "micro_f1_at_5": 0.34844,
+        "hit_rate_at_5": 0.60425
+      },
+      "promoted_policy_test": {
+        "precision_at_5": 0.29855,
+        "micro_recall_at_5": 0.41834,
+        "macro_recall_at_5_nonempty": 0.45979,
+        "micro_f1_at_5": 0.34844,
+        "hit_rate_at_5": 0.60425
+      }
+    },
+    {
+      "episode_count": 1000,
+      "episode_sha256": "840c42ed6a232fb8a0a985b9ba22de1db4f167e780da02d4b690d7545bde6f26",
+      "validation_f1": 0.35009,
+      "beta": 0.5,
+      "memory_size": 1000,
+      "validation_beta_grid": {
+        "0": 0.34827,
+        "0.1": 0.34886,
+        "0.25": 0.34951,
+        "0.5": 0.35009,
+        "1.0": 0.34492
+      },
+      "version": "386c47e2c94f8d248ae1a4df60fd824e08a34ed3d1e3ef85c82e13666bad5f4b",
+      "promoted": true,
+      "active_version": "386c47e2c94f8d248ae1a4df60fd824e08a34ed3d1e3ef85c82e13666bad5f4b",
+      "test": {
+        "precision_at_5": 0.30035,
+        "micro_recall_at_5": 0.42086,
+        "macro_recall_at_5_nonempty": 0.46405,
+        "micro_f1_at_5": 0.35054,
+        "hit_rate_at_5": 0.60675
+      },
+      "promoted_policy_test": {
+        "precision_at_5": 0.30035,
+        "micro_recall_at_5": 0.42086,
+        "macro_recall_at_5_nonempty": 0.46405,
+        "micro_f1_at_5": 0.35054,
+        "hit_rate_at_5": 0.60675
+      }
+    },
+    {
+      "episode_count": 4000,
+      "episode_sha256": "1e15b1d4405bd4a3a8eef3bb459440ebea8c13775ffe1868a6dcdb89b55fe7b4",
+      "validation_f1": 0.35015,
+      "beta": 0.5,
+      "memory_size": 4000,
+      "validation_beta_grid": {
+        "0": 0.34827,
+        "0.1": 0.34857,
+        "0.25": 0.3498,
+        "0.5": 0.35015,
+        "1.0": 0.34545
+      },
+      "version": "4b531f017d2657968ff52dd2884a7ca89e7bc686a7e3ed7596eee43d08924492",
+      "promoted": true,
+      "active_version": "4b531f017d2657968ff52dd2884a7ca89e7bc686a7e3ed7596eee43d08924492",
+      "test": {
+        "precision_at_5": 0.3008,
+        "micro_recall_at_5": 0.4215,
+        "macro_recall_at_5_nonempty": 0.46531,
+        "micro_f1_at_5": 0.35106,
+        "hit_rate_at_5": 0.608
+      },
+      "promoted_policy_test": {
+        "precision_at_5": 0.3008,
+        "micro_recall_at_5": 0.4215,
+        "macro_recall_at_5_nonempty": 0.46531,
+        "micro_f1_at_5": 0.35106,
+        "hit_rate_at_5": 0.608
+      }
+    },
+    {
+      "episode_count": 16000,
+      "episode_sha256": "83798c1bde4f4046108cb37321cf6e1141a298a2fe291f72e1ef66dd97b9d44b",
+      "validation_f1": 0.35233,
+      "beta": 0.5,
+      "memory_size": 16000,
+      "validation_beta_grid": {
+        "0": 0.34827,
+        "0.1": 0.35039,
+        "0.25": 0.35209,
+        "0.5": 0.35233,
+        "1.0": 0.34798
+      },
+      "version": "0dbcd01e04df33121ad70dfa4111b1e851bb32c573a76e27d73243621e627902",
+      "promoted": true,
+      "active_version": "0dbcd01e04df33121ad70dfa4111b1e851bb32c573a76e27d73243621e627902",
+      "test": {
+        "precision_at_5": 0.30275,
+        "micro_recall_at_5": 0.42423,
+        "macro_recall_at_5_nonempty": 0.46785,
+        "micro_f1_at_5": 0.35334,
+        "hit_rate_at_5": 0.6075
+      },
+      "promoted_policy_test": {
+        "precision_at_5": 0.30275,
+        "micro_recall_at_5": 0.42423,
+        "macro_recall_at_5_nonempty": 0.46785,
+        "micro_f1_at_5": 0.35334,
+        "hit_rate_at_5": 0.6075
+      }
+    },
+    {
+      "episode_count": 32000,
+      "episode_sha256": "f9a9ff201a5099dbaccd5f825178ccd0a0a65e0ec1ab4f15902a6cac47b90d62",
+      "validation_f1": 0.35368,
+      "beta": 0.5,
+      "memory_size": 32000,
+      "validation_beta_grid": {
+        "0": 0.34827,
+        "0.1": 0.34986,
+        "0.25": 0.35221,
+        "0.5": 0.35368,
+        "1.0": 0.34968
+      },
+      "version": "a49354b2267c6aa2ddecca55002dd3401fa8016932344f0aee6edfef3ca2fef4",
+      "promoted": true,
+      "active_version": "a49354b2267c6aa2ddecca55002dd3401fa8016932344f0aee6edfef3ca2fef4",
+      "test": {
+        "precision_at_5": 0.3023,
+        "micro_recall_at_5": 0.4236,
+        "macro_recall_at_5_nonempty": 0.46779,
+        "micro_f1_at_5": 0.35281,
+        "hit_rate_at_5": 0.607
+      },
+      "promoted_policy_test": {
+        "precision_at_5": 0.3023,
+        "micro_recall_at_5": 0.4236,
+        "macro_recall_at_5_nonempty": 0.46779,
+        "micro_f1_at_5": 0.35281,
+        "hit_rate_at_5": 0.607
+      }
+    }
+  ],
+  "paired_anchor_minus_v4_sgd": {
+    "delta_second_minus_first": 0.00484,
+    "patient_bootstrap_95pct": [
+      0.0016,
+      0.00803
+    ],
+    "patients": 3115,
+    "draws": 2000
+  },
+  "paired_memory_minus_frozen_base": {
+    "delta_second_minus_first": 0.00554,
+    "patient_bootstrap_95pct": [
+      0.00282,
+      0.00833
+    ],
+    "patients": 3115,
+    "draws": 2000
+  },
+  "elapsed_seconds": 147.83,
+  "limits": [
+    "Repeatedly inspected developmental test; independent confirmation remains required",
+    "Frozen base ranker and vocabulary; train-only residual episode memory. Vocabulary and mapping fixed from the shared 40k training cohort, so this is conditional memory growth, not an end-to-end low-data claim.",
+    "Residual memory updates no LLM weights; labels are observed behavior, not verified indication.",
+    "No saline/infusion indication outcome is established by the ATC experiment."
+  ]
+}

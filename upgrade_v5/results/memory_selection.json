@@ -1,0 +1,104 @@
+{
+  "base_admissions": 8000,
+  "base_patients": 6066,
+  "memory_admissions": 32000,
+  "versions": [
+    {
+      "episode_count": 0,
+      "episode_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "validation_f1": 0.34827,
+      "beta": 0.0,
+      "memory_size": 0,
+      "version": "9b02859a381d23504eed292cf8875a73886ec02364066500479e471e2e29f80c",
+      "promoted": true,
+      "active_version": "9b02859a381d23504eed292cf8875a73886ec02364066500479e471e2e29f80c"
+    },
+    {
+      "episode_count": 250,
+      "episode_sha256": "9136446949628989834eb35cff7c37f4ae28a55afb22321dda48880d5ef00693",
+      "validation_f1": 0.34833,
+      "beta": 0.1,
+      "memory_size": 250,
+      "validation_beta_grid": {
+        "0": 0.34827,
+        "0.1": 0.34833,
+        "0.25": 0.34786,
+        "0.5": 0.34551,
+        "1.0": 0.33963
+      },
+      "version": "bbd6cebb272a400bb6e6839c757b47d9ac4c94c1fa9fd908fef92f61eaa72e19",
+      "promoted": true,
+      "active_version": "bbd6cebb272a400bb6e6839c757b47d9ac4c94c1fa9fd908fef92f61eaa72e19"
+    },
+    {
+      "episode_count": 1000,
+      "episode_sha256": "840c42ed6a232fb8a0a985b9ba22de1db4f167e780da02d4b690d7545bde6f26",
+      "validation_f1": 0.35009,
+      "beta": 0.5,
+      "memory_size": 1000,
+      "validation_beta_grid": {
+        "0": 0.34827,
+        "0.1": 0.34886,
+        "0.25": 0.34951,
+        "0.5": 0.35009,
+        "1.0": 0.34492
+      },
+      "version": "386c47e2c94f8d248ae1a4df60fd824e08a34ed3d1e3ef85c82e13666bad5f4b",
+      "promoted": true,
+      "active_version": "386c47e2c94f8d248ae1a4df60fd824e08a34ed3d1e3ef85c82e13666bad5f4b"
+    },
+    {
+      "episode_count": 4000,
+      "episode_sha256": "1e15b1d4405bd4a3a8eef3bb459440ebea8c13775ffe1868a6dcdb89b55fe7b4",
+      "validation_f1": 0.35015,
+      "beta": 0.5,
+      "memory_size": 4000,
+      "validation_beta_grid": {
+        "0": 0.34827,
+        "0.1": 0.34857,
+        "0.25": 0.3498,
+        "0.5": 0.35015,
+        "1.0": 0.34545
+      },
+      "version": "4b531f017d2657968ff52dd2884a7ca89e7bc686a7e3ed7596eee43d08924492",
+      "promoted": true,
+      "active_version": "4b531f017d2657968ff52dd2884a7ca89e7bc686a7e3ed7596eee43d08924492"
+    },
+    {
+      "episode_count": 16000,
+      "episode_sha256": "83798c1bde4f4046108cb37321cf6e1141a298a2fe291f72e1ef66dd97b9d44b",
+      "validation_f1": 0.35233,
+      "beta": 0.5,
+      "memory_size": 16000,
+      "validation_beta_grid": {
+        "0": 0.34827,
+        "0.1": 0.35039,
+        "0.25": 0.35209,
+        "0.5": 0.35233,
+        "1.0": 0.34798
+      },
+      "version": "0dbcd01e04df33121ad70dfa4111b1e851bb32c573a76e27d73243621e627902",
+      "promoted": true,
+      "active_version": "0dbcd01e04df33121ad70dfa4111b1e851bb32c573a76e27d73243621e627902"
+    },
+    {
+      "episode_count": 32000,
+      "episode_sha256": "f9a9ff201a5099dbaccd5f825178ccd0a0a65e0ec1ab4f15902a6cac47b90d62",
+      "validation_f1": 0.35368,
+      "beta": 0.5,
+      "memory_size": 32000,
+      "validation_beta_grid": {
+        "0": 0.34827,
+        "0.1": 0.34986,
+        "0.25": 0.35221,
+        "0.5": 0.35368,
+        "1.0": 0.34968
+      },
+      "version": "a49354b2267c6aa2ddecca55002dd3401fa8016932344f0aee6edfef3ca2fef4",
+      "promoted": true,
+      "active_version": "a49354b2267c6aa2ddecca55002dd3401fa8016932344f0aee6edfef3ca2fef4"
+    }
+  ],
+  "active_version": "a49354b2267c6aa2ddecca55002dd3401fa8016932344f0aee6edfef3ca2fef4",
+  "scope": "Frozen base ranker and vocabulary; train-only residual episode memory. Vocabulary and mapping fixed from the shared 40k training cohort, so this is conditional memory growth, not an end-to-end low-data claim."
+}
