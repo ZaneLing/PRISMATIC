@@ -5,7 +5,7 @@
 
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 6/15 author-model runs finish their full 50 epochs, with 350/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 6/15 author-model runs finish their full 50 epochs, with 355/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Common main-table extension:** all v29/v30 program methods, frozen raw rounds and proposal-selected states are now registered for the exact v27 test cases and label spaces. The evaluator and independent prediction reexecution are implemented; execution waits for every author method and all program audits. [Common test table and protocol](../upgrade_v30/COMMON_TEST.en.md)
 
@@ -15,7 +15,7 @@
 
 v0.31 runs four arms across three seeds and three rounds: ranked uniform, permuted uniform, permuted own-error and permuted shuffled-error updates. Each round uses the same 400-example/100-step budget. Original retrieval ranks and candidate order fields remain visible. This tests whether weight updates learn drug decisions beyond display position, and whether own errors add value over ordinary training. Candidate tools and order templates stay fixed.
 
-Completed optimizer runs: **0/36**; fully audited seeds: **0/3**. Old test cases are excluded. Proposal selects checkpoints; the reused 200-case guard is exploratory development evidence, not an untouched test.
+Completed optimizer runs: **1/36**; fully audited seeds: **0/3**. Old test cases are excluded. Proposal selects checkpoints; the reused 200-case guard is exploratory development evidence, not an untouched test.
 
 | State on 100 proposal cases | Ranked drug/order F1 | Permuted drug/order F1 |
 |---|---:|---:|
