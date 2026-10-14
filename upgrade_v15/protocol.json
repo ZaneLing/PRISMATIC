@@ -1,0 +1,32 @@
+{
+  "version": "v0.15-binary-candidate-decisions",
+  "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+  "revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+  "arms": [
+    "uniform_sft",
+    "error_prioritized_sft"
+  ],
+  "rounds": 3,
+  "new_feedback_cases_per_round": 600,
+  "training_examples_per_round": 400,
+  "optimizer_steps_per_round": 100,
+  "batch_size": 4,
+  "learning_rate": 0.0001,
+  "lora_layers": 8,
+  "lora_rank": 8,
+  "max_sequence_length": 1024,
+  "max_output_tokens": 128,
+  "guard_cases": 200,
+  "new_test_cases": 500,
+  "candidate_tool": "Frozen initial-8k word policy and global joint templates, at most 20 candidate IDs. No tool or memory update during this parameter study.",
+  "feedback_sampling": "Both arms predict the same new training cases before seeing GT. Uniform samples from accumulated cases. Prioritized samples with weight 1+3*(1-reachable_action_F1), without replacement; both train on 400 rows per round. Empty/empty action sets score 1. GT drugs absent from the fixed catalogue remain in evaluation recall but do not drive selection-module feedback.",
+  "selection": "Keep the highest guard composite checkpoint for inference; continue training the latest checkpoint in both arms. Test is scored only after all round choices are frozen.",
+  "evaluation": "Drug/core-order F1, output validity, round curves, adapter hashes, matched training and inference counts. This task selects supplied templates; novel dose generation is not claimed.",
+  "privacy": "All patient data, feedback, adapters and generation stay local. No cloud training or uploads.",
+  "generation_envelope": "Uniformly remove only a leading empty <think> whitespace </think> envelope before JSON parsing; report strict and normalized validity. Applied on development before any test evaluation.",
+  "intervention": "Exact 20-position include/exclude mask; all other QLoRA training settings and patient memberships match v9.",
+  "development_motivation": "Guard target count averages 3.635 reachable drugs, whereas v9 adapted outputs select 14.57--18.71. Design frozen before v9 test results exist.",
+  "caveat": "Equal steps/examples/output caps; binary targets contain more explicit negative decisions and a different number of target tokens. This is an output/supervision intervention, not a token-identical objective.",
+  "v9_test_results_present_at_design": false,
+  "source_cases_sha256": "f3d14b45d54c614607b780b79cddfc93d19e7cccb9e90ed8abc3dcba9952bc27"
+}
