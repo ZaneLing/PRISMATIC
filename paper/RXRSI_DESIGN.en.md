@@ -74,3 +74,9 @@ flowchart LR
   I --> J[Propose skills and validate]
   J --> C
 ```
+
+## 15 October execution revision
+
+The local binary parameter path finishes with selected round2, while raw round3 collapses. Accepted-state protection and underlying learning progress are distinct.99% of selected priority masks are catalogue prefixes; candidate-position bias requires a controlled development intervention. Future local inference deduplicates prompts and stores immutable case-bound feedback receipts; the old10/3,600 feedback reconstruction gap remains disclosed.
+
+The FHIR path now separates three objects: original reference grades, lossless reference-shape views, and actual canonical-field readback. The fixed compiler/reference repair is not a learned artifact. Only language skill files evolve in that study, restarted from empty skills after a development-only scoring discovery.

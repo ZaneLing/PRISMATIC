@@ -1,5 +1,14 @@
 # Manuscript change log / 论文变更记录
 
+## 2026-10-15 — binary parameter results, FHIR grading repair and eICU model launch
+
+- Complete v0.15 on500 admissions: priority0.29192/0.19329 versus uniform0.24094/0.15072 and top-8 tools0.31169/0.20739. Both arms select round2; raw priority round3 is all-zero and rejected. Publish both raw and accepted curves.
+- Audit actual six adapters, steps, sampling, serialized labels and all test outputs. Disclose10/3,600 unrecoverable individual duplicate-input feedback generations. Preserve results; repair future inference with request deduplication and immutable case receipts. Record original executed source and block accidental completed-study reruns.
+- Stop/archive the invalid FHIR learning state before test after13 confirmed development false negatives. Keep the original reference source and raw grades; register lossless shape views and equal canonical readback criteria for all arms. Regrade13 real receipts and pass8 compatibility/execution contracts; restart empty skills.
+- Build/audit eICU native-code cohort:40k/2k/2k/8,005 stays,6,227 test patients,16 test hospitals,3,842 zero-target test stays. Launch three seeds/five rounds and the freeze/evaluate/audit/report completion chain. No external test score yet.
+- Update the existing English manuscript, bilingual results/plan and GitHub; no universal-superiority or research-completion claim.
+
+
 ## 2026-10-15 — v0.18/v0.23 complete; external eICU audit delivered
 
 - Complete and independently recount all four Gemini methods: fixed grounding538/988 versus frozen grounded skills510/988. Preserve negative transfer, length failures and the valid-output diagnostic.

@@ -9,6 +9,7 @@ HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parent/'upgrade_v7'))
 from rx_agent import compile_selection,score,hash_data
 from selection_parser import compile_model_selection,bind_cached_output
+from generation_receipts import infer_with_receipts
 PRIVATE=Path.home()/'Desktop/MedTreeBench/dataset/restricted/prismatic-v15'
 MODEL=Path.home()/'Desktop/PRISMATIC/upgrade_v2/.local/models/qwen3-4b-instruct-2507-4bit'
 
@@ -17,24 +18,18 @@ def save(path,x):path.write_text(json.dumps(x,indent=2)+'\n')
 
 def infer(cases,adapter=None):
     version=filehash(adapter/'adapters.safetensors') if adapter else 'base-50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b'
-    cache=PRIVATE/'inference';cache.mkdir(exist_ok=True);records={};pending=[]
-    for c in cases:
-        sig=hash_data([version,c['messages'],128]);path=cache/(sig+'.json')
-        if path.exists():
-            row=bind_cached_output(json.loads(path.read_text()),c)
-            records[c['case_id']]=row
-        else:pending.append((c,path))
-    if pending:
-        model,tok=load(str(MODEL),adapter_path=str(adapter) if adapter else None)
-        for lo in range(0,len(pending),32):
-            chunk=pending[lo:lo+32];prompts=[tok.apply_chat_template(c['messages'],tokenize=True,add_generation_prompt=True,return_dict=False) for c,path in chunk]
-            start=time.time();response=batch_generate(model,tok,prompts,max_tokens=128,sampler=make_sampler(temp=0),prefill_batch_size=4,completion_batch_size=16)
-            for (c,path),raw in zip(chunk,response.texts):
-                parsed=compile_model_selection(raw,c['catalogue']);row={'case_id':c['case_id'],'raw':raw,**parsed,'adapter_sha256':version,'seconds_per_batch_case':(time.time()-start)/len(chunk)}
-                save(path,row);records[c['case_id']]=row
-            print(json.dumps({'stage':'local_inference','adapter':version[:12],'completed':min(lo+32,len(pending)),'total':len(pending)}),flush=True)
-        del model,tok;gc.collect();mx.clear_cache()
-    return [records[c['case_id']] for c in cases]
+    loaded=[];completed=0
+    def generate(chunk):
+        nonlocal completed
+        if not loaded:loaded.extend(load(str(MODEL),adapter_path=str(adapter) if adapter else None))
+        model,tok=loaded
+        prompts=[tok.apply_chat_template(c['messages'],tokenize=True,add_generation_prompt=True,return_dict=False) for c in chunk]
+        start=time.time();response=batch_generate(model,tok,prompts,max_tokens=128,sampler=make_sampler(temp=0),prefill_batch_size=4,completion_batch_size=16)
+        elapsed=(time.time()-start)/len(chunk);completed+=len(chunk)
+        print(json.dumps({'stage':'local_inference_unique_prompts','adapter':version[:12],'completed':completed}),flush=True)
+        return [{'raw':raw,'seconds_per_unique_prompt':elapsed} for raw in response.texts]
+    try:return infer_with_receipts(cases,version,PRIVATE/'inference-v2',generate,bind_cached_output)
+    finally:loaded.clear();gc.collect();mx.clear_cache()
 
 def metric(rows,cases):
     assert [r['case_id'] for r in rows]==[c['case_id'] for c in cases]
@@ -44,6 +39,8 @@ def metric(rows,cases):
     return out
 
 def run(arms):
+    if (HERE/'results/summary.json').exists():
+        raise RuntimeError('Completed v0.15 is immutable. Use a newly registered study directory for repaired generation; see executed_source_manifest.json.')
     config=json.loads((HERE/'protocol.json').read_text());data=json.loads((PRIVATE/'cases.json').read_text())
     # Audit complete sequence lengths before training. Do not truncate target completions.
     from transformers import AutoTokenizer
@@ -68,6 +65,10 @@ def run(arms):
                 if previous['guard']['promotion_score']>best_score:best_score=previous['guard']['promotion_score'];best_round=r
                 continue
             before=infer(block,latest)
+            # Preserve the exact case-bound outputs used to construct feedback.
+            receipt_path=PRIVATE/f'{arm}-feedback-receipts-{r}.json'
+            if receipt_path.exists():assert json.loads(receipt_path.read_text())==before
+            else:save(receipt_path,before)
             for c,row in zip(block,before):
                 # Attribute feedback to the module being updated: selecting reachable
                 # tool actions. Missing catalogue coverage cannot be fixed by LoRA here.
@@ -100,6 +101,7 @@ def run(arms):
               'training_member_sha256':hash_data([accumulated[i]['case_id'] for i in selected]),
               'mean_sampled_preupdate_error':float(np.mean([errors[accumulated[i]['case_id']] for i in selected])),
               'feedback_precedes_training':True,'training_seconds':json.loads((destination/'training_complete.json').read_text())['seconds']}
+            version['feedback_receipts_sha256']=filehash(receipt_path)
             versions.append(version);save(journal,versions)
             print(json.dumps({'arm':arm,'round':r,'guard':gm,'promoted':promoted,'active_round':best_round}),flush=True)
     # All branch selection is fixed before the first test-label evaluation.

@@ -1,0 +1,246 @@
+{
+  "status": "completed_with_feedback_receipt_gaps",
+  "scope": "Post-hoc failure diagnosis and independent learning-artifact audit; no new selection or training",
+  "feedback_source": "Each arm latest training checkpoint, not best accepted inference checkpoint; this matches the frozen protocol.",
+  "checks": [
+    {
+      "arm": "uniform_sft",
+      "round": 1,
+      "preupdate_cache_and_error_recount": "duplicate-input receipt gap",
+      "sampling_from_recorded_weights_and_serialized_labels": "passed",
+      "actual_adapter_sha256": "71e2b1bf1a7af362a5e20038129b0a9b245753b228f6e8d60fdd5a3eaee3463e",
+      "training_steps": 100,
+      "train_rows": 400,
+      "training_target_empty_fraction": 0.305,
+      "training_target_mean_count": 4.01
+    },
+    {
+      "arm": "uniform_sft",
+      "round": 2,
+      "preupdate_cache_and_error_recount": "duplicate-input receipt gap",
+      "sampling_from_recorded_weights_and_serialized_labels": "passed",
+      "actual_adapter_sha256": "f090ba0f8cfbae286c4fb7da44dba3c218c4d2fd9d5a6b8172617474177c42b2",
+      "training_steps": 100,
+      "train_rows": 400,
+      "training_target_empty_fraction": 0.3375,
+      "training_target_mean_count": 3.8325
+    },
+    {
+      "arm": "uniform_sft",
+      "round": 3,
+      "preupdate_cache_and_error_recount": "duplicate-input receipt gap",
+      "sampling_from_recorded_weights_and_serialized_labels": "passed",
+      "actual_adapter_sha256": "67c2dd2f006881ff21feef5431306335e4a0aa0a5f457d0b7f89764233214f18",
+      "training_steps": 100,
+      "train_rows": 400,
+      "training_target_empty_fraction": 0.275,
+      "training_target_mean_count": 4.11
+    },
+    {
+      "arm": "error_prioritized_sft",
+      "round": 1,
+      "preupdate_cache_and_error_recount": "passed",
+      "sampling_from_recorded_weights_and_serialized_labels": "passed",
+      "actual_adapter_sha256": "9aa309d24476468876a2ca39452b3f267e93fd8c1e6f3b0c2ebeca43d51972b0",
+      "training_steps": 100,
+      "train_rows": 400,
+      "training_target_empty_fraction": 0.32,
+      "training_target_mean_count": 3.9025
+    },
+    {
+      "arm": "error_prioritized_sft",
+      "round": 2,
+      "preupdate_cache_and_error_recount": "duplicate-input receipt gap",
+      "sampling_from_recorded_weights_and_serialized_labels": "passed",
+      "actual_adapter_sha256": "51705452b47185532ec83f7cc7d4c3f3b324f0ed8d9ed404e8f1f286ea16ba66",
+      "training_steps": 100,
+      "train_rows": 400,
+      "training_target_empty_fraction": 0.2575,
+      "training_target_mean_count": 4.235
+    },
+    {
+      "arm": "error_prioritized_sft",
+      "round": 3,
+      "preupdate_cache_and_error_recount": "passed",
+      "sampling_from_recorded_weights_and_serialized_labels": "passed",
+      "actual_adapter_sha256": "37c46b8eaf603915af393e2b5bd904a45f42f5c3f5241dc583b4090ab49bf228",
+      "training_steps": 100,
+      "train_rows": 400,
+      "training_target_empty_fraction": 0.26,
+      "training_target_mean_count": 4.14
+    }
+  ],
+  "feedback_reconstruction": [
+    {
+      "arm": "uniform_sft",
+      "round": 1,
+      "new_feedback_cases": 600,
+      "cache_feedback_matches": 599,
+      "duplicate_input_feedback_unrecoverable": 1
+    },
+    {
+      "arm": "uniform_sft",
+      "round": 2,
+      "new_feedback_cases": 600,
+      "cache_feedback_matches": 599,
+      "duplicate_input_feedback_unrecoverable": 1
+    },
+    {
+      "arm": "uniform_sft",
+      "round": 3,
+      "new_feedback_cases": 600,
+      "cache_feedback_matches": 596,
+      "duplicate_input_feedback_unrecoverable": 4
+    },
+    {
+      "arm": "error_prioritized_sft",
+      "round": 1,
+      "new_feedback_cases": 600,
+      "cache_feedback_matches": 600,
+      "duplicate_input_feedback_unrecoverable": 0
+    },
+    {
+      "arm": "error_prioritized_sft",
+      "round": 2,
+      "new_feedback_cases": 600,
+      "cache_feedback_matches": 596,
+      "duplicate_input_feedback_unrecoverable": 4
+    },
+    {
+      "arm": "error_prioritized_sft",
+      "round": 3,
+      "new_feedback_cases": 600,
+      "cache_feedback_matches": 600,
+      "duplicate_input_feedback_unrecoverable": 0
+    }
+  ],
+  "unrecoverable_duplicate_input_feedback": 10,
+  "receipt_limit": "Input-keyed caches can overwrite independent generations for identical prompts. Sampling is verified from original recorded weights; incomplete feedback replay is disclosed and not repaired using test outcomes.",
+  "test_output_diagnostics": {
+    "base": {
+      "n": 500,
+      "raw_mask_count_histogram": {
+        "0": 13,
+        "1": 130,
+        "2": 53,
+        "3": 57,
+        "4": 45,
+        "5": 60,
+        "6": 61,
+        "7": 30,
+        "8": 26,
+        "9": 14,
+        "10": 6,
+        "11": 3,
+        "12": 2
+      },
+      "distinct_masks": 325,
+      "zero_mask_fraction": 0.026,
+      "prefix_mask_fraction": 0.038,
+      "gold_prefix_mask_fraction": 0.34,
+      "all_one_mask_fraction": 0.0,
+      "empty_envelope_removed": 0
+    },
+    "uniform_sft_round_1": {
+      "n": 500,
+      "raw_mask_count_histogram": {
+        "0": 7,
+        "1": 172,
+        "2": 276,
+        "3": 32,
+        "4": 10,
+        "5": 1,
+        "7": 1,
+        "20": 1
+      },
+      "distinct_masks": 8,
+      "zero_mask_fraction": 0.014,
+      "prefix_mask_fraction": 1.0,
+      "gold_prefix_mask_fraction": 0.34,
+      "all_one_mask_fraction": 0.002,
+      "empty_envelope_removed": 500
+    },
+    "uniform_sft_round_2": {
+      "n": 500,
+      "raw_mask_count_histogram": {
+        "0": 63,
+        "2": 47,
+        "3": 214,
+        "4": 92,
+        "5": 63,
+        "6": 19,
+        "7": 2
+      },
+      "distinct_masks": 7,
+      "zero_mask_fraction": 0.126,
+      "prefix_mask_fraction": 1.0,
+      "gold_prefix_mask_fraction": 0.34,
+      "all_one_mask_fraction": 0.0,
+      "empty_envelope_removed": 500
+    },
+    "uniform_sft_round_3": {
+      "n": 500,
+      "raw_mask_count_histogram": {
+        "0": 5,
+        "1": 495
+      },
+      "distinct_masks": 2,
+      "zero_mask_fraction": 0.01,
+      "prefix_mask_fraction": 1.0,
+      "gold_prefix_mask_fraction": 0.34,
+      "all_one_mask_fraction": 0.0,
+      "empty_envelope_removed": 500
+    },
+    "error_prioritized_sft_round_1": {
+      "n": 500,
+      "raw_mask_count_histogram": {
+        "0": 354,
+        "20": 146
+      },
+      "distinct_masks": 2,
+      "zero_mask_fraction": 0.708,
+      "prefix_mask_fraction": 1.0,
+      "gold_prefix_mask_fraction": 0.34,
+      "all_one_mask_fraction": 0.292,
+      "empty_envelope_removed": 500
+    },
+    "error_prioritized_sft_round_2": {
+      "n": 500,
+      "raw_mask_count_histogram": {
+        "0": 12,
+        "1": 5,
+        "2": 1,
+        "3": 95,
+        "4": 66,
+        "5": 60,
+        "6": 9,
+        "7": 42,
+        "8": 114,
+        "9": 51,
+        "10": 8,
+        "11": 2,
+        "20": 35
+      },
+      "distinct_masks": 16,
+      "zero_mask_fraction": 0.024,
+      "prefix_mask_fraction": 0.99,
+      "gold_prefix_mask_fraction": 0.34,
+      "all_one_mask_fraction": 0.07,
+      "empty_envelope_removed": 500
+    },
+    "error_prioritized_sft_round_3": {
+      "n": 500,
+      "raw_mask_count_histogram": {
+        "0": 500
+      },
+      "distinct_masks": 1,
+      "zero_mask_fraction": 1.0,
+      "prefix_mask_fraction": 1.0,
+      "gold_prefix_mask_fraction": 0.34,
+      "all_one_mask_fraction": 0.0,
+      "empty_envelope_removed": 500
+    }
+  },
+  "new_model_calls": 0,
+  "test_based_selection": false
+}

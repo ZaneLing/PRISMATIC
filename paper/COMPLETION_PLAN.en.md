@@ -1,5 +1,18 @@
 # PRISMATIC manuscript completion and execution plan
 
+## Latest completed work and execution order — 15 October 2026
+
+1. **Delivered:** binary parameter study, all checkpoints and independent test recount. Priority0.29192/0.19329 > uniform0.24094/0.15072, but < direct top-8 tools0.31169/0.20739. Selected round2; raw round3 priority collapse is retained.
+2. **Delivered repair/audit:** six adapters, step logs, sampling and target labels verified.10/3,600 feedback generations have duplicate-input cache receipt gaps. Preserve original weights/results; future code deduplicates generation and saves immutable case-bound receipts, with a regression test. Completed-study reruns are blocked; original executed source hashes/commit are recorded.
+3. **Running:** real-FHIR empty-skill restart after13 confirmed development reference-shape false negatives. Same lossless grading view/readback rules for all arms; raw original scores remain separate. Complete96 train/80 validation/64 ID/60 held-out-type tasks before reporting a method score.
+4. **Running:** eICU native-code three-seed/five-round study. Cohort and independent audit complete;8,005 test stays from16 hospitals, including3,842 no-new-order stays. Freeze every method before sealed test inference, then independent counts, hospital/patient intervals, raw/accepted curves and13 method/ablation rows.
+5. **Next local intervention:** use development-only controls to test candidate-position bias and all-zero degeneration before fresh training. Preserve immutable feedback receipts from the first example; compare ordinary updates, own-error feedback, shuffled feedback and the strong direct-tool control. Replicate across seeds and reserve untouched confirmation before claims of robust RSI gains. Do not select a checkpoint using the already reported test.
+
+[Current bilingual tables](CURRENT_RESULTS.en.md) · [Binary study](../upgrade_v15/RESULTS.en.md) · [eICU study](../upgrade_v25/RESULTS.en.md)
+
+Earlier dated statuses below are historical snapshots.
+
+
 ## Current execution status: v0.21–v0.23
 
 - v0.21 complete: 1,082 test admissions, three seeds,14 method/ablation rows. RxRSI drug/order F1 is0.19136/0.11533 versus0.20096/0.12071 for the word/character control. Independent recount passes; superiority is absent.

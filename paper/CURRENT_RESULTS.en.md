@@ -2,6 +2,23 @@
 
 Updated 15 October 2026. This maintained entry point links versioned protocols, failures and results. Funding recovery resolved all previously missing API requests. **Our method has not yet surpassed the strongest completed control.**
 
+
+## Newly completed: binary parameter intervention (v0.15)
+
+Same 500 admissions / 494 patients and fixed candidate tools as the earlier parameter study; the binary intervention was declared before its test scores. One learning seed, three feedback rounds, equal 400-example/100-step budgets.
+
+| Method | Drug F1 | Joint-order F1 |
+|---|---:|---:|
+| Frozen model with binary prompt | 0.17414 | 0.10141 |
+| Uniform binary updates | 0.24094 | 0.15072 |
+| Own-error-prioritized binary updates | 0.29192 | 0.19329 |
+| Direct top-8 candidate tools | **0.31169** | **0.20739** |
+
+Priority improves over uniform in this run, with positive paired patient intervals, but remains below the strong direct-tool control. Both select round2. The raw round3 priority model emits only zeros and is rejected; 99% of selected-model masks select a prefix of the ranked candidates. This does not show learned clinical reasoning or monotonic model improvement. Six actual adapters/step logs, sampling and labels are audited; 10/3,600 duplicate-input feedback generations cannot be exactly recovered, a disclosed reproducibility gap. Saved test predictions are fully recounted.
+
+[Full results and raw/accepted curves](../upgrade_v15/RESULTS.en.md)
+
+
 ## Latest order task: controlled recorded availability
 
 Decision: actual admission plus6h; predict new/changed orders in the following6h using previously recorded orders, blood labs and demographics. Provider/pharmacy clocks and identities must agree. Split:40,000 training /2,000 proposal /2,000 guard / **1,082 test admissions (1,024 patients)**; patient-disjoint and excluding previous test patients. Independent reconstruction checks198,850 targets,589,393 prior orders and506,710 lab rows; all12 checks pass. This selected coherent-time, nonempty-target cohort does not represent all admissions.
@@ -85,7 +102,7 @@ The author GRASP core is the strongest completed control. Named task adaptations
 | v0.10 | Author-core GRASP skill files | 50.81% on the derived task; RxQA transfer declines from 193 to 189/300 |
 | v0.12–13 | Router/verifier coefficients and thresholds | Actual updates, some acceptances and test regressions; no stable error-priority advantage |
 | v0.9 | Local Qwen LoRA parameters | All 500-case checkpoint tests completed; both arms trail direct top-8 tools |
-| v0.15 | LoRA under explicit binary inclusion supervision | Training/selection complete; both arms freeze round2 before all-checkpoint testing |
+| v0.15 | LoRA under explicit binary inclusion supervision | Complete: priority beats uniform in one seed but trails direct top-8; final raw checkpoint collapses |
 | v0.17 | GRASP skills over frozen label evidence | Complete: 501/988 versus fixed grounding 499 and author core 502; transfer declines |
 
 Hashes, promotions/rejections and case repairs/regressions accompany the artifacts.
@@ -103,9 +120,9 @@ Hashes, promotions/rejections and case repairs/regressions accompany the artifac
 ## 4. Execution order and completion criteria
 
 1. v0.9 all-checkpoint tests, independent recount and patient-cluster intervals are complete; see the new parameter table below.
-2. v0.15 training and selection are complete; both arms freeze round2 before all-checkpoint testing, with patients and step budgets matching v0.9.
+2. v0.15 completes all checkpoints: priority 0.29192/0.19329, uniform 0.24094/0.15072, direct top-8 0.31169/0.20739. Both select round2; raw collapse and 10/3,600 incomplete feedback receipts are disclosed.
 3. v0.17 four-component, all-round and RxQA evaluations are complete. v0.18 is complete and independently recounted: fixed grounding538/988 versus frozen grounded skills510/988. Transport interruptions were resumed from cache without scoring missing responses as model errors.
-4. After FHIR protocol repairs, full skill learning and ID/held-out-task-type evaluation have started. The 16-case pilot cannot substitute for those tests.
+4. FHIR learning restarts after a development-discovered reference-format revision; original grades remain separate. All13 affected final write receipts and8 execution contracts pass. No full ID/OOD result yet. eICU v0.25 three-seed training is running; all choices freeze before testing.
 5. Retain an unobserved confirmation test, multiple orders, ablations, costs and regressions. Negative superiority outcomes remain visible rather than selecting favorable controls or changing test labels.
 
 [English paper](latex/v0.3/prismatic_v03_en.tex) · [Maintained plan](COMPLETION_PLAN.en.md) · [History](CHANGELOG.md). Restricted records, checkpoints, raw patient traces and credentials remain outside GitHub.
@@ -152,3 +169,9 @@ Represent existing lab/dose values numerically with observed flags; no future co
 Retain 142,485 stays, including 8,188 test stays from 16 hospitals, with zero patient/hospital overlap across splits. Of 6,283 test-window orders without names, 6,064 retain HICL codes; name-only filtering is inappropriate. Exclude 238,680 lab values revised after the decision. This is a data audit without model scores, under a different time/order-field protocol from MIMIC.
 
 [External audit / 外部数据审计](../upgrade_v24/RESULTS.en.md)
+
+## External method experiment now running: v0.25
+
+The identity-complete native-HICL cohort is built and independently audited:40,000/2,000/2,000/8,005 stays,6,227 test patients and16 test hospitals, without cross-partition patient/hospital overlap. Zero-target test stays:3,842. Complete joint labels:11,853/15,594. Three seeds/five rounds compare13 methods/ablations, including matched uniform/error/shuffled feedback. No eICU model test score yet. [Protocol and cohort](../upgrade_v25/RESULTS.en.md).
+
+FHIR revision:13 development false negatives arose from valid note arrays versus a legacy object reference. The adapted endpoint applies identical lossless views/readback criteria to all methods and preserves raw grades. Learning restarted from empty skills. This is a scoring repair, not evolution gain. [Evidence](../upgrade_v19/RESULTS.en.md).
