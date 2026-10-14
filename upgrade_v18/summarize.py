@@ -15,7 +15,7 @@ def main():
     frozen=read(HERE/'results/frozen_transfer.json');assert not frozen['test_labels_used']
     for name,path in [('author_skill_hashes',LOCAL/'official-grasp-seed-42/skills/best'),('grounded_skill_hashes',LOCAL/'grounded-grasp-v17-seed-42/skills/best')]:
         assert {str(p.relative_to(path)):hashlib.sha256(p.read_bytes()).hexdigest() for p in path.rglob('*') if p.is_file()}==frozen[name]
-    cases=read(LOCAL/'data.json')['parts']['test'];correct={};methods={};audit=[]
+    cases=read(LOCAL/'data.json')['parts']['test'];correct={};methods={};audit=[];saved_rows={}
     for name,expected in report['methods'].items():
         rows=read(LOCAL/'backbone-transfer-v18'/f'{name}-test.json')
         assert [r['case_id'] for r in rows]==[c['id'] for c in cases]
@@ -24,11 +24,22 @@ def main():
         assert values.sum()==expected['correct'] and len(rows)==expected['n']==988
         assert sum(r['prediction'] is None for r in rows)==expected['invalid']
         assert abs(sum(r.get('cost_usd') or 0 for r in rows)-expected['cost_usd'])<1e-10
-        correct[name]=values;methods[name]=expected;audit.append({'method':name,'count_alignment_cost_recount':'passed'})
+        correct[name]=values;methods[name]=expected;saved_rows[name]=rows;audit.append({'method':name,'count_alignment_cost_recount':'passed'})
     pairs={}
     for left,right in [('frozen_author_grasp','cot'),('fixed_grounded','cot'),('frozen_grounded_grasp','cot'),('frozen_grounded_grasp','fixed_grounded'),('frozen_grounded_grasp','frozen_author_grasp')]:
         delta=correct[left]-correct[right]
         pairs[left+'__minus__'+right]={**interval(delta,cases),'fixes':int((delta>0).sum()),'regressions':int((delta<0).sum())}
+    a=saved_rows['fixed_grounded'];b=saved_rows['frozen_grounded_grasp']
+    diagnostic={'scope':'Post-hoc diagnostic only; no generation/selection changes. Received invalid answers remain wrong in the main table.',
+      'newly_invalid':sum(x['prediction'] is not None and y['prediction'] is None for x,y in zip(a,b)),
+      'fixed_correct_became_invalid':sum(x['correct'] and y['prediction'] is None for x,y in zip(a,b)),
+      'invalid_repaired':sum(x['prediction'] is None and y['prediction'] is not None for x,y in zip(a,b)),
+      'grounded_skill_invalid_and_finish_length':sum(y['prediction'] is None and y['finish_reason']=='length' for y in b),
+      'both_valid_cases':sum(x['prediction'] is not None and y['prediction'] is not None for x,y in zip(a,b)),
+      'both_valid_fixed_correct':sum(x['correct'] and x['prediction'] is not None and y['prediction'] is not None for x,y in zip(a,b)),
+      'both_valid_skill_correct':sum(y['correct'] and x['prediction'] is not None and y['prediction'] is not None for x,y in zip(a,b)),
+      'mean_input_tokens_fixed':sum(x['input_tokens'] for x in a)/len(a),'mean_input_tokens_skill':sum(x['input_tokens'] for x in b)/len(b)}
+    (HERE/'results/transfer_failure_audit.json').write_text(json.dumps(diagnostic,indent=2)+'\n')
     interaction=correct['frozen_grounded_grasp']-correct['fixed_grounded']-correct['frozen_author_grasp']+correct['cot']
     summary={'status':'complete','methods':methods,'paired':pairs,'factorial_interaction':interval(interaction,cases),'audits':audit,
       'protocol':frozen['protocol'],'interpretation':'Frozen skill transfer, not Gemini skill training or checkpoint selection. One seed/artifact path; exploratory intervals.',
@@ -71,7 +82,8 @@ Every prediction was aligned to its case and independently rescored. Received ma
 
 所有预测已逐例对齐并独立重算。收到但格式不合格的答案计错；未完成的网络请求不得填表。配对区间按源场景聚类重采样 4,000 次，属于描述性区间，没有做多重比较校正。保留负迁移和退化。仓库发布代码与汇总；请求未使用受限患者数据。
 '''
-        (HERE/f'RESULTS.{lang}.md').write_text(intro+table+'\n## Paired contrasts / 配对差异\n\n'+contrasts+end)
+        detail=('\n## Post-hoc failure diagnosis\n\nGrounded skills regress by 2.83 percentage points versus fixed grounding, with paired interval [-4.85,-0.81]. Of 24 invalid skill outputs, 23 end at the length cap. Ten formerly correct cases become invalid. However, among 961 cases where both outputs are valid, correct answers still fall from 528 to 508; truncation alone does not explain the loss. This conditional subset is diagnostic, not a replacement leaderboard. Mean prompt length rises from 1,666.81 to 2,831.81 tokens. No test-driven change is applied to this frozen comparison.\n' if lang=='en' else '\n## 事后失败诊断\n\n证据技能相对固定证据下降2.83个百分点，配对区间[-4.85,-0.81]。24个无效技能输出中23个以长度截断结束；10个原本正确病例变为无效。但在双方输出都有效的961题中，正确数仍从528降到508，不能只归因于截断。这个条件子集用于诊断，不替换主表。平均输入长度从1,666.81增至2,831.81 token。本轮冻结比较未根据测试结果改动。\n')
+        (HERE/f'RESULTS.{lang}.md').write_text(intro+table+'\n## Paired contrasts / 配对差异\n\n'+contrasts+detail+end)
     print(json.dumps({'methods':methods,'paired':pairs}),flush=True)
 
 if __name__=='__main__':main()

@@ -1,0 +1,144 @@
+{
+  "status": "complete",
+  "methods": {
+    "cot": {
+      "n": 988,
+      "correct": 532,
+      "accuracy": 0.5384615384615384,
+      "invalid": 4,
+      "cost_usd": 1.9454385000000014,
+      "input_tokens": 561493,
+      "output_tokens": 406485,
+      "finish_length": 5
+    },
+    "frozen_author_grasp": {
+      "n": 988,
+      "correct": 527,
+      "accuracy": 0.5334008097165992,
+      "invalid": 5,
+      "cost_usd": 2.6208810000000002,
+      "input_tokens": 1396353,
+      "output_tokens": 419631,
+      "finish_length": 6
+    },
+    "fixed_grounded": {
+      "n": 988,
+      "correct": 538,
+      "accuracy": 0.5445344129554656,
+      "invalid": 5,
+      "cost_usd": 2.522946750000001,
+      "input_tokens": 1646809,
+      "output_tokens": 343424,
+      "finish_length": 5
+    },
+    "frozen_grounded_grasp": {
+      "n": 988,
+      "correct": 510,
+      "accuracy": 0.5161943319838057,
+      "invalid": 24,
+      "cost_usd": 3.912903000000001,
+      "input_tokens": 2797829,
+      "output_tokens": 483875,
+      "finish_length": 26
+    }
+  },
+  "paired": {
+    "frozen_author_grasp__minus__cot": {
+      "difference": -0.005060728744939271,
+      "ci95": [
+        -0.022267206477732792,
+        0.012145748987854251
+      ],
+      "groups": 987,
+      "fixes": 34,
+      "regressions": 39
+    },
+    "fixed_grounded__minus__cot": {
+      "difference": 0.006072874493927126,
+      "ci95": [
+        -0.02125506072874494,
+        0.03242147922998987
+      ],
+      "groups": 987,
+      "fixes": 99,
+      "regressions": 93
+    },
+    "frozen_grounded_grasp__minus__cot": {
+      "difference": -0.022267206477732792,
+      "ci95": [
+        -0.052632912067402546,
+        0.008105369807497468
+      ],
+      "groups": 987,
+      "fixes": 108,
+      "regressions": 130
+    },
+    "frozen_grounded_grasp__minus__fixed_grounded": {
+      "difference": -0.02834008097165992,
+      "ci95": [
+        -0.048486074087691886,
+        -0.008097165991902834
+      ],
+      "groups": 987,
+      "fixes": 38,
+      "regressions": 66
+    },
+    "frozen_grounded_grasp__minus__frozen_author_grasp": {
+      "difference": -0.01720647773279352,
+      "ci95": [
+        -0.048582995951417005,
+        0.013157894736842105
+      ],
+      "groups": 987,
+      "fixes": 112,
+      "regressions": 129
+    }
+  },
+  "factorial_interaction": {
+    "difference": -0.02327935222672065,
+    "ci95": [
+      -0.0486322188449848,
+      0.003033367037411527
+    ],
+    "groups": 987
+  },
+  "audits": [
+    {
+      "method": "cot",
+      "count_alignment_cost_recount": "passed"
+    },
+    {
+      "method": "frozen_author_grasp",
+      "count_alignment_cost_recount": "passed"
+    },
+    {
+      "method": "fixed_grounded",
+      "count_alignment_cost_recount": "passed"
+    },
+    {
+      "method": "frozen_grounded_grasp",
+      "count_alignment_cost_recount": "passed"
+    }
+  ],
+  "protocol": {
+    "model": "google/gemini-3.8-flash",
+    "max_output_tokens": 2048,
+    "reasoning_effort": "low",
+    "test_n": 988,
+    "calls_per_case": 1,
+    "methods": [
+      "cot",
+      "frozen_author_grasp",
+      "fixed_grounded",
+      "frozen_grounded_grasp"
+    ],
+    "skill_selection": "Transfer frozen DeepSeek-learned v10 and v17 skills unchanged; no Gemini skill learning or test-based selection.",
+    "token_selection": "v16 development-only budget study, before Gemini test scoring",
+    "prompt": "Same MedicationTask prompt/option parser; only declared label evidence and skill injection differ.",
+    "scope": "Same derived RxSafeBench split, not original benchmark equivalence; cross-backbone artifact transfer.",
+    "cost_cap_cumulative_usd": 26,
+    "cost_note": "After explicit user funding recovery. Engineering ledger cap includes historical public studies; not a per-method inference cost."
+  },
+  "interpretation": "Frozen skill transfer, not Gemini skill training or checkpoint selection. One seed/artifact path; exploratory intervals.",
+  "cost_scope": "Logical successful-response usage, including cache reuse; learning cost belongs to the original DeepSeek study. The local ledger records returned usage, not provider-reconciled billing. Timed-out or retried requests may incur additional charges without returned usage."
+}

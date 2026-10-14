@@ -29,7 +29,7 @@ def main():
         if lang=='zh':
             text='''# RxRSIAgent：当前主表、进化证据与执行状态
 
-更新：2026-10-14。此文是长期更新的阅读入口；各版本保留协议、失败和结果。本轮用户充值后，之前的 API 缺失均已补齐。**目前仍未证明我们的方法优于最强对照。**
+更新：2026-10-15。此文是长期更新的阅读入口；各版本保留协议、失败和结果。本轮用户充值后，之前的 API 缺失均已补齐。**目前仍未证明我们的方法优于最强对照。**
 
 ## 1. 方法对比主表在哪、测什么？
 
@@ -56,7 +56,7 @@ RxSafeBench 去重后 2,000 题，按场景组切分为 625/190/197/988 训练/�
 | v0.10 | 作者 GRASP 技能文件 | 在同一衍生任务上提高至 50.81%，RxQA 迁移反而 193→189/300 |
 | v0.12–13 | 工具路由/结果核验器系数与阈值 | 权重真实变化，部分更新被接受，但有测试退化；错误优先没有稳定优于普通更新 |
 | v0.9 | 本地 Qwen LoRA 参数 | 500 例全检查点测试完成；两臂均低于直接 top-8 工具 |
-| v0.15 | 二元纳入/排除监督下的 LoRA 参数 | 为处理过度开药而事先声明的干预，现已开始本地训练 |
+| v0.15 | 二元纳入/排除监督下的 LoRA 参数 | 训练与开发选择完成；两臂均冻结第2轮，全部检查点测试中 |
 | v0.17 | 固定说明书工具上的 GRASP 技能文件 | 完整结果 501/988；固定证据 499、作者核心 502；迁移下降 |
 
 每种对象都有版本哈希，接受/拒绝及修复/退化记录。图：
@@ -74,9 +74,9 @@ RxSafeBench 去重后 2,000 题，按场景组切分为 625/190/197/988 训练/�
 ## 4. 继续执行的顺序与交付标准
 
 1. v0.9 全检查点测试、独立重算和患者聚类区间已完成，见新增本地参数主表。
-2. v0.15 已接续开始训练；保持患者与训练预算一致，检验显式负候选监督是否减少过度选择。
-3. v0.17 四组件及全部逐轮/RxQA评价已完成。v0.18 正在 Gemini 上比较四种冻结方法；一次未完成的传输请求已从缓存恢复，缺失不计为模型错误。
-4. 根据 FHIR 开发失败改进检索与动作协议，再进行完整同分布/未见任务类型评价；开发 16 题不能替代正式测试。
+2. v0.15 训练与选择已完成，两臂均冻结第2轮，正在测试全部检查点；患者和步数预算与v0.9匹配。
+3. v0.17 四组件及全部逐轮/RxQA评价已完成。v0.18 Gemini四方法比较已全部完成并独立重算；传输缺失已补齐，固定证据538/988，冻结证据技能510/988。
+4. FHIR协议修复后，完整技能学习与同分布/未见任务类型评价已启动；开发16题不能替代正式测试。
 5. 最终保留没有参与迭代的确认测试、多种子、消融、费用和退化记录。若仍未超过强对照，论文结论如实保留，不能通过挑选方法或修改测试标签获得“第一”。
 
 [英文论文](latex/v0.3/prismatic_v03_en.tex) · [持续执行计划](COMPLETION_PLAN.md) · [版本记录](CHANGELOG.md)。受限患者记录、权重、原始轨迹和密钥始终不进入 GitHub。
@@ -84,7 +84,7 @@ RxSafeBench 去重后 2,000 题，按场景组切分为 625/190/197/988 训练/�
         else:
             text='''# RxRSIAgent: current method tables, evolution evidence and execution status
 
-Updated 14 October 2026. This maintained entry point links versioned protocols, failures and results. Funding recovery resolved all previously missing API requests. **Our method has not yet surpassed the strongest completed control.**
+Updated 15 October 2026. This maintained entry point links versioned protocols, failures and results. Funding recovery resolved all previously missing API requests. **Our method has not yet surpassed the strongest completed control.**
 
 ## 1. Main method comparisons
 
@@ -111,7 +111,7 @@ The author GRASP core is the strongest completed control. Named task adaptations
 | v0.10 | Author-core GRASP skill files | 50.81% on the derived task; RxQA transfer declines from 193 to 189/300 |
 | v0.12–13 | Router/verifier coefficients and thresholds | Actual updates, some acceptances and test regressions; no stable error-priority advantage |
 | v0.9 | Local Qwen LoRA parameters | All 500-case checkpoint tests completed; both arms trail direct top-8 tools |
-| v0.15 | LoRA under explicit binary inclusion supervision | Predeclared intervention against over-selection; local training has started |
+| v0.15 | LoRA under explicit binary inclusion supervision | Training/selection complete; both arms freeze round2 before all-checkpoint testing |
 | v0.17 | GRASP skills over frozen label evidence | Complete: 501/988 versus fixed grounding 499 and author core 502; transfer declines |
 
 Hashes, promotions/rejections and case repairs/regressions accompany the artifacts.
@@ -129,9 +129,9 @@ Hashes, promotions/rejections and case repairs/regressions accompany the artifac
 ## 4. Execution order and completion criteria
 
 1. v0.9 all-checkpoint tests, independent recount and patient-cluster intervals are complete; see the new parameter table below.
-2. v0.15 has started with matching patients and step budgets, testing explicit negative decisions against over-selection.
-3. v0.17 four-component, all-round and RxQA evaluations are complete. v0.18 runs the four frozen methods on Gemini; a transport interruption resumed from cache without scoring missing responses as model errors.
-4. Repair FHIR retrieval/action failures from development, then evaluate full ID and held-out-task-type splits. The 16-case pilot cannot substitute for those tests.
+2. v0.15 training and selection are complete; both arms freeze round2 before all-checkpoint testing, with patients and step budgets matching v0.9.
+3. v0.17 four-component, all-round and RxQA evaluations are complete. v0.18 is complete and independently recounted: fixed grounding538/988 versus frozen grounded skills510/988. Transport interruptions were resumed from cache without scoring missing responses as model errors.
+4. After FHIR protocol repairs, full skill learning and ID/held-out-task-type evaluation have started. The 16-case pilot cannot substitute for those tests.
 5. Retain an unobserved confirmation test, multiple orders, ablations, costs and regressions. Negative superiority outcomes remain visible rather than selecting favorable controls or changing test labels.
 
 [English paper](latex/v0.3/prismatic_v03_en.tex) · [Maintained plan](COMPLETION_PLAN.en.md) · [History](CHANGELOG.md). Restricted records, checkpoints, raw patient traces and credentials remain outside GitHub.
@@ -177,6 +177,9 @@ Hashes, promotions/rejections and case repairs/regressions accompany the artifac
                 panel+='\n[Full results / 完整结果](../upgrade_v23/RESULTS.'+lang+'.md)\n'
             else:panel+=('三种子均已真实启动，尚未形成完整测试主表。当前不能把检查集结果当成测试结果。\n' if lang=='zh' else 'All three seed runs have started; the complete test table is pending. Guard scores are not test results.\n')+'\n[Registered protocol / 已登记协议](../upgrade_v23/README.'+lang+'.md)\n'
             text=text.replace('\n## 1.',panel+'\n## 1.',1)
+        if (ROOT/'upgrade_v24/results/source_audit.json').exists():
+            text+=('\n## 外部数据准备：eICU 医院隔离审计完成\n\n保留142,485次住院；测试8,188次住院来自16家医院，患者/医院跨集合重叠均为0。测试窗口缺药名的6,283条订单中，6,064条仍有HICL编码，因此不能按非空药名直接删除。排除238,680条决策后才修订的检验。这是数据审计，尚无模型测试分数；时间与订单字段和MIMIC不同。\n' if lang=='zh' else '\n## External-data preparation: eICU hospital audit complete\n\nRetain 142,485 stays, including 8,188 test stays from 16 hospitals, with zero patient/hospital overlap across splits. Of 6,283 test-window orders without names, 6,064 retain HICL codes; name-only filtering is inappropriate. Exclude 238,680 lab values revised after the decision. This is a data audit without model scores, under a different time/order-field protocol from MIMIC.\n')
+            text+='\n[External audit / 外部数据审计](../upgrade_v24/RESULTS.'+lang+'.md)\n'
         (HERE/f'CURRENT_RESULTS.{lang}.md').write_text(text)
 
 if __name__=='__main__':main()

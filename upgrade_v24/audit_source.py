@@ -71,6 +71,12 @@ def main():
        'orders':dict(zip(['missing_order_offset','prior_order_rows','start_in_target_but_ordered_elsewhere'],order_time)),
        'private_membership_sha256':sha(membership),'source_sha256':{n:sha(SOURCE/(n+'.csv.gz')) for n in ['patient','medication','lab']},
        'no_model_fitted':True,'no_model_scores':True,'claim_boundary':protocol['claim_boundary'],'seconds':time.time()-begin}
+    expected={}
+    for line in (SOURCE/'SHA256SUMS.txt').read_text().splitlines():
+        fields=line.split()
+        if len(fields)>=2:expected[Path(fields[-1].lstrip('*')).name]=fields[0]
+    for name,value in result['source_sha256'].items():assert expected[name+'.csv.gz']==value
+    result['upstream_sha256_manifest_checks']='all three source files passed'
     (HERE/'results/source_audit.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result),flush=True)
 
 if __name__=='__main__':main()

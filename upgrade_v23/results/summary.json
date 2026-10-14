@@ -1,0 +1,799 @@
+{
+  "status": "complete",
+  "test_admissions": 1082,
+  "test_patients": 1024,
+  "methods": {
+    "initial_state": {
+      "drug_f1_mean": 0.16839944007989668,
+      "drug_f1_sd": 0.000757645416983068,
+      "order_f1_mean": 0.1013005656214147,
+      "order_f1_sd": 0.0010059081183328461,
+      "empty_fraction": 0.012630930375847194
+    },
+    "full_data_uniform": {
+      "drug_f1_mean": 0.20446217680258538,
+      "drug_f1_sd": 0.0009781183855218237,
+      "order_f1_mean": 0.12403303268509248,
+      "order_f1_sd": 0.0005384124405050217,
+      "empty_fraction": 0.018484288354898338
+    },
+    "uniform": {
+      "drug_f1_mean": 0.20446217680258538,
+      "drug_f1_sd": 0.0009781183855218237,
+      "order_f1_mean": 0.12403303268509248,
+      "order_f1_sd": 0.0005384124405050217,
+      "empty_fraction": 0.018484288354898338
+    },
+    "error_prioritized": {
+      "drug_f1_mean": 0.2014338260246499,
+      "drug_f1_sd": 0.0014343673802320702,
+      "order_f1_mean": 0.12219310755632808,
+      "order_f1_sd": 0.0005005127712801802,
+      "empty_fraction": 0.025261860751694395
+    },
+    "permuted_priority": {
+      "drug_f1_mean": 0.20204275843342145,
+      "drug_f1_sd": 0.0008339005073664166,
+      "order_f1_mean": 0.12197375246565968,
+      "order_f1_sd": 0.0029101453164163305,
+      "empty_fraction": 0.015095502156500308
+    },
+    "error_priority_freeze_initial_tool": {
+      "drug_f1_mean": 0.2014338260246499,
+      "drug_f1_sd": 0.0014343673802320702,
+      "order_f1_mean": 0.11908547273548499,
+      "order_f1_sd": 0.0017718185361852766,
+      "empty_fraction": 0.025261860751694395
+    },
+    "legacy_word_char_reference": {
+      "drug_f1_mean": 0.20096384603286876,
+      "drug_f1_sd": 0.002549562048739765,
+      "order_f1_mean": 0.12071456484174725,
+      "order_f1_sd": 0.002825371033282093,
+      "empty_fraction": 0.04097350585335798
+    }
+  },
+  "accepted_curves": {
+    "42": {
+      "uniform": [
+        {
+          "round": 0,
+          "drug_f1": 0.16900596039223226,
+          "order_f1": 0.10161021654636314,
+          "cases_improved": 0,
+          "cases_regressed": 0
+        },
+        {
+          "round": 1,
+          "drug_f1": 0.18974918211559433,
+          "order_f1": 0.11457439710227814,
+          "cases_improved": 292,
+          "cases_regressed": 197
+        },
+        {
+          "round": 2,
+          "drug_f1": 0.2005068423720223,
+          "order_f1": 0.12036225533158049,
+          "cases_improved": 250,
+          "cases_regressed": 186
+        },
+        {
+          "round": 3,
+          "drug_f1": 0.20540980272523895,
+          "order_f1": 0.12326626294198086,
+          "cases_improved": 212,
+          "cases_regressed": 203
+        },
+        {
+          "round": 4,
+          "drug_f1": 0.20535534527884033,
+          "order_f1": 0.12342812923195975,
+          "cases_improved": 167,
+          "cases_regressed": 203
+        }
+      ],
+      "error_prioritized": [
+        {
+          "round": 0,
+          "drug_f1": 0.16900596039223226,
+          "order_f1": 0.10161021654636314,
+          "cases_improved": 0,
+          "cases_regressed": 0
+        },
+        {
+          "round": 1,
+          "drug_f1": 0.17391304347826086,
+          "order_f1": 0.0998931623931624,
+          "cases_improved": 244,
+          "cases_regressed": 265
+        },
+        {
+          "round": 2,
+          "drug_f1": 0.19026278264412305,
+          "order_f1": 0.1144590099784778,
+          "cases_improved": 268,
+          "cases_regressed": 212
+        },
+        {
+          "round": 3,
+          "drug_f1": 0.20029239766081872,
+          "order_f1": 0.11943887775551103,
+          "cases_improved": 244,
+          "cases_regressed": 191
+        },
+        {
+          "round": 4,
+          "drug_f1": 0.20299570545721168,
+          "order_f1": 0.12219877399256356,
+          "cases_improved": 175,
+          "cases_regressed": 186
+        }
+      ],
+      "permuted_priority": [
+        {
+          "round": 0,
+          "drug_f1": 0.16900596039223226,
+          "order_f1": 0.10161021654636314,
+          "cases_improved": 0,
+          "cases_regressed": 0
+        },
+        {
+          "round": 1,
+          "drug_f1": 0.18379756767359748,
+          "order_f1": 0.10924528301886792,
+          "cases_improved": 310,
+          "cases_regressed": 236
+        },
+        {
+          "round": 2,
+          "drug_f1": 0.19586206896551725,
+          "order_f1": 0.12052302444570778,
+          "cases_improved": 274,
+          "cases_regressed": 212
+        },
+        {
+          "round": 3,
+          "drug_f1": 0.20395066680036097,
+          "order_f1": 0.12084417461694132,
+          "cases_improved": 261,
+          "cases_regressed": 193
+        },
+        {
+          "round": 4,
+          "drug_f1": 0.201096163428002,
+          "order_f1": 0.11878532426477632,
+          "cases_improved": 182,
+          "cases_regressed": 219
+        }
+      ]
+    },
+    "137": {
+      "uniform": [
+        {
+          "round": 0,
+          "drug_f1": 0.168642189457454,
+          "order_f1": 0.10017623597068917,
+          "cases_improved": 0,
+          "cases_regressed": 0
+        },
+        {
+          "round": 1,
+          "drug_f1": 0.18930449449350134,
+          "order_f1": 0.11447104836401793,
+          "cases_improved": 295,
+          "cases_regressed": 192
+        },
+        {
+          "round": 2,
+          "drug_f1": 0.19777528319216248,
+          "order_f1": 0.11957267470351857,
+          "cases_improved": 218,
+          "cases_regressed": 202
+        },
+        {
+          "round": 3,
+          "drug_f1": 0.20022202038550813,
+          "order_f1": 0.12004266459808009,
+          "cases_improved": 198,
+          "cases_regressed": 196
+        },
+        {
+          "round": 4,
+          "drug_f1": 0.20341692476770906,
+          "order_f1": 0.12445980985306827,
+          "cases_improved": 200,
+          "cases_regressed": 170
+        }
+      ],
+      "error_prioritized": [
+        {
+          "round": 0,
+          "drug_f1": 0.168642189457454,
+          "order_f1": 0.10017623597068917,
+          "cases_improved": 0,
+          "cases_regressed": 0
+        },
+        {
+          "round": 1,
+          "drug_f1": 0.18205698120832492,
+          "order_f1": 0.11104639875752281,
+          "cases_improved": 293,
+          "cases_regressed": 247
+        },
+        {
+          "round": 2,
+          "drug_f1": 0.19470519987343107,
+          "order_f1": 0.11734951947395043,
+          "cases_improved": 257,
+          "cases_regressed": 208
+        },
+        {
+          "round": 3,
+          "drug_f1": 0.20040122479146869,
+          "order_f1": 0.1209113924050633,
+          "cases_improved": 225,
+          "cases_regressed": 186
+        },
+        {
+          "round": 4,
+          "drug_f1": 0.2011301799916283,
+          "order_f1": 0.12269076305220883,
+          "cases_improved": 196,
+          "cases_regressed": 199
+        }
+      ],
+      "permuted_priority": [
+        {
+          "round": 0,
+          "drug_f1": 0.168642189457454,
+          "order_f1": 0.10017623597068917,
+          "cases_improved": 0,
+          "cases_regressed": 0
+        },
+        {
+          "round": 1,
+          "drug_f1": 0.18251851851851852,
+          "order_f1": 0.1111216639756862,
+          "cases_improved": 295,
+          "cases_regressed": 240
+        },
+        {
+          "round": 2,
+          "drug_f1": 0.19431864965006176,
+          "order_f1": 0.11699604743083004,
+          "cases_improved": 247,
+          "cases_regressed": 205
+        },
+        {
+          "round": 3,
+          "drug_f1": 0.20016093341380004,
+          "order_f1": 0.11927314904310844,
+          "cases_improved": 227,
+          "cases_regressed": 195
+        },
+        {
+          "round": 4,
+          "drug_f1": 0.20236322112997715,
+          "order_f1": 0.12448687350835322,
+          "cases_improved": 198,
+          "cases_regressed": 199
+        }
+      ]
+    },
+    "2026": {
+      "uniform": [
+        {
+          "round": 0,
+          "drug_f1": 0.16755017039000378,
+          "order_f1": 0.10211524434719182,
+          "cases_improved": 0,
+          "cases_regressed": 0
+        },
+        {
+          "round": 1,
+          "drug_f1": 0.18993426861571666,
+          "order_f1": 0.11172973483061244,
+          "cases_improved": 285,
+          "cases_regressed": 209
+        },
+        {
+          "round": 2,
+          "drug_f1": 0.19639802797062078,
+          "order_f1": 0.11988784685294401,
+          "cases_improved": 246,
+          "cases_regressed": 183
+        },
+        {
+          "round": 3,
+          "drug_f1": 0.20221266133988935,
+          "order_f1": 0.1239425536100728,
+          "cases_improved": 228,
+          "cases_regressed": 177
+        },
+        {
+          "round": 4,
+          "drug_f1": 0.2046142603612068,
+          "order_f1": 0.12421115897024942,
+          "cases_improved": 191,
+          "cases_regressed": 163
+        }
+      ],
+      "error_prioritized": [
+        {
+          "round": 0,
+          "drug_f1": 0.16755017039000378,
+          "order_f1": 0.10211524434719182,
+          "cases_improved": 0,
+          "cases_regressed": 0
+        },
+        {
+          "round": 1,
+          "drug_f1": 0.1843133326655314,
+          "order_f1": 0.1085972850678733,
+          "cases_improved": 297,
+          "cases_regressed": 245
+        },
+        {
+          "round": 2,
+          "drug_f1": 0.19498432601880877,
+          "order_f1": 0.11690395027070383,
+          "cases_improved": 265,
+          "cases_regressed": 208
+        },
+        {
+          "round": 3,
+          "drug_f1": 0.19798369798369797,
+          "order_f1": 0.12027138157894737,
+          "cases_improved": 243,
+          "cases_regressed": 194
+        },
+        {
+          "round": 4,
+          "drug_f1": 0.20017559262510976,
+          "order_f1": 0.12168978562421186,
+          "cases_improved": 205,
+          "cases_regressed": 171
+        }
+      ],
+      "permuted_priority": [
+        {
+          "round": 0,
+          "drug_f1": 0.16755017039000378,
+          "order_f1": 0.10211524434719182,
+          "cases_improved": 0,
+          "cases_regressed": 0
+        },
+        {
+          "round": 1,
+          "drug_f1": 0.18698477354281834,
+          "order_f1": 0.11012599160055997,
+          "cases_improved": 297,
+          "cases_regressed": 248
+        },
+        {
+          "round": 2,
+          "drug_f1": 0.19621962196219622,
+          "order_f1": 0.11977314236277997,
+          "cases_improved": 263,
+          "cases_regressed": 203
+        },
+        {
+          "round": 3,
+          "drug_f1": 0.20231154750946098,
+          "order_f1": 0.12434927806698752,
+          "cases_improved": 243,
+          "cases_regressed": 192
+        },
+        {
+          "round": 4,
+          "drug_f1": 0.20266889074228525,
+          "order_f1": 0.12264905962384955,
+          "cases_improved": 208,
+          "cases_regressed": 186
+        }
+      ]
+    }
+  },
+  "budget_feedback_audits": [
+    {
+      "seed": 42,
+      "source_feedback_recomputed": "passed",
+      "exact_epochs_exposures": "passed",
+      "tool_seen_members_only": "passed",
+      "priority_distributions_equal": "passed",
+      "permutation_assignment": [
+        {
+          "round": 1,
+          "changed_assignments": 5585,
+          "new_cases": 8000,
+          "error_random_weight_correlation": 0.005098092032316465
+        },
+        {
+          "round": 2,
+          "changed_assignments": 4657,
+          "new_cases": 8000,
+          "error_random_weight_correlation": 0.0064231064338455095
+        },
+        {
+          "round": 3,
+          "changed_assignments": 5685,
+          "new_cases": 8000,
+          "error_random_weight_correlation": 0.009388809884220643
+        },
+        {
+          "round": 4,
+          "changed_assignments": 5691,
+          "new_cases": 8000,
+          "error_random_weight_correlation": -0.0020116806771006785
+        }
+      ]
+    },
+    {
+      "seed": 137,
+      "source_feedback_recomputed": "passed",
+      "exact_epochs_exposures": "passed",
+      "tool_seen_members_only": "passed",
+      "priority_distributions_equal": "passed",
+      "permutation_assignment": [
+        {
+          "round": 1,
+          "changed_assignments": 5539,
+          "new_cases": 8000,
+          "error_random_weight_correlation": -0.018306187578930256
+        },
+        {
+          "round": 2,
+          "changed_assignments": 5650,
+          "new_cases": 8000,
+          "error_random_weight_correlation": 0.0029025343459955695
+        },
+        {
+          "round": 3,
+          "changed_assignments": 5577,
+          "new_cases": 8000,
+          "error_random_weight_correlation": 0.016281317968723386
+        },
+        {
+          "round": 4,
+          "changed_assignments": 5671,
+          "new_cases": 8000,
+          "error_random_weight_correlation": -0.005871726845160189
+        }
+      ]
+    },
+    {
+      "seed": 2026,
+      "source_feedback_recomputed": "passed",
+      "exact_epochs_exposures": "passed",
+      "tool_seen_members_only": "passed",
+      "priority_distributions_equal": "passed",
+      "permutation_assignment": [
+        {
+          "round": 1,
+          "changed_assignments": 5630,
+          "new_cases": 8000,
+          "error_random_weight_correlation": -0.006502103035196437
+        },
+        {
+          "round": 2,
+          "changed_assignments": 5561,
+          "new_cases": 8000,
+          "error_random_weight_correlation": -0.002066422996283143
+        },
+        {
+          "round": 3,
+          "changed_assignments": 5647,
+          "new_cases": 8000,
+          "error_random_weight_correlation": 0.0024192136407077923
+        },
+        {
+          "round": 4,
+          "changed_assignments": 5608,
+          "new_cases": 8000,
+          "error_random_weight_correlation": 0.01434379279406765
+        }
+      ]
+    }
+  ],
+  "paired": {
+    "42": {
+      "error_prioritized__minus__uniform": {
+        "drug_order_difference": [
+          -0.0023596398216286507,
+          -0.0012293552393961987
+        ],
+        "patient_ci95": [
+          [
+            -0.007050617461543191,
+            -0.004661187756604393
+          ],
+          [
+            0.002054051250175624,
+            0.0021445532670099393
+          ]
+        ]
+      },
+      "error_prioritized__minus__permuted_priority": {
+        "drug_order_difference": [
+          0.0018995420292096943,
+          0.003413449727787232
+        ],
+        "patient_ci95": [
+          [
+            -0.0019126516722340683,
+            0.0007168491099277502
+          ],
+          [
+            0.005544647331441765,
+            0.005998542209661002
+          ]
+        ]
+      },
+      "error_prioritized__minus__full_data_uniform": {
+        "drug_order_difference": [
+          -0.0023596398216286507,
+          -0.0012293552393961987
+        ],
+        "patient_ci95": [
+          [
+            -0.007050617461543191,
+            -0.004661187756604393
+          ],
+          [
+            0.002054051250175624,
+            0.0021445532670099393
+          ]
+        ]
+      },
+      "error_prioritized__minus__legacy_word_char_reference": {
+        "drug_order_difference": [
+          -0.000908849857321925,
+          -0.0017780894800982355
+        ],
+        "patient_ci95": [
+          [
+            -0.008407081659443445,
+            -0.00803935882513742
+          ],
+          [
+            0.00629300310260313,
+            0.004300076689312925
+          ]
+        ]
+      },
+      "error_prioritized__minus__error_priority_freeze_initial_tool": {
+        "drug_order_difference": [
+          0.0,
+          0.0018088634308109641
+        ],
+        "patient_ci95": [
+          [
+            0.0,
+            -0.002419782815017275
+          ],
+          [
+            0.0,
+            0.006213355877541108
+          ]
+        ]
+      },
+      "uniform__minus__initial_state": {
+        "drug_order_difference": [
+          0.03634938488660808,
+          0.021817912685596616
+        ],
+        "patient_ci95": [
+          [
+            0.027795325856787168,
+            0.014502085092685463
+          ],
+          [
+            0.04511532437560923,
+            0.029203279441687647
+          ]
+        ]
+      }
+    },
+    "137": {
+      "error_prioritized__minus__uniform": {
+        "drug_order_difference": [
+          -0.0022867447760807624,
+          -0.0017690468008594445
+        ],
+        "patient_ci95": [
+          [
+            -0.0065418332698097366,
+            -0.005321725832348079
+          ],
+          [
+            0.0017434101801642504,
+            0.001538582301917396
+          ]
+        ]
+      },
+      "error_prioritized__minus__permuted_priority": {
+        "drug_order_difference": [
+          -0.0012330411383488504,
+          -0.0017961104561443897
+        ],
+        "patient_ci95": [
+          [
+            -0.005236415497593512,
+            -0.0048943213923149835
+          ],
+          [
+            0.0025435377860815725,
+            0.001208628806072233
+          ]
+        ]
+      },
+      "error_prioritized__minus__full_data_uniform": {
+        "drug_order_difference": [
+          -0.0022867447760807624,
+          -0.0017690468008594445
+        ],
+        "patient_ci95": [
+          [
+            -0.0065418332698097366,
+            -0.005321725832348079
+          ],
+          [
+            0.0017434101801642504,
+            0.001538582301917396
+          ]
+        ]
+      },
+      "error_prioritized__minus__legacy_word_char_reference": {
+        "drug_order_difference": [
+          0.0017568482056238843,
+          0.0036352259720625058
+        ],
+        "patient_ci95": [
+          [
+            -0.006380506130414157,
+            -0.002962736548911783
+          ],
+          [
+            0.008979636909538256,
+            0.010027861514975978
+          ]
+        ]
+      },
+      "error_prioritized__minus__error_priority_freeze_initial_tool": {
+        "drug_order_difference": [
+          0.0,
+          0.005622489959839355
+        ],
+        "patient_ci95": [
+          [
+            0.0,
+            0.0012018690011997562
+          ],
+          [
+            0.0,
+            0.010004615406081793
+          ]
+        ]
+      },
+      "uniform__minus__initial_state": {
+        "drug_order_difference": [
+          0.03477473531025507,
+          0.024283573882379103
+        ],
+        "patient_ci95": [
+          [
+            0.025878828730072703,
+            0.01693115795215677
+          ],
+          [
+            0.043258642376588004,
+            0.03162905025089672
+          ]
+        ]
+      }
+    },
+    "2026": {
+      "error_prioritized__minus__uniform": {
+        "drug_order_difference": [
+          -0.004438667736097052,
+          -0.002521373346037567
+        ],
+        "patient_ci95": [
+          [
+            -0.009314297922250019,
+            -0.00641320311424972
+          ],
+          [
+            0.0004286518620001641,
+            0.0013752216886087326
+          ]
+        ]
+      },
+      "error_prioritized__minus__permuted_priority": {
+        "drug_order_difference": [
+          -0.0024932981171754964,
+          -0.0009592739996376887
+        ],
+        "patient_ci95": [
+          [
+            -0.006737210456503521,
+            -0.004253158903908752
+          ],
+          [
+            0.0013872579945202422,
+            0.0021659632058890306
+          ]
+        ]
+      },
+      "error_prioritized__minus__full_data_uniform": {
+        "drug_order_difference": [
+          -0.004438667736097052,
+          -0.002521373346037567
+        ],
+        "patient_ci95": [
+          [
+            -0.009314297922250019,
+            -0.00641320311424972
+          ],
+          [
+            0.0004286518620001641,
+            0.0013752216886087326
+          ]
+        ]
+      },
+      "error_prioritized__minus__legacy_word_char_reference": {
+        "drug_order_difference": [
+          0.0005619416270415123,
+          0.002578491651778203
+        ],
+        "patient_ci95": [
+          [
+            -0.006789970204394907,
+            -0.0033907541409460245
+          ],
+          [
+            0.007433037956327344,
+            0.008004035411877091
+          ]
+        ]
+      },
+      "error_prioritized__minus__error_priority_freeze_initial_tool": {
+        "drug_order_difference": [
+          0.0,
+          0.0018915510718789386
+        ],
+        "patient_ci95": [
+          [
+            0.0,
+            -0.0026088450761336114
+          ],
+          [
+            0.0,
+            0.006122310221119117
+          ]
+        ]
+      },
+      "uniform__minus__initial_state": {
+        "drug_order_difference": [
+          0.03706408997120303,
+          0.0220959146230576
+        ],
+        "patient_ci95": [
+          [
+            0.028629516443875874,
+            0.014349774645896986
+          ],
+          [
+            0.045323236265904385,
+            0.02911881343626885
+          ]
+        ]
+      }
+    }
+  },
+  "test_used_for_selection": false,
+  "test_previously_observed": true,
+  "independent_prediction_recounts": "passed",
+  "claim_boundary": "Supervised feedback-driven artifact evolution, not autonomous LLM skill/code evolution. More data or new feature representation alone cannot establish a unique RSI effect. Restricted data and models remain local. No API calls.",
+  "interval_note": "Exploratory paired patient-cluster intervals2000 draws, no multiplicity adjustment. Three seeds jointly change exposure order and optimizer."
+}

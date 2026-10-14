@@ -1,0 +1,97 @@
+{
+  "status": "complete",
+  "protocol_sha256": "ffe5dd2c1c5e7ceaaaaeee1276408306fd2eeda73fb44b23a1984f2d298af7b6",
+  "source_rows": {
+    "patient": 200859,
+    "medication": 7301853,
+    "lab": 39132531,
+    "eligible": 143942,
+    "cohort": 142485,
+    "targets": 302503
+  },
+  "splits": {
+    "train": {
+      "stays": 108772,
+      "patients": 81555,
+      "hospitals": 128,
+      "target_rows": 232413,
+      "stays_with_target_rows": 60410,
+      "target_missing_name": 80590,
+      "target_missing_hicl": 16967,
+      "target_missing_dosage": 29380,
+      "target_missing_route": 12,
+      "target_missing_frequency": 31589,
+      "target_final_cancelled": 4440,
+      "zero_target_stays": 48362
+    },
+    "proposal": {
+      "stays": 12000,
+      "patients": 10000,
+      "hospitals": 13,
+      "target_rows": 26535,
+      "stays_with_target_rows": 6949,
+      "target_missing_name": 13059,
+      "target_missing_hicl": 524,
+      "target_missing_dosage": 3693,
+      "target_missing_route": 0,
+      "target_missing_frequency": 5376,
+      "target_final_cancelled": 2170,
+      "zero_target_stays": 5051
+    },
+    "guard": {
+      "stays": 13525,
+      "patients": 10896,
+      "hospitals": 17,
+      "target_rows": 26125,
+      "stays_with_target_rows": 6963,
+      "target_missing_name": 8779,
+      "target_missing_hicl": 754,
+      "target_missing_dosage": 4302,
+      "target_missing_route": 0,
+      "target_missing_frequency": 2524,
+      "target_final_cancelled": 856,
+      "zero_target_stays": 6562
+    },
+    "test": {
+      "stays": 8188,
+      "patients": 6353,
+      "hospitals": 16,
+      "target_rows": 17430,
+      "stays_with_target_rows": 4346,
+      "target_missing_name": 6283,
+      "target_missing_hicl": 445,
+      "target_missing_dosage": 2818,
+      "target_missing_route": 1,
+      "target_missing_frequency": 1744,
+      "target_final_cancelled": 123,
+      "zero_target_stays": 3842
+    }
+  },
+  "cross_split_overlap": {
+    "uniquepid": 0,
+    "hospitalid": 0
+  },
+  "dropped_cross_partition_patient_stays": 1457,
+  "labs": {
+    "finite_drawn_by_decision": 7768438,
+    "also_revised_by_decision": 7529758,
+    "revised_after_decision": 238680,
+    "missing_revision_offset": 0
+  },
+  "orders": {
+    "missing_order_offset": 0,
+    "prior_order_rows": 3268486,
+    "start_in_target_but_ordered_elsewhere": 154701
+  },
+  "private_membership_sha256": "a181ed07f79d92768aed9ac8972e379d9ae6fb4f8f67ce1ab6296afe4c9aad71",
+  "source_sha256": {
+    "patient": "2acf25f75144c5fc8a2a5b68c6741edac2dc7ca51021127f73e12f7428dc392b",
+    "medication": "3d504b48375e264a47799ed6a5ea2328f7fc6f776395b5d6738693f69810ebc5",
+    "lab": "91b55ed330015d31c424499cdae3b68e3b4cfe0c10e542548b5461520d93bc7a"
+  },
+  "no_model_fitted": true,
+  "no_model_scores": true,
+  "claim_boundary": "Potential external hospital-held-out evaluation with a different ICU order task; not MIMIC zero-shot transfer, not a completed experiment, not proven prospective availability. No test model scores until methods and training/selection budgets are separately frozen.",
+  "seconds": 121.39275431632996,
+  "upstream_sha256_manifest_checks": "all three source files passed"
+}

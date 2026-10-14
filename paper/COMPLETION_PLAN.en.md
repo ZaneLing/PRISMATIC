@@ -4,8 +4,9 @@
 
 - v0.21 complete: 1,082 test admissions, three seeds,14 method/ablation rows. RxRSI drug/order F1 is0.19136/0.11533 versus0.20096/0.12071 for the word/character control. Independent recount passes; superiority is absent.
 - v0.22 development intervention complete: numeric-state guard scores0.22456/0.13656 versus0.21942/0.13458. Both paired intervals include zero; no test score is generated.
-- v0.23 registered and running: three seeds/five rounds, uniform/error-weighted/shuffled-weight arms with exactly matched training exposures. All selections freeze before test evaluation.
-- v0.18 Gemini transfer and v0.15 binary-supervision QLoRA continue. v0.19 real FHIR skill learning waits for Gemini completion to control the shared API budget.
+- v0.23 complete and independently audited: uniform0.20446/0.12403, error-weighted0.20143/0.12219, shuffled0.20204/0.12197. All priority-minus-uniform intervals include zero. All selections froze before evaluation; the reused test is exploratory.
+- v0.18 Gemini transfer is complete: fixed grounding538/988, frozen grounded skills510/988, paired difference−2.83pp with interval[−4.85,−0.81]. v0.15 has frozen both selected rounds and is evaluating all checkpoints. v0.19 real FHIR skill learning has started.
+- v0.24 external eICU audit is complete:142,485 stays, patient/hospital-disjoint partitions; HICL/missing-name and dual lab clocks audited. No model score yet.
 - Untouched confirmation remains required. Restricted records and weights stay local. Earlier pending/dependency statements below are historical; this section and the maintained results entry supersede them.
 
 [Current method tables](CURRENT_RESULTS.en.md) · [Mechanism protocol](../upgrade_v23/README.en.md)

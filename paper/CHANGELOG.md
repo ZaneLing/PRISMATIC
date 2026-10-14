@@ -1,5 +1,14 @@
 # Manuscript change log / 论文变更记录
 
+## 2026-10-15 — v0.18/v0.23 complete; external eICU audit delivered
+
+- Complete and independently recount all four Gemini methods: fixed grounding538/988 versus frozen grounded skills510/988. Preserve negative transfer, length failures and the valid-output diagnostic.
+- Complete all three seeds/five rounds of exactly matched uniform, own-error and shuffled-weight learning. Drug/order F1 means are0.20446/0.12403,0.20143/0.12219 and0.20204/0.12197. Error priorities show no consistent benefit; all priority-minus-uniform intervals include zero. Publish full curves and private-artifact hashes.
+- Execute the external eICU hospital/patient partition, source checksums, late-lab and HICL/name coverage audit. Retain142,485 stays; no model score is generated.
+- Both v0.15 parameter selections are frozen before testing; full checkpoint evaluation continues. Full real-FHIR skill learning starts after Gemini completion.
+- Update English paper, bilingual current reports, version ledgers and GitHub. The work is not marked complete or superior to all existing methods.
+
+
 ## v0.23 — matched feedback assignment registered and executed
 
 Three seeds are training under exactly matched cases and epochs: uniform updates, own-error priorities and same-distribution permuted weights. Independent evaluation/audit code verifies parent feedback, seen-only tools and every final prediction; all selections must freeze first. This reuses an observed test, so forthcoming results are exploratory. API transport logging distinguishes HTTP429/provider payload failures from scored malformed answers. Returned usage is not claimed as reconciled billing. An external eICU hospital-partition feasibility audit is separately registered as v0.24, without model scores.

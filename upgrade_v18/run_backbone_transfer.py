@@ -31,9 +31,9 @@ def main():
         'token_selection':'v16 development-only budget study, before Gemini test scoring',
         'prompt':'Same MedicationTask prompt/option parser; only declared label evidence and skill injection differ.',
         'scope':'Same derived RxSafeBench split, not original benchmark equivalence; cross-backbone artifact transfer.',
-        'cost_cap_cumulative_usd':25,'cost_note':'After explicit user funding recovery. Engineering ledger cap includes historical public studies; not a per-method inference cost.'}
+        'cost_cap_cumulative_usd':26,'cost_note':'After explicit user funding recovery. Engineering ledger cap includes historical public studies; not a per-method inference cost.'}
     save(HERE/'protocol.json',protocol)
-    os.environ['RXRSI_PUBLIC_COST_CAP_USD']='25'
+    os.environ['RXRSI_PUBLIC_COST_CAP_USD']='26'
     # Wait without competing with the still-running proposer for its budget.
     while True:
         processes=subprocess.check_output(['ps','-axo','command'],text=True)

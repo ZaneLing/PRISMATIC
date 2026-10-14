@@ -1,5 +1,5 @@
 """Publish the complete causal-control table and fixed-test trajectories."""
-import json
+import json,re
 from pathlib import Path
 import numpy as np
 import matplotlib
@@ -31,6 +31,10 @@ def main():
             for control in ['uniform','permuted_priority','full_data_uniform']:
                 m=pairs['error_prioritized__minus__'+control];delta=m['drug_order_difference'];ci=m['patient_ci95']
                 changes+=f"| {seed} | Error priority − {control} | {delta[0]:+.5f} | {delta[1]:+.5f} | [{ci[0][0]:+.5f},{ci[1][0]:+.5f}] | [{ci[0][1]:+.5f},{ci[1][1]:+.5f}] |\n"
+        growth='| Round | Cumulative cases | Uniform drug/order F1 | Own-error drug/order F1 | Shuffled drug/order F1 |\n|---|---:|---:|---:|---:|\n'
+        for i in range(5):
+            growth+=f'| {i} | {8000*(i+1):,} | '
+            growth+=' | '.join('/'.join(f"{np.mean([s[arm][i][key] for s in d['accepted_curves'].values()]):.5f}" for key in ['drug_f1','order_f1']) for arm in styles)+' |\n'
         text='''# v0.23：按自身错误更新，是否真的优于普通学习？
 
 ## 问题与公平对照
@@ -73,6 +77,9 @@ Re-infer every feedback block with the prior accepted checkpoint, independently 
 
 Shading shows SD across three seeds. Paired patient-cluster intervals use 2,000 descriptive bootstrap draws without multiplicity correction. Error prioritization must be compared with both uniform and shuffled-weight controls; improvement over the initial model alone is insufficient. Restricted cases, weights and predictions remain local.
 '''
-        (HERE/f'RESULTS.{lang}.md').write_text(text+table+'\n## Fixed-test trajectories / 固定测试轨迹\n\n![Accepted-state curves](round_curves.png)\n\n## Paired causal controls / 配对机制对照\n\n'+changes+tail)
+        conclusion=('\n## 结论\n\n普通更新为0.20446/0.12403，自身错误加权为0.20143/0.12219，打乱权重为0.20204/0.12197。错误加权没有优于普通更新；三个种子的药物与订单差异区间均含零，因此也不宣称已经证明其劣势。与随机分配的比较没有一致优势。普通更新的数值高于旧词/字符参考，但二者优化预算不同，不能单独归因于数值表示。\n\n错误加权的逐轮均值从0.16840/0.10130升至0.20143/0.12219，但个别种子/指标仍有下降。冻结初始工具后订单F1为0.11909；工具更新的平均差异为+0.00311，只有一个种子的配对区间不含零。这些证据支持实际参数/工具变化，尚不支持独特RSI收益或稳定的工具因果优势。全量普通监督行与普通逐轮最终状态相同，因为各种子均接纳了最后检查点。\n' if lang=='zh' else '\n## Findings\n\nUniform updates score0.20446/0.12403, own-error priorities0.20143/0.12219 and shuffled priorities0.20204/0.12197. Priorities do not outperform uniform updates. Drug and order intervals include zero in all three seeds, so established inferiority is not claimed either. The shuffled-assignment contrast shows no consistent advantage. The uniform point estimate exceeds the older word/character reference, but different optimization budgets prevent attributing that difference solely to numerical representation.\n\nOwn-error round means rise from0.16840/0.10130 to0.20143/0.12219, with regressions in individual seed/endpoint trajectories. Freezing the initial tool yields order F1 0.11909: the updated-tool mean difference is+0.00311, with an interval excluding zero in only one seed. These are actual parameter/tool changes without an established unique RSI benefit or stable tool effect. Full-data uniform and the final accepted uniform state coincide because every seed accepts its last checkpoint.\n')
+        text=text+table+conclusion+'\n## Fixed-test trajectories / 固定测试轨迹\n\n'+growth+'\n![Accepted-state curves](round_curves.png)\n\n## Paired causal controls / 配对机制对照\n\n'+changes+tail
+        if lang=='en':text=re.sub(r'(?<=[A-Za-z])(?=[0-9])',' ',text).replace('v 0.','v0.').replace('F 1','F1')
+        (HERE/f'RESULTS.{lang}.md').write_text(text)
 
 if __name__=='__main__':main()

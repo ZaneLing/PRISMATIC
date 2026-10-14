@@ -1,6 +1,6 @@
 # PRISMATIC / RxRSIAgent manuscript and execution index
 
-**Target: ACL 2027. v0.9 local parameter tests and v0.17 grounded skill/round evaluations are complete and independently recounted. v0.15 binary supervision and v0.18 Gemini artifact transfer are running; the v0.21 temporal method suite and v0.22 development pilot are complete, the v0.23 matched-feedback study is running, and full FHIR skill learning is queued after Gemini.** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
+**Target: ACL 2027. v0.9 local parameter tests and v0.17 grounded skill/round evaluations are complete and independently recounted. v0.18 Gemini artifact transfer is complete; v0.15 binary supervision has frozen its selections and is evaluating all checkpoints; the v0.21 temporal method suite and v0.22 development pilot are complete, the v0.23 matched-feedback study is complete, and full FHIR skill learning has started.** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
 
 ## Start here
 
@@ -33,12 +33,13 @@ GT-based evaluation does not require clinician review. Missing attributes remain
 
 | Version | Record | Evidence |
 | --- | --- | --- |
-| v0.23 | [Matched feedback protocol](../upgrade_v23/README.en.md) | Three seeds/five rounds; equal-epoch uniform, own-error and shuffled-weight controls running |
+| v0.24 | [External eICU audit](../upgrade_v24/RESULTS.en.md) | 142,485 stays; hospital/patient-disjoint partition and HICL/time coverage audited; no model scores |
+| v0.23 | [Matched feedback results](../upgrade_v23/RESULTS.en.md) | Three seeds/five rounds audited; uniform learning is stronger than error priorities |
 | v0.22 | [Numerical-state development pilot](../upgrade_v22/RESULTS.en.md) | Guard point gain passes the declared rule; intervals include zero; no test scoring |
 | v0.21 | [Recorded-availability method table](../upgrade_v21/RESULTS.en.md) | Three seeds,14 method/ablation rows, independent recounts and patient intervals complete |
 | v0.20 | [Order-entry audit](../upgrade_v20/RESULTS.en.md) | 1.788M target rows, actual provider/pharmacy clocks, explicit identity conflicts |
-| v0.19 | [Real-order compiler probes](../upgrade_v19/RESULTS.en.md) | Actual field preservation and rollback; full FHIR learning queued |
-| v0.18 | [Backbone-transfer protocol](../upgrade_v18/protocol.json) | Gemini four-method frozen-artifact comparison running |
+| v0.19 | [Real-order compiler probes](../upgrade_v19/RESULTS.en.md) | Actual field preservation and rollback; full FHIR learning running |
+| v0.18 | [Frozen-transfer results](../upgrade_v18/RESULTS.en.md) | All four Gemini methods complete; grounded skills regress versus fixed grounding |
 | v0.17 | [Grounded skill results](../upgrade_v17/RESULTS.en.md) | Four matched components, all frozen rounds, transfer and paired intervals |
 | v0.16 | [Budget repair results](../upgrade_v16/RESULTS.en.md) | Completed 190-question Gemini development repair; 2,048-token follow-up complete; four-method backbone transfer queued |
 | v0.15 | [Pre-test intervention](../upgrade_v15/README.md) | Binary candidate output protocol frozen before v0.9 test scoring; local training running |

@@ -14,10 +14,10 @@ Test whether feedback tied to the agent's own errors improves prescription selec
 - Evolving: policy parameters, persistent case weights, order-tool parameters and accepted state. Frozen selections precede all new test inference.
 - Verification: independently infer parent feedback and recount weights, verify distributions/epochs/membership, recount all predictions, and report paired patient-cluster intervals, rejected checkpoints and regressions.
 
-All three training processes have started. The completion queue evaluates only after every seed has frozen selection; partial guard results are not a final test table. The protocol was pushed in commit `9550d261` before training.
+All three training runs, frozen test evaluations and independent audits are complete. [Full results and trajectories](RESULTS.en.md). The protocol was pushed in commit `9550d261` before training.
 
 ## Reproduction
 
 Use the project research Python environment with one BLAS thread. Prepare bundles with `prepare_data.py`; run `train.py 42`, `train.py 137`, and `train.py 2026`; then run `evaluate.py`, `audit.py`, and `report.py` in order. The evaluator refuses incomplete selections. Model/feedback/order data remain in the restricted local directory; GitHub receives code, hashes and aggregates only.
 
-`protocol.json` is the exact registration. `results/journal_seed_*` records actual completed transitions. Completed results will appear in `RESULTS.en.md` and `RESULTS.zh.md`.
+`protocol.json` is the exact registration. `results/journal_seed_*` records actual completed transitions. Completed results are in `RESULTS.en.md` and `RESULTS.zh.md`.

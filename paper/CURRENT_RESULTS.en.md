@@ -1,6 +1,6 @@
 # RxRSIAgent: current method tables, evolution evidence and execution status
 
-Updated 14 October 2026. This maintained entry point links versioned protocols, failures and results. Funding recovery resolved all previously missing API requests. **Our method has not yet surpassed the strongest completed control.**
+Updated 15 October 2026. This maintained entry point links versioned protocols, failures and results. Funding recovery resolved all previously missing API requests. **Our method has not yet surpassed the strongest completed control.**
 
 ## Latest order task: controlled recorded availability
 
@@ -24,9 +24,17 @@ Round-mean drug F1 rises from0.1660 to0.1914, but the strong control scores0.201
 
 Three seeds/five rounds with fixed word+numeric features. Uniform, own-error-weighted and shuffled-weight arms share cases and exactly60 training epochs. Order tools use only cases seen by that round. Evaluation follows joint selection freeze.
 
-All three seed runs have started; the complete test table is pending. Guard scores are not test results.
+| Method | Drug F1 mean ± SD | Core-order F1 mean ± SD |
+|---|---:|---:|
+| Initial state | 0.16840 ± 0.00076 | 0.10130 ± 0.00101 |
+| Uniform updates | 0.20446 ± 0.00098 | 0.12403 ± 0.00054 |
+| Own-error priorities | 0.20143 ± 0.00143 | 0.12219 ± 0.00050 |
+| Shuffled priorities | 0.20204 ± 0.00083 | 0.12197 ± 0.00291 |
+| Full-data uniform | 0.20446 ± 0.00098 | 0.12403 ± 0.00054 |
 
-[Registered protocol / 已登记协议](../upgrade_v23/README.en.md)
+1,082 admissions/1,024 patients; exploratory reuse of the previously observed v0.21 test. Weight assignment, training budgets, tool members and every prediction are independently checked.
+
+[Full results / 完整结果](../upgrade_v23/RESULTS.en.md)
 
 ## 1. Main method comparisons
 
@@ -77,7 +85,7 @@ The author GRASP core is the strongest completed control. Named task adaptations
 | v0.10 | Author-core GRASP skill files | 50.81% on the derived task; RxQA transfer declines from 193 to 189/300 |
 | v0.12–13 | Router/verifier coefficients and thresholds | Actual updates, some acceptances and test regressions; no stable error-priority advantage |
 | v0.9 | Local Qwen LoRA parameters | All 500-case checkpoint tests completed; both arms trail direct top-8 tools |
-| v0.15 | LoRA under explicit binary inclusion supervision | Predeclared intervention against over-selection; local training has started |
+| v0.15 | LoRA under explicit binary inclusion supervision | Training/selection complete; both arms freeze round2 before all-checkpoint testing |
 | v0.17 | GRASP skills over frozen label evidence | Complete: 501/988 versus fixed grounding 499 and author core 502; transfer declines |
 
 Hashes, promotions/rejections and case repairs/regressions accompany the artifacts.
@@ -95,9 +103,9 @@ Hashes, promotions/rejections and case repairs/regressions accompany the artifac
 ## 4. Execution order and completion criteria
 
 1. v0.9 all-checkpoint tests, independent recount and patient-cluster intervals are complete; see the new parameter table below.
-2. v0.15 has started with matching patients and step budgets, testing explicit negative decisions against over-selection.
-3. v0.17 four-component, all-round and RxQA evaluations are complete. v0.18 runs the four frozen methods on Gemini; a transport interruption resumed from cache without scoring missing responses as model errors.
-4. Repair FHIR retrieval/action failures from development, then evaluate full ID and held-out-task-type splits. The 16-case pilot cannot substitute for those tests.
+2. v0.15 training and selection are complete; both arms freeze round2 before all-checkpoint testing, with patients and step budgets matching v0.9.
+3. v0.17 four-component, all-round and RxQA evaluations are complete. v0.18 is complete and independently recounted: fixed grounding538/988 versus frozen grounded skills510/988. Transport interruptions were resumed from cache without scoring missing responses as model errors.
+4. After FHIR protocol repairs, full skill learning and ID/held-out-task-type evaluation have started. The 16-case pilot cannot substitute for those tests.
 5. Retain an unobserved confirmation test, multiple orders, ablations, costs and regressions. Negative superiority outcomes remain visible rather than selecting favorable controls or changing test labels.
 
 [English paper](latex/v0.3/prismatic_v03_en.tex) · [Maintained plan](COMPLETION_PLAN.en.md) · [History](CHANGELOG.md). Restricted records, checkpoints, raw patient traces and credentials remain outside GitHub.
@@ -120,8 +128,27 @@ Separate from the 4,000-admission table: 500 reserved admissions, 494 patients, 
 
 Among 1,788,195 historical target rows, 42,005 matching provider orders precede admission and 276,269 occur after the original six-hour horizon. Timestamp counts exclude 438 admission-link conflicts. Source linkage paths agree, but the differing pharmacy/provider clocks still require an explicit prospective availability protocol. [Full results](../upgrade_v20/RESULTS.en.md).
 
+## Frozen-method comparison on Gemini
+
+Same988 questions, one2,048-token/low-reasoning call, no test-time learning.
+
+| Method | Correct /988 | Accuracy (%) | Invalid |
+|---|---:|---:|---:|
+| cot | 532 | 53.85 | 4 |
+| frozen_author_grasp | 527 | 53.34 | 5 |
+| fixed_grounded | 538 | 54.45 | 5 |
+| frozen_grounded_grasp | 510 | 51.62 | 24 |
+
+[Transfer, paired intervals and costs / 迁移、区间与费用](../upgrade_v18/RESULTS.en.md)
+
 ## Continued improvement: numerical-state development pilot complete
 
 Represent existing lab/dose values numerically with observed flags; no future context is added. The proposal-selected word+typed policy reaches guard drug/order F1 **0.22456/0.13656**, versus the same-guard control at **0.21942/0.13458**. The continuation rule passes, but both patient-paired intervals include zero. This is one-seed development evidence, with no test scoring or RSI superiority claim.
 
 [Development protocol/results / 开发协议与结果](../upgrade_v22/RESULTS.en.md)
+
+## External-data preparation: eICU hospital audit complete
+
+Retain 142,485 stays, including 8,188 test stays from 16 hospitals, with zero patient/hospital overlap across splits. Of 6,283 test-window orders without names, 6,064 retain HICL codes; name-only filtering is inappropriate. Exclude 238,680 lab values revised after the decision. This is a data audit without model scores, under a different time/order-field protocol from MIMIC.
+
+[External audit / 外部数据审计](../upgrade_v24/RESULTS.en.md)

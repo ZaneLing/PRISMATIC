@@ -1,0 +1,120 @@
+{
+  "status": "complete",
+  "row_identity_coverage": {
+    "train": {
+      "rows": 232413,
+      "valid_hicl": 215446,
+      "missing_name_with_hicl": 75544,
+      "name_only_without_valid_hicl": 11921,
+      "neither_name_nor_valid_hicl": 5046
+    },
+    "proposal": {
+      "rows": 26535,
+      "valid_hicl": 26011,
+      "missing_name_with_hicl": 12821,
+      "name_only_without_valid_hicl": 286,
+      "neither_name_nor_valid_hicl": 238
+    },
+    "guard": {
+      "rows": 26125,
+      "valid_hicl": 25371,
+      "missing_name_with_hicl": 8441,
+      "name_only_without_valid_hicl": 416,
+      "neither_name_nor_valid_hicl": 338
+    },
+    "test": {
+      "rows": 17430,
+      "valid_hicl": 16985,
+      "missing_name_with_hicl": 6064,
+      "name_only_without_valid_hicl": 226,
+      "neither_name_nor_valid_hicl": 219
+    }
+  },
+  "development_vocabulary_capacity": [
+    {
+      "top_train_codes": 64,
+      "development_coverage": {
+        "train": {
+          "coded_stay_drug_pairs": 178834,
+          "covered_pairs": 115855,
+          "coverage": 0.6478354227943233
+        },
+        "proposal": {
+          "coded_stay_drug_pairs": 22332,
+          "covered_pairs": 13826,
+          "coverage": 0.6191115887515672
+        },
+        "guard": {
+          "coded_stay_drug_pairs": 21007,
+          "covered_pairs": 13740,
+          "coverage": 0.654067691721807
+        }
+      }
+    },
+    {
+      "top_train_codes": 128,
+      "development_coverage": {
+        "train": {
+          "coded_stay_drug_pairs": 178834,
+          "covered_pairs": 144287,
+          "coverage": 0.8068208506212465
+        },
+        "proposal": {
+          "coded_stay_drug_pairs": 22332,
+          "covered_pairs": 17607,
+          "coverage": 0.788420204191295
+        },
+        "guard": {
+          "coded_stay_drug_pairs": 21007,
+          "covered_pairs": 16808,
+          "coverage": 0.8001142476317418
+        }
+      }
+    },
+    {
+      "top_train_codes": 256,
+      "development_coverage": {
+        "train": {
+          "coded_stay_drug_pairs": 178834,
+          "covered_pairs": 163541,
+          "coverage": 0.9144849413422503
+        },
+        "proposal": {
+          "coded_stay_drug_pairs": 22332,
+          "covered_pairs": 19966,
+          "coverage": 0.8940533763209744
+        },
+        "guard": {
+          "coded_stay_drug_pairs": 21007,
+          "covered_pairs": 18945,
+          "coverage": 0.9018422430618366
+        }
+      }
+    },
+    {
+      "top_train_codes": 512,
+      "development_coverage": {
+        "train": {
+          "coded_stay_drug_pairs": 178834,
+          "covered_pairs": 174966,
+          "coverage": 0.9783710032767818
+        },
+        "proposal": {
+          "coded_stay_drug_pairs": 22332,
+          "covered_pairs": 21592,
+          "coverage": 0.9668636933548271
+        },
+        "guard": {
+          "coded_stay_drug_pairs": 21007,
+          "covered_pairs": 20486,
+          "coverage": 0.9751987432760508
+        }
+      }
+    }
+  ],
+  "train_distinct_hicl": 1306,
+  "train_codes_with_multiple_raw_names": 177,
+  "no_test_vocabulary_capacity_computed": true,
+  "no_prediction_score": true,
+  "interpretation": "Native HICL is an available label identity, not an asserted ingredient/RxNorm equivalence. Missing names cannot justify dropping coded orders. A final label/missing-target policy and model budget must be frozen before evaluation."
+}
