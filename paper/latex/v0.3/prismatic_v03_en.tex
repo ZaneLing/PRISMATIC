@@ -404,7 +404,7 @@ Qwen3.6-27B (R) & F1 71.70\% & Exact match 40.00\%\\
 \paragraph{Standard-method compatibility panel.}
 A separate retrospective MIMIC-IV 3.1 panel now contains 8,905 repeated-visit adult ICU patients and 23,177 hospital visits. Patient-disjoint training/proposal/guard/test partitions contain 7,115/433/467/890 patients and 18,429/1,095/1,231/2,422 visits. Every selected diagnosis, procedure and mapped medication set is independently reconstructed from sources. Training-only vocabularies include 271 true five-character ATC-L4 classes, with five test target occurrences outside that vocabulary. The public NDC map covers only 27.23\% of selected source prescription rows; this is explicitly mapped-class prediction, not complete prescription recovery. Completed-visit diagnosis/procedure inputs also distinguish it from the six-hour task. Earlier observed test patients overlap, so this panel is exploratory.
 
-Public molecular lookup resolves 746 CIDs and validates structures spanning 399 ATC-L4 classes. Coverage is 219/271 classes in this cohort. Actual pinned ARMR, GAMENet and SafeDrug cores pass synthetic forward/backward execution probes. Full resources now contain 627 molecular graphs and 863 BRICS fragments; no synthetic mask is used for training. Dense/sparse forward and registered-gradient probes agree, and the released fixed molecular embedding is persisted in checkpoints. A separate 219-class molecular panel retains all visits, including three empty-target test visits, and explicitly excludes 5,613 test target occurrences. ARMR/GAMENet run in both spaces and SafeDrug in the molecular space, for three seeds and 50 full epochs each. Proposal Jaccard selects checkpoints/thresholds, guard reports development performance, and testing waits for all baseline and future RxRSI states to freeze. Equal case exposure is not equal FLOPs. The released SafeDrug training script's negative-cap coefficient conflicts with Eq.~19; the adapted run uses the paper's nonnegative cap \citep{safedrug}.\begin{table*}[t]\centering\small
+Public molecular lookup resolves 746 CIDs and validates structures spanning 399 ATC-L4 classes. Coverage is 219/271 classes in this cohort. Actual pinned ARMR, GAMENet and SafeDrug cores pass synthetic forward/backward execution probes. Full resources now contain 627 molecular graphs and 863 BRICS fragments; no synthetic mask is used for training. Dense/sparse forward and registered-gradient probes agree, and the released fixed molecular embedding is persisted in checkpoints. A separate 219-class molecular panel retains all visits, including three empty-target test visits, and explicitly excludes 5,613 test target occurrences. ARMR/GAMENet run in both spaces and SafeDrug in the molecular space, for three seeds and 50 full epochs each. Proposal Jaccard selects checkpoints/thresholds, guard reports development performance, and testing waits for all baseline and registered RxRSI states to freeze. Equal case exposure is not equal FLOPs. The released SafeDrug training script's negative-cap coefficient conflicts with Eq.~19; the adapted run uses the paper's nonnegative cap \citep{safedrug}.\begin{table*}[t]\centering\small
 \caption{Completed conventional methods on 1,231 guard visits from 467 patients. Choices freeze on separate proposal data; independent raw-source reconstruction reproduces saved predictions exactly. These development results are not the pending neural/RxRSI test comparison.}
 \begin{tabular}{llrr}\toprule Label panel & Method & Patient-average F1 & Patient-average Jaccard\\\midrule
 full & prevalence & 0.4579 & 0.3068 \\
@@ -416,6 +416,57 @@ molecular & last visit & 0.2897 & 0.2061 \\
 molecular & cosine knn & 0.5175 & 0.3671 \\
 molecular & structured logistic & 0.5811 & 0.4297 \\
 \bottomrule\end{tabular}\end{table*}
+\paragraph{Executable rule-memory evolution.}
+Five nested patient-hash rounds expose 20/40/60/80/100\% of training patients. A common logistic class policy is refit with the same development selection as the conventional control. Three patient-disjoint fitting folds produce training-error probabilities. Candidate edits add or remove typed feature--drug inclusion/exclusion rules within a fixed 0.15 threshold band; they cannot inspect the current prescription target at inference. A fixed candidate generator proposes at most 24 supported edits. A language agent receives only aggregate descriptors, support counts and measured error changes and selects up to four IDs per round. A training-witness gate accepts edits only when patient F1 improves without lowering Jaccard, with at least five affected witness patients. At most 20 rules persist.
+
+The evolving artifact is this executable rule memory. Coefficients change through ordinary supervised refitting, and the language model is an offline policy-maintenance component rather than a patient-level prescription generator. Greedy, random, shuffled-evidence and no-witness controls retain identical data exposure and edit limits. The latter reuses the own-error agent's proposals; it is not an independently learned counterfactual trajectory. Full dosage generation is outside this class-set task.
+
+Witness patients are excluded from candidate induction, but their labels participate in other folds' policy fits, and the shared regularization choice uses proposal performance of full seen-patient fits. Direct own-label fitting is prevented, but the pipeline is not wholly isolated nested validation. Repeated witness reuse is training validation, not independent confirmation. Original cross-fit probabilities were saved; fold weights were not. Fresh, explicitly labeled reconstructions reproduce the saved probabilities and threshold decisions. Candidate effects, prompt fields, rule transitions and selected guard predictions receive separate audits.
+
+\begin{figure*}[t]\centering\small
+\begin{tabular}{c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c}
+\fbox{\parbox{2.9cm}{\centering More training patients; shared policy fits}} &
+\fbox{\parbox{2.9cm}{\centering Cross-fitted errors; typed edit candidates}} &
+\fbox{\parbox{2.9cm}{\centering LLM selects edits from aggregate evidence}} &
+\fbox{\parbox{2.9cm}{\centering Witness verification; retained rule memory}}\\[1em]
+\fbox{\parbox{2.9cm}{\centering Observed current codes and prior history}} &
+\fbox{\parbox{2.9cm}{\centering Frozen class-probability policy}} &
+\fbox{\parbox{2.9cm}{\centering Apply frozen feature--drug rules}} &
+\fbox{\parbox{2.9cm}{\centering Medication class set; automatic GT scoring}}
+\end{tabular}
+\caption{Implemented rule-agent maintenance (top) and inference (bottom). No test labels enter maintenance. The two rows specify a class-set experiment rather than unrestricted clinical prescribing.}
+\end{figure*}
+\begin{table*}[t]\centering\small
+\caption{Audited rule-agent comparison on the 1,231-visit, 467-patient guard set. Included seeds have completed cross-fit and candidate/output audits. Values are mean $\pm$ sample seed deviation when multiple seeds are available. These development results do not replace the pending common test main table.}
+\begin{tabular}{llrrr}\toprule Panel & Method & Seeds & Patient F1 & Patient Jaccard\\\midrule
+full & uniform policy & 3 & 0.61151 $\pm$ 0.00000 & 0.45742 $\pm$ 0.00000 \\
+full & greedy error rules & 3 & 0.61267 $\pm$ 0.00066 & 0.45863 $\pm$ 0.00064 \\
+full & random candidate rules & 3 & 0.61205 $\pm$ 0.00031 & 0.45791 $\pm$ 0.00027 \\
+full & own error rule agent & 3 & 0.61260 $\pm$ 0.00057 & 0.45856 $\pm$ 0.00057 \\
+full & shuffled evidence rule agent & 3 & 0.61219 $\pm$ 0.00038 & 0.45811 $\pm$ 0.00044 \\
+full & matched proposals without witness gate & 3 & 0.61251 $\pm$ 0.00087 & 0.45840 $\pm$ 0.00102 \\
+molecular & uniform policy & 3 & 0.58113 $\pm$ 0.00000 & 0.42971 $\pm$ 0.00000 \\
+molecular & greedy error rules & 3 & 0.58230 $\pm$ 0.00042 & 0.43084 $\pm$ 0.00039 \\
+molecular & random candidate rules & 3 & 0.58220 $\pm$ 0.00055 & 0.43078 $\pm$ 0.00058 \\
+molecular & own error rule agent & 3 & 0.58198 $\pm$ 0.00014 & 0.43049 $\pm$ 0.00014 \\
+molecular & shuffled evidence rule agent & 3 & 0.58255 $\pm$ 0.00029 & 0.43105 $\pm$ 0.00027 \\
+molecular & matched proposals without witness gate & 3 & 0.58202 $\pm$ 0.00067 & 0.43050 $\pm$ 0.00070 \\
+\bottomrule\end{tabular}\end{table*}
+\begin{table*}[t]\centering\small
+\caption{Actual experience-growth curves on proposal data, which also select models and rounds. Memory counts follow the included seed order 42/137/2026. Policy-only and policy-plus-memory gains are separated.}
+\begin{tabular}{lrrrrl}\toprule Panel & Round & Train patients & Shared policy F1 & Own-agent F1 & Retained rules\\\midrule
+full & 1 & 1423 & 0.56896 & 0.56958 & 1/3/4 \\
+full & 2 & 2846 & 0.58492 & 0.58562 & 5/5/7 \\
+full & 3 & 4269 & 0.59287 & 0.59323 & 6/5/10 \\
+full & 4 & 5692 & 0.59804 & 0.59863 & 6/7/14 \\
+full & 5 & 7115 & 0.60142 & 0.60190 & 8/8/17 \\
+molecular & 1 & 1423 & 0.54232 & 0.54262 & 2/3/2 \\
+molecular & 2 & 2846 & 0.55987 & 0.56008 & 5/5/5 \\
+molecular & 3 & 4269 & 0.56816 & 0.56824 & 7/5/8 \\
+molecular & 4 & 5692 & 0.57481 & 0.57559 & 8/9/10 \\
+molecular & 5 & 7115 & 0.57926 & 0.57996 & 10/9/12 \\
+\bottomrule\end{tabular}\end{table*}
+These curves demonstrate changing artifacts and improvement with more cases, but the language-agent increment is small and must outperform greedy and shuffled controls to support a distinct mechanism claim. Proposal curves are selected-development evidence; final fixed-test curves remain gated.
 
 \section{Agent State and Update Mechanism}
 At round $r$, let the persistent state be $S_r=(W_r,M_r,T_r,K_r)$: prescription-selection parameters, episodic memory, order-tool state, and language skills. Runtime inference takes a patient snapshot, retrieves candidates and applicable experience, plans selections, and compiles structured orders. The current order compiler returns drug, route, dose string, dose unit and observed frequency; unobserved clinical attributes remain unknown.
@@ -652,6 +703,21 @@ neither & 38/64 & 17/60 \\
 both & 45/64 & 10/60 \\
 \bottomrule\end{tabular}\end{table}
 The factorial interaction is 0.00 ID points ($[-10.35,10.77]$) and $+3.33$ transfer points ($[-8.62,15.25]$). Individual removal intervals also include zero; robust skill synergy is not established.
+\paragraph{Executed answer and evidence-tool repair.}
+A registered $2\times2\times2$ fixed factorial separates an instruction-derived answer contract (C), source-bound Observation statistics (S), and the frozen two-skill state (K). Invalid answer shapes trigger another model decision inside the same eight-call budget; no favorable field is extracted after grading. The statistics tool follows actual FHIR pages, groups by exact code and unit, and reports latest/24-hour values with source IDs, completeness and omission flags. Additional HTTP calls and token costs are counted. The compiler and original reference logic remain fixed.
+\begin{table}[t]\centering\small
+\caption{Independently audited repair cells. C/S/K denote contract/statistics/frozen skills. Dashes mean pending, not zero. One fixed run per condition; these are reused exploratory splits.}
+\begin{tabular}{rrrrrr}\toprule C & S & K & Val./80 & ID/64 & Type/60\\\midrule
+0 & 0 & 0 & 45 & 38 & -- \\
+0 & 0 & 1 & 53 & 45 & -- \\
+0 & 1 & 0 & 49 & -- & -- \\
+0 & 1 & 1 & 59 & -- & -- \\
+1 & 0 & 0 & 52 & -- & -- \\
+1 & 0 & 1 & 54 & -- & -- \\
+1 & 1 & 0 & 57 & -- & -- \\
+1 & 1 & 1 & 66 & -- & -- \\
+\bottomrule\end{tabular}\end{table}
+These manually implemented execution repairs are not autonomous tool-code evolution. All eight conditions stay fixed; observed validation or repeated-test outcomes do not select a winner. Raw-page arithmetic, persisted fields and reference scores are independently reconstructed. Earlier skill failures remain in the original table. New independent confirmation and subsequent evidence-validated learning are still required.
 
 \section{Limitations}
 The legacy structured-order experiment uses admission-proxy inputs. Triage has no verified entry timestamp and medication reconciliation lacks storetime; temporal availability is therefore not fully established. A full target-row audit links 1,788,195 records to provider and pharmacy clocks: 42,005 matching provider orders precede admission, 1,425,392 fall within the intended next-six-hour horizon, and 276,269 occur later. There are 438 provider-link admission conflicts, which remain untrusted. Pharmacy entry falls within the horizon for 1,777,546 rows. The two source linkage paths agree on all 1,757,038 rows where both IDs exist and reproduce identical temporal counts. These clocks still differ; the retrospective start-window results are not prospective new-order evidence. The rebuilt recorded-availability cohort addresses these clocks but conditions on coherent, nonempty future orders and lacks complete field-version histories. Candidate vocabularies and one-template-per-drug output limit recall. Recorded prescriptions may omit clinically acceptable alternatives, and agreement does not prove indication or safety. Current language-artifact baselines are task adaptations, not official reruns. Repeated development selection can overfit; independent tests, multiple evolution orders, transfer and matched optimization budgets are necessary before claiming general RSI benefits. External RxEval and SafeRx data access remains unresolved.

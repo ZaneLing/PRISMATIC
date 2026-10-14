@@ -45,7 +45,9 @@ SafeDrug稀疏图、固定分子嵌入的检查点保存，以及ARMR的CPU/GPU�
 ''')
             table='| Panel | Method | Seed | Finished epochs / 50 | Status |\n|---|---|---:|---:|---|\n'
             for p in sorted((HERE/'results').glob('*-seed*.json')):
-                z=json.loads(p.read_text());l=z['lock'];table+=f"| {l['panel']} | {l['method']} | {l['seed']} | {len(z['epochs'])} | {z['status']} |\n"
+                z=json.loads(p.read_text())
+                if 'epochs' not in z:continue
+                l=z['lock'];table+=f"| {l['panel']} | {l['method']} | {l['seed']} | {len(z['epochs'])} | {z['status']} |\n"
             text+=table+'\nQueued seeds/panels are not counted as completed. Snapshot of saved epoch receipts; no provisional neural test score.\n'
         if (HERE/'results/control_audit.json').exists():
             checked=json.loads((HERE/'results/control_audit.json').read_text());assert checked['status']=='passed'
@@ -56,6 +58,74 @@ SafeDrug稀疏图、固定分子嵌入的检查点保存，以及ARMR的CPU/GPU�
                 for name,result in z['methods'].items():
                     g=result['guard'];table+=f"| {panel} | {name} | {g['patient_f1']:.5f} | {g['patient_jaccard']:.5f} | {g['mean_medications']:.2f} |\n"
             text+=table
+        if (HERE/'rsi_addendum.json').exists():
+            text+=('''\n## 6. Executable rule-memory RSI is running\n\nFive rounds expose20/40/60/80/100% of training patients. A common supervised policy is refit; patient-disjoint cross-fitting produces error evidence. The language agent sees only aggregate candidate-rule descriptors and chooses up to4 edits. A separate20% training-patient witness partition accepts beneficial edits; validation/test never supplies candidate feedback. Runtime rules only read observed features and model probabilities. Compared arms are uniform policy, greedy rules, random rules, own-error agent, shuffled-evidence agent and matched proposals without verification. Ordinary coefficient fitting is not called autonomous weight evolution; the changed agent artifact is a typed rule memory. This task predicts classes, not full doses.\n\nSource files, actual proposals, accepted/rejected operations and state hashes are saved. Original fold probabilities were retained but original fold weights were not; a separate raw-source reconstruction explicitly refits the folds and checks probability/decision equality. Scalar witness audits investigate numeric-library warnings without treating warnings as incorrect model predictions. No superiority claim is made from provisional development gains.\n\n''' if lang=='en' else '''\n## 6. 可执行规则记忆RSI已经运行\n\n五轮依次使用20/40/60/80/100%的训练患者。共同监督策略重新拟合，用患者独立交叉拟合产生错误证据；语言agent只看聚合候选规则，最多选择4项编辑。另一20%训练患者作验证证据，只接纳有益编辑，验证/测试不向候选生成提供反馈。运行时规则只读已观察特征和模型概率。对照含普通策略、贪心规则、随机规则、自身错误agent、打乱证据agent和取消验证。普通系数拟合不冒充自主权重进化，实际进化对象是类型化规则记忆；本任务只预测药物类，不生成完整剂量。\n\n代码、真实提议、接纳/拒绝及状态哈希已保存。原始交叉拟合概率有保留，但当时未保存折模型权重；另行从原始就诊数据重拟合各折，明确标注为重建，并核对概率和决策。数值库告警通过标量患者评分重算核验，不把告警当成模型错误。临时开发收益不能证明优于其他方法。\n\n''')
+            table='| Panel | Seed | Completed rounds /5 | Own-error retained rules | Status |\n|---|---:|---:|---:|---|\n'
+            for p in sorted((HERE/'results').glob('*-rsi-seed*.json')):
+                z=json.loads(p.read_text());rows=z['rounds'];count=rows[-1]['arms']['own_error_rule_agent']['memory_size'] if rows else 0
+                table+=f"| {z['lock']['panel']} | {z['lock']['seed']} | {len(rows)} | {count} | {z['status']} |\n"
+            text+=table+'\n[Registered mechanism and controls / 机制与对照登记](rsi_addendum.json) · [Scalar decision audit / 标量决定核验](results/rule_decision_audit.json)\n'
+            text+=('\nThe own-error agent actually changed the following amounts of memory (accepted operations, including later deletions):\n\n' if lang=='en' else '\n自身错误agent实际改变的记忆如下（统计已接纳操作，包含之后删除的规则）：\n\n')
+            text+='| Panel | Seed | Accepted ADD | Accepted DELETE | Retained rules by round |\n|---|---:|---:|---:|---|\n'
+            for p in sorted((HERE/'results').glob('*-rsi-seed*.json')):
+                z=json.loads(p.read_text());ops=[op for row in z['rounds'] for op in row['arms']['own_error_rule_agent']['accepted_operations']]
+                counts=[row['arms']['own_error_rule_agent']['memory_size'] for row in z['rounds']]
+                text+=f"| {z['lock']['panel']} | {z['lock']['seed']} | {sum(o['operation']=='ADD' for o in ops)} | {sum(o['operation']=='DELETE' for o in ops)} | {' → '.join(map(str,counts))} |\n"
+            text+=('\nFor example, a retained rule uses observed prior medication history for class `N02BE` to include that same class when its probability is just below the common threshold. Other candidates use diagnosis or prior-drug features. The log records each exact predicate, drug code, witness score change and rule hash; these statistical associations are not prescribing guidelines.\n' if lang=='en' else '\n例如，一条真实保留规则使用既往药物类`N02BE`，在同类预测概率略低于共同阈值时将其纳入；其他候选使用诊断或既往药类特征。日志记录精确条件、药物编码、witness分数变化与规则哈希。这是可核查的统计关联，不是处方指南。\n')
+        author_audits=sorted((HERE/'results').glob('*-selection-audit-seed*.json'))
+        if author_audits:
+            text+=('\n## 7. Audited author-model development results\n\nOnly completed 50-epoch runs whose selected checkpoint has been reloaded and independently recounted appear here. These are guard results; unfinished seeds remain pending.\n\n' if lang=='en' else '\n## 7. 已核验的作者模型开发结果\n\n这里只列完成50轮、重新加载所选检查点并独立重算通过的运行。以下仍是guard开发结果，未完成种子不补零。\n\n')
+            text+='| Panel | Method | Seed | Guard F1 | Guard Jaccard |\n|---|---|---:|---:|---:|\n'
+            for path in author_audits:
+                z=json.loads(path.read_text());assert z['status']=='passed';m=z['splits']['guard']['selected_metrics']
+                text+=f"| {z['panel']} | {z['method']} | {z['seed']} | {m['patient_f1']:.5f} | {m['patient_jaccard']:.5f} |\n"
+        if (HERE/'results/rsi_development_summary.json').exists():
+            summary=json.loads((HERE/'results/rsi_development_summary.json').read_text())
+            text+=('''\n## 8. Audited rule-memory comparison and experience curves
+
+The table uses the same 1,231 guard visits from 467 patients. Models/rounds are chosen on proposal data only. Each included seed passes raw-source feature reconstruction, fresh cross-fit reproduction, candidate-effect and saved prediction checks. Three-seed standard deviations and paired patient intervals are separate: intervals average the observed seeds first and do not estimate new-seed variability. This is still development evidence.
+
+Witness patients are excluded from candidate induction, but their labels can train policies used for other folds. The shared C hyperparameter is selected through proposal performance of full seen-patient fits. Thus cross-fitting prevents direct fitting of a case's own predictor to its label; it is not a wholly isolated nested validation experiment. The repeated witness gate is training validation, not independent clinical confirmation.
+
+''' if lang=='en' else '''\n## 8. 已核验的规则记忆对照与病例增长曲线
+
+同一1,231次guard就诊／467位患者，模型和轮次只由proposal选择。纳入种子均已通过原始特征重建、重新交叉拟合、候选实际收益和保存预测核验。三种子标准差与患者配对区间分开：区间先平均已有种子，不估计新种子的变化。这仍是开发证据。
+
+验证规则的witness患者不参与候选归纳，但其标签会参与其他折策略的拟合；共同C参数由全部已见患者拟合后的proposal表现选择。因此交叉拟合排除了本例标签对本例预测器的直接拟合，不是完全隔离的嵌套验证。重复使用的witness关口属于训练验证，不是独立临床确认。
+
+''')
+            text+='| Panel | Method | Audited seeds | Guard F1 ± seed SD | Guard Jaccard ± seed SD |\n|---|---|---:|---:|---:|\n'
+            for panel,panel_summary in summary['panels'].items():
+                for arm,z in panel_summary['methods'].items():
+                    def fmt(key):
+                        m=z[key];return f"{m['mean']:.5f}"+(f" ± {m['seed_sd']:.5f}" if m['seed_sd'] is not None else ' (one seed)')
+                    text+=f"| {panel} | {arm} | {len(panel_summary['seeds'])} | {fmt('patient_f1')} | {fmt('patient_jaccard')} |\n"
+            text+='\n| Panel | Own agent minus control | F1 difference (pp) | Patient interval (pp) |\n|---|---|---:|---:|\n'
+            for panel,panel_summary in summary['panels'].items():
+                for arm,z in panel_summary['own_agent_minus_control'].items():
+                    q=z['patient_f1'];lo,hi=q['patient_ci95'];text+=f"| {panel} | {arm} | {100*q['difference']:+.3f} | [{100*lo:+.3f}, {100*hi:+.3f}] |\n"
+            text+='\n| Panel | Round | Training patients | Shared policy proposal F1 | Own-agent proposal F1 | Own retained rules by seed |\n|---|---:|---:|---:|---:|---|\n'
+            for panel,panel_summary in summary['panels'].items():
+                a=panel_summary['proposal_curves']['own_error_rule_agent'];u=panel_summary['proposal_curves']['uniform_policy']
+                for own,uniform in zip(a,u):
+                    mean=lambda z:sum(z)/len(z)
+                    text+=f"| {panel} | {own['round']} | {own['training_patients'][0]} | {mean(uniform['proposal_patient_f1']):.5f} | {mean(own['proposal_patient_f1']):.5f} | {', '.join(map(str,own['memory_size']))} |\n"
+            text+=('\nIncreasing case counts improve the shared supervised predictor; the small incremental memory effect must be compared against greedy and shuffled controls before attributing it to language-agent evolution. These rules represent associations, not validated prescribing indications.\n' if lang=='en' else '\n病例增长首先改善共同监督预测器；记忆的微小额外效果必须对照贪心和打乱证据，才能讨论语言agent进化的贡献。这些规则是统计关联，不是已验证的处方适应证。\n')
+            if (HERE.parent/'paper/figures/rule_memory_development.png').exists():
+                text+='\n![Audited development curves and paired increments](../paper/figures/rule_memory_development.png)\n\n[Editable vector figure](../paper/figures/rule_memory_development.svg)\n'
+        if (HERE/'results/test_audit.json').exists():
+            import hashlib
+            checked=json.loads((HERE/'results/test_audit.json').read_text());path=HERE/'results/test_summary.json'
+            assert checked['status']=='passed' and checked['source_report_sha256']==hashlib.sha256(path.read_bytes()).hexdigest()
+            summary=json.loads(path.read_text())
+            text+=('\n## 9. Completed common test main table\n\nIndependent source-label/prediction recount passes. Full and molecular spaces remain separate; all selections froze before test inference. Each score is patient-averaged over 2,422 visits/890 patients.\n\n' if lang=='en' else '\n## 9. 已完成的共同测试主表\n\n原始标签和预测独立重算通过；完整与分子空间分别报告，全部版本冻结后才运行测试。患者平均基于2,422次就诊／890人。\n\n')
+            text+='| Panel | Method | Runs | Test F1 ± seed SD | Test Jaccard ± seed SD |\n|---|---|---:|---:|---:|\n'
+            for panel,p in summary['panels'].items():
+                for name,z in p['methods'].items():
+                    def fmt(key):
+                        q=z['metrics'][key];return f"{q['mean']:.5f}"+(f" ± {q['seed_sd']:.5f}" if q['seed_sd'] is not None else '')
+                    text+=f"| {panel} | {name} | {z['runs']} | {fmt('patient_f1')} | {fmt('patient_jaccard')} |\n"
+            text+='\n[All raw frozen-round metrics and paired method differences](results/test_summary.json) · [Independent test recount](results/test_audit.json)\n'
         text+='\n## Artifacts / 交付文件\n\n- [Registered protocol](protocol.json) and [training addendum](training_addendum.json)\n- [Implementation details](implementation_notes.json)\n- [Cohort manifest](results/cohort_manifest.json)\n- [Independent audit and missing classes](results/cohort_audit.json)\n- [Public molecule receipts](results/molecular_resource_audit.json)\n- [Actual molecular/graph resources](results/model_resource_manifest.json)\n- [Author-core execution probe](results/author_core_probe.json) and [training runtime equivalence](results/training_runtime_probe.json)\n- [Independent control audit](results/control_audit.json)\n- [Recent-method source audit](../paper/LATEST_METHODS.'+lang+'.md)\n\nRestricted cases, fitted artifacts and patient-level outputs remain local. Public reports contain aggregates and hashes.\n'
         (HERE/f'RESULTS.{lang}.md').write_text(text)
 if __name__=='__main__':main()

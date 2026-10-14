@@ -1,0 +1,358 @@
+{
+  "status": "training",
+  "lock": {
+    "training_protocol_sha256": "e09ea96c571442994bda0abaa0e8954288d3af77f43b72ced565298100754529",
+    "implementation_notes_sha256": "5d2b7e04aa182995a0de9b76776da7c4c3303f865c962628d2c990cd70490c15",
+    "runtime_probe_sha256": "6f8a72e39bee3439e472ea5fa2ffaa3e8c3c231681a676e658b789901bd025d3",
+    "resource_bundle_sha256": "e809d7ebe5f75a99904587640cd9387491da0b27ddf6970e8ac0ed39c011bb72",
+    "source_sha256": {
+      "train_author.py": "d32fb5c27618b4b707477aebc1bd6644548f292e1d44a66f5b70aec96db9a9f6",
+      "method_runtime.py": "36fabbbe3c8f7a4125d24a2352920c17236b7dab85f51e553d35413ff91e996a",
+      "author_cores.py": "fcc4deacd6bb3e912526de3ef68e3717a099c9e8469e1146e516c5c43b54d637"
+    },
+    "device": "mps",
+    "seed": 137,
+    "method": "ARMR",
+    "panel": "full"
+  },
+  "epochs": [
+    {
+      "epoch": 1,
+      "train_loss": 0.3203240370928636,
+      "training_seconds": 76.102224292,
+      "cumulative_optimizer_steps": 595,
+      "cumulative_visit_exposures": 18429,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.4841342656925375,
+          "patient_jaccard": 0.33045392046313155,
+          "micro_f1": 0.4985514880168554,
+          "micro_precision": 0.44342937456078707,
+          "micro_recall": 0.5693233082706767,
+          "mean_medications": 15.594520547945205,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.017741414745926876,
+          "ddi_source_covered_pair_fraction": 0.6703703412052823,
+          "known_graph_pair_rate_covered_pairs": 0.02646509497127956,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 1
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.23393326005073925,
+      "training_seconds": 62.385426208,
+      "cumulative_optimizer_steps": 1190,
+      "cumulative_visit_exposures": 36858,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5110436782829563,
+          "patient_jaccard": 0.3550740323128444,
+          "micro_f1": 0.5275851871323892,
+          "micro_precision": 0.46856942742076696,
+          "micro_recall": 0.6036090225563909,
+          "mean_medications": 15.646575342465754,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.020193667550252325,
+          "ddi_source_covered_pair_fraction": 0.6808967750411524,
+          "known_graph_pair_rate_covered_pairs": 0.02965745806188001,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 2
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.21713441618017731,
+      "training_seconds": 62.422969083,
+      "cumulative_optimizer_steps": 1785,
+      "cumulative_visit_exposures": 55287,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5303816817444,
+          "patient_jaccard": 0.37355135303411524,
+          "micro_f1": 0.5471437951411687,
+          "micro_precision": 0.4856060606060606,
+          "micro_recall": 0.6265413533834586,
+          "mean_medications": 15.67123287671233,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.021372924600440633,
+          "ddi_source_covered_pair_fraction": 0.6585101792054996,
+          "known_graph_pair_rate_covered_pairs": 0.032456483248637584,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 3
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.2053960485985142,
+      "training_seconds": 63.281997125000004,
+      "cumulative_optimizer_steps": 2380,
+      "cumulative_visit_exposures": 73716,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5456391339795057,
+          "patient_jaccard": 0.3885421348922142,
+          "micro_f1": 0.5647371039973461,
+          "micro_precision": 0.5053131493024636,
+          "micro_recall": 0.64,
+          "mean_medications": 15.383561643835616,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.01979314572131313,
+          "ddi_source_covered_pair_fraction": 0.6615457430382595,
+          "known_graph_pair_rate_covered_pairs": 0.02991954211723863,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 4
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.19527195621449844,
+      "training_seconds": 63.86504037499998,
+      "cumulative_optimizer_steps": 2975,
+      "cumulative_visit_exposures": 92145,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5592383637140264,
+          "patient_jaccard": 0.4019693747889258,
+          "micro_f1": 0.5788631971746518,
+          "micro_precision": 0.5197439272466196,
+          "micro_recall": 0.6531578947368422,
+          "mean_medications": 15.26392694063927,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.01982146731550073,
+          "ddi_source_covered_pair_fraction": 0.6485680190930787,
+          "known_graph_pair_rate_covered_pairs": 0.03056189440734059,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 5
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.1866040354022221,
+      "training_seconds": 61.19572329199997,
+      "cumulative_optimizer_steps": 3570,
+      "cumulative_visit_exposures": 110574,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5681535125053511,
+          "patient_jaccard": 0.41089620389966347,
+          "micro_f1": 0.5879769786087361,
+          "micro_precision": 0.527298764842771,
+          "micro_recall": 0.6644360902255639,
+          "mean_medications": 15.305022831050229,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.02039621202197582,
+          "ddi_source_covered_pair_fraction": 0.658342258762974,
+          "known_graph_pair_rate_covered_pairs": 0.030981167850747317,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 6
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.1793130606822631,
+      "training_seconds": 60.68176804199999,
+      "cumulative_optimizer_steps": 4165,
+      "cumulative_visit_exposures": 129003,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5752442367302026,
+          "patient_jaccard": 0.41818588847523686,
+          "micro_f1": 0.5949021695727406,
+          "micro_precision": 0.5336079274116523,
+          "micro_recall": 0.6721052631578948,
+          "mean_medications": 15.2986301369863,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.02069768510716529,
+          "ddi_source_covered_pair_fraction": 0.6564046389778315,
+          "known_graph_pair_rate_covered_pairs": 0.031531899499364,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 7
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.17282760821125598,
+      "training_seconds": 60.50026633300001,
+      "cumulative_optimizer_steps": 4760,
+      "cumulative_visit_exposures": 147432,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5803027648056732,
+          "patient_jaccard": 0.42372634428841033,
+          "micro_f1": 0.6008938917397781,
+          "micro_precision": 0.5368234250221828,
+          "micro_recall": 0.6823308270676691,
+          "mean_medications": 15.438356164383562,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.020904618932456816,
+          "ddi_source_covered_pair_fraction": 0.653883302510501,
+          "known_graph_pair_rate_covered_pairs": 0.031969953739751755,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 8
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.16694643369569248,
+      "training_seconds": 60.98961099999997,
+      "cumulative_optimizer_steps": 5355,
+      "cumulative_visit_exposures": 165861,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5878249807216993,
+          "patient_jaccard": 0.4310933609946348,
+          "micro_f1": 0.6073054807724266,
+          "micro_precision": 0.544230654673259,
+          "micro_recall": 0.6869172932330827,
+          "mean_medications": 15.330593607305936,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.021192103264996202,
+          "ddi_source_covered_pair_fraction": 0.6543659832953682,
+          "known_graph_pair_rate_covered_pairs": 0.032385704339754004,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 9
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.16127048935626975,
+      "training_seconds": 60.50342758299996,
+      "cumulative_optimizer_steps": 5950,
+      "cumulative_visit_exposures": 184290,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5923031733613215,
+          "patient_jaccard": 0.436145066179655,
+          "micro_f1": 0.6119547441844942,
+          "micro_precision": 0.5502010442297306,
+          "micro_recall": 0.6893233082706767,
+          "mean_medications": 15.217351598173517,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.02250055675439068,
+          "ddi_source_covered_pair_fraction": 0.6547047665855213,
+          "known_graph_pair_rate_covered_pairs": 0.034367485777960234,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 10
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.15585631766940267,
+      "training_seconds": 60.25320875,
+      "cumulative_optimizer_steps": 6545,
+      "cumulative_visit_exposures": 202719,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5945965945263114,
+          "patient_jaccard": 0.43832222676002147,
+          "micro_f1": 0.6139715741485653,
+          "micro_precision": 0.5539559641906605,
+          "micro_recall": 0.6885714285714286,
+          "mean_medications": 15.097716894977168,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.021879102331687193,
+          "ddi_source_covered_pair_fraction": 0.6485278489716821,
+          "known_graph_pair_rate_covered_pairs": 0.033736565617620125,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 11
+    },
+    {
+      "epoch": 12,
+      "train_loss": 0.15044524090469336,
+      "training_seconds": 60.03857274999996,
+      "cumulative_optimizer_steps": 7140,
+      "cumulative_visit_exposures": 221148,
+      "proposal": {
+        "threshold": 0.6,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5983299063410524,
+          "patient_jaccard": 0.4421927397862948,
+          "micro_f1": 0.6169335765930131,
+          "micro_precision": 0.5601914345318444,
+          "micro_recall": 0.6864661654135338,
+          "mean_medications": 14.884018264840183,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.022383052147239263,
+          "ddi_source_covered_pair_fraction": 0.6541011630879345,
+          "known_graph_pair_rate_covered_pairs": 0.03421955717303958,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "checkpoint_selected": true,
+      "best_epoch": 12
+    }
+  ],
+  "parameters": 12141073,
+  "test_inference": false
+}

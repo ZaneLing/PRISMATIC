@@ -1,5 +1,44 @@
 # RxRSIAgent: current method tables, evolution evidence and execution status
 
+<!-- RXRSI_CURRENT_EXECUTION_START -->
+## Current executed increment — rule memory and tool repair
+
+**Actual training:** 6/6 rule runs finish five rounds; 1/15 author-model runs finish their full 50 epochs, with 152/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+
+### Development method comparison: same guard set
+
+1,231 visits/467 patients; these are development scores, not the final test main table. Each included seed passes independent source/cross-fit/candidate/prediction audits.
+
+| Panel | Audited seeds | Shared policy F1 | Greedy-rule F1 | Own-error agent F1 | Shuffled-evidence agent F1 |
+|---|---:|---:|---:|---:|---:|
+| full | 3 | 0.61151 | 0.61267 | 0.61260 | 0.61219 |
+| molecular | 3 | 0.58113 | 0.58230 | 0.58198 | 0.58255 |
+
+The changed artifact is executable rule memory: aggregate error evidence → LLM edit proposal → training-witness check → retained rules. Policy coefficients update through ordinary supervised fits. Current increments are small; improvement from more data does not establish a unique RSI advantage. The language model maintains the policy offline; it does not generate a full prescription for each patient in this experiment.
+
+[Full method table, five-round trajectories and paired intervals](../upgrade_v27/RESULTS.en.md)
+
+### FHIR repairs: actual audited executions
+
+| Contract C | Statistics S | Frozen skills K | Validation /80 | ID /64 | Held-out types /60 |
+|---|---|---|---:|---:|---:|
+| 0 | 0 | 0 | 45 | 38 | pending |
+| 0 | 0 | 1 | 53 | 45 | pending |
+| 0 | 1 | 0 | 49 | pending | pending |
+| 0 | 1 | 1 | 59 | pending | pending |
+| 1 | 0 | 0 | 52 | pending | pending |
+| 1 | 0 | 1 | 54 | pending | pending |
+| 1 | 1 | 0 | 57 | pending | pending |
+| 1 | 1 | 1 | 66 | pending | pending |
+
+C enforces the instruction-derived answer shape through actual budgeted retries. S computes source-bound latest/24h Observation statistics with paging and unit separation. K reuses the exact two learned skills. C/S are fixed engineering repairs; no autonomous tool evolution is claimed. All conditions are fixed and all splits reused: exploratory repair, not untouched confirmation.
+
+[Execution receipts, costs and repair contrasts](../upgrade_v28/RESULTS.en.md) · [System diagram](RXRSI_DESIGN.en.md)
+
+Updated 15 October 2026. Versioned historical studies below retain their original protocols and results.
+<!-- RXRSI_CURRENT_EXECUTION_END -->
+
+
 ## Latest completed results: real tools and evolution diagnosis
 
 **FHIR method comparison is complete.** Direct tools / fixed harness / learned skills score **39/38/45 out of64** on ID tasks, and **27/17/10 out of60** on held-out task types. The skill-minus-fixed ID patient interval includes zero; transfer declines with a negative interval. Only two language-skill files evolve. A read-only audit contradicts the name-encoding explanation because the HTTP tool already encodes spaces. Task7 produces30 value-plus-time answers;15 first values are correct and15 wrong, so the0/30 strict score includes a substantial output-contract failure. Frozen skill attribution is complete: neither/name/lab/both score38/44/39/45 ID and17/14/11/10 transfer; interaction intervals include zero. [Full table, intervals and exact skill artifacts](../upgrade_v19/RESULTS.en.md).

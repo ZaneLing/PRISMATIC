@@ -1,5 +1,44 @@
 # RxRSIAgent：当前主表、进化证据与执行状态
 
+<!-- RXRSI_CURRENT_EXECUTION_START -->
+## 当前增量：真实规则进化与工具修复
+
+**实际运行：** 6/6组规则实验完成五轮；作者神经方法1/15组完成各自50轮，总计已完成152/750轮。训练与审计队列继续，正式ATC-L4测试主表等待全部已登记版本和核验完成后统一运行。
+
+### 同一guard上的方法对照（开发结果）
+
+1,231次就诊／467人；这是开发结果，不是最终测试主表。纳入种子均通过独立原始数据、交叉拟合、候选和预测核验。
+
+| Panel | Audited seeds | Shared policy F1 | Greedy-rule F1 | Own-error agent F1 | Shuffled-evidence agent F1 |
+|---|---:|---:|---:|---:|---:|
+| full | 3 | 0.61151 | 0.61267 | 0.61260 | 0.61219 |
+| molecular | 3 | 0.58113 | 0.58230 | 0.58198 | 0.58255 |
+
+真正改变的是**可执行规则记忆**：聚合错误证据→LLM提议编辑→训练witness核验→保留规则。共同策略系数通过普通监督拟合更新。当前额外提升很小；病例增加带来的改善不能直接归因于RSI。此实验的语言模型负责离线维护策略，不为每位患者生成完整处方。
+
+[Full method table, five-round trajectories and paired intervals](../upgrade_v27/RESULTS.zh.md)
+
+### FHIR修复：已执行并审计的结果
+
+| Contract C | Statistics S | Frozen skills K | Validation /80 | ID /64 | Held-out types /60 |
+|---|---|---|---:|---:|---:|
+| 0 | 0 | 0 | 45 | 38 | pending |
+| 0 | 0 | 1 | 53 | 45 | pending |
+| 0 | 1 | 0 | 49 | pending | pending |
+| 0 | 1 | 1 | 59 | pending | pending |
+| 1 | 0 | 0 | 52 | pending | pending |
+| 1 | 0 | 1 | 54 | pending | pending |
+| 1 | 1 | 0 | 57 | pending | pending |
+| 1 | 1 | 1 | 66 | pending | pending |
+
+C按任务文字约束答案形式，不合规时在原预算内重新回答；S从真实分页数据计算最近值／24小时统计并区分单位；K原样复用两条已学技能。C/S属于固定工程修复，不冒充自主工具进化。八种组合固定、划分此前已使用，属于探索性修复。
+
+[Execution receipts, costs and repair contrasts](../upgrade_v28/RESULTS.zh.md) · [System diagram](RXRSI_DESIGN.zh.md)
+
+更新于2026-10-15。下方是保留原协议和结果的历史版本；运行进度以上方为准。
+<!-- RXRSI_CURRENT_EXECUTION_END -->
+
+
 ## 最新完成：真实工具主表与进化诊断
 
 **FHIR跨方法主表已完成。** 直接工具／固定harness／进化技能在同类任务上分别 **39/38/45（共64题）**，未见任务类型分别 **27/17/10（共60题）**。进化相对固定流程的同类提升区间含零，迁移下降区间为负。真实变化是两个语言技能文件；只读审计还发现姓名编码技能的解释不成立，因为工具早已自动编码空格。task7的30例都输出数值加时间，其中15个数值正确、15个错误；0/30的严格成绩包含明显答案协议失败。冻结技能归因已完成：无／姓名／检验／两项技能的同类成绩38/44/39/45，迁移17/14/11/10，交互区间含零。[完整主表、区间、原样技能](../upgrade_v19/RESULTS.zh.md)。

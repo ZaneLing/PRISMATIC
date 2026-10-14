@@ -1,5 +1,21 @@
 # PRISMATIC manuscript completion and execution plan
 
+<!-- RXRSI_CURRENT_EXECUTION_START -->
+## Current execution queue — concrete delivery status
+
+1. Rule-memory mechanism is implemented and executed on both ATC-L4 spaces, three seeds, five case-growth rounds, six arms. Finish independent cross-fit/candidate/witness/output audits and retain all edit decisions and raw curves.
+2. Complete every registered ARMR/GAMENet/SafeDrug run at 50 epochs. The implemented queue reloads each selected checkpoint, audits development predictions, then opens one shared test gate. The evaluator includes conventional methods, all six rule arms, every frozen round and three artifact interventions. Test results cannot retune the methods.
+3. Finish the eight-condition real-FHIR C/S/K factorial across 80 validation, 64 ID and 60 held-out-type tasks. Report every condition, original strict scores, resource integrity, budgets and paired effects. Audit raw-page arithmetic; do not replace old results with posthoc value extraction.
+4. Continue the eICU external-hospital study already running. Preserve zero-target stays and frozen selection. This supplies a separate transport test, not a directly pooled ATC score.
+5. The next registered improvement must address the measured shortfall: tiny rule gains, no established advantage over greedy/shuffled evidence, restricted rule expressivity, and non-nested witness reuse. Add a strong calibration/conditional-rule control and a genuinely isolated witness design before claiming a language-agent benefit. Register any larger mechanism before fitting; reserve untouched confirmation for final claims.
+6. Keep the existing English LaTeX source, bilingual results entry and versioned reports synchronized. Only completed audited experiments enter score tables; compilation and GitHub pushes are checked explicitly.
+
+[Current actual results](CURRENT_RESULTS.en.md) · [Rule study](../upgrade_v27/RESULTS.en.md) · [FHIR repair](../upgrade_v28/RESULTS.en.md)
+
+Earlier entries below are historical snapshots.
+<!-- RXRSI_CURRENT_EXECUTION_END -->
+
+
 ## Current execution update — completed results, remaining work
 
 1. Delivered the full FHIR main comparison, paired patient intervals, exact two-skill artifacts and a read-only claim audit. Generalization declines; frozen single-skill removal/interaction is also complete (no established synergy).

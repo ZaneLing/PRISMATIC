@@ -191,6 +191,52 @@ Public molecular lookup resolves 746 CIDs and validates structures spanning 399 
 \begin{tabular}{llrr}\toprule Label panel & Method & Patient-average F1 & Patient-average Jaccard\\\midrule
 CONTROLROWS
 \bottomrule\end{tabular}\end{table*}'''.replace('CONTROLROWS',rr)
+        if (ROOT/'upgrade_v27/rsi_addendum.json').exists():
+            compatibility_section+=r'''
+\paragraph{Executable rule-memory evolution.}
+Five nested patient-hash rounds expose 20/40/60/80/100\% of training patients. A common logistic class policy is refit with the same development selection as the conventional control. Three patient-disjoint fitting folds produce training-error probabilities. Candidate edits add or remove typed feature--drug inclusion/exclusion rules within a fixed 0.15 threshold band; they cannot inspect the current prescription target at inference. A fixed candidate generator proposes at most 24 supported edits. A language agent receives only aggregate descriptors, support counts and measured error changes and selects up to four IDs per round. A training-witness gate accepts edits only when patient F1 improves without lowering Jaccard, with at least five affected witness patients. At most 20 rules persist.
+
+The evolving artifact is this executable rule memory. Coefficients change through ordinary supervised refitting, and the language model is an offline policy-maintenance component rather than a patient-level prescription generator. Greedy, random, shuffled-evidence and no-witness controls retain identical data exposure and edit limits. The latter reuses the own-error agent's proposals; it is not an independently learned counterfactual trajectory. Full dosage generation is outside this class-set task.
+
+Witness patients are excluded from candidate induction, but their labels participate in other folds' policy fits, and the shared regularization choice uses proposal performance of full seen-patient fits. Direct own-label fitting is prevented, but the pipeline is not wholly isolated nested validation. Repeated witness reuse is training validation, not independent confirmation. Original cross-fit probabilities were saved; fold weights were not. Fresh, explicitly labeled reconstructions reproduce the saved probabilities and threshold decisions. Candidate effects, prompt fields, rule transitions and selected guard predictions receive separate audits.
+
+\begin{figure*}[t]\centering\small
+\begin{tabular}{c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c}
+\fbox{\parbox{2.9cm}{\centering More training patients; shared policy fits}} &
+\fbox{\parbox{2.9cm}{\centering Cross-fitted errors; typed edit candidates}} &
+\fbox{\parbox{2.9cm}{\centering LLM selects edits from aggregate evidence}} &
+\fbox{\parbox{2.9cm}{\centering Witness verification; retained rule memory}}\\[1em]
+\fbox{\parbox{2.9cm}{\centering Observed current codes and prior history}} &
+\fbox{\parbox{2.9cm}{\centering Frozen class-probability policy}} &
+\fbox{\parbox{2.9cm}{\centering Apply frozen feature--drug rules}} &
+\fbox{\parbox{2.9cm}{\centering Medication class set; automatic GT scoring}}
+\end{tabular}
+\caption{Implemented rule-agent maintenance (top) and inference (bottom). No test labels enter maintenance. The two rows specify a class-set experiment rather than unrestricted clinical prescribing.}
+\end{figure*}
+'''
+        if (ROOT/'upgrade_v27/results/rsi_development_summary.json').exists():
+            z=json.loads((ROOT/'upgrade_v27/results/rsi_development_summary.json').read_text())
+            rr=[];growth_rows=[]
+            for panel,p in z['panels'].items():
+                for arm,m in p['methods'].items():
+                    def fmt(key):
+                        q=m[key];return f"{q['mean']:.5f}"+(f" $\\pm$ {q['seed_sd']:.5f}" if q['seed_sd'] is not None else '')
+                    rr.append(f"{panel} & {arm.replace('_',' ')} & {len(p['seeds'])} & {fmt('patient_f1')} & {fmt('patient_jaccard')} \\\\")
+                for own,base in zip(p['proposal_curves']['own_error_rule_agent'],p['proposal_curves']['uniform_policy']):
+                    avg=lambda v:sum(v)/len(v)
+                    growth_rows.append(f"{panel} & {own['round']} & {own['training_patients'][0]} & {avg(base['proposal_patient_f1']):.5f} & {avg(own['proposal_patient_f1']):.5f} & "+'/'.join(map(str,own['memory_size']))+r' \\')
+            compatibility_section+=r'''\begin{table*}[t]\centering\small
+\caption{Audited rule-agent comparison on the 1,231-visit, 467-patient guard set. Included seeds have completed cross-fit and candidate/output audits. Values are mean $\pm$ sample seed deviation when multiple seeds are available. These development results do not replace the pending common test main table.}
+\begin{tabular}{llrrr}\toprule Panel & Method & Seeds & Patient F1 & Patient Jaccard\\\midrule
+RULEDEVROWS
+\bottomrule\end{tabular}\end{table*}
+\begin{table*}[t]\centering\small
+\caption{Actual experience-growth curves on proposal data, which also select models and rounds. Memory counts follow the included seed order 42/137/2026. Policy-only and policy-plus-memory gains are separated.}
+\begin{tabular}{lrrrrl}\toprule Panel & Round & Train patients & Shared policy F1 & Own-agent F1 & Retained rules\\\midrule
+RULEGROWTHROWS
+\bottomrule\end{tabular}\end{table*}
+These curves demonstrate changing artifacts and improvement with more cases, but the language-agent increment is small and must outperform greedy and shuffled controls to support a distinct mechanism claim. Proposal curves are selected-development evidence; final fixed-test curves remain gated.'''.replace('RULEDEVROWS','\n'.join(rr)).replace('RULEGROWTHROWS','\n'.join(growth_rows))
+        compatibility_section=compatibility_section.replace('all baseline and future RxRSI states','all baseline and registered RxRSI states')
     fhir_results=''
     if (ROOT/'upgrade_v19/results/summary.json').exists():
         fhir=json.loads((ROOT/'upgrade_v19/results/summary.json').read_text())
@@ -219,6 +265,23 @@ All 30 learned-skill task7 answers contain a number and timestamp, whereas the o
 ABLATIONROWS
 \bottomrule\end{tabular}\end{table}
 The factorial interaction is 0.00 ID points ($[-10.35,10.77]$) and $+3.33$ transfer points ($[-8.62,15.25]$). Individual removal intervals also include zero; robust skill synergy is not established.'''.replace('ABLATIONROWS',rr)
+    if (ROOT/'upgrade_v28/results/summary.json').exists():
+        repair=json.loads((ROOT/'upgrade_v28/results/summary.json').read_text());rr=[]
+        for c in [0,1]:
+            for s in [0,1]:
+                for k in [0,1]:
+                    cells=repair['conditions'].get(f'C{c}S{s}K{k}',{}).get('splits',{})
+                    values=[str(cells[split]['state_correct']) if split in cells else '--' for split in ['val','id_test','test']]
+                    rr.append(f'{c} & {s} & {k} & '+' & '.join(values)+r' \\')
+        fhir_results+=r'''
+\paragraph{Executed answer and evidence-tool repair.}
+A registered $2\times2\times2$ fixed factorial separates an instruction-derived answer contract (C), source-bound Observation statistics (S), and the frozen two-skill state (K). Invalid answer shapes trigger another model decision inside the same eight-call budget; no favorable field is extracted after grading. The statistics tool follows actual FHIR pages, groups by exact code and unit, and reports latest/24-hour values with source IDs, completeness and omission flags. Additional HTTP calls and token costs are counted. The compiler and original reference logic remain fixed.
+\begin{table}[t]\centering\small
+\caption{Independently audited repair cells. C/S/K denote contract/statistics/frozen skills. Dashes mean pending, not zero. One fixed run per condition; these are reused exploratory splits.}
+\begin{tabular}{rrrrrr}\toprule C & S & K & Val./80 & ID/64 & Type/60\\\midrule
+REPAIRROWS
+\bottomrule\end{tabular}\end{table}
+These manually implemented execution repairs are not autonomous tool-code evolution. All eight conditions stay fixed; observed validation or repeated-test outcomes do not select a winner. Raw-page arithmetic, persisted fields and reference scores are independently reconstructed. Earlier skill failures remain in the original table. New independent confirmation and subsequent evidence-validated learning are still required.'''.replace('REPAIRROWS','\n'.join(rr))
     body=r'''
 \documentclass[11pt]{article}
 \usepackage[review]{acl}

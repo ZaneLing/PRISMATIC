@@ -76,9 +76,21 @@ def audit_episode(row,case,grader):
     return int(row['live_execution_correct'])
 
 def interval(delta,cases):
-    _,ix=np.unique([c['eval_MRN'] for c in cases],return_inverse=True);sizes=np.bincount(ix);sums=np.bincount(ix,weights=delta)
+    units=[];patients=set();absent=0
+    for c in cases:
+        if c.get('eval_MRN'):
+            patients.add(str(c['eval_MRN']));units.append('patient:'+str(c['eval_MRN']))
+        else:
+            # The two released validation name lookups deliberately describe
+            # nonexistent patients. They have no patient to merge or invent.
+            assert c['id'].startswith('task1_') and c['sol']==['Patient not found']
+            units.append('negative_query:'+digest([c['instruction'],c.get('context','')]))
+            absent+=1
+    _,ix=np.unique(units,return_inverse=True);sizes=np.bincount(ix);sums=np.bincount(ix,weights=delta)
     rng=np.random.default_rng(42);draws=rng.integers(0,len(sizes),(4000,len(sizes)));values=sums[draws].sum(1)/sizes[draws].sum(1)
-    return {'difference':float(np.mean(delta)),'patient_ci95':np.quantile(values,[.025,.975]).tolist(),'patients':len(sizes)}
+    return {'difference':float(np.mean(delta)),'patient_ci95':np.quantile(values,[.025,.975]).tolist(),'patients':len(patients),
+      'negative_patient_queries':absent,'resampling_units':len(sizes),
+      'cluster_note':'Explicit patient identities form clusters; declared nonexistent-patient queries are separate query units. This affects two validation cases, not either test split.'}
 
 def main():
     source=json.loads((HERE/'results/method_results.json').read_text());lock=source['lock']

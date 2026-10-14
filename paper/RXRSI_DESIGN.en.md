@@ -2,6 +2,36 @@
 
 Target: ACL 2027. Beating prior methods is a research objective, never a patient-level inference instruction.
 
+## Current implemented prescription-rule agent
+
+The v0.27 path has two phases. During offline maintenance, the language agent edits executable rule memory using aggregate error evidence. At inference, a frozen structured policy and those rules produce a medication-class set. The language model does not run on each patient's restricted record in this experiment.
+
+```mermaid
+flowchart TD
+  A[Accumulate training patients in five rounds] --> B[Refit shared class predictor]
+  B --> C[Patient-disjoint fitting folds produce error probabilities]
+  C --> D[Generate supported feature and drug rule candidates]
+  D --> E[Language agent proposes up to four edits from aggregate evidence]
+  E --> F[Training witness: F1 improves and Jaccard does not fall]
+  F --> G[Accept or reject each edit; save state and hashes]
+  G --> H[Select round on proposal data; freeze all methods]
+  X[Observed diagnoses, procedures and previous visits] --> Y[Frozen class probabilities]
+  Y --> Z[Apply frozen inclusion or exclusion rules]
+  H --> Z
+  Z --> R[Medication-class set and automatic ground-truth evaluation]
+```
+
+| What changes? | How it changes | Required comparison |
+|---|---|---|
+| Structured predictor coefficients | Ordinary refitting on more training patients | Shared predictor without rules |
+| Executable rule memory | Agent proposes ADD/DELETE; witness accepts or rejects | Greedy, random and shuffled-evidence rule selection |
+| Verification policy | Fixed in the main arm | Same proposals without the witness gate |
+| Language-model weights and tool code | Fixed in this experiment | No claim of autonomous weight/tool evolution |
+
+All raw round states are retained. Removing selected memory, substituting first-round memory and substituting first-round policy test the artifacts without retuning. Cross-fitting excludes direct fitting on the predicted case's label; witness reuse and cross-fold training dependencies remain disclosed. Rule associations do not establish clinical indications, dose correctness or human-like reasoning. [Actual rounds and comparisons](../upgrade_v27/RESULTS.en.md).
+
+The separate v0.28 real-FHIR experiment repairs answer contracts and source-bound lab statistics while learned skills stay frozen. Those human-written repairs are evaluated in a full factorial and are not labeled self-evolution. [Execution results](../upgrade_v28/RESULTS.en.md).
+
 ## Workflow
 
 ```mermaid

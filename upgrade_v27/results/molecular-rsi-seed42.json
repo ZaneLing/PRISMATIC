@@ -1,0 +1,3529 @@
+{
+  "status": "selection_frozen",
+  "lock": {
+    "protocol_sha256": "537209374cf0f219dd4d9f6b8318087bd9b35da7c82e9437ccd7d1a43e67a555",
+    "bundle_sha256": "b861af74c5099fa39cf0507033af18da8e90344c15706cdd673ae6ec83a8ec9a",
+    "seed": 42,
+    "panel": "molecular",
+    "sources": {
+      "train_rule_agent.py": "476e4a8db48139e781de769ad1f0fe807d9696e4d9472744f85f51d2bc0e89ff",
+      "rule_memory.py": "9eba115cd82a212ff028503b9b92f3a68b35a592c54b0616a1a102fba17a9a58",
+      "rule_proposer.py": "00e98dc0407f7c0bf9a19243ced6828a9f9c0cfacabb4f142600be85c55a456d",
+      "control_features.py": "a12d4e3241d73f50832c5eba487a8dd945f3dc2965b5042680545024c23f4cc4",
+      "method_runtime.py": "36fabbbe3c8f7a4125d24a2352920c17236b7dab85f51e553d35413ff91e996a"
+    }
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "training_patients": 1423,
+      "training_visits": 3760,
+      "members_sha256": "debfdf922fea28c39abd1ce99b5653e6d7017856c6ac7a5716762072dcef1c9a",
+      "base_model_sha256": "57d6a41f428a9e46877fe1eac0cb45c495588f22a094dd18ebad1cd7740c4301",
+      "shared_policy_selection": {
+        "C": 10.0,
+        "threshold": 0.3,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5439342650569917,
+          "patient_jaccard": 0.3927729165153741,
+          "micro_f1": 0.5680195415257422,
+          "micro_precision": 0.5748787677094228,
+          "micro_recall": 0.561322068517315,
+          "mean_medications": 9.604566210045663,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.03389580179448362,
+          "ddi_source_covered_pair_fraction": 0.9957722556585312,
+          "known_graph_pair_rate_covered_pairs": 0.03403971299849825,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "arms": {
+        "uniform_policy": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5439342650569917,
+            "patient_jaccard": 0.3927729165153741,
+            "micro_f1": 0.5680195415257422,
+            "micro_precision": 0.5748787677094228,
+            "micro_recall": 0.561322068517315,
+            "mean_medications": 9.604566210045663,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03389580179448362,
+            "ddi_source_covered_pair_fraction": 0.9957722556585312,
+            "known_graph_pair_rate_covered_pairs": 0.03403971299849825,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 0,
+          "proposed_edits": 0,
+          "accepted_edits": 0,
+          "memory_size": 0,
+          "memory_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 1,
+          "accepted_operations": []
+        },
+        "greedy_error_rules": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5439825771285769,
+            "patient_jaccard": 0.39266091796270497,
+            "micro_f1": 0.5677854865929121,
+            "micro_precision": 0.5734305463497775,
+            "micro_recall": 0.5622504874199239,
+            "mean_medications": 9.644748858447489,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03368374704166437,
+            "ddi_source_covered_pair_fraction": 0.995798704753518,
+            "known_graph_pair_rate_covered_pairs": 0.03382585946423965,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 1,
+          "memory_size": 1,
+          "memory_sha256": "8e1eba371b53938deba7df044ae794cc89813831595fee1df2f9b20fc5ef7d78",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 1,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32489,
+                "feature": "prior_medication_history:N02BE",
+                "drug_index": 154,
+                "drug": "N02BE",
+                "action": "include",
+                "id": "e172a86a1bd4b0112575"
+              },
+              "witness_before": {
+                "patient_f1": 0.5481816843882432,
+                "patient_jaccard": 0.39633366568040407
+              },
+              "witness_after": {
+                "patient_f1": 0.5485199306740149,
+                "patient_jaccard": 0.3968236445395973
+              }
+            }
+          ]
+        },
+        "random_candidate_rules": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5448762723708007,
+            "patient_jaccard": 0.3934547024711746,
+            "micro_f1": 0.5687687125748503,
+            "micro_precision": 0.5732201791607732,
+            "micro_recall": 0.5643858508959242,
+            "mean_medications": 9.684931506849315,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.033672670321064996,
+            "ddi_source_covered_pair_fraction": 0.9958296151954982,
+            "known_graph_pair_rate_covered_pairs": 0.03381368640503273,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 3,
+          "memory_size": 3,
+          "memory_sha256": "1e0c442c6f34f09868ec095704a34a1cafaf1f6d6eb9fe289635941207d9cf69",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 1,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32213,
+                "feature": "last_visit_medication:J01DE",
+                "drug_index": 97,
+                "drug": "J01DE",
+                "action": "include",
+                "id": "2e90b5510896743e2112"
+              },
+              "witness_before": {
+                "patient_f1": 0.5481816843882432,
+                "patient_jaccard": 0.39633366568040407
+              },
+              "witness_after": {
+                "patient_f1": 0.5484378565569759,
+                "patient_jaccard": 0.3966020797348011
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32270,
+                "feature": "last_visit_medication:N02BE",
+                "drug_index": 154,
+                "drug": "N02BE",
+                "action": "include",
+                "id": "f0ba39ae8a911000bec0"
+              },
+              "witness_before": {
+                "patient_f1": 0.5484378565569759,
+                "patient_jaccard": 0.3966020797348011
+              },
+              "witness_after": {
+                "patient_f1": 0.5487559634987649,
+                "patient_jaccard": 0.3970525279717234
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32171,
+                "feature": "last_visit_medication:C07AB",
+                "drug_index": 55,
+                "drug": "C07AB",
+                "action": "include",
+                "id": "a82e23ecda6492e14ea9"
+              },
+              "witness_before": {
+                "patient_f1": 0.5487559634987649,
+                "patient_jaccard": 0.3970525279717234
+              },
+              "witness_after": {
+                "patient_f1": 0.5489399900375199,
+                "patient_jaccard": 0.3971561248064359
+              }
+            }
+          ]
+        },
+        "own_error_rule_agent": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5438758229861141,
+            "patient_jaccard": 0.39257673921577163,
+            "micro_f1": 0.5676966292134832,
+            "micro_precision": 0.5725753140050996,
+            "micro_recall": 0.5629003806517501,
+            "mean_medications": 9.670319634703196,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.0335036496350365,
+            "ddi_source_covered_pair_fraction": 0.9958211678832117,
+            "known_graph_pair_rate_covered_pairs": 0.03364424327939748,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 2,
+          "memory_size": 2,
+          "memory_sha256": "c4e36908b9582f0751545ed10d9a6a320757caba89d05ec6b92be4f0e0363266",
+          "proposal_status": "valid",
+          "proposer_calls": 1,
+          "proposer_cost_usd": 0.00041646,
+          "best_round": 1,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32489,
+                "feature": "prior_medication_history:N02BE",
+                "drug_index": 154,
+                "drug": "N02BE",
+                "action": "include",
+                "id": "e172a86a1bd4b0112575"
+              },
+              "witness_before": {
+                "patient_f1": 0.5481816843882432,
+                "patient_jaccard": 0.39633366568040407
+              },
+              "witness_after": {
+                "patient_f1": 0.5485199306740149,
+                "patient_jaccard": 0.3968236445395973
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32122,
+                "feature": "last_visit_medication:A04AA",
+                "drug_index": 6,
+                "drug": "A04AA",
+                "action": "include",
+                "id": "c8a3ffca0e2ed020018c"
+              },
+              "witness_before": {
+                "patient_f1": 0.5485199306740149,
+                "patient_jaccard": 0.3968236445395973
+              },
+              "witness_after": {
+                "patient_f1": 0.5490465578496629,
+                "patient_jaccard": 0.39740147795917236
+              }
+            }
+          ]
+        },
+        "shuffled_evidence_rule_agent": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5442882301310855,
+            "patient_jaccard": 0.39294420987366935,
+            "micro_f1": 0.568483201349515,
+            "micro_precision": 0.5738883632923368,
+            "micro_recall": 0.5631789063225328,
+            "mean_medications": 9.65296803652968,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.033919712972963076,
+            "ddi_source_covered_pair_fraction": 0.995789781983928,
+            "known_graph_pair_rate_covered_pairs": 0.03406312616040736,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 2,
+          "memory_size": 2,
+          "memory_sha256": "41ed5286920a1bf2498082bbb792ce4a48e046b43a1d8428b12d197b5550ff2b",
+          "proposal_status": "valid",
+          "proposer_calls": 1,
+          "proposer_cost_usd": 0.00033796,
+          "best_round": 1,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 7250,
+                "feature": "current_diagnosis:ICD9:2859",
+                "drug_index": 176,
+                "drug": "N05BA",
+                "action": "include",
+                "id": "03bb538adb9006893eff"
+              },
+              "witness_before": {
+                "patient_f1": 0.5481816843882432,
+                "patient_jaccard": 0.39633366568040407
+              },
+              "witness_after": {
+                "patient_f1": 0.5487637188252351,
+                "patient_jaccard": 0.39684092901344714
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32213,
+                "feature": "last_visit_medication:J01DE",
+                "drug_index": 97,
+                "drug": "J01DE",
+                "action": "include",
+                "id": "2e90b5510896743e2112"
+              },
+              "witness_before": {
+                "patient_f1": 0.5487637188252351,
+                "patient_jaccard": 0.39684092901344714
+              },
+              "witness_after": {
+                "patient_f1": 0.5490191258755335,
+                "patient_jaccard": 0.3971059730689226
+              }
+            }
+          ]
+        },
+        "matched_proposals_without_witness_gate": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5447156101809585,
+            "patient_jaccard": 0.3930733142219204,
+            "micro_f1": 0.5682536730518877,
+            "micro_precision": 0.5691533948030176,
+            "micro_recall": 0.5673567913842725,
+            "mean_medications": 9.805479452054794,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.033386752136752136,
+            "ddi_source_covered_pair_fraction": 0.9959223646723647,
+            "known_graph_pair_rate_covered_pairs": 0.03352344853480181,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 4,
+          "memory_size": 4,
+          "memory_sha256": "1aeddb109fe09978a91c8f44d29a1c473648c07b0d303a5bd1aca6221faed74a",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 1,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32489,
+                "feature": "prior_medication_history:N02BE",
+                "drug_index": 154,
+                "drug": "N02BE",
+                "action": "include",
+                "id": "e172a86a1bd4b0112575"
+              },
+              "witness_before": {
+                "patient_f1": 0.5481816843882432,
+                "patient_jaccard": 0.39633366568040407
+              },
+              "witness_after": {
+                "patient_f1": 0.5485199306740149,
+                "patient_jaccard": 0.3968236445395973
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32485,
+                "feature": "prior_medication_history:N02AA",
+                "drug_index": 97,
+                "drug": "J01DE",
+                "action": "include",
+                "id": "7b62414a7443026f3f6d"
+              },
+              "witness_before": {
+                "patient_f1": 0.5485199306740149,
+                "patient_jaccard": 0.3968236445395973
+              },
+              "witness_after": {
+                "patient_f1": 0.5480862997058902,
+                "patient_jaccard": 0.3963096499514926
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32511,
+                "feature": "prior_medication_history:N05BA",
+                "drug_index": 176,
+                "drug": "N05BA",
+                "action": "include",
+                "id": "a669fad35f374519d5e1"
+              },
+              "witness_before": {
+                "patient_f1": 0.5480862997058902,
+                "patient_jaccard": 0.3963096499514926
+              },
+              "witness_after": {
+                "patient_f1": 0.5479040555142158,
+                "patient_jaccard": 0.3961176913693739
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32122,
+                "feature": "last_visit_medication:A04AA",
+                "drug_index": 6,
+                "drug": "A04AA",
+                "action": "include",
+                "id": "c8a3ffca0e2ed020018c"
+              },
+              "witness_before": {
+                "patient_f1": 0.5479040555142158,
+                "patient_jaccard": 0.3961176913693739
+              },
+              "witness_after": {
+                "patient_f1": 0.5484263980266322,
+                "patient_jaccard": 0.39668411863875286
+              }
+            }
+          ]
+        }
+      },
+      "best": {
+        "uniform_policy": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5792600388487352,
+            "patient_jaccard": 0.4265575912832905,
+            "micro_f1": 0.6027929344307777,
+            "micro_precision": 0.6004606172270843,
+            "micro_recall": 0.6051434407204531,
+            "mean_medications": 9.91324200913242,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03433565346551754,
+            "ddi_source_covered_pair_fraction": 0.9978237966113405,
+            "known_graph_pair_rate_covered_pairs": 0.034410537794471466,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "greedy_error_rules": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5798083829319753,
+            "patient_jaccard": 0.42710890566573717,
+            "micro_f1": 0.6038031216906856,
+            "micro_precision": 0.5989221775666789,
+            "micro_recall": 0.6087642744406276,
+            "mean_medications": 9.998173515981735,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03413896767838035,
+            "ddi_source_covered_pair_fraction": 0.9978599453097134,
+            "known_graph_pair_rate_covered_pairs": 0.034212183622406425,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "a54eb8d98078f5955947dff867f7e0a6b882d52a1a4b6f3c52c2c7f25ab0ecc5"
+        },
+        "random_candidate_rules": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5796950570366959,
+            "patient_jaccard": 0.42688057447544575,
+            "micro_f1": 0.6033848417954378,
+            "micro_precision": 0.5978310398250251,
+            "micro_recall": 0.6090428001114103,
+            "mean_medications": 10.021004566210046,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.034171109418634174,
+            "ddi_source_covered_pair_fraction": 0.9978674790555979,
+            "known_graph_pair_rate_covered_pairs": 0.03424413575535542,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "d5cf8d90b98124186e9a50d9b78b8e6550a4df7f9a7135828b5f4e5a4e336126"
+        },
+        "own_error_rule_agent": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5798605595048053,
+            "patient_jaccard": 0.42714807228262164,
+            "micro_f1": 0.604092894918372,
+            "micro_precision": 0.5985055585930381,
+            "micro_recall": 0.6097855352334973,
+            "mean_medications": 10.021917808219179,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03396895038812015,
+            "ddi_source_covered_pair_fraction": 0.9978569017887277,
+            "known_graph_pair_rate_covered_pairs": 0.03404190553498047,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "f68e06a8fab1abdbeeb1f5ef269e0f0793155dd44ad6bf2ac7c03b00951b6759"
+        },
+        "shuffled_evidence_rule_agent": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5800909399836213,
+            "patient_jaccard": 0.4272369335127725,
+            "micro_f1": 0.6043653705062363,
+            "micro_precision": 0.5970825405454381,
+            "micro_recall": 0.6118280568192368,
+            "mean_medications": 10.07945205479452,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.034226066009802776,
+            "ddi_source_covered_pair_fraction": 0.9978755081215812,
+            "known_graph_pair_rate_covered_pairs": 0.034298933816133574,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "b953f86b24a4474f7be566dd1cc3e9054d46645bbcd4ded2aeb00bbffd9dc673"
+        },
+        "matched_proposals_without_witness_gate": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5789064819641186,
+            "patient_jaccard": 0.4258865383931098,
+            "micro_f1": 0.6030963145636389,
+            "micro_precision": 0.59347474384325,
+            "micro_recall": 0.6130350013926283,
+            "mean_medications": 10.160730593607306,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03355195939487822,
+            "ddi_source_covered_pair_fraction": 0.9979071223756633,
+            "known_graph_pair_rate_covered_pairs": 0.03362232681033771,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "f7815737b4965678c22c75302a00d58553eccbad43251aa4e5f011aa630ad5b7"
+        }
+      },
+      "elapsed_this_attempt_seconds": 26.518077833
+    },
+    {
+      "round": 2,
+      "training_patients": 2846,
+      "training_visits": 7471,
+      "members_sha256": "1d7fdcc1bcac23986e88c90b3f6d73eb726457796b17134ea73dcabcd7856b2a",
+      "base_model_sha256": "d38b8f71c443b04bda437e52d9c6101bac402a490ec633968e1cd34fb933f446",
+      "shared_policy_selection": {
+        "C": 1.0,
+        "threshold": 0.3,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5599584419624056,
+          "patient_jaccard": 0.4076566838367571,
+          "micro_f1": 0.5804573414095882,
+          "micro_precision": 0.5872126163784913,
+          "micro_recall": 0.5738557237025346,
+          "mean_medications": 9.612785388127854,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.03283548483938757,
+          "ddi_source_covered_pair_fraction": 0.9997936055238668,
+          "known_graph_pair_rate_covered_pairs": 0.032842263301116635,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "arms": {
+        "uniform_policy": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5599584419624056,
+            "patient_jaccard": 0.4076566838367571,
+            "micro_f1": 0.5804573414095882,
+            "micro_precision": 0.5872126163784913,
+            "micro_recall": 0.5738557237025346,
+            "mean_medications": 9.612785388127854,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03283548483938757,
+            "ddi_source_covered_pair_fraction": 0.9997936055238668,
+            "known_graph_pair_rate_covered_pairs": 0.032842263301116635,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 0,
+          "proposed_edits": 0,
+          "accepted_edits": 0,
+          "memory_size": 0,
+          "memory_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 2,
+          "accepted_operations": []
+        },
+        "greedy_error_rules": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5606272442368606,
+            "patient_jaccard": 0.40823132582943394,
+            "micro_f1": 0.5811589450508268,
+            "micro_precision": 0.586516641452345,
+            "micro_recall": 0.575898245288274,
+            "mean_medications": 9.658447488584475,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.0325989877939863,
+            "ddi_source_covered_pair_fraction": 0.999795325989878,
+            "known_graph_pair_rate_covered_pairs": 0.032605661325442466,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 2,
+          "memory_size": 3,
+          "memory_sha256": "6c96e783ab8cd8a7fe4a86999386d7d00bb6633d42fae4c8cb38a6f42081482d",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 2,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 7021,
+                "feature": "current_diagnosis:ICD9:2449",
+                "drug_index": 86,
+                "drug": "H03AA",
+                "action": "include",
+                "id": "7ff75e96a0eb3810a4a1"
+              },
+              "witness_before": {
+                "patient_f1": 0.5648199657879622,
+                "patient_jaccard": 0.4122952313160603
+              },
+              "witness_after": {
+                "patient_f1": 0.5654705357042533,
+                "patient_jaccard": 0.41293846680146873
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 734,
+                "feature": "current_diagnosis:ICD10:E039",
+                "drug_index": 86,
+                "drug": "H03AA",
+                "action": "include",
+                "id": "c391ec404917898e6838"
+              },
+              "witness_before": {
+                "patient_f1": 0.5654705357042533,
+                "patient_jaccard": 0.41293846680146873
+              },
+              "witness_after": {
+                "patient_f1": 0.5659602720634451,
+                "patient_jaccard": 0.4134028409049949
+              }
+            }
+          ]
+        },
+        "random_candidate_rules": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5601048576486648,
+            "patient_jaccard": 0.4076666028514313,
+            "micro_f1": 0.5809737407718905,
+            "micro_precision": 0.5847991722321513,
+            "micro_recall": 0.5771980317519265,
+            "mean_medications": 9.708675799086757,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.032441305029416646,
+            "ddi_source_covered_pair_fraction": 0.9997971265745744,
+            "known_graph_pair_rate_covered_pairs": 0.0324478878435713,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 4,
+          "memory_size": 7,
+          "memory_sha256": "1a452ac203909de7f7a41a9f621f50a5b4634af1c1f2dcce76b4b3a3a9176b0b",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 2,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32141,
+                "feature": "last_visit_medication:B01AC",
+                "drug_index": 25,
+                "drug": "B01AC",
+                "action": "include",
+                "id": "9601b1c281e5e8d5036a"
+              },
+              "witness_before": {
+                "patient_f1": 0.5646560178410607,
+                "patient_jaccard": 0.4121018830384975
+              },
+              "witness_after": {
+                "patient_f1": 0.5648745829848285,
+                "patient_jaccard": 0.4123569829186067
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32383,
+                "feature": "prior_medication_history:C03CA",
+                "drug_index": 144,
+                "drug": "M04AA",
+                "action": "include",
+                "id": "d2ecf487e5bd2e60e75e"
+              },
+              "witness_before": {
+                "patient_f1": 0.5648745829848285,
+                "patient_jaccard": 0.4123569829186067
+              },
+              "witness_after": {
+                "patient_f1": 0.5652303405454522,
+                "patient_jaccard": 0.4127648952156743
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 7038,
+                "feature": "current_diagnosis:ICD9:25000",
+                "drug_index": 86,
+                "drug": "H03AA",
+                "action": "include",
+                "id": "a8dd6065910956fb450b"
+              },
+              "witness_before": {
+                "patient_f1": 0.5652303405454522,
+                "patient_jaccard": 0.4127648952156743
+              },
+              "witness_after": {
+                "patient_f1": 0.5654628492292354,
+                "patient_jaccard": 0.41297515887988534
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 7937,
+                "feature": "current_diagnosis:ICD9:41401",
+                "drug_index": 86,
+                "drug": "H03AA",
+                "action": "include",
+                "id": "7fca1aa5a54199e3842e"
+              },
+              "witness_before": {
+                "patient_f1": 0.5654628492292354,
+                "patient_jaccard": 0.41297515887988534
+              },
+              "witness_after": {
+                "patient_f1": 0.5656307393766888,
+                "patient_jaccard": 0.41314749015228586
+              }
+            }
+          ]
+        },
+        "own_error_rule_agent": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5602895245929155,
+            "patient_jaccard": 0.40772400566853045,
+            "micro_f1": 0.5815582959641256,
+            "micro_precision": 0.5852213970104353,
+            "micro_recall": 0.5779407668740135,
+            "mean_medications": 9.714155251141552,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.032268147385452674,
+            "ddi_source_covered_pair_fraction": 0.9997977495035669,
+            "known_graph_pair_rate_covered_pairs": 0.03227467495448443,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 3,
+          "memory_size": 5,
+          "memory_sha256": "dfb0fe384d528647caddb8225a60577cc80b565f715b3dc12cceaa93187b9f50",
+          "proposal_status": "valid",
+          "proposer_calls": 1,
+          "proposer_cost_usd": 7.90896e-05,
+          "best_round": 2,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 7021,
+                "feature": "current_diagnosis:ICD9:2449",
+                "drug_index": 86,
+                "drug": "H03AA",
+                "action": "include",
+                "id": "7ff75e96a0eb3810a4a1"
+              },
+              "witness_before": {
+                "patient_f1": 0.5648879090694583,
+                "patient_jaccard": 0.4123309265603653
+              },
+              "witness_after": {
+                "patient_f1": 0.5655384789857496,
+                "patient_jaccard": 0.41297416204577375
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32141,
+                "feature": "last_visit_medication:B01AC",
+                "drug_index": 25,
+                "drug": "B01AC",
+                "action": "include",
+                "id": "9601b1c281e5e8d5036a"
+              },
+              "witness_before": {
+                "patient_f1": 0.5655384789857496,
+                "patient_jaccard": 0.41297416204577375
+              },
+              "witness_after": {
+                "patient_f1": 0.565758411254379,
+                "patient_jaccard": 0.4132265452502668
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32172,
+                "feature": "last_visit_medication:C07AG",
+                "drug_index": 56,
+                "drug": "C07AG",
+                "action": "include",
+                "id": "118a36e1674352bbdfff"
+              },
+              "witness_before": {
+                "patient_f1": 0.565758411254379,
+                "patient_jaccard": 0.4132265452502668
+              },
+              "witness_after": {
+                "patient_f1": 0.5657770911042067,
+                "patient_jaccard": 0.4132327343710031
+              }
+            }
+          ]
+        },
+        "shuffled_evidence_rule_agent": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5606515969933912,
+            "patient_jaccard": 0.40799439629647893,
+            "micro_f1": 0.5814213766088416,
+            "micro_precision": 0.5840906961491614,
+            "micro_recall": 0.5787763438863616,
+            "mean_medications": 9.74703196347032,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03238035933407813,
+            "ddi_source_covered_pair_fraction": 0.999798538488306,
+            "known_graph_pair_rate_covered_pairs": 0.032386884044696834,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 3,
+          "memory_size": 5,
+          "memory_sha256": "ff5fdf401a225d0ff33e5ff26758aded060e38e2a87c106386eea63d8f528ff3",
+          "proposal_status": "valid",
+          "proposer_calls": 1,
+          "proposer_cost_usd": 0.000422895,
+          "best_round": 2,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32172,
+                "feature": "last_visit_medication:C07AG",
+                "drug_index": 56,
+                "drug": "C07AG",
+                "action": "include",
+                "id": "118a36e1674352bbdfff"
+              },
+              "witness_before": {
+                "patient_f1": 0.5649215698985111,
+                "patient_jaccard": 0.412255210277677
+              },
+              "witness_after": {
+                "patient_f1": 0.5649381841443357,
+                "patient_jaccard": 0.41225648001927895
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32360,
+                "feature": "prior_medication_history:B01AC",
+                "drug_index": 25,
+                "drug": "B01AC",
+                "action": "include",
+                "id": "bb704e11da20ed7f745b"
+              },
+              "witness_before": {
+                "patient_f1": 0.5649381841443357,
+                "patient_jaccard": 0.41225648001927895
+              },
+              "witness_after": {
+                "patient_f1": 0.5650705212828887,
+                "patient_jaccard": 0.41243186176136337
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 7136,
+                "feature": "current_diagnosis:ICD9:2724",
+                "drug_index": 86,
+                "drug": "H03AA",
+                "action": "include",
+                "id": "fce5586edf653627854e"
+              },
+              "witness_before": {
+                "patient_f1": 0.5650705212828887,
+                "patient_jaccard": 0.41243186176136337
+              },
+              "witness_after": {
+                "patient_f1": 0.5652872052998261,
+                "patient_jaccard": 0.4126446089313474
+              }
+            }
+          ]
+        },
+        "matched_proposals_without_witness_gate": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5591540074724388,
+            "patient_jaccard": 0.4062297955007266,
+            "micro_f1": 0.5801760074108383,
+            "micro_precision": 0.5788889915888714,
+            "micro_recall": 0.5814687587039272,
+            "mean_medications": 9.880365296803653,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03166047972587093,
+            "ddi_source_covered_pair_fraction": 0.9998036836093661,
+            "known_graph_pair_rate_covered_pairs": 0.031666696417414895,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 4,
+          "memory_size": 8,
+          "memory_sha256": "919109014650bd1802de6827404057d93530b100860fec85aa2cd376a48df406",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 2,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 7021,
+                "feature": "current_diagnosis:ICD9:2449",
+                "drug_index": 86,
+                "drug": "H03AA",
+                "action": "include",
+                "id": "7ff75e96a0eb3810a4a1"
+              },
+              "witness_before": {
+                "patient_f1": 0.5624316398634492,
+                "patient_jaccard": 0.40957778384768356
+              },
+              "witness_after": {
+                "patient_f1": 0.56308006422111,
+                "patient_jaccard": 0.41021388733216213
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32141,
+                "feature": "last_visit_medication:B01AC",
+                "drug_index": 25,
+                "drug": "B01AC",
+                "action": "include",
+                "id": "9601b1c281e5e8d5036a"
+              },
+              "witness_before": {
+                "patient_f1": 0.56308006422111,
+                "patient_jaccard": 0.41021388733216213
+              },
+              "witness_after": {
+                "patient_f1": 0.5632991269508317,
+                "patient_jaccard": 0.41047457336508825
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32172,
+                "feature": "last_visit_medication:C07AG",
+                "drug_index": 56,
+                "drug": "C07AG",
+                "action": "include",
+                "id": "118a36e1674352bbdfff"
+              },
+              "witness_before": {
+                "patient_f1": 0.5632991269508317,
+                "patient_jaccard": 0.41047457336508825
+              },
+              "witness_after": {
+                "patient_f1": 0.5633168712780428,
+                "patient_jaccard": 0.4104677087026954
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32360,
+                "feature": "prior_medication_history:B01AC",
+                "drug_index": 25,
+                "drug": "B01AC",
+                "action": "include",
+                "id": "bb704e11da20ed7f745b"
+              },
+              "witness_before": {
+                "patient_f1": 0.5633168712780428,
+                "patient_jaccard": 0.4104677087026954
+              },
+              "witness_after": {
+                "patient_f1": 0.5632272965365638,
+                "patient_jaccard": 0.41038258833632096
+              }
+            }
+          ]
+        }
+      },
+      "best": {
+        "uniform_policy": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5792600388487352,
+            "patient_jaccard": 0.4265575912832905,
+            "micro_f1": 0.6027929344307777,
+            "micro_precision": 0.6004606172270843,
+            "micro_recall": 0.6051434407204531,
+            "mean_medications": 9.91324200913242,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03433565346551754,
+            "ddi_source_covered_pair_fraction": 0.9978237966113405,
+            "known_graph_pair_rate_covered_pairs": 0.034410537794471466,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "greedy_error_rules": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5798083829319753,
+            "patient_jaccard": 0.42710890566573717,
+            "micro_f1": 0.6038031216906856,
+            "micro_precision": 0.5989221775666789,
+            "micro_recall": 0.6087642744406276,
+            "mean_medications": 9.998173515981735,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03413896767838035,
+            "ddi_source_covered_pair_fraction": 0.9978599453097134,
+            "known_graph_pair_rate_covered_pairs": 0.034212183622406425,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "a54eb8d98078f5955947dff867f7e0a6b882d52a1a4b6f3c52c2c7f25ab0ecc5"
+        },
+        "random_candidate_rules": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5796950570366959,
+            "patient_jaccard": 0.42688057447544575,
+            "micro_f1": 0.6033848417954378,
+            "micro_precision": 0.5978310398250251,
+            "micro_recall": 0.6090428001114103,
+            "mean_medications": 10.021004566210046,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.034171109418634174,
+            "ddi_source_covered_pair_fraction": 0.9978674790555979,
+            "known_graph_pair_rate_covered_pairs": 0.03424413575535542,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "d5cf8d90b98124186e9a50d9b78b8e6550a4df7f9a7135828b5f4e5a4e336126"
+        },
+        "own_error_rule_agent": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5798605595048053,
+            "patient_jaccard": 0.42714807228262164,
+            "micro_f1": 0.604092894918372,
+            "micro_precision": 0.5985055585930381,
+            "micro_recall": 0.6097855352334973,
+            "mean_medications": 10.021917808219179,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03396895038812015,
+            "ddi_source_covered_pair_fraction": 0.9978569017887277,
+            "known_graph_pair_rate_covered_pairs": 0.03404190553498047,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "f68e06a8fab1abdbeeb1f5ef269e0f0793155dd44ad6bf2ac7c03b00951b6759"
+        },
+        "shuffled_evidence_rule_agent": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5800909399836213,
+            "patient_jaccard": 0.4272369335127725,
+            "micro_f1": 0.6043653705062363,
+            "micro_precision": 0.5970825405454381,
+            "micro_recall": 0.6118280568192368,
+            "mean_medications": 10.07945205479452,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.034226066009802776,
+            "ddi_source_covered_pair_fraction": 0.9978755081215812,
+            "known_graph_pair_rate_covered_pairs": 0.034298933816133574,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "b953f86b24a4474f7be566dd1cc3e9054d46645bbcd4ded2aeb00bbffd9dc673"
+        },
+        "matched_proposals_without_witness_gate": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5789064819641186,
+            "patient_jaccard": 0.4258865383931098,
+            "micro_f1": 0.6030963145636389,
+            "micro_precision": 0.59347474384325,
+            "micro_recall": 0.6130350013926283,
+            "mean_medications": 10.160730593607306,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03355195939487822,
+            "ddi_source_covered_pair_fraction": 0.9979071223756633,
+            "known_graph_pair_rate_covered_pairs": 0.03362232681033771,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "f7815737b4965678c22c75302a00d58553eccbad43251aa4e5f011aa630ad5b7"
+        }
+      },
+      "elapsed_this_attempt_seconds": 45.4316855
+    },
+    {
+      "round": 3,
+      "training_patients": 4269,
+      "training_visits": 11136,
+      "members_sha256": "3535c1b127d29af2e515b1574fa14e4be166db8f20ceb2ab541787893cf45560",
+      "base_model_sha256": "f2a9a2c88b68f1a00ac4cdcbe01d6051a3abc96e5e867a2b65caab67c4ccebb8",
+      "shared_policy_selection": {
+        "C": 1.0,
+        "threshold": 0.3,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5677311164812283,
+          "patient_jaccard": 0.41559066359133284,
+          "micro_f1": 0.590623399599609,
+          "micro_precision": 0.5923608516996638,
+          "micro_recall": 0.588896109924798,
+          "mean_medications": 9.778995433789955,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.03373196760873063,
+          "ddi_source_covered_pair_fraction": 0.9983554101642802,
+          "known_graph_pair_rate_covered_pairs": 0.03378753424412254,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "arms": {
+        "uniform_policy": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5677311164812283,
+            "patient_jaccard": 0.41559066359133284,
+            "micro_f1": 0.590623399599609,
+            "micro_precision": 0.5923608516996638,
+            "micro_recall": 0.588896109924798,
+            "mean_medications": 9.778995433789955,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03373196760873063,
+            "ddi_source_covered_pair_fraction": 0.9983554101642802,
+            "known_graph_pair_rate_covered_pairs": 0.03378753424412254,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 0,
+          "proposed_edits": 0,
+          "accepted_edits": 0,
+          "memory_size": 0,
+          "memory_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 3,
+          "accepted_operations": []
+        },
+        "greedy_error_rules": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5685263726102391,
+            "patient_jaccard": 0.41635393787555597,
+            "micro_f1": 0.5917088343159557,
+            "micro_precision": 0.5917363045496751,
+            "micro_recall": 0.5916813666326246,
+            "mean_medications": 9.835616438356164,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03365163572060124,
+            "ddi_source_covered_pair_fraction": 0.9983731211317418,
+            "known_graph_pair_rate_covered_pairs": 0.033706472067731766,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 2,
+          "memory_size": 5,
+          "memory_sha256": "c10bd091fee17e803005fed15e73882dd80e4609a13beab7b9d494a1c0d54bcc",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 3,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32489,
+                "feature": "prior_medication_history:N02BE",
+                "drug_index": 211,
+                "drug": "S01EE",
+                "action": "include",
+                "id": "83933b3db02a463dba3d"
+              },
+              "witness_before": {
+                "patient_f1": 0.5776103320505652,
+                "patient_jaccard": 0.42545469743829406
+              },
+              "witness_after": {
+                "patient_f1": 0.5778444094299435,
+                "patient_jaccard": 0.4256942373668906
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32485,
+                "feature": "prior_medication_history:N02AA",
+                "drug_index": 211,
+                "drug": "S01EE",
+                "action": "include",
+                "id": "4b73e68879c1f7ce643f"
+              },
+              "witness_before": {
+                "patient_f1": 0.5778444094299435,
+                "patient_jaccard": 0.4256942373668906
+              },
+              "witness_after": {
+                "patient_f1": 0.5779075669891571,
+                "patient_jaccard": 0.42577340325897284
+              }
+            }
+          ]
+        },
+        "random_candidate_rules": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.567776313680692,
+            "patient_jaccard": 0.41550987922193,
+            "micro_f1": 0.5911635438352996,
+            "micro_precision": 0.5891737366285503,
+            "micro_recall": 0.5931668368767988,
+            "mean_medications": 9.903196347031963,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.033155154945323694,
+            "ddi_source_covered_pair_fraction": 0.9983929008140306,
+            "known_graph_pair_rate_covered_pairs": 0.03320852433775414,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 2,
+          "memory_size": 9,
+          "memory_sha256": "5008620f153c6f11ab755c63a8bfd4266ae50499716778148c7947c3453e3b47",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 3,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32485,
+                "feature": "prior_medication_history:N02AA",
+                "drug_index": 158,
+                "drug": "N03AE",
+                "action": "include",
+                "id": "f8a71f335df529a63977"
+              },
+              "witness_before": {
+                "patient_f1": 0.5777592554046811,
+                "patient_jaccard": 0.4256022593388489
+              },
+              "witness_after": {
+                "patient_f1": 0.5779489795390744,
+                "patient_jaccard": 0.4257636833553745
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32117,
+                "feature": "last_visit_medication:A02BC",
+                "drug_index": 86,
+                "drug": "H03AA",
+                "action": "include",
+                "id": "f3f94f191cfba6b3572b"
+              },
+              "witness_before": {
+                "patient_f1": 0.5779489795390744,
+                "patient_jaccard": 0.4257636833553745
+              },
+              "witness_after": {
+                "patient_f1": 0.57808142596344,
+                "patient_jaccard": 0.42587046210781193
+              }
+            }
+          ]
+        },
+        "own_error_rule_agent": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5682888959801161,
+            "patient_jaccard": 0.41596396869954344,
+            "micro_f1": 0.5923251400268481,
+            "micro_precision": 0.5906573116691285,
+            "micro_recall": 0.5940024138891468,
+            "mean_medications": 9.892237442922374,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03337758060572187,
+            "ddi_source_covered_pair_fraction": 0.9983931253711531,
+            "known_graph_pair_rate_covered_pairs": 0.0334313005143277,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 2,
+          "memory_size": 7,
+          "memory_sha256": "850255e187d34e6a2f0c1680d68754474123734987e3cb0668b5b5f01cb89766",
+          "proposal_status": "valid",
+          "proposer_calls": 1,
+          "proposer_cost_usd": 0.0004104,
+          "best_round": 3,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32489,
+                "feature": "prior_medication_history:N02BE",
+                "drug_index": 211,
+                "drug": "S01EE",
+                "action": "include",
+                "id": "83933b3db02a463dba3d"
+              },
+              "witness_before": {
+                "patient_f1": 0.5777359342979256,
+                "patient_jaccard": 0.425610077432037
+              },
+              "witness_after": {
+                "patient_f1": 0.5779680068657562,
+                "patient_jaccard": 0.42584961736063354
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32485,
+                "feature": "prior_medication_history:N02AA",
+                "drug_index": 211,
+                "drug": "S01EE",
+                "action": "include",
+                "id": "4b73e68879c1f7ce643f"
+              },
+              "witness_before": {
+                "patient_f1": 0.5779680068657562,
+                "patient_jaccard": 0.42584961736063354
+              },
+              "witness_after": {
+                "patient_f1": 0.5780300332032504,
+                "patient_jaccard": 0.42592752482122476
+              }
+            }
+          ]
+        },
+        "shuffled_evidence_rule_agent": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5689117252794348,
+            "patient_jaccard": 0.4165112583294067,
+            "micro_f1": 0.5922881551604711,
+            "micro_precision": 0.5892135244395443,
+            "micro_recall": 0.5953950422430601,
+            "mean_medications": 9.93972602739726,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03339118361679972,
+            "ddi_source_covered_pair_fraction": 0.9984033321763277,
+            "known_graph_pair_rate_covered_pairs": 0.03344458350716173,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 4,
+          "memory_size": 9,
+          "memory_sha256": "1a8f029ac2563b5b4d5a357b5ad17c39c732f6d369903df3540ddd8476232f50",
+          "proposal_status": "valid",
+          "proposer_calls": 1,
+          "proposer_cost_usd": 0.00041145,
+          "best_round": 3,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32489,
+                "feature": "prior_medication_history:N02BE",
+                "drug_index": 158,
+                "drug": "N03AE",
+                "action": "include",
+                "id": "f424e26ae4f02071b2b3"
+              },
+              "witness_before": {
+                "patient_f1": 0.5777442531415782,
+                "patient_jaccard": 0.4254438305581687
+              },
+              "witness_after": {
+                "patient_f1": 0.5780002006445428,
+                "patient_jaccard": 0.42564999513172447
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32489,
+                "feature": "prior_medication_history:N02BE",
+                "drug_index": 211,
+                "drug": "S01EE",
+                "action": "include",
+                "id": "83933b3db02a463dba3d"
+              },
+              "witness_before": {
+                "patient_f1": 0.5780002006445428,
+                "patient_jaccard": 0.42564999513172447
+              },
+              "witness_after": {
+                "patient_f1": 0.5782339190876133,
+                "patient_jaccard": 0.4258874235506744
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 7021,
+                "feature": "current_diagnosis:ICD9:2449",
+                "drug_index": 86,
+                "drug": "H03AA",
+                "action": "include",
+                "id": "7ff75e96a0eb3810a4a1"
+              },
+              "witness_before": {
+                "patient_f1": 0.5782339190876133,
+                "patient_jaccard": 0.4258874235506744
+              },
+              "witness_after": {
+                "patient_f1": 0.5785735538564826,
+                "patient_jaccard": 0.4262589527044134
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32485,
+                "feature": "prior_medication_history:N02AA",
+                "drug_index": 86,
+                "drug": "H03AA",
+                "action": "include",
+                "id": "a45e7cd72847c9d33b13"
+              },
+              "witness_before": {
+                "patient_f1": 0.5785735538564826,
+                "patient_jaccard": 0.4262589527044134
+              },
+              "witness_after": {
+                "patient_f1": 0.5786924390398628,
+                "patient_jaccard": 0.4263496485686027
+              }
+            }
+          ]
+        },
+        "matched_proposals_without_witness_gate": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5666657901378394,
+            "patient_jaccard": 0.41405388075085053,
+            "micro_f1": 0.5906607282244364,
+            "micro_precision": 0.5843023255813954,
+            "micro_recall": 0.5971590381580169,
+            "mean_medications": 10.05296803652968,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03281974620755262,
+            "ddi_source_covered_pair_fraction": 0.9984371549424975,
+            "known_graph_pair_rate_covered_pairs": 0.032871118672905146,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 4,
+          "memory_size": 12,
+          "memory_sha256": "e2664ed3103ed6c62181a1898b0175c30a1b6ca768bc794fc8f7effe22bf8f32",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 3,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32489,
+                "feature": "prior_medication_history:N02BE",
+                "drug_index": 211,
+                "drug": "S01EE",
+                "action": "include",
+                "id": "83933b3db02a463dba3d"
+              },
+              "witness_before": {
+                "patient_f1": 0.5753818862572961,
+                "patient_jaccard": 0.4228371290901666
+              },
+              "witness_after": {
+                "patient_f1": 0.5756124715814072,
+                "patient_jaccard": 0.42307049153848075
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32485,
+                "feature": "prior_medication_history:N02AA",
+                "drug_index": 211,
+                "drug": "S01EE",
+                "action": "include",
+                "id": "4b73e68879c1f7ce643f"
+              },
+              "witness_before": {
+                "patient_f1": 0.5756124715814072,
+                "patient_jaccard": 0.42307049153848075
+              },
+              "witness_after": {
+                "patient_f1": 0.5756726442365314,
+                "patient_jaccard": 0.423141564406455
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32390,
+                "feature": "prior_medication_history:C07AB",
+                "drug_index": 211,
+                "drug": "S01EE",
+                "action": "include",
+                "id": "0ee60cd9d5dbbf83d994"
+              },
+              "witness_before": {
+                "patient_f1": 0.5756726442365314,
+                "patient_jaccard": 0.423141564406455
+              },
+              "witness_after": {
+                "patient_f1": 0.5756726442365314,
+                "patient_jaccard": 0.423141564406455
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32383,
+                "feature": "prior_medication_history:C03CA",
+                "drug_index": 211,
+                "drug": "S01EE",
+                "action": "include",
+                "id": "9cd93005fa1ad9d59480"
+              },
+              "witness_before": {
+                "patient_f1": 0.5756726442365314,
+                "patient_jaccard": 0.423141564406455
+              },
+              "witness_after": {
+                "patient_f1": 0.5756726442365314,
+                "patient_jaccard": 0.423141564406455
+              }
+            }
+          ]
+        }
+      },
+      "best": {
+        "uniform_policy": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5792600388487352,
+            "patient_jaccard": 0.4265575912832905,
+            "micro_f1": 0.6027929344307777,
+            "micro_precision": 0.6004606172270843,
+            "micro_recall": 0.6051434407204531,
+            "mean_medications": 9.91324200913242,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03433565346551754,
+            "ddi_source_covered_pair_fraction": 0.9978237966113405,
+            "known_graph_pair_rate_covered_pairs": 0.034410537794471466,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "greedy_error_rules": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5798083829319753,
+            "patient_jaccard": 0.42710890566573717,
+            "micro_f1": 0.6038031216906856,
+            "micro_precision": 0.5989221775666789,
+            "micro_recall": 0.6087642744406276,
+            "mean_medications": 9.998173515981735,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03413896767838035,
+            "ddi_source_covered_pair_fraction": 0.9978599453097134,
+            "known_graph_pair_rate_covered_pairs": 0.034212183622406425,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "a54eb8d98078f5955947dff867f7e0a6b882d52a1a4b6f3c52c2c7f25ab0ecc5"
+        },
+        "random_candidate_rules": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5796950570366959,
+            "patient_jaccard": 0.42688057447544575,
+            "micro_f1": 0.6033848417954378,
+            "micro_precision": 0.5978310398250251,
+            "micro_recall": 0.6090428001114103,
+            "mean_medications": 10.021004566210046,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.034171109418634174,
+            "ddi_source_covered_pair_fraction": 0.9978674790555979,
+            "known_graph_pair_rate_covered_pairs": 0.03424413575535542,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "d5cf8d90b98124186e9a50d9b78b8e6550a4df7f9a7135828b5f4e5a4e336126"
+        },
+        "own_error_rule_agent": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5798605595048053,
+            "patient_jaccard": 0.42714807228262164,
+            "micro_f1": 0.604092894918372,
+            "micro_precision": 0.5985055585930381,
+            "micro_recall": 0.6097855352334973,
+            "mean_medications": 10.021917808219179,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03396895038812015,
+            "ddi_source_covered_pair_fraction": 0.9978569017887277,
+            "known_graph_pair_rate_covered_pairs": 0.03404190553498047,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "f68e06a8fab1abdbeeb1f5ef269e0f0793155dd44ad6bf2ac7c03b00951b6759"
+        },
+        "shuffled_evidence_rule_agent": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5800909399836213,
+            "patient_jaccard": 0.4272369335127725,
+            "micro_f1": 0.6043653705062363,
+            "micro_precision": 0.5970825405454381,
+            "micro_recall": 0.6118280568192368,
+            "mean_medications": 10.07945205479452,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.034226066009802776,
+            "ddi_source_covered_pair_fraction": 0.9978755081215812,
+            "known_graph_pair_rate_covered_pairs": 0.034298933816133574,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "b953f86b24a4474f7be566dd1cc3e9054d46645bbcd4ded2aeb00bbffd9dc673"
+        },
+        "matched_proposals_without_witness_gate": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5789064819641186,
+            "patient_jaccard": 0.4258865383931098,
+            "micro_f1": 0.6030963145636389,
+            "micro_precision": 0.59347474384325,
+            "micro_recall": 0.6130350013926283,
+            "mean_medications": 10.160730593607306,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03355195939487822,
+            "ddi_source_covered_pair_fraction": 0.9979071223756633,
+            "known_graph_pair_rate_covered_pairs": 0.03362232681033771,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "f7815737b4965678c22c75302a00d58553eccbad43251aa4e5f011aa630ad5b7"
+        }
+      },
+      "elapsed_this_attempt_seconds": 67.070363958
+    },
+    {
+      "round": 4,
+      "training_patients": 5692,
+      "training_visits": 14803,
+      "members_sha256": "31635dc309243f24eb0bddbbd20748ff41a7fa15ec368cff870b1e7d442e43b3",
+      "base_model_sha256": "f07910995e35244929bf0ec0dd351631b68a67a4fddaa47adc5abe7ceb6d0c45",
+      "shared_policy_selection": {
+        "C": 1.0,
+        "threshold": 0.3,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.576082933345447,
+          "patient_jaccard": 0.4235058565570572,
+          "micro_f1": 0.5983143465777531,
+          "micro_precision": 0.5968770211586436,
+          "micro_recall": 0.5997586110853217,
+          "mean_medications": 9.884018264840183,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.03389504260941082,
+          "ddi_source_covered_pair_fraction": 0.9981801319404343,
+          "known_graph_pair_rate_covered_pairs": 0.03395683957716109,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "arms": {
+        "uniform_policy": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.576082933345447,
+            "patient_jaccard": 0.4235058565570572,
+            "micro_f1": 0.5983143465777531,
+            "micro_precision": 0.5968770211586436,
+            "micro_recall": 0.5997586110853217,
+            "mean_medications": 9.884018264840183,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03389504260941082,
+            "ddi_source_covered_pair_fraction": 0.9981801319404343,
+            "known_graph_pair_rate_covered_pairs": 0.03395683957716109,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 0,
+          "proposed_edits": 0,
+          "accepted_edits": 0,
+          "memory_size": 0,
+          "memory_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 4,
+          "accepted_operations": []
+        },
+        "greedy_error_rules": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5768177712685145,
+            "patient_jaccard": 0.4241592942714024,
+            "micro_f1": 0.5992523191950893,
+            "micro_precision": 0.5958149779735683,
+            "micro_recall": 0.60272955157367,
+            "mean_medications": 9.95068493150685,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03379148392443969,
+            "ddi_source_covered_pair_fraction": 0.9982042338640053,
+            "known_graph_pair_rate_covered_pairs": 0.0338522746929597,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 4,
+          "memory_size": 7,
+          "memory_sha256": "99e71c53672e19f1597610c9a28e412e2c7683c51f4e2a25c22a41c4be0a020a",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 4,
+          "accepted_operations": [
+            {
+              "operation": "DELETE",
+              "rule": {
+                "feature_index": 32489,
+                "feature": "prior_medication_history:N02BE",
+                "drug_index": 154,
+                "drug": "N02BE",
+                "action": "include",
+                "id": "e172a86a1bd4b0112575"
+              },
+              "witness_before": {
+                "patient_f1": 0.5793942165660293,
+                "patient_jaccard": 0.42715982307153516
+              },
+              "witness_after": {
+                "patient_f1": 0.579557106593648,
+                "patient_jaccard": 0.4273909923800731
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32172,
+                "feature": "last_visit_medication:C07AG",
+                "drug_index": 56,
+                "drug": "C07AG",
+                "action": "include",
+                "id": "118a36e1674352bbdfff"
+              },
+              "witness_before": {
+                "patient_f1": 0.579557106593648,
+                "patient_jaccard": 0.4273909923800731
+              },
+              "witness_after": {
+                "patient_f1": 0.5795760832419063,
+                "patient_jaccard": 0.4273983369793054
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32336,
+                "feature": "prior_medication_history:A02BC",
+                "drug_index": 158,
+                "drug": "N03AE",
+                "action": "include",
+                "id": "45600f94a2dbbb9b1cda"
+              },
+              "witness_before": {
+                "patient_f1": 0.5795760832419063,
+                "patient_jaccard": 0.4273983369793054
+              },
+              "witness_after": {
+                "patient_f1": 0.5796860370611858,
+                "patient_jaccard": 0.42752500319230646
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32485,
+                "feature": "prior_medication_history:N02AA",
+                "drug_index": 158,
+                "drug": "N03AE",
+                "action": "include",
+                "id": "f8a71f335df529a63977"
+              },
+              "witness_before": {
+                "patient_f1": 0.5796860370611858,
+                "patient_jaccard": 0.42752500319230646
+              },
+              "witness_after": {
+                "patient_f1": 0.5797347091817302,
+                "patient_jaccard": 0.4275339548538757
+              }
+            }
+          ]
+        },
+        "random_candidate_rules": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5763829016047024,
+            "patient_jaccard": 0.42366727870772947,
+            "micro_f1": 0.5991436858339856,
+            "micro_precision": 0.5942465753424657,
+            "micro_recall": 0.6041221799275833,
+            "mean_medications": 10.0,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03358151476251604,
+            "ddi_source_covered_pair_fraction": 0.9982199400941378,
+            "known_graph_pair_rate_covered_pairs": 0.033641398467104476,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 2,
+          "memory_size": 9,
+          "memory_sha256": "e3e8f28c092e6dbb25053b28a223fdbedf7278158b88d413582a95e375b28058",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 4,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32489,
+                "feature": "prior_medication_history:N02BE",
+                "drug_index": 211,
+                "drug": "S01EE",
+                "action": "include",
+                "id": "83933b3db02a463dba3d"
+              },
+              "witness_before": {
+                "patient_f1": 0.5794448989207963,
+                "patient_jaccard": 0.4271990668331077
+              },
+              "witness_after": {
+                "patient_f1": 0.579727253885294,
+                "patient_jaccard": 0.4274866551526879
+              }
+            },
+            {
+              "operation": "DELETE",
+              "rule": {
+                "feature_index": 32270,
+                "feature": "last_visit_medication:N02BE",
+                "drug_index": 154,
+                "drug": "N02BE",
+                "action": "include",
+                "id": "f0ba39ae8a911000bec0"
+              },
+              "witness_before": {
+                "patient_f1": 0.579727253885294,
+                "patient_jaccard": 0.4274866551526879
+              },
+              "witness_after": {
+                "patient_f1": 0.5798388888813553,
+                "patient_jaccard": 0.4276368835840012
+              }
+            }
+          ]
+        },
+        "own_error_rule_agent": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.576671778573462,
+            "patient_jaccard": 0.42395917034915714,
+            "micro_f1": 0.5994562963645579,
+            "micro_precision": 0.595042078302232,
+            "micro_recall": 0.6039364961470616,
+            "mean_medications": 9.983561643835616,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.0335544016588693,
+            "ddi_source_covered_pair_fraction": 0.9982177437321131,
+            "known_graph_pair_rate_covered_pairs": 0.033614310975295714,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 3,
+          "memory_size": 8,
+          "memory_sha256": "2705272b5dc29e97e14a3ef7dacc9f698773757b77d3b070869f0de5e6c15ede",
+          "proposal_status": "valid",
+          "proposer_calls": 1,
+          "proposer_cost_usd": 0.0004253,
+          "best_round": 4,
+          "accepted_operations": [
+            {
+              "operation": "DELETE",
+              "rule": {
+                "feature_index": 32489,
+                "feature": "prior_medication_history:N02BE",
+                "drug_index": 154,
+                "drug": "N02BE",
+                "action": "include",
+                "id": "e172a86a1bd4b0112575"
+              },
+              "witness_before": {
+                "patient_f1": 0.5792128061126359,
+                "patient_jaccard": 0.4270596872742429
+              },
+              "witness_after": {
+                "patient_f1": 0.5793662797989995,
+                "patient_jaccard": 0.4272810565737731
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32266,
+                "feature": "last_visit_medication:N02AA",
+                "drug_index": 86,
+                "drug": "H03AA",
+                "action": "include",
+                "id": "3d9416cedd5e0dce8578"
+              },
+              "witness_before": {
+                "patient_f1": 0.5793662797989995,
+                "patient_jaccard": 0.4272810565737731
+              },
+              "witness_after": {
+                "patient_f1": 0.579513509040306,
+                "patient_jaccard": 0.427402557282483
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32485,
+                "feature": "prior_medication_history:N02AA",
+                "drug_index": 158,
+                "drug": "N03AE",
+                "action": "include",
+                "id": "f8a71f335df529a63977"
+              },
+              "witness_before": {
+                "patient_f1": 0.579513509040306,
+                "patient_jaccard": 0.427402557282483
+              },
+              "witness_after": {
+                "patient_f1": 0.5796596501013329,
+                "patient_jaccard": 0.4275266663191305
+              }
+            }
+          ]
+        },
+        "shuffled_evidence_rule_agent": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5768550399518061,
+            "patient_jaccard": 0.4240301472105097,
+            "micro_f1": 0.5997523957998991,
+            "micro_precision": 0.5924986410581627,
+            "micro_recall": 0.6071859623061926,
+            "mean_medications": 10.080365296803652,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.033700856429968305,
+            "ddi_source_covered_pair_fraction": 0.9982298199474003,
+            "known_graph_pair_rate_covered_pairs": 0.03376061880393846,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 4,
+          "memory_size": 13,
+          "memory_sha256": "3ded30f5650256777266fc49cb680f52cd4f3897a1e66466942882ae76f4ba64",
+          "proposal_status": "valid",
+          "proposer_calls": 1,
+          "proposer_cost_usd": 0.000478335,
+          "best_round": 4,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32365,
+                "feature": "prior_medication_history:B03BB",
+                "drug_index": 30,
+                "drug": "B03BB",
+                "action": "include",
+                "id": "1f615d9f3be9ecab6017"
+              },
+              "witness_before": {
+                "patient_f1": 0.5795306578614479,
+                "patient_jaccard": 0.4272272117152869
+              },
+              "witness_after": {
+                "patient_f1": 0.5796185598617117,
+                "patient_jaccard": 0.42733629288549557
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32266,
+                "feature": "last_visit_medication:N02AA",
+                "drug_index": 195,
+                "drug": "N07BC",
+                "action": "include",
+                "id": "7322999189f910578acb"
+              },
+              "witness_before": {
+                "patient_f1": 0.5796185598617117,
+                "patient_jaccard": 0.42733629288549557
+              },
+              "witness_after": {
+                "patient_f1": 0.5797627279558422,
+                "patient_jaccard": 0.4274794001741435
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32117,
+                "feature": "last_visit_medication:A02BC",
+                "drug_index": 110,
+                "drug": "J05AB",
+                "action": "include",
+                "id": "e431966c7ec689339eb7"
+              },
+              "witness_before": {
+                "patient_f1": 0.5797627279558422,
+                "patient_jaccard": 0.4274794001741435
+              },
+              "witness_after": {
+                "patient_f1": 0.579918519836257,
+                "patient_jaccard": 0.4276160780199365
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32390,
+                "feature": "prior_medication_history:C07AB",
+                "drug_index": 144,
+                "drug": "M04AA",
+                "action": "include",
+                "id": "022f76317669b7545065"
+              },
+              "witness_before": {
+                "patient_f1": 0.579918519836257,
+                "patient_jaccard": 0.4276160780199365
+              },
+              "witness_after": {
+                "patient_f1": 0.5801107691071015,
+                "patient_jaccard": 0.42783506810477095
+              }
+            }
+          ]
+        },
+        "matched_proposals_without_witness_gate": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5755014369272446,
+            "patient_jaccard": 0.42255176086706125,
+            "micro_f1": 0.5980701513696438,
+            "micro_precision": 0.589311463590483,
+            "micro_recall": 0.6070931204159317,
+            "mean_medications": 10.133333333333333,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03311346747933539,
+            "ddi_source_covered_pair_fraction": 0.9982633380646239,
+            "known_graph_pair_rate_covered_pairs": 0.03317107442163898,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 4,
+          "memory_size": 14,
+          "memory_sha256": "21e1a541ce07201a73331df96ff2fdd96ec7ba7e6ada4ee681a26fdb17609562",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 4,
+          "accepted_operations": [
+            {
+              "operation": "DELETE",
+              "rule": {
+                "feature_index": 32489,
+                "feature": "prior_medication_history:N02BE",
+                "drug_index": 154,
+                "drug": "N02BE",
+                "action": "include",
+                "id": "e172a86a1bd4b0112575"
+              },
+              "witness_before": {
+                "patient_f1": 0.5772912324597753,
+                "patient_jaccard": 0.4248025449349644
+              },
+              "witness_after": {
+                "patient_f1": 0.5774211667481524,
+                "patient_jaccard": 0.4249884139916429
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32266,
+                "feature": "last_visit_medication:N02AA",
+                "drug_index": 86,
+                "drug": "H03AA",
+                "action": "include",
+                "id": "3d9416cedd5e0dce8578"
+              },
+              "witness_before": {
+                "patient_f1": 0.5774211667481524,
+                "patient_jaccard": 0.4249884139916429
+              },
+              "witness_after": {
+                "patient_f1": 0.5775646778918532,
+                "patient_jaccard": 0.42510846237551453
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32485,
+                "feature": "prior_medication_history:N02AA",
+                "drug_index": 86,
+                "drug": "H03AA",
+                "action": "include",
+                "id": "a45e7cd72847c9d33b13"
+              },
+              "witness_before": {
+                "patient_f1": 0.5775646778918532,
+                "patient_jaccard": 0.42510846237551453
+              },
+              "witness_after": {
+                "patient_f1": 0.5775599581501174,
+                "patient_jaccard": 0.42510234298622956
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32485,
+                "feature": "prior_medication_history:N02AA",
+                "drug_index": 158,
+                "drug": "N03AE",
+                "action": "include",
+                "id": "f8a71f335df529a63977"
+              },
+              "witness_before": {
+                "patient_f1": 0.5775599581501174,
+                "patient_jaccard": 0.42510234298622956
+              },
+              "witness_after": {
+                "patient_f1": 0.5777120190548308,
+                "patient_jaccard": 0.4252368593060196
+              }
+            }
+          ]
+        }
+      },
+      "best": {
+        "uniform_policy": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5792600388487352,
+            "patient_jaccard": 0.4265575912832905,
+            "micro_f1": 0.6027929344307777,
+            "micro_precision": 0.6004606172270843,
+            "micro_recall": 0.6051434407204531,
+            "mean_medications": 9.91324200913242,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03433565346551754,
+            "ddi_source_covered_pair_fraction": 0.9978237966113405,
+            "known_graph_pair_rate_covered_pairs": 0.034410537794471466,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "greedy_error_rules": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5798083829319753,
+            "patient_jaccard": 0.42710890566573717,
+            "micro_f1": 0.6038031216906856,
+            "micro_precision": 0.5989221775666789,
+            "micro_recall": 0.6087642744406276,
+            "mean_medications": 9.998173515981735,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03413896767838035,
+            "ddi_source_covered_pair_fraction": 0.9978599453097134,
+            "known_graph_pair_rate_covered_pairs": 0.034212183622406425,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "a54eb8d98078f5955947dff867f7e0a6b882d52a1a4b6f3c52c2c7f25ab0ecc5"
+        },
+        "random_candidate_rules": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5796950570366959,
+            "patient_jaccard": 0.42688057447544575,
+            "micro_f1": 0.6033848417954378,
+            "micro_precision": 0.5978310398250251,
+            "micro_recall": 0.6090428001114103,
+            "mean_medications": 10.021004566210046,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.034171109418634174,
+            "ddi_source_covered_pair_fraction": 0.9978674790555979,
+            "known_graph_pair_rate_covered_pairs": 0.03424413575535542,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "d5cf8d90b98124186e9a50d9b78b8e6550a4df7f9a7135828b5f4e5a4e336126"
+        },
+        "own_error_rule_agent": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5798605595048053,
+            "patient_jaccard": 0.42714807228262164,
+            "micro_f1": 0.604092894918372,
+            "micro_precision": 0.5985055585930381,
+            "micro_recall": 0.6097855352334973,
+            "mean_medications": 10.021917808219179,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03396895038812015,
+            "ddi_source_covered_pair_fraction": 0.9978569017887277,
+            "known_graph_pair_rate_covered_pairs": 0.03404190553498047,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "f68e06a8fab1abdbeeb1f5ef269e0f0793155dd44ad6bf2ac7c03b00951b6759"
+        },
+        "shuffled_evidence_rule_agent": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5800909399836213,
+            "patient_jaccard": 0.4272369335127725,
+            "micro_f1": 0.6043653705062363,
+            "micro_precision": 0.5970825405454381,
+            "micro_recall": 0.6118280568192368,
+            "mean_medications": 10.07945205479452,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.034226066009802776,
+            "ddi_source_covered_pair_fraction": 0.9978755081215812,
+            "known_graph_pair_rate_covered_pairs": 0.034298933816133574,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "b953f86b24a4474f7be566dd1cc3e9054d46645bbcd4ded2aeb00bbffd9dc673"
+        },
+        "matched_proposals_without_witness_gate": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5789064819641186,
+            "patient_jaccard": 0.4258865383931098,
+            "micro_f1": 0.6030963145636389,
+            "micro_precision": 0.59347474384325,
+            "micro_recall": 0.6130350013926283,
+            "mean_medications": 10.160730593607306,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03355195939487822,
+            "ddi_source_covered_pair_fraction": 0.9979071223756633,
+            "known_graph_pair_rate_covered_pairs": 0.03362232681033771,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "f7815737b4965678c22c75302a00d58553eccbad43251aa4e5f011aa630ad5b7"
+        }
+      },
+      "elapsed_this_attempt_seconds": 93.63286787499999
+    },
+    {
+      "round": 5,
+      "training_patients": 7115,
+      "training_visits": 18429,
+      "members_sha256": "ab9a51928997fdc2c8b6c483dfae073de849de132ffa2e7db72bee6306b67388",
+      "base_model_sha256": "251d159f8f1317f79b90d16f6c03d9db67ff6a94f14ac8f0bbf82b4d1b4cc3b8",
+      "shared_policy_selection": {
+        "C": 1.0,
+        "threshold": 0.3,
+        "metrics": {
+          "patients": 433,
+          "visits": 1095,
+          "patient_f1": 0.5792600388487352,
+          "patient_jaccard": 0.4265575912832905,
+          "micro_f1": 0.6027929344307777,
+          "micro_precision": 0.6004606172270843,
+          "micro_recall": 0.6051434407204531,
+          "mean_medications": 9.91324200913242,
+          "empty_prediction_fraction": 0.0,
+          "empty_target_fraction": 0.0,
+          "known_graph_pair_rate_all_predictions": 0.03433565346551754,
+          "ddi_source_covered_pair_fraction": 0.9978237966113405,
+          "known_graph_pair_rate_covered_pairs": 0.034410537794471466,
+          "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+        }
+      },
+      "arms": {
+        "uniform_policy": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5792600388487352,
+            "patient_jaccard": 0.4265575912832905,
+            "micro_f1": 0.6027929344307777,
+            "micro_precision": 0.6004606172270843,
+            "micro_recall": 0.6051434407204531,
+            "mean_medications": 9.91324200913242,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03433565346551754,
+            "ddi_source_covered_pair_fraction": 0.9978237966113405,
+            "known_graph_pair_rate_covered_pairs": 0.034410537794471466,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 0,
+          "proposed_edits": 0,
+          "accepted_edits": 0,
+          "memory_size": 0,
+          "memory_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 5,
+          "accepted_operations": []
+        },
+        "greedy_error_rules": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5798083829319753,
+            "patient_jaccard": 0.42710890566573717,
+            "micro_f1": 0.6038031216906856,
+            "micro_precision": 0.5989221775666789,
+            "micro_recall": 0.6087642744406276,
+            "mean_medications": 9.998173515981735,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03413896767838035,
+            "ddi_source_covered_pair_fraction": 0.9978599453097134,
+            "known_graph_pair_rate_covered_pairs": 0.034212183622406425,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 3,
+          "memory_size": 10,
+          "memory_sha256": "a54eb8d98078f5955947dff867f7e0a6b882d52a1a4b6f3c52c2c7f25ab0ecc5",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 5,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32336,
+                "feature": "prior_medication_history:A02BC",
+                "drug_index": 144,
+                "drug": "M04AA",
+                "action": "include",
+                "id": "bc8a6585eaca99279927"
+              },
+              "witness_before": {
+                "patient_f1": 0.5842044074116495,
+                "patient_jaccard": 0.43216881192542017
+              },
+              "witness_after": {
+                "patient_f1": 0.5842941506835598,
+                "patient_jaccard": 0.4322369281430418
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32394,
+                "feature": "prior_medication_history:C09AA",
+                "drug_index": 1,
+                "drug": "A02BC",
+                "action": "exclude",
+                "id": "277bf326af2d8a97a3c1"
+              },
+              "witness_before": {
+                "patient_f1": 0.5842941506835598,
+                "patient_jaccard": 0.4322369281430418
+              },
+              "witness_after": {
+                "patient_f1": 0.5843610642985357,
+                "patient_jaccard": 0.43233157815413314
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 15967,
+                "feature": "current_procedure:ICD9:9604",
+                "drug_index": 147,
+                "drug": "N01AX",
+                "action": "include",
+                "id": "990773a61a417f1821aa"
+              },
+              "witness_before": {
+                "patient_f1": 0.5843610642985357,
+                "patient_jaccard": 0.43233157815413314
+              },
+              "witness_after": {
+                "patient_f1": 0.5843983037787075,
+                "patient_jaccard": 0.4323582104597002
+              }
+            }
+          ]
+        },
+        "random_candidate_rules": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5796950570366959,
+            "patient_jaccard": 0.42688057447544575,
+            "micro_f1": 0.6033848417954378,
+            "micro_precision": 0.5978310398250251,
+            "micro_recall": 0.6090428001114103,
+            "mean_medications": 10.021004566210046,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.034171109418634174,
+            "ddi_source_covered_pair_fraction": 0.9978674790555979,
+            "known_graph_pair_rate_covered_pairs": 0.03424413575535542,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 3,
+          "memory_size": 12,
+          "memory_sha256": "d5cf8d90b98124186e9a50d9b78b8e6550a4df7f9a7135828b5f4e5a4e336126",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 5,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32336,
+                "feature": "prior_medication_history:A02BC",
+                "drug_index": 195,
+                "drug": "N07BC",
+                "action": "include",
+                "id": "b2e7b6be12ce461d9bb5"
+              },
+              "witness_before": {
+                "patient_f1": 0.5839853328014037,
+                "patient_jaccard": 0.43197916306085093
+              },
+              "witness_after": {
+                "patient_f1": 0.5840875755397882,
+                "patient_jaccard": 0.4320833146958752
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32394,
+                "feature": "prior_medication_history:C09AA",
+                "drug_index": 1,
+                "drug": "A02BC",
+                "action": "exclude",
+                "id": "277bf326af2d8a97a3c1"
+              },
+              "witness_before": {
+                "patient_f1": 0.5840875755397882,
+                "patient_jaccard": 0.4320833146958752
+              },
+              "witness_after": {
+                "patient_f1": 0.5841516653655856,
+                "patient_jaccard": 0.43217100922094887
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 7136,
+                "feature": "current_diagnosis:ICD9:2724",
+                "drug_index": 144,
+                "drug": "M04AA",
+                "action": "include",
+                "id": "3af7df62d33820a70219"
+              },
+              "witness_before": {
+                "patient_f1": 0.5841516653655856,
+                "patient_jaccard": 0.43217100922094887
+              },
+              "witness_after": {
+                "patient_f1": 0.5842309996126984,
+                "patient_jaccard": 0.43226713141444084
+              }
+            }
+          ]
+        },
+        "own_error_rule_agent": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5798605595048053,
+            "patient_jaccard": 0.42714807228262164,
+            "micro_f1": 0.604092894918372,
+            "micro_precision": 0.5985055585930381,
+            "micro_recall": 0.6097855352334973,
+            "mean_medications": 10.021917808219179,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03396895038812015,
+            "ddi_source_covered_pair_fraction": 0.9978569017887277,
+            "known_graph_pair_rate_covered_pairs": 0.03404190553498047,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 2,
+          "memory_size": 10,
+          "memory_sha256": "f68e06a8fab1abdbeeb1f5ef269e0f0793155dd44ad6bf2ac7c03b00951b6759",
+          "proposal_status": "valid",
+          "proposer_calls": 1,
+          "proposer_cost_usd": 0.0007714,
+          "best_round": 5,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32336,
+                "feature": "prior_medication_history:A02BC",
+                "drug_index": 144,
+                "drug": "M04AA",
+                "action": "include",
+                "id": "bc8a6585eaca99279927"
+              },
+              "witness_before": {
+                "patient_f1": 0.5840640216605506,
+                "patient_jaccard": 0.43203830572885205
+              },
+              "witness_after": {
+                "patient_f1": 0.5841550894462535,
+                "patient_jaccard": 0.4321105033671049
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32171,
+                "feature": "last_visit_medication:C07AB",
+                "drug_index": 144,
+                "drug": "M04AA",
+                "action": "include",
+                "id": "6a02cfa8666bfac2993c"
+              },
+              "witness_before": {
+                "patient_f1": 0.5841550894462535,
+                "patient_jaccard": 0.4321105033671049
+              },
+              "witness_after": {
+                "patient_f1": 0.5841752981471665,
+                "patient_jaccard": 0.4321278175957304
+              }
+            }
+          ]
+        },
+        "shuffled_evidence_rule_agent": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5800909399836213,
+            "patient_jaccard": 0.4272369335127725,
+            "micro_f1": 0.6043653705062363,
+            "micro_precision": 0.5970825405454381,
+            "micro_recall": 0.6118280568192368,
+            "mean_medications": 10.07945205479452,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.034226066009802776,
+            "ddi_source_covered_pair_fraction": 0.9978755081215812,
+            "known_graph_pair_rate_covered_pairs": 0.034298933816133574,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 2,
+          "memory_size": 13,
+          "memory_sha256": "b953f86b24a4474f7be566dd1cc3e9054d46645bbcd4ded2aeb00bbffd9dc673",
+          "proposal_status": "valid",
+          "proposer_calls": 1,
+          "proposer_cost_usd": 0.00032752,
+          "best_round": 5,
+          "accepted_operations": [
+            {
+              "operation": "DELETE",
+              "rule": {
+                "feature_index": 32213,
+                "feature": "last_visit_medication:J01DE",
+                "drug_index": 97,
+                "drug": "J01DE",
+                "action": "include",
+                "id": "2e90b5510896743e2112"
+              },
+              "witness_before": {
+                "patient_f1": 0.583986145274678,
+                "patient_jaccard": 0.43184094349808944
+              },
+              "witness_after": {
+                "patient_f1": 0.5840873814916694,
+                "patient_jaccard": 0.432006240866968
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 15988,
+                "feature": "current_procedure:ICD9:9671",
+                "drug_index": 147,
+                "drug": "N01AX",
+                "action": "include",
+                "id": "acdc27e23619e6672c83"
+              },
+              "witness_before": {
+                "patient_f1": 0.5840873814916694,
+                "patient_jaccard": 0.432006240866968
+              },
+              "witness_after": {
+                "patient_f1": 0.584286554023476,
+                "patient_jaccard": 0.4321912920169293
+              }
+            }
+          ]
+        },
+        "matched_proposals_without_witness_gate": {
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5789064819641186,
+            "patient_jaccard": 0.4258865383931098,
+            "micro_f1": 0.6030963145636389,
+            "micro_precision": 0.59347474384325,
+            "micro_recall": 0.6130350013926283,
+            "mean_medications": 10.160730593607306,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03355195939487822,
+            "ddi_source_covered_pair_fraction": 0.9979071223756633,
+            "known_graph_pair_rate_covered_pairs": 0.03362232681033771,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "candidates": 24,
+          "proposed_edits": 4,
+          "accepted_edits": 4,
+          "memory_size": 18,
+          "memory_sha256": "f7815737b4965678c22c75302a00d58553eccbad43251aa4e5f011aa630ad5b7",
+          "proposal_status": "no_proposal",
+          "proposer_calls": 0,
+          "proposer_cost_usd": 0,
+          "best_round": 5,
+          "accepted_operations": [
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32336,
+                "feature": "prior_medication_history:A02BC",
+                "drug_index": 144,
+                "drug": "M04AA",
+                "action": "include",
+                "id": "bc8a6585eaca99279927"
+              },
+              "witness_before": {
+                "patient_f1": 0.5822433476552437,
+                "patient_jaccard": 0.429859662655593
+              },
+              "witness_after": {
+                "patient_f1": 0.5823359794776115,
+                "patient_jaccard": 0.4299358109070994
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32117,
+                "feature": "last_visit_medication:A02BC",
+                "drug_index": 144,
+                "drug": "M04AA",
+                "action": "include",
+                "id": "701826fd03589e08ace7"
+              },
+              "witness_before": {
+                "patient_f1": 0.5823359794776115,
+                "patient_jaccard": 0.4299358109070994
+              },
+              "witness_after": {
+                "patient_f1": 0.5823359794776115,
+                "patient_jaccard": 0.4299358109070994
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32171,
+                "feature": "last_visit_medication:C07AB",
+                "drug_index": 144,
+                "drug": "M04AA",
+                "action": "include",
+                "id": "6a02cfa8666bfac2993c"
+              },
+              "witness_before": {
+                "patient_f1": 0.5823359794776115,
+                "patient_jaccard": 0.4299358109070994
+              },
+              "witness_after": {
+                "patient_f1": 0.5823589709653186,
+                "patient_jaccard": 0.42995595851864243
+              }
+            },
+            {
+              "operation": "ADD",
+              "rule": {
+                "feature_index": 32485,
+                "feature": "prior_medication_history:N02AA",
+                "drug_index": 144,
+                "drug": "M04AA",
+                "action": "include",
+                "id": "a65c401a47f3b69346b3"
+              },
+              "witness_before": {
+                "patient_f1": 0.5823589709653186,
+                "patient_jaccard": 0.42995595851864243
+              },
+              "witness_after": {
+                "patient_f1": 0.5823540039783127,
+                "patient_jaccard": 0.42995372816539423
+              }
+            }
+          ]
+        }
+      },
+      "best": {
+        "uniform_policy": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5792600388487352,
+            "patient_jaccard": 0.4265575912832905,
+            "micro_f1": 0.6027929344307777,
+            "micro_precision": 0.6004606172270843,
+            "micro_recall": 0.6051434407204531,
+            "mean_medications": 9.91324200913242,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03433565346551754,
+            "ddi_source_covered_pair_fraction": 0.9978237966113405,
+            "known_graph_pair_rate_covered_pairs": 0.034410537794471466,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "greedy_error_rules": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5798083829319753,
+            "patient_jaccard": 0.42710890566573717,
+            "micro_f1": 0.6038031216906856,
+            "micro_precision": 0.5989221775666789,
+            "micro_recall": 0.6087642744406276,
+            "mean_medications": 9.998173515981735,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03413896767838035,
+            "ddi_source_covered_pair_fraction": 0.9978599453097134,
+            "known_graph_pair_rate_covered_pairs": 0.034212183622406425,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "a54eb8d98078f5955947dff867f7e0a6b882d52a1a4b6f3c52c2c7f25ab0ecc5"
+        },
+        "random_candidate_rules": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5796950570366959,
+            "patient_jaccard": 0.42688057447544575,
+            "micro_f1": 0.6033848417954378,
+            "micro_precision": 0.5978310398250251,
+            "micro_recall": 0.6090428001114103,
+            "mean_medications": 10.021004566210046,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.034171109418634174,
+            "ddi_source_covered_pair_fraction": 0.9978674790555979,
+            "known_graph_pair_rate_covered_pairs": 0.03424413575535542,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "d5cf8d90b98124186e9a50d9b78b8e6550a4df7f9a7135828b5f4e5a4e336126"
+        },
+        "own_error_rule_agent": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5798605595048053,
+            "patient_jaccard": 0.42714807228262164,
+            "micro_f1": 0.604092894918372,
+            "micro_precision": 0.5985055585930381,
+            "micro_recall": 0.6097855352334973,
+            "mean_medications": 10.021917808219179,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03396895038812015,
+            "ddi_source_covered_pair_fraction": 0.9978569017887277,
+            "known_graph_pair_rate_covered_pairs": 0.03404190553498047,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "f68e06a8fab1abdbeeb1f5ef269e0f0793155dd44ad6bf2ac7c03b00951b6759"
+        },
+        "shuffled_evidence_rule_agent": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5800909399836213,
+            "patient_jaccard": 0.4272369335127725,
+            "micro_f1": 0.6043653705062363,
+            "micro_precision": 0.5970825405454381,
+            "micro_recall": 0.6118280568192368,
+            "mean_medications": 10.07945205479452,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.034226066009802776,
+            "ddi_source_covered_pair_fraction": 0.9978755081215812,
+            "known_graph_pair_rate_covered_pairs": 0.034298933816133574,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "b953f86b24a4474f7be566dd1cc3e9054d46645bbcd4ded2aeb00bbffd9dc673"
+        },
+        "matched_proposals_without_witness_gate": {
+          "round": 5,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5789064819641186,
+            "patient_jaccard": 0.4258865383931098,
+            "micro_f1": 0.6030963145636389,
+            "micro_precision": 0.59347474384325,
+            "micro_recall": 0.6130350013926283,
+            "mean_medications": 10.160730593607306,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03355195939487822,
+            "ddi_source_covered_pair_fraction": 0.9979071223756633,
+            "known_graph_pair_rate_covered_pairs": 0.03362232681033771,
+            "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+          },
+          "threshold": 0.3,
+          "memory_sha256": "f7815737b4965678c22c75302a00d58553eccbad43251aa4e5f011aa630ad5b7"
+        }
+      },
+      "elapsed_this_attempt_seconds": 124.330925125
+    }
+  ],
+  "selections": {
+    "uniform_policy": {
+      "round": 5,
+      "proposal": {
+        "patients": 433,
+        "visits": 1095,
+        "patient_f1": 0.5792600388487352,
+        "patient_jaccard": 0.4265575912832905,
+        "micro_f1": 0.6027929344307777,
+        "micro_precision": 0.6004606172270843,
+        "micro_recall": 0.6051434407204531,
+        "mean_medications": 9.91324200913242,
+        "empty_prediction_fraction": 0.0,
+        "empty_target_fraction": 0.0,
+        "known_graph_pair_rate_all_predictions": 0.03433565346551754,
+        "ddi_source_covered_pair_fraction": 0.9978237966113405,
+        "known_graph_pair_rate_covered_pairs": 0.034410537794471466,
+        "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+      },
+      "threshold": 0.3,
+      "memory_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "greedy_error_rules": {
+      "round": 5,
+      "proposal": {
+        "patients": 433,
+        "visits": 1095,
+        "patient_f1": 0.5798083829319753,
+        "patient_jaccard": 0.42710890566573717,
+        "micro_f1": 0.6038031216906856,
+        "micro_precision": 0.5989221775666789,
+        "micro_recall": 0.6087642744406276,
+        "mean_medications": 9.998173515981735,
+        "empty_prediction_fraction": 0.0,
+        "empty_target_fraction": 0.0,
+        "known_graph_pair_rate_all_predictions": 0.03413896767838035,
+        "ddi_source_covered_pair_fraction": 0.9978599453097134,
+        "known_graph_pair_rate_covered_pairs": 0.034212183622406425,
+        "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+      },
+      "threshold": 0.3,
+      "memory_sha256": "a54eb8d98078f5955947dff867f7e0a6b882d52a1a4b6f3c52c2c7f25ab0ecc5"
+    },
+    "random_candidate_rules": {
+      "round": 5,
+      "proposal": {
+        "patients": 433,
+        "visits": 1095,
+        "patient_f1": 0.5796950570366959,
+        "patient_jaccard": 0.42688057447544575,
+        "micro_f1": 0.6033848417954378,
+        "micro_precision": 0.5978310398250251,
+        "micro_recall": 0.6090428001114103,
+        "mean_medications": 10.021004566210046,
+        "empty_prediction_fraction": 0.0,
+        "empty_target_fraction": 0.0,
+        "known_graph_pair_rate_all_predictions": 0.034171109418634174,
+        "ddi_source_covered_pair_fraction": 0.9978674790555979,
+        "known_graph_pair_rate_covered_pairs": 0.03424413575535542,
+        "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+      },
+      "threshold": 0.3,
+      "memory_sha256": "d5cf8d90b98124186e9a50d9b78b8e6550a4df7f9a7135828b5f4e5a4e336126"
+    },
+    "own_error_rule_agent": {
+      "round": 5,
+      "proposal": {
+        "patients": 433,
+        "visits": 1095,
+        "patient_f1": 0.5798605595048053,
+        "patient_jaccard": 0.42714807228262164,
+        "micro_f1": 0.604092894918372,
+        "micro_precision": 0.5985055585930381,
+        "micro_recall": 0.6097855352334973,
+        "mean_medications": 10.021917808219179,
+        "empty_prediction_fraction": 0.0,
+        "empty_target_fraction": 0.0,
+        "known_graph_pair_rate_all_predictions": 0.03396895038812015,
+        "ddi_source_covered_pair_fraction": 0.9978569017887277,
+        "known_graph_pair_rate_covered_pairs": 0.03404190553498047,
+        "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+      },
+      "threshold": 0.3,
+      "memory_sha256": "f68e06a8fab1abdbeeb1f5ef269e0f0793155dd44ad6bf2ac7c03b00951b6759"
+    },
+    "shuffled_evidence_rule_agent": {
+      "round": 5,
+      "proposal": {
+        "patients": 433,
+        "visits": 1095,
+        "patient_f1": 0.5800909399836213,
+        "patient_jaccard": 0.4272369335127725,
+        "micro_f1": 0.6043653705062363,
+        "micro_precision": 0.5970825405454381,
+        "micro_recall": 0.6118280568192368,
+        "mean_medications": 10.07945205479452,
+        "empty_prediction_fraction": 0.0,
+        "empty_target_fraction": 0.0,
+        "known_graph_pair_rate_all_predictions": 0.034226066009802776,
+        "ddi_source_covered_pair_fraction": 0.9978755081215812,
+        "known_graph_pair_rate_covered_pairs": 0.034298933816133574,
+        "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+      },
+      "threshold": 0.3,
+      "memory_sha256": "b953f86b24a4474f7be566dd1cc3e9054d46645bbcd4ded2aeb00bbffd9dc673"
+    },
+    "matched_proposals_without_witness_gate": {
+      "round": 5,
+      "proposal": {
+        "patients": 433,
+        "visits": 1095,
+        "patient_f1": 0.5789064819641186,
+        "patient_jaccard": 0.4258865383931098,
+        "micro_f1": 0.6030963145636389,
+        "micro_precision": 0.59347474384325,
+        "micro_recall": 0.6130350013926283,
+        "mean_medications": 10.160730593607306,
+        "empty_prediction_fraction": 0.0,
+        "empty_target_fraction": 0.0,
+        "known_graph_pair_rate_all_predictions": 0.03355195939487822,
+        "ddi_source_covered_pair_fraction": 0.9979071223756633,
+        "known_graph_pair_rate_covered_pairs": 0.03362232681033771,
+        "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+      },
+      "threshold": 0.3,
+      "memory_sha256": "f7815737b4965678c22c75302a00d58553eccbad43251aa4e5f011aa630ad5b7"
+    }
+  },
+  "guard": {
+    "uniform_policy": {
+      "patients": 467,
+      "visits": 1231,
+      "patient_f1": 0.5811284462101212,
+      "patient_jaccard": 0.4297108871974388,
+      "micro_f1": 0.604929548194023,
+      "micro_precision": 0.5998186613913616,
+      "micro_recall": 0.6101282803722646,
+      "mean_medications": 9.855402112103981,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.0342227556704521,
+      "ddi_source_covered_pair_fraction": 0.9968454744098729,
+      "known_graph_pair_rate_covered_pairs": 0.034331053858384405,
+      "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+    },
+    "greedy_error_rules": {
+      "patients": 467,
+      "visits": 1231,
+      "patient_f1": 0.5827847960065871,
+      "patient_jaccard": 0.4312861283624947,
+      "micro_f1": 0.606100850798921,
+      "micro_precision": 0.6000986193293886,
+      "micro_recall": 0.6122243648863922,
+      "mean_medications": 9.884646628757109,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.03407543416724046,
+      "ddi_source_covered_pair_fraction": 0.9968632851350318,
+      "known_graph_pair_rate_covered_pairs": 0.03418265541059094,
+      "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+    },
+    "random_candidate_rules": {
+      "patients": 467,
+      "visits": 1231,
+      "patient_f1": 0.5817905098200231,
+      "patient_jaccard": 0.43030385028972784,
+      "micro_f1": 0.6055182699478001,
+      "micro_precision": 0.5984767832282368,
+      "micro_recall": 0.6127274251697828,
+      "mean_medications": 9.9195775792039,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.03415205033893668,
+      "ddi_source_covered_pair_fraction": 0.9968842143660516,
+      "known_graph_pair_rate_covered_pairs": 0.03425879339523396,
+      "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+    },
+    "own_error_rule_agent": {
+      "patients": 467,
+      "visits": 1231,
+      "patient_f1": 0.5819769257901518,
+      "patient_jaccard": 0.43041375211249044,
+      "micro_f1": 0.605498509440212,
+      "micro_precision": 0.5981186094069529,
+      "micro_recall": 0.6130627986920433,
+      "mean_medications": 9.930950446791227,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.033918607472100924,
+      "ddi_source_covered_pair_fraction": 0.9968916787967006,
+      "known_graph_pair_rate_covered_pairs": 0.03402436613077403,
+      "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+    },
+    "shuffled_evidence_rule_agent": {
+      "patients": 467,
+      "visits": 1231,
+      "patient_f1": 0.5826244495162919,
+      "patient_jaccard": 0.4311574135815923,
+      "micro_f1": 0.6062758051197358,
+      "micro_precision": 0.5972504677458716,
+      "micro_recall": 0.6155781001089964,
+      "mean_medications": 9.986190089358246,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.034042105895426014,
+      "ddi_source_covered_pair_fraction": 0.9969216445926059,
+      "known_graph_pair_rate_covered_pairs": 0.03414722318456371,
+      "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+    },
+    "matched_proposals_without_witness_gate": {
+      "patients": 467,
+      "visits": 1231,
+      "patient_f1": 0.5813110402625576,
+      "patient_jaccard": 0.4297598012714245,
+      "micro_f1": 0.6041889117043121,
+      "micro_precision": 0.5921275054334701,
+      "micro_recall": 0.6167519074369079,
+      "mean_medications": 10.091795288383429,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.03341042676369636,
+      "ddi_source_covered_pair_fraction": 0.996935904423788,
+      "known_graph_pair_rate_covered_pairs": 0.03351311414850388,
+      "ddi_note": "Research graph relations; missing edges/classes are not proof of clinical safety."
+    }
+  },
+  "fit_events": [
+    {
+      "fit": "round1-C0.1",
+      "visits": 3760,
+      "C": 0.1,
+      "seconds": 2.640048708000002,
+      "max_class_iterations": 9,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round1-C1.0",
+      "visits": 3760,
+      "C": 1.0,
+      "seconds": 3.36760825,
+      "max_class_iterations": 10,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round1-C10.0",
+      "visits": 3760,
+      "C": 10.0,
+      "seconds": 5.176531166999997,
+      "max_class_iterations": 13,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round1-fold0",
+      "visits": 2449,
+      "C": 10.0,
+      "seconds": 3.249558125,
+      "max_class_iterations": 12,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round1-fold1",
+      "visits": 2588,
+      "C": 10.0,
+      "seconds": 3.6744537920000013,
+      "max_class_iterations": 13,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round1-fold2",
+      "visits": 2483,
+      "C": 10.0,
+      "seconds": 3.4542797080000014,
+      "max_class_iterations": 13,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round2-C0.1",
+      "visits": 7471,
+      "C": 0.1,
+      "seconds": 4.929144417000003,
+      "max_class_iterations": 9,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round2-C1.0",
+      "visits": 7471,
+      "C": 1.0,
+      "seconds": 6.628662417000001,
+      "max_class_iterations": 11,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round2-C10.0",
+      "visits": 7471,
+      "C": 10.0,
+      "seconds": 12.259355500000005,
+      "max_class_iterations": 14,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round2-fold0",
+      "visits": 4938,
+      "C": 1.0,
+      "seconds": 4.5283659159999985,
+      "max_class_iterations": 10,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round2-fold1",
+      "visits": 4983,
+      "C": 1.0,
+      "seconds": 4.804610957999998,
+      "max_class_iterations": 10,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round2-fold2",
+      "visits": 5021,
+      "C": 1.0,
+      "seconds": 4.725750333000008,
+      "max_class_iterations": 10,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round3-C0.1",
+      "visits": 11136,
+      "C": 0.1,
+      "seconds": 7.545509082999999,
+      "max_class_iterations": 9,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round3-C1.0",
+      "visits": 11136,
+      "C": 1.0,
+      "seconds": 11.396663042,
+      "max_class_iterations": 12,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round3-C10.0",
+      "visits": 11136,
+      "C": 10.0,
+      "seconds": 19.814300875,
+      "max_class_iterations": 16,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round3-fold0",
+      "visits": 7304,
+      "C": 1.0,
+      "seconds": 7.064378916999999,
+      "max_class_iterations": 11,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round3-fold1",
+      "visits": 7470,
+      "C": 1.0,
+      "seconds": 7.186137708999979,
+      "max_class_iterations": 11,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round3-fold2",
+      "visits": 7498,
+      "C": 1.0,
+      "seconds": 6.965934291000025,
+      "max_class_iterations": 11,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round4-C0.1",
+      "visits": 14803,
+      "C": 0.1,
+      "seconds": 10.860999458000009,
+      "max_class_iterations": 10,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round4-C1.0",
+      "visits": 14803,
+      "C": 1.0,
+      "seconds": 15.827777209000004,
+      "max_class_iterations": 12,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round4-C10.0",
+      "visits": 14803,
+      "C": 10.0,
+      "seconds": 28.389110208000005,
+      "max_class_iterations": 15,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round4-fold0",
+      "visits": 9637,
+      "C": 1.0,
+      "seconds": 8.964614374999996,
+      "max_class_iterations": 12,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round4-fold1",
+      "visits": 10008,
+      "C": 1.0,
+      "seconds": 9.87968724999999,
+      "max_class_iterations": 12,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round4-fold2",
+      "visits": 9961,
+      "C": 1.0,
+      "seconds": 10.04637737500002,
+      "max_class_iterations": 12,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round5-C0.1",
+      "visits": 18429,
+      "C": 0.1,
+      "seconds": 14.691308541000012,
+      "max_class_iterations": 10,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round5-C1.0",
+      "visits": 18429,
+      "C": 1.0,
+      "seconds": 21.903308332999984,
+      "max_class_iterations": 12,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round5-C10.0",
+      "visits": 18429,
+      "C": 10.0,
+      "seconds": 37.86555025000001,
+      "max_class_iterations": 16,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round5-fold0",
+      "visits": 12057,
+      "C": 1.0,
+      "seconds": 12.405582541000001,
+      "max_class_iterations": 12,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round5-fold1",
+      "visits": 12450,
+      "C": 1.0,
+      "seconds": 12.766066582999997,
+      "max_class_iterations": 12,
+      "convergence_warnings": 0
+    },
+    {
+      "fit": "round5-fold2",
+      "visits": 12351,
+      "C": 1.0,
+      "seconds": 12.915338708000036,
+      "max_class_iterations": 12,
+      "convergence_warnings": 0
+    }
+  ],
+  "test_inference": false
+}

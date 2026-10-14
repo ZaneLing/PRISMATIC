@@ -39,10 +39,11 @@ All splits were used in prior work: this is a post-test-motivated exploratory re
                     values=[str(z[x]['state_correct']) if x in z else 'pending' for x in ['val','id_test','test']]
                     text+=f"| {c} | {st} | {k} | {' | '.join(values)} |\n"
         if s['paired']:
-            text+='\n| Split | Declared contrast | Difference (pp) | Patient-cluster interval (pp) |\n|---|---|---:|---:|\n'
+            text+='\n| Split | Declared contrast | Difference (pp) | Patient/query-cluster interval (pp) |\n|---|---|---:|---:|\n'
             for split,pairs in s['paired'].items():
                 for name,z in pairs.items():
                     lo,hi=z['patient_ci95'];text+=f"| {split} | {name} | {100*z['difference']:+.2f} | [{100*lo:+.2f}, {100*hi:+.2f}] |\n"
+            text+=('\nValidation has 62 explicit patients plus two deliberately nonexistent-patient lookup queries; those queries form separate resampling units (64 total). No patient ID is invented. Both test splits have complete explicit patient identities.\n' if lang=='en' else '\n验证集包含62位显式患者及两道特意查询不存在患者的题目；两题各作独立查询重采样单元，共64个单元，不虚构患者编号。两个测试划分均有完整显式患者编号。\n')
         text+=('\nOnly completed cells that pass independent reference regrading, persisted-field/cleanup checks and raw-page arithmetic reconstruction appear above. One frozen run per condition, overlapping patients and descriptive intervals do not establish general RSI superiority. The earlier v0.19 table remains unchanged.\n' if lang=='en' else '\n上表只填已完成且通过独立复评分、字段回读/清理及原始分页算术重建的单元。每组合一次固定运行、患者重叠和描述性区间不能证明普遍RSI优势。v0.19原主表不变。\n')
         text+='\n## Evidence / 证据\n\n- [Preregistered factorial](protocol.json)\n- [Executed runtime probes](results/runtime_probe.json)\n- [Independent cell audits and contrasts](results/summary.json)\n- [Full execution counts](results/method_results.json)\n'
         (HERE/f'RESULTS.{lang}.md').write_text(text)

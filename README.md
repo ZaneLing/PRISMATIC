@@ -1,5 +1,18 @@
 # PRISMATIC: ***P***rescription ***R***isk ***I***nspection ***S***ystem for ***M***ulti-***A***gent ***T***actical ***I***nteraction in ***C***linical Decision
 
+<!-- RXRSI_CURRENT_EXECUTION_START -->
+## Current execution snapshot
+
+The rule-memory study completes **6/6 five-round runs**; genuine author-model baselines complete **1/15 full 50-epoch runs** (152/750 epochs saved). Independent development audits quantify the small memory increment against greedy/random/shuffled controls. A common test evaluator is implemented and stays closed until every selection and audit freezes.
+
+The real-FHIR factorial executes fixed answer-contract/statistics repairs and frozen learned skills in all eight combinations. This is exploratory execution repair, not autonomous tool-code evolution. All completed audited cells, costs and limits are maintained in the reports.
+
+[中文当前结果与方法对照](paper/CURRENT_RESULTS.zh.md) · [English current results](paper/CURRENT_RESULTS.en.md) · [Rule mechanism and rounds](upgrade_v27/RESULTS.en.md) · [FHIR repair](upgrade_v28/RESULTS.en.md)
+
+Earlier paragraphs below describe retained study versions; this snapshot governs current execution status.
+<!-- RXRSI_CURRENT_EXECUTION_END -->
+
+
 ## Current research status — ACL 2027 / RxRSIAgent, 15 October 2026
 
 [中文总览与主表](paper/CURRENT_RESULTS.zh.md) · [Current English results](paper/CURRENT_RESULTS.en.md) · [系统流程图](paper/RXRSI_DESIGN.zh.md) · [English design](paper/RXRSI_DESIGN.en.md) · [Active English paper](paper/latex/v0.3/prismatic_v03_en.tex) · [Versioned plan](paper/COMPLETION_PLAN.md)
