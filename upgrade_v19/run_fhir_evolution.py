@@ -9,7 +9,6 @@ from grasp.skills.repository import SkillRepository
 from grasp.skills.agent import SkillAwareAgent
 from public_client import LOCAL as API_LOCAL
 from probe_fhir_state import total
-from fhir_task import FHIRTask,FHIRBackend,LOCAL
 
 def save(p,x):p.write_text(json.dumps(x,indent=2)+'\n')
 
@@ -36,6 +35,9 @@ def main():
         if transfer_complete and not any(any(s in x for s in ['python upgrade_v18/run_backbone_transfer.py','python upgrade_v17/run_rounds.py']) for x in processes.splitlines()):break
         time.sleep(30)
     os.environ['RXRSI_PUBLIC_COST_CAP_USD']='28'
+    # Load the executor only when the queued experiment starts, so its saved
+    # code digest describes the code actually executed after preparation.
+    from fhir_task import FHIRTask,FHIRBackend,LOCAL
     pin=subprocess.check_output(['git','rev-parse','HEAD'],cwd=RESOURCE,text=True).strip();assert pin==protocol['source_commit']
     assert not subprocess.check_output(['git','diff','--','grasp'],cwd=RESOURCE,text=True).strip()
     counts={r:total(r) for r in ['Patient','MedicationRequest','Observation','ServiceRequest']}
@@ -59,5 +61,6 @@ def main():
             save(HERE/'results/method_results.json',report);print(json.dumps({'method':name,'split':split,**report['methods'][name][split]}),flush=True)
     after={r:total(r) for r in counts};assert after==counts
     report.update(status='complete',resource_counts_before=counts,resource_counts_after=after);save(HERE/'results/method_results.json',report)
+    subprocess.run([sys.executable,str(HERE/'summarize.py')],check=True)
 
 if __name__=='__main__':main()

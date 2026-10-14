@@ -47,13 +47,14 @@ The three-seed v0.7 accepted curves improve from 8k to 40k cases. However, the f
 
 Observed drug/route/dose/unit labels support automatic evaluation without mandatory clinician review. Missing attributes remain unknown. Optional clinical review can assess acceptable alternatives and safety absent from GT.
 
-MIMIC inputs currently use chief complaint, acuity and home-medication proxies; source entry timestamps remain incomplete. Public option selection is not free full-order generation. Official RxEval/SafeRx test data are unavailable locally, so runnable datasets remain the immediate priority.
+The older MIMIC task uses chief complaint, acuity and home-medication proxies with incomplete entry timestamps. v0.21 rebuilds an admission6h→next6h task using previously recorded orders, blood labs and demographics, with provider/pharmacy and laboratory-storage clock audits. It remains a selected coherent-time, nonempty-target cohort, and source field-version history is incomplete. Public option selection is not free full-order generation. Official RxEval/SafeRx test data are unavailable locally, so runnable datasets remain the immediate priority.
 
 ## Implemented execution paths and limits
 
 1. **Local orders:** patient proxies → frozen candidate catalogue → Qwen selection → exact recorded order templates. v0.9 updates real LoRA weights, but over-selects and loses to direct top-8 tools. v0.15 tests explicit binary exclusion supervision. These paths do not generate unseen doses.
 2. **Public decisions:** dialogue/options → optional label retrieval → optional learned skill injection → a single choice. v0.17 evolves one skill through three accepted edits, scores 501/988 versus fixed grounding 499 and author GRASP 502, and regresses on RxQA.
-3. **Interactive prescriptions:** available task/context → FHIR search → conditional ordering → typed order compiler → real write → complete field readback → finish. Invalid action feedback consumes the existing eight-turn budget. v0.19 will compare fixed and evolving skill versions on the full released task splits.
+3. **Recorded-time-controlled order prediction:** demographics and prior orders/labs → learned selection policy and case retrieval → conditional joint-order tool → at most20 structured orders. v0.21 compares three seeds/five rounds and equal-data controls on1,082 new test admissions. W/M/T change; no LLM is used in this path.
+4. **Interactive prescriptions:** available task/context → FHIR search → conditional ordering → typed order compiler → real write → complete field readback → finish. Invalid action feedback consumes the existing eight-turn budget. v0.19 will compare fixed and evolving skill versions on the full released task splits.
 
 The route compiler is a manual engineering improvement, not an automatically evolved tool. The model weights are fixed in public skill experiments. GRASP-based studies use the credited author's probe/epoch-validation selection, not the independent guard used in some other studies. All of these distinctions remain in the reported protocol.
 
@@ -66,7 +67,8 @@ flowchart LR
   D -- Order --> E[Lossless typed compiler]
   E --> F[Local FHIR write]
   F --> G{Stored fields preserved?}
-  G -- No --> C
+  G -- No --> R[Roll back the newly created resource; return feedback]
+  R --> C
   G -- Yes --> H[Finish and score]
   H --> I[Training-only feedback]
   I --> J[Propose skills and validate]

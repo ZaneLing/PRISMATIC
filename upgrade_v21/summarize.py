@@ -6,7 +6,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 HERE=Path(__file__).resolve().parent;PRIVATE=Path.home()/'Desktop/MedTreeBench/dataset/restricted/prismatic-v21'
-sys.path.insert(0,str(HERE.parent/'upgrade_v9'))
+sys.path[:0]=[str(HERE.parent/'upgrade_v9'),str(HERE.parent/'upgrade_v7')]
 from summarize import counts,scores
 
 LABELS={'word_policy_global':'Word policy + global templates','word_policy_conditional_tool':'Word policy + conditional tool',
@@ -69,7 +69,7 @@ def main():
     for j,(key,label) in enumerate([('drug_f1','Drug micro-F1'),('order_f1','Core-order micro-F1')]):
         for seed,curve in rounds.items():axes[j].plot(range(5),[x[key] for x in curve],marker='o',label=f'Seed {seed}')
         axes[j].axhline(methods['word_char_ensemble'][key+'_mean'],linestyle='--',color='gray',label='Full-data ensemble mean')
-        axes[j].set(xlabel='Feedback round (8k to40k cumulative cases)',ylabel=label,xticks=range(5));axes[j].grid(alpha=.2);axes[j].legend(fontsize=7)
+        axes[j].set(xlabel='Feedback round (8k to 40k cumulative cases)',ylabel=label,xticks=range(5));axes[j].grid(alpha=.2);axes[j].legend(fontsize=7)
     fig.tight_layout();fig.savefig(HERE/'round_curves.png',dpi=180);plt.close(fig)
     table='| Method | Drug F1 mean ± SD | Core-order F1 mean ± SD | Mean drugs | Empty (%) |\n|---|---:|---:|---:|---:|\n'
     for name,label in LABELS.items():
@@ -117,7 +117,8 @@ Every saved method/checkpoint prediction has been independently recounted. Histo
 
 所有方法和逐轮检查点的保存预测均已独立重算。历史医嘱一致性不等于指征、DDI或肾功能安全，缺失字段保持未知。本表属于独立的记录可用时间任务，不能与旧starttime任务或论文原始分数直接混排。受限病例、特征、预测及模型均保留本地。
 '''
-        (HERE/f'RESULTS.{lang}.md').write_text(intro+table+'\n## Fixed-test trajectories / 固定测试逐轮轨迹\n\n![Round trajectories](round_curves.png)\n\n'+rt+tail)
+        conclusion=('\n## Main finding\n\nMean drug/core-order F1 rises from0.16597/0.09415 at8k cases to0.19136/0.11533 at40k, but trails the equal-data ensemble at0.20096/0.12071. The paired drug-F1 interval against that control is below zero in each seed. Freezing initial memory improves the final mean to0.19555/0.11832, so expanding this retrieval memory does not help. The conditional-tool point contribution is modest; parameter updates explain the larger case-growth gain. Some accepted individual-seed order updates regress even though the mean curve rises. The final empty-output rate is2.74% on this protocol; it is not a matched comparison to earlier empty-output pilots.\n\nDevelopment-only diagnostics cover80.80% of gold drug names and75.36% of complete joint tuples with the fixed vocabulary/tool library. Only16.05% of target drugs occur in the prior-order context. Perfect-selection support ceilings are diagnostic upper bounds, not method results. [Capacity audit](results/development_capacity_audit.json). The separately declared [v0.22 representation pilot](../upgrade_v22/RESULTS.en.md) investigates numerical state without using these test labels for selection.\n' if lang=='en' else '\n## 主要发现\n\n平均药物/核心订单F1从8k病例的0.16597/0.09415升至40k的0.19136/0.11533，但低于同数据强集成0.20096/0.12071；三个种子相对强对照的药物F1配对区间均低于零。冻结初始记忆反而达到0.19555/0.11832，因此扩张当前检索记忆无益。订单工具更新的点估计贡献较小，选择参数更新贡献了更多病例增长收益。虽然均值曲线上升，个别种子的已接纳订单更新仍有退化。本协议最终空输出率为2.74%，不能把它与早期不同病例的空输出试验直接作前后比较。\n\n仅用开发集的能力诊断显示：固定词表覆盖80.80%目标药名，订单库覆盖75.36%完整联合元组；仅16.05%目标药物在先前订单中出现。完美选择上界只是诊断，不是实测方法成绩。[诊断结果](results/development_capacity_audit.json)。另行声明的[v0.22数值状态试验](../upgrade_v22/RESULTS.zh.md)不使用本测试标签做选择。\n')
+        (HERE/f'RESULTS.{lang}.md').write_text(intro+table+conclusion+'\n## Fixed-test trajectories / 固定测试逐轮轨迹\n\n![Round trajectories](round_curves.png)\n\n'+rt+tail)
     print(json.dumps({'status':'complete','methods':methods}),flush=True)
 
 if __name__=='__main__':main()

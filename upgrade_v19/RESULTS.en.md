@@ -23,4 +23,4 @@ The full agent experiment is queued after the Gemini and intermediate-skill eval
 
 ## Task-schema repair before learning
 
-The first launch stopped before any episode because only task1 has a literal `sol`. Other task types use reference functions against FHIR state. The adapter now preserves absent literal answers as null and uses the unchanged reference grader; it does not fabricate answers. All300 released task records load, all ten grader functions exist, and three execution/label-isolation contracts pass. The queue now requires the Gemini comparison to be complete, not merely an exited process. See `results/task_schema_audit.json`.
+The first launch stopped before any episode because only task1 has a literal `sol`. Other task types use reference functions against FHIR state. The adapter now preserves absent literal answers as null and uses the unchanged reference grader; it does not fabricate answers. All300 released task records load, all ten grader functions exist, and five execution/label-isolation contracts pass. The queue now requires the Gemini comparison to be complete, not merely an exited process. See `results/task_schema_audit.json`.

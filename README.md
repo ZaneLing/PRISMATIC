@@ -1,12 +1,14 @@
 # PRISMATIC: ***P***rescription ***R***isk ***I***nspection ***S***ystem for ***M***ulti-***A***gent ***T***actical ***I***nteraction in ***C***linical Decision
 
-## Current research status — ACL 2027 / RxRSIAgent through v0.17 (v0.15/v0.18 running)
+## Current research status — ACL 2027 / RxRSIAgent through v0.22 (temporal comparison complete)
 
 [中文流程图](paper/RXRSI_DESIGN.zh.md) · [English design](paper/RXRSI_DESIGN.en.md) · [当前全部结果](paper/CURRENT_RESULTS.zh.md) · [Current results](paper/CURRENT_RESULTS.en.md) · [English ACL paper](paper/latex/v0.3/prismatic_v03_en.tex) · [Versioned plan](paper/COMPLETION_PLAN.md)
 
 **Local QLoRA v0.9 and grounded skill evolution v0.17 are complete, including all intermediate states and independent recounts. Both retain negative controls: local adapters trail direct top-8 tools; grounded skills score 501/988 versus author GRASP 502 and regress on transfer. v0.15 binary supervision and v0.18 Gemini transfer continue; full real-FHIR learning is queued.** The completed three-seed comparison uses 40k training and 4k new test admissions, five checkpoints, 12 method/ablation rows, artifact hashes and repair/regression counts. Mean drug/order F1 is 0.39920/0.27865 for the selected evolving state versus 0.40209/0.28110 for the strongest same-data word/character control. Curves improve with case growth, but unique RSI superiority is not established.
 
 The [public method comparison](upgrade_v8/RESULTS.en.md) and [author-core GRASP control](upgrade_v10/RESULTS.en.md) are available; our language-skill variants have not yet demonstrated a gain. The [drug-label study](upgrade_v11/RESULTS.en.md) improves the fixed tool to 48.99%; [three-seed routing/gate evolution](upgrade_v12/RESULTS.en.md) reaches 48.68%/48.79% and does not surpass it. The [outcome-verifier increment](upgrade_v13/RESULTS.en.md) reaches 49.12% with uniform updates and 49.02% with error priorities; neither exceeds the author-core control. We continue with [LLM-authored skill/memory/tool-configuration evolution](upgrade_v8/README.md) and [actual local QLoRA parameter updates](upgrade_v9/README.md). Missing official RxEval/SafeRx test packages do not block runnable experiments. The active paper uses the official ACL review style and keeps the existing editor path. Only aggregate restricted-data results are public.
+
+**Temporal repair:** [v0.21](upgrade_v21/README.md) rebuilds the task from complete source tables:40k/2k/2k/1,082 train/proposal/guard/test admissions, with1,024 new test patients. All12 independent time/identity checks pass. The registered three-seed comparison is complete: RxRSI drug/order F1 is0.19136/0.11533 versus the strong control0.20096/0.12071. The [numerical-state development pilot](upgrade_v22/RESULTS.en.md) passes its guard continuation rule with a small point gain, but intervals include zero and no test result is claimed. These scores belong to a separate recorded-availability protocol and cannot be merged with older start-time results.
 
 The 2025 description below is retained as historical project context, not evidence for the current evaluation.
 

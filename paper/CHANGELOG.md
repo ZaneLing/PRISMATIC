@@ -1,5 +1,14 @@
 # Manuscript change log / 论文变更记录
 
+## 2026-10-14 — v0.21 completed and v0.22 development intervention executed
+
+- Complete all three seeds,14 method/ablation rows and five accepted-state checkpoints on the newly time-controlled1,082-admission test. Independently recount every prediction and publish patient-cluster intervals.
+- Retain the negative comparison: RxRSI0.19136/0.11533 drug/order F1, strong ensemble0.20096/0.12071. Initial-memory freezing is better than expanding the current memory.
+- Predeclare and execute a development-only typed numerical-state intervention. Guard scores improve0.21942/0.13458→0.22456/0.13656; both intervals include zero. No test scoring or RSI superiority claim.
+- Extend actual FHIR receipts and independent regrading, with five passing execution/cache/schema contracts. Optional literal answers and reference-grader exceptions are handled explicitly before learning.
+- Update the existing English paper, bilingual reports, design diagrams and continuing plan. Gemini and local parameter evaluations remain running.
+
+
 ## 2026-10-14 — v0.21 temporal rebuild and execution recovery
 
 - Re-read full source orders and freeze a recorded-availability task with1,082 new test admissions; independently reconstruct198,850 target,589,393 prior-order and506,710 lab records. All12 registered checks pass.

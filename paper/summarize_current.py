@@ -149,9 +149,11 @@ Hashes, promotions/rejections and case repairs/regressions accompany the artifac
             path=ROOT/'upgrade_v21/results/summary.json'
             if path.exists():
                 d=json.loads(path.read_text());panel+='| Method | Drug F1 mean ± SD | Core-order F1 mean ± SD |\n|---|---:|---:|\n'
-                for k in ['reuse_prior_orders','retrieval_conditional_tool','word_char_ensemble','rxrsi_selected','without_tool_evolution','without_memory_evolution']:
-                    z=d['methods'][k];panel+=f"| {k} | {z['drug_f1_mean']:.5f} ± {z['drug_f1_sd']:.5f} | {z['order_f1_mean']:.5f} ± {z['order_f1_sd']:.5f} |\n"
+                display={'reuse_prior_orders':('复用先前订单','Reuse prior orders'),'retrieval_conditional_tool':('病例检索＋订单工具','Case retrieval + order tool'),'word_char_ensemble':('词/字符集成＋订单工具','Word/character ensemble + tool'),'rxrsi_selected':('RxRSI逐轮选择状态','RxRSI selected state'),'without_tool_evolution':('冻结初始订单工具','Freeze initial order tool'),'without_memory_evolution':('冻结初始病例记忆','Freeze initial memory')}
+                for k,labels in display.items():
+                    z=d['methods'][k];label=labels[0 if lang=='zh' else 1];panel+=f"| {label} | {z['drug_f1_mean']:.5f} ± {z['drug_f1_sd']:.5f} | {z['order_f1_mean']:.5f} ± {z['order_f1_sd']:.5f} |\n"
                 panel+=('\n三种子完整方法/消融和逐轮预测已独立重算。本表与旧starttime任务分开。\n' if lang=='zh' else '\nAll three-seed method/ablation and round predictions are independently recounted. Separate from the earlier start-time task.\n')
+                panel+=('逐轮均值药物F1从0.1660升至0.1914，但强对照是0.2010；冻结初始记忆反而更好。不能据此宣称RSI已经胜出。\n' if lang=='zh' else 'Round-mean drug F1 rises from0.1660 to0.1914, but the strong control scores0.2010 and frozen initial memory is better. A unique RSI advantage is not established.\n')
             else:panel+=('三种子方法对比正在运行；以下旧主表保留其原始协议。\n' if lang=='zh' else 'The registered three-seed comparison is running; the older tables below retain their original protocols.\n')
             panel+='\n[Full protocol/results / 完整协议结果](../upgrade_v21/RESULTS.'+lang+'.md)\n'
             text=text.replace('\n## 1.',panel+'\n## 1.',1)
@@ -160,6 +162,9 @@ Hashes, promotions/rejections and case repairs/regressions accompany the artifac
             text+='| Method | Correct /988 | Accuracy (%) | Invalid |\n|---|---:|---:|---:|\n'
             for k,z in d['methods'].items():text+=f"| {k} | {z['correct']} | {100*z['accuracy']:.2f} | {z['invalid']} |\n"
             text+='\n[Transfer, paired intervals and costs / 迁移、区间与费用](../upgrade_v18/RESULTS.'+lang+'.md)\n'
+        if (ROOT/'upgrade_v22/results/summary.json').exists():
+            text+=('\n## 继续改进：数值状态开发试验已完成\n\n把已有检验值和用药剂量表示为数值，并保留缺失标记；没有增加未来信息。候选验证选定的词＋数值策略，在2,000例检查集上达到药物/订单F1 **0.22456/0.13656**，同集强对照为 **0.21942/0.13458**。通过预设继续条件，但两项患者配对区间都包含零。这里只是单种子开发结果，没有计算测试分数，也不算RSI胜出。\n' if lang=='zh' else '\n## Continued improvement: numerical-state development pilot complete\n\nRepresent existing lab/dose values numerically with observed flags; no future context is added. The proposal-selected word+typed policy reaches guard drug/order F1 **0.22456/0.13656**, versus the same-guard control at **0.21942/0.13458**. The continuation rule passes, but both patient-paired intervals include zero. This is one-seed development evidence, with no test scoring or RSI superiority claim.\n')
+            text+='\n[Development protocol/results / 开发协议与结果](../upgrade_v22/RESULTS.'+lang+'.md)\n'
         (HERE/f'CURRENT_RESULTS.{lang}.md').write_text(text)
 
 if __name__=='__main__':main()

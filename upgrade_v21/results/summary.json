@@ -1,0 +1,1156 @@
+{
+  "status": "complete",
+  "test_admissions": 1082,
+  "test_patients": 1024,
+  "methods": {
+    "word_policy_global": {
+      "drug_f1_mean": 0.1932527882694822,
+      "order_f1_mean": 0.10894734690562145,
+      "mean_predicted_drugs": 5.656808379544054,
+      "empty_fraction": 0.01879235982747998,
+      "drug_f1_sd": 0.0013001262721552558,
+      "order_f1_sd": 0.001177497738625548
+    },
+    "word_policy_conditional_tool": {
+      "drug_f1_mean": 0.1932527882694822,
+      "order_f1_mean": 0.11650480618296799,
+      "mean_predicted_drugs": 5.656808379544054,
+      "empty_fraction": 0.01879235982747998,
+      "drug_f1_sd": 0.0013001262721552558,
+      "order_f1_sd": 0.0002766670963328423
+    },
+    "retrieval_global": {
+      "drug_f1_mean": 0.15591836734693879,
+      "order_f1_mean": 0.08795460407531597,
+      "mean_predicted_drugs": 3.2818853974121995,
+      "empty_fraction": 0.16820702402957485,
+      "drug_f1_sd": 0.0,
+      "order_f1_sd": 0.0
+    },
+    "retrieval_conditional_tool": {
+      "drug_f1_mean": 0.15591836734693879,
+      "order_f1_mean": 0.09517668300232136,
+      "mean_predicted_drugs": 3.2818853974121995,
+      "empty_fraction": 0.16820702402957485,
+      "drug_f1_sd": 0.0,
+      "order_f1_sd": 0.0007737941707505816
+    },
+    "word": {
+      "drug_f1_mean": 0.19831662378966028,
+      "order_f1_mean": 0.11938816195183934,
+      "mean_predicted_drugs": 5.000924214417745,
+      "empty_fraction": 0.03696857670979667,
+      "drug_f1_sd": 0.004983526167438128,
+      "order_f1_sd": 0.0032730086175813407
+    },
+    "char": {
+      "drug_f1_mean": 0.19552414911970253,
+      "order_f1_mean": 0.11671071761874201,
+      "mean_predicted_drugs": 4.533271719038816,
+      "empty_fraction": 0.046518792359827484,
+      "drug_f1_sd": 0.0022307209459878747,
+      "order_f1_sd": 0.0013694765427224617
+    },
+    "word_char_ensemble": {
+      "drug_f1_mean": 0.20096384603286876,
+      "order_f1_mean": 0.12071456484174725,
+      "mean_predicted_drugs": 4.712569316081331,
+      "empty_fraction": 0.04097350585335798,
+      "drug_f1_sd": 0.002549562048739765,
+      "order_f1_sd": 0.002825371033282093
+    },
+    "multinomial_nb": {
+      "drug_f1_mean": 0.15228645383951683,
+      "order_f1_mean": 0.0924624500482293,
+      "mean_predicted_drugs": 5.05822550831793,
+      "empty_fraction": 0.3179297597042514,
+      "drug_f1_sd": 0.0,
+      "order_f1_sd": 0.0008353559082942109
+    },
+    "rxrsi_selected": {
+      "drug_f1_mean": 0.19136390899516995,
+      "order_f1_mean": 0.11532857592135252,
+      "mean_predicted_drugs": 5.353666050523721,
+      "empty_fraction": 0.027418361059765865,
+      "drug_f1_sd": 0.0015382234049239063,
+      "order_f1_sd": 0.0009438242870227932
+    },
+    "without_parameters_evolution": {
+      "drug_f1_mean": 0.16238440544495167,
+      "order_f1_mean": 0.09816705835237556,
+      "mean_predicted_drugs": 6.089032655576094,
+      "empty_fraction": 0.02002464571780653,
+      "drug_f1_sd": 0.0009533825278281718,
+      "order_f1_sd": 0.0012405096608138033
+    },
+    "without_tool_evolution": {
+      "drug_f1_mean": 0.19136390899516995,
+      "order_f1_mean": 0.11424650354998378,
+      "mean_predicted_drugs": 5.353666050523721,
+      "empty_fraction": 0.027418361059765865,
+      "drug_f1_sd": 0.0015382234049239063,
+      "order_f1_sd": 0.000427476371799544
+    },
+    "without_memory_evolution": {
+      "drug_f1_mean": 0.19555083918689223,
+      "order_f1_mean": 0.11832360485438971,
+      "mean_predicted_drugs": 5.1925446703635245,
+      "empty_fraction": 0.028958718422674057,
+      "drug_f1_sd": 0.0024975526495321482,
+      "order_f1_sd": 0.0010869596247018378
+    },
+    "prevalence": {
+      "drug_f1_mean": 0.12679497110171006,
+      "order_f1_mean": 0.07470762785826497,
+      "mean_predicted_drugs": 12.0,
+      "empty_fraction": 0.0,
+      "drug_f1_sd": 0.0,
+      "order_f1_sd": 0.0
+    },
+    "reuse_prior_orders": {
+      "drug_f1_mean": 0.09507575757575758,
+      "order_f1_mean": 0.0556366289675301,
+      "mean_predicted_drugs": 6.248613678373384,
+      "empty_fraction": 0.056377079482439925,
+      "drug_f1_sd": 0.0,
+      "order_f1_sd": 0.0
+    }
+  },
+  "per_seed": [
+    {
+      "seed": 42,
+      "methods": {
+        "word_policy_global": {
+          "drug_f1": 0.19469592075833422,
+          "order_f1": 0.10864903502501787,
+          "mean_predicted_drugs": 5.166358595194085,
+          "empty_fraction": 0.024953789279112754
+        },
+        "word_policy_conditional_tool": {
+          "drug_f1": 0.19469592075833422,
+          "order_f1": 0.11681813540283877,
+          "mean_predicted_drugs": 5.166358595194085,
+          "empty_fraction": 0.024953789279112754
+        },
+        "retrieval_global": {
+          "drug_f1": 0.15591836734693879,
+          "order_f1": 0.08795460407531597,
+          "mean_predicted_drugs": 3.2818853974121995,
+          "empty_fraction": 0.16820702402957485
+        },
+        "retrieval_conditional_tool": {
+          "drug_f1": 0.15591836734693879,
+          "order_f1": 0.09595047717307197,
+          "mean_predicted_drugs": 3.2818853974121995,
+          "empty_fraction": 0.16820702402957485
+        },
+        "rxrsi_selected": {
+          "drug_f1": 0.1931371507489642,
+          "order_f1": 0.1163288173576449,
+          "mean_predicted_drugs": 5.188539741219963,
+          "empty_fraction": 0.027726432532347505
+        },
+        "without_parameters_evolution": {
+          "drug_f1": 0.16285470247698586,
+          "order_f1": 0.09925966547847546,
+          "mean_predicted_drugs": 6.22735674676525,
+          "empty_fraction": 0.0166358595194085
+        },
+        "without_tool_evolution": {
+          "drug_f1": 0.1931371507489642,
+          "order_f1": 0.11429153509218702,
+          "mean_predicted_drugs": 5.188539741219963,
+          "empty_fraction": 0.027726432532347505
+        },
+        "without_memory_evolution": {
+          "drug_f1": 0.19823313940961,
+          "order_f1": 0.11955399545736115,
+          "mean_predicted_drugs": 5.067467652495379,
+          "empty_fraction": 0.02865064695009242
+        },
+        "word": {
+          "drug_f1": 0.20268705119295807,
+          "order_f1": 0.12281478203142288,
+          "mean_predicted_drugs": 4.468576709796673,
+          "empty_fraction": 0.04713493530499076
+        },
+        "char": {
+          "drug_f1": 0.19401223307221804,
+          "order_f1": 0.11786485652576366,
+          "mean_predicted_drugs": 5.101663585951941,
+          "empty_fraction": 0.03974121996303143
+        },
+        "word_char_ensemble": {
+          "drug_f1": 0.2039045553145336,
+          "order_f1": 0.12397686347266179,
+          "mean_predicted_drugs": 4.584103512014788,
+          "empty_fraction": 0.04621072088724584
+        },
+        "multinomial_nb": {
+          "drug_f1": 0.15228645383951683,
+          "order_f1": 0.09322033898305085,
+          "mean_predicted_drugs": 5.05822550831793,
+          "empty_fraction": 0.3179297597042514
+        },
+        "prevalence": {
+          "drug_f1": 0.12679497110171006,
+          "order_f1": 0.07470762785826497,
+          "mean_predicted_drugs": 12.0,
+          "empty_fraction": 0.0
+        },
+        "reuse_prior_orders": {
+          "drug_f1": 0.09507575757575758,
+          "order_f1": 0.0556366289675301,
+          "mean_predicted_drugs": 6.248613678373383,
+          "empty_fraction": 0.056377079482439925
+        }
+      }
+    },
+    {
+      "seed": 137,
+      "methods": {
+        "word_policy_global": {
+          "drug_f1": 0.1921729556600941,
+          "order_f1": 0.11024531024531024,
+          "mean_predicted_drugs": 5.7227356746765246,
+          "empty_fraction": 0.018484288354898338
+        },
+        "word_policy_conditional_tool": {
+          "drug_f1": 0.1921729556600941,
+          "order_f1": 0.1164021164021164,
+          "mean_predicted_drugs": 5.7227356746765246,
+          "empty_fraction": 0.018484288354898338
+        },
+        "retrieval_global": {
+          "drug_f1": 0.15591836734693879,
+          "order_f1": 0.08795460407531597,
+          "mean_predicted_drugs": 3.2818853974121995,
+          "empty_fraction": 0.16820702402957485
+        },
+        "retrieval_conditional_tool": {
+          "drug_f1": 0.15591836734693879,
+          "order_f1": 0.09517668300232138,
+          "mean_predicted_drugs": 3.2818853974121995,
+          "empty_fraction": 0.16820702402957485
+        },
+        "rxrsi_selected": {
+          "drug_f1": 0.1905658403932643,
+          "order_f1": 0.11520321123933769,
+          "mean_predicted_drugs": 5.32532347504621,
+          "empty_fraction": 0.025878003696857672
+        },
+        "without_parameters_evolution": {
+          "drug_f1": 0.16128725126154433,
+          "order_f1": 0.0968185568900706,
+          "mean_predicted_drugs": 6.195933456561923,
+          "empty_fraction": 0.018484288354898338
+        },
+        "without_tool_evolution": {
+          "drug_f1": 0.1905658403932643,
+          "order_f1": 0.11379829402910185,
+          "mean_predicted_drugs": 5.32532347504621,
+          "empty_fraction": 0.025878003696857672
+        },
+        "without_memory_evolution": {
+          "drug_f1": 0.19512714118523247,
+          "order_f1": 0.11792308476996838,
+          "mean_predicted_drugs": 5.175600739371534,
+          "empty_fraction": 0.024953789279112754
+        },
+        "word": {
+          "drug_f1": 0.19937333178600442,
+          "order_f1": 0.11905553708014632,
+          "mean_predicted_drugs": 4.452865064695009,
+          "empty_fraction": 0.05083179297597042
+        },
+        "char": {
+          "drug_f1": 0.19808612440191387,
+          "order_f1": 0.11706983112733911,
+          "mean_predicted_drugs": 4.215341959334566,
+          "empty_fraction": 0.05083179297597042
+        },
+        "word_char_ensemble": {
+          "drug_f1": 0.19937333178600442,
+          "order_f1": 0.11905553708014632,
+          "mean_predicted_drugs": 4.452865064695009,
+          "empty_fraction": 0.05083179297597042
+        },
+        "multinomial_nb": {
+          "drug_f1": 0.15228645383951683,
+          "order_f1": 0.09260024803637867,
+          "mean_predicted_drugs": 5.05822550831793,
+          "empty_fraction": 0.3179297597042514
+        },
+        "prevalence": {
+          "drug_f1": 0.12679497110171006,
+          "order_f1": 0.07470762785826497,
+          "mean_predicted_drugs": 12.0,
+          "empty_fraction": 0.0
+        },
+        "reuse_prior_orders": {
+          "drug_f1": 0.09507575757575758,
+          "order_f1": 0.0556366289675301,
+          "mean_predicted_drugs": 6.248613678373383,
+          "empty_fraction": 0.056377079482439925
+        }
+      }
+    },
+    {
+      "seed": 2026,
+      "methods": {
+        "word_policy_global": {
+          "drug_f1": 0.1928894883900183,
+          "order_f1": 0.10794769544653622,
+          "mean_predicted_drugs": 6.081330868761553,
+          "empty_fraction": 0.012939001848428836
+        },
+        "word_policy_conditional_tool": {
+          "drug_f1": 0.1928894883900183,
+          "order_f1": 0.11629416674394881,
+          "mean_predicted_drugs": 6.081330868761553,
+          "empty_fraction": 0.012939001848428836
+        },
+        "retrieval_global": {
+          "drug_f1": 0.15591836734693879,
+          "order_f1": 0.08795460407531597,
+          "mean_predicted_drugs": 3.2818853974121995,
+          "empty_fraction": 0.16820702402957485
+        },
+        "retrieval_conditional_tool": {
+          "drug_f1": 0.15591836734693879,
+          "order_f1": 0.0944028888315708,
+          "mean_predicted_drugs": 3.2818853974121995,
+          "empty_fraction": 0.16820702402957485
+        },
+        "rxrsi_selected": {
+          "drug_f1": 0.1903887358432813,
+          "order_f1": 0.11445369916707496,
+          "mean_predicted_drugs": 5.547134935304991,
+          "empty_fraction": 0.02865064695009242
+        },
+        "without_parameters_evolution": {
+          "drug_f1": 0.16301126259632484,
+          "order_f1": 0.09842295268858066,
+          "mean_predicted_drugs": 5.843807763401109,
+          "empty_fraction": 0.024953789279112754
+        },
+        "without_tool_evolution": {
+          "drug_f1": 0.1903887358432813,
+          "order_f1": 0.11464968152866242,
+          "mean_predicted_drugs": 5.547134935304991,
+          "empty_fraction": 0.02865064695009242
+        },
+        "without_memory_evolution": {
+          "drug_f1": 0.19329223696583428,
+          "order_f1": 0.1174937343358396,
+          "mean_predicted_drugs": 5.3345656192236595,
+          "empty_fraction": 0.033271719038817
+        },
+        "word": {
+          "drug_f1": 0.1928894883900183,
+          "order_f1": 0.11629416674394881,
+          "mean_predicted_drugs": 6.081330868761553,
+          "empty_fraction": 0.012939001848428836
+        },
+        "char": {
+          "drug_f1": 0.1944740898849757,
+          "order_f1": 0.11519746520312323,
+          "mean_predicted_drugs": 4.282809611829944,
+          "empty_fraction": 0.048983364140480594
+        },
+        "word_char_ensemble": {
+          "drug_f1": 0.19961365099806824,
+          "order_f1": 0.11911129397243365,
+          "mean_predicted_drugs": 5.100739371534196,
+          "empty_fraction": 0.025878003696857672
+        },
+        "multinomial_nb": {
+          "drug_f1": 0.15228645383951683,
+          "order_f1": 0.09156676312525837,
+          "mean_predicted_drugs": 5.05822550831793,
+          "empty_fraction": 0.3179297597042514
+        },
+        "prevalence": {
+          "drug_f1": 0.12679497110171006,
+          "order_f1": 0.07470762785826497,
+          "mean_predicted_drugs": 12.0,
+          "empty_fraction": 0.0
+        },
+        "reuse_prior_orders": {
+          "drug_f1": 0.09507575757575758,
+          "order_f1": 0.0556366289675301,
+          "mean_predicted_drugs": 6.248613678373383,
+          "empty_fraction": 0.056377079482439925
+        }
+      }
+    }
+  ],
+  "rounds": {
+    "42": [
+      {
+        "round": 0,
+        "training_cases": 8000,
+        "drug_f1": 0.16493270974515606,
+        "order_f1": 0.0931899641577061,
+        "improved_cases": 0,
+        "regressed_cases": 0,
+        "empty_fraction": 0.0166358595194085
+      },
+      {
+        "round": 1,
+        "training_cases": 16000,
+        "drug_f1": 0.17421891164907924,
+        "order_f1": 0.09990069513406157,
+        "improved_cases": 250,
+        "regressed_cases": 207,
+        "empty_fraction": 0.036044362292051754
+      },
+      {
+        "round": 2,
+        "training_cases": 24000,
+        "drug_f1": 0.18584340408246167,
+        "order_f1": 0.10691639840015608,
+        "improved_cases": 243,
+        "regressed_cases": 193,
+        "empty_fraction": 0.027726432532347505
+      },
+      {
+        "round": 3,
+        "training_cases": 32000,
+        "drug_f1": 0.18584340408246167,
+        "order_f1": 0.10691639840015608,
+        "improved_cases": 0,
+        "regressed_cases": 0,
+        "empty_fraction": 0.027726432532347505
+      },
+      {
+        "round": 4,
+        "training_cases": 40000,
+        "drug_f1": 0.1931371507489642,
+        "order_f1": 0.1163288173576449,
+        "improved_cases": 231,
+        "regressed_cases": 196,
+        "empty_fraction": 0.027726432532347505
+      }
+    ],
+    "137": [
+      {
+        "round": 0,
+        "training_cases": 8000,
+        "drug_f1": 0.16435473069932077,
+        "order_f1": 0.09339596573639126,
+        "improved_cases": 0,
+        "regressed_cases": 0,
+        "empty_fraction": 0.015711645101663587
+      },
+      {
+        "round": 1,
+        "training_cases": 16000,
+        "drug_f1": 0.17473275024295432,
+        "order_f1": 0.1030484383766598,
+        "improved_cases": 271,
+        "regressed_cases": 204,
+        "empty_fraction": 0.0166358595194085
+      },
+      {
+        "round": 2,
+        "training_cases": 24000,
+        "drug_f1": 0.18739487483922035,
+        "order_f1": 0.11264389686994578,
+        "improved_cases": 264,
+        "regressed_cases": 195,
+        "empty_fraction": 0.018484288354898338
+      },
+      {
+        "round": 3,
+        "training_cases": 32000,
+        "drug_f1": 0.1905658403932643,
+        "order_f1": 0.11520321123933769,
+        "improved_cases": 225,
+        "regressed_cases": 181,
+        "empty_fraction": 0.025878003696857672
+      },
+      {
+        "round": 4,
+        "training_cases": 40000,
+        "drug_f1": 0.1905658403932643,
+        "order_f1": 0.11520321123933769,
+        "improved_cases": 0,
+        "regressed_cases": 0,
+        "empty_fraction": 0.025878003696857672
+      }
+    ],
+    "2026": [
+      {
+        "round": 0,
+        "training_cases": 8000,
+        "drug_f1": 0.16863672182821118,
+        "order_f1": 0.09586964759378552,
+        "improved_cases": 0,
+        "regressed_cases": 0,
+        "empty_fraction": 0.02033271719038817
+      },
+      {
+        "round": 1,
+        "training_cases": 16000,
+        "drug_f1": 0.1774193548387097,
+        "order_f1": 0.10058823529411764,
+        "improved_cases": 252,
+        "regressed_cases": 210,
+        "empty_fraction": 0.027726432532347505
+      },
+      {
+        "round": 2,
+        "training_cases": 24000,
+        "drug_f1": 0.18277754326720136,
+        "order_f1": 0.10425101214574899,
+        "improved_cases": 219,
+        "regressed_cases": 202,
+        "empty_fraction": 0.033271719038817
+      },
+      {
+        "round": 3,
+        "training_cases": 32000,
+        "drug_f1": 0.1903887358432813,
+        "order_f1": 0.11464968152866242,
+        "improved_cases": 230,
+        "regressed_cases": 202,
+        "empty_fraction": 0.02865064695009242
+      },
+      {
+        "round": 4,
+        "training_cases": 40000,
+        "drug_f1": 0.1903887358432813,
+        "order_f1": 0.11445369916707496,
+        "improved_cases": 20,
+        "regressed_cases": 19,
+        "empty_fraction": 0.02865064695009242
+      }
+    ]
+  },
+  "artifact_updates": {
+    "42": [
+      {
+        "round": 0,
+        "training_cases": 8000,
+        "accepted": true,
+        "active": {
+          "policy_n": 8000,
+          "tool_n": 8000,
+          "memory_n": 8000,
+          "beta": 0.5,
+          "conditional": false,
+          "threshold": 0.1,
+          "proposal": "all"
+        },
+        "parameter_sha256": "4e2bf1e7d508dd7b3015c582a863bb1d25e38443ff6f9bd8cf0ba38adf45342f",
+        "memory_sha256": "af848f55b346a7ca38900866d2adf560f62dd81b24f07e59c7c65e836d3576fa",
+        "tool_sha256": "df726c3cb542ba9f0db72ff05bfddce9ceb91a3595d344a546ac233cc2c00750",
+        "conditional_tool_drugs": 74,
+        "guard_case_improvements": 0,
+        "guard_case_regressions": 0
+      },
+      {
+        "round": 1,
+        "training_cases": 16000,
+        "accepted": true,
+        "active": {
+          "policy_n": 16000,
+          "tool_n": 16000,
+          "memory_n": 16000,
+          "beta": 0.25,
+          "conditional": false,
+          "threshold": 0.1,
+          "proposal": "all"
+        },
+        "parameter_sha256": "25c7d950c357bea51c1eaf822da1eed36735a2796a45c8855bcb45df3b4d9c32",
+        "memory_sha256": "3151622c0a3435d177e34caf18146e9ba7b4d5f01ec1d6ebe4c75019f513ecbf",
+        "tool_sha256": "08bbe7112c2b1ff5ecdb61ae792d8ecb890e79e2940df3a3bd27554aea0221bc",
+        "conditional_tool_drugs": 125,
+        "guard_case_improvements": 488,
+        "guard_case_regressions": 404
+      },
+      {
+        "round": 2,
+        "training_cases": 24000,
+        "accepted": true,
+        "active": {
+          "policy_n": 24000,
+          "tool_n": 24000,
+          "memory_n": 24000,
+          "beta": 0.25,
+          "conditional": true,
+          "threshold": 0.1,
+          "proposal": "all"
+        },
+        "parameter_sha256": "a2779a9f3cff58c511146b00741c9006ac5d9a1530df57ff75cd3ce94c60aaa8",
+        "memory_sha256": "eacc3c6d73ed9cae21ea19f4484546f10a39f32b356686bfa0fe54b9d724f435",
+        "tool_sha256": "adc9360173a584d927a1a91b08d618e5802130f9df3fd930cdb22963ffa701a8",
+        "conditional_tool_drugs": 165,
+        "guard_case_improvements": 485,
+        "guard_case_regressions": 372
+      },
+      {
+        "round": 3,
+        "training_cases": 32000,
+        "accepted": false,
+        "active": {
+          "policy_n": 24000,
+          "tool_n": 24000,
+          "memory_n": 24000,
+          "beta": 0.25,
+          "conditional": true,
+          "threshold": 0.1,
+          "proposal": "all"
+        },
+        "parameter_sha256": "216442c93eedeae0243f48f0870927909b478c071fee46867fbc33957b073b65",
+        "memory_sha256": "cabcf642e1b805ecd29dbd2fc85d406e43ae76f053d17dc620e08a764a761e9d",
+        "tool_sha256": "bf01663b26f06c5814d36b2f598e773a2f6e523b7763591244c993473c1f7d53",
+        "conditional_tool_drugs": 197,
+        "guard_case_improvements": 0,
+        "guard_case_regressions": 0
+      },
+      {
+        "round": 4,
+        "training_cases": 40000,
+        "accepted": true,
+        "active": {
+          "policy_n": 40000,
+          "tool_n": 40000,
+          "memory_n": 40000,
+          "beta": 0.25,
+          "conditional": true,
+          "threshold": 0.1,
+          "proposal": "all"
+        },
+        "parameter_sha256": "6107e6cf1090a2184ddf0068e4ecea48cca9e470d797770a9d9e1410a4a67b2a",
+        "memory_sha256": "4dc81e3286722d94c367c06b448cb709942e3d137b35254ed6a4415979344433",
+        "tool_sha256": "e73813a9c5f384c7a3b1d5c7e218ac67c738db5d57921beb16792036fd7a041f",
+        "conditional_tool_drugs": 227,
+        "guard_case_improvements": 456,
+        "guard_case_regressions": 352
+      }
+    ],
+    "137": [
+      {
+        "round": 0,
+        "training_cases": 8000,
+        "accepted": true,
+        "active": {
+          "policy_n": 8000,
+          "tool_n": 8000,
+          "memory_n": 8000,
+          "beta": 0.5,
+          "conditional": false,
+          "threshold": 0.1,
+          "proposal": "all"
+        },
+        "parameter_sha256": "528317434756854953d406139aaf55ebcff62ac3468bfd507e1a42b1310410bf",
+        "memory_sha256": "af848f55b346a7ca38900866d2adf560f62dd81b24f07e59c7c65e836d3576fa",
+        "tool_sha256": "28079a9c35748e45e2028d449083e622da201aa3a29a71b63adef8093f162e36",
+        "conditional_tool_drugs": 74,
+        "guard_case_improvements": 0,
+        "guard_case_regressions": 0
+      },
+      {
+        "round": 1,
+        "training_cases": 16000,
+        "accepted": true,
+        "active": {
+          "policy_n": 16000,
+          "tool_n": 16000,
+          "memory_n": 16000,
+          "beta": 0.5,
+          "conditional": true,
+          "threshold": 0.1,
+          "proposal": "all"
+        },
+        "parameter_sha256": "bc18d5c43dcad7c52a20b61d726638e8031bdce5217f741c3a69697bcbeb79b9",
+        "memory_sha256": "3151622c0a3435d177e34caf18146e9ba7b4d5f01ec1d6ebe4c75019f513ecbf",
+        "tool_sha256": "f01153fb3636d552c986930e5f4948353e3d872151d7e9e0772002472cf7dde2",
+        "conditional_tool_drugs": 125,
+        "guard_case_improvements": 523,
+        "guard_case_regressions": 397
+      },
+      {
+        "round": 2,
+        "training_cases": 24000,
+        "accepted": true,
+        "active": {
+          "policy_n": 24000,
+          "tool_n": 24000,
+          "memory_n": 24000,
+          "beta": 0.25,
+          "conditional": true,
+          "threshold": 0.1,
+          "proposal": "all"
+        },
+        "parameter_sha256": "f383abd26eb1bebf2a0def8457b69cacc365cb1b3f61681e3cc1941b53b3540f",
+        "memory_sha256": "eacc3c6d73ed9cae21ea19f4484546f10a39f32b356686bfa0fe54b9d724f435",
+        "tool_sha256": "c45b1f2e237f52e2377c8f7b32b888387debaf37a3ec7b8680298bb21818bc5f",
+        "conditional_tool_drugs": 165,
+        "guard_case_improvements": 491,
+        "guard_case_regressions": 374
+      },
+      {
+        "round": 3,
+        "training_cases": 32000,
+        "accepted": true,
+        "active": {
+          "policy_n": 32000,
+          "tool_n": 32000,
+          "memory_n": 32000,
+          "beta": 0.25,
+          "conditional": true,
+          "threshold": 0.1,
+          "proposal": "all"
+        },
+        "parameter_sha256": "c67b36b37d21905aa974236860a1e522e51014d6967e648fb89807301955cc5f",
+        "memory_sha256": "cabcf642e1b805ecd29dbd2fc85d406e43ae76f053d17dc620e08a764a761e9d",
+        "tool_sha256": "c176c44c7d58fca86f90911c14b6511d322c828081841334313babe2c5017bde",
+        "conditional_tool_drugs": 197,
+        "guard_case_improvements": 460,
+        "guard_case_regressions": 355
+      },
+      {
+        "round": 4,
+        "training_cases": 40000,
+        "accepted": false,
+        "active": {
+          "policy_n": 32000,
+          "tool_n": 32000,
+          "memory_n": 32000,
+          "beta": 0.25,
+          "conditional": true,
+          "threshold": 0.1,
+          "proposal": "all"
+        },
+        "parameter_sha256": "5210b70abb22770e10016b703ad59df18511243e9f2f8ea77abfda92bb346f06",
+        "memory_sha256": "4dc81e3286722d94c367c06b448cb709942e3d137b35254ed6a4415979344433",
+        "tool_sha256": "feebe7b500111fc08acacb26fad0819c9b502cc23de3af10aeda595f21a3011a",
+        "conditional_tool_drugs": 227,
+        "guard_case_improvements": 0,
+        "guard_case_regressions": 0
+      }
+    ],
+    "2026": [
+      {
+        "round": 0,
+        "training_cases": 8000,
+        "accepted": true,
+        "active": {
+          "policy_n": 8000,
+          "tool_n": 8000,
+          "memory_n": 8000,
+          "beta": 0.5,
+          "conditional": false,
+          "threshold": 0.1,
+          "proposal": "all"
+        },
+        "parameter_sha256": "42eb3ab9a1672a72edf096ecec0b4c5309835e092b69b3981f3036b914d7670f",
+        "memory_sha256": "af848f55b346a7ca38900866d2adf560f62dd81b24f07e59c7c65e836d3576fa",
+        "tool_sha256": "7d4884a5a4c153557efd8268a60c7afba1c24e67bda402b6d0a9b591644f537e",
+        "conditional_tool_drugs": 74,
+        "guard_case_improvements": 0,
+        "guard_case_regressions": 0
+      },
+      {
+        "round": 1,
+        "training_cases": 16000,
+        "accepted": true,
+        "active": {
+          "policy_n": 16000,
+          "tool_n": 16000,
+          "memory_n": 16000,
+          "beta": 0.25,
+          "conditional": false,
+          "threshold": 0.1,
+          "proposal": "all"
+        },
+        "parameter_sha256": "f426f65088635afebde5538263c1318a1aeac74f64bff97110ec6f4b781e84f4",
+        "memory_sha256": "3151622c0a3435d177e34caf18146e9ba7b4d5f01ec1d6ebe4c75019f513ecbf",
+        "tool_sha256": "c4ef42b1ead5995b05bc6d797224a10557d7ff1565866a11fd96f1af69de43e2",
+        "conditional_tool_drugs": 125,
+        "guard_case_improvements": 494,
+        "guard_case_regressions": 381
+      },
+      {
+        "round": 2,
+        "training_cases": 24000,
+        "accepted": true,
+        "active": {
+          "policy_n": 24000,
+          "tool_n": 16000,
+          "memory_n": 16000,
+          "beta": 0.25,
+          "conditional": true,
+          "threshold": 0.1,
+          "proposal": "parameters_only"
+        },
+        "parameter_sha256": "3ffbea684dd70df04ac2f1e595ab6d53db0ef40dbce53a45b6d2d8dc663a7fa9",
+        "memory_sha256": "eacc3c6d73ed9cae21ea19f4484546f10a39f32b356686bfa0fe54b9d724f435",
+        "tool_sha256": "5ccb3ef003aa9b7d85f0813c171500983aca7c348dd1f5b8515f075e9dba0bf4",
+        "conditional_tool_drugs": 165,
+        "guard_case_improvements": 470,
+        "guard_case_regressions": 336
+      },
+      {
+        "round": 3,
+        "training_cases": 32000,
+        "accepted": true,
+        "active": {
+          "policy_n": 32000,
+          "tool_n": 32000,
+          "memory_n": 32000,
+          "beta": 0.25,
+          "conditional": true,
+          "threshold": 0.1,
+          "proposal": "all"
+        },
+        "parameter_sha256": "a60cc73ed6bdf20634134255d3d73baa2e18b58c52f5e368edb87d6aa1941530",
+        "memory_sha256": "cabcf642e1b805ecd29dbd2fc85d406e43ae76f053d17dc620e08a764a761e9d",
+        "tool_sha256": "ca425af4645b65625458e5cc3e6313ac3fa12b378984ff0c056487ec785afd3f",
+        "conditional_tool_drugs": 197,
+        "guard_case_improvements": 412,
+        "guard_case_regressions": 399
+      },
+      {
+        "round": 4,
+        "training_cases": 40000,
+        "accepted": true,
+        "active": {
+          "policy_n": 32000,
+          "tool_n": 40000,
+          "memory_n": 32000,
+          "beta": 0.25,
+          "conditional": true,
+          "threshold": 0.1,
+          "proposal": "tool_only"
+        },
+        "parameter_sha256": "3c0ca9135defd870ac1ab12ca155dd9ef6d8124da0d82fae24ee8b0fd84d55fc",
+        "memory_sha256": "4dc81e3286722d94c367c06b448cb709942e3d137b35254ed6a4415979344433",
+        "tool_sha256": "85598e18dc2750cece0a465a0fda588a5455f1e5cd6407a58c70e8b6e4e53f3a",
+        "conditional_tool_drugs": 227,
+        "guard_case_improvements": 54,
+        "guard_case_regressions": 44
+      }
+    ]
+  },
+  "paired": {
+    "42": {
+      "rxrsi_selected__minus__word_char_ensemble": {
+        "drug_order_difference": [
+          -0.010767404565569405,
+          -0.0076480461150168905
+        ],
+        "patient_ci95": [
+          [
+            -0.017545773997261992,
+            -0.012989692532420523
+          ],
+          [
+            -0.004168197432627994,
+            -0.0019457930773304247
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__word_policy_conditional_tool": {
+        "drug_order_difference": [
+          -0.0015587700093700196,
+          -0.000489318045193865
+        ],
+        "patient_ci95": [
+          [
+            -0.006145335462534713,
+            -0.004192946257716359
+          ],
+          [
+            0.002952351008539937,
+            0.003265116979589668
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__round_0": {
+        "drug_order_difference": [
+          0.028204441003808145,
+          0.023138853199938803
+        ],
+        "patient_ci95": [
+          [
+            0.019033768046531063,
+            0.015070997869306905
+          ],
+          [
+            0.03673490404651333,
+            0.031089651273877715
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__without_tool_evolution": {
+        "drug_order_difference": [
+          0.0,
+          0.0020372822654578793
+        ],
+        "patient_ci95": [
+          [
+            0.0,
+            -0.0020639058937150633
+          ],
+          [
+            0.0,
+            0.006186124503517756
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__without_memory_evolution": {
+        "drug_order_difference": [
+          -0.005095988660645784,
+          -0.0032251780997162444
+        ],
+        "patient_ci95": [
+          [
+            -0.01001465530938637,
+            -0.007138207825619412
+          ],
+          [
+            -0.00011788341325802349,
+            0.0006621364467486243
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__without_parameters_evolution": {
+        "drug_order_difference": [
+          0.030282448271978346,
+          0.017069151879169436
+        ],
+        "patient_ci95": [
+          [
+            0.0213452577926248,
+            0.010241182345940396
+          ],
+          [
+            0.038690601311695196,
+            0.023653219614907503
+          ]
+        ]
+      }
+    },
+    "137": {
+      "rxrsi_selected__minus__word_char_ensemble": {
+        "drug_order_difference": [
+          -0.008807491392740119,
+          -0.0038523258408086347
+        ],
+        "patient_ci95": [
+          [
+            -0.016624308862355358,
+            -0.010112707178933866
+          ],
+          [
+            -0.0009642351095436213,
+            0.0024758278758319646
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__word_policy_conditional_tool": {
+        "drug_order_difference": [
+          -0.0016071152668298005,
+          -0.0011989051627787073
+        ],
+        "patient_ci95": [
+          [
+            -0.007828549234276682,
+            -0.006338851072625083
+          ],
+          [
+            0.004890924675211051,
+            0.003973035830399913
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__round_0": {
+        "drug_order_difference": [
+          0.026211109693943524,
+          0.021807245502946423
+        ],
+        "patient_ci95": [
+          [
+            0.017802026912724235,
+            0.014525594642643948
+          ],
+          [
+            0.03426194663922375,
+            0.028975252413448175
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__without_tool_evolution": {
+        "drug_order_difference": [
+          0.0,
+          0.0014049172102358343
+        ],
+        "patient_ci95": [
+          [
+            0.0,
+            -0.002706218165658215
+          ],
+          [
+            0.0,
+            0.005615431625206398
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__without_memory_evolution": {
+        "drug_order_difference": [
+          -0.004561300791968176,
+          -0.00271987353063069
+        ],
+        "patient_ci95": [
+          [
+            -0.0092246927597332,
+            -0.006182160605949499
+          ],
+          [
+            0.00016636340340753087,
+            0.0007975836816770873
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__without_parameters_evolution": {
+        "drug_order_difference": [
+          0.029278589131719962,
+          0.018384654349267088
+        ],
+        "patient_ci95": [
+          [
+            0.021377046243390627,
+            0.012602019384902212
+          ],
+          [
+            0.03716857207922349,
+            0.02458381654747212
+          ]
+        ]
+      }
+    },
+    "2026": {
+      "rxrsi_selected__minus__word_char_ensemble": {
+        "drug_order_difference": [
+          -0.009224915154786933,
+          -0.004657594805358697
+        ],
+        "patient_ci95": [
+          [
+            -0.015554516317801071,
+            -0.01007843664223765
+          ],
+          [
+            -0.0027307414634133303,
+            0.0006801965210486297
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__word_policy_conditional_tool": {
+        "drug_order_difference": [
+          -0.002500752546736984,
+          -0.0018404675768738527
+        ],
+        "patient_ci95": [
+          [
+            -0.00903357454247735,
+            -0.007356198288180636
+          ],
+          [
+            0.003916530424022975,
+            0.0035737083859691808
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__round_0": {
+        "drug_order_difference": [
+          0.021752014015070126,
+          0.018584051573289434
+        ],
+        "patient_ci95": [
+          [
+            0.013718482111050949,
+            0.011362349379687168
+          ],
+          [
+            0.030037399571752103,
+            0.025461073060815236
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__without_tool_evolution": {
+        "drug_order_difference": [
+          0.0,
+          -0.00019598236158746563
+        ],
+        "patient_ci95": [
+          [
+            0.0,
+            -0.004064185024899074
+          ],
+          [
+            0.0,
+            0.003345921721021776
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__without_memory_evolution": {
+        "drug_order_difference": [
+          -0.0029035011225529705,
+          -0.0030400351687646376
+        ],
+        "patient_ci95": [
+          [
+            -0.007749884406621856,
+            -0.006538385652378327
+          ],
+          [
+            0.0017805401657813098,
+            0.0005065020474667658
+          ]
+        ]
+      },
+      "rxrsi_selected__minus__without_parameters_evolution": {
+        "drug_order_difference": [
+          0.02737747324695647,
+          0.016030746478494298
+        ],
+        "patient_ci95": [
+          [
+            0.019431963769697816,
+            0.009874710549281344
+          ],
+          [
+            0.03540545282406386,
+            0.022128632328724595
+          ]
+        ]
+      }
+    }
+  },
+  "audits": [
+    {
+      "seed": 42,
+      "method_and_round_prediction_recounts": "passed",
+      "n_test": 1082
+    },
+    {
+      "seed": 137,
+      "method_and_round_prediction_recounts": "passed",
+      "n_test": 1082
+    },
+    {
+      "seed": 2026,
+      "method_and_round_prediction_recounts": "passed",
+      "n_test": 1082
+    }
+  ],
+  "gold_drug_instances": 3799,
+  "vocabulary_recall_ceiling": 0.8112661226638589,
+  "inference_scope": "Matched recorded-availability inputs,128 raw-name labels,20-order cap; no LLM/API calls. Separate from old start-time task.",
+  "statistics": "Sample SD across3 seeds; descriptive paired patient-cluster intervals2000 draws; no multiplicity correction."
+}

@@ -1,6 +1,6 @@
 # PRISMATIC / RxRSIAgent manuscript and execution index
 
-**Target: ACL 2027. v0.9 local parameter tests and v0.17 grounded skill/round evaluations are complete and independently recounted. v0.15 binary supervision and v0.18 Gemini artifact transfer are running; the v0.21 temporal method suite is running, and full FHIR skill learning is queued after Gemini.** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
+**Target: ACL 2027. v0.9 local parameter tests and v0.17 grounded skill/round evaluations are complete and independently recounted. v0.15 binary supervision and v0.18 Gemini artifact transfer are running; the v0.21 temporal method suite and v0.22 development pilot are complete, and full FHIR skill learning is queued after Gemini.** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
 
 ## Start here
 
@@ -17,7 +17,7 @@
 - **Table 2:** original reported GAMENet, SafeDrug, SafeRx and RxEval scores, grouped by source protocol. These are citations, not our reruns.
 - **Table 3:** actual same-4,000-admission method comparison; 12 rows, three seeds, drug and joint-order F1.
 - **Table 4:** frozen-checkpoint case-growth trajectory.
-- Public language-agent and local QLoRA tables are inserted as their evaluations finish. Incomplete experiments are explicitly marked.
+- The recorded-availability table covers1,082 new test admissions; its protocol differs from Table3. Public language-agent and local QLoRA tables use their respective fixed cohorts. Incomplete experiments are explicitly marked.
 
 ## Additional completed comparisons
 
@@ -33,7 +33,8 @@ GT-based evaluation does not require clinician review. Missing attributes remain
 
 | Version | Record | Evidence |
 | --- | --- | --- |
-| v0.21 | [Recorded-availability task](../upgrade_v21/RESULTS.en.md) | Full-source rebuild and independent audit complete; three-seed matched methods running |
+| v0.22 | [Numerical-state development pilot](../upgrade_v22/RESULTS.en.md) | Guard point gain passes the declared rule; intervals include zero; no test scoring |
+| v0.21 | [Recorded-availability method table](../upgrade_v21/RESULTS.en.md) | Three seeds,14 method/ablation rows, independent recounts and patient intervals complete |
 | v0.20 | [Order-entry audit](../upgrade_v20/RESULTS.en.md) | 1.788M target rows, actual provider/pharmacy clocks, explicit identity conflicts |
 | v0.19 | [Real-order compiler probes](../upgrade_v19/RESULTS.en.md) | Actual field preservation and rollback; full FHIR learning queued |
 | v0.18 | [Backbone-transfer protocol](../upgrade_v18/protocol.json) | Gemini four-method frozen-artifact comparison running |

@@ -6,7 +6,17 @@ Updated 14 October 2026. This maintained entry point links versioned protocols, 
 
 Decision: actual admission plus6h; predict new/changed orders in the following6h using previously recorded orders, blood labs and demographics. Provider/pharmacy clocks and identities must agree. Split:40,000 training /2,000 proposal /2,000 guard / **1,082 test admissions (1,024 patients)**; patient-disjoint and excluding previous test patients. Independent reconstruction checks198,850 targets,589,393 prior orders and506,710 lab rows; all12 checks pass. This selected coherent-time, nonempty-target cohort does not represent all admissions.
 
-The registered three-seed comparison is running; the older tables below retain their original protocols.
+| Method | Drug F1 mean ± SD | Core-order F1 mean ± SD |
+|---|---:|---:|
+| Reuse prior orders | 0.09508 ± 0.00000 | 0.05564 ± 0.00000 |
+| Case retrieval + order tool | 0.15592 ± 0.00000 | 0.09518 ± 0.00077 |
+| Word/character ensemble + tool | 0.20096 ± 0.00255 | 0.12071 ± 0.00283 |
+| RxRSI selected state | 0.19136 ± 0.00154 | 0.11533 ± 0.00094 |
+| Freeze initial order tool | 0.19136 ± 0.00154 | 0.11425 ± 0.00043 |
+| Freeze initial memory | 0.19555 ± 0.00250 | 0.11832 ± 0.00109 |
+
+All three-seed method/ablation and round predictions are independently recounted. Separate from the earlier start-time task.
+Round-mean drug F1 rises from0.1660 to0.1914, but the strong control scores0.2010 and frozen initial memory is better. A unique RSI advantage is not established.
 
 [Full protocol/results / 完整协议结果](../upgrade_v21/RESULTS.en.md)
 
@@ -101,3 +111,9 @@ Separate from the 4,000-admission table: 500 reserved admissions, 494 patients, 
 ## New temporal-protocol audit
 
 Among 1,788,195 historical target rows, 42,005 matching provider orders precede admission and 276,269 occur after the original six-hour horizon. Timestamp counts exclude 438 admission-link conflicts. Source linkage paths agree, but the differing pharmacy/provider clocks still require an explicit prospective availability protocol. [Full results](../upgrade_v20/RESULTS.en.md).
+
+## Continued improvement: numerical-state development pilot complete
+
+Represent existing lab/dose values numerically with observed flags; no future context is added. The proposal-selected word+typed policy reaches guard drug/order F1 **0.22456/0.13656**, versus the same-guard control at **0.21942/0.13458**. The continuation rule passes, but both patient-paired intervals include zero. This is one-seed development evidence, with no test scoring or RSI superiority claim.
+
+[Development protocol/results / 开发协议与结果](../upgrade_v22/RESULTS.en.md)

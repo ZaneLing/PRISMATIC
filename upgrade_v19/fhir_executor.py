@@ -125,7 +125,7 @@ def run_case(case,method,grader,actor=None,compile_payloads=False,repair_protoco
             try:return bool(getattr(grader,case['id'].split('_')[0])(case,obj,BASE))
             except Exception as error:
                 grader_errors.append({'exception':type(error).__name__,'trace_kind':'original' if trace is original else 'live'})
-                return False
+                raise RuntimeError('Reference grading failed; incomplete evaluator evidence must not become a model score') from None
         trace_correct=grade(original);live_correct=grade(live)
         return {'case_id':case['id'],'method':method,'status':status,'original_trace_correct':trace_correct,
             'live_execution_correct':live_correct and all(active_post_checks),'writes':len(created),'write_checks':post_checks,'model_calls':len(usage),

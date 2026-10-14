@@ -1,0 +1,57 @@
+{
+  "status": "complete_development_only",
+  "test_used": false,
+  "independent_recount": "passed",
+  "finite_model_parameters": true,
+  "guard_admissions": 2000,
+  "guard_patients": 1462,
+  "selected_state": {
+    "view": "word_plus_typed_state",
+    "alpha": 1e-05,
+    "threshold": 0.1
+  },
+  "candidate_guard": {
+    "cases": 2000,
+    "drug_micro_f1": 0.22455982449232154,
+    "drug_precision": 0.19184928873510187,
+    "drug_recall": 0.27071748270717483,
+    "core_order_micro_f1": 0.13655621944595328,
+    "known_field_accuracy_given_correct_drug": 0.83124206964613,
+    "known_fields_scored": 7093,
+    "core_gold_orders": 8006,
+    "core_predicted_orders": 10404,
+    "mean_predicted_drugs": 5.202,
+    "empty_fraction": 0.023,
+    "promotion_score": 0.1805580219691374
+  },
+  "control_guard": {
+    "cases": 2000,
+    "drug_micro_f1": 0.2194170020734236,
+    "drug_precision": 0.19933518005540166,
+    "drug_recall": 0.24399837243998374,
+    "core_order_micro_f1": 0.13457812224766602,
+    "known_field_accuracy_given_correct_drug": 0.8333857772183764,
+    "known_fields_scored": 6356,
+    "core_gold_orders": 8006,
+    "core_predicted_orders": 9025,
+    "mean_predicted_drugs": 4.5125,
+    "empty_fraction": 0.054,
+    "promotion_score": 0.1769975621605448
+  },
+  "drug_order_difference": [
+    0.0051428224188979355,
+    0.0019780971982872597
+  ],
+  "patient_ci95": [
+    [
+      -0.0005654816899894443,
+      -0.00237375370353215
+    ],
+    [
+      0.01079239480206482,
+      0.0065199193393744815
+    ]
+  ],
+  "passes_declared_guard_rule": true,
+  "interpretation": "Development selection evidence only; reused guard and one seed. No test or RSI superiority inference."
+}
