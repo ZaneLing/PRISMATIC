@@ -1,0 +1,318 @@
+{
+  "status": "complete",
+  "methods": {
+    "name_only": {
+      "id_test": {
+        "n": 64,
+        "state_correct": 44,
+        "original_trace_correct": 44,
+        "model_calls": 212,
+        "tool_calls": 188,
+        "logical_cost_usd": 0.13375064975999998,
+        "independent_reference_receipt_and_skill_binding_audit": "passed"
+      },
+      "test": {
+        "n": 60,
+        "state_correct": 14,
+        "original_trace_correct": 14,
+        "model_calls": 190,
+        "tool_calls": 127,
+        "logical_cost_usd": 0.1464765192,
+        "independent_reference_receipt_and_skill_binding_audit": "passed"
+      }
+    },
+    "lab_only": {
+      "id_test": {
+        "n": 64,
+        "state_correct": 39,
+        "original_trace_correct": 39,
+        "model_calls": 196,
+        "tool_calls": 167,
+        "logical_cost_usd": 0.10870688899999999,
+        "independent_reference_receipt_and_skill_binding_audit": "passed"
+      },
+      "test": {
+        "n": 60,
+        "state_correct": 11,
+        "original_trace_correct": 11,
+        "model_calls": 129,
+        "tool_calls": 60,
+        "logical_cost_usd": 0.12515044720000001,
+        "independent_reference_receipt_and_skill_binding_audit": "passed"
+      }
+    },
+    "neither": {
+      "id_test": {
+        "n": 64,
+        "trace_correct": 38,
+        "state_correct": 38,
+        "legacy_live_reference_correct": 38,
+        "semantic_reference_correct": 38,
+        "model_calls": 174,
+        "tool_calls": 151,
+        "logical_cost_usd": 0.07723032547999999,
+        "writes": 23,
+        "failed_readback": 0
+      },
+      "test": {
+        "n": 60,
+        "trace_correct": 17,
+        "state_correct": 17,
+        "legacy_live_reference_correct": 17,
+        "semantic_reference_correct": 17,
+        "model_calls": 139,
+        "tool_calls": 75,
+        "logical_cost_usd": 0.08966209103999996,
+        "writes": 0,
+        "failed_readback": 0
+      }
+    },
+    "both": {
+      "id_test": {
+        "n": 64,
+        "trace_correct": 45,
+        "state_correct": 45,
+        "legacy_live_reference_correct": 45,
+        "semantic_reference_correct": 45,
+        "model_calls": 207,
+        "tool_calls": 182,
+        "logical_cost_usd": 0.1479297536,
+        "writes": 21,
+        "failed_readback": 0
+      },
+      "test": {
+        "n": 60,
+        "trace_correct": 10,
+        "state_correct": 10,
+        "legacy_live_reference_correct": 10,
+        "semantic_reference_correct": 10,
+        "model_calls": 124,
+        "tool_calls": 60,
+        "logical_cost_usd": 0.14003272020000002,
+        "writes": 0,
+        "failed_readback": 0
+      }
+    }
+  },
+  "source_code_hash": "75a163fa03d6fe077ee90880f417a397fde15239a593d91a1d2537cf2e69742d",
+  "protocol_sha256": "20f17fc83655c1fe27ceadaba954745ced7713a9cac2221d77ba419a28ac8841",
+  "paired": {
+    "id_test": {
+      "both_minus_name_only": {
+        "task_bootstrap": {
+          "difference": 0.015625,
+          "ci95": [
+            -0.0625,
+            0.09375
+          ],
+          "fixes": 4,
+          "regressions": 3
+        },
+        "patient_bootstrap": {
+          "difference": 0.015625,
+          "ci95": [
+            -0.06349206349206349,
+            0.0967741935483871
+          ],
+          "patients": 47,
+          "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+        }
+      },
+      "both_minus_lab_only": {
+        "task_bootstrap": {
+          "difference": 0.09375,
+          "ci95": [
+            0.0,
+            0.1875
+          ],
+          "fixes": 8,
+          "regressions": 2
+        },
+        "patient_bootstrap": {
+          "difference": 0.09375,
+          "ci95": [
+            0.0,
+            0.1774193548387097
+          ],
+          "patients": 47,
+          "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+        }
+      },
+      "name_only_minus_neither": {
+        "task_bootstrap": {
+          "difference": 0.09375,
+          "ci95": [
+            -0.015625,
+            0.203125
+          ],
+          "fixes": 10,
+          "regressions": 4
+        },
+        "patient_bootstrap": {
+          "difference": 0.09375,
+          "ci95": [
+            -0.03126240079365079,
+            0.203125
+          ],
+          "patients": 47,
+          "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+        }
+      },
+      "lab_only_minus_neither": {
+        "task_bootstrap": {
+          "difference": 0.015625,
+          "ci95": [
+            -0.03125,
+            0.078125
+          ],
+          "fixes": 2,
+          "regressions": 1
+        },
+        "patient_bootstrap": {
+          "difference": 0.015625,
+          "ci95": [
+            -0.03333333333333333,
+            0.0684931506849315
+          ],
+          "patients": 47,
+          "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+        }
+      },
+      "interaction": {
+        "task_bootstrap": {
+          "difference": 0.0,
+          "ci95": [
+            -0.09375,
+            0.09375
+          ],
+          "fixes": 3,
+          "regressions": 4
+        },
+        "patient_bootstrap": {
+          "difference": 0.0,
+          "ci95": [
+            -0.1034740092640247,
+            0.1076923076923077
+          ],
+          "patients": 47,
+          "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+        }
+      }
+    },
+    "test": {
+      "both_minus_name_only": {
+        "task_bootstrap": {
+          "difference": -0.06666666666666667,
+          "ci95": [
+            -0.15,
+            0.0
+          ],
+          "fixes": 1,
+          "regressions": 5
+        },
+        "patient_bootstrap": {
+          "difference": -0.06666666666666667,
+          "ci95": [
+            -0.15,
+            0.01515734265734268
+          ],
+          "patients": 53,
+          "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+        }
+      },
+      "both_minus_lab_only": {
+        "task_bootstrap": {
+          "difference": -0.016666666666666666,
+          "ci95": [
+            -0.08333333333333333,
+            0.05
+          ],
+          "fixes": 2,
+          "regressions": 3
+        },
+        "patient_bootstrap": {
+          "difference": -0.016666666666666666,
+          "ci95": [
+            -0.08620689655172414,
+            0.05263157894736842
+          ],
+          "patients": 53,
+          "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+        }
+      },
+      "name_only_minus_neither": {
+        "task_bootstrap": {
+          "difference": -0.05,
+          "ci95": [
+            -0.15,
+            0.05
+          ],
+          "fixes": 3,
+          "regressions": 6
+        },
+        "patient_bootstrap": {
+          "difference": -0.05,
+          "ci95": [
+            -0.14516862170087977,
+            0.04838709677419355
+          ],
+          "patients": 53,
+          "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+        }
+      },
+      "lab_only_minus_neither": {
+        "task_bootstrap": {
+          "difference": -0.1,
+          "ci95": [
+            -0.2,
+            0.0
+          ],
+          "fixes": 2,
+          "regressions": 8
+        },
+        "patient_bootstrap": {
+          "difference": -0.1,
+          "ci95": [
+            -0.20689655172413793,
+            0.0
+          ],
+          "patients": 53,
+          "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+        }
+      },
+      "interaction": {
+        "task_bootstrap": {
+          "difference": 0.03333333333333333,
+          "ci95": [
+            -0.08333333333333333,
+            0.15
+          ],
+          "fixes": 7,
+          "regressions": 4
+        },
+        "patient_bootstrap": {
+          "difference": 0.03333333333333333,
+          "ci95": [
+            -0.08620689655172414,
+            0.15254237288135594
+          ],
+          "patients": 53,
+          "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+        }
+      }
+    }
+  },
+  "resource_counts_before": {
+    "Patient": 695,
+    "MedicationRequest": 21991,
+    "Observation": 563426,
+    "ServiceRequest": 0
+  },
+  "resource_counts_after": {
+    "Patient": 695,
+    "MedicationRequest": 21991,
+    "Observation": 563426,
+    "ServiceRequest": 0
+  },
+  "claim_boundary": "One learned skill pair and one seed, overlapping patients and reused main outputs. Generated skill rationales/examples are hypotheses, not validated clinical facts or execution receipts. This can attribute realized behavior to removal of a frozen artifact but cannot establish general RSI or clinical appropriateness."
+}

@@ -1,0 +1,99 @@
+{
+  "status": "complete",
+  "scope": "Post-test descriptive task7 diagnosis only; no model/skill selected and no main score replaced",
+  "restricted_data_used": false,
+  "model_calls": 0,
+  "writes": 0,
+  "get_calls": 30,
+  "methods": {
+    "direct_tools": {
+      "counts": {
+        "cases": 30,
+        "original_state_correct": 14,
+        "completed_status": 25,
+        "first_element_numeric": 25,
+        "first_numeric_equals_reference": 14,
+        "correct_numeric_but_extra_elements": 0,
+        "first_numeric_differs_from_reference": 11
+      },
+      "answer_shapes": {
+        "list_1_float": 12,
+        "unparseable": 5,
+        "list_1_int": 12,
+        "list_2_float_str": 1
+      },
+      "source_rows_sha256": "c946d74081c07fc77485cd034bd7ce198839ec2de067320351b714b9a5040ae7",
+      "episode_receipt_digest": "ae2cf0f9f3dfddd381c34a15323ed29e541aa3e8bb5914842d83eaa684730d79"
+    },
+    "fixed_compiled": {
+      "counts": {
+        "cases": 30,
+        "original_state_correct": 5,
+        "completed_status": 29,
+        "first_element_numeric": 8,
+        "first_numeric_equals_reference": 5,
+        "correct_numeric_but_extra_elements": 0,
+        "first_numeric_differs_from_reference": 3
+      },
+      "answer_shapes": {
+        "list_1_str": 19,
+        "list_1_dict": 2,
+        "list_1_float": 6,
+        "list_1_int": 2,
+        "unparseable": 1
+      },
+      "source_rows_sha256": "0536220f81ee134aa44b5f6a37118328e8e1145584aa6fb900facc3273101bad",
+      "episode_receipt_digest": "9580f2842fba9b73f314256867d52dcaba645be54a35cf189dd66217867fd32b"
+    },
+    "evolving_compiled": {
+      "counts": {
+        "cases": 30,
+        "original_state_correct": 0,
+        "completed_status": 30,
+        "first_element_numeric": 30,
+        "first_numeric_equals_reference": 15,
+        "correct_numeric_but_extra_elements": 15,
+        "first_numeric_differs_from_reference": 15,
+        "numeric_plus_iso_timestamp": 30
+      },
+      "answer_shapes": {
+        "list_2_float_str": 19,
+        "list_2_int_str": 11
+      },
+      "source_rows_sha256": "8a068826ffb615633a5903e6d99961d9fbfbf0f3be154b1abda73e6d023e77bc",
+      "episode_receipt_digest": "c48276c5cb850057a058e901d438d27f0120d978c647d37bff93ff3311a82cce"
+    },
+    "name_only": {
+      "counts": {
+        "cases": 30,
+        "original_state_correct": 0,
+        "completed_status": 30
+      },
+      "answer_shapes": {
+        "list_1_str": 30
+      },
+      "source_rows_sha256": "8c677bd65ed84666983d13afc32bd0001c3fc264c60c31406cf22b6a382ee937",
+      "episode_receipt_digest": "e96fc5f33603bae968f702f645fa99a954ec4e8879f12106a7afa785cfb1b57d"
+    },
+    "lab_only": {
+      "counts": {
+        "cases": 30,
+        "original_state_correct": 0,
+        "completed_status": 30,
+        "first_element_numeric": 30,
+        "first_numeric_equals_reference": 14,
+        "correct_numeric_but_extra_elements": 14,
+        "first_numeric_differs_from_reference": 16,
+        "numeric_plus_iso_timestamp": 30
+      },
+      "answer_shapes": {
+        "list_2_float_str": 20,
+        "list_2_int_str": 10
+      },
+      "source_rows_sha256": "8b7b2eb1f9da4c01ab17de19dea159fa41a868368a3ac49877a86ee49d152d58",
+      "episode_receipt_digest": "b799b8a3fd98d97725bdc3b561cd4c82555d9e5e67ba3b729a91268e399bd3da"
+    }
+  },
+  "reference": "Original task7 latest GLU value over all retrieved entries, no new temporal filter; query completeness asserted",
+  "claim_boundary": "Matching the first numeric element is a counterfactual field-projection diagnostic, not an executed repaired-agent score. It can separate format-only failures from wrong numeric answers, but does not establish general clinical correctness or identify a causal skill without the removal contrast."
+}

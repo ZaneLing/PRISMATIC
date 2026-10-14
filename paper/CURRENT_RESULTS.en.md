@@ -1,10 +1,14 @@
 # RxRSIAgent: current method tables, evolution evidence and execution status
 
-## Latest addition: standard-method data and resource audit
+## Latest completed results: real tools and evolution diagnosis
 
-The new retrospective ATC-L4 panel contains **8,905 patients / 23,177 visits**; every selected diagnosis, procedure and mapped drug set passes independent reconstruction. The NDC map covers **27.23%** of selected prescription rows; molecular resources cover **219/271** training classes. Pinned ARMR-2025, GAMENet and SafeDrug cores pass execution probes; no trained v0.27 score yet. [Full audit](../upgrade_v27/RESULTS.en.md).
+**FHIR method comparison is complete.** Direct tools / fixed harness / learned skills score **39/38/45 out of64** on ID tasks, and **27/17/10 out of60** on held-out task types. The skill-minus-fixed ID patient interval includes zero; transfer declines with a negative interval. Only two language-skill files evolve. A read-only audit contradicts the name-encoding explanation because the HTTP tool already encodes spaces. Task7 produces30 value-plus-time answers;15 first values are correct and15 wrong, so the0/30 strict score includes a substantial output-contract failure. Frozen skill attribution is complete: neither/name/lab/both score38/44/39/45 ID and17/14/11/10 transfer; interaction intervals include zero. [Full table, intervals and exact skill artifacts](../upgrade_v19/RESULTS.en.md).
 
-The [recent-method registry](LATEST_METHODS.en.md) adds ARMR, HADRec and LT3 original results with protocol/code caveats. FHIR learning has frozen two actual skills; full ID/OOD evaluation continues, followed by registered single-skill removal and interaction tests. [Attribution protocol](../upgrade_v19/ablation_protocol.json).
+**Position diagnostic is complete.** On200 guard cases, preserving original ranks while permuting display order lowers the priority adapter's drug F1 **0.27471→0.17441**; both adapters select display prefixes in100% of nontrivial permuted outputs. All2,400 outputs parse successfully. This identifies a weakness requiring repair; it is not a new test win. [Results](../upgrade_v26/RESULTS.en.md).
+
+**Actual cross-method training is running.** The retrospective ATC-L4 cohort has8,905 patients/23,177 visits. NDC row coverage is27.23%; compare full271-class and molecular219-class panels separately. ARMR-2025/GAMENet/SafeDrug begin50-epoch, three-seed runs with real molecular graphs and verified runtime adaptations. Four conventional methods are fitted and independently audited: full-panel guard patient-average F1 is prevalence0.45794, prior visit0.30154, retrieval0.55081, logistic0.61151. These1,231-visit/467-patient development results are not the gated final test table. [Protocol and real development table](../upgrade_v27/RESULTS.en.md).
+
+The [recent-method registry](LATEST_METHODS.en.md) keeps ARMR/HADRec/LT3 original scores in their original protocols. eICU v0.25 three-seed training continues. No restricted records, predictions or fitted models are published.
 
 Updated 15 October 2026. This maintained entry point links versioned protocols, failures and results. Funding recovery resolved all previously missing API requests. **Our method has not yet surpassed the strongest completed control.**
 
@@ -128,7 +132,7 @@ Hashes, promotions/rejections and case repairs/regressions accompany the artifac
 1. v0.9 all-checkpoint tests, independent recount and patient-cluster intervals are complete; see the new parameter table below.
 2. v0.15 completes all checkpoints: priority 0.29192/0.19329, uniform 0.24094/0.15072, direct top-8 0.31169/0.20739. Both select round2; raw collapse and 10/3,600 incomplete feedback receipts are disclosed.
 3. v0.17 four-component, all-round and RxQA evaluations are complete. v0.18 is complete and independently recounted: fixed grounding538/988 versus frozen grounded skills510/988. Transport interruptions were resumed from cache without scoring missing responses as model errors.
-4. FHIR learning restarts after a development-discovered reference-format revision; original grades remain separate. All13 affected final write receipts and8 execution contracts pass. No full ID/OOD result yet. eICU v0.25 three-seed training is running; all choices freeze before testing.
+4. FHIR completes and passes full independent audits; learned skills improve ID counts but harm held-out task types (see current top section). eICU v0.25 training is running; all choices freeze before testing.
 5. Retain an unobserved confirmation test, multiple orders, ablations, costs and regressions. Negative superiority outcomes remain visible rather than selecting favorable controls or changing test labels.
 
 [English paper](latex/v0.3/prismatic_v03_en.tex) · [Maintained plan](COMPLETION_PLAN.en.md) · [History](CHANGELOG.md). Restricted records, checkpoints, raw patient traces and credentials remain outside GitHub.
@@ -184,4 +188,4 @@ FHIR revision:13 development false negatives arose from valid note arrays versus
 
 ## Development follow-up running: candidate-position sensitivity
 
-v0.26 freezes three model states on200 existing guard cases. Four conditions compare original prompts, explicit original ranks, rank-preserving permutations and reversal. This tests order dependence while retaining rank information; no new learning or test score is claimed. Fresh deduplicated generation uses immutable case-bound receipts. [Registered protocol](../upgrade_v26/README.en.md).
+v0.26 completed all12 state/condition cells and2,400 case-bound outputs. Position sensitivity remains despite preserved ranks; no new learning or test score is claimed. [Complete audited results](../upgrade_v26/RESULTS.en.md).

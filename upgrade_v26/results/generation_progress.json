@@ -1,5 +1,5 @@
 {
-  "status": "partial",
+  "status": "complete",
   "models": {
     "base": {
       "original": {
@@ -185,6 +185,66 @@
           "empty_reasoning_envelope_removed": 200
         },
         "wall_seconds": 204.02354407310486
+      },
+      "ranked_explicit": {
+        "metrics": {
+          "cases": 200,
+          "drug_micro_f1": 0.2747058823529412,
+          "drug_precision": 0.22344497607655503,
+          "drug_recall": 0.3564885496183206,
+          "core_order_micro_f1": 0.19206798866855523,
+          "known_field_accuracy_given_correct_drug": 0.869539198084979,
+          "known_fields_scored": 1671,
+          "core_gold_orders": 1440,
+          "core_predicted_orders": 2090,
+          "mean_predicted_drugs": 10.45,
+          "empty_fraction": 0.045,
+          "promotion_score": 0.2333869355107482,
+          "invalid_json": 0,
+          "raw_strict_invalid_json": 200,
+          "empty_reasoning_envelope_removed": 200
+        },
+        "wall_seconds": 252.30333375930786
+      },
+      "permuted_rank_explicit": {
+        "metrics": {
+          "cases": 200,
+          "drug_micro_f1": 0.1744107744107744,
+          "drug_precision": 0.15602409638554218,
+          "drug_recall": 0.19770992366412213,
+          "core_order_micro_f1": 0.12645161290322582,
+          "known_field_accuracy_given_correct_drug": 0.8785557986870897,
+          "known_fields_scored": 914,
+          "core_gold_orders": 1440,
+          "core_predicted_orders": 1660,
+          "mean_predicted_drugs": 8.3,
+          "empty_fraction": 0.01,
+          "promotion_score": 0.1504311936570001,
+          "invalid_json": 0,
+          "raw_strict_invalid_json": 200,
+          "empty_reasoning_envelope_removed": 200
+        },
+        "wall_seconds": 254.3300497531891
+      },
+      "reversed_rank_explicit": {
+        "metrics": {
+          "cases": 200,
+          "drug_micro_f1": 0.2197962154294032,
+          "drug_precision": 0.16109530583214793,
+          "drug_recall": 0.34580152671755726,
+          "core_order_micro_f1": 0.15145813734713076,
+          "known_field_accuracy_given_correct_drug": 0.8620261031696707,
+          "known_fields_scored": 1609,
+          "core_gold_orders": 1440,
+          "core_predicted_orders": 2812,
+          "mean_predicted_drugs": 14.06,
+          "empty_fraction": 0.0,
+          "promotion_score": 0.18562717638826698,
+          "invalid_json": 0,
+          "raw_strict_invalid_json": 200,
+          "empty_reasoning_envelope_removed": 200
+        },
+        "wall_seconds": 252.74878406524658
       }
     }
   }

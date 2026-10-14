@@ -1,5 +1,17 @@
 # PRISMATIC manuscript completion and execution plan
 
+## Current execution update — completed results, remaining work
+
+1. Delivered the full FHIR main comparison, paired patient intervals, exact two-skill artifacts and a read-only claim audit. Generalization declines; frozen single-skill removal/interaction is also complete (no established synergy).
+2. Completed the12-condition position diagnostic. Before further parameter learning, register a position-randomized, drug-specific decision intervention with uniform/own-error/shuffled controls, raw round states and a held-out confirmation boundary.
+3. Started actual ARMR-2025, GAMENet and SafeDrug training: three seeds,50 epochs, separate271/219-class spaces. Four conventional controls already freeze and pass independent raw-source reconstruction on development. Do not run main tests until all baseline and future RxRSI states freeze.
+4. Continue eICU three-seed/five-round training and its gated external-hospital evaluation. Carry failures and rejected rounds into the paper.
+5. For the next skill intervention, require a real training-episode witness for each factual skill claim; compare that gate against ordinary GRASP with equal proposal/inference budgets. The present failed skills remain unchanged historical evidence. A new protocol must precede optimization; observed transfer tests cannot select repairs.
+
+[Current results](CURRENT_RESULTS.en.md) · [FHIR](../upgrade_v19/RESULTS.en.md) · [Position diagnostic](../upgrade_v26/RESULTS.en.md) · [Cross-method training](../upgrade_v27/RESULTS.en.md)
+
+Earlier sections below are versioned historical execution snapshots and are superseded by this update.
+
 ## Latest completed work and execution order — 15 October 2026
 
 1. **Delivered:** binary parameter study, all checkpoints and independent test recount. Priority0.29192/0.19329 > uniform0.24094/0.15072, but < direct top-8 tools0.31169/0.20739. Selected round2; raw round3 priority collapse is retained.

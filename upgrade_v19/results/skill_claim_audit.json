@@ -1,0 +1,62 @@
+{
+  "status": "complete",
+  "timing": "Post-test read-only diagnostic; no skill selection or main-result change",
+  "restricted_data_used": false,
+  "model_calls": 0,
+  "writes": 0,
+  "get_calls": 6,
+  "skill_sha256": {
+    "lab_code_text_fallback_probe.md": "41c0b1815f88a88c9c1ac89599d062b3a96bb35b864fda71175df415140fe480",
+    "fhir_patient_name_search_url_encoding.md": "731f86f04e258db9c28c6e9416428143ae3b6a5f9a358eff1229f53af77d1088"
+  },
+  "http_adapter_sha256": "88a2f8b8d6da669c2705ef0a0275edc87c0ce516a8d36e30d6b031f543d4808d",
+  "name_claim": {
+    "claim": "Literal spaces cause empty bundles whereas explicit percent-encoding fixes them",
+    "verdict": "Contradicted for this adapter: it percent-encodes both inputs to the identical request",
+    "identical_encoded_url": true,
+    "equal_status_count_resource_content": true,
+    "matched_public_fixture_count": 0,
+    "causal_limit": "This does not identify which other text in the skill changes agent decisions."
+  },
+  "lab_claim": {
+    "global_count_probes": [
+      {
+        "public_lab_token": "A1C",
+        "queries": {
+          "code": {
+            "status": 200,
+            "total": 244,
+            "issue_codes": []
+          },
+          "code:text": {
+            "status": 200,
+            "total": 258,
+            "issue_codes": []
+          }
+        }
+      },
+      {
+        "public_lab_token": "MG",
+        "queries": {
+          "code": {
+            "status": 200,
+            "total": 3538,
+            "issue_codes": []
+          },
+          "code:text": {
+            "status": 200,
+            "total": 3538,
+            "issue_codes": []
+          }
+        }
+      }
+    ],
+    "verdict": "Report query counts, not a clinical rule. Medication route serialization does not establish the encoding of stored lab observations.",
+    "causal_limit": "Global counts do not prove a patient-specific fallback is useful or that a lab exists for a task patient."
+  },
+  "provenance_limits": [
+    "The generated files include illustrative observations that were authored by the model; they are not physical tool receipts.",
+    "The name skill retains an example name/date despite updater guidance against memorizing names/dates; public benchmark data, not restricted MIMIC records.",
+    "Probe score improvement does not validate the explanatory claim or establish held-out transfer."
+  ]
+}

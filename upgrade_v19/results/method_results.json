@@ -1,5 +1,5 @@
 {
-  "status": "partial",
+  "status": "complete",
   "methods": {
     "direct_tools": {
       "id_test": {
@@ -52,6 +52,44 @@
         "writes": 0,
         "failed_readback": 0
       }
+    },
+    "evolving_compiled": {
+      "id_test": {
+        "n": 64,
+        "trace_correct": 45,
+        "state_correct": 45,
+        "legacy_live_reference_correct": 45,
+        "semantic_reference_correct": 45,
+        "model_calls": 207,
+        "tool_calls": 182,
+        "logical_cost_usd": 0.1479297536,
+        "writes": 21,
+        "failed_readback": 0
+      },
+      "test": {
+        "n": 60,
+        "trace_correct": 10,
+        "state_correct": 10,
+        "legacy_live_reference_correct": 10,
+        "semantic_reference_correct": 10,
+        "model_calls": 124,
+        "tool_calls": 60,
+        "logical_cost_usd": 0.14003272020000002,
+        "writes": 0,
+        "failed_readback": 0
+      }
     }
+  },
+  "resource_counts_before": {
+    "Patient": 695,
+    "MedicationRequest": 21991,
+    "Observation": 563426,
+    "ServiceRequest": 0
+  },
+  "resource_counts_after": {
+    "Patient": 695,
+    "MedicationRequest": 21991,
+    "Observation": 563426,
+    "ServiceRequest": 0
   }
 }

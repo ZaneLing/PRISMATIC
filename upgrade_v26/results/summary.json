@@ -1,0 +1,415 @@
+{
+  "status": "complete",
+  "split": "development guard, previously used for checkpoint choice",
+  "cases": 200,
+  "patients": 197,
+  "methods": {
+    "base": {
+      "original": {
+        "drug_order_f1": [
+          0.19210651450309082,
+          0.12091356918943126
+        ],
+        "empty_fraction": 0.03,
+        "invalid": 0,
+        "display_prefix_fraction_among_valid": 0.04,
+        "nontrivial_valid_masks": 194,
+        "display_prefix_fraction_nontrivial": 0.010309278350515464,
+        "original_rank_prefix_fraction": 0.04
+      },
+      "ranked_explicit": {
+        "drug_order_f1": [
+          0.21479713603818615,
+          0.13842696629213483
+        ],
+        "empty_fraction": 0.03,
+        "invalid": 0,
+        "display_prefix_fraction_among_valid": 0.07,
+        "nontrivial_valid_masks": 194,
+        "display_prefix_fraction_nontrivial": 0.041237113402061855,
+        "original_rank_prefix_fraction": 0.07
+      },
+      "permuted_rank_explicit": {
+        "drug_order_f1": [
+          0.1941747572815534,
+          0.12602739726027398
+        ],
+        "empty_fraction": 0.01,
+        "invalid": 0,
+        "display_prefix_fraction_among_valid": 0.025,
+        "nontrivial_valid_masks": 198,
+        "display_prefix_fraction_nontrivial": 0.015151515151515152,
+        "original_rank_prefix_fraction": 0.045
+      },
+      "reversed_rank_explicit": {
+        "drug_order_f1": [
+          0.10401891252955082,
+          0.06915477497255763
+        ],
+        "empty_fraction": 0.055,
+        "invalid": 0,
+        "display_prefix_fraction_among_valid": 0.06,
+        "nontrivial_valid_masks": 189,
+        "display_prefix_fraction_nontrivial": 0.005291005291005291,
+        "original_rank_prefix_fraction": 0.1
+      }
+    },
+    "uniform_sft_round2": {
+      "original": {
+        "drug_order_f1": [
+          0.27561475409836067,
+          0.19212295869356388
+        ],
+        "empty_fraction": 0.105,
+        "invalid": 0,
+        "display_prefix_fraction_among_valid": 0.995,
+        "nontrivial_valid_masks": 179,
+        "display_prefix_fraction_nontrivial": 0.994413407821229,
+        "original_rank_prefix_fraction": 0.995
+      },
+      "ranked_explicit": {
+        "drug_order_f1": [
+          0.2212534059945504,
+          0.1435114503816794
+        ],
+        "empty_fraction": 0.1,
+        "invalid": 0,
+        "display_prefix_fraction_among_valid": 0.995,
+        "nontrivial_valid_masks": 180,
+        "display_prefix_fraction_nontrivial": 0.9944444444444445,
+        "original_rank_prefix_fraction": 0.995
+      },
+      "permuted_rank_explicit": {
+        "drug_order_f1": [
+          0.10492157923201731,
+          0.07377463365336029
+        ],
+        "empty_fraction": 0.09,
+        "invalid": 0,
+        "display_prefix_fraction_among_valid": 1.0,
+        "nontrivial_valid_masks": 182,
+        "display_prefix_fraction_nontrivial": 1.0,
+        "original_rank_prefix_fraction": 0.095
+      },
+      "reversed_rank_explicit": {
+        "drug_order_f1": [
+          0.033010813887307915,
+          0.021197668256491786
+        ],
+        "empty_fraction": 0.285,
+        "invalid": 0,
+        "display_prefix_fraction_among_valid": 1.0,
+        "nontrivial_valid_masks": 143,
+        "display_prefix_fraction_nontrivial": 1.0,
+        "original_rank_prefix_fraction": 0.285
+      }
+    },
+    "error_prioritized_sft_round2": {
+      "original": {
+        "drug_order_f1": [
+          0.3204334365325077,
+          0.22181282240235814
+        ],
+        "empty_fraction": 0.035,
+        "invalid": 0,
+        "display_prefix_fraction_among_valid": 0.995,
+        "nontrivial_valid_masks": 181,
+        "display_prefix_fraction_nontrivial": 0.994475138121547,
+        "original_rank_prefix_fraction": 0.995
+      },
+      "ranked_explicit": {
+        "drug_order_f1": [
+          0.2747058823529412,
+          0.19206798866855523
+        ],
+        "empty_fraction": 0.045,
+        "invalid": 0,
+        "display_prefix_fraction_among_valid": 1.0,
+        "nontrivial_valid_masks": 107,
+        "display_prefix_fraction_nontrivial": 1.0,
+        "original_rank_prefix_fraction": 1.0
+      },
+      "permuted_rank_explicit": {
+        "drug_order_f1": [
+          0.1744107744107744,
+          0.12645161290322582
+        ],
+        "empty_fraction": 0.01,
+        "invalid": 0,
+        "display_prefix_fraction_among_valid": 1.0,
+        "nontrivial_valid_masks": 142,
+        "display_prefix_fraction_nontrivial": 1.0,
+        "original_rank_prefix_fraction": 0.295
+      },
+      "reversed_rank_explicit": {
+        "drug_order_f1": [
+          0.2197962154294032,
+          0.15145813734713076
+        ],
+        "empty_fraction": 0.0,
+        "invalid": 0,
+        "display_prefix_fraction_among_valid": 1.0,
+        "nontrivial_valid_masks": 76,
+        "display_prefix_fraction_nontrivial": 1.0,
+        "original_rank_prefix_fraction": 0.62
+      }
+    }
+  },
+  "controls": {
+    "direct_original_rank_top8": [
+      0.32027491408934705,
+      0.2243421052631579
+    ],
+    "direct_original_rank_top20": [
+      0.27382297551789075,
+      0.19522058823529412
+    ]
+  },
+  "paired": {
+    "base": {
+      "ranked_explicit__minus__original": {
+        "drug_order_difference": [
+          0.022690621535095323,
+          0.017513397102703568
+        ],
+        "patient_ci95": [
+          [
+            0.0029253837731392624,
+            0.002263592095063798
+          ],
+          [
+            0.04379264914218219,
+            0.03354630457999081
+          ]
+        ],
+        "same_medication_set_fraction": 0.185,
+        "mean_set_jaccard": 0.5371056998556999
+      },
+      "permuted_rank_explicit__minus__ranked_explicit": {
+        "drug_order_difference": [
+          -0.020622378756632753,
+          -0.012399569031860846
+        ],
+        "patient_ci95": [
+          [
+            -0.04910785786430234,
+            -0.035592452289175736
+          ],
+          [
+            0.008288517768101106,
+            0.008143746924901414
+          ]
+        ],
+        "same_medication_set_fraction": 0.0,
+        "mean_set_jaccard": 0.19818000055500054
+      },
+      "reversed_rank_explicit__minus__ranked_explicit": {
+        "drug_order_difference": [
+          -0.11077822350863532,
+          -0.0692721913195772
+        ],
+        "patient_ci95": [
+          [
+            -0.1456849423604698,
+            -0.09379264231628241
+          ],
+          [
+            -0.07880279325678033,
+            -0.04691182436116564
+          ]
+        ],
+        "same_medication_set_fraction": 0.005,
+        "mean_set_jaccard": 0.08961753524253524
+      }
+    },
+    "uniform_sft_round2": {
+      "ranked_explicit__minus__original": {
+        "drug_order_difference": [
+          -0.05436134810381027,
+          -0.04861150831188449
+        ],
+        "patient_ci95": [
+          [
+            -0.07991007587847714,
+            -0.07034051151100112
+          ],
+          [
+            -0.030233946882454208,
+            -0.028717222414216037
+          ]
+        ],
+        "same_medication_set_fraction": 0.425,
+        "mean_set_jaccard": 0.6710119047619049
+      },
+      "permuted_rank_explicit__minus__ranked_explicit": {
+        "drug_order_difference": [
+          -0.11633182676253309,
+          -0.0697368167283191
+        ],
+        "patient_ci95": [
+          [
+            -0.144275240209118,
+            -0.09479743196244299
+          ],
+          [
+            -0.08618877617151782,
+            -0.04346568869263113
+          ]
+        ],
+        "same_medication_set_fraction": 0.01,
+        "mean_set_jaccard": 0.0911845238095238
+      },
+      "reversed_rank_explicit__minus__ranked_explicit": {
+        "drug_order_difference": [
+          -0.18824259210724248,
+          -0.1223137821251876
+        ],
+        "patient_ci95": [
+          [
+            -0.2140462394482672,
+            -0.14594391564853343
+          ],
+          [
+            -0.16155616218714608,
+            -0.09798410248017995
+          ]
+        ],
+        "same_medication_set_fraction": 0.03,
+        "mean_set_jaccard": 0.03
+      }
+    },
+    "error_prioritized_sft_round2": {
+      "ranked_explicit__minus__original": {
+        "drug_order_difference": [
+          -0.04572755417956653,
+          -0.029744833733802906
+        ],
+        "patient_ci95": [
+          [
+            -0.07166689221065814,
+            -0.04889397286063171
+          ],
+          [
+            -0.023044075998222998,
+            -0.011335498262793961
+          ]
+        ],
+        "same_medication_set_fraction": 0.215,
+        "mean_set_jaccard": 0.5220496031746031
+      },
+      "permuted_rank_explicit__minus__ranked_explicit": {
+        "drug_order_difference": [
+          -0.10029510794216678,
+          -0.06561637576532942
+        ],
+        "patient_ci95": [
+          [
+            -0.13507642187892752,
+            -0.09330419496053145
+          ],
+          [
+            -0.06646308140118647,
+            -0.040119947337928494
+          ]
+        ],
+        "same_medication_set_fraction": 0.11,
+        "mean_set_jaccard": 0.2381048534798535
+      },
+      "reversed_rank_explicit__minus__ranked_explicit": {
+        "drug_order_difference": [
+          -0.05490966692353799,
+          -0.04060985132142447
+        ],
+        "patient_ci95": [
+          [
+            -0.08414935513325317,
+            -0.06309729013082743
+          ],
+          [
+            -0.02333426557432152,
+            -0.01725133123332964
+          ]
+        ],
+        "same_medication_set_fraction": 0.265,
+        "mean_set_jaccard": 0.355
+      }
+    }
+  },
+  "audits": [
+    {
+      "model": "base",
+      "condition": "original",
+      "independent_prediction_and_receipt_recount": "passed",
+      "cases": 200
+    },
+    {
+      "model": "base",
+      "condition": "ranked_explicit",
+      "independent_prediction_and_receipt_recount": "passed",
+      "cases": 200
+    },
+    {
+      "model": "base",
+      "condition": "permuted_rank_explicit",
+      "independent_prediction_and_receipt_recount": "passed",
+      "cases": 200
+    },
+    {
+      "model": "base",
+      "condition": "reversed_rank_explicit",
+      "independent_prediction_and_receipt_recount": "passed",
+      "cases": 200
+    },
+    {
+      "model": "uniform_sft_round2",
+      "condition": "original",
+      "independent_prediction_and_receipt_recount": "passed",
+      "cases": 200
+    },
+    {
+      "model": "uniform_sft_round2",
+      "condition": "ranked_explicit",
+      "independent_prediction_and_receipt_recount": "passed",
+      "cases": 200
+    },
+    {
+      "model": "uniform_sft_round2",
+      "condition": "permuted_rank_explicit",
+      "independent_prediction_and_receipt_recount": "passed",
+      "cases": 200
+    },
+    {
+      "model": "uniform_sft_round2",
+      "condition": "reversed_rank_explicit",
+      "independent_prediction_and_receipt_recount": "passed",
+      "cases": 200
+    },
+    {
+      "model": "error_prioritized_sft_round2",
+      "condition": "original",
+      "independent_prediction_and_receipt_recount": "passed",
+      "cases": 200
+    },
+    {
+      "model": "error_prioritized_sft_round2",
+      "condition": "ranked_explicit",
+      "independent_prediction_and_receipt_recount": "passed",
+      "cases": 200
+    },
+    {
+      "model": "error_prioritized_sft_round2",
+      "condition": "permuted_rank_explicit",
+      "independent_prediction_and_receipt_recount": "passed",
+      "cases": 200
+    },
+    {
+      "model": "error_prioritized_sft_round2",
+      "condition": "reversed_rank_explicit",
+      "independent_prediction_and_receipt_recount": "passed",
+      "cases": 200
+    }
+  ],
+  "model_or_prompt_selection_performed": false,
+  "claim_boundary": "Development sensitivity to candidate display order while retaining rank information. It does not establish clinical reasoning, causality of training collapse, or an RSI improvement. Restricted data/generation remain local.",
+  "interval_note": "1000 descriptive paired patient-cluster bootstrap draws, no multiplicity adjustment."
+}

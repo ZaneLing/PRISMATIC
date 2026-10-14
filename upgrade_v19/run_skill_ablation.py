@@ -1,5 +1,5 @@
 """Evaluate frozen single-skill states only after the main study fully audits."""
-import contextlib,hashlib,io,json,os,shutil,subprocess,sys,time,types
+import contextlib,hashlib,importlib.util,io,json,os,shutil,subprocess,sys,time,types
 from pathlib import Path
 import numpy as np
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parent
@@ -55,7 +55,9 @@ def main():
     os.environ['RXRSI_PUBLIC_COST_CAP_USD']=str(protocol['cumulative_successful_response_cap_usd'])
     from fhir_task import FHIRTask,FHIRBackend
     from probe_fhir_state import total
-    from summarize import interval,patient_interval
+    spec=importlib.util.spec_from_file_location('v19_ablation_statistics',HERE/'summarize.py')
+    statistics=importlib.util.module_from_spec(spec);spec.loader.exec_module(statistics)
+    interval,patient_interval=statistics.interval,statistics.patient_interval
     best=LOCAL/'grasp-v19/skills/best';assert {p.name:sha(p) for p in best.glob('*.md')}==protocol['frozen_skill_sha256']
     before={r:total(r) for r in main_report['resource_counts_after']};assert before==main_report['resource_counts_after']
     assert not list((LOCAL/'active').glob('*.json'))

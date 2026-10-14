@@ -1,0 +1,452 @@
+{
+  "status": "complete",
+  "methods": {
+    "direct_tools": {
+      "id_test": {
+        "n": 64,
+        "trace_correct": 39,
+        "state_correct": 39,
+        "legacy_live_reference_correct": 39,
+        "semantic_reference_correct": 39,
+        "model_calls": 133,
+        "tool_calls": 83,
+        "logical_cost_usd": 0.07129406136,
+        "writes": 14,
+        "failed_readback": 0
+      },
+      "test": {
+        "n": 60,
+        "trace_correct": 27,
+        "state_correct": 27,
+        "legacy_live_reference_correct": 27,
+        "semantic_reference_correct": 27,
+        "model_calls": 120,
+        "tool_calls": 60,
+        "logical_cost_usd": 0.07427218040000001,
+        "writes": 0,
+        "failed_readback": 0
+      }
+    },
+    "fixed_compiled": {
+      "id_test": {
+        "n": 64,
+        "trace_correct": 38,
+        "state_correct": 38,
+        "legacy_live_reference_correct": 38,
+        "semantic_reference_correct": 38,
+        "model_calls": 174,
+        "tool_calls": 151,
+        "logical_cost_usd": 0.07723032547999999,
+        "writes": 23,
+        "failed_readback": 0
+      },
+      "test": {
+        "n": 60,
+        "trace_correct": 17,
+        "state_correct": 17,
+        "legacy_live_reference_correct": 17,
+        "semantic_reference_correct": 17,
+        "model_calls": 139,
+        "tool_calls": 75,
+        "logical_cost_usd": 0.08966209103999996,
+        "writes": 0,
+        "failed_readback": 0
+      }
+    },
+    "evolving_compiled": {
+      "id_test": {
+        "n": 64,
+        "trace_correct": 45,
+        "state_correct": 45,
+        "legacy_live_reference_correct": 45,
+        "semantic_reference_correct": 45,
+        "model_calls": 207,
+        "tool_calls": 182,
+        "logical_cost_usd": 0.1479297536,
+        "writes": 21,
+        "failed_readback": 0
+      },
+      "test": {
+        "n": 60,
+        "trace_correct": 10,
+        "state_correct": 10,
+        "legacy_live_reference_correct": 10,
+        "semantic_reference_correct": 10,
+        "model_calls": 124,
+        "tool_calls": 60,
+        "logical_cost_usd": 0.14003272020000002,
+        "writes": 0,
+        "failed_readback": 0
+      }
+    }
+  },
+  "audits": [
+    {
+      "method": "direct_tools",
+      "split": "id_test",
+      "case_alignment_reference_regrade_receipt_recount": "passed",
+      "write_attempts": 14,
+      "field_loss_attempts": 0,
+      "rollbacks": 0,
+      "remaining_writes_then_cleaned": 14,
+      "cleanup_calls": 14
+    },
+    {
+      "method": "direct_tools",
+      "split": "test",
+      "case_alignment_reference_regrade_receipt_recount": "passed",
+      "write_attempts": 0,
+      "field_loss_attempts": 0,
+      "rollbacks": 0,
+      "remaining_writes_then_cleaned": 0,
+      "cleanup_calls": 0
+    },
+    {
+      "method": "fixed_compiled",
+      "split": "id_test",
+      "case_alignment_reference_regrade_receipt_recount": "passed",
+      "write_attempts": 23,
+      "field_loss_attempts": 0,
+      "rollbacks": 0,
+      "remaining_writes_then_cleaned": 23,
+      "cleanup_calls": 23
+    },
+    {
+      "method": "fixed_compiled",
+      "split": "test",
+      "case_alignment_reference_regrade_receipt_recount": "passed",
+      "write_attempts": 0,
+      "field_loss_attempts": 0,
+      "rollbacks": 0,
+      "remaining_writes_then_cleaned": 0,
+      "cleanup_calls": 0
+    },
+    {
+      "method": "evolving_compiled",
+      "split": "id_test",
+      "case_alignment_reference_regrade_receipt_recount": "passed",
+      "write_attempts": 21,
+      "field_loss_attempts": 0,
+      "rollbacks": 0,
+      "remaining_writes_then_cleaned": 21,
+      "cleanup_calls": 21
+    },
+    {
+      "method": "evolving_compiled",
+      "split": "test",
+      "case_alignment_reference_regrade_receipt_recount": "passed",
+      "write_attempts": 0,
+      "field_loss_attempts": 0,
+      "rollbacks": 0,
+      "remaining_writes_then_cleaned": 0,
+      "cleanup_calls": 0
+    }
+  ],
+  "paired": {
+    "id_test": {
+      "fixed_compiled__minus__direct_tools": {
+        "difference": -0.015625,
+        "ci95": [
+          -0.125,
+          0.078125
+        ],
+        "fixes": 5,
+        "regressions": 6
+      },
+      "evolving_compiled__minus__fixed_compiled": {
+        "difference": 0.109375,
+        "ci95": [
+          0.015625,
+          0.21875
+        ],
+        "fixes": 9,
+        "regressions": 2
+      },
+      "evolving_compiled__minus__direct_tools": {
+        "difference": 0.09375,
+        "ci95": [
+          -0.03125,
+          0.21875
+        ],
+        "fixes": 11,
+        "regressions": 5
+      }
+    },
+    "test": {
+      "fixed_compiled__minus__direct_tools": {
+        "difference": -0.16666666666666666,
+        "ci95": [
+          -0.26666666666666666,
+          -0.08333333333333333
+        ],
+        "fixes": 0,
+        "regressions": 10
+      },
+      "evolving_compiled__minus__fixed_compiled": {
+        "difference": -0.11666666666666667,
+        "ci95": [
+          -0.21666666666666667,
+          -0.016666666666666666
+        ],
+        "fixes": 2,
+        "regressions": 9
+      },
+      "evolving_compiled__minus__direct_tools": {
+        "difference": -0.2833333333333333,
+        "ci95": [
+          -0.4,
+          -0.16666666666666666
+        ],
+        "fixes": 1,
+        "regressions": 18
+      }
+    }
+  },
+  "paired_patient_clusters": {
+    "id_test": {
+      "fixed_compiled__minus__direct_tools": {
+        "difference": -0.015625,
+        "ci95": [
+          -0.11864406779661017,
+          0.08695652173913043
+        ],
+        "patients": 47,
+        "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+      },
+      "evolving_compiled__minus__fixed_compiled": {
+        "difference": 0.109375,
+        "ci95": [
+          0.0,
+          0.2054895245769541
+        ],
+        "patients": 47,
+        "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+      },
+      "evolving_compiled__minus__direct_tools": {
+        "difference": 0.09375,
+        "ci95": [
+          -0.017241379310344827,
+          0.1929966044142615
+        ],
+        "patients": 47,
+        "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+      }
+    },
+    "test": {
+      "fixed_compiled__minus__direct_tools": {
+        "difference": -0.16666666666666666,
+        "ci95": [
+          -0.26229508196721313,
+          -0.08196721311475409
+        ],
+        "patients": 53,
+        "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+      },
+      "evolving_compiled__minus__fixed_compiled": {
+        "difference": -0.11666666666666667,
+        "ci95": [
+          -0.22950819672131148,
+          -0.016386832363828638
+        ],
+        "patients": 53,
+        "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+      },
+      "evolving_compiled__minus__direct_tools": {
+        "difference": -0.2833333333333333,
+        "ci95": [
+          -0.4067796610169492,
+          -0.16666666666666666
+        ],
+        "patients": 53,
+        "note": "Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims."
+      }
+    }
+  },
+  "by_task_type": {
+    "direct_tools": {
+      "id_test": {
+        "task1": {
+          "n": 8,
+          "state_correct": 0
+        },
+        "task10": {
+          "n": 8,
+          "state_correct": 1
+        },
+        "task2": {
+          "n": 8,
+          "state_correct": 8
+        },
+        "task3": {
+          "n": 8,
+          "state_correct": 6
+        },
+        "task4": {
+          "n": 8,
+          "state_correct": 6
+        },
+        "task5": {
+          "n": 8,
+          "state_correct": 8
+        },
+        "task8": {
+          "n": 8,
+          "state_correct": 8
+        },
+        "task9": {
+          "n": 8,
+          "state_correct": 2
+        }
+      },
+      "test": {
+        "task6": {
+          "n": 30,
+          "state_correct": 13
+        },
+        "task7": {
+          "n": 30,
+          "state_correct": 14
+        }
+      }
+    },
+    "fixed_compiled": {
+      "id_test": {
+        "task1": {
+          "n": 8,
+          "state_correct": 0
+        },
+        "task10": {
+          "n": 8,
+          "state_correct": 3
+        },
+        "task2": {
+          "n": 8,
+          "state_correct": 7
+        },
+        "task3": {
+          "n": 8,
+          "state_correct": 8
+        },
+        "task4": {
+          "n": 8,
+          "state_correct": 7
+        },
+        "task5": {
+          "n": 8,
+          "state_correct": 5
+        },
+        "task8": {
+          "n": 8,
+          "state_correct": 8
+        },
+        "task9": {
+          "n": 8,
+          "state_correct": 0
+        }
+      },
+      "test": {
+        "task6": {
+          "n": 30,
+          "state_correct": 12
+        },
+        "task7": {
+          "n": 30,
+          "state_correct": 5
+        }
+      }
+    },
+    "evolving_compiled": {
+      "id_test": {
+        "task1": {
+          "n": 8,
+          "state_correct": 6
+        },
+        "task10": {
+          "n": 8,
+          "state_correct": 3
+        },
+        "task2": {
+          "n": 8,
+          "state_correct": 8
+        },
+        "task3": {
+          "n": 8,
+          "state_correct": 8
+        },
+        "task4": {
+          "n": 8,
+          "state_correct": 6
+        },
+        "task5": {
+          "n": 8,
+          "state_correct": 6
+        },
+        "task8": {
+          "n": 8,
+          "state_correct": 8
+        },
+        "task9": {
+          "n": 8,
+          "state_correct": 0
+        }
+      },
+      "test": {
+        "task6": {
+          "n": 30,
+          "state_correct": 10
+        },
+        "task7": {
+          "n": 30,
+          "state_correct": 0
+        }
+      }
+    }
+  },
+  "resource_counts_before": {
+    "Patient": 695,
+    "MedicationRequest": 21991,
+    "Observation": 563426,
+    "ServiceRequest": 0
+  },
+  "resource_counts_after": {
+    "Patient": 695,
+    "MedicationRequest": 21991,
+    "Observation": 563426,
+    "ServiceRequest": 0
+  },
+  "updates": [
+    {
+      "round": 1,
+      "new_cases": 24,
+      "applied": [
+        {
+          "action": "ADD",
+          "name": "fhir_patient_name_search_url_encoding"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "new_cases": 24,
+      "applied": [
+        {
+          "action": "ADD",
+          "name": "lab_code_text_fallback_probe"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "new_cases": 24,
+      "applied": []
+    },
+    {
+      "round": 4,
+      "new_cases": 24,
+      "applied": []
+    }
+  ],
+  "interval_note": "Descriptive paired task and patient-cluster bootstrap4000 draws. Patient clustering added before the full study produced results. Task types and patient records overlap across splits. One seed. No multiplicity correction.",
+  "endpoint": "Unchanged original reference evaluated through declared lossless shape views AND preservation of all remaining canonical fields on actual readback. Raw grades retained separately. Revised development-discovered endpoint, not an unmodified official benchmark score; legacy clinical units remain unvalidated.",
+  "cost_scope": "Logical episode calls/cost; exact cached episodes may replay, while receipt records refer to their first physical execution. Cleanup calls are counted separately."
+}

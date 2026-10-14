@@ -174,13 +174,23 @@ A subsequent development-only experiment freezes the base model and both selecte
 \begin{tabular}{llrr}\toprule Frozen state & Display condition & Drug F1 & Order F1\\\midrule
 POSITIONROWS
 \bottomrule\end{tabular}\end{table*}
-All saved outputs, remapped candidates and immutable case receipts pass independent recounting. Reordering sensitivity with rank information retained is evidence of a representation weakness; it does not alone establish the cause of training collapse or clinical reasoning. No prompt winner is promoted from these results.'''.replace('POSITIONROWS',rr)
+All saved outputs, remapped candidates and immutable case receipts pass independent recounting. Explicit-rank permutation reduces priority drug F1 from 0.27471 to 0.17441, a difference of $-0.10030$ with patient-cluster interval $[-0.13508,-0.06646]$. Both adapters select display prefixes in 100\% of nontrivial permuted masks, versus 1.5\% for the base model; all 2,400 outputs parse successfully. Reordering sensitivity with rank information retained is evidence of a representation weakness; it does not alone establish the cause of training collapse or clinical reasoning. No prompt winner is promoted from these results.'''.replace('POSITIONROWS',rr)
     compatibility_section=''
     if (ROOT/'upgrade_v27/results/cohort_audit.json').exists():
         compatibility_section=r'''\paragraph{Standard-method compatibility panel.}
 A separate retrospective MIMIC-IV 3.1 panel now contains 8,905 repeated-visit adult ICU patients and 23,177 hospital visits. Patient-disjoint training/proposal/guard/test partitions contain 7,115/433/467/890 patients and 18,429/1,095/1,231/2,422 visits. Every selected diagnosis, procedure and mapped medication set is independently reconstructed from sources. Training-only vocabularies include 271 true five-character ATC-L4 classes, with five test target occurrences outside that vocabulary. The public NDC map covers only 27.23\% of selected source prescription rows; this is explicitly mapped-class prediction, not complete prescription recovery. Completed-visit diagnosis/procedure inputs also distinguish it from the six-hour task. Earlier observed test patients overlap, so this panel is exploratory.
 
 Public molecular lookup resolves 746 CIDs and validates structures spanning 399 ATC-L4 classes. Coverage is 219/271 classes in this cohort. Actual pinned ARMR, GAMENet and SafeDrug cores pass synthetic forward/backward execution probes. SafeDrug still requires complete cohort-specific molecular/substructure compatibility; the probe's synthetic mask is never used as an experimental resource. No trained method score is claimed at this preparation stage.'''
+        if (ROOT/'upgrade_v27/results/training_runtime_probe.json').exists():
+            compatibility_section=compatibility_section.replace("SafeDrug still requires complete cohort-specific molecular/substructure compatibility; the probe's synthetic mask is never used as an experimental resource. No trained method score is claimed at this preparation stage.",r'''Full resources now contain 627 molecular graphs and 863 BRICS fragments; no synthetic mask is used for training. Dense/sparse forward and registered-gradient probes agree, and the released fixed molecular embedding is persisted in checkpoints. A separate 219-class molecular panel retains all visits, including three empty-target test visits, and explicitly excludes 5,613 test target occurrences. ARMR/GAMENet run in both spaces and SafeDrug in the molecular space, for three seeds and 50 full epochs each. Proposal Jaccard selects checkpoints/thresholds, guard reports development performance, and testing waits for all baseline and future RxRSI states to freeze. Equal case exposure is not equal FLOPs. The released SafeDrug training script's negative-cap coefficient conflicts with Eq.~19; the adapted run uses the paper's nonnegative cap \citep{safedrug}.''')
+        if (ROOT/'upgrade_v27/results/control_audit.json').exists():
+            audit=json.loads((ROOT/'upgrade_v27/results/control_audit.json').read_text());assert audit['status']=='passed'
+            rr='\n'.join(f"{panel} & {name.replace('_',' ')} & {z['patient_f1']:.4f} & {z['patient_jaccard']:.4f} \\\\" for panel,p in audit['panels'].items() for name,z in p['methods'].items())
+            compatibility_section+=r'''\begin{table*}[t]\centering\small
+\caption{Completed conventional methods on 1,231 guard visits from 467 patients. Choices freeze on separate proposal data; independent raw-source reconstruction reproduces saved predictions exactly. These development results are not the pending neural/RxRSI test comparison.}
+\begin{tabular}{llrr}\toprule Label panel & Method & Patient-average F1 & Patient-average Jaccard\\\midrule
+CONTROLROWS
+\bottomrule\end{tabular}\end{table*}'''.replace('CONTROLROWS',rr)
     fhir_results=''
     if (ROOT/'upgrade_v19/results/summary.json').exists():
         fhir=json.loads((ROOT/'upgrade_v19/results/summary.json').read_text())
@@ -192,7 +202,23 @@ The revised study completes 96 training tasks, 80 validation tasks, 64 ID-test t
 \begin{tabular}{llrrr}\toprule Method & Split & State success & Raw trace success & Calls\\\midrule
 FHIRROWS
 \bottomrule\end{tabular}\end{table*}
-Independent regrading recounts each creation, readback, rollback and cleanup; resource counts return to their original values. Task-type breakdowns, task- and patient-cluster paired intervals and actual skill operations accompany the release. Patient overlap and one learning seed limit generalization claims.'''.replace('FHIRROWS',rr)
+Independent regrading recounts each creation, readback, rollback and cleanup; resource counts return to their original values. Skills-minus-fixed ID success improves by 10.94 percentage points, but the paired patient-cluster interval $[0,20.55]$ includes zero. Held-out-type success falls by 11.67 points against fixed ($[-22.95,-1.64]$) and 28.33 against direct tools ($[-40.68,-16.67]$). On held-out task7, learned skills score 0/30, versus 5/30 fixed and 14/30 direct. No held-out-type arm writes a resource; the fixed system also adds workflow instructions, preventing attribution of this decline to serialization alone. This is not evidence of overall successful evolution. Intervals use 4,000 descriptive patient-cluster resamples; one learning seed and patient overlap limit claims.
+
+A subsequent read-only claim audit finds that the name skill's alleged space-encoding failure is contradicted by the existing HTTP adapter: raw/encoded inputs produce identical URLs and results. The generated example observations are not execution receipts. Global code/text lab-query counts differ for A1C but do not validate patient-specific utility; route serialization does not imply observation-code structure. Exact skill bytes and hashes are released as unvalidated experimental artifacts. Registered frozen single-skill removals test contribution and interaction without rewriting the evaluated skills.'''.replace('FHIRROWS',rr)
+        if (ROOT/'upgrade_v19/results/answer_contract_audit.json').exists():
+            fhir_results+=r'''
+\paragraph{Answer-contract diagnosis.}
+All 30 learned-skill task7 answers contain a number and timestamp, whereas the original reference requires a single numeric element. Complete-record read-only rechecking finds 15 correct first values rejected solely for the extra timestamp and 15 wrong first values. Name-only answers are prose strings in all 30 cases. Thus zero strict successes does not imply 30 wrong glucose values. Field projection is a post-test diagnostic, not a replacement score or executed repaired-agent result; syntax-only JSON validation is insufficient.'''
+        if (ROOT/'upgrade_v19/results/skill_ablation.json').exists():
+            ablation=json.loads((ROOT/'upgrade_v19/results/skill_ablation.json').read_text())
+            if ablation['status']=='complete':
+                rr='\n'.join(f"{name.replace('_',' ')} & {p['id_test']['state_correct']}/64 & {p['test']['state_correct']}/60 \\\\" for name,p in ablation['methods'].items())
+                fhir_results+=r'''\begin{table}[t]\centering\small
+\caption{Frozen-skill attribution with identical execution budgets. Registered after direct/fixed outcomes, before ablation execution; exploratory.}
+\begin{tabular}{lrr}\toprule Skills & ID & Held-out type\\\midrule
+ABLATIONROWS
+\bottomrule\end{tabular}\end{table}
+The factorial interaction is 0.00 ID points ($[-10.35,10.77]$) and $+3.33$ transfer points ($[-8.62,15.25]$). Individual removal intervals also include zero; robust skill synergy is not established.'''.replace('ABLATIONROWS',rr)
     body=r'''
 \documentclass[11pt]{article}
 \usepackage[review]{acl}
@@ -205,7 +231,7 @@ Independent regrading recounts each creation, readback, rollback and cleanup; re
 \begin{document}
 \maketitle
 \begin{abstract}
-An improving prescription agent must demonstrate what changes between versions and whether those changes improve held-out decisions. We study RxRSIAgent as a system of separately versioned prescription policies, episodic memories, order-completion tools and language skills. Ground-truth training prescriptions provide error feedback, with explicit development-selection protocols. Three-seed experiments use 40,000 training admissions, a legacy 4,000-admission test and a rebuilt recorded-availability task with 1,082 new test admissions. Mean five-checkpoint scores increase with cases, but strong same-data supervised controls remain better. On 988 public prescription-choice questions, combining grounded evidence with learned skills scores 50.71\%, against 50.81\% for the author skill-learning core, and transfer declines. Local QLoRA updates improve over a frozen model on 500 new admissions but trail direct top-8 tool use. Real FHIR probes additionally show that accepted writes can discard fields. These results distinguish artifact changes, reliable execution and generalizing gains. Published comparisons retain their original protocols; universal superiority and a unique RSI advantage remain unproven.
+An improving prescription agent must demonstrate what changes between versions and whether those changes improve held-out decisions. We study RxRSIAgent as a system of separately versioned prescription policies, episodic memories, order-completion tools and language skills. Ground-truth training prescriptions provide error feedback, with explicit development-selection protocols. Three-seed experiments use 40,000 training admissions, a legacy 4,000-admission test and a rebuilt recorded-availability task with 1,082 new test admissions. Mean five-checkpoint scores increase with cases, but strong same-data supervised controls remain better. On 988 public prescription-choice questions, combining grounded evidence with learned skills scores 50.71\%, against 50.81\% for the author skill-learning core, and transfer declines. Local QLoRA updates improve over a frozen model on 500 new admissions but trail direct top-8 tool use. Real FHIR skill learning improves ID success from 38/64 to 45/64 but reduces held-out-type success from 17/60 to 10/60; answer-contract errors explain part of the decline. These results distinguish artifact changes, reliable execution and generalizing gains. Published comparisons retain their original protocols; universal superiority and a unique RSI advantage remain unproven.
 \end{abstract}
 
 \section{Introduction}
