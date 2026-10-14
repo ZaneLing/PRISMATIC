@@ -1,0 +1,26 @@
+{
+  "name": "Recorded-availability-controlled new-order task",
+  "status_at_registration": "No performance score observed",
+  "population": "MIMIC-IV 3.1 admissions linked to the existing MIMIC-IV-ED cohort; full hospital source tables are re-read",
+  "decision_time": "Actual hospital admission time + 6 hours",
+  "prediction_window": "[decision_time, decision_time + 6 hours)",
+  "followup": "Hospital discharge must be at or after the end of the prediction window",
+  "potential_target": "A prescription row whose linked provider ordertime OR pharmacy entertime falls in the window",
+  "trusted_target": "Exact patient/admission joins on both paths; provider ordertime AND pharmacy entertime in the window; pharmacy verifiedtime non-null and no later than the window end; transaction New or Change",
+  "coherent_case_rule": "Exclude an admission if any potential target lacks the trusted timestamp/identity/type criteria. Require at least one trusted target. This is a selected, order-triggered retrospective cohort, not all hospital admissions.",
+  "inputs": {
+    "demographics": "Recorded gender and decade-binned approximate age at admission; no patient IDs",
+    "prior_orders": "Same admission, exact joins, provider ordertime, pharmacy entertime and verifiedtime all before decision; all three must be non-null; maximum of them in the preceding 24 hours; retain at most 24 most recently available distinct drug/route/dose/unit/frequency tuples",
+    "labs": "Same admission blood labs, both charttime and storetime no later than decision, charttime in previous 24 hours, numeric value; latest per itemid; at most 32 most recently stored measurements",
+    "excluded": ["untimed triage", "medication reconciliation without entry time", "discharge diagnoses", "future order status", "stoptime", "future laboratory results", "provider identifiers"]
+  },
+  "split": "Preserve original patient train/validation/test assignments; split validation patients into proposal/guard; exclude all v0.6, v0.7 and v0.9 test patients from the new test",
+  "sample_caps": {"train": 40000, "proposal": 2000, "guard": 2000, "test": 2000},
+  "sampling": "Deterministic case hashes with the v21 salt; use all eligible cases if below the cap and report actual sizes",
+  "drug_space": "Raw normalized drug names; vocabulary learned from initial training cases only; all gold drugs remain in recall denominators",
+  "order_fields": ["drug_name", "route", "dose_value", "dose_unit", "frequency_per_24h"],
+  "primary_scores": ["drug micro-F1", "joint drug/route/dose/unit micro-F1"],
+  "unknown_fields": "Remain unknown and are not fabricated; no saline-presence F1",
+  "limitations": ["Availability is recorded-source availability, not proof of clinician viewing", "The released tables are not a full version history", "Coherent-time and nonempty-target selection limits generalization", "Historical order agreement is not clinical safety"],
+  "privacy": "All patient rows, features, labels, predictions and models remain local under the restricted directory; no API calls"
+}

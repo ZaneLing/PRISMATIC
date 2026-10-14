@@ -11,11 +11,13 @@ from rx_agent import score
 from run_rounds import choose
 HERE=Path(__file__).resolve().parent
 
-def run(seed):
-    begin=time.time();b=joblib.load(PRIVATE/'data.joblib');run=joblib.load(PRIVATE/f'run_seed_{seed}.joblib')
+def run(seed,study_dir=None,data_dir=None):
+    here=Path(study_dir) if study_dir is not None else HERE
+    private=Path(data_dir) if data_dir is not None else PRIVATE
+    begin=time.time();b=joblib.load(private/'data.joblib');run=joblib.load(private/f'run_seed_{seed}.joblib')
     classes=b['classes'];truth=b['truth'];y=np.array([[c in {o['drug_name'] for o in row} for c in classes] for row in truth['train']],dtype=np.float32)
     tool=run['tools'][40000];x=run['x'];cache={};models={};config={'alphas':[1e-6,1e-5,1e-4],'weights':[0,.25,.5,.75,1],'thresholds':[.1,.15,.2,.25,.3,.4,.5]}
-    (HERE/'results/strong_baseline_protocol.json').write_text(json.dumps(config,indent=2)+'\n')
+    (here/'results/strong_baseline_protocol.json').write_text(json.dumps(config,indent=2)+'\n')
     char=TfidfVectorizer(min_df=3,max_features=24000,analyzer='char_wb',ngram_range=(3,5),sublinear_tf=True)
     char.fit(b['text']['train'][:8000]);cx={s:char.transform(t) for s,t in b['text'].items()}
     all_predictions={};validation={};selection={}
@@ -51,12 +53,12 @@ def run(seed):
             if best is None or choice[0]>best[0]:best=choice
     families['multinomial_nb']=best
     # Freeze before this baseline runner reads test targets for scoring.
-    (HERE/f'results/strong_selection_seed_{seed}.json').write_text(json.dumps({'families':families,'all_validation':validation},indent=2)+'\n')
+    (here/f'results/strong_selection_seed_{seed}.json').write_text(json.dumps({'families':families,'all_validation':validation},indent=2)+'\n')
     test_prob={view:models[families[view][1]][0].predict_proba(models[families[view][1]][1]['test']) for view in ['word','char']}
     w=families['word_char_ensemble'][1];test_prob['word_char_ensemble']=w*test_prob['word']+(1-w)*test_prob['char'];test_prob['multinomial_nb']=nb.predict_proba(x['test'])
     for family,choice in families.items():all_predictions[family]=evaluate(test_prob[family],'test',choice[2],choice[3])
     report={'seed':seed,'method_scores':{n:score(p,truth['test']) for n,p in all_predictions.items()},'seconds':time.time()-begin}
-    joblib.dump({'predictions':all_predictions,'models':models,'char_vectorizer':char,'families':families},PRIVATE/f'strong_seed_{seed}.joblib')
-    (HERE/f'results/strong_results_seed_{seed}.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report),flush=True)
+    joblib.dump({'predictions':all_predictions,'models':models,'char_vectorizer':char,'families':families},private/f'strong_seed_{seed}.joblib')
+    (here/f'results/strong_results_seed_{seed}.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report),flush=True)
 
 if __name__=='__main__':run(int(sys.argv[1]) if len(sys.argv)>1 else 42)

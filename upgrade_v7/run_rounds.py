@@ -26,8 +26,10 @@ def knn(x,train,y):
 def per_case(pred,truth):
     return np.array([score([p],[g])['promotion_score'] for p,g in zip(pred,truth)])
 
-def run(seed=42):
-    started=time.time();config=json.loads((HERE/'protocol.json').read_text());b=joblib.load(PRIVATE/'data.joblib')
+def run(seed=42,study_dir=None,data_dir=None):
+    here=Path(study_dir) if study_dir is not None else HERE
+    private=Path(data_dir) if data_dir is not None else PRIVATE
+    started=time.time();config=json.loads((here/'evaluation_protocol.json' if study_dir is not None else here/'protocol.json').read_text());b=joblib.load(private/'data.joblib')
     classes=b['classes'];truth=b['truth'];ys=[{o['drug_name'] for o in row} for row in truth['train']]
     y=np.array([[c in row for c in classes] for row in ys],dtype=np.float32)
     v=TfidfVectorizer(min_df=3,max_features=16000,ngram_range=(1,2),sublinear_tf=True,token_pattern=r'(?u)\b\w+\b')
@@ -80,7 +82,7 @@ def run(seed=42):
         if accepted:active=dict(candidate)
         current_guard=score(fast(active,'guard'),truth['guard'])
         delta=per_case(fast(active,'guard'),truth['guard'])-per_case(fast(previous,'guard'),truth['guard']) if previous else np.zeros(len(truth['guard']))
-        artifact_path=PRIVATE/f'round-{round_index}-seed-{seed}.joblib'
+        artifact_path=private/f'round-{round_index}-seed-{seed}.joblib'
         joblib.dump({'model':clf,'tool':tools[n],'vectorizer':v,'classes':classes,'train_members':b['parts']['train'].hadm_id.iloc[:n].tolist()},artifact_path)
         decision={'round':round_index,'training_cases':n,'proposed':candidate,'accepted':accepted,'active':dict(active),
             'proposal_validation':proposal_metric,'candidate_guard':cg,'active_guard':current_guard,
@@ -90,7 +92,7 @@ def run(seed=42):
             'conditional_tool_drugs':len(tools[n].models),'artifact_file_sha256':hashlib.sha256(artifact_path.read_bytes()).hexdigest(),
             'candidate_grid':[{'state':s,'proposal_composite':m} for m,s,_ in candidates]}
         decisions.append(decision);frozen[round_index]=dict(active)
-        (HERE/f'results/decisions_seed_{seed}.json').write_text(json.dumps(decisions,indent=2)+'\n')
+        (here/f'results/decisions_seed_{seed}.json').write_text(json.dumps(decisions,indent=2)+'\n')
         print(json.dumps({k:decision[k] for k in ['round','training_cases','accepted','active','active_guard','guard_case_improvements','guard_case_regressions']}),flush=True)
     # All choices frozen. Save and compare actual baselines without using test for selection.
     baseline_states={}
@@ -103,7 +105,7 @@ def run(seed=42):
     all_states={**baseline_states,'rxrsi_selected':active}
     for obj,keyname in [('parameters','policy_n'),('tool','tool_n'),('memory','memory_n')]:
         state=dict(active);state[keyname]=8000;all_states['without_'+obj+'_evolution']=state
-    (HERE/f'results/final_selection_seed_{seed}.json').write_text(json.dumps(all_states,indent=2)+'\n')
+    (here/f'results/final_selection_seed_{seed}.json').write_text(json.dumps(all_states,indent=2)+'\n')
     # This is the first test-label evaluation in this runner.
     test_predictions={name:fast(state,'test') for name,state in all_states.items()}
     curves=[];previous=None
@@ -113,11 +115,11 @@ def run(seed=42):
           'case_improvements':int((delta>1e-12).sum()),'case_regressions':int((delta< -1e-12).sum())})
         test_predictions[f'round_{i}']=pred
     report={'seed':seed,'method_scores':{name:score(pred,truth['test']) for name,pred in test_predictions.items() if not name.startswith('round_')},
-       'rounds':curves,'elapsed_seconds':time.time()-started,'protocol_sha256':hashlib.sha256((HERE/'protocol.json').read_bytes()).hexdigest(),
+       'rounds':curves,'elapsed_seconds':time.time()-started,'protocol_sha256':hashlib.sha256((here/'evaluation_protocol.json' if study_dir is not None else here/'protocol.json').read_bytes()).hexdigest(),
        'test_labels_used_for_update':False,'parameter_learning':'Supervised SGD policy and conditional order tools; LLM unchanged',
        'caveat':'Round-zero and cumulative models differ in training data size. Full-data conditional-tool baseline controls for that advantage.'}
-    joblib.dump({'predictions':test_predictions,'tools':tools,'probs':probs,'mem':mem,'models':models,'vectorizer':v,'x':x},PRIVATE/f'run_seed_{seed}.joblib')
-    (HERE/f'results/round_results_seed_{seed}.json').write_text(json.dumps(report,indent=2)+'\n')
+    joblib.dump({'predictions':test_predictions,'tools':tools,'probs':probs,'mem':mem,'models':models,'vectorizer':v,'x':x},private/f'run_seed_{seed}.joblib')
+    (here/f'results/round_results_seed_{seed}.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(report),flush=True)
 
 if __name__=='__main__':run(int(sys.argv[1]) if len(sys.argv)>1 else 42)

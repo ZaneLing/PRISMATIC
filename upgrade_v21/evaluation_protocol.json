@@ -1,0 +1,23 @@
+{
+  "version": "v0.21-recorded-availability-controlled",
+  "registration": "Frozen before any v21 model training or test predictions; schema and cohort checks only observed",
+  "training_rounds": [8000, 16000, 24000, 32000, 40000],
+  "seeds": [42, 137, 2026],
+  "vocabulary": "128 most frequent distinct-per-case normalized drug names in initial 8000 training cases; stable lexical tie break; no test-derived labels",
+  "representation": "Serialize gender/age and recorded prior orders plus numeric blood labs; word TF-IDF initial 8k min_df3 max16000 unigram/bigram; char_wb initial8k max24000 3-5grams for stronger controls",
+  "thresholds": [0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5],
+  "memory_weights": [0.0, 0.1, 0.25, 0.5],
+  "policy": "Same v7 one-vs-rest SGD logistic selector: alpha1e-5, max60 iterations, tolerance1e-3; no LLM/API calls",
+  "memory": "30 nearest training contexts, similarity-weighted voting; all entries are from the training partition",
+  "order_tool": "Same v7 conditional joint-order template model: max8 frequent tuples per drug, count>=10, >=80 records, SGD alpha1e-4 max40 iterations",
+  "output_budget": "At most20 distinct drug names; each completed using a joint recorded training tuple",
+  "promotion": "Maximize mean drug/order F1 on proposal. Promote only if the separate guard composite improves and each endpoint declines no more than0.002. Reject otherwise; all round states frozen before within-seed test scoring.",
+  "evolving_objects": ["supervised selection parameters", "training episode memory", "conditional order-tool parameters", "selected configuration"],
+  "fixed_objects": ["LLM weights (no LLM)", "executable source", "vocabulary", "input feature extractor", "cohort and metric protocol"],
+  "controls": ["full-data word policy/global templates", "full-data word policy/conditional tool", "case retrieval/global templates", "case retrieval/conditional tool", "strong word policy", "strong character policy", "word/character ensemble", "naive Bayes", "training prevalence", "reuse recorded prior orders"],
+  "strong_baseline_search": {"alphas": [0.000001, 0.00001, 0.0001], "ensemble_weights": [0, 0.25, 0.5, 0.75, 1], "thresholds": [0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5], "conditional": [false, true], "selection": "proposal only; same as v7"},
+  "prevalence_and_prior_order_controls": "Choose output count from1,3,5,8,12,20 on proposal using same composite. Prevalence uses40k training counts/global templates. Prior-order control preserves most recent known complete joint tuples, one per name, limited to common128-name output vocabulary.",
+  "ablation": "Freeze one of policy/memory/tool to its initial8k artifact inside the final selected state; no retuning; conditional-dependence rather than optimal ablation claim",
+  "statistics": "Independent saved-prediction recount; paired patient-cluster bootstrap2000 draws; drug/core-order F1 mean and sample SD over3 seeds; descriptive intervals, no multiplicity adjustment",
+  "limits": ["Selected coherent-time, nonempty future-order cohort", "Retrospective raw-name agreement; not ATC/RxNorm benchmark equivalence", "Supervised artifact evolution, not autonomous code or LLM-weight evolution", "Repeated use of proposal/guard is adaptive development; new test patients remain untouched by selection", "No claim to reproduce GAMENet/SafeDrug on this changed task"]
+}
