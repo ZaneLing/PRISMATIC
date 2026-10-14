@@ -35,6 +35,7 @@ def main():
     fig.tight_layout(rect=[0,.065,1,.94],w_pad=2)
     out=HERE.parent/'paper/figures';out.mkdir(exist_ok=True)
     for ext in ['png','svg']:fig.savefig(out/('rule_memory_development.'+ext),dpi=180,bbox_inches='tight')
+    svg=out/'rule_memory_development.svg';svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines())+'\n')
     plt.close(fig)
     print(json.dumps({'status':'written','source':'upgrade_v27/results/rsi_development_summary.json','outputs':['paper/figures/rule_memory_development.png','paper/figures/rule_memory_development.svg']}))
 if __name__=='__main__':main()
