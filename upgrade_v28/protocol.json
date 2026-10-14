@@ -1,0 +1,17 @@
+{
+  "study": "v28 explicit answer contracts and source-bound Observation statistics",
+  "registration": "Engineering intervention registered after v19 test outcomes and failure diagnoses; all evaluated splits are reused and exploratory. No new untouched generalization claim.",
+  "model": "deepseek/deepseek-v4.1-flash",
+  "conditions": "Full 2x2x2 fixed factorial: answer contract off/on, Observation statistics off/on, frozen v19 skills absent/both. No skill editing or condition selection from test scores.",
+  "splits": {"val": 80, "id_test": 64, "test": 60},
+  "fixed": "Original public task instructions/context and real FHIR fixture, v19 canonical order compiler, lossless reference-shape view, preflight/readback/rollback/cleanup, backbone and frozen skill bytes. All conditions use the verified-state workflow system prompt.",
+  "actor_budget": {"maximum_calls": 8, "maximum_output_tokens_per_call": 512, "temperature": 0},
+  "answer_contract": "Infer only from the task instruction text, never task ID, reference answer or hidden patient field. Numeric question without an explicit time request must finish with a single finite JSON number; explicit value-and-time request has a numeric/time schema with a missing-value sentinel; identifier and action-only requests retain suitable schemas. Reject invalid shapes with feedback inside the same actor-call cap; do not project/extract a favorable answer after inference.",
+  "statistics": "For patient-filtered Observation searches, retrieve up to five actual FHIR pages with requested count5000, preserving all user filters. Return source-bound latest and last24h arithmetic statistics separately by observation code and physical unit, using the supplied benchmark clock. Report completeness, omitted/non-numeric/missing-time/future records and actual HTTP calls. Never average across units, infer diagnoses, prescribe doses or read reference solutions. Persist unaltered page receipts privately.",
+  "selection": "All eight conditions are fixed before execution. Validation is a descriptive report, not used to select an arm or rewrite rules. ID/type transfer scores are exploratory repeated tests. No main v19 score is replaced.",
+  "endpoints": "Strict original reference plus persisted-field integrity; raw/reference grades, answer-shape failures, first-numeric-value diagnostic, model/HTTP calls, tokens/cost, field readback and resource restoration. Paired patient-cluster intervals for declared factorial effects; one actor run per frozen state, no claim of repeated-seed RSI evidence.",
+  "evolution_scope": "This stage repairs fixed execution. It does not count human-written compiler/statistics/contract code as autonomous evolution. A subsequent separately registered evidence-validated skill-learning experiment is required before an RSI mechanism claim.",
+  "cumulative_successful_api_response_cap_usd": 34,
+  "privacy": "Only public MedAgentBench fixtures go to the approved OpenRouter client. Restricted MIMIC/eICU records remain local.",
+  "publication": "Code, aggregate results and hashes; no keys or restricted records. English paper and bilingual Markdown updated with actual completed scores."
+}
