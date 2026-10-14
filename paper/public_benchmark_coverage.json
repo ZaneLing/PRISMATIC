@@ -1,0 +1,111 @@
+{
+  "status": "passed",
+  "auditor_sha256": "7485725019567b4e25185d2e578b7a7dab75cf43352ef1ff4fbbf35ba2155e7b",
+  "public_source_sha256": {
+    "rxqa_openfda.csv": "52f99903426296c5576757aacaa500200616ecb501fb5d2b9d2c287ddfef8853",
+    "RxSafeBench_Contradiction.json": "e9e097408bbc9399768d88a04af3eac46674dac11af35251e51247453765446b",
+    "RxSafeBench_Interaction.json": "d34cc05a98fe4120659b1a899d4cbf206e1a36cf0e1c4a3862efac0ea7f54fc9"
+  },
+  "public_data_snapshot_sha256": "481834daedf9b881de36e15548abc93f6cc8ef6401522d48c3a3cdd3640de0fd",
+  "source_commits": {
+    "rxqa": "203979bf928c1fe9e45aa89e2ed76c3d2a63b503",
+    "rxsafebench": "a25f9a1f173cf034b678c60f051901e86fbbbbb2"
+  },
+  "rxqa_openfda": {
+    "public_rows": 300,
+    "unique_q_ids": 300,
+    "transferred_rows": 300,
+    "missing_or_added_rows": 0,
+    "full_public_component": true,
+    "bnf_component_available": false,
+    "label_and_option_identity_verified": true
+  },
+  "rxsafebench": {
+    "counts": {
+      "contraindication": {
+        "raw_records": 1063,
+        "deduplicated_cases": 1063,
+        "duplicate_records": 0
+      },
+      "interaction": {
+        "raw_records": 1380,
+        "deduplicated_cases": 937,
+        "duplicate_records": 443
+      }
+    },
+    "total_deduplicated": 2000,
+    "evolution_partition_counts": {
+      "train": 625,
+      "proposal": 190,
+      "guard": 197,
+      "test": 988
+    },
+    "question_or_scenario_group_overlap": 0,
+    "full_deduplicated_historical_predictions": {
+      "direct": {
+        "n": 2000,
+        "correct": 924,
+        "invalid": 1
+      },
+      "repeat": {
+        "n": 2000,
+        "correct": 878,
+        "invalid": 0,
+        "fixes": 72,
+        "regressions": 118
+      },
+      "harness": {
+        "n": 2000,
+        "correct": 952,
+        "invalid": 0,
+        "fixes": 338,
+        "regressions": 310
+      }
+    },
+    "official_generation_protocol_equivalent": false
+  },
+  "historical_rxqa_direct": {
+    "direct": {
+      "n": 300,
+      "correct": 186,
+      "invalid": 0
+    }
+  },
+  "v17_complete_public_rxqa_predictions": {
+    "cot": {
+      "n": 300,
+      "correct": 193,
+      "invalid": 0
+    },
+    "author_grasp": {
+      "n": 300,
+      "correct": 189,
+      "invalid": 0
+    },
+    "fixed_grounded": {
+      "n": 300,
+      "correct": 188,
+      "invalid": 0
+    },
+    "evolving_grounded": {
+      "n": 300,
+      "correct": 183,
+      "invalid": 0
+    }
+  },
+  "prediction_source_sha256": {
+    "openrouter_rxsafe_full_predictions.json": "b6cb5a07c825ae90fcc5421725c257b97da9f39086b36a216298808e71a8215e",
+    "openrouter_rxqa_full_predictions.json": "40dc92bc7835fdb6e38d38e08e525de2df59cc9c7fbef77e8058f3af16458546",
+    "openrouter_rxsafe_full_harness_predictions.json": "78414f2ef7571561759d9c3252673ac29ec90c8adc421fe17e024553b35aefa1",
+    "v17/cot-rxqa.json": "92bca9313518bcc44108f688d6b77bb06d2e305e036dea2229bd583d58934cc1",
+    "v17/author_grasp-rxqa.json": "56d3a4e1e1b7d9b41ab9d101dd02e1d633e34f768c25c0688b6cda2676954ba5",
+    "v17/fixed_grounded-rxqa.json": "8b2f40030d457860532444178509e861459067cc5138b4a4094812bee5d822b6",
+    "v17/evolving_grounded-rxqa.json": "db5333dde25f933ffad9a53862c36fa18aee1a6a0644f42e2af81633ee5b3adc"
+  },
+  "metadata_errata": [
+    "Historical v3 full-harness sample text says30+30, but all saved method outputs and source identities independently verify2000 cases. Preserve archived files; this audit supplies the correction.",
+    "RxQA300 is the entire released OpenFDA component, not a sampled portion of that public component; it does not cover the unreleased licensed BNF component."
+  ],
+  "new_model_calls": 0,
+  "scope": "Independent source reconstruction, complete-case identity/option/gold comparison and saved-prediction recount. No new method, clinical safety validation or official free-generation leaderboard equivalence."
+}

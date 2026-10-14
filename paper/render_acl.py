@@ -191,6 +191,27 @@ The 100-case proposal score averages ranked and permuted views and may retain th
         if p.exists():
             q=json.loads(p.read_text())
             parameter_section+=f" At this snapshot, {q['optimizer_runs_with_complete_receipts']}/36 optimizer runs have completion receipts and {len(q['seeds_fully_audited'])}/3 seeds have complete independent audits. Running jobs do not establish superiority."
+        diagnosis=ROOT/'upgrade_v31/results/collapse_diagnostic.json';diagnostic_audit=ROOT/'upgrade_v31/results/collapse_diagnostic_audit.json'
+        if diagnosis.exists() and diagnostic_audit.exists():
+            checked=json.loads(diagnostic_audit.read_text());assert checked['status']=='passed' and checked['source_report_sha256']==hashlib.sha256(diagnosis.read_bytes()).hexdigest();d=json.loads(diagnosis.read_text());collapse_rows=[]
+            for state,label in [('frozen_base','Base'),('permuted_uniform_seed42_round1','Updated')]:
+                for group,view_label in [('proposal_ranked','Ranked'),('proposal_permuted','Permuted')]:
+                    o=d['states'][state][group]['teacher_forced_ground_truth_prefix'];q=d['states'][state][group]['all_zero_prefix_without_ground_truth']
+                    collapse_rows.append(f"{label} & {view_label} & {o['auroc']:.4f} & {q['auroc']:.4f} & {q['mean_probability_given_positive']:.4f} & {100*q['fraction_at_or_above_half']:.1f} "+r'\\')
+            parameter_section+=r'''\paragraph{Frozen-checkpoint collapse diagnosis.}
+The 400 actual training masks contain 1,604 positive decisions among 8,000 slots; 122 masks have no reachable target. Each 69-token answer contains only 20 decision tokens. An additional registered diagnostic fixes the first 32 training examples and first 32 proposal cases in two views. It measures conditional binary-token probabilities under either oracle ground-truth answer prefixes or label-free all-zero prefixes. Oracle-prefix discrimination is not deployable accuracy. A separate implementation reconstructs targets and recounts all 384 saved probability vectors; it does not rerun neural forward passes.
+\begin{table}[t]\centering\scriptsize
+\caption{Post-observation probability diagnosis on 32 proposal cases. GT/zero denote previous answer prefixes; probabilities condition on token0 or1. This is exploratory development evidence without threshold selection.}
+\begin{tabular}{llrrrr}\toprule State & View & GT AUC & Zero AUC & Positive $P(1)$ & $P(1)\geq.5$ (\%)\\\midrule
+COLLAPSEROWS
+\bottomrule\end{tabular}\end{table}
+All 200 saved generated proposal responses are valid all-zero masks after removal of an empty reasoning wrapper. Thus the zero score is a decision failure rather than a JSON parser failure. Prefix-dependent discrimination and low probabilities motivate a controlled change to decision supervision and inference; this diagnosis alone does not isolate a training cause or establish a repaired agent.'''.replace('COLLAPSEROWS','\n'.join(collapse_rows))
+        pilot=ROOT/'upgrade_v32/results/training_progress.json'
+        if pilot.exists():
+            p=json.loads(pilot.read_text())
+            parameter_section+=r'''\paragraph{Controlled decision-supervision repair.}
+A registered one-seed pilot crosses ground-truth versus all-zero training answer prefixes with uniform versus training-prevalence-balanced binary decision loss. All four arms restart the same backbone on the exact 400 examples for 100 steps; only the 20 decision positions contribute to loss. All use label-free zero-prefix scoring at inference, with fixed-threshold and ordinary proposal-calibrated results to be reported separately. Pre-fit probes verify target alignment, label blindness, finite gradients and projection equivalence with the original vocabulary head. Candidate fields and templates remain fixed. This supervised repair does not by itself establish feedback-specific RSI. All pilot states and thresholds, and the original seed42 choices, must freeze before report-only guard evaluation.'''
+            parameter_section+=f" At this snapshot, {len(p['arms'])}/4 fits have completion receipts; repair performance remains pending."
     compatibility_section=''
     if (ROOT/'upgrade_v27/results/cohort_audit.json').exists():
         compatibility_section=r'''\paragraph{Standard-method compatibility panel.}
@@ -439,7 +460,7 @@ LT3 (2025) & n2c2-2018 / MIMIC-III & Label-to-text generation and downstream ent
 SafeRx-Agent & MIMIC-IV 1,586 test; MIMIC-III 901 patients & ATC-L4, expert routing and verification\\
 RxEval & MIMIC-IV; 1,547 questions, 584 patients & Medication/dose/route options; macro F1 and exact match\\
 RxSafeBench & 2,443 source consultation scenarios & Medication risks; our derived option-selection split is separate\\
-RxQA & Public OpenFDA subset: 300 questions & Pharmacist-reviewed medication reasoning; transfer evaluation\\
+RxQA & All 300 public OpenFDA questions & Pharmacist-reviewed medication reasoning; transfer evaluation\\
 GRASP / EvoTool & FHIR and general tool-task benchmarks & Skill or modular prompt evolution; regression/transfer ablations\\
 \bottomrule\end{tabularx}\end{table*}
 
@@ -514,7 +535,7 @@ TEMPORALSECTION
 \section{Study B: Language-Artifact RSI}
 To test genuine changes to language-guided behavior, the next experiment freezes DeepSeek-V4.1-Flash and evolves reusable skills, episodic memory and the configuration of an evidence-focus tool. The tool returns exact current-dialogue excerpts selected by learned focus terms; its source code is fixed. An LLM proposes changes from its own training-error traces, and the runner saves the full before/after artifacts.
 
-The public RxSafeBench data are verified against pinned source hashes and converted to a clearly labeled three-option task. Medication-scenario grouping yields 625 training, 190 proposal, 197 guard and 988 test cases with no cross-split scenario or exact-dialogue overlap. Four rounds expose additional training cases. Direct, CoT, Self-Refine, case RAG and explicit Reflexion/GRASP/EvoTool task adaptations form the comparison set. Evolving comparators receive four candidate-evaluation slots per round; all token costs are reported. The separate 300-question RxQA subset tests transfer without using its labels for evolution. These are public simulated/released questions; restricted patient inputs are never uploaded.
+The public RxSafeBench data are verified against pinned source hashes and converted to a clearly labeled three-option task. Its 2,443 source records yield 2,000 cases after exact task/dialogue/correct-drug deduplication. Medication-scenario grouping yields 625 training, 190 proposal, 197 guard and 988 test cases with no cross-split scenario or exact-dialogue overlap. Four rounds expose additional training cases. Direct, CoT, Self-Refine, case RAG and explicit Reflexion/GRASP/EvoTool task adaptations form the comparison set. Evolving comparators receive four candidate-evaluation slots per round; all token costs are reported. Transfer covers all 300 questions in the public RxQA OpenFDA release, retaining original options and answer labels without using them for evolution. The licensed BNF component is not publicly available and is not evaluated. An independent source/identity audit verifies complete public coverage and recounts the saved answers. These are public simulated/released questions; restricted patient inputs are never uploaded.
 
 PUBLICSECTION
 

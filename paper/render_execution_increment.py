@@ -22,6 +22,9 @@ def main():
         elif (PAPER/'execution_status.json').exists() and json.loads((PAPER/'execution_status.json').read_text())['api']['status']=='restored_actual_completion_verified':
             block+=('**Execution notice:** a real OpenRouter completion verified restored access after recharge. Interrupted studies resume from saved receipts under their original protocols and budgets; missing requests are not model errors.\n\n' if lang=='en' else '**执行状态：** 充值后已用真实OpenRouter响应验证访问恢复。中断实验从原回执继续，保持原协议和预算；缺失请求不计作模型错误。\n\n')
         block+=(f'**Actual training:** {complete}/6 rule runs finish five rounds; {nr}/15 author-model runs finish their full 50 epochs, with {epochs}/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.\n\n' if lang=='en' else f'**实际运行：** {complete}/6组规则实验完成五轮；作者神经方法{nr}/15组完成各自50轮，总计已完成{epochs}/750轮。训练与审计队列继续，正式ATC-L4测试主表等待全部已登记版本和核验完成后统一运行。\n\n')
+        if (PAPER/'public_benchmark_coverage.json').exists():
+            block+=('**Public-data coverage:** a source/identity recount confirms all300 released RxQA OpenFDA questions and all2,000 deduplicated RxSafeBench cases in the historical full-set runs. Later adaptive comparisons use988 frozen test cases, keeping their625/190/197 development cases separate. The unavailable BNF component is excluded. ' if lang=='en' else '**公开数据覆盖：** 源记录／题目身份复核证实RxQA公开OpenFDA全部300题已覆盖，历史全量实验覆盖RxSafeBench去重后全部2,000题；后续进化方法使用988题冻结测试，625／190／197开发题分别保留。未获得的BNF部分不计入。')
+            block+=f'[Exact scope, recounted results and metadata correction](PUBLIC_BENCHMARKS.{lang}.md)\n\n'
         if (ROOT/'upgrade_v30/common_test_addendum.json').exists():
             block+=('**Common main-table extension:** all v29/v30 program methods, frozen raw rounds and proposal-selected states are now registered for the exact v27 test cases and label spaces. The evaluator and independent prediction reexecution are implemented; execution waits for every author method and all program audits. ' if lang=='en' else '**统一主表衔接：** v29/v30全部程序方法、冻结原始轮次和proposal选择状态，已登记在完全相同的v27测试病例与药物空间中对比。评估器和独立预测重执行已实现，等待全部作者方法与程序核验完成后执行。')
             block+=f'[Common test table and protocol](../upgrade_v30/COMMON_TEST.{lang}.md)\n\n'
@@ -44,8 +47,17 @@ def main():
                     for row in rows:
                         if all(m['empty_fraction']==1 for m in row['proposal'].values()):
                             block+=(f"**Observed failure:** seed42/{arm}/round{row['round']} has100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain. " if lang=='en' else f"**已发现失败：** seed42／{arm}／第{row['round']}轮在两种proposal视图下均100%空输出，药物／订单micro-F1=0；既定升级规则已拒绝该版本，原结果保留。")
-                            block+=('The separate logit diagnosis checks class imbalance and decision discrimination without opening guard or test data.\n\n' if lang=='en' else '单独的输出概率诊断正在检查类别不平衡和药物区分能力，不打开guard或测试数据。\n\n')
+                            diagnosis=ROOT/'upgrade_v31/results/collapse_diagnostic.json';diagnostic_audit=ROOT/'upgrade_v31/results/collapse_diagnostic_audit.json'
+                            if diagnosis.exists() and diagnostic_audit.exists():
+                                d=json.loads(diagnosis.read_text())['states']['permuted_uniform_seed42_round1']['proposal_permuted'];before=d['teacher_forced_ground_truth_prefix']['auroc'];after=d['all_zero_prefix_without_ground_truth']['auroc']
+                                block+=(f"The completed diagnostic independently recounts384 probability vectors. On32 permuted proposal cases, the failed first adapter's AUROC changes from{before:.4f} with oracle GT prefixes to{after:.4f} with label-free zero prefixes, where no decision probability reaches0.5. " if lang=='en' else f"已完成诊断并独立复算384组概率向量：32例打乱排序proposal上，首个失败适配器的AUROC从真值前缀的{before:.4f}降为无标签全零前缀的{after:.4f}，后者无一位置的选择概率达到0.5。")
+                                block+=f'[Diagnosis and figure](../upgrade_v31/COLLAPSE.{lang}.md)\n\n'
+                            else:block+=('The separate logit diagnosis checks class imbalance and decision discrimination without opening guard or test data.\n\n' if lang=='en' else '单独的输出概率诊断正在检查类别不平衡和药物区分能力，不打开guard或测试数据。\n\n')
             block+=f'[Actual parameter updates, audit and results](../upgrade_v31/RESULTS.{lang}.md)\n\n'
+        if (ROOT/'upgrade_v32/results/training_progress.json').exists():
+            p=json.loads((ROOT/'upgrade_v32/results/training_progress.json').read_text())
+            block+=(f"**Controlled repair is fitting:** v32 crosses teacher/zero answer prefixes with uniform/balanced binary-decision loss on the same400 examples and100 steps per arm. {len(p['arms'])}/4 training receipts are complete. Source alignment, label-blind inputs, gradients and four real synthetic projection-equivalence checks pass before fitting. No repair performance score is available yet. " if lang=='en' else f"**受控修复正在拟合：** v32将真实／全零答案前缀与普通／平衡二元决策损失交叉，四组均用相同400例、100步；目前{len(p['arms'])}/4组训练回执完成。拟合前已通过源对齐、输入不含标签、梯度及四项真实模型合成投影一致性检查；尚无修复性能成绩。")
+            block+=f'[Repair protocol and execution](../upgrade_v32/README.{lang}.md)\n\n'
         if (ROOT/'upgrade_v30/protocol.json').exists():
             repaired=json.loads((ROOT/'upgrade_v30/results/summary.json').read_text()) if (ROOT/'upgrade_v30/results/summary.json').exists() else {'panels':{}}
             block+=('### Memory repair now executing: compatibility and separate confirmation\n\n' if lang=='en' else '### 记忆改进已实际运行：旧记忆兼容性与独立确认\n\n')
@@ -112,6 +124,9 @@ def main():
 8. 持续同步现有英文LaTeX、中英文总览及版本报告；只有完成且核验的实验填分数，并确认编译和GitHub同步。
 
 ''')
+        if (ROOT/'upgrade_v32/results/training_progress.json').exists():
+            plan+=('**Local repair subtask now executing:** complete the registered four-arm v32 prefix/loss pilot, then implement/recount fixed-threshold and proposal-calibrated scoring for every arm and both neural controls. Freeze every pilot state before guard; also wait for v31 seed42 selections. This one-round repair is not yet a multi-round RSI result. ' if lang=='en' else '**已执行的本地修复子任务：** 完成v32四组前缀／损失控制拟合，再实现并复算全部方法及两种神经控制的固定阈值与proposal校准评分。全部试验状态先冻结，并等待v31 seed42选择冻结后才评价guard。这一轮修复还不是多轮RSI结果。')
+            plan+=f'[Registered repair and execution](../upgrade_v32/README.{lang}.md)\n\n'
         plan+=f'[Current actual results](CURRENT_RESULTS.{lang}.md) · [Rule study](../upgrade_v27/RESULTS.{lang}.md) · [FHIR repair](../upgrade_v28/RESULTS.{lang}.md)\n\n'
         plan+=('Earlier entries below are historical snapshots.\n' if lang=='en' else '下方较早条目是历史状态快照。\n')
         update(PAPER/('COMPLETION_PLAN.en.md' if lang=='en' else 'COMPLETION_PLAN.md'),plan)

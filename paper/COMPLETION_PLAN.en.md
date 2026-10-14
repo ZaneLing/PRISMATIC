@@ -12,6 +12,8 @@
 7. Regrade the exact frozen common-test predictions on the independently audited prior-case-excluded318-patient/801-visit subset and the complementary group, with no reselection. Keep the complete original main table. The implemented queue waits for both parent test audits; report the registry's coverage limits.
 8. Keep the existing English LaTeX source, bilingual results entry and versioned reports synchronized. Only completed audited experiments enter score tables; compilation and GitHub pushes are checked explicitly.
 
+**Local repair subtask now executing:** complete the registered four-arm v32 prefix/loss pilot, then implement/recount fixed-threshold and proposal-calibrated scoring for every arm and both neural controls. Freeze every pilot state before guard; also wait for v31 seed42 selections. This one-round repair is not yet a multi-round RSI result. [Registered repair and execution](../upgrade_v32/README.en.md)
+
 [Current actual results](CURRENT_RESULTS.en.md) · [Rule study](../upgrade_v27/RESULTS.en.md) · [FHIR repair](../upgrade_v28/RESULTS.en.md)
 
 Earlier entries below are historical snapshots.

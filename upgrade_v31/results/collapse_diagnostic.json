@@ -1,0 +1,281 @@
+{
+  "status": "executed",
+  "sources": {
+    "protocol_sha256": "5b83336d52d72914387c08bd44339daa19d0f97e86b0a9ba7136e896dee74624",
+    "script_sha256": "4ae5b960c7904665ce9f1b7b2970cf0dad36fe29eff15fff12d86d4ba0ed9488",
+    "source_training_sha256": "2bfa6a088fb1897420af9d9f97964f659680a70716255c782a51d1aa8f285330",
+    "source_cases_sha256": "5177426dfdd5f61a0f5f1898f78cf4bd555f182f4d1d5c79e2890d42a30e7912",
+    "adapter_sha256": "864fe1562859cda2918da80d2727d35bd98af7caa8fa8a5ca91323991e174743",
+    "model_files_sha256": {
+      "added_tokens.json": "c0284b582e14987fbd3d5a2cb2bd139084371ed9acbae488829a1c900833c680",
+      "config.json": "574349e5a343236546fda55e4744a76e181f534182d7dc60ff1bad7e7a502849",
+      "generation_config.json": "835fffe355c9438e7a25be099b3fccaa98350b83451f9fd2d99512e74f1ade48",
+      "model.safetensors": "2a73c6c248601ab904e035548abd8e6abb65ea27dcb5f342fb0a8910eb44173f",
+      "model.safetensors.index.json": "388d811b8b7c2608dd04cce1bcb04a8bf715d19b42790894e6d3427ff429a777",
+      "special_tokens_map.json": "76862e765266b85aa9459767e33cbaf13970f327a0e88d1c65846c2ddd3a1ecd",
+      "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "tokenizer_config.json": "4397cc477eb6d79715ccd2000accd6b3531928f30029665832fa1b255f24d2b9",
+      "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    }
+  },
+  "training_label_statistics": {
+    "examples": 400,
+    "positive_slots": 1604,
+    "total_slots": 8000,
+    "prevalence": 0.2005,
+    "zero_target_examples": 122,
+    "positive_by_position": [
+      84,
+      77,
+      79,
+      83,
+      83,
+      92,
+      80,
+      75,
+      78,
+      68,
+      74,
+      75,
+      77,
+      93,
+      75,
+      77,
+      84,
+      86,
+      82,
+      82
+    ]
+  },
+  "cached_proposal": {
+    "ranked": {
+      "examples": 100,
+      "valid_binary_masks": 100,
+      "all_zero_masks": 100,
+      "unique_raw_responses": 1,
+      "prediction_file_sha256": "a88b2969900296982aa347818287cb0c06a8aa1aa353fb9b9d2c58ecbb6c1dc8"
+    },
+    "permuted": {
+      "examples": 100,
+      "valid_binary_masks": 100,
+      "all_zero_masks": 100,
+      "unique_raw_responses": 1,
+      "prediction_file_sha256": "9b5ff98550fb5c9409380a379407778a22918e72313fb3345599af13764fae2a"
+    }
+  },
+  "states": {
+    "frozen_base": {
+      "train_permuted": {
+        "teacher_forced_ground_truth_prefix": {
+          "examples": 32,
+          "slots": 640,
+          "positive_slots": 74,
+          "positive_prevalence": 0.115625,
+          "conditional_binary_bce": 0.8594631795074277,
+          "brier": 0.1579054901261939,
+          "auroc": 0.7258977175054914,
+          "mean_probability_one": 0.1469931071101316,
+          "probability_one_sd": 0.28958611114794813,
+          "mean_probability_given_positive": 0.27323934781184217,
+          "mean_probability_given_negative": 0.1304874148629115,
+          "fraction_at_or_above_half": 0.13125,
+          "constant_training_prevalence_bce": 0.38369804222223197,
+          "mean_binary_token_mass": 0.9974231594242156
+        },
+        "all_zero_prefix_without_ground_truth": {
+          "examples": 32,
+          "slots": 640,
+          "positive_slots": 74,
+          "positive_prevalence": 0.115625,
+          "conditional_binary_bce": 1.49455176132629,
+          "brier": 0.15726738811315008,
+          "auroc": 0.574909273230828,
+          "mean_probability_one": 0.08933442223032903,
+          "probability_one_sd": 0.2533235943391367,
+          "mean_probability_given_positive": 0.13193986737719401,
+          "mean_probability_given_negative": 0.08376409901324774,
+          "fraction_at_or_above_half": 0.0859375,
+          "constant_training_prevalence_bce": 0.38369804222223197,
+          "mean_binary_token_mass": 0.9969921465963125
+        }
+      },
+      "proposal_ranked": {
+        "teacher_forced_ground_truth_prefix": {
+          "examples": 32,
+          "slots": 640,
+          "positive_slots": 136,
+          "positive_prevalence": 0.2125,
+          "conditional_binary_bce": 1.0703694727959125,
+          "brier": 0.20995236960679103,
+          "auroc": 0.7153944911297853,
+          "mean_probability_one": 0.2337469688116342,
+          "probability_one_sd": 0.3468770183847024,
+          "mean_probability_given_positive": 0.4176680981301111,
+          "mean_probability_given_negative": 0.18411745772569604,
+          "fraction_at_or_above_half": 0.2296875,
+          "constant_training_prevalence_bce": 0.5176928573826973,
+          "mean_binary_token_mass": 0.9999987431801856
+        },
+        "all_zero_prefix_without_ground_truth": {
+          "examples": 32,
+          "slots": 640,
+          "positive_slots": 136,
+          "positive_prevalence": 0.2125,
+          "conditional_binary_bce": 1.8240945884060096,
+          "brier": 0.21713678120815594,
+          "auroc": 0.672407504668534,
+          "mean_probability_one": 0.10453064865823229,
+          "probability_one_sd": 0.26749754029511,
+          "mean_probability_given_positive": 0.18316425732867975,
+          "mean_probability_given_negative": 0.08331205584239729,
+          "fraction_at_or_above_half": 0.1015625,
+          "constant_training_prevalence_bce": 0.5176928573826973,
+          "mean_binary_token_mass": 1.0000000753439964
+        }
+      },
+      "proposal_permuted": {
+        "teacher_forced_ground_truth_prefix": {
+          "examples": 32,
+          "slots": 640,
+          "positive_slots": 136,
+          "positive_prevalence": 0.2125,
+          "conditional_binary_bce": 1.161404129409842,
+          "brier": 0.2087885717098757,
+          "auroc": 0.6844216853408029,
+          "mean_probability_one": 0.20497406662465556,
+          "probability_one_sd": 0.32641460258667837,
+          "mean_probability_given_positive": 0.35828773896609933,
+          "mean_probability_given_negative": 0.163603710596012,
+          "fraction_at_or_above_half": 0.196875,
+          "constant_training_prevalence_bce": 0.5176928573826973,
+          "mean_binary_token_mass": 0.997298888466321
+        },
+        "all_zero_prefix_without_ground_truth": {
+          "examples": 32,
+          "slots": 640,
+          "positive_slots": 136,
+          "positive_prevalence": 0.2125,
+          "conditional_binary_bce": 2.332672120130581,
+          "brier": 0.22116124983526042,
+          "auroc": 0.5554826097105509,
+          "mean_probability_one": 0.09657417977835989,
+          "probability_one_sd": 0.2606275035634488,
+          "mean_probability_given_positive": 0.1613929834783956,
+          "mean_probability_given_negative": 0.07908339147835027,
+          "fraction_at_or_above_half": 0.0984375,
+          "constant_training_prevalence_bce": 0.5176928573826973,
+          "mean_binary_token_mass": 0.9943387896877539
+        }
+      }
+    },
+    "permuted_uniform_seed42_round1": {
+      "train_permuted": {
+        "teacher_forced_ground_truth_prefix": {
+          "examples": 32,
+          "slots": 640,
+          "positive_slots": 74,
+          "positive_prevalence": 0.115625,
+          "conditional_binary_bce": 0.28832651507230284,
+          "brier": 0.08837369747950968,
+          "auroc": 0.8283712157387069,
+          "mean_probability_one": 0.1478540204174351,
+          "probability_one_sd": 0.12888384155855925,
+          "mean_probability_given_positive": 0.2842082529253251,
+          "mean_probability_given_negative": 0.13002678860544947,
+          "fraction_at_or_above_half": 0.00625,
+          "constant_training_prevalence_bce": 0.38369804222223197,
+          "mean_binary_token_mass": 0.9996702095493675
+        },
+        "all_zero_prefix_without_ground_truth": {
+          "examples": 32,
+          "slots": 640,
+          "positive_slots": 74,
+          "positive_prevalence": 0.115625,
+          "conditional_binary_bce": 0.4257829076248818,
+          "brier": 0.10565762666635328,
+          "auroc": 0.5854383535478942,
+          "mean_probability_one": 0.05958598414727021,
+          "probability_one_sd": 0.07503696199000075,
+          "mean_probability_given_positive": 0.08280392867085096,
+          "mean_probability_given_negative": 0.05655042249577732,
+          "fraction_at_or_above_half": 0.0,
+          "constant_training_prevalence_bce": 0.38369804222223197,
+          "mean_binary_token_mass": 0.9996673548594117
+        }
+      },
+      "proposal_ranked": {
+        "teacher_forced_ground_truth_prefix": {
+          "examples": 32,
+          "slots": 640,
+          "positive_slots": 136,
+          "positive_prevalence": 0.2125,
+          "conditional_binary_bce": 0.447040242814526,
+          "brier": 0.14578508822236783,
+          "auroc": 0.7424428104575164,
+          "mean_probability_one": 0.2251066194359737,
+          "probability_one_sd": 0.14081663477086276,
+          "mean_probability_given_positive": 0.3228640623993295,
+          "mean_probability_given_negative": 0.19872762689030626,
+          "fraction_at_or_above_half": 0.034375,
+          "constant_training_prevalence_bce": 0.5176928573826973,
+          "mean_binary_token_mass": 0.9996546317823232
+        },
+        "all_zero_prefix_without_ground_truth": {
+          "examples": 32,
+          "slots": 640,
+          "positive_slots": 136,
+          "positive_prevalence": 0.2125,
+          "conditional_binary_bce": 0.637965855150522,
+          "brier": 0.17796642280437625,
+          "auroc": 0.685515873015873,
+          "mean_probability_one": 0.06783038161302102,
+          "probability_one_sd": 0.0862392763584426,
+          "mean_probability_given_positive": 0.10958058976992856,
+          "mean_probability_given_negative": 0.05656445242782375,
+          "fraction_at_or_above_half": 0.0,
+          "constant_training_prevalence_bce": 0.5176928573826973,
+          "mean_binary_token_mass": 0.9996560350060463
+        }
+      },
+      "proposal_permuted": {
+        "teacher_forced_ground_truth_prefix": {
+          "examples": 32,
+          "slots": 640,
+          "positive_slots": 136,
+          "positive_prevalence": 0.2125,
+          "conditional_binary_bce": 0.44919485185995195,
+          "brier": 0.1470135932695092,
+          "auroc": 0.7384745564892624,
+          "mean_probability_one": 0.20572256226223545,
+          "probability_one_sd": 0.1362168863917264,
+          "mean_probability_given_positive": 0.29732522233526276,
+          "mean_probability_given_negative": 0.18100438414729156,
+          "fraction_at_or_above_half": 0.0234375,
+          "constant_training_prevalence_bce": 0.5176928573826973,
+          "mean_binary_token_mass": 0.9996811448596418
+        },
+        "all_zero_prefix_without_ground_truth": {
+          "examples": 32,
+          "slots": 640,
+          "positive_slots": 136,
+          "positive_prevalence": 0.2125,
+          "conditional_binary_bce": 0.7465028383223729,
+          "brier": 0.1877754951603602,
+          "auroc": 0.5503253384687208,
+          "mean_probability_one": 0.0633240431714512,
+          "probability_one_sd": 0.08133763685734464,
+          "mean_probability_given_positive": 0.08317705988883972,
+          "mean_probability_given_negative": 0.05796687993025112,
+          "fraction_at_or_above_half": 0.0,
+          "constant_training_prevalence_bce": 0.5176928573826973,
+          "mean_binary_token_mass": 0.9996664193458855
+        }
+      }
+    }
+  },
+  "new_test_or_guard_inference": false,
+  "refits": 0,
+  "threshold_selection": false,
+  "seconds": 862.7024331092834,
+  "scope": "Post-observation diagnostic on32 training examples and32 proposal cases in two views, with fixed model states. Oracle-prefix likelihood is not deployable accuracy. No winner or threshold selected."
+}

@@ -5,7 +5,9 @@
 
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 6/15 author-model runs finish their full 50 epochs, with 372/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 6/15 author-model runs finish their full 50 epochs, with 400/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+
+**Public-data coverage:** a source/identity recount confirms all300 released RxQA OpenFDA questions and all2,000 deduplicated RxSafeBench cases in the historical full-set runs. Later adaptive comparisons use988 frozen test cases, keeping their625/190/197 development cases separate. The unavailable BNF component is excluded. [Exact scope, recounted results and metadata correction](PUBLIC_BENCHMARKS.en.md)
 
 **Common main-table extension:** all v29/v30 program methods, frozen raw rounds and proposal-selected states are now registered for the exact v27 test cases and label spaces. The evaluator and independent prediction reexecution are implemented; execution waits for every author method and all program audits. [Common test table and protocol](../upgrade_v30/COMMON_TEST.en.md)
 
@@ -21,9 +23,11 @@ Completed optimizer runs: **1/36**; fully audited seeds: **0/3**. Old test cases
 |---|---:|---:|
 | Frozen base | 0.16846/0.10223 | 0.14129/0.09434 |
 
-**Observed failure:** seed42/permuted_uniform/round1 has100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain. The separate logit diagnosis checks class imbalance and decision discrimination without opening guard or test data.
+**Observed failure:** seed42/permuted_uniform/round1 has100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain. The completed diagnostic independently recounts384 probability vectors. On32 permuted proposal cases, the failed first adapter's AUROC changes from0.7385 with oracle GT prefixes to0.5503 with label-free zero prefixes, where no decision probability reaches0.5. [Diagnosis and figure](../upgrade_v31/COLLAPSE.en.md)
 
 [Actual parameter updates, audit and results](../upgrade_v31/RESULTS.en.md)
+
+**Controlled repair is fitting:** v32 crosses teacher/zero answer prefixes with uniform/balanced binary-decision loss on the same400 examples and100 steps per arm. 0/4 training receipts are complete. Source alignment, label-blind inputs, gradients and four real synthetic projection-equivalence checks pass before fitting. No repair performance score is available yet. [Repair protocol and execution](../upgrade_v32/README.en.md)
 
 ### Memory repair now executing: compatibility and separate confirmation
 

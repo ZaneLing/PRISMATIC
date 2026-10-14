@@ -12,7 +12,7 @@ v0.26发现训练后的适配器几乎总是选择展示在前面的连续一段
 
 - Completed optimizer runs / 已完成训练回执：**1/36**
 - Updates with completed proposal evaluation / 已完成proposal评价的更新：**1/36**
-- Unique local model responses saved / 已保存本地唯一模型响应：**1288**
+- Unique local model responses saved / 已保存本地唯一模型响应：**1578**
 - Audited complete seeds / 已完整核验种子：**0/3**
 
 数据核验覆盖33,300个展示版本：患者角色无交叉、候选集合和真值保持一致、目标未截断。最长完整序列1005个token，低于1,536上限；每个目标69个token。十一项合成执行检查覆盖标签重排、提示不含真值、打乱权重分布和损失掩码；这些是完整性检查，不是性能提升。
@@ -29,6 +29,8 @@ proposal用于选择检查点，不是测试成绩。
 | 42 | permuted_uniform | 1 | 0.00000/0.00000 | 0.00000/0.00000 | 100.0/100.0 | 0 |
 
 **实际失败：** [(42, 'permuted_uniform', 1)]。这些原始检查点在两种proposal视图下全部输出空处方，已被既定升级规则拒绝；语言模型损失下降不代表处方有效。保留失败结果。
+
+[Binary decision collapse: source diagnosis and controls](COLLAPSE.zh.md)
 
 只有完成且独立核验的状态进入guard对照。对每次完成的更新，逐项核验源回执、抽样样本、变化且有限的适配器张量与100步日志；不声称独立重跑浮点优化轨迹。
 
