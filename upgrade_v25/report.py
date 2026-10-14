@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Bilingual external-cohort report, never treating partial scores as final."""
 import json,math
 from pathlib import Path
@@ -21,6 +22,37 @@ LABELS={
 ARMS={'uniform':'Uniform','error_prioritized':'Own-error priorities','permuted_priority':'Shuffled priorities'}
 
 def read(p):return json.loads(p.read_text())
+
+def denominator_section(lang):
+    audit_path=HERE/'results/order_denominator_audit.json'
+    if not audit_path.exists():return ''
+    proof=read(audit_path);path=HERE/'results/order_denominator_summary.json';d=read(path)
+    assert proof['status']=='passed' and proof['summary_sha256']==sha(path)
+    assert proof['auditor_sha256']==sha(HERE/'audit_order_denominator.py')
+    assert d['script_sha256']==sha(HERE/'evaluate_order_denominator.py')
+    assert all(sha(HERE/name)==value for name,value in d['source_sha256'].items())
+    en=lang=='en';col=1 if en else 0
+    text=('\n## Post-test sensitivity: count incomplete outputs in the denominator\n\n' if en else '\n## 测试后敏感性分析：字段不全的输出也计入分母\n\n')
+    text+=('The registered primary joint score excludes incomplete predicted and reference tuples. Its completion coverage therefore matters. This descriptive analysis uses the identical frozen predictions and keeps incomplete reference tuples unscorable, while counting every distinct emitted tuple in the prediction denominator. It changes no method, threshold, patient or primary score. The formula is **2 × complete exact matches / (all emitted tuples + complete reference tuples)**. Missing reference fields remain unknown; this is not a fully observed clinical accuracy measure. The analysis was specified after the original test results, before computing these additional scores.\n\n' if en else '原登记联合指标不计字段不全的预测和真值元组，因此必须同时查看完整率。本项描述性分析复用同一批冻结预测，真值缺字段仍不可评分，但把所有不同的输出元组计入预测分母。方法、阈值、患者与原主评分均未改变。公式为 **2 × 完整精确匹配数 /（全部输出元组数＋完整真值元组数）**。真值缺失字段依然未知，这不是字段完全可观测的临床准确率。本分析在原测试结果已知后、计算新增分数前声明。\n\n')
+    text+=('| Method | Original joint F1 | All-output denominator F1 | Complete outputs (%) |\n' if en else '| 方法 | 原联合 F1 | 全输出分母 F1 | 输出完整率（%） |\n')+'|---|---:|---:|---:|\n'
+    for name in d['final_method_names']:
+        m=d['all_states'][name];a=m['original_joint_f1'];b=m['all_output_denominator_f1'];c=m['complete_output_fraction']['mean']
+        text+=f"| {LABELS[name][col]} | {a['mean']:.5f} ± {a['seed_sd']:.5f} | {b['mean']:.5f} ± {b['seed_sd']:.5f} | {100*c:.2f} |\n"
+    text+=('\n### Same selected policy: initial versus updated order tool\n\n' if en else '\n### 同一已选策略：初始订单工具与更新工具\n\n')
+    text+=('| Seed | Exact matches: initial → updated | Same emitted count | All-output F1 Δ | Patient 95% CI | Hospital 95% CI |\n' if en else '| 种子 | 精确匹配：初始 → 更新 | 两者相同的输出数 | 全输出 F1 差 | 患者 95% 区间 | 医院 95% 区间 |\n')+'|---|---:|---:|---:|---:|---:|\n'
+    for seed,panel in d['seeds'].items():
+        a=panel['states']['error_priority_initial_tool'];b=panel['states']['error_prioritized'];contrast=panel['paired']['error_prioritized__minus__error_priority_initial_tool']
+        assert a['all_predicted_tuples']==b['all_predicted_tuples'] and panel['tool_contrast_same_drug_sets']
+        cells=[]
+        for kind in ['patient','hospital']:
+            lo,hi=np.asarray(contrast[kind+'_original_and_sensitivity_ci95'])[:,1]
+            cells.append(f'[{lo:+.5f}, {hi:+.5f}]')
+        text+=f"| {seed} | {a['matched_complete_tuples']} → {b['matched_complete_tuples']} | {a['all_predicted_tuples']:,} | {contrast['original_and_sensitivity_difference'][1]:+.5f} | "+' | '.join(cells)+' |\n'
+    before=d['all_states']['error_priority_initial_tool'];after=d['all_states']['error_prioritized']
+    text+=(f"\nAt identical emitted drug sets, the all-output score changes from {before['all_output_denominator_f1']['mean']:.5f} to {after['all_output_denominator_f1']['mean']:.5f}. Completion coverage changes from {100*before['complete_output_fraction']['mean']:.2f}% to {100*after['complete_output_fraction']['mean']:.2f}%. Thus matching and output completeness must be interpreted separately; the latter does not improve in this intervention.\n" if en else f"\n输出药物集合逐例完全相同，全输出分母分数由 {before['all_output_denominator_f1']['mean']:.5f} 变为 {after['all_output_denominator_f1']['mean']:.5f}。完整率由 {100*before['complete_output_fraction']['mean']:.2f}% 变为 {100*after['complete_output_fraction']['mean']:.2f}%。精确匹配与输出完整性必须分别解释，本次工具更新没有改善完整率。\n")
+    text+=('\nIntervals use 2,000 paired patient/hospital-cluster draws per seed and are descriptive without multiplicity correction. An independent source counter verifies all 129 final/raw/accepted states (1,032,645 per-stay count vectors) and both scoring formulas. The original interval bounds also reproduce; the new sensitivity intervals are not a second independently executed bootstrap. No new inference or training is performed. All states, exact counts and both registered contrasts (tool update and own-error versus uniform) are retained in the machine-readable report.\n\n' if en else '\n区间为每种子 2,000 次患者／医院聚类配对重采样，属于未作多重比较校正的描述性结果。独立源计数核验全部 129 个最终／原始／接纳状态，共 1,032,645 个逐住院计数向量及两种评分公式；原区间边界也逐项复现。新增敏感性区间没有第二次独立 bootstrap 重执行。本项没有新增推理或训练。机器可读报告保留所有状态、精确计数，以及工具更新和自身错误对普通更新两个事先声明的对比。\n\n')
+    text+='[Analysis specification](order_denominator_protocol.json) · [All scores and counts](results/order_denominator_summary.json) · [Independent source recount](results/order_denominator_audit.json)\n'
+    return text
 
 def completed_reports(d):
     def finite(value):
@@ -177,7 +209,7 @@ Changing artifacts are policy parameters, persistent feedback weights and order-
             for name,labels in LABELS.items():
                 values=[np.mean([r['methods'][name][k] for r in reports.values()]) for k in ['drug_precision','drug_recall','mean_predicted_drugs']]
                 behavior+=f'| {labels[col]} | {values[0]:.5f} | {values[1]:.5f} | {values[2]:.3f} |\n'
-            text+=table+growth+'\n![Raw and development-accepted test curves, mean and seed SD](round_curves.png)\n'+pairs+strata+behavior+fit_budgets(lang)
+            text+=table+growth+'\n![Raw and development-accepted test curves, mean and seed SD](round_curves.png)\n'+pairs+strata+behavior+denominator_section(lang)+fit_budgets(lang)
             text+=('\n所有最终及逐轮预测均经独立计数复评；另外重算实际参数哈希、更新前反馈及其权重、60 epoch 曝光和工具已见成员。该审计没有独立重跑每次测试前向或优化轨迹。曲线阴影为种子标准差，配对区间为 2,000 次医院/患者聚类重采样，未校正多重比较。测试未参与选择。不能仅凭超过初始模型宣称独特 RSI 优势。\n' if lang=='zh' else '\nAll final/checkpoint predictions are independently rescored. Actual parameter hashes, pre-update feedback and weights, 60-epoch exposures and seen-only tool members are also checked. This audit does not independently rerun every test forward pass or optimizer trajectory. Curve shading is seed SD. Intervals use 2,000 paired hospital/patient-cluster draws without multiplicity correction. Test scores did not select models. Growth over the initial state alone does not demonstrate a unique RSI advantage.\n')
             text+=('\n统计阶段的浮点矩阵运算警告经过额外整数累加核验：36 个聚类对比、144 个区间边界完全一致，原结果均为有限值；没有改动分数或选择。[数值复核证据](results/interval_numeric_audit.json)。\n' if lang=='zh' else '\nA floating-matmul warning triggered an additional integer-accumulation audit: all 36 cluster contrasts and 144 interval bounds match exactly, and original results are finite. No score or choice was changed. [Numerical recount evidence](results/interval_numeric_audit.json).\n')
         text+=('\n## 可复现材料与边界\n\n`protocol.json`、`results/cohort_manifest.json`、`results/cohort_audit.json` 和逐轮日志记录协议、样本数和状态变化。病例、预测、权重均保留受限本地目录。GT 一致性不等于临床安全；本原生编码/字段协议不能与论文 ATC 分数直接排名。\n' if lang=='zh' else '\n## Reproducibility and scope\n\n`protocol.json`, `results/cohort_manifest.json`, `results/cohort_audit.json` and round journals record the protocol, membership counts and transitions. Restricted cases, predictions and weights remain local. Agreement with recorded GT does not establish clinical safety. This native-code/field protocol cannot be ranked directly against published ATC scores.\n')

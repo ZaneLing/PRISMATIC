@@ -2,6 +2,23 @@
 
 Target: ACL 2027. Beating prior methods is a research objective, never a patient-level inference instruction.
 
+## Completed order-tool intervention: what was learned
+
+The eICU path separates medication-code selection from order completion. Given selected codes and patient context, the tool chooses route, dosage string and frequency from tuples observed in training. As cases grow from 8k to 40k, default tuples and conditional classifier parameters change while executable code stays fixed. This path uses no language model and generates no novel doses.
+
+```mermaid
+flowchart LR
+  X[Patient information before the decision] --> W[Frozen medication policy]
+  W --> D[Identical selected drug-code sets]
+  X --> T[Conditional order tool]
+  D --> T
+  T --> O[Code, route, dosage string, frequency]
+  C[Training orders encountered so far] --> U[Update defaults and conditional classifiers]
+  U --> T
+```
+
+The actual intervention holds the selected policy and every predicted drug set fixed, replacing only the initial versus updated tool. Across 8,005 stays from held-out hospitals, complete exact matches increase by 49, 31 and 48 for the three seeds. Output completeness nevertheless falls from 53.67% to 51.13%. A post-test sensitivity that also counts incomplete outputs in the prediction denominator changes the score from 0.01770 to 0.02114. Historical tuples may contain missing fields; matching and completeness must be evaluated separately. Own-error priorities still trail uniform updates overall, so this component result does not establish a winning complete RSI system. [Original main table, all methods and denominator sensitivity](../upgrade_v25/RESULTS.en.md).
+
 ## Current parameter experiment: drug decisions beyond display position
 
 v0.31 updates local Qwen3-4B low-rank adapters while keeping the backbone, candidate generator and order templates fixed. Each round predicts600 new admissions before computing errors against reachable prescription targets, samples400 accumulated admissions and performs100 optimizer steps. Three seeds and three rounds compare ranked uniform, permuted uniform, own-error priority and shuffled own-error priority updates.

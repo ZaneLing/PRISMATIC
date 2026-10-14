@@ -1,0 +1,48 @@
+{
+  "registered_at_utc": "2026-10-14T23:04:55.127897+00:00",
+  "registration_scope": "Post-test descriptive sensitivity analysis, declared before computing the new denominator scores. Original outcomes are already known. No new model, fitting, threshold, selection or test membership.",
+  "reason": "The registered joint-order F1 excludes incomplete predicted tuples. Check whether the selected-policy order-tool contrast persists when every emitted distinct tuple counts in the prediction denominator.",
+  "fields": [
+    "drug_code",
+    "route",
+    "dosage",
+    "frequency"
+  ],
+  "counts": [
+    "matched_complete_tuples",
+    "complete_predicted_tuples",
+    "all_predicted_tuples",
+    "complete_reference_tuples"
+  ],
+  "original_score": "2*matched_complete_tuples/(complete_predicted_tuples+complete_reference_tuples), with zero denominator scored zero",
+  "sensitivity_score": "2*matched_complete_tuples/(all_predicted_tuples+complete_reference_tuples), with zero denominator scored zero",
+  "missingness_scope": "Incomplete predictions count in the new denominator; incomplete reference tuples remain unscorable. This is an observed-reference denominator sensitivity, not a complete-reference clinical score or a change to the primary endpoint.",
+  "states": "Every saved final method and all raw/accepted round states for seeds42,137,2026; all8005 frozen test stays.",
+  "paired_contrasts": [
+    [
+      "error_prioritized",
+      "error_priority_initial_tool"
+    ],
+    [
+      "error_prioritized",
+      "uniform"
+    ]
+  ],
+  "uncertainty": {
+    "draws": 2000,
+    "seed": 42,
+    "clusters": [
+      "patient_hash",
+      "hospital_hash"
+    ],
+    "accumulation": "int64",
+    "interval": "percentile95, descriptive, no multiplicity adjustment"
+  },
+  "controls": "Verify all original scores exactly; verify identical per-stay predicted drug codes for the selected-policy initial-versus-updated-tool contrast. Report matched counts, emitted counts and completion coverage for every final method.",
+  "source_sha256": {
+    "protocol.json": "12b3550efbb105bbc138955139464cd90df59d914a70f141308d904265d7fbc3",
+    "results/summary.json": "6c48b1848f6b9cfaf5472a172dee9a94a4d976a47db6d6e3cf8021a1522eab9f",
+    "results/interval_numeric_audit.json": "e98ecb2e6a0d88962d68040485a44007da0bfe398b1026c57065e71d7f9f9b3d",
+    "results/frozen_before_test.json": "b6a7ed7c34392d2123ee105f70dcd192d913ecfab33aa322ae89b53a92e37803"
+  }
+}

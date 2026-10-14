@@ -136,6 +136,40 @@ The test evaluates every frozen state. The horizontal axis counts cases encounte
 | Error priorities + initial tool frozen | 0.11788 | 0.10888 | 1.621 |
 | Initial policy + final tool | 0.10140 | 0.09664 | 1.666 |
 
+## Post-test sensitivity: count incomplete outputs in the denominator
+
+The registered primary joint score excludes incomplete predicted and reference tuples. Its completion coverage therefore matters. This descriptive analysis uses the identical frozen predictions and keeps incomplete reference tuples unscorable, while counting every distinct emitted tuple in the prediction denominator. It changes no method, threshold, patient or primary score. The formula is **2 × complete exact matches / (all emitted tuples + complete reference tuples)**. Missing reference fields remain unknown; this is not a fully observed clinical accuracy measure. The analysis was specified after the original test results, before computing these additional scores.
+
+| Method | Original joint F1 | All-output denominator F1 | Complete outputs (%) |
+|---|---:|---:|---:|
+| Initial 8k state | 0.02082 ± 0.00090 | 0.01619 ± 0.00061 | 58.01 |
+| Training prevalence + global orders | 0.00000 ± 0.00000 | 0.00000 ± 0.00000 | 0.00 |
+| Reuse prior orders | 0.01544 ± 0.00000 | 0.01252 ± 0.00000 | 78.58 |
+| 30-neighbor retrieval + conditional tool | 0.02460 ± 0.00034 | 0.01728 ± 0.00015 | 54.90 |
+| Word policy + global orders | 0.00934 ± 0.00046 | 0.00741 ± 0.00025 | 57.48 |
+| Word policy + conditional tool | 0.02826 ± 0.00039 | 0.02121 ± 0.00037 | 48.57 |
+| Word/character ensemble + conditional tool | 0.02847 ± 0.00014 | 0.02140 ± 0.00009 | 48.19 |
+| Full-data uniform policy | 0.03087 ± 0.00020 | 0.02324 ± 0.00018 | 49.59 |
+| Uniform round updates | 0.02993 ± 0.00129 | 0.02260 ± 0.00106 | 50.81 |
+| Own-error-prioritized updates | 0.02838 ± 0.00155 | 0.02114 ± 0.00112 | 51.13 |
+| Same-distribution shuffled priorities | 0.02799 ± 0.00146 | 0.02108 ± 0.00103 | 50.85 |
+| Error priorities + initial tool frozen | 0.02334 ± 0.00043 | 0.01770 ± 0.00042 | 53.67 |
+| Initial policy + final tool | 0.02491 ± 0.00092 | 0.01905 ± 0.00059 | 55.60 |
+
+### Same selected policy: initial versus updated order tool
+
+| Seed | Exact matches: initial → updated | Same emitted count | All-output F1 Δ | Patient 95% CI | Hospital 95% CI |
+|---|---:|---:|---:|---:|---:|
+| 42 | 218 → 267 | 12,123 | +0.00409 | [+0.00262, +0.00562] | [+0.00048, +0.01281] |
+| 137 | 213 → 244 | 12,500 | +0.00255 | [+0.00133, +0.00377] | [+0.00045, +0.00764] |
+| 2026 | 228 → 276 | 14,312 | +0.00367 | [+0.00227, +0.00509] | [+0.00109, +0.00963] |
+
+At identical emitted drug sets, the all-output score changes from 0.01770 to 0.02114. Completion coverage changes from 53.67% to 51.13%. Thus matching and output completeness must be interpreted separately; the latter does not improve in this intervention.
+
+Intervals use 2,000 paired patient/hospital-cluster draws per seed and are descriptive without multiplicity correction. An independent source counter verifies all 129 final/raw/accepted states (1,032,645 per-stay count vectors) and both scoring formulas. The original interval bounds also reproduce; the new sensitivity intervals are not a second independently executed bootstrap. No new inference or training is performed. All states, exact counts and both registered contrasts (tool update and own-error versus uniform) are retained in the machine-readable report.
+
+[Analysis specification](order_denominator_protocol.json) · [All scores and counts](results/order_denominator_summary.json) · [Independent source recount](results/order_denominator_audit.json)
+
 ## Recorded fitting budgets
 
 | Seed | Policy | Logical case × classifier × epoch exposures | Recorded fitting minutes |

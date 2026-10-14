@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Update a stable bilingual entry block from executed, audited artifacts."""
 import hashlib
 import json
@@ -60,6 +61,13 @@ def main():
                 for name in ['retrieval_conditional','word_char_ensemble','full_data_uniform','uniform','error_prioritized','permuted_priority','error_priority_initial_tool']:
                     v=test['methods'][name];block+=f"| {name} | {v['drug_f1_mean']:.5f} | {v['order_f1_mean']:.5f} |\n"
                 block+=f'\n[Complete external method table, uncertainty and fitting budgets](../upgrade_v25/RESULTS.{lang}.md)\n\n'
+                sensitivity_proof=ROOT/'upgrade_v25/results/order_denominator_audit.json'
+                if sensitivity_proof.exists():
+                    sensitivity_path=ROOT/'upgrade_v25/results/order_denominator_summary.json';proof=json.loads(sensitivity_proof.read_text());sensitivity=json.loads(sensitivity_path.read_text())
+                    assert proof['status']=='passed' and proof['summary_sha256']==hashlib.sha256(sensitivity_path.read_bytes()).hexdigest()
+                    assert proof['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v25/audit_order_denominator.py').read_bytes()).hexdigest()
+                    before=sensitivity['all_states']['error_priority_initial_tool'];after=sensitivity['all_states']['error_prioritized']
+                    block+=(f"**Incomplete-output sensitivity:** a post-test analysis independently recounts all 129 frozen states and includes incomplete outputs in the prediction denominator. For the identical selected drug sets, the initial-to-updated order tool changes this score from **{before['all_output_denominator_f1']['mean']:.5f} to {after['all_output_denominator_f1']['mean']:.5f}**, while output completeness falls from **{100*before['complete_output_fraction']['mean']:.2f}% to {100*after['complete_output_fraction']['mean']:.2f}%**. Exact matching improves, but completeness does not. Original primary scores and selections are unchanged; missing reference fields remain unscorable.\n\n" if lang=='en' else f"**不完整输出敏感性：** 测试后新增分析独立重算全部 129 个冻结状态，把缺字段输出也计入预测分母。逐例选药集合相同，初始→更新订单工具的分数由 **{before['all_output_denominator_f1']['mean']:.5f} 提高到 {after['all_output_denominator_f1']['mean']:.5f}**，但完整率由 **{100*before['complete_output_fraction']['mean']:.2f}% 降到 {100*after['complete_output_fraction']['mean']:.2f}%**。精确匹配改善，完整率没有改善。原主评分与选择不变，真值缺失字段仍不可评分。\n\n")
         if (PAPER/'public_benchmark_coverage.json').exists():
             block+=('**Public-data coverage:** a source/identity recount confirms all300 released RxQA OpenFDA questions and all2,000 deduplicated RxSafeBench cases in the historical full-set runs. Later adaptive comparisons use988 frozen test cases, keeping their625/190/197 development cases separate. The unavailable BNF component is excluded. ' if lang=='en' else '**公开数据覆盖：** 源记录／题目身份复核证实RxQA公开OpenFDA全部300题已覆盖，历史全量实验覆盖RxSafeBench去重后全部2,000题；后续进化方法使用988题冻结测试，625／190／197开发题分别保留。未获得的BNF部分不计入。')
             block+=f'[Exact scope, recounted results and metadata correction](PUBLIC_BENCHMARKS.{lang}.md)\n\n'

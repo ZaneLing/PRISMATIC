@@ -7,7 +7,7 @@
 
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 10/15 author-model runs finish their full 50 epochs, with 511/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 10/15 author-model runs finish their full 50 epochs, with 521/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Recorded method budgets:** the receipt ledger separates shared fits, optimizer steps, proposal searches and logical response prices. It checks completed author-epoch records against their original logs, counts shared policy fitting once, and identifies exact v29-to-v30 model reuse. SafeDrug has 3 audited seeds; molecular guard patient F1 is 0.53689 ± 0.00244. [Actual compute and development results](COMPUTE_ACCOUNTING.en.md)
 
@@ -30,6 +30,8 @@ All three seeds and 13 methods/components finish the same 8,005 stays / 6,227 pa
 | error_priority_initial_tool | 0.11306 | 0.02334 |
 
 [Complete external method table, uncertainty and fitting budgets](../upgrade_v25/RESULTS.en.md)
+
+**Incomplete-output sensitivity:** a post-test analysis independently recounts all 129 frozen states and includes incomplete outputs in the prediction denominator. For the identical selected drug sets, the initial-to-updated order tool changes this score from **0.01770 to 0.02114**, while output completeness falls from **53.67% to 51.13%**. Exact matching improves, but completeness does not. Original primary scores and selections are unchanged; missing reference fields remain unscorable.
 
 **Public-data coverage:** a source/identity recount confirms all300 released RxQA OpenFDA questions and all2,000 deduplicated RxSafeBench cases in the historical full-set runs. Later adaptive comparisons use988 frozen test cases, keeping their625/190/197 development cases separate. The unavailable BNF component is excluded. [Exact scope, recounted results and metadata correction](PUBLIC_BENCHMARKS.en.md)
 
