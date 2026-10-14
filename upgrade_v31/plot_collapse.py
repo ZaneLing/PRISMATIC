@@ -20,5 +20,6 @@ def main():
     for ax in axes:ax.set_xticks(x,labels);ax.grid(axis='y',alpha=.2);ax.set_axisbelow(True)
     fig.suptitle('Frozen-checkpoint diagnosis: 32 proposal cases, two views\nExploratory conditional scores; oracle-prefix results are not deployable accuracy',fontsize=11);fig.tight_layout()
     for suffix in ['png','svg']:fig.savefig(HERE/f'collapse_probability.{suffix}',dpi=180,bbox_inches='tight')
+    svg=HERE/'collapse_probability.svg';svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines())+'\n')
     plt.close(fig)
 if __name__=='__main__':main()
