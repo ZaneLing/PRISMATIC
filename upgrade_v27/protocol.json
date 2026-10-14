@@ -1,0 +1,18 @@
+{
+  "study": "v0.27 standard medication-method compatibility panel",
+  "stage": "data and public-resource audit only; model execution protocol follows before training",
+  "registered_before": "cohort construction and any v27 prediction",
+  "task": "Retrospective prediction of mapped medication classes for an entire hospital visit, given that visit's recorded diagnosis/procedure codes and completed prior visits. This task does not establish admission-time information availability.",
+  "source": "User-licensed local MIMIC-IV 3.1; adult hospital admissions with an ICU stay",
+  "visits": "Keep visits with at least one diagnosis, one procedure and one unambiguously NDC-mapped ATC-L4 medication. Keep patients with at least two eligible visits; sort by admission time then admission ID. Retain all eligible visits. Current medication labels never enter the current input.",
+  "mapping": "Existing pinned SafeDrug/GAMENet NDC-RXCUI-ATC4 public table; exact normalized 11-digit NDC only; exclude ambiguous NDC assignments; retain true five-character ATC-L4. No learned name/GSN fallback in this panel. Report unmapped source rows and label/OOV coverage.",
+  "split": "Reuse patient-split-2026 BLAKE2b 80/10/10 assignment; divide validation patients by a separate v27 hash into proposal and guard. Sample by fixed patient hash, independent of labels and scores.",
+  "patient_caps": {"train": 8000, "proposal": 1000, "guard": 1000, "test": 2000},
+  "test_status": "The source population overlaps earlier research. Quantify overlap with existing local evaluation cohorts. Treat results as exploratory, not a fresh untouched confirmation set.",
+  "vocabulary": "Fit diagnosis/procedure/medication vocabularies on training patients only; unseen inputs use explicit unknown indexes and unseen medications remain in recall denominators. Do not drop test labels to fit a training vocabulary.",
+  "public_molecules": "Use pinned drug-atc.csv CID to full ATC mapping, aggregate by five-character prefix, obtain public CID ConnectivitySMILES from PubChem PUG REST, validate with RDKit, and retain every valid mapped molecule. These class molecular sets are research resources, not ingredient-level equivalence or clinical DDI rules.",
+  "ddi": "Pinned author-linked TWOSIDES pair source; class graph scope and molecule/class coverage reported. EHR co-occurrence graph uses training visits only. No absent molecule or graph is silently replaced with zeros and called a faithful method.",
+  "candidate_methods": ["ARMR (IJCAI 2025), pinned author forward code", "GAMENet, pinned author forward code", "SafeDrug after complete molecule/substructure compatibility", "RETAIN", "logistic regression", "history reuse", "nearest-neighbor retrieval", "RxRSIAgent structured prescription tool with matched update controls"],
+  "claim_boundary": "This is a separate historical visit-set panel. It cannot be pooled with six-hour new-order, full-order-tuple, QA, or FHIR execution scores. Original paper scores remain in separate reported-result panels. No model result exists yet.",
+  "privacy": "All patient records, sequences, predictions and fitted artifacts remain under dataset/restricted. Public downloads contain only external drug identifiers/molecular metadata, never patient inputs."
+}
