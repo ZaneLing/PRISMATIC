@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "source_sha256": {
+    "upgrade_v31/run.py": "dde0a6d4e324497bed793712ac6bee017bb1d462e285dd1a454937ee5a239bab",
+    "upgrade_v31/views.py": "5936e65e36611d4619774b8594e1b50335cca149bb3d5a7079db961d5b0e29b9",
+    "upgrade_v31/train_cli.py": "4a0830014be21f1a79d43029277c84f69828b9ea6f32e530f65eed756934ffe1",
+    "upgrade_v31/training_config.yaml": "7a4b151fe30a03aad26b8809beea353f30e0d244390613849876cf20d1f7b701",
+    "upgrade_v15/run_parameter_evolution.py": "97687ba3d5c0f1a287f629d134ad856d75404eebff398514e908959e2fb74a30",
+    "upgrade_v15/generation_receipts.py": "b5256d9209f0664a0da995c973e967c1083839e0292b5bde82812d1882dbd306",
+    "upgrade_v15/selection_parser.py": "208b18fbc5cb3641ff73f7114b1660e6e9059f65f583c38d56dab1dbbb6ce0ab",
+    "upgrade_v7/rx_agent.py": "138323f6680bfdad67875707d4d7ac67a9d87a341e8dd3eada9923b2016a9b66"
+  },
+  "checks": [
+    "identity_preserving_mask_transport",
+    "original_rank_and_fields_preserved",
+    "gold_changes_never_change_prompts",
+    "deterministic_label_independent_permutation",
+    "feedback_and_training_views_distinct",
+    "uniform_membership_matched",
+    "shuffled_error_weight_multiset_preserved",
+    "four_hundred_unique_samples",
+    "reachable_error_and_empty_target_semantics",
+    "strict_completion_mask_excludes_padding",
+    "padding_target_changes_do_not_change_loss"
+  ],
+  "synthetic_mask_tokens": {
+    "strict": 6,
+    "installed_default": 8
+  },
+  "clinical_fits": 0,
+  "model_generations": 0,
+  "api_calls": 0
+}
