@@ -1,0 +1,55 @@
+{
+  "invalid_as_performance_evidence": true,
+  "reason": "All 380 calls returned HTTP 402; zero scores are not model results.",
+  "original": {
+    "model": "google/gemini-3.8-flash",
+    "split": "proposal",
+    "n": 190,
+    "test_evaluated": false,
+    "methods": {
+      "cot": {
+        "n": 190,
+        "correct": 0,
+        "accuracy": 0.0,
+        "invalid": 190,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0,
+        "subgroups": {
+          "contraindication": {
+            "n": 101,
+            "correct": 0
+          },
+          "interaction": {
+            "n": 89,
+            "correct": 0
+          }
+        }
+      },
+      "safety_evidence": {
+        "n": 190,
+        "correct": 0,
+        "accuracy": 0.0,
+        "invalid": 190,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0,
+        "subgroups": {
+          "contraindication": {
+            "n": 101,
+            "correct": 0
+          },
+          "interaction": {
+            "n": 89,
+            "correct": 0
+          }
+        },
+        "versus_cot": {
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 0
+        }
+      }
+    }
+  }
+}

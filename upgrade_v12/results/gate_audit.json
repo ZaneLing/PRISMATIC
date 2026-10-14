@@ -1,0 +1,1162 @@
+{
+  "methods": {
+    "cot": {
+      "n": 988,
+      "correct": 467,
+      "accuracy": 0.4726720647773279,
+      "invalid": 0,
+      "input_tokens": 537740,
+      "output_tokens": 62633,
+      "cost_usd": 0.13071089463999988,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 306
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 161
+        }
+      }
+    },
+    "balanced": {
+      "n": 988,
+      "correct": 484,
+      "accuracy": 0.4898785425101215,
+      "invalid": 0,
+      "input_tokens": 2097058,
+      "output_tokens": 135698,
+      "cost_usd": 0.41217702475999984,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 314
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 170
+        }
+      }
+    },
+    "safety": {
+      "n": 988,
+      "correct": 487,
+      "accuracy": 0.49291497975708504,
+      "invalid": 2,
+      "input_tokens": 2097710,
+      "output_tokens": 137433,
+      "cost_usd": 0.3955353494399998,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 320
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 167
+        }
+      }
+    }
+  },
+  "static_selected_action": "balanced",
+  "runs": {
+    "independent_guard_seed_42": {
+      "curve": [
+        {
+          "round": 0,
+          "score": {
+            "n": 988,
+            "correct": 467,
+            "accuracy": 0.4726720647773279,
+            "invalid": 0,
+            "input_tokens": 537740,
+            "output_tokens": 62633,
+            "cost_usd": 0.13071089463999988,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 306
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 161
+              }
+            }
+          },
+          "mean_calls": 1.0,
+          "action_counts": {
+            "cot": 988,
+            "balanced": 0,
+            "safety": 0
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 467
+        },
+        {
+          "round": 1,
+          "score": {
+            "n": 988,
+            "correct": 481,
+            "accuracy": 0.4868421052631579,
+            "invalid": 0,
+            "input_tokens": 2097240,
+            "output_tokens": 135711,
+            "cost_usd": 0.41172200775999984,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 312
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 169
+              }
+            }
+          },
+          "mean_calls": 2.0,
+          "action_counts": {
+            "cot": 0,
+            "balanced": 940,
+            "safety": 48
+          },
+          "fixes": 116,
+          "regressions": 102,
+          "retained_correct": 365
+        },
+        {
+          "round": 2,
+          "score": {
+            "n": 988,
+            "correct": 481,
+            "accuracy": 0.4868421052631579,
+            "invalid": 0,
+            "input_tokens": 2097240,
+            "output_tokens": 135711,
+            "cost_usd": 0.41172200775999984,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 312
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 169
+              }
+            }
+          },
+          "mean_calls": 2.0,
+          "action_counts": {
+            "cot": 0,
+            "balanced": 940,
+            "safety": 48
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 481
+        },
+        {
+          "round": 3,
+          "score": {
+            "n": 988,
+            "correct": 481,
+            "accuracy": 0.4868421052631579,
+            "invalid": 0,
+            "input_tokens": 2097240,
+            "output_tokens": 135711,
+            "cost_usd": 0.41172200775999984,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 312
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 169
+              }
+            }
+          },
+          "mean_calls": 2.0,
+          "action_counts": {
+            "cot": 0,
+            "balanced": 940,
+            "safety": 48
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 481
+        },
+        {
+          "round": 4,
+          "score": {
+            "n": 988,
+            "correct": 481,
+            "accuracy": 0.4868421052631579,
+            "invalid": 0,
+            "input_tokens": 2097240,
+            "output_tokens": 135711,
+            "cost_usd": 0.41172200775999984,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 312
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 169
+              }
+            }
+          },
+          "mean_calls": 2.0,
+          "action_counts": {
+            "cot": 0,
+            "balanced": 940,
+            "safety": 48
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 481
+        }
+      ],
+      "final": {
+        "n": 988,
+        "correct": 481,
+        "accuracy": 0.4868421052631579,
+        "invalid": 0,
+        "input_tokens": 2097240,
+        "output_tokens": 135711,
+        "cost_usd": 0.41172200775999984,
+        "subgroups": {
+          "contraindication": {
+            "n": 536,
+            "correct": 312
+          },
+          "interaction": {
+            "n": 452,
+            "correct": 169
+          }
+        }
+      },
+      "versus_static": {
+        "fixes": 0,
+        "regressions": 3,
+        "retained_correct": 481
+      }
+    },
+    "joint_validation_seed_42": {
+      "curve": [
+        {
+          "round": 0,
+          "score": {
+            "n": 988,
+            "correct": 467,
+            "accuracy": 0.4726720647773279,
+            "invalid": 0,
+            "input_tokens": 537740,
+            "output_tokens": 62633,
+            "cost_usd": 0.13071089463999988,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 306
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 161
+              }
+            }
+          },
+          "mean_calls": 1.0,
+          "action_counts": {
+            "cot": 988,
+            "balanced": 0,
+            "safety": 0
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 467
+        },
+        {
+          "round": 1,
+          "score": {
+            "n": 988,
+            "correct": 481,
+            "accuracy": 0.4868421052631579,
+            "invalid": 0,
+            "input_tokens": 2097240,
+            "output_tokens": 135711,
+            "cost_usd": 0.41172200775999984,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 312
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 169
+              }
+            }
+          },
+          "mean_calls": 2.0,
+          "action_counts": {
+            "cot": 0,
+            "balanced": 940,
+            "safety": 48
+          },
+          "fixes": 116,
+          "regressions": 102,
+          "retained_correct": 365
+        },
+        {
+          "round": 2,
+          "score": {
+            "n": 988,
+            "correct": 484,
+            "accuracy": 0.4898785425101215,
+            "invalid": 0,
+            "input_tokens": 1378136,
+            "output_tokens": 102706,
+            "cost_usd": 0.27509698788000003,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 314
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 170
+              }
+            }
+          },
+          "mean_calls": 1.5384615384615383,
+          "action_counts": {
+            "cot": 456,
+            "balanced": 201,
+            "safety": 331
+          },
+          "fixes": 66,
+          "regressions": 63,
+          "retained_correct": 418
+        },
+        {
+          "round": 3,
+          "score": {
+            "n": 988,
+            "correct": 484,
+            "accuracy": 0.4898785425101215,
+            "invalid": 0,
+            "input_tokens": 1378136,
+            "output_tokens": 102706,
+            "cost_usd": 0.27509698788000003,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 314
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 170
+              }
+            }
+          },
+          "mean_calls": 1.5384615384615383,
+          "action_counts": {
+            "cot": 456,
+            "balanced": 201,
+            "safety": 331
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 484
+        },
+        {
+          "round": 4,
+          "score": {
+            "n": 988,
+            "correct": 484,
+            "accuracy": 0.4898785425101215,
+            "invalid": 0,
+            "input_tokens": 1378136,
+            "output_tokens": 102706,
+            "cost_usd": 0.27509698788000003,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 314
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 170
+              }
+            }
+          },
+          "mean_calls": 1.5384615384615383,
+          "action_counts": {
+            "cot": 456,
+            "balanced": 201,
+            "safety": 331
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 484
+        }
+      ],
+      "final": {
+        "n": 988,
+        "correct": 484,
+        "accuracy": 0.4898785425101215,
+        "invalid": 0,
+        "input_tokens": 1378136,
+        "output_tokens": 102706,
+        "cost_usd": 0.27509698788000003,
+        "subgroups": {
+          "contraindication": {
+            "n": 536,
+            "correct": 314
+          },
+          "interaction": {
+            "n": 452,
+            "correct": 170
+          }
+        }
+      },
+      "versus_static": {
+        "fixes": 66,
+        "regressions": 66,
+        "retained_correct": 418
+      }
+    },
+    "independent_guard_seed_137": {
+      "curve": [
+        {
+          "round": 0,
+          "score": {
+            "n": 988,
+            "correct": 467,
+            "accuracy": 0.4726720647773279,
+            "invalid": 0,
+            "input_tokens": 537740,
+            "output_tokens": 62633,
+            "cost_usd": 0.13071089463999988,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 306
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 161
+              }
+            }
+          },
+          "mean_calls": 1.0,
+          "action_counts": {
+            "cot": 988,
+            "balanced": 0,
+            "safety": 0
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 467
+        },
+        {
+          "round": 1,
+          "score": {
+            "n": 988,
+            "correct": 467,
+            "accuracy": 0.4726720647773279,
+            "invalid": 0,
+            "input_tokens": 537740,
+            "output_tokens": 62633,
+            "cost_usd": 0.13071089463999988,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 306
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 161
+              }
+            }
+          },
+          "mean_calls": 1.0,
+          "action_counts": {
+            "cot": 988,
+            "balanced": 0,
+            "safety": 0
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 467
+        },
+        {
+          "round": 2,
+          "score": {
+            "n": 988,
+            "correct": 487,
+            "accuracy": 0.49291497975708504,
+            "invalid": 2,
+            "input_tokens": 2097710,
+            "output_tokens": 137433,
+            "cost_usd": 0.3955353494399998,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 320
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 167
+              }
+            }
+          },
+          "mean_calls": 2.0,
+          "action_counts": {
+            "cot": 0,
+            "balanced": 0,
+            "safety": 988
+          },
+          "fixes": 108,
+          "regressions": 88,
+          "retained_correct": 379
+        },
+        {
+          "round": 3,
+          "score": {
+            "n": 988,
+            "correct": 487,
+            "accuracy": 0.49291497975708504,
+            "invalid": 2,
+            "input_tokens": 2097710,
+            "output_tokens": 137433,
+            "cost_usd": 0.3955353494399998,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 320
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 167
+              }
+            }
+          },
+          "mean_calls": 2.0,
+          "action_counts": {
+            "cot": 0,
+            "balanced": 0,
+            "safety": 988
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 487
+        },
+        {
+          "round": 4,
+          "score": {
+            "n": 988,
+            "correct": 487,
+            "accuracy": 0.49291497975708504,
+            "invalid": 2,
+            "input_tokens": 2097710,
+            "output_tokens": 137433,
+            "cost_usd": 0.3955353494399998,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 320
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 167
+              }
+            }
+          },
+          "mean_calls": 2.0,
+          "action_counts": {
+            "cot": 0,
+            "balanced": 0,
+            "safety": 988
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 487
+        }
+      ],
+      "final": {
+        "n": 988,
+        "correct": 487,
+        "accuracy": 0.49291497975708504,
+        "invalid": 2,
+        "input_tokens": 2097710,
+        "output_tokens": 137433,
+        "cost_usd": 0.3955353494399998,
+        "subgroups": {
+          "contraindication": {
+            "n": 536,
+            "correct": 320
+          },
+          "interaction": {
+            "n": 452,
+            "correct": 167
+          }
+        }
+      },
+      "versus_static": {
+        "fixes": 55,
+        "regressions": 52,
+        "retained_correct": 432
+      }
+    },
+    "joint_validation_seed_137": {
+      "curve": [
+        {
+          "round": 0,
+          "score": {
+            "n": 988,
+            "correct": 467,
+            "accuracy": 0.4726720647773279,
+            "invalid": 0,
+            "input_tokens": 537740,
+            "output_tokens": 62633,
+            "cost_usd": 0.13071089463999988,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 306
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 161
+              }
+            }
+          },
+          "mean_calls": 1.0,
+          "action_counts": {
+            "cot": 988,
+            "balanced": 0,
+            "safety": 0
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 467
+        },
+        {
+          "round": 1,
+          "score": {
+            "n": 988,
+            "correct": 470,
+            "accuracy": 0.4757085020242915,
+            "invalid": 0,
+            "input_tokens": 858030,
+            "output_tokens": 77510,
+            "cost_usd": 0.18613104491999996,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 306
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 164
+              }
+            }
+          },
+          "mean_calls": 1.2044534412955465,
+          "action_counts": {
+            "cot": 786,
+            "balanced": 136,
+            "safety": 66
+          },
+          "fixes": 24,
+          "regressions": 21,
+          "retained_correct": 446
+        },
+        {
+          "round": 2,
+          "score": {
+            "n": 988,
+            "correct": 470,
+            "accuracy": 0.4757085020242915,
+            "invalid": 0,
+            "input_tokens": 858030,
+            "output_tokens": 77510,
+            "cost_usd": 0.18613104491999996,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 306
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 164
+              }
+            }
+          },
+          "mean_calls": 1.2044534412955465,
+          "action_counts": {
+            "cot": 786,
+            "balanced": 136,
+            "safety": 66
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 470
+        },
+        {
+          "round": 3,
+          "score": {
+            "n": 988,
+            "correct": 486,
+            "accuracy": 0.49190283400809715,
+            "invalid": 1,
+            "input_tokens": 1501263,
+            "output_tokens": 108573,
+            "cost_usd": 0.29824813828,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 320
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 166
+              }
+            }
+          },
+          "mean_calls": 1.618421052631579,
+          "action_counts": {
+            "cot": 377,
+            "balanced": 246,
+            "safety": 365
+          },
+          "fixes": 56,
+          "regressions": 40,
+          "retained_correct": 430
+        },
+        {
+          "round": 4,
+          "score": {
+            "n": 988,
+            "correct": 486,
+            "accuracy": 0.49190283400809715,
+            "invalid": 1,
+            "input_tokens": 1501263,
+            "output_tokens": 108573,
+            "cost_usd": 0.29824813828,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 320
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 166
+              }
+            }
+          },
+          "mean_calls": 1.618421052631579,
+          "action_counts": {
+            "cot": 377,
+            "balanced": 246,
+            "safety": 365
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 486
+        }
+      ],
+      "final": {
+        "n": 988,
+        "correct": 486,
+        "accuracy": 0.49190283400809715,
+        "invalid": 1,
+        "input_tokens": 1501263,
+        "output_tokens": 108573,
+        "cost_usd": 0.29824813828,
+        "subgroups": {
+          "contraindication": {
+            "n": 536,
+            "correct": 320
+          },
+          "interaction": {
+            "n": 452,
+            "correct": 166
+          }
+        }
+      },
+      "versus_static": {
+        "fixes": 59,
+        "regressions": 57,
+        "retained_correct": 427
+      }
+    },
+    "independent_guard_seed_2026": {
+      "curve": [
+        {
+          "round": 0,
+          "score": {
+            "n": 988,
+            "correct": 467,
+            "accuracy": 0.4726720647773279,
+            "invalid": 0,
+            "input_tokens": 537740,
+            "output_tokens": 62633,
+            "cost_usd": 0.13071089463999988,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 306
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 161
+              }
+            }
+          },
+          "mean_calls": 1.0,
+          "action_counts": {
+            "cot": 988,
+            "balanced": 0,
+            "safety": 0
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 467
+        },
+        {
+          "round": 1,
+          "score": {
+            "n": 988,
+            "correct": 467,
+            "accuracy": 0.4726720647773279,
+            "invalid": 0,
+            "input_tokens": 537740,
+            "output_tokens": 62633,
+            "cost_usd": 0.13071089463999988,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 306
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 161
+              }
+            }
+          },
+          "mean_calls": 1.0,
+          "action_counts": {
+            "cot": 988,
+            "balanced": 0,
+            "safety": 0
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 467
+        },
+        {
+          "round": 2,
+          "score": {
+            "n": 988,
+            "correct": 475,
+            "accuracy": 0.4807692307692308,
+            "invalid": 0,
+            "input_tokens": 738363,
+            "output_tokens": 72119,
+            "cost_usd": 0.16447926799999982,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 313
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 162
+              }
+            }
+          },
+          "mean_calls": 1.1295546558704452,
+          "action_counts": {
+            "cot": 860,
+            "balanced": 11,
+            "safety": 117
+          },
+          "fixes": 16,
+          "regressions": 8,
+          "retained_correct": 459
+        },
+        {
+          "round": 3,
+          "score": {
+            "n": 988,
+            "correct": 475,
+            "accuracy": 0.4807692307692308,
+            "invalid": 0,
+            "input_tokens": 738363,
+            "output_tokens": 72119,
+            "cost_usd": 0.16447926799999982,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 313
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 162
+              }
+            }
+          },
+          "mean_calls": 1.1295546558704452,
+          "action_counts": {
+            "cot": 860,
+            "balanced": 11,
+            "safety": 117
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 475
+        },
+        {
+          "round": 4,
+          "score": {
+            "n": 988,
+            "correct": 475,
+            "accuracy": 0.4807692307692308,
+            "invalid": 0,
+            "input_tokens": 738363,
+            "output_tokens": 72119,
+            "cost_usd": 0.16447926799999982,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 313
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 162
+              }
+            }
+          },
+          "mean_calls": 1.1295546558704452,
+          "action_counts": {
+            "cot": 860,
+            "balanced": 11,
+            "safety": 117
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 475
+        }
+      ],
+      "final": {
+        "n": 988,
+        "correct": 475,
+        "accuracy": 0.4807692307692308,
+        "invalid": 0,
+        "input_tokens": 738363,
+        "output_tokens": 72119,
+        "cost_usd": 0.16447926799999982,
+        "subgroups": {
+          "contraindication": {
+            "n": 536,
+            "correct": 313
+          },
+          "interaction": {
+            "n": 452,
+            "correct": 162
+          }
+        }
+      },
+      "versus_static": {
+        "fixes": 97,
+        "regressions": 106,
+        "retained_correct": 378
+      }
+    },
+    "joint_validation_seed_2026": {
+      "curve": [
+        {
+          "round": 0,
+          "score": {
+            "n": 988,
+            "correct": 467,
+            "accuracy": 0.4726720647773279,
+            "invalid": 0,
+            "input_tokens": 537740,
+            "output_tokens": 62633,
+            "cost_usd": 0.13071089463999988,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 306
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 161
+              }
+            }
+          },
+          "mean_calls": 1.0,
+          "action_counts": {
+            "cot": 988,
+            "balanced": 0,
+            "safety": 0
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 467
+        },
+        {
+          "round": 1,
+          "score": {
+            "n": 988,
+            "correct": 467,
+            "accuracy": 0.4726720647773279,
+            "invalid": 0,
+            "input_tokens": 537740,
+            "output_tokens": 62633,
+            "cost_usd": 0.13071089463999988,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 306
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 161
+              }
+            }
+          },
+          "mean_calls": 1.0,
+          "action_counts": {
+            "cot": 988,
+            "balanced": 0,
+            "safety": 0
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 467
+        },
+        {
+          "round": 2,
+          "score": {
+            "n": 988,
+            "correct": 480,
+            "accuracy": 0.48582995951417,
+            "invalid": 0,
+            "input_tokens": 916417,
+            "output_tokens": 80802,
+            "cost_usd": 0.1938305986,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 315
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 165
+              }
+            }
+          },
+          "mean_calls": 1.2449392712550607,
+          "action_counts": {
+            "cot": 746,
+            "balanced": 98,
+            "safety": 144
+          },
+          "fixes": 31,
+          "regressions": 18,
+          "retained_correct": 449
+        },
+        {
+          "round": 3,
+          "score": {
+            "n": 988,
+            "correct": 476,
+            "accuracy": 0.4817813765182186,
+            "invalid": 0,
+            "input_tokens": 1021333,
+            "output_tokens": 85190,
+            "cost_usd": 0.21341701704000002,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 312
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 164
+              }
+            }
+          },
+          "mean_calls": 1.311740890688259,
+          "action_counts": {
+            "cot": 680,
+            "balanced": 88,
+            "safety": 220
+          },
+          "fixes": 24,
+          "regressions": 28,
+          "retained_correct": 452
+        },
+        {
+          "round": 4,
+          "score": {
+            "n": 988,
+            "correct": 476,
+            "accuracy": 0.4817813765182186,
+            "invalid": 0,
+            "input_tokens": 1021333,
+            "output_tokens": 85190,
+            "cost_usd": 0.21341701704000002,
+            "subgroups": {
+              "contraindication": {
+                "n": 536,
+                "correct": 312
+              },
+              "interaction": {
+                "n": 452,
+                "correct": 164
+              }
+            }
+          },
+          "mean_calls": 1.311740890688259,
+          "action_counts": {
+            "cot": 680,
+            "balanced": 88,
+            "safety": 220
+          },
+          "fixes": 0,
+          "regressions": 0,
+          "retained_correct": 476
+        }
+      ],
+      "final": {
+        "n": 988,
+        "correct": 476,
+        "accuracy": 0.4817813765182186,
+        "invalid": 0,
+        "input_tokens": 1021333,
+        "output_tokens": 85190,
+        "cost_usd": 0.21341701704000002,
+        "subgroups": {
+          "contraindication": {
+            "n": 536,
+            "correct": 312
+          },
+          "interaction": {
+            "n": 452,
+            "correct": 164
+          }
+        }
+      },
+      "versus_static": {
+        "fixes": 80,
+        "regressions": 88,
+        "retained_correct": 396
+      }
+    }
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "seed": 2026,
+  "test_n": 988,
+  "model": "deepseek/deepseek-v4.1-flash",
+  "methods": {
+    "direct": {
+      "n": 988,
+      "correct": 456,
+      "accuracy": 0.46153846153846156,
+      "invalid": 1,
+      "input_tokens": 461662,
+      "output_tokens": 52184,
+      "cost_usd": 0.11366064976000012,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 299
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 157
+        }
+      }
+    },
+    "cot": {
+      "n": 988,
+      "correct": 467,
+      "accuracy": 0.4726720647773279,
+      "invalid": 0,
+      "input_tokens": 537740,
+      "output_tokens": 62633,
+      "cost_usd": 0.13071089463999988,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 306
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 161
+        }
+      }
+    },
+    "self_refine": {
+      "n": 988,
+      "correct": 470,
+      "accuracy": 0.4757085020242915,
+      "invalid": 0,
+      "input_tokens": 1098204,
+      "output_tokens": 127613,
+      "cost_usd": 0.23226411999999977,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 310
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 160
+        }
+      }
+    },
+    "case_rag": {
+      "n": 988,
+      "correct": 485,
+      "accuracy": 0.4908906882591093,
+      "invalid": 0,
+      "input_tokens": 1432808,
+      "output_tokens": 62219,
+      "cost_usd": 0.23731394783999968,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 318
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 167
+        }
+      }
+    },
+    "reflexion_adapt": {
+      "n": 988,
+      "correct": 467,
+      "accuracy": 0.4726720647773279,
+      "invalid": 0,
+      "input_tokens": 537740,
+      "output_tokens": 62633,
+      "cost_usd": 0.13071089463999988,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 306
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 161
+        }
+      }
+    },
+    "grasp_adapt": {
+      "n": 988,
+      "correct": 467,
+      "accuracy": 0.4726720647773279,
+      "invalid": 0,
+      "input_tokens": 537740,
+      "output_tokens": 62633,
+      "cost_usd": 0.13071089463999988,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 306
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 161
+        }
+      }
+    },
+    "evotool_adapt": {
+      "n": 988,
+      "correct": 467,
+      "accuracy": 0.4726720647773279,
+      "invalid": 0,
+      "input_tokens": 537740,
+      "output_tokens": 62633,
+      "cost_usd": 0.13071089463999988,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 306
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 161
+        }
+      }
+    },
+    "rxrsi": {
+      "status": "incomplete_evolution",
+      "accuracy": null
+    }
+  },
+  "status": "incomplete",
+  "incomplete_reason": "RxRSI round-4 candidate evaluation interrupted by HTTP 402; final artifact selection must be rerun."
+}

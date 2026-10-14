@@ -1,6 +1,6 @@
 # PRISMATIC / RxRSIAgent manuscript and execution index
 
-**Target: ACL 2027. v0.7 complete; v0.8 first seed and v0.10 complete; remaining v0.8 seeds, v0.9 and v0.11 running (14 October 2026).** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
+**Target: ACL 2027. v0.7, v0.8 seed 42, v0.10 and v0.12 complete. v0.9 local training continues; additional v0.8 seeds and parts of v0.11 are incomplete after API credit exhaustion (14 October 2026).** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
 
 ## Start here
 
@@ -19,7 +19,7 @@
 
 ## Additional completed comparisons
 
-[Public method table, English](../upgrade_v8/RESULTS.en.md) / [中文](../upgrade_v8/RESULTS.zh.md): Direct 46.15%, CoT 47.27%, Self-Refine 47.57%, case RAG 49.09%, first-seed RxRSI 47.27%. The [unmodified GRASP core](../upgrade_v10/RESULTS.en.md) reaches 50.81% on the same 988 questions; scoped RxRSI remains flat. These failures drive the [evidence-tool increment](../upgrade_v11/README.md).
+[Public method table, English](../upgrade_v8/RESULTS.en.md) / [中文](../upgrade_v8/RESULTS.zh.md): Direct 46.15%, CoT 47.27%, Self-Refine 47.57%, case RAG 49.09%, first-seed RxRSI 47.27%. The [unmodified GRASP core](../upgrade_v10/RESULTS.en.md) reaches 50.81% on the same 988 questions; scoped RxRSI remains flat. The [evidence-tool increment](../upgrade_v11/RESULTS.en.md) reaches 48.99% with the validation-selected fixed review. [Three-seed learned routing](../upgrade_v12/RESULTS.en.md) reaches 48.68%/48.79%; it changes parameters but has no stable advantage over the fixed tool.
 
 ## Current conclusion
 
@@ -31,10 +31,11 @@ GT-based evaluation does not require clinician review. Missing attributes remain
 
 | Version | Record | Evidence |
 | --- | --- | --- |
-| v0.11 | [Evidence-tool study / running](../upgrade_v11/README.md) | Public label source and coverage audit, development-only utility check |
+| v0.12 | [Executed gate/round results](../upgrade_v12/RESULTS.en.md) | Three-seed cached replay, evolving routing parameters, regressions and fixed-tool control |
+| v0.11 | [Partial executed results](../upgrade_v11/RESULTS.en.md) | Completed fixed reviews and router; indication/Gemini incomplete after HTTP 402 |
 | v0.10 | [Executed results](../upgrade_v10/RESULTS.en.md) | Unmodified author GRASP core, scoped-skill failure and paired analysis |
 | v0.9 | [Protocol / running](../upgrade_v9/README.md) | Local QLoRA, matched uniform/error-prioritized updates |
-| v0.8 | [Protocol / running](../upgrade_v8/README.md) | Public language-artifact evolution, named task adaptations, transfer |
+| v0.8 | [Results / first seed complete](../upgrade_v8/RESULTS.en.md) | Public language-artifact evolution, named task adaptations, transfer |
 | v0.7 | [Executed results](../upgrade_v7/RESULTS.en.md) | Three seeds, new 4k test, artifact ablations, stronger equal-data controls |
 | v0.6 | [Results](../upgrade_v6/RESULTS.en.md), [design](../upgrade_v6/DESIGN.en.md) | Raw orders, GT automatic feedback, policy evolution, reported baselines and negative replay/planner ablations |
 | v0.5 | [Results](../upgrade_v5/RESULTS.en.md), [frozen paper](https://github.com/ZaneLing/PRISMATIC/tree/1f488edbbf6a8c22423bcbb0a5cf6585c5a81bb2/paper) | Empty-output repair, stronger ranking and residual memory |

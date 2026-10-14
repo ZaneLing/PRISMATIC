@@ -1,5 +1,12 @@
 # Manuscript change log / 论文变更记录
 
+## v0.11 partial results / v0.12 complete / transport audit — 2026-10-14
+
+- Completed fixed-label reviews and three-seed routing/gate ablation; routing evolves but average accuracy does not exceed the selected fixed tool. 完成证据工具、参数哈希与非单调轮次实测。
+- Independently recounted all complete traces, transitions and scenario-cluster intervals; generated bilingual reports and trajectory figures. 补齐结果交付及复算。
+- Account exhaustion caused HTTP 402. Invalidated incomplete scores, rolled back affected selection and made network failures unscorable. 传输失败不再被当成模型错误，保留作废归档。
+- Updated the existing English paper's common-task method table and limitations; built-in compiler succeeded. 同步论文与长期更新计划。
+
 ## v0.8 first-seed results / v0.10 completed / v0.11 started — 2026-10-14
 
 - Eight public method rows, four checkpoints after initialization, object ablations and RxQA transfer complete for seed 42; all selected RxRSI updates are rejected. 完成首种子，保留持平曲线。

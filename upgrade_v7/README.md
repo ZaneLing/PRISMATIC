@@ -23,12 +23,12 @@ Run from this directory with the research environment (NumPy, pandas, SciPy, sci
 
 ```bash
 python prepare_data.py
-python run_rounds.py --seed 42
-python run_rounds.py --seed 137
-python run_rounds.py --seed 2026
-python run_strong_baselines.py --seed 42
-python run_strong_baselines.py --seed 137
-python run_strong_baselines.py --seed 2026
+python run_rounds.py 42
+python run_rounds.py 137
+python run_rounds.py 2026
+python run_strong_baselines.py 42
+python run_strong_baselines.py 137
+python run_strong_baselines.py 2026
 python summarize.py
 ```
 

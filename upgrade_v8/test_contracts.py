@@ -1,7 +1,7 @@
 """Offline contracts for information flow, parsing and regression counts."""
 import copy,json,unittest
 from unittest.mock import patch
-from agent import Agent,empty_state,transition,normalize_state
+from agent import Agent,empty_state,transition,normalize_state,metrics
 
 class Contracts(unittest.TestCase):
     def setUp(self):
@@ -42,5 +42,11 @@ class Contracts(unittest.TestCase):
     def test_bounded_state(self):
         state=empty_state();state['skills']=[{'id':str(i),'text':'x'*1000} for i in range(10)]
         state=normalize_state(state);self.assertEqual(len(state['skills']),6);self.assertEqual(len(state['skills'][0]['text']),900)
+
+    def test_transport_failure_has_no_model_accuracy(self):
+        with self.assertRaisesRegex(RuntimeError,'Incomplete evaluation'):
+            metrics([{'case_id':'heldout','prediction':None,'error':'HTTP_402'}],[self.case])
+        # A received but malformed model answer is still a model-format error.
+        self.assertEqual(metrics([{'case_id':'heldout','prediction':None}],[self.case])['accuracy'],0.)
 
 if __name__=='__main__':unittest.main()

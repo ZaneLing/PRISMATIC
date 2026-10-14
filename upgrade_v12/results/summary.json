@@ -1,0 +1,158 @@
+{
+  "status": "complete",
+  "test_cases": 988,
+  "test_scenario_groups": 987,
+  "verification": "Independent prediction/case alignment, correct counts and round transitions passed.",
+  "new_network_calls": 0,
+  "interval_note": "Descriptive paired intervals, no multiple-comparison adjustment; development extension.",
+  "fixed_controls": {
+    "cot": {
+      "correct": 467,
+      "accuracy": 0.4726720647773279
+    },
+    "balanced": {
+      "correct": 484,
+      "accuracy": 0.4898785425101215
+    },
+    "safety": {
+      "correct": 487,
+      "accuracy": 0.49291497975708504
+    }
+  },
+  "gate_summaries": {
+    "independent_guard": {
+      "accuracy_mean": 0.4868421052631579,
+      "accuracy_sample_sd": 0.006072874493927127,
+      "mean_calls": 1.709851551956815,
+      "mean_logical_test_cost_usd": 0.32391220839999985
+    },
+    "joint_validation": {
+      "accuracy_mean": 0.48785425101214575,
+      "accuracy_sample_sd": 0.005355771884746133,
+      "mean_calls": 1.4895411605937923,
+      "mean_logical_test_cost_usd": 0.26225404773333333
+    }
+  },
+  "paired_comparisons": {
+    "independent_guard_seed_42": {
+      "cot": {
+        "difference": 0.01417004048582996,
+        "scenario_cluster_ci95": [
+          -0.01417004048582996,
+          0.04251012145748988
+        ],
+        "fixes": 116,
+        "regressions": 102
+      },
+      "balanced": {
+        "difference": -0.003036437246963563,
+        "scenario_cluster_ci95": [
+          -0.00708502024291498,
+          0.0
+        ],
+        "fixes": 0,
+        "regressions": 3
+      }
+    },
+    "joint_validation_seed_42": {
+      "cot": {
+        "difference": 0.01720647773279352,
+        "scenario_cluster_ci95": [
+          -0.004052684903748734,
+          0.03838480865275608
+        ],
+        "fixes": 65,
+        "regressions": 48
+      },
+      "balanced": {
+        "difference": 0.0,
+        "scenario_cluster_ci95": [
+          -0.022267206477732792,
+          0.023255813953488372
+        ],
+        "fixes": 66,
+        "regressions": 66
+      }
+    },
+    "independent_guard_seed_137": {
+      "cot": {
+        "difference": 0.020242914979757085,
+        "scenario_cluster_ci95": [
+          -0.0070921985815602835,
+          0.048582995951417005
+        ],
+        "fixes": 108,
+        "regressions": 88
+      },
+      "balanced": {
+        "difference": 0.003036437246963563,
+        "scenario_cluster_ci95": [
+          -0.01720647773279352,
+          0.022267206477732792
+        ],
+        "fixes": 55,
+        "regressions": 52
+      }
+    },
+    "joint_validation_seed_137": {
+      "cot": {
+        "difference": 0.019230769230769232,
+        "scenario_cluster_ci95": [
+          -0.00303951367781155,
+          0.04154002026342452
+        ],
+        "fixes": 75,
+        "regressions": 56
+      },
+      "balanced": {
+        "difference": 0.0020242914979757085,
+        "scenario_cluster_ci95": [
+          -0.019192404326378035,
+          0.02330293819655522
+        ],
+        "fixes": 59,
+        "regressions": 57
+      }
+    },
+    "independent_guard_seed_2026": {
+      "cot": {
+        "difference": 0.008097165991902834,
+        "scenario_cluster_ci95": [
+          -0.0010121457489878543,
+          0.018218623481781375
+        ],
+        "fixes": 16,
+        "regressions": 8
+      },
+      "balanced": {
+        "difference": -0.009109311740890687,
+        "scenario_cluster_ci95": [
+          -0.0364741641337386,
+          0.019230769230769232
+        ],
+        "fixes": 97,
+        "regressions": 106
+      }
+    },
+    "joint_validation_seed_2026": {
+      "cot": {
+        "difference": 0.009109311740890687,
+        "scenario_cluster_ci95": [
+          -0.007078035516184098,
+          0.025303643724696356
+        ],
+        "fixes": 37,
+        "regressions": 28
+      },
+      "balanced": {
+        "difference": -0.008097165991902834,
+        "scenario_cluster_ci95": [
+          -0.03343465045592705,
+          0.017189079878665317
+        ],
+        "fixes": 80,
+        "regressions": 88
+      }
+    }
+  }
+}

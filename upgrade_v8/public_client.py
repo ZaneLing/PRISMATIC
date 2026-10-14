@@ -5,6 +5,9 @@ HERE=Path(__file__).resolve().parent
 LOCAL=Path.home()/'Desktop/PRISMATIC/upgrade_v2/.local/rxrsi-v8'
 LOCAL.mkdir(exist_ok=True)
 LOCK=threading.Lock()
+BLOCK_FILE=LOCAL/'api-unavailable.json'
+
+class PublicAPIUnavailable(RuntimeError):pass
 
 def digest(x):return hashlib.sha256(json.dumps(x,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
 
@@ -42,6 +45,7 @@ def request(messages,model,max_tokens,role='actor',temperature=0,cache_salt=None
             try:return json.loads(path.read_text())
             except json.JSONDecodeError:time.sleep(.05)
         raise RuntimeError('Incomplete response cache; raw file retained for inspection')
+    if BLOCK_FILE.exists():raise PublicAPIUnavailable('OpenRouter unavailable; cached outputs remain readable. Restore account access and clear the local block before resuming.')
     key=credentials();last=None
     for retry in range(3):
         try:
@@ -62,6 +66,9 @@ def request(messages,model,max_tokens,role='actor',temperature=0,cache_salt=None
             return row
         except urllib.error.HTTPError as e:
             last='HTTP_'+str(e.code)
+            if e.code in [401,402,403]:
+                BLOCK_FILE.write_text(json.dumps({'http_status':e.code,'time':time.time(),'reason':'Account authentication, credit or access failure; no secret logged.'})+'\n')
+                raise PublicAPIUnavailable('OpenRouter '+last+'; incomplete requests must not be scored as model mistakes')
             if e.code in [400,401,402,403,404]:break
         except (urllib.error.URLError,TimeoutError,OSError) as e:last=type(e).__name__
         time.sleep(min(2**retry,8))

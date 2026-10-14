@@ -1,5 +1,24 @@
 # PRISMATIC manuscript completion and execution plan
 
+## Current execution: P5 / v0.12 complete (2026-10-14)
+
+[English results](../upgrade_v12/RESULTS.en.md) · [中文结果](../upgrade_v12/RESULTS.zh.md) · [English paper](latex/v0.3/prismatic_v03_en.tex)
+
+- **v0.11 executed:** fixed balanced review 484/988 (48.99%), safety review 487/988 (49.29%). The original four-action router rejects all updates and stays at 467/988. Indication has 153 missing replies; Gemini has 380 missing development replies. These are unscored. [Results](../upgrade_v11/RESULTS.en.md).
+- **v0.12 executed:** three seeds, identical complete actions and 387 development labels. Separate-guard / pooled selection average 48.68±0.61% / 48.79±0.54%, versus 48.99% for the development-selected fixed tool. Routing parameters change; every round's repairs, regressions and calls are recorded.
+- **Validity repair:** HTTP 402 interrupted 713 GRASP-adaptation test requests for v0.8 seed 137 and round-four selection for seed 2026. The latter is rolled back to round three. Seed 42 and v0.10 remain complete. Incomplete runs are excluded from summaries; transport failures cannot be scored as model errors.
+- **v0.9 running:** the uniform arm completed three training rounds; error-prioritized updates continue locally. All choices freeze before reporting the new 500-case test. Development metrics are not test results.
+
+### Ordered continuation
+
+1. Finish local parameter arms and the direct-tool control; independently recount fresh-patient tests, per-case repairs/regressions and parameter trajectories.
+2. Improve outcome verification and action-selection signal using complete public traces, with fixed-tool and equal-data ordinary-supervision controls.
+3. After API access is restored, resume incomplete seeds, indication review and the second model using the same protocol and caches.
+4. Freeze a viable design before untouched confirmation and RxQA transfer. Repeated exploratory tests do not establish confirmatory superiority.
+5. Complete real FHIR stateful execution, ingredient-level medication coverage and temporal sensitivity. Current evidence does not establish research maturity or overall superiority.
+
+---
+
 ## Active execution: P4 / ACL 2027 / v0.7–v0.9 (14 October 2026)
 
 This section supersedes historical plans below. The user has no official RxEval/SafeRx test package; proceed with runnable data. The existing English editor path is retained with the official ACL review style. Markdown remains bilingual and versioned.

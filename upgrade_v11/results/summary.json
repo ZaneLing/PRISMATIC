@@ -1,0 +1,89 @@
+{
+  "status": "partial",
+  "complete_test_methods": {
+    "cot": {
+      "n": 988,
+      "correct": 467,
+      "accuracy": 0.4726720647773279,
+      "invalid": 0,
+      "input_tokens": 537740,
+      "output_tokens": 62633,
+      "cost_usd": 0.13071089463999988,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 306
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 161
+        }
+      }
+    },
+    "balanced": {
+      "n": 988,
+      "correct": 484,
+      "accuracy": 0.4898785425101215,
+      "invalid": 0,
+      "input_tokens": 2097058,
+      "output_tokens": 135698,
+      "cost_usd": 0.41217702475999984,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 314
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 170
+        }
+      },
+      "versus_cot": {
+        "fixes": 119,
+        "regressions": 102,
+        "difference": 0.01720647773279352,
+        "scenario_cluster_ci95": [
+          -0.011144883485309016,
+          0.04559270516717325
+        ]
+      }
+    },
+    "safety": {
+      "n": 988,
+      "correct": 487,
+      "accuracy": 0.49291497975708504,
+      "invalid": 2,
+      "input_tokens": 2097710,
+      "output_tokens": 137433,
+      "cost_usd": 0.3955353494399998,
+      "subgroups": {
+        "contraindication": {
+          "n": 536,
+          "correct": 320
+        },
+        "interaction": {
+          "n": 452,
+          "correct": 167
+        }
+      },
+      "versus_cot": {
+        "fixes": 108,
+        "regressions": 88,
+        "difference": 0.020242914979757085,
+        "scenario_cluster_ci95": [
+          -0.0070921985815602835,
+          0.048582995951417005
+        ]
+      }
+    }
+  },
+  "unscored": {
+    "indication": {
+      "missing_responses": 153,
+      "received_responses": 835,
+      "accuracy": null
+    }
+  },
+  "test_n": 988,
+  "verification": "Independent counts and exact case alignment passed; transport failures excluded from scoring."
+}

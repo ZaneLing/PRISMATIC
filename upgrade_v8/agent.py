@@ -84,6 +84,8 @@ class Agent:
 def metrics(rows,cases):
     assert len(rows)==len(cases)
     assert [r['case_id'] for r in rows]==[c['id'] for c in cases]
+    failed=[r for r in rows if r.get('error')]
+    if failed:raise RuntimeError(f'Incomplete evaluation: {len(failed)} transport/API failures; do not report these as model accuracy.')
     correct=[r['prediction']==c['gold'] for r,c in zip(rows,cases)]
     return {'n':len(cases),'correct':sum(correct),'accuracy':sum(correct)/max(1,len(cases)),
        'invalid':sum(r['prediction'] is None for r in rows),

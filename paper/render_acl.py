@@ -19,17 +19,39 @@ def run():
     public=ROOT/'upgrade_v8/results/public_results_seed_42.json';parameter=ROOT/'upgrade_v9/results/parameter_results.json'
     public_section=r'\paragraph{Execution status.} The public language-artifact experiment is running; incomplete evaluations are not presented as final results.'
     if public.exists():
-        d=json.loads(public.read_text());pr='\n'.join(f"{name.replace('_',' ')} & {z['correct']}/{z['n']} & {z['accuracy']*100:.2f} \\\\" for name,z in d['methods'].items())
+        d=json.loads(public.read_text());pr='\n'.join(f"{name.replace('_',' ')} & {z['accuracy']*100:.2f} & {2 if name=='self_refine' else 1} \\\\" for name,z in d['methods'].items())
+        if (ROOT/'upgrade_v10/results/grasp_core_seed_42.json').exists():
+            pr+=r'''
+Author GRASP core + task adapter & 50.81 & 1\\
+Scoped RxRSI skills & 47.27 & 1\\'''
+        if (ROOT/'upgrade_v11/results/summary.json').exists():
+            evidence=json.loads((ROOT/'upgrade_v11/results/summary.json').read_text())
+            for key,label in [('balanced','Fixed balanced evidence'),('safety','Fixed safety evidence')]:
+                pr+=f"\n{label} & {100*evidence['complete_test_methods'][key]['accuracy']:.2f} & 2 \\\\"
+        if (ROOT/'upgrade_v12/results/summary.json').exists():
+            gates=json.loads((ROOT/'upgrade_v12/results/summary.json').read_text())['gate_summaries']
+            for key,label in [('independent_guard','Router: separate guard'),('joint_validation','Router: pooled validation')]:
+                z=gates[key];pr+=f"\n{label} & {100*z['accuracy_mean']:.2f} $\\pm$ {100*z['accuracy_sample_sd']:.2f} & {z['mean_calls']:.2f} \\\\"
         public_section=r'''\begin{table}[t]\centering\small
-\caption{Completed public method rows, seed 42. Unfinished methods are omitted. The task is the derived RxSafeBench option-selection protocol, not the original free-generation benchmark.}
-\begin{tabular}{lrr}\toprule Method & Correct / N & Accuracy (\%)\\\midrule
+\caption{Executed method comparison on the same 988 derived RxSafeBench questions with DeepSeek-V4.1-Flash. Router rows are three-order means $\pm$ SD; other evolving rows use seed 42. Calls are mean test-time model calls; development costs differ. This is a development comparison, not original benchmark score equivalence.}
+\begin{tabular}{lrr}\toprule Method & Accuracy (\%) & Calls\\\midrule
 PUBLICROWS
 \bottomrule\end{tabular}\end{table}'''.replace('PUBLICROWS',pr)
     core_path=ROOT/'upgrade_v10/results/grasp_core_seed_42.json'
     scoped_path=ROOT/'upgrade_v10/results/scoped_rsi_seed_42.json'
     if core_path.exists() and scoped_path.exists():
         public_section+=r'''\paragraph{Stronger implementation control.}
-The unmodified author GRASP core, pinned to commit \texttt{9d7d125a}, is also executed through our new option-selection task adapter. It retains the released failure classification, skill proposals, balanced probes, regression gate and skill injection. This is not an original MedAgentBench rerun. It scores 502/988 (50.81\%) versus CoT's 467/988 (47.27\%), repairing 102 cases and regressing 67. The descriptive paired scenario-cluster 95\% interval for the gain is [0.91, 6.07] percentage points. Its RxQA result is 189/300 versus CoT's 193/300. Our additional scope-conditioned skill variant accepts no update and remains at 467/988: candidate rules activate on only 0--3 proposal cases. This negative result motivates a subsequent drug-label evidence-tool study, which is still in development. The author core and scoped variant use different development-selection mechanisms; their proposal cap is 3,072 tokens and inference cap is 512. No unrestricted method superiority is inferred.'''
+The unmodified author GRASP core, pinned to commit \texttt{9d7d125a}, is also executed through our new option-selection task adapter. It retains the released failure classification, skill proposals, balanced probes, regression gate and skill injection. This is not an original MedAgentBench rerun. It scores 502/988 (50.81\%) versus CoT's 467/988 (47.27\%), repairing 102 cases and regressing 67. The descriptive paired scenario-cluster 95\% interval for the gain is [0.91, 6.07] percentage points. Its RxQA result is 189/300 versus CoT's 193/300. Our additional scope-conditioned skill variant accepts no update and remains at 467/988: candidate rules activate on only 0--3 proposal cases. The author core and scoped variant use different development-selection mechanisms; their proposal cap is 3,072 tokens and inference cap is 512. No unrestricted method superiority is inferred.'''
+    if (ROOT/'upgrade_v12/results/summary.json').exists():
+        public_section+=r'''\subsection{Grounded Tools and Evolving Routing}
+The next increment retrieves exact contiguous excerpts from company-submitted openFDA drug labels, retaining label IDs, sections and missingness. These records are not uniformly FDA-verified. A frozen snapshot matches 623/699 candidate names and covers 92.98\% of test options. Each evidence review receives the same initial CoT answer and at most two excerpts per option. The fixed balanced review, selected on proposal validation, scores 484/988; the fixed safety review scores 487/988. These require two model calls, versus one for CoT.
+
+We learn action-benefit routing from complete counterfactual training outputs. A fixed 65,536-dimensional word/bigram hashing transform encodes the question, options and initial response. Ridge coefficients predict each review's correctness change relative to CoT. Four rounds expose 156/312/468/625 training cases. Three regularizers and three thresholds are selected on development labels. The original four-action experiment rejects all updates. A subsequent matched ablation uses the same three complete actions under two gates: 190-case proposal selection followed by 197-case regression checking, or pooled selection on all 387 development cases. Pooled selection has no independent regression check.
+
+Across three orders, separate-guard routing reaches 48.68$\pm$0.61\%; pooled routing reaches 48.79$\pm$0.54\%, against the selected fixed tool's 48.99\%. Mean runtime calls are 1.710 and 1.490, respectively. Coefficients, intercepts and thresholds change; LLM weights, retrieval code and labels stay fixed. Full version hashes and per-round repairs/regressions are released. An accepted pooled update for seed 2026 reduces test correctness from 480 to 476. Thus accepted updates need not generalize, and parameter changes alone do not establish recursive improvement. This offline trace replay makes no new requests, but generating counterfactual development traces has an explicit model-call cost. It is a development extension on an already observed test, not untouched confirmation.
+
+\paragraph{Incomplete requests are unscored.}
+Account-credit exhaustion interrupted 153/988 indication-review requests and all 380 Gemini development requests. A later language-evolution seed has 713 unfinished GRASP-adaptation test requests; another has an incomplete round-four selection, which is rolled back before resumption. These evaluations are marked incomplete, not zero accuracy. The client now stops on account errors, and the scorer rejects transport failures. The complete seed-42 and author-core results are unaffected. Received malformed outputs still count as errors.'''
     parameter_section=r'\paragraph{Execution status.} Local parameter-update experiments are in progress. No fine-tuning gain is claimed before generation-based evaluation is complete.'
     if parameter.exists():
         d=json.loads(parameter.read_text());rr=f"Frozen Qwen3-4B & {d['base']['drug_micro_f1']:.4f} & {d['base']['core_order_micro_f1']:.4f} \\\\\n"

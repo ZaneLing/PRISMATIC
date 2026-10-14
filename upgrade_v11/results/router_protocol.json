@@ -1,0 +1,26 @@
+{
+  "seed": 42,
+  "actions": [
+    "cot",
+    "balanced",
+    "safety",
+    "indication"
+  ],
+  "rounds": 4,
+  "alpha_candidates": [
+    1.0,
+    10.0,
+    100.0
+  ],
+  "threshold_candidates": [
+    0.0,
+    0.025,
+    0.075
+  ],
+  "actor_cap": 512,
+  "max_inference_calls": 2,
+  "training_feedback": "Base and three counterfactual evidence reviews; only current/past train labels fit routing parameters.",
+  "gate": "Proposal validation selects; independent guard requires positive net fixes.",
+  "representation": "Fixed nonlearned word/bigram hashing, 65536 dimensions; no future-data vocabulary fitting.",
+  "test_used_for_selection": false
+}

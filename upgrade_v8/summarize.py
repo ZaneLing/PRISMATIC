@@ -18,11 +18,13 @@ def main():
         path=HERE/f'results/public_results_seed_{seed}.json'
         if not path.exists():continue
         report=read(path)
+        if report.get('status','complete')!='complete':continue
         if set(report['methods'])!=set(METHODS) or 'rxqa_transfer' not in report:continue
         assert report['test_n']==len(test)
         out=LOCAL/f'seed-{seed}';correct={}
         for method in METHODS:
             rows=read(out/(method+'-test.json'))
+            assert not any(r.get('error') for r in rows),'Transport failures cannot be included in method accuracy.'
             assert [r['case_id'] for r in rows]==[c['id'] for c in test]
             correct[method]=np.array([r['prediction']==c['gold'] for r,c in zip(rows,test)])
             assert int(correct[method].sum())==report['methods'][method]['correct']
@@ -48,7 +50,7 @@ def main():
             'mean_logical_inference_cost_usd':float(np.mean([r['methods'][method]['cost_usd'] for r in reports]))}
     ledger=[json.loads(s) for s in (LOCAL/'usage.jsonl').read_text().splitlines()]
     output={'completed_seeds':[r['seed'] for r in reports],'methods':summary,'paired_comparisons':paired,'verification':checks,
-       'actual_api_ledger_snapshot':{'requests':len(ledger),'charged_usd':sum(r.get('cost_usd') or 0 for r in ledger)},
+       'shared_public_api_ledger_snapshot':{'requests':len(ledger),'charged_usd':sum(r.get('cost_usd') or 0 for r in ledger),'scope':'Shared ledger for v8 and later public studies, not a v8-only attribution.'},
        'primary_task':'Derived RxSafeBench option selection, 988 test cases; no original-paper score equivalence.'}
     (HERE/'results/summary.json').write_text(json.dumps(output,indent=2)+'\n')
     fig,axes=plt.subplots(1,len(reports),figsize=(5*len(reports),3.6),squeeze=False)
