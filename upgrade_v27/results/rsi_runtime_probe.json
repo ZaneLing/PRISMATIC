@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "restricted_data_used": false,
+  "external_api_calls": 0,
+  "synthetic_cases": 400,
+  "synthetic_patients": 200,
+  "checks": [
+    "typed rule improves held-out synthetic witnesses",
+    "opposite witness labels reject the same edit",
+    "matched gate ablation applies the same proposal",
+    "runtime rule application has no target argument and leaves probabilities unchanged",
+    "unknown model-generated IDs rejected",
+    "external prompt contains only whitelisted aggregate descriptors"
+  ],
+  "source_sha256": {
+    "train_rule_agent.py": "476e4a8db48139e781de769ad1f0fe807d9696e4d9472744f85f51d2bc0e89ff",
+    "rule_memory.py": "9eba115cd82a212ff028503b9b92f3a68b35a592c54b0616a1a102fba17a9a58",
+    "rule_proposer.py": "00e98dc0407f7c0bf9a19243ced6828a9f9c0cfacabb4f142600be85c55a456d"
+  },
+  "scope": "Runtime correctness only; no clinical performance or RSI benefit measured."
+}
