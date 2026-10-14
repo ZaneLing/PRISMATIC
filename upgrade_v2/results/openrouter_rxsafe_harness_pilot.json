@@ -1,0 +1,295 @@
+{
+  "benchmark": "RxSafeBench public simulated three-choice medication safety scenarios",
+  "source_commit": "a25f9a1f173cf034b678c60f051901e86fbbbbb2",
+  "sample": "Same pinned deduplicated hash-sorted 30+30 sample as direct pilot",
+  "n": 60,
+  "models": [
+    "openai/gpt-6.1-sol",
+    "google/gemini-3.8-flash",
+    "deepseek/deepseek-v4.1-flash"
+  ],
+  "arms": {
+    "direct": "one-call archived answer",
+    "repeat": "same initial answer + one unstructured reconsideration call",
+    "harness": "same initial answer + one structured evidence review call with bounded revision gate"
+  },
+  "model_results": {
+    "openai/gpt-6.1-sol": {
+      "arms": {
+        "direct": {
+          "correct": 35,
+          "n": 60,
+          "accuracy": 0.58333,
+          "valid_letter": 58,
+          "by_type": {
+            "contraindication": {
+              "correct": 18,
+              "n": 30
+            },
+            "interaction": {
+              "correct": 17,
+              "n": 30
+            }
+          },
+          "cost_usd": 0.082532
+        },
+        "repeat": {
+          "correct": 29,
+          "n": 60,
+          "accuracy": 0.48333,
+          "valid_letter": 57,
+          "by_type": {
+            "contraindication": {
+              "correct": 15,
+              "n": 30
+            },
+            "interaction": {
+              "correct": 14,
+              "n": 30
+            }
+          },
+          "cost_usd": 0.084674,
+          "status_counts": {
+            "invalid_letter": 3,
+            "valid": 57
+          },
+          "corrected": 3,
+          "harmed": 9,
+          "two_call_cost_usd": 0.167206
+        },
+        "harness": {
+          "correct": 35,
+          "n": 60,
+          "accuracy": 0.58333,
+          "valid_letter": 59,
+          "by_type": {
+            "contraindication": {
+              "correct": 17,
+              "n": 30
+            },
+            "interaction": {
+              "correct": 18,
+              "n": 30
+            }
+          },
+          "cost_usd": 0.181864,
+          "status_counts": {
+            "changed": 8,
+            "invalid_contract": 1,
+            "invalid_json": 4,
+            "kept": 47
+          },
+          "corrected": 3,
+          "harmed": 3,
+          "two_call_cost_usd": 0.264396
+        }
+      },
+      "harness_minus_direct": {
+        "delta": 0.0,
+        "ci95": [
+          -0.08333,
+          0.08333
+        ]
+      },
+      "harness_minus_repeat": {
+        "delta": 0.1,
+        "ci95": [
+          0.0,
+          0.2
+        ]
+      }
+    },
+    "google/gemini-3.8-flash": {
+      "arms": {
+        "direct": {
+          "correct": 35,
+          "n": 60,
+          "accuracy": 0.58333,
+          "valid_letter": 59,
+          "by_type": {
+            "contraindication": {
+              "correct": 17,
+              "n": 30
+            },
+            "interaction": {
+              "correct": 18,
+              "n": 30
+            }
+          },
+          "cost_usd": 0.048393
+        },
+        "repeat": {
+          "correct": 26,
+          "n": 60,
+          "accuracy": 0.43333,
+          "valid_letter": 60,
+          "by_type": {
+            "contraindication": {
+              "correct": 12,
+              "n": 30
+            },
+            "interaction": {
+              "correct": 14,
+              "n": 30
+            }
+          },
+          "cost_usd": 0.274856,
+          "status_counts": {
+            "valid": 60
+          },
+          "corrected": 3,
+          "harmed": 12,
+          "two_call_cost_usd": 0.323249
+        },
+        "harness": {
+          "correct": 30,
+          "n": 60,
+          "accuracy": 0.5,
+          "valid_letter": 59,
+          "by_type": {
+            "contraindication": {
+              "correct": 14,
+              "n": 30
+            },
+            "interaction": {
+              "correct": 16,
+              "n": 30
+            }
+          },
+          "cost_usd": 0.241754,
+          "status_counts": {
+            "changed": 9,
+            "invalid_contract": 1,
+            "kept": 50
+          },
+          "corrected": 1,
+          "harmed": 6,
+          "two_call_cost_usd": 0.290147
+        }
+      },
+      "harness_minus_direct": {
+        "delta": -0.08333,
+        "ci95": [
+          -0.16667,
+          0.0
+        ]
+      },
+      "harness_minus_repeat": {
+        "delta": 0.06667,
+        "ci95": [
+          -0.03333,
+          0.16667
+        ]
+      }
+    },
+    "deepseek/deepseek-v4.1-flash": {
+      "arms": {
+        "direct": {
+          "correct": 29,
+          "n": 60,
+          "accuracy": 0.48333,
+          "valid_letter": 60,
+          "by_type": {
+            "contraindication": {
+              "correct": 17,
+              "n": 30
+            },
+            "interaction": {
+              "correct": 12,
+              "n": 30
+            }
+          },
+          "cost_usd": 0.004099
+        },
+        "repeat": {
+          "correct": 28,
+          "n": 60,
+          "accuracy": 0.46667,
+          "valid_letter": 60,
+          "by_type": {
+            "contraindication": {
+              "correct": 15,
+              "n": 30
+            },
+            "interaction": {
+              "correct": 13,
+              "n": 30
+            }
+          },
+          "cost_usd": 0.003154,
+          "status_counts": {
+            "valid": 60
+          },
+          "corrected": 1,
+          "harmed": 2,
+          "two_call_cost_usd": 0.007253
+        },
+        "harness": {
+          "correct": 32,
+          "n": 60,
+          "accuracy": 0.53333,
+          "valid_letter": 60,
+          "by_type": {
+            "contraindication": {
+              "correct": 17,
+              "n": 30
+            },
+            "interaction": {
+              "correct": 15,
+              "n": 30
+            }
+          },
+          "cost_usd": 0.010066,
+          "status_counts": {
+            "changed": 20,
+            "invalid_contract": 1,
+            "invalid_json": 1,
+            "kept": 38
+          },
+          "corrected": 10,
+          "harmed": 7,
+          "two_call_cost_usd": 0.014165
+        }
+      },
+      "harness_minus_direct": {
+        "delta": 0.05,
+        "ci95": [
+          -0.08333,
+          0.18333
+        ]
+      },
+      "harness_minus_repeat": {
+        "delta": 0.06666,
+        "ci95": [
+          -0.06667,
+          0.2
+        ]
+      }
+    }
+  },
+  "limitations": [
+    "MCQ scaffold pilot, not prescription generation or clinical validation",
+    "grounding checks only exact quote presence, not medical correctness",
+    "small deterministic sample; exploratory confidence intervals"
+  ],
+  "public_sha256": {
+    "RxSafeBench_Contradiction.json": "e9e097408bbc9399768d88a04af3eac46674dac11af35251e51247453765446b",
+    "RxSafeBench_Interaction.json": "d34cc05a98fe4120659b1a899d4cbf206e1a36cf0e1c4a3862efac0ea7f54fc9"
+  },
+  "direct_predictions_sha256": "80650513b8409fbece8b358f68159329d8927c0709092c368eb7feeed5983899",
+  "generation": {
+    "temperature": 0,
+    "second_call_max_tokens": 4096,
+    "provider": {
+      "zdr": true,
+      "data_collection": "deny"
+    },
+    "deepseek_reasoning_effort": "none",
+    "workers": 18
+  },
+  "uncertainty": {
+    "method": "paired question bootstrap",
+    "draws": 10000,
+    "seed": 20261014
+  }
+}

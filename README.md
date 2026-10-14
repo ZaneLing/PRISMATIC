@@ -47,12 +47,18 @@ poetry run python workflow.py
 
 ## 2026 research upgrade / 2026 年研究升级
 
+**Start with the [versioned paper index / 持续更新的论文入口](paper/README.md).**
+The [current Chinese manuscript](paper/versions/v0.2-2026-10-14.zh.md#41-主表同题配对的-rxsafebench-结果)
+and [current English manuscript](paper/versions/v0.2-2026-10-14.en.md#41-primary-table-paired-rxsafebench-results)
+place the paired harness comparison in Table 2 and identify its public
+RxSafeBench dataset. Older reports remain archived by version.
+
 The [PRISMATIC 2 research prototype](upgrade_v2/README.md) adds a
 time-bounded, patient-disjoint MIMIC pilot; a case-count learning curve for
 supportive orders; structured review-harness checks; and public RxSafeBench
 and RxQA model comparisons through OpenRouter. Read the
-[English report](upgrade_v2/REPORT_EN.md) or
-[中文报告](upgrade_v2/REPORT_ZH.md) for the methods, results, and limits.
+[English first report](upgrade_v2/REPORT_EN.md) or
+[中文初版报告](upgrade_v2/REPORT_ZH.md) for the first-pass methods, results, and limits.
 Only aggregate restricted-data results and public-benchmark predictions are
 tracked in this repository. This is research software, not clinical prescribing
 software.

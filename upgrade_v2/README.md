@@ -1,5 +1,9 @@
 # PRISMATIC 2: local preliminary experiments
 
+The [versioned research paper](../paper/README.md) is the current entry point.
+Its Table 2 contains the same-question RxSafeBench harness comparison. The
+older `REPORT_ZH.md` and `REPORT_EN.md` are retained as v0.1 snapshots.
+
 This directory contains reproducible **research** code for a first pass over the
 credentialed datasets under `~/Desktop/MedTreeBench/dataset/restricted`.
 It does not generate clinical orders or claim to evaluate patient safety.
@@ -35,6 +39,11 @@ It does not generate clinical orders or claim to evaluate patient safety.
    subset of the **public, simulated** RxSafeBench. `run_rxqa_openrouter.py`
    evaluates the public RxQA OpenFDA questions. Both use OpenRouter ZDR routing
    and deny provider data collection; neither reads restricted patient files.
+7. `run_public_harness.py` adds a paired two-call comparison on the same public
+   RxSafeBench questions and archived initial answers: ordinary reconsideration
+   versus a structured evidence review with a bounded revision gate. This is a
+   multiple-choice scaffold pilot, distinct from the structured order-review
+   interface in `harness.py`.
 
 ## Privacy boundary
 
@@ -62,6 +71,22 @@ python train_baselines.py --cohort ~/Desktop/MedTreeBench/dataset/restricted/pri
 python -m unittest -v test_harness.py
 python build_supportive_cohort.py
 python evolution_curve.py
+```
+
+For the public, paired RxSafeBench Table 2, first reproduce the pinned direct
+answers, then run the second-call arms on exactly the same cases. Provide a
+public RxSafeBench checkout at commit
+`a25f9a1f173cf034b678c60f051901e86fbbbbb2`; the runners reject files
+whose SHA-256 differs from the pinned public release. Use an OpenRouter key in
+the process environment; do not pass restricted patient files to these scripts.
+
+```bash
+export OPENROUTER_API_KEY='your-key'
+python run_public_openrouter.py --data-dir /path/to/public/RxSafeBench/data
+python run_public_harness.py --data-dir /path/to/public/RxSafeBench/data
+python render_harness_table.py --language zh
+python render_harness_table.py --language en
+python -m unittest -v test_public_harness.py
 ```
 
 The optional local LLM model is pinned at revision
