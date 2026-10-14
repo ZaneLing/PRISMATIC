@@ -274,6 +274,27 @@ TRANSFERROWS
         compatibility_section+=r'''
 \paragraph{Historical metadata correction.}
 Rolling exports reused a mutable nested best-selection dictionary, causing some old nested entries to show later choices. Immutable per-round receipts and each arm's stored best-round field independently preserve the actual history; corrected historical choices are released separately. Proposal scores, rule states and final selections are verified unchanged. Frozen source/result hashes are retained.'''
+    if (ROOT/'upgrade_v30/protocol.json').exists():
+        compatibility_section+=r'''
+\paragraph{Compatibility revalidation and disjoint promotion.}
+A further registered factorial tests two fixed memory-maintenance policies without refitting the audited base models. Each fresh witness batch is divided by patient into editing group A and confirmation group B. Compatibility factor C checks old memory against the empty-memory policy on cross-fitted fitting patients and A before generating new edits; failed checks reset the corrections. Confirmation factor P checks the entire edited memory once on B. All checks require at least three affected patients, positive F1 change and nonnegative Jaccard change. Failed promotion returns the calibrated policy with no correction memory, not an empty prescription.
+
+Greedy, own-error synthesis and shuffled-evidence synthesis each run all four C/P combinations, alongside raw and calibrated policy controls: fourteen arms per seed and medication space. Every combination edits on A and computes the same shadow checks. C0P0 is consequently different from the preceding full-witness-batch study; only within-factorial contrasts isolate these gates. Identical prompts share exact responses across conditions, whereas diverging memories receive new prompts. The policies C/P are fixed engineering choices; executable rule memory remains the agent-generated object. B affects later rounds through retained memory, so this remains adaptive training validation on reused development patients.
+
+All raw states and verification decisions are retained. Proposal Jaccard selects a checkpoint with earliest ties; both that checkpoint and raw round five receive report-only guard evaluation after all five rounds. Independent scalar replays reconstruct source probabilities, induction effects, compatibility checks, every edit, whole-state promotion and final outputs. No test inference is performed in this intervention.'''
+        if (ROOT/'upgrade_v30/results/summary.json').exists():
+            repair=json.loads((ROOT/'upgrade_v30/results/summary.json').read_text());rr=[]
+            for panel,p in repair['panels'].items():
+                for arm,z in p['endpoints']['selected']['methods'].items():
+                    q=z['patient_f1'];f=f"{q['mean']:.5f}"+(f" $\\pm$ {q['seed_sd']:.5f}" if q['seed_sd'] is not None else '')
+                    final=p['endpoints']['final']['methods'][arm]['patient_f1']['mean']
+                    rr.append(f"{panel} & {arm.replace('_',' ')} & {len(p['seeds'])} & {f} & {final:.5f} \\\\")
+            if rr:
+                compatibility_section+=r'''\begin{table*}[t]\centering\small
+\caption{Audited compatibility/confirmation factorial on the same 467-patient guard set. C/P enable old-memory and whole-update checks respectively. Selected states use proposal Jaccard; the separate final column reports raw round five. Only audited seeds appear, with sample deviation when multiple seeds complete. This is exploratory development evidence.}
+\begin{tabular}{llrrr}\toprule Panel & Arm & Seeds & Selected patient F1 & Final-round F1\\\midrule
+MEMORYGATEROWS
+\bottomrule\end{tabular}\end{table*}'''.replace('MEMORYGATEROWS','\n'.join(rr))
     fhir_results=''
     if (ROOT/'upgrade_v19/results/summary.json').exists():
         fhir=json.loads((ROOT/'upgrade_v19/results/summary.json').read_text())

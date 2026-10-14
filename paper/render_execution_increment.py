@@ -17,7 +17,20 @@ def main():
     summary=json.loads((ROOT/'upgrade_v27/results/rsi_development_summary.json').read_text());repair=json.loads((ROOT/'upgrade_v28/results/summary.json').read_text())
     for lang in ['en','zh']:
         block=('## Current executed increment — rule memory and tool repair\n\n' if lang=='en' else '## 当前增量：真实规则进化与工具修复\n\n')
+        if (PAPER/'execution_status.json').exists() and json.loads((PAPER/'execution_status.json').read_text())['api']['status']=='waiting_for_credit':
+            block+=('**Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.\n\n' if lang=='en' else '**执行状态：** 上次充值后，新OpenRouter请求再次返回HTTP402。未完成的API分支已保存断点，等待补充额度；已完成结果及独立本地训练／审计继续。缺失请求不计作模型错误。\n\n')
         block+=(f'**Actual training:** {complete}/6 rule runs finish five rounds; {nr}/15 author-model runs finish their full 50 epochs, with {epochs}/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.\n\n' if lang=='en' else f'**实际运行：** {complete}/6组规则实验完成五轮；作者神经方法{nr}/15组完成各自50轮，总计已完成{epochs}/750轮。训练与审计队列继续，正式ATC-L4测试主表等待全部已登记版本和核验完成后统一运行。\n\n')
+        if (ROOT/'upgrade_v30/protocol.json').exists():
+            repaired=json.loads((ROOT/'upgrade_v30/results/summary.json').read_text()) if (ROOT/'upgrade_v30/results/summary.json').exists() else {'panels':{}}
+            block+=('### Memory repair now executing: compatibility and separate confirmation\n\n' if lang=='en' else '### 记忆改进已实际运行：旧记忆兼容性与独立确认\n\n')
+            block+=('The 14-arm v0.30 factorial revalidates old memory after policy changes and checks the whole update on patients separate from individual-edit verification. Greedy, own-error and shuffled-evidence methods each run all four gate combinations. Resetting correction memory retains the calibrated prescription policy. Original v0.29 fits are reused exactly; source probabilities, every gate and outputs receive independent audits.\n\n' if lang=='en' else 'v0.30已启动14臂组合实验：策略改变后核验旧记忆，并用独立于逐项编辑验证的患者确认整套更新。贪心、自身错误驱动、打乱证据三种方法均运行四种验证组合。清空纠错记忆仍保留校准后的处方策略。原样复用v0.29拟合；独立核验源概率、每次验证和输出。\n\n')
+            if repaired['panels']:
+                block+='| Panel | Audited seeds | Calibration F1 | Own C0P0 F1 | Own C1P1 F1 | Greedy C1P1 F1 |\n|---|---:|---:|---:|---:|---:|\n'
+                for panel,p in repaired['panels'].items():
+                    m=p['endpoints']['selected']['methods'];vals=[m[k]['patient_f1']['mean'] for k in ['calibrated_policy','own_C0P0','own_C1P1','greedy_C1P1']]
+                    block+=f"| {panel} | {len(p['seeds'])} | "+' | '.join(f'{v:.5f}' for v in vals)+' |\n'
+            else:block+=('Guard scores remain pending audit.\n' if lang=='en' else 'guard分数等待独立核验。\n')
+            block+=f'\n[All gate combinations, raw rounds and independent audits](../upgrade_v30/RESULTS.{lang}.md)\n\n'
         if (ROOT/'upgrade_v29/results/summary.json').exists():
             new=json.loads((ROOT/'upgrade_v29/results/summary.json').read_text());states=[]
             for p in (ROOT/'upgrade_v29/results').glob('*-seed*.json'):
@@ -56,7 +69,7 @@ def main():
 2. Complete every registered ARMR/GAMENet/SafeDrug run at 50 epochs. The implemented queue reloads each selected checkpoint, audits development predictions, then opens one shared test gate. The evaluator includes conventional methods, all six rule arms, every frozen round and three artifact interventions. Test results cannot retune the methods.
 3. Finish the eight-condition real-FHIR C/S/K factorial across 80 validation, 64 ID and 60 held-out-type tasks. Report every condition, original strict scores, resource integrity, budgets and paired effects. Audit raw-page arithmetic; do not replace old results with posthoc value extraction.
 4. Continue the eICU external-hospital study already running. Preserve zero-target stays and frozen selection. This supplies a separate transport test, not a directly pooled ATC score.
-5. The isolated-witness conditional-program study is now implemented and running with seven arms. Complete original-model reproduction, program-effect audits and the registered carryover/new-edit decomposition. A subsequent compatibility-gate intervention must be registered and executed before claiming that it fixes the observed transfer failures; the present replay changes no agent.
+5. Complete the seven-arm isolated-witness program study and its registered carryover/new-edit diagnosis. The next 14-arm compatibility/confirmation factorial is now registered, implemented and running, with separately learned trajectories under greedy, own-error and shuffled evidence. Complete every seed and independent gate/output audit; report raw final-round and proposal-selected endpoints before claiming improved transfer.
 6. Keep the existing English LaTeX source, bilingual results entry and versioned reports synchronized. Only completed audited experiments enter score tables; compilation and GitHub pushes are checked explicitly.
 
 ''' if lang=='en' else '''## 当前执行队列：具体交付状态
@@ -65,7 +78,7 @@ def main():
 2. ARMR／GAMENet／SafeDrug各组完成已登记50轮。已实现的队列逐组重新加载所选检查点、核验开发预测，之后统一开启测试。评估器包含传统方法、六种规则方法、全部冻结轮次和三项对象干预；测试结果不用于调参。
 3. 完成真实FHIR的C/S/K八组合：80验证、64同类、60未见任务类型。报告每组合原严格成绩、真实资源完整性、预算和配对效果；重建原始分页算术，不用事后提取数值替换旧分数。
 4. 继续已启动的eICU跨医院实验，保留零目标病例和冻结版本。它是独立迁移测试，不能直接混入ATC主表。
-5. 七臂的隔离witness／条件程序研究已实现并运行。补齐原模型重拟合、程序效应核验和已登记的旧记忆／新编辑分解。后续兼容性验证干预必须先登记再实际运行，才能声称修复当前迁移失败；现有回放没有改变agent。
+5. 完成七臂隔离witness程序研究及已登记的旧记忆／新编辑诊断。后续14臂兼容性／独立确认组合实验已经登记、实现并运行；贪心、自身错误和打乱证据各自重新学习轨迹。完成所有种子与验证／输出独立核验，同时报告末轮原状态与proposal选择状态，再判断是否改善迁移。
 6. 持续同步现有英文LaTeX、中英文总览及版本报告；只有完成且核验的实验填分数，并确认编译和GitHub同步。
 
 ''')
@@ -84,5 +97,9 @@ Earlier paragraphs below describe retained study versions; this snapshot governs
 '''
     if (ROOT/'upgrade_v29/protocol.json').exists():
         readme+='\n**New mechanism executing:** v0.29 permanently separates fit/witness patients, adds a strong ordinary calibration control and lets the language agent synthesize conditional programs. Only independently audited development results are published. [Conditional-program study](upgrade_v29/RESULTS.en.md) · [中文机制与结果](upgrade_v29/RESULTS.zh.md).\n'
+    if (ROOT/'upgrade_v30/protocol.json').exists():
+        readme+='\n**Current improvement:** the registered 14-arm v0.30 factorial tests old-memory compatibility and whole-update confirmation on separate patients, with greedy and shuffled controls. [Actual gate study](upgrade_v30/RESULTS.en.md) · [中文验证机制与结果](upgrade_v30/RESULTS.zh.md).\n'
+    if (PAPER/'execution_status.json').exists() and json.loads((PAPER/'execution_status.json').read_text())['api']['status']=='waiting_for_credit':
+        readme+='\n**API status:** a new HTTP402 interrupted unfinished API branches; saved checkpoints and completed scores are retained. Local training/audits continue. [Execution status](paper/execution_status.json).\n'
     update(ROOT/'README.md',readme)
 if __name__=='__main__':main()

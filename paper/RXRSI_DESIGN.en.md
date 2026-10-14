@@ -2,7 +2,28 @@
 
 Target: ACL 2027. Beating prior methods is a research objective, never a patient-level inference instruction.
 
-## Current implemented prescription-rule agent
+## Current implementation: verify memory as the policy changes
+
+The v0.30 agent reuses the independently audited v0.29 base policies and learns new rule trajectories. After each case-growth step, **C** checks whether old rules still help under the changed policy. New edits are verified on witness group **A**. **P** then confirms the whole memory on a separate group **B**. If a gate fails, the system clears the correction memory and continues using the calibrated medication policy.
+
+```mermaid
+flowchart TD
+  F[More fit patients: audited predictor and class calibration] --> C
+  M[Previous executable rule memory] --> C[Optional C: old rules still useful on cross-fit data and A?]
+  C --> L[Agent generates conditional program edits from aggregate errors]
+  L --> A[Check up to four edits on patient group A]
+  A --> B[Optional P: confirm the entire memory on separate group B]
+  B --> S[Retain memory or reset corrections]
+  S --> M
+  F --> I[Frozen calibrated predictor plus accepted rules]
+  S --> I
+  X[Observed patient inputs] --> I
+  I --> O[Medication-class set]
+```
+
+All four C/P combinations are executed for language synthesis, greedy search and shuffled evidence; raw/calibrated policies remain explicit controls. C/P are fixed verification policies, while the rules are generated and revised. Original v0.29 fits are shared; no extra fitting or test inference occurs. [All methods, gate actions and actual scores](../upgrade_v30/RESULTS.en.md).
+
+## Foundation: isolated-witness conditional-program agent
 
 The current v0.29 path has two phases. During offline maintenance, the language agent synthesizes executable conditional rules using aggregate error evidence. At inference, a frozen structured policy, class calibration and those rules produce a medication-class set. Each seed permanently separates 5,692 policy-fit patients from 1,423 witness patients; a fresh witness batch checks each round. The language model does not run on each patient's restricted record in this experiment.
 

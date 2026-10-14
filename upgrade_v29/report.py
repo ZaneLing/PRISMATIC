@@ -38,6 +38,8 @@ v0.27的记忆收益很小，尚未证明优于贪心编辑。本次登记干预
 ## 2. 真实运行状态
 
 ''')
+        status=HERE.parent/'paper/execution_status.json'
+        if status.exists() and json.loads(status.read_text())['api']['status']=='waiting_for_credit':text+=('**API interruption:** unfinished model calls await credit after a new HTTP402; completed states and audits are preserved.\n\n' if lang=='en' else '**API中断：** 新HTTP402后，未完成模型调用等待补充额度；已完成状态和独立核验保留。\n\n')
         text+='| Panel | Seed | Completed rounds /5 | Own-agent rules | Status |\n|---|---:|---:|---:|---|\n'
         for z in runs:
             rows=z['rounds'];n=rows[-1]['arms']['own_error_program_agent']['memory_size'] if rows else 0

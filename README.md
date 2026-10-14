@@ -3,7 +3,7 @@
 <!-- RXRSI_CURRENT_EXECUTION_START -->
 ## Current execution snapshot
 
-The rule-memory study completes **6/6 five-round runs**; genuine author-model baselines complete **3/15 full 50-epoch runs** (232/750 epochs saved). Independent development audits quantify the small memory increment against greedy/random/shuffled controls. A common test evaluator is implemented and stays closed until every selection and audit freezes.
+The rule-memory study completes **6/6 five-round runs**; genuine author-model baselines complete **4/15 full 50-epoch runs** (261/750 epochs saved). Independent development audits quantify the small memory increment against greedy/random/shuffled controls. A common test evaluator is implemented and stays closed until every selection and audit freezes.
 
 The real-FHIR factorial executes fixed answer-contract/statistics repairs and frozen learned skills in all eight combinations. This is exploratory execution repair, not autonomous tool-code evolution. All completed audited cells, costs and limits are maintained in the reports.
 
@@ -12,6 +12,10 @@ The real-FHIR factorial executes fixed answer-contract/statistics repairs and fr
 Earlier paragraphs below describe retained study versions; this snapshot governs current execution status.
 
 **New mechanism executing:** v0.29 permanently separates fit/witness patients, adds a strong ordinary calibration control and lets the language agent synthesize conditional programs. Only independently audited development results are published. [Conditional-program study](upgrade_v29/RESULTS.en.md) · [中文机制与结果](upgrade_v29/RESULTS.zh.md).
+
+**Current improvement:** the registered 14-arm v0.30 factorial tests old-memory compatibility and whole-update confirmation on separate patients, with greedy and shuffled controls. [Actual gate study](upgrade_v30/RESULTS.en.md) · [中文验证机制与结果](upgrade_v30/RESULTS.zh.md).
+
+**API status:** a new HTTP402 interrupted unfinished API branches; saved checkpoints and completed scores are retained. Local training/audits continue. [Execution status](paper/execution_status.json).
 <!-- RXRSI_CURRENT_EXECUTION_END -->
 
 

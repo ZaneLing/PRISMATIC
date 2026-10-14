@@ -3,16 +3,28 @@
 <!-- RXRSI_CURRENT_EXECUTION_START -->
 ## Current executed increment — rule memory and tool repair
 
-**Actual training:** 6/6 rule runs finish five rounds; 3/15 author-model runs finish their full 50 epochs, with 232/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
+
+**Actual training:** 6/6 rule runs finish five rounds; 4/15 author-model runs finish their full 50 epochs, with 261/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+
+### Memory repair now executing: compatibility and separate confirmation
+
+The 14-arm v0.30 factorial revalidates old memory after policy changes and checks the whole update on patients separate from individual-edit verification. Greedy, own-error and shuffled-evidence methods each run all four gate combinations. Resetting correction memory retains the calibrated prescription policy. Original v0.29 fits are reused exactly; source probabilities, every gate and outputs receive independent audits.
+
+| Panel | Audited seeds | Calibration F1 | Own C0P0 F1 | Own C1P1 F1 | Greedy C1P1 F1 |
+|---|---:|---:|---:|---:|---:|
+| full | 1 | 0.60719 | 0.60694 | 0.60706 | 0.60719 |
+
+[All gate combinations, raw rounds and independent audits](../upgrade_v30/RESULTS.en.md)
 
 ### New executed mechanism: isolated witnesses and program synthesis
 
-3/6 runs have frozen five rounds; 2/6 pass independent model/program audits. Each seed uses 5,692 fit patients and permanently excludes 1,423 witness patients from all model fits and candidate statistics. The agent generates one/two-predicate programs; raw policy, ordinary class calibration, greedy/random programs and shuffled evidence are separate controls. These are development results.
+5/6 runs have frozen five rounds; 5/6 pass independent model/program audits. Each seed uses 5,692 fit patients and permanently excludes 1,423 witness patients from all model fits and candidate statistics. The agent generates one/two-predicate programs; raw policy, ordinary class calibration, greedy/random programs and shuffled evidence are separate controls. These are development results.
 
 | Panel | Audited seeds | Raw policy F1 | Class calibration F1 | Greedy program F1 | Own-agent F1 |
 |---|---:|---:|---:|---:|---:|
-| full | 1 | 0.60594 | 0.60719 | 0.60719 | 0.60789 |
-| molecular | 1 | 0.57623 | 0.57911 | 0.58026 | 0.57908 |
+| full | 2 | 0.60554 | 0.60758 | 0.60775 | 0.60771 |
+| molecular | 3 | 0.57564 | 0.57989 | 0.58094 | 0.58021 |
 
 [Actual conditional-program experiment and replay diagnosis](../upgrade_v29/RESULTS.en.md)
 
@@ -35,9 +47,9 @@ The changed artifact is executable rule memory: aggregate error evidence → LLM
 |---|---|---|---:|---:|---:|
 | 0 | 0 | 0 | 45 | 38 | 18 |
 | 0 | 0 | 1 | 53 | 45 | 10 |
-| 0 | 1 | 0 | 49 | 36 | pending |
-| 0 | 1 | 1 | 59 | 46 | pending |
-| 1 | 0 | 0 | 52 | 46 | pending |
+| 0 | 1 | 0 | 49 | 36 | 43 |
+| 0 | 1 | 1 | 59 | 46 | 50 |
+| 1 | 0 | 0 | 52 | 46 | 29 |
 | 1 | 0 | 1 | 54 | 49 | pending |
 | 1 | 1 | 0 | 57 | 47 | pending |
 | 1 | 1 | 1 | 66 | 54 | pending |
@@ -50,7 +62,7 @@ Updated 15 October 2026. Versioned historical studies below retain their origina
 <!-- RXRSI_CURRENT_EXECUTION_END -->
 
 
-## Latest completed results: real tools and evolution diagnosis
+## Earlier completed increment: real tools and evolution diagnosis (v0.19/v0.26)
 
 **FHIR method comparison is complete.** Direct tools / fixed harness / learned skills score **39/38/45 out of64** on ID tasks, and **27/17/10 out of60** on held-out task types. The skill-minus-fixed ID patient interval includes zero; transfer declines with a negative interval. Only two language-skill files evolve. A read-only audit contradicts the name-encoding explanation because the HTTP tool already encodes spaces. Task7 produces30 value-plus-time answers;15 first values are correct and15 wrong, so the0/30 strict score includes a substantial output-contract failure. Frozen skill attribution is complete: neither/name/lab/both score38/44/39/45 ID and17/14/11/10 transfer; interaction intervals include zero. [Full table, intervals and exact skill artifacts](../upgrade_v19/RESULTS.en.md).
 
@@ -60,7 +72,7 @@ Updated 15 October 2026. Versioned historical studies below retain their origina
 
 The [recent-method registry](LATEST_METHODS.en.md) keeps ARMR/HADRec/LT3 original scores in their original protocols. eICU v0.25 three-seed training continues. No restricted records, predictions or fitted models are published.
 
-Updated 15 October 2026. This maintained entry point links versioned protocols, failures and results. Funding recovery resolved all previously missing API requests. **Our method has not yet surpassed the strongest completed control.**
+Historical snapshot from 15 October 2026. The earlier funding recovery completed the missing requests in the reported v0.17/v0.18 public studies. Current execution and new interruptions are reported at the top of this document. **Our method has not yet surpassed the strongest completed control.**
 
 
 ## Newly completed: binary parameter intervention (v0.15)

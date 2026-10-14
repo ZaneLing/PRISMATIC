@@ -1,0 +1,1427 @@
+{
+  "status": "passed",
+  "panel": "molecular",
+  "seed": 2026,
+  "source_report_sha256": "a7ab79c646353d5e311e9abcb1ac85a56e72aabc1e8540a8207221eb95eea37e",
+  "auditor_sha256": "216802141b2aef5350b989c70e0079e87889a0bebc2b1a31931eb0995569b0eb",
+  "rounds": [
+    {
+      "round": 1,
+      "round_source_sha256": "540269884266fffdb3ae34821ac0a8598ed0da4f28a6e65bf6868e249340d685",
+      "auditor_sha256": "216802141b2aef5350b989c70e0079e87889a0bebc2b1a31931eb0995569b0eb",
+      "fit_patient_count": 1139,
+      "fresh_witness_patients": 285,
+      "policy_witness_overlap": 0,
+      "prior_witness_overlap": 0,
+      "original_model_refits": 4,
+      "coefficient_max_abs_delta": 0.0,
+      "calibration_gain_max_abs_delta": 7.24247051220317e-17,
+      "arms": {
+        "raw_policy": {
+          "witness_decisions_checked": 0,
+          "induction_gain_max_delta": 0.0,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5368230392359494,
+            "patient_jaccard": 0.385964080805295,
+            "micro_f1": 0.559419327292566,
+            "micro_precision": 0.5719829258828095,
+            "micro_recall": 0.5473957849781822,
+            "mean_medications": 9.413698630136986,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03636014221197271,
+            "ddi_source_covered_pair_fraction": 0.998116652253291,
+            "known_graph_pair_rate_covered_pairs": 0.03642875021660858,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5368230392359494,
+                "patient_jaccard": 0.385964080805295
+              }
+            }
+          },
+          "memory_size": 0,
+          "retained_conjunctions": 0
+        },
+        "calibrated_policy": {
+          "witness_decisions_checked": 0,
+          "induction_gain_max_delta": 0.0,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5411716613550109,
+            "patient_jaccard": 0.3879997175580755,
+            "micro_f1": 0.5631482611348383,
+            "micro_precision": 0.5306776180698152,
+            "micro_recall": 0.5998514529755826,
+            "mean_medications": 11.118721461187215,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.0337403233151184,
+            "ddi_source_covered_pair_fraction": 0.997011612021858,
+            "known_graph_pair_rate_covered_pairs": 0.03384145471154121,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5411716613550109,
+                "patient_jaccard": 0.3879997175580755
+              }
+            }
+          },
+          "memory_size": 0,
+          "retained_conjunctions": 0
+        },
+        "greedy_conditional_memory": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 2.677979366039196e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5417458527453334,
+            "patient_jaccard": 0.3885107963711853,
+            "micro_f1": 0.5634035882250479,
+            "micro_precision": 0.5305503157549414,
+            "micro_recall": 0.6005941880976696,
+            "mean_medications": 11.135159817351598,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03381910118743253,
+            "ddi_source_covered_pair_fraction": 0.9970172149309698,
+            "known_graph_pair_rate_covered_pairs": 0.03392027808644613,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5417458527453334,
+                "patient_jaccard": 0.3885107963711853
+              }
+            }
+          },
+          "memory_size": 1,
+          "retained_conjunctions": 1
+        },
+        "random_conditional_memory": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 3.04118709382184e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5414011728697623,
+            "patient_jaccard": 0.38824720887720365,
+            "micro_f1": 0.5632143791990227,
+            "micro_precision": 0.5312319973664719,
+            "micro_recall": 0.5992944016340173,
+            "mean_medications": 11.096803652968037,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.033602880246878304,
+            "ddi_source_covered_pair_fraction": 0.9969997428351002,
+            "known_graph_pair_rate_covered_pairs": 0.03370400091711567,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5414011728697623,
+                "patient_jaccard": 0.38824720887720365
+              }
+            }
+          },
+          "memory_size": 1,
+          "retained_conjunctions": 1
+        },
+        "own_error_program_agent": {
+          "witness_decisions_checked": 1,
+          "induction_gain_max_delta": 1.5178830414797062e-18,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5413748267861428,
+            "patient_jaccard": 0.3881701388279612,
+            "micro_f1": 0.5632759747331736,
+            "micro_precision": 0.5306139198949442,
+            "micro_recall": 0.6002228205366261,
+            "mean_medications": 11.126940639269407,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03379617128320282,
+            "ddi_source_covered_pair_fraction": 0.9970154768841578,
+            "known_graph_pair_rate_covered_pairs": 0.03389733867404102,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5413748267861428,
+                "patient_jaccard": 0.3881701388279612
+              }
+            }
+          },
+          "memory_size": 1,
+          "retained_conjunctions": 1
+        },
+        "shuffled_evidence_program_agent": {
+          "witness_decisions_checked": 1,
+          "induction_gain_max_delta": 2.916503843986007e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5411309044412873,
+            "patient_jaccard": 0.38792187230828107,
+            "micro_f1": 0.5632806358633942,
+            "micro_precision": 0.5317885709573679,
+            "micro_recall": 0.598737350292452,
+            "mean_medications": 11.074885844748858,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03340307233749857,
+            "ddi_source_covered_pair_fraction": 0.9970193740685543,
+            "known_graph_pair_rate_covered_pairs": 0.033502932045532945,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5411309044412873,
+                "patient_jaccard": 0.38792187230828107
+              }
+            }
+          },
+          "memory_size": 1,
+          "retained_conjunctions": 0
+        },
+        "matched_proposals_no_witness": {
+          "witness_decisions_checked": 1,
+          "induction_gain_max_delta": 1.5178830414797062e-18,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5413748267861428,
+            "patient_jaccard": 0.3881701388279612,
+            "micro_f1": 0.5632759747331736,
+            "micro_precision": 0.5306139198949442,
+            "micro_recall": 0.6002228205366261,
+            "mean_medications": 11.126940639269407,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03379617128320282,
+            "ddi_source_covered_pair_fraction": 0.9970154768841578,
+            "known_graph_pair_rate_covered_pairs": 0.03389733867404102,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5413748267861428,
+                "patient_jaccard": 0.3881701388279612
+              }
+            }
+          },
+          "memory_size": 1,
+          "retained_conjunctions": 1
+        }
+      }
+    },
+    {
+      "round": 2,
+      "round_source_sha256": "9c43ce3d616fd81654416c20f011f8fff2569814f3a51eb3cd5009c0fbf2a38b",
+      "auditor_sha256": "216802141b2aef5350b989c70e0079e87889a0bebc2b1a31931eb0995569b0eb",
+      "fit_patient_count": 2277,
+      "fresh_witness_patients": 285,
+      "policy_witness_overlap": 0,
+      "prior_witness_overlap": 0,
+      "original_model_refits": 4,
+      "coefficient_max_abs_delta": 0.0,
+      "calibration_gain_max_abs_delta": 8.380882793312949e-17,
+      "arms": {
+        "raw_policy": {
+          "witness_decisions_checked": 0,
+          "induction_gain_max_delta": 0.0,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5530669986303549,
+            "patient_jaccard": 0.40061204594789285,
+            "micro_f1": 0.5726718062715792,
+            "micro_precision": 0.5836868492094099,
+            "micro_recall": 0.5620648036394021,
+            "mean_medications": 9.472146118721462,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03423586853735261,
+            "ddi_source_covered_pair_fraction": 0.9998263118281645,
+            "known_graph_pair_rate_covered_pairs": 0.034241815935762816,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5530669986303549,
+                "patient_jaccard": 0.40061204594789285
+              }
+            }
+          },
+          "memory_size": 0,
+          "retained_conjunctions": 0
+        },
+        "calibrated_policy": {
+          "witness_decisions_checked": 0,
+          "induction_gain_max_delta": 0.0,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5602681377880573,
+            "patient_jaccard": 0.4070056878531323,
+            "micro_f1": 0.5815609188196839,
+            "micro_precision": 0.5616675315689327,
+            "micro_recall": 0.6029152353541918,
+            "mean_medications": 10.558904109589042,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03270871928812221,
+            "ddi_source_covered_pair_fraction": 0.9987548212712971,
+            "known_graph_pair_rate_covered_pairs": 0.032749498266739646,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5602681377880573,
+                "patient_jaccard": 0.4070056878531323
+              }
+            }
+          },
+          "memory_size": 0,
+          "retained_conjunctions": 0
+        },
+        "greedy_conditional_memory": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 3.201106914263452e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5604665213476806,
+            "patient_jaccard": 0.40703899658434617,
+            "micro_f1": 0.5817611472103966,
+            "micro_precision": 0.5622834372834373,
+            "micro_recall": 0.6026367096834091,
+            "mean_medications": 10.542465753424658,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03291189434031326,
+            "ddi_source_covered_pair_fraction": 0.9987646601290244,
+            "known_graph_pair_rate_covered_pairs": 0.03295260200342048,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5604665213476806,
+                "patient_jaccard": 0.40703899658434617
+              }
+            }
+          },
+          "memory_size": 3,
+          "retained_conjunctions": 2
+        },
+        "random_conditional_memory": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 1.8851565274091708e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5603166951155082,
+            "patient_jaccard": 0.40711668426882036,
+            "micro_f1": 0.581508078994614,
+            "micro_precision": 0.5628638456859849,
+            "micro_recall": 0.6014297651100177,
+            "mean_medications": 10.510502283105023,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.032684848763586745,
+            "ddi_source_covered_pair_fraction": 0.9987582210366555,
+            "known_graph_pair_rate_covered_pairs": 0.03272548658439246,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5603166951155082,
+                "patient_jaccard": 0.40711668426882036
+              }
+            }
+          },
+          "memory_size": 4,
+          "retained_conjunctions": 2
+        },
+        "own_error_program_agent": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 3.8685688766998405e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5603286344727053,
+            "patient_jaccard": 0.40703709414887496,
+            "micro_f1": 0.5817221625492303,
+            "micro_precision": 0.561565713298194,
+            "micro_recall": 0.6033794448054962,
+            "mean_medications": 10.568949771689498,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.033089071958490736,
+            "ddi_source_covered_pair_fraction": 0.9987711073688044,
+            "known_graph_pair_rate_covered_pairs": 0.033129784907036094,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5603286344727053,
+                "patient_jaccard": 0.40703709414887496
+              }
+            }
+          },
+          "memory_size": 3,
+          "retained_conjunctions": 1
+        },
+        "shuffled_evidence_program_agent": {
+          "witness_decisions_checked": 0,
+          "induction_gain_max_delta": 0.0,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5601494722658479,
+            "patient_jaccard": 0.40691528313402564,
+            "micro_f1": 0.5814444095336415,
+            "micro_precision": 0.5628258602711157,
+            "micro_recall": 0.6013369232197567,
+            "mean_medications": 10.509589041095891,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03237657864523536,
+            "ddi_source_covered_pair_fraction": 0.9987447378492155,
+            "known_graph_pair_rate_covered_pairs": 0.032417270818325336,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5601494722658479,
+                "patient_jaccard": 0.40691528313402564
+              }
+            }
+          },
+          "memory_size": 1,
+          "retained_conjunctions": 0
+        },
+        "matched_proposals_no_witness": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 3.8685688766998405e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5594869948006688,
+            "patient_jaccard": 0.40615220568290034,
+            "micro_f1": 0.5812935501161336,
+            "micro_precision": 0.5601273995007316,
+            "micro_recall": 0.6041221799275833,
+            "mean_medications": 10.609132420091324,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03307680700165987,
+            "ddi_source_covered_pair_fraction": 0.998777727478497,
+            "known_graph_pair_rate_covered_pairs": 0.03311728534952938,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5594869948006688,
+                "patient_jaccard": 0.40615220568290034
+              }
+            }
+          },
+          "memory_size": 5,
+          "retained_conjunctions": 1
+        }
+      }
+    },
+    {
+      "round": 3,
+      "round_source_sha256": "cbed496ed5c16a0b35bb351d31de285c7ac56464daab94cc17a6e6d13cb27bd4",
+      "auditor_sha256": "216802141b2aef5350b989c70e0079e87889a0bebc2b1a31931eb0995569b0eb",
+      "fit_patient_count": 3416,
+      "fresh_witness_patients": 285,
+      "policy_witness_overlap": 0,
+      "prior_witness_overlap": 0,
+      "original_model_refits": 4,
+      "coefficient_max_abs_delta": 0.0,
+      "calibration_gain_max_abs_delta": 6.731709645008827e-17,
+      "arms": {
+        "raw_policy": {
+          "witness_decisions_checked": 0,
+          "induction_gain_max_delta": 0.0,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5641412368890028,
+            "patient_jaccard": 0.41138475838537397,
+            "micro_f1": 0.585906793935991,
+            "micro_precision": 0.5906046599377417,
+            "micro_recall": 0.5812830749234055,
+            "mean_medications": 9.681278538812785,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03425975120458751,
+            "ddi_source_covered_pair_fraction": 0.9986625872524413,
+            "known_graph_pair_rate_covered_pairs": 0.03430563199412952,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5641412368890028,
+                "patient_jaccard": 0.41138475838537397
+              }
+            }
+          },
+          "memory_size": 0,
+          "retained_conjunctions": 0
+        },
+        "calibrated_policy": {
+          "witness_decisions_checked": 0,
+          "induction_gain_max_delta": 0.0,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5712016374212773,
+            "patient_jaccard": 0.4177046746693634,
+            "micro_f1": 0.5940293171254916,
+            "micro_precision": 0.5726841878500646,
+            "micro_recall": 0.6170272026738465,
+            "mean_medications": 10.598173515981735,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.033237925401987084,
+            "ddi_source_covered_pair_fraction": 0.9966432392741005,
+            "known_graph_pair_rate_covered_pairs": 0.03334987294570496,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5712016374212773,
+                "patient_jaccard": 0.4177046746693634
+              }
+            }
+          },
+          "memory_size": 0,
+          "retained_conjunctions": 0
+        },
+        "greedy_conditional_memory": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 2.813504637599884e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5707229128209458,
+            "patient_jaccard": 0.4172687950370833,
+            "micro_f1": 0.5935126440890001,
+            "micro_precision": 0.572043751614848,
+            "micro_recall": 0.6166558351128029,
+            "mean_medications": 10.60365296803653,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03329733621310295,
+            "ddi_source_covered_pair_fraction": 0.9966252699784017,
+            "known_graph_pair_rate_covered_pairs": 0.033410086234141496,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5707229128209458,
+                "patient_jaccard": 0.4172687950370833
+              }
+            }
+          },
+          "memory_size": 4,
+          "retained_conjunctions": 3
+        },
+        "random_conditional_memory": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 2.970713952610282e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.570897236178442,
+            "patient_jaccard": 0.41750945784907384,
+            "micro_f1": 0.5935166554884864,
+            "micro_precision": 0.5724512678971883,
+            "micro_recall": 0.6161916256614984,
+            "mean_medications": 10.588127853881279,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.032858691071106026,
+            "ddi_source_covered_pair_fraction": 0.9966283340357638,
+            "known_graph_pair_rate_covered_pairs": 0.032969854407056125,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.570897236178442,
+                "patient_jaccard": 0.41750945784907384
+              }
+            }
+          },
+          "memory_size": 7,
+          "retained_conjunctions": 5
+        },
+        "own_error_program_agent": {
+          "witness_decisions_checked": 1,
+          "induction_gain_max_delta": 2.17653586126465e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5712695841151026,
+            "patient_jaccard": 0.41770283312445255,
+            "micro_f1": 0.5941568609905598,
+            "micro_precision": 0.5734024179620034,
+            "micro_recall": 0.6164701513322811,
+            "mean_medications": 10.575342465753424,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.033167022331760394,
+            "ddi_source_covered_pair_fraction": 0.9966186769258514,
+            "known_graph_pair_rate_covered_pairs": 0.03327955124628677,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5712695841151026,
+                "patient_jaccard": 0.41770283312445255
+              }
+            }
+          },
+          "memory_size": 4,
+          "retained_conjunctions": 2
+        },
+        "shuffled_evidence_program_agent": {
+          "witness_decisions_checked": 0,
+          "induction_gain_max_delta": 0.0,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5709464270684329,
+            "patient_jaccard": 0.4174275752486354,
+            "micro_f1": 0.5937275985663082,
+            "micro_precision": 0.5737293272144774,
+            "micro_recall": 0.6151703648686287,
+            "mean_medications": 10.54703196347032,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03280595977454403,
+            "ddi_source_covered_pair_fraction": 0.996645360170452,
+            "known_graph_pair_rate_covered_pairs": 0.032916382381927074,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5709464270684329,
+                "patient_jaccard": 0.4174275752486354
+              }
+            }
+          },
+          "memory_size": 1,
+          "retained_conjunctions": 0
+        },
+        "matched_proposals_no_witness": {
+          "witness_decisions_checked": 1,
+          "induction_gain_max_delta": 2.17653586126465e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5703672477599887,
+            "patient_jaccard": 0.4167108737797398,
+            "micro_f1": 0.5937765078798161,
+            "micro_precision": 0.5718954248366013,
+            "micro_recall": 0.61739857023489,
+            "mean_medications": 10.61917808219178,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03314413741598208,
+            "ddi_source_covered_pair_fraction": 0.9966392830470501,
+            "known_graph_pair_rate_covered_pairs": 0.03325590108654927,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5703672477599887,
+                "patient_jaccard": 0.4167108737797398
+              }
+            }
+          },
+          "memory_size": 6,
+          "retained_conjunctions": 2
+        }
+      }
+    },
+    {
+      "round": 4,
+      "round_source_sha256": "d6ca4fee91113a2f64e35aa4deb22d1925bc6599a71a33e56bde83fbc8394213",
+      "auditor_sha256": "216802141b2aef5350b989c70e0079e87889a0bebc2b1a31931eb0995569b0eb",
+      "fit_patient_count": 4554,
+      "fresh_witness_patients": 284,
+      "policy_witness_overlap": 0,
+      "prior_witness_overlap": 0,
+      "original_model_refits": 4,
+      "coefficient_max_abs_delta": 0.0,
+      "calibration_gain_max_abs_delta": 6.998525023393931e-17,
+      "arms": {
+        "raw_policy": {
+          "witness_decisions_checked": 0,
+          "induction_gain_max_delta": 0.0,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5735087760390397,
+            "patient_jaccard": 0.42024261050324635,
+            "micro_f1": 0.5944563296437541,
+            "micro_precision": 0.5955642530984997,
+            "micro_recall": 0.5933525206573206,
+            "mean_medications": 9.8,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03408482859487033,
+            "ddi_source_covered_pair_fraction": 0.9981628794634895,
+            "known_graph_pair_rate_covered_pairs": 0.03414756178189161,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5735087760390397,
+                "patient_jaccard": 0.42024261050324635
+              }
+            }
+          },
+          "memory_size": 0,
+          "retained_conjunctions": 0
+        },
+        "calibrated_policy": {
+          "witness_decisions_checked": 0,
+          "induction_gain_max_delta": 0.0,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5789963411884146,
+            "patient_jaccard": 0.4253728269919831,
+            "micro_f1": 0.6001783325902809,
+            "micro_precision": 0.5773222403293593,
+            "micro_recall": 0.6249187633460217,
+            "mean_medications": 10.647488584474885,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03266372452067128,
+            "ddi_source_covered_pair_fraction": 0.996000059039719,
+            "known_graph_pair_rate_covered_pairs": 0.032794902193242444,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5789963411884146,
+                "patient_jaccard": 0.4253728269919831
+              }
+            }
+          },
+          "memory_size": 0,
+          "retained_conjunctions": 0
+        },
+        "greedy_conditional_memory": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 4.569912157026401e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5780452696886605,
+            "patient_jaccard": 0.42437858759839125,
+            "micro_f1": 0.5994110298054613,
+            "micro_precision": 0.5770122841680269,
+            "micro_recall": 0.6236189768823693,
+            "mean_medications": 10.631050228310503,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03276330035744479,
+            "ddi_source_covered_pair_fraction": 0.9959806000919568,
+            "known_graph_pair_rate_covered_pairs": 0.0328955206099595,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5780452696886605,
+                "patient_jaccard": 0.42437858759839125
+              }
+            }
+          },
+          "memory_size": 5,
+          "retained_conjunctions": 4
+        },
+        "random_conditional_memory": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 2.370336999596434e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5793750375662927,
+            "patient_jaccard": 0.4256427385893736,
+            "micro_f1": 0.6002051831036175,
+            "micro_precision": 0.5776098901098901,
+            "micro_recall": 0.624640237675239,
+            "mean_medications": 10.63744292237443,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.032314967166214556,
+            "ddi_source_covered_pair_fraction": 0.9959828641733742,
+            "known_graph_pair_rate_covered_pairs": 0.03244530436076797,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5793750375662927,
+                "patient_jaccard": 0.4256427385893736
+              }
+            }
+          },
+          "memory_size": 8,
+          "retained_conjunctions": 6
+        },
+        "own_error_program_agent": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 3.0357660829594124e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5778510684158036,
+            "patient_jaccard": 0.42401236283853644,
+            "micro_f1": 0.5997505123407288,
+            "micro_precision": 0.5765310492505353,
+            "micro_recall": 0.6249187633460217,
+            "mean_medications": 10.662100456621005,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03259460096663916,
+            "ddi_source_covered_pair_fraction": 0.9959919839679359,
+            "known_graph_pair_rate_covered_pairs": 0.03272576636288318,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5778510684158036,
+                "patient_jaccard": 0.42401236283853644
+              }
+            }
+          },
+          "memory_size": 6,
+          "retained_conjunctions": 2
+        },
+        "shuffled_evidence_program_agent": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 4.650041473836658e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5786027422828312,
+            "patient_jaccard": 0.4249207842830817,
+            "micro_f1": 0.5993913899579343,
+            "micro_precision": 0.5785745140388769,
+            "micro_recall": 0.6217621390771516,
+            "mean_medications": 10.570776255707763,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03228507768456627,
+            "ddi_source_covered_pair_fraction": 0.995977449792891,
+            "known_graph_pair_rate_covered_pairs": 0.03241547054230977,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5786027422828312,
+                "patient_jaccard": 0.4249207842830817
+              }
+            }
+          },
+          "memory_size": 2,
+          "retained_conjunctions": 0
+        },
+        "matched_proposals_no_witness": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 3.0357660829594124e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5775772118967779,
+            "patient_jaccard": 0.42369643712156047,
+            "micro_f1": 0.599483204134367,
+            "micro_precision": 0.5762740899357601,
+            "micro_recall": 0.624640237675239,
+            "mean_medications": 10.662100456621005,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.032725772466736414,
+            "ddi_source_covered_pair_fraction": 0.9959921611386977,
+            "known_graph_pair_rate_covered_pairs": 0.03285745987129225,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5775772118967779,
+                "patient_jaccard": 0.42369643712156047
+              }
+            }
+          },
+          "memory_size": 9,
+          "retained_conjunctions": 2
+        }
+      }
+    },
+    {
+      "round": 5,
+      "round_source_sha256": "faa8bdbb5a613b5f330c2ff25b373b5fd17f1ae9d7b92b973b4d14e5ffad58dc",
+      "auditor_sha256": "216802141b2aef5350b989c70e0079e87889a0bebc2b1a31931eb0995569b0eb",
+      "fit_patient_count": 5692,
+      "fresh_witness_patients": 284,
+      "policy_witness_overlap": 0,
+      "prior_witness_overlap": 0,
+      "original_model_refits": 4,
+      "coefficient_max_abs_delta": 0.0,
+      "calibration_gain_max_abs_delta": 1.0619760279495516e-16,
+      "arms": {
+        "raw_policy": {
+          "witness_decisions_checked": 0,
+          "induction_gain_max_delta": 0.0,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.576147171725037,
+            "patient_jaccard": 0.42371889326045065,
+            "micro_f1": 0.5985048985466871,
+            "micro_precision": 0.5986438788779491,
+            "micro_recall": 0.5983659827314084,
+            "mean_medications": 9.831963470319634,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03397268030292307,
+            "ddi_source_covered_pair_fraction": 0.9981775072545828,
+            "known_graph_pair_rate_covered_pairs": 0.03403470831191392,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.576147171725037,
+                "patient_jaccard": 0.42371889326045065
+              }
+            }
+          },
+          "memory_size": 0,
+          "retained_conjunctions": 0
+        },
+        "calibrated_policy": {
+          "witness_decisions_checked": 0,
+          "induction_gain_max_delta": 0.0,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5836545753382801,
+            "patient_jaccard": 0.43066615603582015,
+            "micro_f1": 0.6055329680042425,
+            "micro_precision": 0.5778021421944842,
+            "micro_recall": 0.636059790177328,
+            "mean_medications": 10.828310502283106,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.033530908418972896,
+            "ddi_source_covered_pair_fraction": 0.9933478316489702,
+            "known_graph_pair_rate_covered_pairs": 0.0337554553909995,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5836545753382801,
+                "patient_jaccard": 0.43066615603582015
+              }
+            }
+          },
+          "memory_size": 0,
+          "retained_conjunctions": 0
+        },
+        "greedy_conditional_memory": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 3.8082601308553343e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5832537319474175,
+            "patient_jaccard": 0.4302599474420301,
+            "micro_f1": 0.6049781157434015,
+            "micro_precision": 0.5774814314652262,
+            "micro_recall": 0.63522421316498,
+            "mean_medications": 10.820091324200913,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03363574118452585,
+            "ddi_source_covered_pair_fraction": 0.9933099395184297,
+            "known_graph_pair_rate_covered_pairs": 0.0338622818984706,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5832537319474175,
+                "patient_jaccard": 0.4302599474420301
+              }
+            }
+          },
+          "memory_size": 6,
+          "retained_conjunctions": 4
+        },
+        "random_conditional_memory": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 5.642594681429247e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5837673867061355,
+            "patient_jaccard": 0.4307467443355729,
+            "micro_f1": 0.6050457296867406,
+            "micro_precision": 0.5772213791940651,
+            "micro_recall": 0.6356884226162844,
+            "mean_medications": 10.832876712328767,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03309190453106733,
+            "ddi_source_covered_pair_fraction": 0.993327440189341,
+            "known_graph_pair_rate_covered_pairs": 0.03331419549303861,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5837673867061355,
+                "patient_jaccard": 0.4307467443355729
+              }
+            }
+          },
+          "memory_size": 10,
+          "retained_conjunctions": 8
+        },
+        "own_error_program_agent": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 8.383593298744163e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5833147896109515,
+            "patient_jaccard": 0.43018399148775144,
+            "micro_f1": 0.6055523679216136,
+            "micro_precision": 0.5771495877502945,
+            "micro_recall": 0.636895367189676,
+            "mean_medications": 10.854794520547944,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03330923728933679,
+            "ddi_source_covered_pair_fraction": 0.9933665008291874,
+            "known_graph_pair_rate_covered_pairs": 0.03353166959176976,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5833147896109515,
+                "patient_jaccard": 0.43018399148775144
+              }
+            }
+          },
+          "memory_size": 9,
+          "retained_conjunctions": 2
+        },
+        "shuffled_evidence_program_agent": {
+          "witness_decisions_checked": 1,
+          "induction_gain_max_delta": 6.467265958876034e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5837165339438759,
+            "patient_jaccard": 0.4306400819128037,
+            "micro_f1": 0.6051359382622965,
+            "micro_precision": 0.5793138586956522,
+            "micro_recall": 0.6333673753597623,
+            "mean_medications": 10.75433789954338,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.03310886644219978,
+            "ddi_source_covered_pair_fraction": 0.9932803821692711,
+            "known_graph_pair_rate_covered_pairs": 0.03333285045848967,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5837165339438759,
+                "patient_jaccard": 0.4306400819128037
+              }
+            }
+          },
+          "memory_size": 3,
+          "retained_conjunctions": 0
+        },
+        "matched_proposals_no_witness": {
+          "witness_decisions_checked": 4,
+          "induction_gain_max_delta": 8.383593298744163e-17,
+          "proposal": {
+            "patients": 433,
+            "visits": 1095,
+            "patient_f1": 0.5833067564416244,
+            "patient_jaccard": 0.430129834494799,
+            "micro_f1": 0.6052724387233293,
+            "micro_precision": 0.5762612272307563,
+            "micro_recall": 0.6373595766409804,
+            "mean_medications": 10.87945205479452,
+            "empty_prediction_fraction": 0.0,
+            "empty_target_fraction": 0.0,
+            "known_graph_pair_rate_all_predictions": 0.033393629349085664,
+            "ddi_source_covered_pair_fraction": 0.9933721488934739,
+            "known_graph_pair_rate_covered_pairs": 0.0336164340688262,
+            "strata": {
+              "zero_target": {
+                "visits": 0,
+                "patients": 0
+              },
+              "nonzero_target": {
+                "visits": 1095,
+                "patients": 433,
+                "patient_f1": 0.5833067564416244,
+                "patient_jaccard": 0.430129834494799
+              }
+            }
+          },
+          "memory_size": 13,
+          "retained_conjunctions": 2
+        }
+      }
+    }
+  ],
+  "guard": {
+    "raw_policy": {
+      "patients": 467,
+      "visits": 1231,
+      "patient_f1": 0.5751997019178896,
+      "patient_jaccard": 0.42340031718411825,
+      "micro_f1": 0.5994666222185182,
+      "micro_precision": 0.5958909783779306,
+      "micro_recall": 0.6030854364047958,
+      "mean_medications": 9.805848903330626,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.033965877164069,
+      "ddi_source_covered_pair_fraction": 0.9978496648930326,
+      "known_graph_pair_rate_covered_pairs": 0.03403907257683959,
+      "strata": {
+        "zero_target": {
+          "visits": 0,
+          "patients": 0
+        },
+        "nonzero_target": {
+          "visits": 1231,
+          "patients": 467,
+          "patient_f1": 0.5751997019178896,
+          "patient_jaccard": 0.42340031718411825
+        }
+      }
+    },
+    "calibrated_policy": {
+      "patients": 467,
+      "visits": 1231,
+      "patient_f1": 0.5808520784189797,
+      "patient_jaccard": 0.42873849309150225,
+      "micro_f1": 0.6051866310799506,
+      "micro_precision": 0.5765027322404371,
+      "micro_recall": 0.6368743187725329,
+      "mean_medications": 10.70349309504468,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.032609530637851124,
+      "ddi_source_covered_pair_fraction": 0.994148977031214,
+      "known_graph_pair_rate_covered_pairs": 0.032801452690955454,
+      "strata": {
+        "zero_target": {
+          "visits": 0,
+          "patients": 0
+        },
+        "nonzero_target": {
+          "visits": 1231,
+          "patients": 467,
+          "patient_f1": 0.5808520784189797,
+          "patient_jaccard": 0.42873849309150225
+        }
+      }
+    },
+    "greedy_conditional_memory": {
+      "patients": 467,
+      "visits": 1231,
+      "patient_f1": 0.5814183268343682,
+      "patient_jaccard": 0.42943073120827835,
+      "micro_f1": 0.6054980079681275,
+      "micro_precision": 0.5768617626964245,
+      "micro_recall": 0.6371258489142282,
+      "mean_medications": 10.701056051990252,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.03267311491392359,
+      "ddi_source_covered_pair_fraction": 0.9941503963876132,
+      "known_graph_pair_rate_covered_pairs": 0.03286536426746497,
+      "strata": {
+        "zero_target": {
+          "visits": 0,
+          "patients": 0
+        },
+        "nonzero_target": {
+          "visits": 1231,
+          "patients": 467,
+          "patient_f1": 0.5814183268343682,
+          "patient_jaccard": 0.42943073120827835
+        }
+      }
+    },
+    "random_conditional_memory": {
+      "patients": 467,
+      "visits": 1231,
+      "patient_f1": 0.5806380326682974,
+      "patient_jaccard": 0.42819760207586466,
+      "micro_f1": 0.6046826471290914,
+      "micro_precision": 0.5757943429134754,
+      "micro_recall": 0.6366227886308375,
+      "mean_medications": 10.71242891957758,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.032385911807711054,
+      "ddi_source_covered_pair_fraction": 0.9941769489264551,
+      "known_graph_pair_rate_covered_pairs": 0.032575601197233975,
+      "strata": {
+        "zero_target": {
+          "visits": 0,
+          "patients": 0
+        },
+        "nonzero_target": {
+          "visits": 1231,
+          "patients": 467,
+          "patient_f1": 0.5806380326682974,
+          "patient_jaccard": 0.42819760207586466
+        }
+      }
+    },
+    "own_error_program_agent": {
+      "patients": 467,
+      "visits": 1231,
+      "patient_f1": 0.5811578504131625,
+      "patient_jaccard": 0.42905414866177477,
+      "micro_f1": 0.6055403203370295,
+      "micro_precision": 0.5756385068762279,
+      "micro_recall": 0.6387188731449652,
+      "mean_medications": 10.750609260763607,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.03267932220665053,
+      "ddi_source_covered_pair_fraction": 0.9941521212893362,
+      "known_graph_pair_rate_covered_pairs": 0.03287155105022363,
+      "strata": {
+        "zero_target": {
+          "visits": 0,
+          "patients": 0
+        },
+        "nonzero_target": {
+          "visits": 1231,
+          "patients": 467,
+          "patient_f1": 0.5811578504131625,
+          "patient_jaccard": 0.42905414866177477
+        }
+      }
+    },
+    "shuffled_evidence_program_agent": {
+      "patients": 467,
+      "visits": 1231,
+      "patient_f1": 0.5806400083361255,
+      "patient_jaccard": 0.42848194148469426,
+      "micro_f1": 0.6048554544002556,
+      "micro_precision": 0.5774186170618282,
+      "micro_recall": 0.6350297644001006,
+      "mean_medications": 10.655564581640942,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.03240172981346415,
+      "ddi_source_covered_pair_fraction": 0.9941263796553282,
+      "known_graph_pair_rate_covered_pairs": 0.032593169718218414,
+      "strata": {
+        "zero_target": {
+          "visits": 0,
+          "patients": 0
+        },
+        "nonzero_target": {
+          "visits": 1231,
+          "patients": 467,
+          "patient_f1": 0.5806400083361255,
+          "patient_jaccard": 0.42848194148469426
+        }
+      }
+    },
+    "matched_proposals_no_witness": {
+      "patients": 467,
+      "visits": 1231,
+      "patient_f1": 0.5807381497021668,
+      "patient_jaccard": 0.4286363619818117,
+      "micro_f1": 0.6049117787315212,
+      "micro_precision": 0.5749792248999018,
+      "micro_recall": 0.6381319694810095,
+      "mean_medications": 10.753046303818033,
+      "empty_prediction_fraction": 0.0,
+      "empty_target_fraction": 0.0,
+      "known_graph_pair_rate_all_predictions": 0.03288735983690112,
+      "ddi_source_covered_pair_fraction": 0.994151376146789,
+      "known_graph_pair_rate_covered_pairs": 0.03308083721049461,
+      "strata": {
+        "zero_target": {
+          "visits": 0,
+          "patients": 0
+        },
+        "nonzero_target": {
+          "visits": 1231,
+          "patients": 467,
+          "patient_f1": 0.5807381497021668,
+          "patient_jaccard": 0.4286363619818117
+        }
+      }
+    }
+  },
+  "test_inference": false,
+  "scope": "Independent raw features and patient partition; selected base and all fold models freshly refit; predictions, actual calibration gains, eligible proposal effects, fresh-witness decisions and final guard outputs reconstructed. Full candidate search ranking and skipped calibration alternatives are not independently enumerated. Guard remains development evidence."
+}

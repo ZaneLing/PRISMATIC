@@ -475,20 +475,20 @@ The frozen per-round state is $(\theta_r,\tau_r,M_r)$: ordinary supervised logis
 This design changes witness isolation, calibration and program expressivity together; comparisons with the prior study do not isolate any one change. The new seven-arm study isolates the language contribution within the same revised data/budget protocol. Proposal data select rounds, guard is report-only, and no new test inference is authorized by its current protocol.\begin{table*}[t]\centering\small
 \caption{Isolated-witness development study on the same 1,231 guard visits/467 patients. Only independently audited seeds appear; these models fit 5,692 patients and reserve 1,423 witnesses, unlike the earlier all-training-patient policy fits. Sample seed deviation is shown only when multiple seeds complete.}
 \begin{tabular}{llrrr}\toprule Panel & Method & Audited seeds & Patient F1 & Patient Jaccard\\\midrule
-full & Raw logistic & 1 & 0.60594 & 0.45161 \\
-full & Class calibration & 1 & 0.60719 & 0.45324 \\
-full & Greedy programs & 1 & 0.60719 & 0.45306 \\
-full & Random programs & 1 & 0.60687 & 0.45287 \\
-full & Own-error synthesis & 1 & 0.60789 & 0.45379 \\
-full & Shuffled-evidence synthesis & 1 & 0.60719 & 0.45324 \\
-full & Same proposals, no witness & 1 & 0.60694 & 0.45262 \\
-molecular & Raw logistic & 1 & 0.57623 & 0.42480 \\
-molecular & Class calibration & 1 & 0.57911 & 0.42750 \\
-molecular & Greedy programs & 1 & 0.58026 & 0.42835 \\
-molecular & Random programs & 1 & 0.57984 & 0.42805 \\
-molecular & Own-error synthesis & 1 & 0.57908 & 0.42721 \\
-molecular & Shuffled-evidence synthesis & 1 & 0.57877 & 0.42715 \\
-molecular & Same proposals, no witness & 1 & 0.57887 & 0.42683 \\
+full & Raw logistic & 2 & 0.60554 $\pm$ 0.00058 & 0.45116 $\pm$ 0.00064 \\
+full & Class calibration & 2 & 0.60758 $\pm$ 0.00056 & 0.45361 $\pm$ 0.00052 \\
+full & Greedy programs & 2 & 0.60775 $\pm$ 0.00079 & 0.45365 $\pm$ 0.00083 \\
+full & Random programs & 2 & 0.60715 $\pm$ 0.00040 & 0.45317 $\pm$ 0.00043 \\
+full & Own-error synthesis & 2 & 0.60771 $\pm$ 0.00026 & 0.45355 $\pm$ 0.00033 \\
+full & Shuffled-evidence synthesis & 2 & 0.60761 $\pm$ 0.00061 & 0.45367 $\pm$ 0.00061 \\
+full & Same proposals, no witness & 2 & 0.60720 $\pm$ 0.00036 & 0.45289 $\pm$ 0.00039 \\
+molecular & Raw logistic & 3 & 0.57564 $\pm$ 0.00053 & 0.42407 $\pm$ 0.00070 \\
+molecular & Class calibration & 3 & 0.57989 $\pm$ 0.00088 & 0.42804 $\pm$ 0.00064 \\
+molecular & Greedy programs & 3 & 0.58094 $\pm$ 0.00060 & 0.42903 $\pm$ 0.00059 \\
+molecular & Random programs & 3 & 0.57930 $\pm$ 0.00168 & 0.42723 $\pm$ 0.00154 \\
+molecular & Own-error synthesis & 3 & 0.58021 $\pm$ 0.00105 & 0.42827 $\pm$ 0.00095 \\
+molecular & Shuffled-evidence synthesis & 3 & 0.57956 $\pm$ 0.00097 & 0.42769 $\pm$ 0.00070 \\
+molecular & Same proposals, no witness & 3 & 0.58010 $\pm$ 0.00106 & 0.42801 $\pm$ 0.00102 \\
 \bottomrule\end{tabular}\end{table*}
 Calibration gains are ordinary supervised gains. A score above raw logistic alone is insufficient evidence for language-agent self-improvement; the calibrated, greedy and shuffled controls are necessary.\paragraph{Executed development attribution.}
 A separately registered proposal-only replay compares no memory, prior-round memory and current memory under the identical current policy/calibration, and replays every actual edit without changing its original accept/reject decision. Positive witness effects can transfer negatively, and old-memory effects can change when the shared predictor changes. These descriptive decompositions motivate compatibility revalidation; they are not a newly trained counterfactual agent.
@@ -496,10 +496,36 @@ A separately registered proposal-only replay compares no memory, prior-round mem
 \caption{Proposal transfer of actually accepted edits in audited runs. Registration followed early development observations; no test labels or new API calls are used.}
 \begin{tabular}{lrrr}\toprule Run & Positive & Negative & Zero\\\midrule
 full seed42 & 4 & 4 & 0 \\
+full seed137 & 7 & 4 & 0 \\
 molecular seed42 & 4 & 3 & 0 \\
+molecular seed137 & 5 & 3 & 0 \\
+molecular seed2026 & 6 & 3 & 0 \\
 \bottomrule\end{tabular}\end{table}
 \paragraph{Historical metadata correction.}
 Rolling exports reused a mutable nested best-selection dictionary, causing some old nested entries to show later choices. Immutable per-round receipts and each arm's stored best-round field independently preserve the actual history; corrected historical choices are released separately. Proposal scores, rule states and final selections are verified unchanged. Frozen source/result hashes are retained.
+\paragraph{Compatibility revalidation and disjoint promotion.}
+A further registered factorial tests two fixed memory-maintenance policies without refitting the audited base models. Each fresh witness batch is divided by patient into editing group A and confirmation group B. Compatibility factor C checks old memory against the empty-memory policy on cross-fitted fitting patients and A before generating new edits; failed checks reset the corrections. Confirmation factor P checks the entire edited memory once on B. All checks require at least three affected patients, positive F1 change and nonnegative Jaccard change. Failed promotion returns the calibrated policy with no correction memory, not an empty prescription.
+
+Greedy, own-error synthesis and shuffled-evidence synthesis each run all four C/P combinations, alongside raw and calibrated policy controls: fourteen arms per seed and medication space. Every combination edits on A and computes the same shadow checks. C0P0 is consequently different from the preceding full-witness-batch study; only within-factorial contrasts isolate these gates. Identical prompts share exact responses across conditions, whereas diverging memories receive new prompts. The policies C/P are fixed engineering choices; executable rule memory remains the agent-generated object. B affects later rounds through retained memory, so this remains adaptive training validation on reused development patients.
+
+All raw states and verification decisions are retained. Proposal Jaccard selects a checkpoint with earliest ties; both that checkpoint and raw round five receive report-only guard evaluation after all five rounds. Independent scalar replays reconstruct source probabilities, induction effects, compatibility checks, every edit, whole-state promotion and final outputs. No test inference is performed in this intervention.\begin{table*}[t]\centering\small
+\caption{Audited compatibility/confirmation factorial on the same 467-patient guard set. C/P enable old-memory and whole-update checks respectively. Selected states use proposal Jaccard; the separate final column reports raw round five. Only audited seeds appear, with sample deviation when multiple seeds complete. This is exploratory development evidence.}
+\begin{tabular}{llrrr}\toprule Panel & Arm & Seeds & Selected patient F1 & Final-round F1\\\midrule
+full & raw policy & 1 & 0.60594 & 0.60594 \\
+full & calibrated policy & 1 & 0.60719 & 0.60719 \\
+full & greedy C0P0 & 1 & 0.60747 & 0.60747 \\
+full & greedy C0P1 & 1 & 0.60719 & 0.60719 \\
+full & greedy C1P0 & 1 & 0.60777 & 0.60777 \\
+full & greedy C1P1 & 1 & 0.60719 & 0.60719 \\
+full & own C0P0 & 1 & 0.60694 & 0.60694 \\
+full & own C0P1 & 1 & 0.60706 & 0.60706 \\
+full & own C1P0 & 1 & 0.60706 & 0.60706 \\
+full & own C1P1 & 1 & 0.60706 & 0.60706 \\
+full & shuffled C0P0 & 1 & 0.60761 & 0.60761 \\
+full & shuffled C0P1 & 1 & 0.60719 & 0.60719 \\
+full & shuffled C1P0 & 1 & 0.60719 & 0.60719 \\
+full & shuffled C1P1 & 1 & 0.60719 & 0.60719 \\
+\bottomrule\end{tabular}\end{table*}
 
 \section{Agent State and Update Mechanism}
 At round $r$, let the persistent state be $S_r=(W_r,M_r,T_r,K_r)$: prescription-selection parameters, episodic memory, order-tool state, and language skills. Runtime inference takes a patient snapshot, retrieves candidates and applicable experience, plans selections, and compiles structured orders. The current order compiler returns drug, route, dose string, dose unit and observed frequency; unobserved clinical attributes remain unknown.
@@ -743,9 +769,9 @@ A registered $2\times2\times2$ fixed factorial separates an instruction-derived 
 \begin{tabular}{rrrrrr}\toprule C & S & K & Val./80 & ID/64 & Type/60\\\midrule
 0 & 0 & 0 & 45 & 38 & 18 \\
 0 & 0 & 1 & 53 & 45 & 10 \\
-0 & 1 & 0 & 49 & 36 & -- \\
-0 & 1 & 1 & 59 & 46 & -- \\
-1 & 0 & 0 & 52 & 46 & -- \\
+0 & 1 & 0 & 49 & 36 & 43 \\
+0 & 1 & 1 & 59 & 46 & 50 \\
+1 & 0 & 0 & 52 & 46 & 29 \\
 1 & 0 & 1 & 54 & 49 & -- \\
 1 & 1 & 0 & 57 & 47 & -- \\
 1 & 1 & 1 & 66 & 54 & -- \\

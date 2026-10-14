@@ -48,8 +48,14 @@ flowchart TD
 
 '''
         text+=('## 2. Actual execution status\n\n' if lang=='en' else '## 2. 真实运行状态\n\n')
+        status=HERE.parent/'paper/execution_status.json'
+        if status.exists() and json.loads(status.read_text())['api']['status']=='waiting_for_credit':text+=('**API interruption:** unfinished model calls await credit after a new HTTP402; completed states and audits are preserved.\n\n' if lang=='en' else '**API中断：** 新HTTP402后，未完成模型调用等待补充额度；已完成状态和独立核验保留。\n\n')
         text+='| Panel | Seed | Completed rounds /5 | Status |\n|---|---:|---:|---|\n'
-        for z in runs:text+=f"| {z['lock']['panel']} | {z['lock']['seed']} | {len(z['rounds'])} | {z['status']} |\n"
+        indexed={(z['lock']['panel'],z['lock']['seed']):z for z in runs}
+        for panel in ['full','molecular']:
+            for seed in [42,137,2026]:
+                z=indexed.get((panel,seed),{'rounds':[],'status':'no_completed_round'})
+                text+=f"| {panel} | {seed} | {len(z['rounds'])} | {z['status']} |\n"
         text+=('\nNine synthetic checks passed before the first run, including a correction that helps A but harms B, stale-memory resets, low-support rejection and patient isolation. These are execution checks, not clinical scores.\n' if lang=='en' else '\n首轮前通过九项合成检查，包括A上改善而B上有害的编辑、旧记忆清除、低支持度拒绝和患者隔离；这些是执行检查，不是临床分数。\n')
         if not summary['panels']:text+=('\n**Guard scores pending independent audit.**\n' if lang=='en' else '\n**guard成绩等待独立核验后发布。**\n')
         for endpoint in ['selected','final']:

@@ -31,11 +31,12 @@ The sparse SafeDrug adjacency, persisted fixed molecular embedding and CPU/MPS A
 
 | Panel | Method | Seed | Finished epochs / 50 | Status |
 |---|---|---:|---:|---|
-| full | ARMR | 137 | 42 | training |
+| full | ARMR | 137 | 50 | selection_frozen |
+| full | ARMR | 2026 | 3 | training |
 | full | ARMR | 42 | 50 | selection_frozen |
-| full | GAMENet | 137 | 18 | training |
+| full | GAMENet | 137 | 28 | training |
 | full | GAMENet | 42 | 50 | selection_frozen |
-| molecular | SafeDrug | 137 | 20 | training |
+| molecular | SafeDrug | 137 | 30 | training |
 | molecular | SafeDrug | 42 | 50 | selection_frozen |
 
 Queued seeds/panels are not counted as completed. Snapshot of saved epoch receipts; no provisional neural test score.
@@ -91,6 +92,7 @@ Only completed 50-epoch runs whose selected checkpoint has been reloaded and ind
 
 | Panel | Method | Seed | Guard F1 | Guard Jaccard |
 |---|---|---:|---:|---:|
+| full | ARMR | 137 | 0.61000 | 0.45439 |
 | full | ARMR | 42 | 0.60738 | 0.45214 |
 | full | GAMENet | 42 | 0.52107 | 0.36505 |
 | molecular | SafeDrug | 42 | 0.53950 | 0.38673 |

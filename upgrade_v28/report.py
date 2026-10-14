@@ -31,6 +31,8 @@ All splits were used in prior work: this is a post-test-motivated exploratory re
 
 ''')
         text+=f"Status / 状态：**{s['status']}**. Pending / 未完成 cells are not scored as zero.\n\n"
+        status=HERE.parent/'paper/execution_status.json'
+        if status.exists() and json.loads(status.read_text())['api']['status']=='waiting_for_credit':text+=('**API interruption:** new requests returned HTTP402. Unfinished cells retain resumable receipts and await credit; completed audited scores remain valid.\n\n' if lang=='en' else '**API中断：** 新请求返回HTTP402；未完成单元保留可续跑回执，等待补充额度。已完成并核验的分数保持有效。\n\n')
         text+='| C: schema | S: statistics | K: frozen skills | Validation /80 | ID /64 | Held-out types /60 |\n|---|---|---|---:|---:|---:|\n'
         for c in [0,1]:
             for st in [0,1]:
