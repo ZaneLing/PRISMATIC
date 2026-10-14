@@ -5,7 +5,7 @@
 
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 6/15 author-model runs finish their full 50 epochs, with 355/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 6/15 author-model runs finish their full 50 epochs, with 372/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Common main-table extension:** all v29/v30 program methods, frozen raw rounds and proposal-selected states are now registered for the exact v27 test cases and label spaces. The evaluator and independent prediction reexecution are implemented; execution waits for every author method and all program audits. [Common test table and protocol](../upgrade_v30/COMMON_TEST.en.md)
 
@@ -20,6 +20,8 @@ Completed optimizer runs: **1/36**; fully audited seeds: **0/3**. Old test cases
 | State on 100 proposal cases | Ranked drug/order F1 | Permuted drug/order F1 |
 |---|---:|---:|
 | Frozen base | 0.16846/0.10223 | 0.14129/0.09434 |
+
+**Observed failure:** seed42/permuted_uniform/round1 has100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain. The separate logit diagnosis checks class imbalance and decision discrimination without opening guard or test data.
 
 [Actual parameter updates, audit and results](../upgrade_v31/RESULTS.en.md)
 

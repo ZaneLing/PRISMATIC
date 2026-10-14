@@ -182,8 +182,11 @@ A subsequent local study compares ranked uniform, permuted uniform, permuted own
 The 100-case proposal score averages ranked and permuted views and may retain the base model. Training continues from each latest raw adapter. All per-seed selections freeze before evaluating every raw state on the reused 200-case guard under ranked, permuted and reversed views. The 500 previous test admissions are excluded. An executed data audit checks 33,300 transformed views, zero patient-role overlap and no target truncation (maximum 1,005 of 1,536 tokens). This is exploratory development work on the legacy admission-proxy task, with incomplete entry-time provenance; it does not generate novel doses.'''
         p=ROOT/'upgrade_v31/results/audit-seed42.json'
         if p.exists():
-            q=json.loads(p.read_text())['base_proposal']
+            parameter_audit=json.loads(p.read_text());q=parameter_audit['base_proposal']
             parameter_section+=f"\nThe independently recounted frozen-base drug/order F1 on proposal is {q['ranked']['drug_micro_f1']:.5f}/{q['ranked']['core_order_micro_f1']:.5f} for ranked views and {q['permuted']['drug_micro_f1']:.5f}/{q['permuted']['core_order_micro_f1']:.5f} for permuted views. These are selection-set reference scores, not evidence of an intervention gain."
+            failed=[(arm,r['round']) for arm,rows in parameter_audit['arms'].items() for r in rows if all(m['empty_fraction']==1 for m in r['proposal'].values())]
+            if failed:
+                parameter_section+=f" In seed42, {len(failed)} completed raw checkpoint(s) return empty prescriptions on all100 proposal admissions in each view. Their drug/order micro-F1 is zero, and the predefined promotion rule retains a prior state. These failures remain reported; decreasing training loss is not evidence of effective prescription learning."
         p=ROOT/'upgrade_v31/results/progress.json'
         if p.exists():
             q=json.loads(p.read_text())

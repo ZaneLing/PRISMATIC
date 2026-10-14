@@ -39,6 +39,12 @@ def main():
                 base=json.loads(p.read_text())['base_proposal']
                 block+='| State on 100 proposal cases | Ranked drug/order F1 | Permuted drug/order F1 |\n|---|---:|---:|\n'
                 block+=f"| Frozen base | {base['ranked']['drug_micro_f1']:.5f}/{base['ranked']['core_order_micro_f1']:.5f} | {base['permuted']['drug_micro_f1']:.5f}/{base['permuted']['core_order_micro_f1']:.5f} |\n\n"
+                evidence=json.loads((ROOT/'upgrade_v31/results/audit-seed42.json').read_text())
+                for arm,rows in evidence['arms'].items():
+                    for row in rows:
+                        if all(m['empty_fraction']==1 for m in row['proposal'].values()):
+                            block+=(f"**Observed failure:** seed42/{arm}/round{row['round']} has100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain. " if lang=='en' else f"**已发现失败：** seed42／{arm}／第{row['round']}轮在两种proposal视图下均100%空输出，药物／订单micro-F1=0；既定升级规则已拒绝该版本，原结果保留。")
+                            block+=('The separate logit diagnosis checks class imbalance and decision discrimination without opening guard or test data.\n\n' if lang=='en' else '单独的输出概率诊断正在检查类别不平衡和药物区分能力，不打开guard或测试数据。\n\n')
             block+=f'[Actual parameter updates, audit and results](../upgrade_v31/RESULTS.{lang}.md)\n\n'
         if (ROOT/'upgrade_v30/protocol.json').exists():
             repaired=json.loads((ROOT/'upgrade_v30/results/summary.json').read_text()) if (ROOT/'upgrade_v30/results/summary.json').exists() else {'panels':{}}

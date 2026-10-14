@@ -11,8 +11,8 @@ Checkpoint selection uses100 proposal admissions under ranked and permuted views
 ## 2. Execution and data integrity
 
 - Completed optimizer runs / 已完成训练回执：**1/36**
-- Updates with completed proposal evaluation / 已完成proposal评价的更新：**0/36**
-- Unique local model responses saved / 已保存本地唯一模型响应：**864**
+- Updates with completed proposal evaluation / 已完成proposal评价的更新：**1/36**
+- Unique local model responses saved / 已保存本地唯一模型响应：**1288**
 - Audited complete seeds / 已完整核验种子：**0/3**
 
 The data audit checks33,300 transformed views with zero patient-role overlap, unchanged candidate sets/GT and no target truncation. The longest complete sequence has1005 tokens against a1,536-token limit; each target has69 tokens. Eleven synthetic execution checks cover target transport, prompt blindness, shuffled-weight identity and loss masking. These are integrity checks, not performance gains.
@@ -23,9 +23,12 @@ Before any generation/fitting, a synthetic probe confirmed that the installed tr
 
 Proposal scores select checkpoints and are not test results.
 
-| Seed | Arm | Raw round | Ranked drug/order F1 | Permuted drug/order F1 | Accepted round so far |
-|---:|---|---:|---:|---:|---:|
-| 42 | base | 0 | 0.16846/0.10223 | 0.14129/0.09434 | 0 |
+| Seed | Arm | Raw round | Ranked drug/order F1 | Permuted drug/order F1 | Empty ranked/permuted (%) | Accepted round so far |
+|---:|---|---:|---:|---:|---:|---:|
+| 42 | base | 0 | 0.16846/0.10223 | 0.14129/0.09434 | 5.0/1.0 | 0 |
+| 42 | permuted_uniform | 1 | 0.00000/0.00000 | 0.00000/0.00000 | 100.0/100.0 | 0 |
+
+**Observed failure:** [(42, 'permuted_uniform', 1)]. These raw checkpoints produce entirely empty prescriptions on both proposal views and are rejected by the frozen promotion rule. A low language-model loss does not establish useful prescribing. The failure is retained in the results.
 
 Only completed, independently audited states contribute to guard comparisons. For each completed update, audits check source receipts, sampled examples, finite changed adapter tensors and 100-step logs. The floating-point optimizer trajectory is not independently refit.
 

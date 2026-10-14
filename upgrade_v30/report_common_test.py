@@ -15,6 +15,10 @@ def main():
         text+=('v29/v30 fit policies on 5,692 patients and reserve 1,423 for rule verification. v27 methods follow their published adaptations and registered budgets. Exposure to the source training pool is shared, while optimization and API/FLOP budgets differ. v30 reuses the exact v29 fits. All thresholds, rules and checkpoint choices freeze before this evaluation.\n\n' if lang=='en' else 'v29/v30用5,692人拟合策略，另留1,423人验证规则；v27方法遵循已登记的作者代码适配和预算。源训练池一致，优化、API及计算量不同；v30原样复用v29拟合。所有阈值、规则和检查点选择先冻结，再执行本表。\n\n')
         if not ready:
             text+=('**Status: waiting for every frozen selection and independent audit. No test score is published yet.**\n\n' if lang=='en' else '**状态：等待全部选择冻结和独立核验；尚未发布测试分数。**\n\n')
+        probe=HERE/'results/common_test_probe.json'
+        if probe.exists():
+            z=json.loads(probe.read_text());assert z['status']=='passed' and all(sha(HERE/name)==h for name,h in z['source_sha256'].items())
+            text+=('**Execution preflight:** an isolated synthetic fixture executes and independently reexecutes all 630 program prediction sets across both label spaces. It verifies OOV/empty targets, selected-versus-final states, trajectories, paired comparisons and byte-identical resume. The production entry point refuses incomplete prerequisites before reading test data. These are software checks, not clinical results. [Preflight evidence](results/common_test_probe.json).\n\n' if lang=='en' else '**执行预检：** 隔离合成数据完整运行并独立重执行两个药物空间的630组程序预测，覆盖词表外／空目标、选择状态与末轮状态、轨迹、配对对照和恢复后结果一致性。真实入口在前置条件不齐时拒绝读取测试数据。这是软件核验，不是临床成绩。[预检证据](results/common_test_probe.json)。\n\n')
         else:
             report=json.loads(path.read_text())
             for panel,z in report['panels'].items():

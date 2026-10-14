@@ -8,4 +8,6 @@ v29/v30 fit policies on 5,692 patients and reserve 1,423 for rule verification. 
 
 **Status: waiting for every frozen selection and independent audit. No test score is published yet.**
 
+**Execution preflight:** an isolated synthetic fixture executes and independently reexecutes all 630 program prediction sets across both label spaces. It verifies OOV/empty targets, selected-versus-final states, trajectories, paired comparisons and byte-identical resume. The production entry point refuses incomplete prerequisites before reading test data. These are software checks, not clinical results. [Preflight evidence](results/common_test_probe.json).
+
 [Frozen test addendum](common_test_addendum.json) · [Test gate](common_test_gate.py)

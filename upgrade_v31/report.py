@@ -51,12 +51,16 @@ v0.26发现训练后的适配器几乎总是选择展示在前面的连续一段
         text+=('Before any generation/fitting, a synthetic probe confirmed that the installed trainer included one trailing padded target per sequence. All four arms use the same strict completion-only loss excluding that position, via a wrapper that leaves the installed library unchanged. This does not identify the cause of the historical collapse; the new ranked-uniform control shares the correction.\n\n' if lang=='en' else '在生成／拟合前，合成探针证实已安装训练器每个序列会额外监督一个末尾填充目标。四臂统一采用排除该位置的完整回答损失，通过包装器传入，不修改已安装库。该发现不证明它导致了历史训练崩溃；本版原排序普通训练对照也采用相同修正。\n\n')
         if audits:
             text+=('## 3. Independently recounted proposal results\n\nProposal scores select checkpoints and are not test results.\n\n' if lang=='en' else '## 3. 独立复算的proposal结果\n\nproposal用于选择检查点，不是测试成绩。\n\n')
-            text+='| Seed | Arm | Raw round | Ranked drug/order F1 | Permuted drug/order F1 | Accepted round so far |\n|---:|---|---:|---:|---:|---:|\n'
+            text+='| Seed | Arm | Raw round | Ranked drug/order F1 | Permuted drug/order F1 | Empty ranked/permuted (%) | Accepted round so far |\n|---:|---|---:|---:|---:|---:|---:|\n'
             for seed,a in audits.items():
-                v=a['base_proposal'];text+=f"| {seed} | base | 0 | {v['ranked']['drug_micro_f1']:.5f}/{v['ranked']['core_order_micro_f1']:.5f} | {v['permuted']['drug_micro_f1']:.5f}/{v['permuted']['core_order_micro_f1']:.5f} | 0 |\n"
+                v=a['base_proposal'];text+=f"| {seed} | base | 0 | {v['ranked']['drug_micro_f1']:.5f}/{v['ranked']['core_order_micro_f1']:.5f} | {v['permuted']['drug_micro_f1']:.5f}/{v['permuted']['core_order_micro_f1']:.5f} | {100*v['ranked']['empty_fraction']:.1f}/{100*v['permuted']['empty_fraction']:.1f} | 0 |\n"
                 for arm,rows in a['arms'].items():
                     for r in rows:
-                        v=r['proposal'];text+=f"| {seed} | {arm} | {r['round']} | {v['ranked']['drug_micro_f1']:.5f}/{v['ranked']['core_order_micro_f1']:.5f} | {v['permuted']['drug_micro_f1']:.5f}/{v['permuted']['core_order_micro_f1']:.5f} | {r['active_round']} |\n"
+                        v=r['proposal'];text+=f"| {seed} | {arm} | {r['round']} | {v['ranked']['drug_micro_f1']:.5f}/{v['ranked']['core_order_micro_f1']:.5f} | {v['permuted']['drug_micro_f1']:.5f}/{v['permuted']['core_order_micro_f1']:.5f} | {100*v['ranked']['empty_fraction']:.1f}/{100*v['permuted']['empty_fraction']:.1f} | {r['active_round']} |\n"
+            failed=[(s,arm,r['round']) for s,a in audits.items() for arm,rows in a['arms'].items() for r in rows if all(m['empty_fraction']==1 for m in r['proposal'].values())]
+            if failed:
+                text+=('\n**Observed failure:** '+str(failed)+'. These raw checkpoints produce entirely empty prescriptions on both proposal views and are rejected by the frozen promotion rule. A low language-model loss does not establish useful prescribing. The failure is retained in the results.\n' if lang=='en' else '\n**实际失败：** '+str(failed)+'。这些原始检查点在两种proposal视图下全部输出空处方，已被既定升级规则拒绝；语言模型损失下降不代表处方有效。保留失败结果。\n')
+            if (HERE/'results/collapse_diagnostic_audit.json').exists():text+=f'\n[Binary decision collapse: source diagnosis and controls](COLLAPSE.{lang}.md)\n'
         finished={s:z for s,z in audits.items() if z['status']=='passed'}
         if finished:
             text+='\n## 4. Audited selected-state guard results\n\n| Seed | Method | Selected round | View | Drug/order F1 | Empty (%) | Nontrivial display-prefix (%) |\n|---:|---|---:|---|---:|---:|---:|\n'

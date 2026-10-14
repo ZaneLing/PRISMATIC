@@ -1,0 +1,159 @@
+{
+  "status": "training",
+  "lock": {
+    "seed": 42,
+    "protocol_sha256": "76ef661d3593ac03e79a2ea7d3f1226548b153a2e9a9e183bf7ca0f2be425b77",
+    "data_audit_sha256": "6af093492af772d3b919cadd874ebb12d0039257726cbf8fb2b7f5cdaede355b",
+    "source_sha256": {
+      "upgrade_v31/run.py": "dde0a6d4e324497bed793712ac6bee017bb1d462e285dd1a454937ee5a239bab",
+      "upgrade_v31/views.py": "5936e65e36611d4619774b8594e1b50335cca149bb3d5a7079db961d5b0e29b9",
+      "upgrade_v31/train_cli.py": "4a0830014be21f1a79d43029277c84f69828b9ea6f32e530f65eed756934ffe1",
+      "upgrade_v31/training_config.yaml": "7a4b151fe30a03aad26b8809beea353f30e0d244390613849876cf20d1f7b701",
+      "upgrade_v15/run_parameter_evolution.py": "97687ba3d5c0f1a287f629d134ad856d75404eebff398514e908959e2fb74a30",
+      "upgrade_v15/generation_receipts.py": "b5256d9209f0664a0da995c973e967c1083839e0292b5bde82812d1882dbd306",
+      "upgrade_v15/selection_parser.py": "208b18fbc5cb3641ff73f7114b1660e6e9059f65f583c38d56dab1dbbb6ce0ab",
+      "upgrade_v7/rx_agent.py": "138323f6680bfdad67875707d4d7ac67a9d87a341e8dd3eada9923b2016a9b66"
+    },
+    "runtime": "0.32.0",
+    "trainer_sha256": "0b6027fdb11803e951ceee52c83a81f82daa922ea8c6b7ca6888953461064e8e",
+    "trainer_cli_sha256": "e366eec6ae2f8a72446f1af65faf189a92a01ca509fb0cafb3fa54b89b4291f7"
+  },
+  "base_proposal": {
+    "ranked": {
+      "cases": 100,
+      "drug_micro_f1": 0.168462291870715,
+      "drug_precision": 0.2606060606060606,
+      "drug_recall": 0.12445730824891461,
+      "core_order_micro_f1": 0.10223048327137546,
+      "known_field_accuracy_given_correct_drug": 0.8376623376623377,
+      "known_fields_scored": 308,
+      "core_gold_orders": 746,
+      "core_predicted_orders": 330,
+      "mean_predicted_drugs": 3.3,
+      "empty_fraction": 0.05,
+      "promotion_score": 0.13534638757104522,
+      "invalid_json": 0,
+      "raw_strict_invalid_json": 0,
+      "empty_reasoning_envelope_removed": 0
+    },
+    "permuted": {
+      "cases": 100,
+      "drug_micro_f1": 0.14129353233830846,
+      "drug_precision": 0.22611464968152867,
+      "drug_recall": 0.10274963820549927,
+      "core_order_micro_f1": 0.09433962264150944,
+      "known_field_accuracy_given_correct_drug": 0.852,
+      "known_fields_scored": 250,
+      "core_gold_orders": 746,
+      "core_predicted_orders": 314,
+      "mean_predicted_drugs": 3.14,
+      "empty_fraction": 0.01,
+      "promotion_score": 0.11781657748990895,
+      "invalid_json": 0,
+      "raw_strict_invalid_json": 0,
+      "empty_reasoning_envelope_removed": 0
+    }
+  },
+  "arms": {
+    "permuted_uniform": [
+      {
+        "round": 1,
+        "source_block": 0,
+        "new_feedback_cases": 600,
+        "accumulated_cases": 600,
+        "accumulated_patients": 590,
+        "trained_cases": 400,
+        "optimizer_steps": 100,
+        "adapter_sha256": "864fe1562859cda2918da80d2727d35bd98af7caa8fa8a5ca91323991e174743",
+        "previous_adapter_sha256": null,
+        "feedback_sha256": "a19f814a3f97049c960d96101ed8dad59b9d0f1a56931412cedce80f1c6eac8a",
+        "training_members_sha256": "03919eeb77d1c0a412169ee2af5ba99d9377eec6c4d549ab45919b678f63157e",
+        "supervision_sha256": "2bfa6a088fb1897420af9d9f97964f659680a70716255c782a51d1aa8f285330",
+        "training_seconds": 1189.4784278750885,
+        "proposal": {
+          "ranked": {
+            "cases": 100,
+            "drug_micro_f1": 0.0,
+            "drug_precision": 0.0,
+            "drug_recall": 0.0,
+            "core_order_micro_f1": 0.0,
+            "known_field_accuracy_given_correct_drug": 0.0,
+            "known_fields_scored": 0,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 0,
+            "mean_predicted_drugs": 0.0,
+            "empty_fraction": 1.0,
+            "promotion_score": 0.0,
+            "invalid_json": 0,
+            "raw_strict_invalid_json": 100,
+            "empty_reasoning_envelope_removed": 100
+          },
+          "permuted": {
+            "cases": 100,
+            "drug_micro_f1": 0.0,
+            "drug_precision": 0.0,
+            "drug_recall": 0.0,
+            "core_order_micro_f1": 0.0,
+            "known_field_accuracy_given_correct_drug": 0.0,
+            "known_fields_scored": 0,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 0,
+            "mean_predicted_drugs": 0.0,
+            "empty_fraction": 1.0,
+            "promotion_score": 0.0,
+            "invalid_json": 0,
+            "raw_strict_invalid_json": 100,
+            "empty_reasoning_envelope_removed": 100
+          }
+        },
+        "objective": 0.0,
+        "promoted": false,
+        "best": {
+          "round": 0,
+          "objective": 0.12658148253047707,
+          "proposal": {
+            "ranked": {
+              "cases": 100,
+              "drug_micro_f1": 0.168462291870715,
+              "drug_precision": 0.2606060606060606,
+              "drug_recall": 0.12445730824891461,
+              "core_order_micro_f1": 0.10223048327137546,
+              "known_field_accuracy_given_correct_drug": 0.8376623376623377,
+              "known_fields_scored": 308,
+              "core_gold_orders": 746,
+              "core_predicted_orders": 330,
+              "mean_predicted_drugs": 3.3,
+              "empty_fraction": 0.05,
+              "promotion_score": 0.13534638757104522,
+              "invalid_json": 0,
+              "raw_strict_invalid_json": 0,
+              "empty_reasoning_envelope_removed": 0
+            },
+            "permuted": {
+              "cases": 100,
+              "drug_micro_f1": 0.14129353233830846,
+              "drug_precision": 0.22611464968152867,
+              "drug_recall": 0.10274963820549927,
+              "core_order_micro_f1": 0.09433962264150944,
+              "known_field_accuracy_given_correct_drug": 0.852,
+              "known_fields_scored": 250,
+              "core_gold_orders": 746,
+              "core_predicted_orders": 314,
+              "mean_predicted_drugs": 3.14,
+              "empty_fraction": 0.01,
+              "promotion_score": 0.11781657748990895,
+              "invalid_json": 0,
+              "raw_strict_invalid_json": 0,
+              "empty_reasoning_envelope_removed": 0
+            }
+          }
+        }
+      }
+    ],
+    "ranked_uniform": [],
+    "permuted_own_error": [],
+    "permuted_shuffled_error": []
+  },
+  "test_inference": false,
+  "guard_generated": false
+}
