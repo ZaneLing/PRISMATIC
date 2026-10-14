@@ -1,5 +1,5 @@
 """Maintain bilingual local-training progress and audited development results."""
-import hashlib,json
+import hashlib,json,subprocess,sys
 from pathlib import Path
 HERE=Path(__file__).resolve().parent;PRIVATE=Path.home()/'Desktop/MedTreeBench/dataset/restricted/prismatic-v31'
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -12,6 +12,13 @@ def main():
         p=HERE/f'results/seed{seed}.json'
         if p.exists():states[seed]=json.loads(p.read_text())
     progress={'optimizer_runs_with_complete_receipts':len(trained),'updates_with_completed_proposal_scoring':len(completed),'unique_model_responses_saved':len(raws),'seeds_fully_audited':[s for s,z in audits.items() if z['status']=='passed'],'api_calls':0,'test_inference':False}
+    pooled={};summary_path=HERE/'results/guard_summary.json'
+    if progress['seeds_fully_audited']:
+        pooled=json.loads(summary_path.read_text()) if summary_path.exists() else {}
+        expected={str(s):sha(HERE/f'results/audit-seed{s}.json') for s in progress['seeds_fully_audited']}
+        if pooled.get('analysis_sha256')!=sha(HERE/'summarize.py') or {s:z['audit_sha256'] for s,z in pooled.get('sources',{}).items()}!=expected:
+            subprocess.run([sys.executable,str(HERE/'summarize.py')],check=True)
+            pooled=json.loads(summary_path.read_text())
     (HERE/'results/progress.json').write_text(json.dumps(progress,indent=2)+'\n')
     for lang in ['en','zh']:
         text=('''# v0.31 — Parameter evolution with randomized candidate positions
@@ -60,7 +67,25 @@ v0.26发现训练后的适配器几乎总是选择展示在前面的连续一段
                         fraction=z['display_prefix_fraction'];pf='NA (no nontrivial mask)' if fraction is None else f'{100*fraction:.1f}'
                         text+=f"| {seed} | {arm} | {chosen['round']} | {condition} | {z['drug_micro_f1']:.5f}/{z['core_order_micro_f1']:.5f} | {100*z['empty_fraction']:.1f} | {pf} |\n"
                 for name,z in a['direct_controls'].items():text+=f"| {seed} | {name} | fixed | all views | {z['drug_micro_f1']:.5f}/{z['core_order_micro_f1']:.5f} | {100*z['empty_fraction']:.1f} | NA |\n"
-        text+=('\nUnfinished guard cells and pooled patient intervals remain pending completion/audit; no best-method claim is made from running jobs. For each completed update, audits check source receipts, sampled examples, finite changed adapter tensors and 100-step logs. The floating-point optimizer trajectory is not independently refit.\n' if lang=='en' else '\n未完成guard单元与汇总患者区间等待完成与核验；不根据运行中的任务宣称最优。对每次完成的更新，逐项核验源回执、抽样样本、变化且有限的适配器张量与100步日志；不声称独立重跑浮点优化轨迹。\n')
+        if pooled:
+            text+=('\n## 5. Matched seed means and patient intervals\n\nRaw-final and proposal-selected endpoints both remain available; these intervals condition on completed seeds and reused development patients. They are descriptive, without multiplicity correction.\n\n' if lang=='en' else '\n## 5. 同种子均值与患者配对区间\n\n同时保留原始末轮与proposal选择结果；区间条件于已完成种子和复用开发患者，属于未做多重校正的描述性分析。\n\n')
+            text+='| Endpoint | View | Method | Drug F1 mean ± seed SD | Order F1 mean ± seed SD |\n|---|---|---|---:|---:|\n'
+            for endpoint,views in pooled['endpoints'].items():
+                for view,z in views.items():
+                    for method,m in z['methods'].items():
+                        def fmt(key):
+                            a=m[key];return f"{a['mean']:.5f} ± {a['seed_sd']:.5f}" if a['seed_sd'] is not None else f"{a['mean']:.5f} (one seed)"
+                        text+=f"| {endpoint} | {view} | {method} | {fmt('drug_micro_f1')} | {fmt('core_order_micro_f1')} |\n"
+            text+='\n| Endpoint | View | Contrast | Drug micro-F1 difference [95% patient CI] | Order micro-F1 difference [95% patient CI] |\n|---|---|---|---:|---:|\n'
+            for endpoint,views in pooled['endpoints'].items():
+                for view,z in views.items():
+                    for contrast,m in z['contrasts'].items():
+                        vals=[]
+                        for key in ['drug','core_order']:
+                            a=m[key];lo,hi=a['micro_f1_ci95'];vals.append(f"{a['micro_f1_difference']:.5f} [{lo:.5f}, {hi:.5f}]")
+                        text+=f"| {endpoint} | {view} | {contrast} | "+' | '.join(vals)+' |\n'
+            text+=('\nAll raw/accepted round curves, per-seed improved/regressed admission counts, patient-F1 intervals and position invariance are in [the aggregate evidence](results/guard_summary.json). A fix means increased set F1, not a verified clinical safety improvement.\n' if lang=='en' else '\n[完整汇总证据](results/guard_summary.json)保留所有原始／接纳轮次曲线、每种子改善／退化住院数、患者F1区间和位置不变性。“修复”指集合F1上升，不代表已核实临床安全改善。\n')
+        text+=('\nOnly completed, independently audited states contribute to guard comparisons. For each completed update, audits check source receipts, sampled examples, finite changed adapter tensors and 100-step logs. The floating-point optimizer trajectory is not independently refit.\n' if lang=='en' else '\n只有完成且独立核验的状态进入guard对照。对每次完成的更新，逐项核验源回执、抽样样本、变化且有限的适配器张量与100步日志；不声称独立重跑浮点优化轨迹。\n')
         text+='\n## Artifacts / 交付\n\n- [Frozen protocol](protocol.json)\n- [Actual data audit](results/data_audit.json)\n- [Synthetic runtime checks](results/runtime_probe.json)\n- [Execution progress](results/progress.json)\n- [Earlier position diagnosis](../upgrade_v26/RESULTS.en.md)\n'
         (HERE/f'RESULTS.{lang}.md').write_text(text)
 if __name__=='__main__':main()
