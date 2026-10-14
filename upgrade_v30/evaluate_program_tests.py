@@ -2,7 +2,7 @@
 import hashlib,json,sys,time
 from pathlib import Path
 import joblib,numpy as np
-HERE=Path(__file__).resolve().parent;ROOT=HERE.parent;sys.path.insert(0,str(ROOT))
+HERE=Path(__file__).resolve().parent;ROOT=HERE.parent;sys.path[:0]=[str(ROOT),str(ROOT/'upgrade_v27')]
 from upgrade_v30.common_test_gate import check
 from upgrade_v27.control_features import features
 from upgrade_v27.method_runtime import flatten

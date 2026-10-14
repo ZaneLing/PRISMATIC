@@ -1,0 +1,17 @@
+{
+  "study": "v31 diagnostic of first permuted-uniform collapse",
+  "registration": "After observing the first seed42/round1 proposal collapse, before additional logit inference. Descriptive development-only analysis; no new checkpoint or threshold is selected.",
+  "frozen_adapter_sha256": "864fe1562859cda2918da80d2727d35bd98af7caa8fa8a5ca91323991e174743",
+  "cohorts": "First32 stored round1 training examples in immutable file order, plus first32 original proposal admissions in ranked and fixed-permuted views. No selection by label or prediction, no guard/test reads.",
+  "states": [
+    "frozen_base",
+    "permuted_uniform_seed42_round1"
+  ],
+  "contexts": [
+    "teacher_forced_ground_truth_prefix",
+    "all_zero_prefix_without_ground_truth"
+  ],
+  "analysis": "Extract probabilities of token1 versus token0 at exactly20 output decision positions. Teacher forcing is an oracle diagnostic, not deployable prediction. Zero-prefix context does not use labels and is a diagnostic conditional score, not claimed joint generation. Report conditional binary BCE/AUROC/Brier, positive/negative mean probabilities, >=0.5 decision fraction, constant train-prevalence control and gold mask cardinalities. Verify prompt/target prefix alignment and all decision-token locations.",
+  "controls": "Read all200 already saved proposal outputs, verify their parsed mask and semantic emptiness independently. Constant-zero microF1 and constant train-prevalence loss are explanatory baselines, not new agent results.",
+  "limits": "Small deterministic diagnostic subset, post-observation hypothesis, no unique causal attribution from correlation. No refit, no real test, no change to ongoing frozen v31 study."
+}
