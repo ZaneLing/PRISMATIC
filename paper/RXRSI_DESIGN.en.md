@@ -4,18 +4,19 @@ Target: ACL 2027. Beating prior methods is a research objective, never a patient
 
 ## Current implemented prescription-rule agent
 
-The v0.27 path has two phases. During offline maintenance, the language agent edits executable rule memory using aggregate error evidence. At inference, a frozen structured policy and those rules produce a medication-class set. The language model does not run on each patient's restricted record in this experiment.
+The current v0.29 path has two phases. During offline maintenance, the language agent synthesizes executable conditional rules using aggregate error evidence. At inference, a frozen structured policy, class calibration and those rules produce a medication-class set. Each seed permanently separates 5,692 policy-fit patients from 1,423 witness patients; a fresh witness batch checks each round. The language model does not run on each patient's restricted record in this experiment.
 
 ```mermaid
 flowchart TD
-  A[Accumulate training patients in five rounds] --> B[Refit shared class predictor]
+  W[Separate permanent witness patients into five disjoint batches] --> F
+  A[Accumulate policy-fit patients in five rounds] --> B[Refit shared class predictor]
   B --> C[Patient-disjoint fitting folds produce error probabilities]
-  C --> D[Generate supported feature and drug rule candidates]
-  D --> E[Language agent proposes up to four edits from aggregate evidence]
-  E --> F[Training witness: F1 improves and Jaccard does not fall]
+  C --> D[Ordinary class calibration and supported error contexts]
+  D --> E[Language agent generates up to four conditional program edits]
+  E --> F[Fresh witness: F1 improves and Jaccard does not fall]
   F --> G[Accept or reject each edit; save state and hashes]
   G --> H[Select round on proposal data; freeze all methods]
-  X[Observed diagnoses, procedures and previous visits] --> Y[Frozen class probabilities]
+  X[Observed diagnoses, procedures and previous visits] --> Y[Frozen class probabilities and calibrated thresholds]
   Y --> Z[Apply frozen inclusion or exclusion rules]
   H --> Z
   Z --> R[Medication-class set and automatic ground-truth evaluation]
@@ -24,11 +25,12 @@ flowchart TD
 | What changes? | How it changes | Required comparison |
 |---|---|---|
 | Structured predictor coefficients | Ordinary refitting on more training patients | Shared predictor without rules |
-| Executable rule memory | Agent proposes ADD/DELETE; witness accepts or rejects | Greedy, random and shuffled-evidence rule selection |
+| Class thresholds | Ordinary calibration on cross-fitted fit-patient outputs | Calibrated policy without memory |
+| Executable rule memory | Agent synthesizes one/two-predicate ADD/DELETE programs | Greedy enumeration, random programs and shuffled evidence |
 | Verification policy | Fixed in the main arm | Same proposals without the witness gate |
 | Language-model weights and tool code | Fixed in this experiment | No claim of autonomous weight/tool evolution |
 
-All raw round states are retained. Removing selected memory, substituting first-round memory and substituting first-round policy test the artifacts without retuning. Cross-fitting excludes direct fitting on the predicted case's label; witness reuse and cross-fold training dependencies remain disclosed. Rule associations do not establish clinical indications, dose correctness or human-like reasoning. [Actual rounds and comparisons](../upgrade_v27/RESULTS.en.md).
+All raw round states are retained. Witness patients are excluded from every fit and candidate statistic; within-round adaptive verification remains disclosed. Rule associations do not establish clinical indications, dose correctness or human-like reasoning. [Current conditional-program rounds](../upgrade_v29/RESULTS.en.md). The preceding [v0.27 study](../upgrade_v27/RESULTS.en.md) tests memory/policy substitutions and has weaker witness isolation. A new replay diagnosis separates prior-memory compatibility from new-edit transfer; it does not yet implement a compatibility repair.
 
 The separate v0.28 real-FHIR experiment repairs answer contracts and source-bound lab statistics while learned skills stay frozen. Those human-written repairs are evaluated in a full factorial and are not labeled self-evolution. [Execution results](../upgrade_v28/RESULTS.en.md).
 

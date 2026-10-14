@@ -3,7 +3,18 @@
 <!-- RXRSI_CURRENT_EXECUTION_START -->
 ## Current executed increment — rule memory and tool repair
 
-**Actual training:** 6/6 rule runs finish five rounds; 1/15 author-model runs finish their full 50 epochs, with 152/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 3/15 author-model runs finish their full 50 epochs, with 232/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+
+### New executed mechanism: isolated witnesses and program synthesis
+
+3/6 runs have frozen five rounds; 2/6 pass independent model/program audits. Each seed uses 5,692 fit patients and permanently excludes 1,423 witness patients from all model fits and candidate statistics. The agent generates one/two-predicate programs; raw policy, ordinary class calibration, greedy/random programs and shuffled evidence are separate controls. These are development results.
+
+| Panel | Audited seeds | Raw policy F1 | Class calibration F1 | Greedy program F1 | Own-agent F1 |
+|---|---:|---:|---:|---:|---:|
+| full | 1 | 0.60594 | 0.60719 | 0.60719 | 0.60789 |
+| molecular | 1 | 0.57623 | 0.57911 | 0.58026 | 0.57908 |
+
+[Actual conditional-program experiment and replay diagnosis](../upgrade_v29/RESULTS.en.md)
 
 ### Development method comparison: same guard set
 
@@ -22,14 +33,14 @@ The changed artifact is executable rule memory: aggregate error evidence → LLM
 
 | Contract C | Statistics S | Frozen skills K | Validation /80 | ID /64 | Held-out types /60 |
 |---|---|---|---:|---:|---:|
-| 0 | 0 | 0 | 45 | 38 | pending |
-| 0 | 0 | 1 | 53 | 45 | pending |
-| 0 | 1 | 0 | 49 | pending | pending |
-| 0 | 1 | 1 | 59 | pending | pending |
-| 1 | 0 | 0 | 52 | pending | pending |
-| 1 | 0 | 1 | 54 | pending | pending |
-| 1 | 1 | 0 | 57 | pending | pending |
-| 1 | 1 | 1 | 66 | pending | pending |
+| 0 | 0 | 0 | 45 | 38 | 18 |
+| 0 | 0 | 1 | 53 | 45 | 10 |
+| 0 | 1 | 0 | 49 | 36 | pending |
+| 0 | 1 | 1 | 59 | 46 | pending |
+| 1 | 0 | 0 | 52 | 46 | pending |
+| 1 | 0 | 1 | 54 | 49 | pending |
+| 1 | 1 | 0 | 57 | 47 | pending |
+| 1 | 1 | 1 | 66 | 54 | pending |
 
 C enforces the instruction-derived answer shape through actual budgeted retries. S computes source-bound latest/24h Observation statistics with paging and unit separation. K reuses the exact two learned skills. C/S are fixed engineering repairs; no autonomous tool evolution is claimed. All conditions are fixed and all splits reused: exploratory repair, not untouched confirmation.
 

@@ -3,13 +3,15 @@
 <!-- RXRSI_CURRENT_EXECUTION_START -->
 ## Current execution snapshot
 
-The rule-memory study completes **6/6 five-round runs**; genuine author-model baselines complete **1/15 full 50-epoch runs** (152/750 epochs saved). Independent development audits quantify the small memory increment against greedy/random/shuffled controls. A common test evaluator is implemented and stays closed until every selection and audit freezes.
+The rule-memory study completes **6/6 five-round runs**; genuine author-model baselines complete **3/15 full 50-epoch runs** (232/750 epochs saved). Independent development audits quantify the small memory increment against greedy/random/shuffled controls. A common test evaluator is implemented and stays closed until every selection and audit freezes.
 
 The real-FHIR factorial executes fixed answer-contract/statistics repairs and frozen learned skills in all eight combinations. This is exploratory execution repair, not autonomous tool-code evolution. All completed audited cells, costs and limits are maintained in the reports.
 
 [中文当前结果与方法对照](paper/CURRENT_RESULTS.zh.md) · [English current results](paper/CURRENT_RESULTS.en.md) · [Rule mechanism and rounds](upgrade_v27/RESULTS.en.md) · [FHIR repair](upgrade_v28/RESULTS.en.md)
 
 Earlier paragraphs below describe retained study versions; this snapshot governs current execution status.
+
+**New mechanism executing:** v0.29 permanently separates fit/witness patients, adds a strong ordinary calibration control and lets the language agent synthesize conditional programs. Only independently audited development results are published. [Conditional-program study](upgrade_v29/RESULTS.en.md) · [中文机制与结果](upgrade_v29/RESULTS.zh.md).
 <!-- RXRSI_CURRENT_EXECUTION_END -->
 
 

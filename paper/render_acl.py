@@ -237,6 +237,43 @@ RULEGROWTHROWS
 \bottomrule\end{tabular}\end{table*}
 These curves demonstrate changing artifacts and improvement with more cases, but the language-agent increment is small and must outperform greedy and shuffled controls to support a distinct mechanism claim. Proposal curves are selected-development evidence; final fixed-test curves remain gated.'''.replace('RULEDEVROWS','\n'.join(rr)).replace('RULEGROWTHROWS','\n'.join(growth_rows))
         compatibility_section=compatibility_section.replace('all baseline and future RxRSI states','all baseline and registered RxRSI states')
+    if (ROOT/'upgrade_v29/protocol.json').exists():
+        compatibility_section+=r'''
+\paragraph{Isolated witnesses and conditional program synthesis.}
+An ensuing registered development study assigns 5,692 training patients to policy fits and permanently reserves 1,423 witnesses, using seed-specific label-independent hashing. The five fresh witness batches contain 285/285/285/284/284 patients, disjoint across rounds and from every coefficient fit and candidate statistic. Fixed earlier vocabularies precede this role assignment. Each batch can be adaptively queried for at most four sequential edits within its one round; it is still training validation. All original fold models are now retained, and independent refits check their provenance numerically.
+
+The frozen per-round state is $(\theta_r,\tau_r,M_r)$: ordinary supervised logistic coefficients, ordinary class-specific threshold calibration, and executable rule memory. Two coordinate passes learn threshold offsets from cross-fitted fit-patient predictions. A language agent then synthesizes up to four typed edits with one or two present/absent feature predicates and a drug inclusion/exclusion action near the calibrated threshold. Induction support and fresh-witness F1/Jaccard changes verify each edit. No arbitrary code or dose is executed. Greedy enumeration includes positive--negative conjunctions; raw/calibrated policies, random programs, shuffled numeric evidence and the same proposals without witness verification remain explicit controls. Error-based focus-drug and feature selection are not shuffled.
+
+This design changes witness isolation, calibration and program expressivity together; comparisons with the prior study do not isolate any one change. The new seven-arm study isolates the language contribution within the same revised data/budget protocol. Proposal data select rounds, guard is report-only, and no new test inference is authorized by its current protocol.'''
+        if (ROOT/'upgrade_v29/results/summary.json').exists():
+            isolated=json.loads((ROOT/'upgrade_v29/results/summary.json').read_text());names={'raw_policy':'Raw logistic','calibrated_policy':'Class calibration','greedy_conditional_memory':'Greedy programs','random_conditional_memory':'Random programs','own_error_program_agent':'Own-error synthesis','shuffled_evidence_program_agent':'Shuffled-evidence synthesis','matched_proposals_no_witness':'Same proposals, no witness'}
+            rr=[]
+            for panel,p in isolated['panels'].items():
+                for name,z in p['methods'].items():
+                    def fmt(k):
+                        q=z[k];return f"{q['mean']:.5f}"+(f" $\\pm$ {q['seed_sd']:.5f}" if q['seed_sd'] is not None else '')
+                    rr.append(f"{panel} & {names[name]} & {len(p['seeds'])} & {fmt('patient_f1')} & {fmt('patient_jaccard')} \\\\")
+            if rr:
+                compatibility_section+=r'''\begin{table*}[t]\centering\small
+\caption{Isolated-witness development study on the same 1,231 guard visits/467 patients. Only independently audited seeds appear; these models fit 5,692 patients and reserve 1,423 witnesses, unlike the earlier all-training-patient policy fits. Sample seed deviation is shown only when multiple seeds complete.}
+\begin{tabular}{llrrr}\toprule Panel & Method & Audited seeds & Patient F1 & Patient Jaccard\\\midrule
+ISOLATEDROWS
+\bottomrule\end{tabular}\end{table*}
+Calibration gains are ordinary supervised gains. A score above raw logistic alone is insufficient evidence for language-agent self-improvement; the calibrated, greedy and shuffled controls are necessary.'''.replace('ISOLATEDROWS','\n'.join(rr))
+        if (ROOT/'upgrade_v29/results/memory_diagnostic.json').exists():
+            d=json.loads((ROOT/'upgrade_v29/results/memory_diagnostic.json').read_text());rr=[]
+            for name,z in d['runs'].items():rr.append(f"{name.replace('-',' ')} & {z['accepted_positive_transfer']} & {z['accepted_negative_transfer']} & {z['accepted_zero_transfer']} \\\\")
+            if rr:
+                compatibility_section+=r'''\paragraph{Executed development attribution.}
+A separately registered proposal-only replay compares no memory, prior-round memory and current memory under the identical current policy/calibration, and replays every actual edit without changing its original accept/reject decision. Positive witness effects can transfer negatively, and old-memory effects can change when the shared predictor changes. These descriptive decompositions motivate compatibility revalidation; they are not a newly trained counterfactual agent.
+\begin{table}[t]\centering\small
+\caption{Proposal transfer of actually accepted edits in audited runs. Registration followed early development observations; no test labels or new API calls are used.}
+\begin{tabular}{lrrr}\toprule Run & Positive & Negative & Zero\\\midrule
+TRANSFERROWS
+\bottomrule\end{tabular}\end{table}'''.replace('TRANSFERROWS','\n'.join(rr))
+        compatibility_section+=r'''
+\paragraph{Historical metadata correction.}
+Rolling exports reused a mutable nested best-selection dictionary, causing some old nested entries to show later choices. Immutable per-round receipts and each arm's stored best-round field independently preserve the actual history; corrected historical choices are released separately. Proposal scores, rule states and final selections are verified unchanged. Frozen source/result hashes are retained.'''
     fhir_results=''
     if (ROOT/'upgrade_v19/results/summary.json').exists():
         fhir=json.loads((ROOT/'upgrade_v19/results/summary.json').read_text())

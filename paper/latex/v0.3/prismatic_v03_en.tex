@@ -467,6 +467,39 @@ molecular & 4 & 5692 & 0.57481 & 0.57559 & 8/9/10 \\
 molecular & 5 & 7115 & 0.57926 & 0.57996 & 10/9/12 \\
 \bottomrule\end{tabular}\end{table*}
 These curves demonstrate changing artifacts and improvement with more cases, but the language-agent increment is small and must outperform greedy and shuffled controls to support a distinct mechanism claim. Proposal curves are selected-development evidence; final fixed-test curves remain gated.
+\paragraph{Isolated witnesses and conditional program synthesis.}
+An ensuing registered development study assigns 5,692 training patients to policy fits and permanently reserves 1,423 witnesses, using seed-specific label-independent hashing. The five fresh witness batches contain 285/285/285/284/284 patients, disjoint across rounds and from every coefficient fit and candidate statistic. Fixed earlier vocabularies precede this role assignment. Each batch can be adaptively queried for at most four sequential edits within its one round; it is still training validation. All original fold models are now retained, and independent refits check their provenance numerically.
+
+The frozen per-round state is $(\theta_r,\tau_r,M_r)$: ordinary supervised logistic coefficients, ordinary class-specific threshold calibration, and executable rule memory. Two coordinate passes learn threshold offsets from cross-fitted fit-patient predictions. A language agent then synthesizes up to four typed edits with one or two present/absent feature predicates and a drug inclusion/exclusion action near the calibrated threshold. Induction support and fresh-witness F1/Jaccard changes verify each edit. No arbitrary code or dose is executed. Greedy enumeration includes positive--negative conjunctions; raw/calibrated policies, random programs, shuffled numeric evidence and the same proposals without witness verification remain explicit controls. Error-based focus-drug and feature selection are not shuffled.
+
+This design changes witness isolation, calibration and program expressivity together; comparisons with the prior study do not isolate any one change. The new seven-arm study isolates the language contribution within the same revised data/budget protocol. Proposal data select rounds, guard is report-only, and no new test inference is authorized by its current protocol.\begin{table*}[t]\centering\small
+\caption{Isolated-witness development study on the same 1,231 guard visits/467 patients. Only independently audited seeds appear; these models fit 5,692 patients and reserve 1,423 witnesses, unlike the earlier all-training-patient policy fits. Sample seed deviation is shown only when multiple seeds complete.}
+\begin{tabular}{llrrr}\toprule Panel & Method & Audited seeds & Patient F1 & Patient Jaccard\\\midrule
+full & Raw logistic & 1 & 0.60594 & 0.45161 \\
+full & Class calibration & 1 & 0.60719 & 0.45324 \\
+full & Greedy programs & 1 & 0.60719 & 0.45306 \\
+full & Random programs & 1 & 0.60687 & 0.45287 \\
+full & Own-error synthesis & 1 & 0.60789 & 0.45379 \\
+full & Shuffled-evidence synthesis & 1 & 0.60719 & 0.45324 \\
+full & Same proposals, no witness & 1 & 0.60694 & 0.45262 \\
+molecular & Raw logistic & 1 & 0.57623 & 0.42480 \\
+molecular & Class calibration & 1 & 0.57911 & 0.42750 \\
+molecular & Greedy programs & 1 & 0.58026 & 0.42835 \\
+molecular & Random programs & 1 & 0.57984 & 0.42805 \\
+molecular & Own-error synthesis & 1 & 0.57908 & 0.42721 \\
+molecular & Shuffled-evidence synthesis & 1 & 0.57877 & 0.42715 \\
+molecular & Same proposals, no witness & 1 & 0.57887 & 0.42683 \\
+\bottomrule\end{tabular}\end{table*}
+Calibration gains are ordinary supervised gains. A score above raw logistic alone is insufficient evidence for language-agent self-improvement; the calibrated, greedy and shuffled controls are necessary.\paragraph{Executed development attribution.}
+A separately registered proposal-only replay compares no memory, prior-round memory and current memory under the identical current policy/calibration, and replays every actual edit without changing its original accept/reject decision. Positive witness effects can transfer negatively, and old-memory effects can change when the shared predictor changes. These descriptive decompositions motivate compatibility revalidation; they are not a newly trained counterfactual agent.
+\begin{table}[t]\centering\small
+\caption{Proposal transfer of actually accepted edits in audited runs. Registration followed early development observations; no test labels or new API calls are used.}
+\begin{tabular}{lrrr}\toprule Run & Positive & Negative & Zero\\\midrule
+full seed42 & 4 & 4 & 0 \\
+molecular seed42 & 4 & 3 & 0 \\
+\bottomrule\end{tabular}\end{table}
+\paragraph{Historical metadata correction.}
+Rolling exports reused a mutable nested best-selection dictionary, causing some old nested entries to show later choices. Immutable per-round receipts and each arm's stored best-round field independently preserve the actual history; corrected historical choices are released separately. Proposal scores, rule states and final selections are verified unchanged. Frozen source/result hashes are retained.
 
 \section{Agent State and Update Mechanism}
 At round $r$, let the persistent state be $S_r=(W_r,M_r,T_r,K_r)$: prescription-selection parameters, episodic memory, order-tool state, and language skills. Runtime inference takes a patient snapshot, retrieves candidates and applicable experience, plans selections, and compiles structured orders. The current order compiler returns drug, route, dose string, dose unit and observed frequency; unobserved clinical attributes remain unknown.
@@ -708,14 +741,14 @@ A registered $2\times2\times2$ fixed factorial separates an instruction-derived 
 \begin{table}[t]\centering\small
 \caption{Independently audited repair cells. C/S/K denote contract/statistics/frozen skills. Dashes mean pending, not zero. One fixed run per condition; these are reused exploratory splits.}
 \begin{tabular}{rrrrrr}\toprule C & S & K & Val./80 & ID/64 & Type/60\\\midrule
-0 & 0 & 0 & 45 & 38 & -- \\
-0 & 0 & 1 & 53 & 45 & -- \\
-0 & 1 & 0 & 49 & -- & -- \\
-0 & 1 & 1 & 59 & -- & -- \\
-1 & 0 & 0 & 52 & -- & -- \\
-1 & 0 & 1 & 54 & -- & -- \\
-1 & 1 & 0 & 57 & -- & -- \\
-1 & 1 & 1 & 66 & -- & -- \\
+0 & 0 & 0 & 45 & 38 & 18 \\
+0 & 0 & 1 & 53 & 45 & 10 \\
+0 & 1 & 0 & 49 & 36 & -- \\
+0 & 1 & 1 & 59 & 46 & -- \\
+1 & 0 & 0 & 52 & 46 & -- \\
+1 & 0 & 1 & 54 & 49 & -- \\
+1 & 1 & 0 & 57 & 47 & -- \\
+1 & 1 & 1 & 66 & 54 & -- \\
 \bottomrule\end{tabular}\end{table}
 These manually implemented execution repairs are not autonomous tool-code evolution. All eight conditions stay fixed; observed validation or repeated-test outcomes do not select a winner. Raw-page arithmetic, persisted fields and reference scores are independently reconstructed. Earlier skill failures remain in the original table. New independent confirmation and subsequent evidence-validated learning are still required.
 

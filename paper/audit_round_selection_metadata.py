@@ -14,7 +14,9 @@ def main():
     for version,glob in [('v27','*-rsi-seed*.json'),('v29','*-seed*.json')]:
         rows=[]
         for path in sorted((ROOT/('upgrade_'+version)/'results').glob(glob)):
-            z=json.loads(path.read_text());folder=PRIVATE/('prismatic-'+version)/path.stem;best={};history=[];stale=0
+            raw=path.read_bytes();z=json.loads(raw)
+            if 'lock' not in z:continue
+            folder=PRIVATE/('prismatic-'+version)/path.stem;best={};history=[];stale=0
             for row in z['rounds']:
                 original=json.loads((folder/f'round{row["round"]}/complete.json').read_text())
                 a=copy.deepcopy(row);b=copy.deepcopy(original);a.pop('best');b.pop('best');assert a==b
@@ -24,7 +26,7 @@ def main():
                 corrected={k:v['round'] for k,v in best.items()};stale+=row['best']!=original['best']
                 history.append({'round':row['round'],'correct_best_so_far':corrected,'immutable_receipt_sha256':sha(folder/f'round{row["round"]}/complete.json')})
             if z['status']=='selection_frozen':assert all(z['selections'][k]['round']==v['round'] for k,v in best.items())
-            rows.append({'run':path.stem,'source_report_sha256':sha(path),'completed_rounds':len(history),'stale_nested_best_entries':stale,'corrected_history':history,'final_selection_verified':z['status']=='selection_frozen'})
+            rows.append({'run':path.stem,'source_report_sha256':hashlib.sha256(raw).hexdigest(),'completed_rounds':len(history),'stale_nested_best_entries':stale,'corrected_history':history,'final_selection_verified':z['status']=='selection_frozen'})
         out['studies'][version]=rows
     (ROOT/'paper/round_selection_metadata_audit.json').write_text(json.dumps(out,indent=2)+'\n')
     print(json.dumps({'runs':sum(map(len,out['studies'].values())),'stale_entries':sum(r['stale_nested_best_entries'] for s in out['studies'].values() for r in s),'actual_metric_or_final_selection_changes':0}),flush=True)

@@ -14,14 +14,14 @@ Status / 状态：**partial**. Pending / 未完成 cells are not scored as zero.
 
 | C: schema | S: statistics | K: frozen skills | Validation /80 | ID /64 | Held-out types /60 |
 |---|---|---|---:|---:|---:|
-| 0 | 0 | 0 | 45 | 38 | pending |
-| 0 | 0 | 1 | 53 | 45 | pending |
-| 0 | 1 | 0 | 49 | pending | pending |
-| 0 | 1 | 1 | 59 | pending | pending |
-| 1 | 0 | 0 | 52 | pending | pending |
-| 1 | 0 | 1 | 54 | pending | pending |
-| 1 | 1 | 0 | 57 | pending | pending |
-| 1 | 1 | 1 | 66 | pending | pending |
+| 0 | 0 | 0 | 45 | 38 | 18 |
+| 0 | 0 | 1 | 53 | 45 | 10 |
+| 0 | 1 | 0 | 49 | 36 | pending |
+| 0 | 1 | 1 | 59 | 46 | pending |
+| 1 | 0 | 0 | 52 | 46 | pending |
+| 1 | 0 | 1 | 54 | 49 | pending |
+| 1 | 1 | 0 | 57 | 47 | pending |
+| 1 | 1 | 1 | 66 | 54 | pending |
 
 | Split | Declared contrast | Difference (pp) | Patient/query-cluster interval (pp) |
 |---|---|---:|---:|
@@ -31,6 +31,12 @@ Status / 状态：**partial**. Pending / 未完成 cells are not scored as zero.
 | val | skills_on_full_repair | +11.25 | [+2.47, +20.00] |
 | val | full_repair_no_skills_minus_original_fixed | +15.00 | [+6.94, +23.26] |
 | val | contract_statistics_interaction | +4.38 | [-2.56, +10.44] |
+| id_test | contract_main_effect | +12.11 | [+5.33, +19.72] |
+| id_test | statistics_main_effect | +1.95 | [-2.87, +6.15] |
+| id_test | frozen_skills_main_effect | +10.55 | [+1.67, +18.49] |
+| id_test | skills_on_full_repair | +10.94 | [+0.00, +20.29] |
+| id_test | full_repair_no_skills_minus_original_fixed | +14.06 | [+4.55, +24.24] |
+| id_test | contract_statistics_interaction | +5.47 | [-0.81, +12.12] |
 
 Validation has 62 explicit patients plus two deliberately nonexistent-patient lookup queries; those queries form separate resampling units (64 total). No patient ID is invented. Both test splits have complete explicit patient identities.
 

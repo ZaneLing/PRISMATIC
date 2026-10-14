@@ -65,7 +65,16 @@ v0.27的记忆收益很小，尚未证明优于贪心编辑。本次登记干预
             text+='\n| Panel | Method | Logical model calls | Logical response USD | Enumerated programs | Proposal seconds |\n|---|---|---:|---:|---:|---:|\n'
             for panel,p in summary['panels'].items():
                 for arm,z in p['proposal_costs'].items():text+=f"| {panel} | {arm} | {z['logical_model_calls']} | {z['logical_response_cost_usd']:.5f} | {z['enumerated_programs']} | {z['proposal_seconds']:.1f} |\n"
-        text+='\n## Artifacts / 交付\n\n- [Registered protocol](protocol.json)\n- [Actual pre-training probes](results/runtime_probe.json)\n- [Audit-gated aggregate results](results/summary.json)\n- [Historical round-selection metadata correction](../paper/round_selection_metadata_audit.json)\n'
+        if (HERE/'results/memory_diagnostic.json').exists():
+            diagnostic=json.loads((HERE/'results/memory_diagnostic.json').read_text())
+            text+=('\n## 4. Executed memory carryover and edit-transfer diagnosis\n\nThis registered replay uses proposal cases only, after early development scores were observed. It changes no training decision, fits no model and makes no new API call. For each round, all compared memories use the same current policy and calibration.\n\n' if lang=='en' else '\n## 4. 已执行的旧记忆与新编辑诊断\n\n本登记回放在早期开发成绩已观察后进行，只用proposal病例；不改训练决定、不拟合新模型、不新增API调用。每轮不同记忆使用同一个当前策略与校准。\n\n')
+            text+='| Audited run | Accepted edits with positive proposal transfer | Negative transfer | Zero transfer |\n|---|---:|---:|---:|\n'
+            for name,z in diagnostic['runs'].items():text+=f"| {name} | {z['accepted_positive_transfer']} | {z['accepted_negative_transfer']} | {z['accepted_zero_transfer']} |\n"
+            text+='\n| Audited run | Round | Prior-memory effect (F1 pp) | New-edit effect (F1 pp) |\n|---|---:|---:|---:|\n'
+            for name,z in diagnostic['runs'].items():
+                for row in z['rounds']:text+=f"| {name} | {row['round']} | {100*row['carryover_memory_effect']:+.4f} | {100*row['current_edits_effect']:+.4f} |\n"
+            text+=('\nA positive fresh-witness edit can have a negative effect on proposal patients. Old rules can also change value after the policy/calibration changes. These findings motivate compatibility revalidation, but do not constitute an executed improved agent or an independently learned counterfactual trajectory.\n' if lang=='en' else '\n新witness上有益的编辑仍可能损害proposal表现；基础策略／校准改变后，旧规则的作用也会变化。这为重新核验规则兼容性提供依据，但不是已经执行的新改进agent，也不是独立学习的反事实轨迹。\n')
+        text+='\n## Artifacts / 交付\n\n- [Registered protocol](protocol.json)\n- [Actual pre-training probes](results/runtime_probe.json)\n- [Audit-gated aggregate results](results/summary.json)\n- [Registered memory diagnosis](diagnostic_addendum.json) and [actual replay effects](results/memory_diagnostic.json)\n- [Historical round-selection metadata correction](../paper/round_selection_metadata_audit.json)\n'
         text+=('\nA rolling-export dictionary can show later best-round choices in older nested `round.best` fields. Immutable per-round receipts and per-arm `best_round` values are independently verified; corrected historical selections are linked above. Scores, rules and final model choices are unchanged. Restricted records, predictions and fitted weights stay local.\n' if lang=='en' else '\n滚动导出的共享字典会使旧轮次嵌套`round.best`显示较晚选择。不可变逐轮回执与各方法`best_round`已独立核对，历史选择修正在上方链接；分数、规则和最终模型选择没有变化。受限病例、预测与权重保持本地。\n')
         (HERE/f'RESULTS.{lang}.md').write_text(text)
 if __name__=='__main__':main()

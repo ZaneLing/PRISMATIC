@@ -1,0 +1,1114 @@
+{
+  "status": "partial",
+  "split": "proposal",
+  "test_inference": false,
+  "new_model_calls": 0,
+  "runs": {
+    "full-seed42": {
+      "audit_sha256": "cbb9d9df0c487dcf4bda1bf76ab1e9eef74709a3fdfb794252cc2b22f42343b8",
+      "rounds": [
+        {
+          "round": 1,
+          "calibrated_policy_f1": 0.5691904098175948,
+          "prior_memory_on_current_policy_f1": 0.5691904098175948,
+          "current_memory_f1": 0.5693929277950021,
+          "carryover_memory_effect": 0.0,
+          "current_edits_effect": 0.00020251797740722388,
+          "change_in_prior_memory_effect_since_previous_policy": null,
+          "edits": [
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 0,
+                  "conditions": [
+                    {
+                      "feature_index": 32116,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "6f3c3ef867da6dad5440"
+                },
+                "induction_jaccard_gain": 0.00029646600027071905,
+                "affected_visits": 153,
+                "affected_patients": 134,
+                "id": "6f3c3ef867da6dad5440"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -0.0002014228480851088,
+              "proposal_f1_delta": -3.8972162696881973e-05,
+              "proposal_jaccard_delta": -1.5771786510132557e-06,
+              "affected_proposal_patients": 51,
+              "proposal_visit_fixes": 14,
+              "proposal_visit_regressions": 37
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 0,
+                  "conditions": [
+                    {
+                      "feature_index": 32387,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "fb97e08ba9dcb814233f"
+                },
+                "induction_jaccard_gain": 0.00022920544616351137,
+                "affected_visits": 227,
+                "affected_patients": 157,
+                "id": "fb97e08ba9dcb814233f"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -0.0002365275542294265,
+              "proposal_f1_delta": -0.00017367435501625117,
+              "proposal_jaccard_delta": -0.00015303133692978754,
+              "affected_proposal_patients": 58,
+              "proposal_visit_fixes": 15,
+              "proposal_visit_regressions": 50
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 1,
+                  "conditions": [
+                    {
+                      "feature_index": 32117,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "e8bf8a59c468ae5962e1"
+                },
+                "induction_jaccard_gain": 0.0002380410929961691,
+                "affected_visits": 35,
+                "affected_patients": 34,
+                "id": "e8bf8a59c468ae5962e1"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 0.0003178389103749568,
+              "proposal_f1_delta": 0.00013314803850117407,
+              "proposal_jaccard_delta": 7.667330015193041e-05,
+              "affected_proposal_patients": 21,
+              "proposal_visit_fixes": 8,
+              "proposal_visit_regressions": 14
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 69,
+                  "conditions": [
+                    {
+                      "feature_index": 32456,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "120d9e354e2927b0521f"
+                },
+                "induction_jaccard_gain": 0.000355776028157197,
+                "affected_visits": 119,
+                "affected_patients": 91,
+                "id": "120d9e354e2927b0521f"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 7.529292907060281e-05,
+              "proposal_f1_delta": 6.936993890604981e-05,
+              "proposal_jaccard_delta": 0.0001472789046724765,
+              "affected_proposal_patients": 39,
+              "proposal_visit_fixes": 14,
+              "proposal_visit_regressions": 35
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "calibrated_policy_f1": 0.5862954610382253,
+          "prior_memory_on_current_policy_f1": 0.5861133107548677,
+          "current_memory_f1": 0.5858174410953055,
+          "carryover_memory_effect": -0.00018215028335755168,
+          "current_edits_effect": -0.0002958696595621868,
+          "change_in_prior_memory_effect_since_previous_policy": -0.00038466826076477556,
+          "edits": [
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 220,
+                  "conditions": [
+                    {
+                      "feature_index": 15987,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "1366ede7df39356317f0"
+                },
+                "induction_jaccard_gain": 7.879099181433437e-05,
+                "affected_visits": 33,
+                "affected_patients": 30,
+                "id": "1366ede7df39356317f0"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -3.568545059451367e-07,
+              "proposal_f1_delta": -6.993634379071079e-05,
+              "proposal_jaccard_delta": -6.282657552858506e-05,
+              "affected_proposal_patients": 3,
+              "proposal_visit_fixes": 0,
+              "proposal_visit_regressions": 3
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 197,
+                  "conditions": [
+                    {
+                      "feature_index": 6257,
+                      "present": true
+                    }
+                  ],
+                  "action": "exclude",
+                  "id": "184dc019e08c7f00d1ed"
+                },
+                "induction_jaccard_gain": 6.96545056536646e-05,
+                "affected_visits": 139,
+                "affected_patients": 120,
+                "id": "184dc019e08c7f00d1ed"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 0.00029790488895731215,
+              "proposal_f1_delta": -0.0002958696595621868,
+              "proposal_jaccard_delta": -0.0003136521354291655,
+              "affected_proposal_patients": 21,
+              "proposal_visit_fixes": 13,
+              "proposal_visit_regressions": 10
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 1,
+                  "conditions": [
+                    {
+                      "feature_index": 8452,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "640a92c49476bd1d4ca9"
+                },
+                "induction_jaccard_gain": 0.00016631590232368034,
+                "affected_visits": 101,
+                "affected_patients": 92,
+                "id": "640a92c49476bd1d4ca9"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -0.0006926081034801523,
+              "proposal_f1_delta": -2.9260029481559258e-06,
+              "proposal_jaccard_delta": 0.00010090667225709504,
+              "affected_proposal_patients": 20,
+              "proposal_visit_fixes": 7,
+              "proposal_visit_regressions": 18
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 69,
+                  "conditions": [
+                    {
+                      "feature_index": 8020,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "3cc03b105b8f56164d3d"
+                },
+                "induction_jaccard_gain": 0.00025049594836348474,
+                "affected_visits": 322,
+                "affected_patients": 257,
+                "id": "3cc03b105b8f56164d3d"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -6.4047213923501545e-06,
+              "proposal_f1_delta": 5.278852212364793e-05,
+              "proposal_jaccard_delta": -7.007305688300214e-05,
+              "affected_proposal_patients": 48,
+              "proposal_visit_fixes": 15,
+              "proposal_visit_regressions": 36
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "calibrated_policy_f1": 0.5936498275239018,
+          "prior_memory_on_current_policy_f1": 0.5925511742400515,
+          "current_memory_f1": 0.5928004164429862,
+          "carryover_memory_effect": -0.0010986532838502816,
+          "current_edits_effect": 0.00024924220293465194,
+          "change_in_prior_memory_effect_since_previous_policy": -0.0006206333409305431,
+          "edits": [
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 69,
+                  "conditions": [
+                    {
+                      "feature_index": 8020,
+                      "present": true
+                    },
+                    {
+                      "feature_index": 8716,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "763a2221e236e7b79354"
+                },
+                "induction_jaccard_gain": 0.00011084077415687562,
+                "affected_visits": 149,
+                "affected_patients": 132,
+                "id": "763a2221e236e7b79354"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 0.0003271087599674427,
+              "proposal_f1_delta": 0.0002968097775163381,
+              "proposal_jaccard_delta": 0.0002800341897073455,
+              "affected_proposal_patients": 21,
+              "proposal_visit_fixes": 10,
+              "proposal_visit_regressions": 11
+            },
+            {
+              "operation": {
+                "operation": "DELETE",
+                "rule": {
+                  "drug_index": 1,
+                  "conditions": [
+                    {
+                      "feature_index": 32117,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "e8bf8a59c468ae5962e1"
+                },
+                "induction_jaccard_gain": 4.5801458572968183e-05,
+                "affected_visits": 43,
+                "affected_patients": 43,
+                "id": "delete-e8bf8a59c468ae5962e1"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 9.8837237814009e-05,
+              "proposal_f1_delta": -4.7567574581686145e-05,
+              "proposal_jaccard_delta": -5.435640861317648e-05,
+              "affected_proposal_patients": 10,
+              "proposal_visit_fixes": 6,
+              "proposal_visit_regressions": 4
+            },
+            {
+              "operation": {
+                "operation": "DELETE",
+                "rule": {
+                  "drug_index": 197,
+                  "conditions": [
+                    {
+                      "feature_index": 6257,
+                      "present": true
+                    }
+                  ],
+                  "action": "exclude",
+                  "id": "184dc019e08c7f00d1ed"
+                },
+                "induction_jaccard_gain": 0.00017564624696523353,
+                "affected_visits": 186,
+                "affected_patients": 166,
+                "id": "delete-184dc019e08c7f00d1ed"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -4.4226515609313566e-05,
+              "proposal_f1_delta": 0.0006426584903902466,
+              "proposal_jaccard_delta": 0.0006263007224644457,
+              "affected_proposal_patients": 21,
+              "proposal_visit_fixes": 12,
+              "proposal_visit_regressions": 9
+            }
+          ]
+        },
+        {
+          "round": 4,
+          "calibrated_policy_f1": 0.5991977103157083,
+          "prior_memory_on_current_policy_f1": 0.5991206289320677,
+          "current_memory_f1": 0.5989195288870807,
+          "carryover_memory_effect": -7.708138364059813e-05,
+          "current_edits_effect": -0.00020110004498707923,
+          "change_in_prior_memory_effect_since_previous_policy": 0.0007723296972750315,
+          "edits": [
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 220,
+                  "conditions": [
+                    {
+                      "feature_index": 7937,
+                      "present": true
+                    }
+                  ],
+                  "action": "exclude",
+                  "id": "687144cdddad96ec376e"
+                },
+                "induction_jaccard_gain": 7.766386800877642e-05,
+                "affected_visits": 419,
+                "affected_patients": 356,
+                "id": "687144cdddad96ec376e"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -0.0006460065078024435,
+              "proposal_f1_delta": -0.00022083923536031502,
+              "proposal_jaccard_delta": -0.00014652971605699783,
+              "affected_proposal_patients": 38,
+              "proposal_visit_fixes": 30,
+              "proposal_visit_regressions": 17
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 192,
+                  "conditions": [
+                    {
+                      "feature_index": 11033,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "3dcc7ad9e01e5cb03c0d"
+                },
+                "induction_jaccard_gain": 2.040040137400787e-05,
+                "affected_visits": 66,
+                "affected_patients": 65,
+                "id": "3dcc7ad9e01e5cb03c0d"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -5.651438414577825e-06,
+              "proposal_f1_delta": 0.000155792262738097,
+              "proposal_jaccard_delta": 0.0001496235931817136,
+              "affected_proposal_patients": 6,
+              "proposal_visit_fixes": 4,
+              "proposal_visit_regressions": 2
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 1,
+                  "conditions": [
+                    {
+                      "feature_index": 15988,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "6fc7d02b3ac0c9e13894"
+                },
+                "induction_jaccard_gain": 0.00016927062699596392,
+                "affected_visits": 198,
+                "affected_patients": 176,
+                "id": "6fc7d02b3ac0c9e13894"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 0.00015508085488280532,
+              "proposal_f1_delta": -0.00016754753070580275,
+              "proposal_jaccard_delta": -0.0002127753138145838,
+              "affected_proposal_patients": 17,
+              "proposal_visit_fixes": 4,
+              "proposal_visit_regressions": 22
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 125,
+                  "conditions": [
+                    {
+                      "feature_index": 4657,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "8d16a838ae61a43dc1d0"
+                },
+                "induction_jaccard_gain": 6.51651099708033e-05,
+                "affected_visits": 94,
+                "affected_patients": 87,
+                "id": "8d16a838ae61a43dc1d0"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 3.624758584963583e-05,
+              "proposal_f1_delta": -3.355251428127648e-05,
+              "proposal_jaccard_delta": -3.687808756469568e-05,
+              "affected_proposal_patients": 7,
+              "proposal_visit_fixes": 1,
+              "proposal_visit_regressions": 6
+            }
+          ]
+        },
+        {
+          "round": 5,
+          "calibrated_policy_f1": 0.6023378837083441,
+          "prior_memory_on_current_policy_f1": 0.6019170795914287,
+          "current_memory_f1": 0.6021018440708678,
+          "carryover_memory_effect": -0.0004208041169153631,
+          "current_edits_effect": 0.00018476447943904795,
+          "change_in_prior_memory_effect_since_previous_policy": -0.00014262268828768576,
+          "edits": [
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 78,
+                  "conditions": [
+                    {
+                      "feature_index": 8010,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "bb05f89fdff916274f3b"
+                },
+                "induction_jaccard_gain": 0.00013548899940118235,
+                "affected_visits": 118,
+                "affected_patients": 101,
+                "id": "bb05f89fdff916274f3b"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -0.000249738130494892,
+              "proposal_f1_delta": 0.0002010101976885892,
+              "proposal_jaccard_delta": 0.00013367391203411572,
+              "affected_proposal_patients": 7,
+              "proposal_visit_fixes": 2,
+              "proposal_visit_regressions": 5
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 1,
+                  "conditions": [
+                    {
+                      "feature_index": 8452,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "640a92c49476bd1d4ca9"
+                },
+                "induction_jaccard_gain": 0.00010680442272309823,
+                "affected_visits": 268,
+                "affected_patients": 245,
+                "id": "640a92c49476bd1d4ca9"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -0.00010767194155469895,
+              "proposal_f1_delta": 0.00016343557886766558,
+              "proposal_jaccard_delta": 0.00021956219951335676,
+              "affected_proposal_patients": 22,
+              "proposal_visit_fixes": 10,
+              "proposal_visit_regressions": 17
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 192,
+                  "conditions": [
+                    {
+                      "feature_index": 32591,
+                      "present": true
+                    }
+                  ],
+                  "action": "exclude",
+                  "id": "feff3a28ba5ac16c166f"
+                },
+                "induction_jaccard_gain": 2.429256709315438e-05,
+                "affected_visits": 335,
+                "affected_patients": 253,
+                "id": "feff3a28ba5ac16c166f"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -0.00019465171768662248,
+              "proposal_f1_delta": -0.00024200422525511023,
+              "proposal_jaccard_delta": -0.00023519970887492248,
+              "affected_proposal_patients": 23,
+              "proposal_visit_fixes": 17,
+              "proposal_visit_regressions": 17
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 197,
+                  "conditions": [
+                    {
+                      "feature_index": 15254,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "209d941f4bc53b79564f"
+                },
+                "induction_jaccard_gain": 7.663121610530495e-05,
+                "affected_visits": 102,
+                "affected_patients": 97,
+                "id": "209d941f4bc53b79564f"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 8.035486978219541e-05,
+              "proposal_f1_delta": 0.00018476447943904795,
+              "proposal_jaccard_delta": 0.00017054090379731157,
+              "affected_proposal_patients": 11,
+              "proposal_visit_fixes": 6,
+              "proposal_visit_regressions": 6
+            }
+          ]
+        }
+      ],
+      "accepted_positive_transfer": 4,
+      "accepted_negative_transfer": 4,
+      "accepted_zero_transfer": 0,
+      "rejected_edits": 11
+    },
+    "molecular-seed42": {
+      "audit_sha256": "c549a6bc522ae5afed4333a9ad90c8f2e5db7cba2e06cd49f8dce0ce29d213bf",
+      "rounds": [
+        {
+          "round": 1,
+          "calibrated_policy_f1": 0.5419898886647005,
+          "prior_memory_on_current_policy_f1": 0.5419898886647005,
+          "current_memory_f1": 0.542564306819013,
+          "carryover_memory_effect": 0.0,
+          "current_edits_effect": 0.0005744181543124727,
+          "change_in_prior_memory_effect_since_previous_policy": null,
+          "edits": [
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 0,
+                  "conditions": [
+                    {
+                      "feature_index": 32116,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "6f3c3ef867da6dad5440"
+                },
+                "induction_jaccard_gain": 0.0003303424987640525,
+                "affected_visits": 144,
+                "affected_patients": 130,
+                "id": "6f3c3ef867da6dad5440"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 0.0003962919246256469,
+              "proposal_f1_delta": 8.718578119570886e-06,
+              "proposal_jaccard_delta": -2.915901488459438e-05,
+              "affected_proposal_patients": 42,
+              "proposal_visit_fixes": 12,
+              "proposal_visit_regressions": 31
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 48,
+                  "conditions": [
+                    {
+                      "feature_index": 8020,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "26d1a5f0e44a7a630c44"
+                },
+                "induction_jaccard_gain": 0.0004105416118062614,
+                "affected_visits": 162,
+                "affected_patients": 122,
+                "id": "26d1a5f0e44a7a630c44"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 0.0003720369558302128,
+              "proposal_f1_delta": 0.0005656995761929018,
+              "proposal_jaccard_delta": 0.0006849559347387735,
+              "affected_proposal_patients": 45,
+              "proposal_visit_fixes": 19,
+              "proposal_visit_regressions": 35
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 96,
+                  "conditions": [
+                    {
+                      "feature_index": 44,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "b8ebabba5d41fdc98e4d"
+                },
+                "induction_jaccard_gain": 0.0003477413108683396,
+                "affected_visits": 51,
+                "affected_patients": 47,
+                "id": "b8ebabba5d41fdc98e4d"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -1.0775564835974194e-05,
+              "proposal_f1_delta": 7.294181261230381e-05,
+              "proposal_jaccard_delta": 0.00010972316650048608,
+              "affected_proposal_patients": 17,
+              "proposal_visit_fixes": 6,
+              "proposal_visit_regressions": 11
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 43,
+                  "conditions": [
+                    {
+                      "feature_index": 32378,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "736110d4d75d3efea6f9"
+                },
+                "induction_jaccard_gain": 0.00027304718666638336,
+                "affected_visits": 162,
+                "affected_patients": 143,
+                "id": "736110d4d75d3efea6f9"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -4.614851107564988e-05,
+              "proposal_f1_delta": 0.000408701791868582,
+              "proposal_jaccard_delta": 0.0003966702957995949,
+              "affected_proposal_patients": 36,
+              "proposal_visit_fixes": 21,
+              "proposal_visit_regressions": 27
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "calibrated_policy_f1": 0.5562147031427482,
+          "prior_memory_on_current_policy_f1": 0.5579240664579668,
+          "current_memory_f1": 0.5578879726884673,
+          "carryover_memory_effect": 0.0017093633152185372,
+          "current_edits_effect": -3.6093769499423445e-05,
+          "change_in_prior_memory_effect_since_previous_policy": 0.0011349451609060646,
+          "edits": [
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 96,
+                  "conditions": [
+                    {
+                      "feature_index": 2652,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "0bd6d9aa4b2c2c41566d"
+                },
+                "induction_jaccard_gain": 0.0002811966109696608,
+                "affected_visits": 140,
+                "affected_patients": 131,
+                "id": "0bd6d9aa4b2c2c41566d"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 0.00018629268117131836,
+              "proposal_f1_delta": -3.6093769499423445e-05,
+              "proposal_jaccard_delta": -3.510765874470412e-05,
+              "affected_proposal_patients": 23,
+              "proposal_visit_fixes": 8,
+              "proposal_visit_regressions": 17
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "calibrated_policy_f1": 0.5721035595193944,
+          "prior_memory_on_current_policy_f1": 0.5723669206017086,
+          "current_memory_f1": 0.572214204410643,
+          "carryover_memory_effect": 0.000263361082314173,
+          "current_edits_effect": -0.00015271619106560497,
+          "change_in_prior_memory_effect_since_previous_policy": -0.0014099084634049408,
+          "edits": [
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 176,
+                  "conditions": [
+                    {
+                      "feature_index": 15987,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "07543d6de0457b50c229"
+                },
+                "induction_jaccard_gain": 6.745687266354536e-05,
+                "affected_visits": 58,
+                "affected_patients": 57,
+                "id": "07543d6de0457b50c229"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 0.00015275100281142429,
+              "proposal_f1_delta": -0.00015271619106560497,
+              "proposal_jaccard_delta": -0.00016733074469799103,
+              "affected_proposal_patients": 4,
+              "proposal_visit_fixes": 0,
+              "proposal_visit_regressions": 6
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 0,
+                  "conditions": [
+                    {
+                      "feature_index": 15967,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "b671cbc92e8529c21900"
+                },
+                "induction_jaccard_gain": 7.327347365092206e-05,
+                "affected_visits": 162,
+                "affected_patients": 151,
+                "id": "b671cbc92e8529c21900"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -0.00021124614173784195,
+              "proposal_f1_delta": 0.0001272623684007712,
+              "proposal_jaccard_delta": 0.0001510363537681192,
+              "affected_proposal_patients": 24,
+              "proposal_visit_fixes": 9,
+              "proposal_visit_regressions": 21
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 150,
+                  "conditions": [
+                    {
+                      "feature_index": 15254,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "5912708bd01df2435787"
+                },
+                "induction_jaccard_gain": 7.758556622980733e-05,
+                "affected_visits": 113,
+                "affected_patients": 101,
+                "id": "5912708bd01df2435787"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -3.5806674271054995e-05,
+              "proposal_f1_delta": 0.00010295804906068629,
+              "proposal_jaccard_delta": 9.189425221634018e-05,
+              "affected_proposal_patients": 8,
+              "proposal_visit_fixes": 3,
+              "proposal_visit_regressions": 5
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 1,
+                  "conditions": [
+                    {
+                      "feature_index": 15988,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "6fc7d02b3ac0c9e13894"
+                },
+                "induction_jaccard_gain": 0.0002586253513491012,
+                "affected_visits": 157,
+                "affected_patients": 146,
+                "id": "6fc7d02b3ac0c9e13894"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": 5.5278598151131675e-05,
+              "proposal_f1_delta": 1.3982040894422454e-05,
+              "proposal_jaccard_delta": -9.58470028083469e-05,
+              "affected_proposal_patients": 17,
+              "proposal_visit_fixes": 5,
+              "proposal_visit_regressions": 17
+            }
+          ]
+        },
+        {
+          "round": 4,
+          "calibrated_policy_f1": 0.5773215519648761,
+          "prior_memory_on_current_policy_f1": 0.5775238843225173,
+          "current_memory_f1": 0.5774677098139315,
+          "carryover_memory_effect": 0.0002023323576412217,
+          "current_edits_effect": -5.617450858586004e-05,
+          "change_in_prior_memory_effect_since_previous_policy": 9.168746639265368e-05,
+          "edits": [
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 176,
+                  "conditions": [
+                    {
+                      "feature_index": 6211,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "e96cb7488429faf88b89"
+                },
+                "induction_jaccard_gain": 2.9148406426616506e-05,
+                "affected_visits": 129,
+                "affected_patients": 116,
+                "id": "e96cb7488429faf88b89"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 0.00020781140073422577,
+              "proposal_f1_delta": -9.684460168291054e-05,
+              "proposal_jaccard_delta": -8.208730327080582e-05,
+              "affected_proposal_patients": 4,
+              "proposal_visit_fixes": 0,
+              "proposal_visit_regressions": 5
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 176,
+                  "conditions": [
+                    {
+                      "feature_index": 32496,
+                      "present": true
+                    }
+                  ],
+                  "action": "exclude",
+                  "id": "6f15d01cb71204644bbf"
+                },
+                "induction_jaccard_gain": 1.0740086443851286e-05,
+                "affected_visits": 484,
+                "affected_patients": 389,
+                "id": "6f15d01cb71204644bbf"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -0.00017688162958950926,
+              "proposal_f1_delta": -0.0005251264603017836,
+              "proposal_jaccard_delta": -0.00041594874873751575,
+              "affected_proposal_patients": 38,
+              "proposal_visit_fixes": 32,
+              "proposal_visit_regressions": 24
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 1,
+                  "conditions": [
+                    {
+                      "feature_index": 15988,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "6fc7d02b3ac0c9e13894"
+                },
+                "induction_jaccard_gain": 0.0002360242752862712,
+                "affected_visits": 209,
+                "affected_patients": 187,
+                "id": "6fc7d02b3ac0c9e13894"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 0.0002525847357480737,
+              "proposal_f1_delta": 4.06700930970505e-05,
+              "proposal_jaccard_delta": -6.899063667847871e-05,
+              "affected_proposal_patients": 17,
+              "proposal_visit_fixes": 5,
+              "proposal_visit_regressions": 19
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 55,
+                  "conditions": [
+                    {
+                      "feature_index": 8010,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "1ea10e33a4494c81c56c"
+                },
+                "induction_jaccard_gain": 0.00013807496693214776,
+                "affected_visits": 58,
+                "affected_patients": 56,
+                "id": "1ea10e33a4494c81c56c"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -7.240412169984278e-05,
+              "proposal_f1_delta": 0.0002421114297298521,
+              "proposal_jaccard_delta": 0.00022416354210041955,
+              "affected_proposal_patients": 5,
+              "proposal_visit_fixes": 3,
+              "proposal_visit_regressions": 2
+            }
+          ]
+        },
+        {
+          "round": 5,
+          "calibrated_policy_f1": 0.5817084307850731,
+          "prior_memory_on_current_policy_f1": 0.5816098530618633,
+          "current_memory_f1": 0.5817105575724505,
+          "carryover_memory_effect": -9.857772320975844e-05,
+          "current_edits_effect": 0.00010070451058719065,
+          "change_in_prior_memory_effect_since_previous_policy": -0.0002447355722651201,
+          "edits": [
+            {
+              "operation": {
+                "operation": "DELETE",
+                "rule": {
+                  "drug_index": 0,
+                  "conditions": [
+                    {
+                      "feature_index": 32116,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "6f3c3ef867da6dad5440"
+                },
+                "induction_jaccard_gain": 0.0003033865504561955,
+                "affected_visits": 666,
+                "affected_patients": 608,
+                "id": "delete-6f3c3ef867da6dad5440"
+              },
+              "accepted_on_actual_witness": true,
+              "witness_f1_delta": 0.0005659877005111946,
+              "proposal_f1_delta": 0.00010070451058719065,
+              "proposal_jaccard_delta": 0.00012471214696097022,
+              "affected_proposal_patients": 41,
+              "proposal_visit_fixes": 32,
+              "proposal_visit_regressions": 11
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 1,
+                  "conditions": [
+                    {
+                      "feature_index": 8452,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "640a92c49476bd1d4ca9"
+                },
+                "induction_jaccard_gain": 0.00014859776702878078,
+                "affected_visits": 264,
+                "affected_patients": 242,
+                "id": "640a92c49476bd1d4ca9"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": -0.00016115960563656273,
+              "proposal_f1_delta": 0.000343428584340999,
+              "proposal_jaccard_delta": 0.0003910098540583218,
+              "affected_proposal_patients": 22,
+              "proposal_visit_fixes": 10,
+              "proposal_visit_regressions": 16
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 97,
+                  "conditions": [
+                    {
+                      "feature_index": 4657,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "06a7cff2fb5ee3dd0904"
+                },
+                "induction_jaccard_gain": 0.0001580120105064019,
+                "affected_visits": 128,
+                "affected_patients": 125,
+                "id": "06a7cff2fb5ee3dd0904"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": 3.278153081376356e-05,
+              "proposal_f1_delta": 0.00029373585955572157,
+              "proposal_jaccard_delta": 0.00031594816525531977,
+              "affected_proposal_patients": 3,
+              "proposal_visit_fixes": 3,
+              "proposal_visit_regressions": 0
+            },
+            {
+              "operation": {
+                "operation": "ADD",
+                "rule": {
+                  "drug_index": 62,
+                  "conditions": [
+                    {
+                      "feature_index": 945,
+                      "present": true
+                    }
+                  ],
+                  "action": "include",
+                  "id": "eb22ae082549d0b9577d"
+                },
+                "induction_jaccard_gain": 1.8285117495526904e-05,
+                "affected_visits": 220,
+                "affected_patients": 180,
+                "id": "eb22ae082549d0b9577d"
+              },
+              "accepted_on_actual_witness": false,
+              "witness_f1_delta": 0.00012165355897642005,
+              "proposal_f1_delta": 0.00023082920286554565,
+              "proposal_jaccard_delta": 0.00016799223633701121,
+              "affected_proposal_patients": 19,
+              "proposal_visit_fixes": 8,
+              "proposal_visit_regressions": 12
+            }
+          ]
+        }
+      ],
+      "accepted_positive_transfer": 4,
+      "accepted_negative_transfer": 3,
+      "accepted_zero_transfer": 0,
+      "rejected_edits": 10
+    }
+  },
+  "protocol_sha256": "7296b0d63ea1b75d34affbca07350b7453fd8a056ec9570129647ef94184b99d",
+  "scope": "Controlled replay on already used proposal cases; no new fitting, rule generation, decisions or test scores. Separates old-memory effect under the current policy from actual new-edit effect. These effects do not establish the outcome of a separately learned alternative trajectory."
+}

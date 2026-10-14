@@ -33,10 +33,12 @@ SafeDrug稀疏图、固定分子嵌入的检查点保存，以及ARMR的CPU/GPU�
 
 | Panel | Method | Seed | Finished epochs / 50 | Status |
 |---|---|---:|---:|---|
-| full | ARMR | 137 | 10 | training |
+| full | ARMR | 137 | 42 | training |
 | full | ARMR | 42 | 50 | selection_frozen |
-| full | GAMENet | 42 | 45 | training |
-| molecular | SafeDrug | 42 | 47 | training |
+| full | GAMENet | 137 | 18 | training |
+| full | GAMENet | 42 | 50 | selection_frozen |
+| molecular | SafeDrug | 137 | 20 | training |
+| molecular | SafeDrug | 42 | 50 | selection_frozen |
 
 Queued seeds/panels are not counted as completed. Snapshot of saved epoch receipts; no provisional neural test score.
 
@@ -92,6 +94,8 @@ Queued seeds/panels are not counted as completed. Snapshot of saved epoch receip
 | Panel | Method | Seed | Guard F1 | Guard Jaccard |
 |---|---|---:|---:|---:|
 | full | ARMR | 42 | 0.60738 | 0.45214 |
+| full | GAMENet | 42 | 0.52107 | 0.36505 |
+| molecular | SafeDrug | 42 | 0.53950 | 0.38673 |
 
 ## 8. 已核验的规则记忆对照与病例增长曲线
 
@@ -145,6 +149,8 @@ Queued seeds/panels are not counted as completed. Snapshot of saved epoch receip
 ![Audited development curves and paired increments](../paper/figures/rule_memory_development.png)
 
 [Editable vector figure](../paper/figures/rule_memory_development.svg)
+
+历史元数据说明：滚动导出复用了嵌套`round.best`字典，旧条目可能显示之后的选择。不可变逐轮回执、各方法`best_round`、所有分数与最终选择均已核验；[历史选择修正](../paper/round_selection_metadata_audit.json)单独公开，保持冻结结果哈希不变。
 
 ## Artifacts / 交付文件
 

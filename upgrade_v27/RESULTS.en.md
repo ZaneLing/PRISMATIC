@@ -31,10 +31,12 @@ The sparse SafeDrug adjacency, persisted fixed molecular embedding and CPU/MPS A
 
 | Panel | Method | Seed | Finished epochs / 50 | Status |
 |---|---|---:|---:|---|
-| full | ARMR | 137 | 10 | training |
+| full | ARMR | 137 | 42 | training |
 | full | ARMR | 42 | 50 | selection_frozen |
-| full | GAMENet | 42 | 45 | training |
-| molecular | SafeDrug | 42 | 47 | training |
+| full | GAMENet | 137 | 18 | training |
+| full | GAMENet | 42 | 50 | selection_frozen |
+| molecular | SafeDrug | 137 | 20 | training |
+| molecular | SafeDrug | 42 | 50 | selection_frozen |
 
 Queued seeds/panels are not counted as completed. Snapshot of saved epoch receipts; no provisional neural test score.
 
@@ -90,6 +92,8 @@ Only completed 50-epoch runs whose selected checkpoint has been reloaded and ind
 | Panel | Method | Seed | Guard F1 | Guard Jaccard |
 |---|---|---:|---:|---:|
 | full | ARMR | 42 | 0.60738 | 0.45214 |
+| full | GAMENet | 42 | 0.52107 | 0.36505 |
+| molecular | SafeDrug | 42 | 0.53950 | 0.38673 |
 
 ## 8. Audited rule-memory comparison and experience curves
 
@@ -143,6 +147,8 @@ Increasing case counts improve the shared supervised predictor; the small increm
 ![Audited development curves and paired increments](../paper/figures/rule_memory_development.png)
 
 [Editable vector figure](../paper/figures/rule_memory_development.svg)
+
+Historical metadata note: rolling exports reuse a mutable nested `round.best` dictionary, so older entries can show later choices. Immutable per-round receipts, per-arm `best_round`, all scores and final choices pass independent checks. [Corrected historical choices](../paper/round_selection_metadata_audit.json) are released without rewriting frozen result hashes.
 
 ## Artifacts / 交付文件
 

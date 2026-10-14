@@ -18,6 +18,20 @@ def main():
     for lang in ['en','zh']:
         block=('## Current executed increment — rule memory and tool repair\n\n' if lang=='en' else '## 当前增量：真实规则进化与工具修复\n\n')
         block+=(f'**Actual training:** {complete}/6 rule runs finish five rounds; {nr}/15 author-model runs finish their full 50 epochs, with {epochs}/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.\n\n' if lang=='en' else f'**实际运行：** {complete}/6组规则实验完成五轮；作者神经方法{nr}/15组完成各自50轮，总计已完成{epochs}/750轮。训练与审计队列继续，正式ATC-L4测试主表等待全部已登记版本和核验完成后统一运行。\n\n')
+        if (ROOT/'upgrade_v29/results/summary.json').exists():
+            new=json.loads((ROOT/'upgrade_v29/results/summary.json').read_text());states=[]
+            for p in (ROOT/'upgrade_v29/results').glob('*-seed*.json'):
+                z=json.loads(p.read_text())
+                if 'lock' in z:states.append(z)
+            done=sum(z['status']=='selection_frozen' for z in states);audited=sum(len(p['seeds']) for p in new['panels'].values())
+            block+=('### New executed mechanism: isolated witnesses and program synthesis\n\n' if lang=='en' else '### 新机制已执行：隔离witness与条件程序生成\n\n')
+            block+=(f'{done}/6 runs have frozen five rounds; {audited}/6 pass independent model/program audits. Each seed uses 5,692 fit patients and permanently excludes 1,423 witness patients from all model fits and candidate statistics. The agent generates one/two-predicate programs; raw policy, ordinary class calibration, greedy/random programs and shuffled evidence are separate controls. These are development results.\n\n' if lang=='en' else f'{done}/6组已完成并冻结五轮，{audited}/6组通过模型与程序独立核验。每个种子用5,692人拟合，1,423位witness永久不参与模型拟合或候选统计。agent生成一到两个条件的程序；原策略、普通逐药物校准、贪心／随机程序及打乱证据分别作对照。以下仍是开发结果。\n\n')
+            if new['panels']:
+                block+='| Panel | Audited seeds | Raw policy F1 | Class calibration F1 | Greedy program F1 | Own-agent F1 |\n|---|---:|---:|---:|---:|---:|\n'
+                for panel,p in new['panels'].items():
+                    vals=[p['methods'][k]['patient_f1']['mean'] for k in ['raw_policy','calibrated_policy','greedy_conditional_memory','own_error_program_agent']]
+                    block+=f"| {panel} | {len(p['seeds'])} | "+' | '.join(f'{v:.5f}' for v in vals)+' |\n'
+            block+=f'\n[Actual conditional-program experiment and replay diagnosis](../upgrade_v29/RESULTS.{lang}.md)\n\n'
         block+=('### Development method comparison: same guard set\n\n1,231 visits/467 patients; these are development scores, not the final test main table. Each included seed passes independent source/cross-fit/candidate/prediction audits.\n\n' if lang=='en' else '### 同一guard上的方法对照（开发结果）\n\n1,231次就诊／467人；这是开发结果，不是最终测试主表。纳入种子均通过独立原始数据、交叉拟合、候选和预测核验。\n\n')
         block+='| Panel | Audited seeds | Shared policy F1 | Greedy-rule F1 | Own-error agent F1 | Shuffled-evidence agent F1 |\n|---|---:|---:|---:|---:|---:|\n'
         for panel,p in summary['panels'].items():
@@ -42,7 +56,7 @@ def main():
 2. Complete every registered ARMR/GAMENet/SafeDrug run at 50 epochs. The implemented queue reloads each selected checkpoint, audits development predictions, then opens one shared test gate. The evaluator includes conventional methods, all six rule arms, every frozen round and three artifact interventions. Test results cannot retune the methods.
 3. Finish the eight-condition real-FHIR C/S/K factorial across 80 validation, 64 ID and 60 held-out-type tasks. Report every condition, original strict scores, resource integrity, budgets and paired effects. Audit raw-page arithmetic; do not replace old results with posthoc value extraction.
 4. Continue the eICU external-hospital study already running. Preserve zero-target stays and frozen selection. This supplies a separate transport test, not a directly pooled ATC score.
-5. The next registered improvement must address the measured shortfall: tiny rule gains, no established advantage over greedy/shuffled evidence, restricted rule expressivity, and non-nested witness reuse. Add a strong calibration/conditional-rule control and a genuinely isolated witness design before claiming a language-agent benefit. Register any larger mechanism before fitting; reserve untouched confirmation for final claims.
+5. The isolated-witness conditional-program study is now implemented and running with seven arms. Complete original-model reproduction, program-effect audits and the registered carryover/new-edit decomposition. A subsequent compatibility-gate intervention must be registered and executed before claiming that it fixes the observed transfer failures; the present replay changes no agent.
 6. Keep the existing English LaTeX source, bilingual results entry and versioned reports synchronized. Only completed audited experiments enter score tables; compilation and GitHub pushes are checked explicitly.
 
 ''' if lang=='en' else '''## 当前执行队列：具体交付状态
@@ -51,7 +65,7 @@ def main():
 2. ARMR／GAMENet／SafeDrug各组完成已登记50轮。已实现的队列逐组重新加载所选检查点、核验开发预测，之后统一开启测试。评估器包含传统方法、六种规则方法、全部冻结轮次和三项对象干预；测试结果不用于调参。
 3. 完成真实FHIR的C/S/K八组合：80验证、64同类、60未见任务类型。报告每组合原严格成绩、真实资源完整性、预算和配对效果；重建原始分页算术，不用事后提取数值替换旧分数。
 4. 继续已启动的eICU跨医院实验，保留零目标病例和冻结版本。它是独立迁移测试，不能直接混入ATC主表。
-5. 下一次登记改进要针对实测不足：规则收益小、尚未证明优于贪心／打乱证据、规则表达有限、witness并非嵌套隔离。加入强校准／条件规则对照和真正隔离的witness设计，再检验语言agent的额外贡献。更大机制必须在拟合前登记，最终结论预留未触碰确认集。
+5. 七臂的隔离witness／条件程序研究已实现并运行。补齐原模型重拟合、程序效应核验和已登记的旧记忆／新编辑分解。后续兼容性验证干预必须先登记再实际运行，才能声称修复当前迁移失败；现有回放没有改变agent。
 6. 持续同步现有英文LaTeX、中英文总览及版本报告；只有完成且核验的实验填分数，并确认编译和GitHub同步。
 
 ''')
@@ -68,5 +82,7 @@ The real-FHIR factorial executes fixed answer-contract/statistics repairs and fr
 
 Earlier paragraphs below describe retained study versions; this snapshot governs current execution status.
 '''
+    if (ROOT/'upgrade_v29/protocol.json').exists():
+        readme+='\n**New mechanism executing:** v0.29 permanently separates fit/witness patients, adds a strong ordinary calibration control and lets the language agent synthesize conditional programs. Only independently audited development results are published. [Conditional-program study](upgrade_v29/RESULTS.en.md) · [中文机制与结果](upgrade_v29/RESULTS.zh.md).\n'
     update(ROOT/'README.md',readme)
 if __name__=='__main__':main()

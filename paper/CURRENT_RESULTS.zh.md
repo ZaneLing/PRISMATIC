@@ -3,7 +3,18 @@
 <!-- RXRSI_CURRENT_EXECUTION_START -->
 ## 当前增量：真实规则进化与工具修复
 
-**实际运行：** 6/6组规则实验完成五轮；作者神经方法1/15组完成各自50轮，总计已完成152/750轮。训练与审计队列继续，正式ATC-L4测试主表等待全部已登记版本和核验完成后统一运行。
+**实际运行：** 6/6组规则实验完成五轮；作者神经方法3/15组完成各自50轮，总计已完成232/750轮。训练与审计队列继续，正式ATC-L4测试主表等待全部已登记版本和核验完成后统一运行。
+
+### 新机制已执行：隔离witness与条件程序生成
+
+3/6组已完成并冻结五轮，2/6组通过模型与程序独立核验。每个种子用5,692人拟合，1,423位witness永久不参与模型拟合或候选统计。agent生成一到两个条件的程序；原策略、普通逐药物校准、贪心／随机程序及打乱证据分别作对照。以下仍是开发结果。
+
+| Panel | Audited seeds | Raw policy F1 | Class calibration F1 | Greedy program F1 | Own-agent F1 |
+|---|---:|---:|---:|---:|---:|
+| full | 1 | 0.60594 | 0.60719 | 0.60719 | 0.60789 |
+| molecular | 1 | 0.57623 | 0.57911 | 0.58026 | 0.57908 |
+
+[Actual conditional-program experiment and replay diagnosis](../upgrade_v29/RESULTS.zh.md)
 
 ### 同一guard上的方法对照（开发结果）
 
@@ -22,14 +33,14 @@
 
 | Contract C | Statistics S | Frozen skills K | Validation /80 | ID /64 | Held-out types /60 |
 |---|---|---|---:|---:|---:|
-| 0 | 0 | 0 | 45 | 38 | pending |
-| 0 | 0 | 1 | 53 | 45 | pending |
-| 0 | 1 | 0 | 49 | pending | pending |
-| 0 | 1 | 1 | 59 | pending | pending |
-| 1 | 0 | 0 | 52 | pending | pending |
-| 1 | 0 | 1 | 54 | pending | pending |
-| 1 | 1 | 0 | 57 | pending | pending |
-| 1 | 1 | 1 | 66 | pending | pending |
+| 0 | 0 | 0 | 45 | 38 | 18 |
+| 0 | 0 | 1 | 53 | 45 | 10 |
+| 0 | 1 | 0 | 49 | 36 | pending |
+| 0 | 1 | 1 | 59 | 46 | pending |
+| 1 | 0 | 0 | 52 | 46 | pending |
+| 1 | 0 | 1 | 54 | 49 | pending |
+| 1 | 1 | 0 | 57 | 47 | pending |
+| 1 | 1 | 1 | 66 | 54 | pending |
 
 C按任务文字约束答案形式，不合规时在原预算内重新回答；S从真实分页数据计算最近值／24小时统计并区分单位；K原样复用两条已学技能。C/S属于固定工程修复，不冒充自主工具进化。八种组合固定、划分此前已使用，属于探索性修复。
 
