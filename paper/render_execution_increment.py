@@ -55,8 +55,12 @@ def main():
             if p.exists():
                 base=json.loads(p.read_text())['base_proposal']
                 block+='| State on 100 proposal cases | Ranked drug/order F1 | Permuted drug/order F1 |\n|---|---:|---:|\n'
-                block+=f"| Frozen base | {base['ranked']['drug_micro_f1']:.5f}/{base['ranked']['core_order_micro_f1']:.5f} | {base['permuted']['drug_micro_f1']:.5f}/{base['permuted']['core_order_micro_f1']:.5f} |\n\n"
+                block+=f"| Frozen base | {base['ranked']['drug_micro_f1']:.5f}/{base['ranked']['core_order_micro_f1']:.5f} | {base['permuted']['drug_micro_f1']:.5f}/{base['permuted']['core_order_micro_f1']:.5f} |\n"
                 evidence=json.loads((ROOT/'upgrade_v31/results/audit-seed42.json').read_text())
+                for arm,rows in evidence['arms'].items():
+                    for row in rows:
+                        a=row['proposal']['ranked'];b=row['proposal']['permuted'];block+=f"| {arm}, round {row['round']} | {a['drug_micro_f1']:.5f}/{a['core_order_micro_f1']:.5f} | {b['drug_micro_f1']:.5f}/{b['core_order_micro_f1']:.5f} |\n"
+                block+='\n'
                 for arm,rows in evidence['arms'].items():
                     for row in rows:
                         if all(m['empty_fraction']==1 for m in row['proposal'].values()):

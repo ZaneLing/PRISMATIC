@@ -5,7 +5,7 @@
 
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 8/15 author-model runs finish their full 50 epochs, with 441/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 8/15 author-model runs finish their full 50 epochs, with 442/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Recorded method budgets:** the receipt ledger separates shared fits, optimizer steps, proposal searches and logical response prices. It checks completed author-epoch records against their original logs, counts shared policy fitting once, and identifies exact v29-to-v30 model reuse. SafeDrug has 3 audited seeds; molecular guard patient F1 is 0.53689 ± 0.00244. [Actual compute and development results](COMPUTE_ACCOUNTING.en.md)
 
@@ -26,6 +26,8 @@ Completed optimizer runs: **2/36**; fully audited seeds: **0/3**. Old test cases
 | State on 100 proposal cases | Ranked drug/order F1 | Permuted drug/order F1 |
 |---|---:|---:|
 | Frozen base | 0.16846/0.10223 | 0.14129/0.09434 |
+| permuted_uniform, round 1 | 0.00000/0.00000 | 0.00000/0.00000 |
+| ranked_uniform, round 1 | 0.23301/0.14815 | 0.10800/0.06960 |
 
 **Observed failure:** seed42/permuted_uniform/round1 has100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain. The completed diagnostic independently recounts384 probability vectors. On32 permuted proposal cases, the failed first adapter's AUROC changes from0.7385 with oracle GT prefixes to0.5503 with label-free zero prefixes, where no decision probability reaches0.5. [Diagnosis and figure](../upgrade_v31/COLLAPSE.en.md)
 

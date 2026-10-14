@@ -7,6 +7,7 @@
 - Report stronger results against some older architectures alongside the unresolved ARMR difference and the greedy/shuffled controls. The own-error rule agent is not consistently best; retained failures constrain the interpretation of RSI.
 - Recount original epoch logs, optimizer steps, case exposures and shared fitting events. Each author neural run receives 921,450 visit exposures and 300 epoch/threshold choices; native optimizer steps differ. Count shared policies once, verify v29-to-v30 reuse, and distinguish logical response prices from physical spend. Missing timers remain unmeasured.
 - The first v32 repair arm finishes its original 100 steps; the second starts. All four fits and their audits remain required before repair proposal scoring. Update the existing English manuscript and bilingual result entries with the actual receipts.
+- Independently audit the first v31 ranked-uniform update: ranked drug/order F1 is 0.23301/0.14815 with no empty outputs; permuted F1 is 0.10800/0.06960 with 4% empty outputs. The latter trails the frozen base. Preserve this position-sensitive result alongside the randomized-training collapse; neither is evidence of robust RSI.
 
 SafeDrug 与完整空间 GAMENet 的三个种子均已完成并核验。新增同一患者、匹配种子的跨方法配对分析，以及实际计算预算账本；保留贪心／打乱对照优势与尚不确定的差异，不把开发集比较称为最终测试领先。v32 首组真实修复已训练完成，后续组继续。
 

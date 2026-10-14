@@ -150,7 +150,101 @@
         }
       }
     ],
-    "ranked_uniform": [],
+    "ranked_uniform": [
+      {
+        "round": 1,
+        "source_block": 0,
+        "new_feedback_cases": 600,
+        "accumulated_cases": 600,
+        "accumulated_patients": 590,
+        "trained_cases": 400,
+        "optimizer_steps": 100,
+        "adapter_sha256": "ae8d4e019711f0ec43a3807d8a31a01b0d8d47da7c80abe003cd2ef6081af711",
+        "previous_adapter_sha256": null,
+        "feedback_sha256": "c3a6eff3cee1b7813614cef06f937fa1481d21f636616d7db1e2b4d3c3ddc994",
+        "training_members_sha256": "03919eeb77d1c0a412169ee2af5ba99d9377eec6c4d549ab45919b678f63157e",
+        "supervision_sha256": "29466e04a93bdaa2f3ee08e81ea1edd9657048951c837f679b969a093f0f9231",
+        "training_seconds": 1773.4392630420625,
+        "proposal": {
+          "ranked": {
+            "cases": 100,
+            "drug_micro_f1": 0.23300970873786409,
+            "drug_precision": 0.2986425339366516,
+            "drug_recall": 0.191027496382055,
+            "core_order_micro_f1": 0.14814814814814814,
+            "known_field_accuracy_given_correct_drug": 0.851380042462845,
+            "known_fields_scored": 471,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 442,
+            "mean_predicted_drugs": 4.42,
+            "empty_fraction": 0.0,
+            "promotion_score": 0.1905789284430061,
+            "invalid_json": 0,
+            "raw_strict_invalid_json": 100,
+            "empty_reasoning_envelope_removed": 100
+          },
+          "permuted": {
+            "cases": 100,
+            "drug_micro_f1": 0.10800385728061716,
+            "drug_precision": 0.16184971098265896,
+            "drug_recall": 0.08104196816208394,
+            "core_order_micro_f1": 0.0695970695970696,
+            "known_field_accuracy_given_correct_drug": 0.835820895522388,
+            "known_fields_scored": 201,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 346,
+            "mean_predicted_drugs": 3.46,
+            "empty_fraction": 0.04,
+            "promotion_score": 0.08880046343884337,
+            "invalid_json": 4,
+            "raw_strict_invalid_json": 100,
+            "empty_reasoning_envelope_removed": 100
+          }
+        },
+        "objective": 0.13968969594092473,
+        "promoted": true,
+        "best": {
+          "round": 1,
+          "objective": 0.13968969594092473,
+          "proposal": {
+            "ranked": {
+              "cases": 100,
+              "drug_micro_f1": 0.23300970873786409,
+              "drug_precision": 0.2986425339366516,
+              "drug_recall": 0.191027496382055,
+              "core_order_micro_f1": 0.14814814814814814,
+              "known_field_accuracy_given_correct_drug": 0.851380042462845,
+              "known_fields_scored": 471,
+              "core_gold_orders": 746,
+              "core_predicted_orders": 442,
+              "mean_predicted_drugs": 4.42,
+              "empty_fraction": 0.0,
+              "promotion_score": 0.1905789284430061,
+              "invalid_json": 0,
+              "raw_strict_invalid_json": 100,
+              "empty_reasoning_envelope_removed": 100
+            },
+            "permuted": {
+              "cases": 100,
+              "drug_micro_f1": 0.10800385728061716,
+              "drug_precision": 0.16184971098265896,
+              "drug_recall": 0.08104196816208394,
+              "core_order_micro_f1": 0.0695970695970696,
+              "known_field_accuracy_given_correct_drug": 0.835820895522388,
+              "known_fields_scored": 201,
+              "core_gold_orders": 746,
+              "core_predicted_orders": 346,
+              "mean_predicted_drugs": 3.46,
+              "empty_fraction": 0.04,
+              "promotion_score": 0.08880046343884337,
+              "invalid_json": 4,
+              "raw_strict_invalid_json": 100,
+              "empty_reasoning_envelope_removed": 100
+            }
+          }
+        }
+      }
+    ],
     "permuted_own_error": [],
     "permuted_shuffled_error": []
   },

@@ -183,7 +183,12 @@ The 100-case proposal score averages ranked and permuted views and may retain th
         p=ROOT/'upgrade_v31/results/audit-seed42.json'
         if p.exists():
             parameter_audit=json.loads(p.read_text());q=parameter_audit['base_proposal']
+            assert parameter_audit['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v31/audit_learning.py').read_bytes()).hexdigest()
             parameter_section+=f"\nThe independently recounted frozen-base drug/order F1 on proposal is {q['ranked']['drug_micro_f1']:.5f}/{q['ranked']['core_order_micro_f1']:.5f} for ranked views and {q['permuted']['drug_micro_f1']:.5f}/{q['permuted']['core_order_micro_f1']:.5f} for permuted views. These are selection-set reference scores, not evidence of an intervention gain."
+            ranked_first=[r for r in parameter_audit['arms'].get('ranked_uniform',[]) if r['round']==1]
+            if ranked_first:
+                r=ranked_first[0];a=r['proposal']['ranked'];b=r['proposal']['permuted']
+                parameter_section+=f" The completed first ranked-uniform update scores {a['drug_micro_f1']:.5f}/{a['core_order_micro_f1']:.5f} under ranked presentation and {b['drug_micro_f1']:.5f}/{b['core_order_micro_f1']:.5f} after candidate permutation, with {100*a['empty_fraction']:.1f}\\%/{100*b['empty_fraction']:.1f}\\% empty outputs. This single-round control shows that lower training loss and an improved ranked-view score can coexist with worse permuted-view performance; it does not establish position-robust learning."
             failed=[(arm,r['round']) for arm,rows in parameter_audit['arms'].items() for r in rows if all(m['empty_fraction']==1 for m in r['proposal'].values())]
             if failed:
                 parameter_section+=f" In seed42, {len(failed)} completed raw checkpoint(s) return empty prescriptions on all100 proposal admissions in each view. Their drug/order micro-F1 is zero, and the predefined promotion rule retains a prior state. These failures remain reported; decreasing training loss is not evidence of effective prescription learning."
