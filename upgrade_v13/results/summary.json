@@ -1,0 +1,129 @@
+{
+  "status": "complete",
+  "test_n": 988,
+  "new_network_requests": 0,
+  "model_calls_per_case": 2,
+  "fixed_balanced_correct": 484,
+  "static_verifier_correct": 473,
+  "unattainable_oracle_diagnostic": {
+    "either_response_correct": 586,
+    "note": "Uses test labels only as an upper-bound diagnostic; never a method or selection rule."
+  },
+  "arms": {
+    "uniform": {
+      "accuracy_mean": 0.4912280701754386,
+      "accuracy_sample_sd": 0.0023374504825490823
+    },
+    "error_prioritized": {
+      "accuracy_mean": 0.4902159244264508,
+      "accuracy_sample_sd": 0.0005843626206372626
+    }
+  },
+  "paired": {
+    "static_supervised": {
+      "versus_fixed": {
+        "difference": -0.011133603238866396,
+        "fixes": 54,
+        "regressions": 65,
+        "scenario_cluster_ci95": [
+          -0.032355915065722954,
+          0.010111223458038422
+        ]
+      }
+    },
+    "uniform_seed_42": {
+      "versus_fixed": {
+        "difference": 0.0,
+        "fixes": 0,
+        "regressions": 0,
+        "scenario_cluster_ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "error_prioritized_seed_42": {
+      "versus_fixed": {
+        "difference": 0.0010121457489878543,
+        "fixes": 8,
+        "regressions": 7,
+        "scenario_cluster_ci95": [
+          -0.0060790273556231,
+          0.008129778952824752
+        ]
+      },
+      "versus_uniform": {
+        "difference": 0.0010121457489878543,
+        "fixes": 8,
+        "regressions": 7,
+        "scenario_cluster_ci95": [
+          -0.0060790273556231,
+          0.008129778952824752
+        ]
+      }
+    },
+    "uniform_seed_137": {
+      "versus_fixed": {
+        "difference": 0.004048582995951417,
+        "fixes": 33,
+        "regressions": 29,
+        "scenario_cluster_ci95": [
+          -0.011133603238866396,
+          0.019230769230769232
+        ]
+      }
+    },
+    "error_prioritized_seed_137": {
+      "versus_fixed": {
+        "difference": 0.0,
+        "fixes": 0,
+        "regressions": 0,
+        "scenario_cluster_ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "versus_uniform": {
+        "difference": -0.004048582995951417,
+        "fixes": 29,
+        "regressions": 33,
+        "scenario_cluster_ci95": [
+          -0.019230769230769232,
+          0.011133603238866396
+        ]
+      }
+    },
+    "uniform_seed_2026": {
+      "versus_fixed": {
+        "difference": 0.0,
+        "fixes": 0,
+        "regressions": 0,
+        "scenario_cluster_ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "error_prioritized_seed_2026": {
+      "versus_fixed": {
+        "difference": 0.0,
+        "fixes": 0,
+        "regressions": 0,
+        "scenario_cluster_ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "versus_uniform": {
+        "difference": 0.0,
+        "fixes": 0,
+        "regressions": 0,
+        "scenario_cluster_ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "verification": "Independent alignment, count, transition and full two-response cost checks passed."
+}

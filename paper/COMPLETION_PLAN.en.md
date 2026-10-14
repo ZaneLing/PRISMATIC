@@ -1,5 +1,13 @@
 # PRISMATIC manuscript completion and execution plan
 
+## Execution increment: v0.13 complete (2026-10-14)
+
+[Complete English report](../upgrade_v13/RESULTS.en.md) / [中文](../upgrade_v13/RESULTS.zh.md). At the same two-call budget, incremental uniform verification reaches 49.12±0.23%, error-prioritized verification 49.02±0.06%, fixed review 48.99%, and full-data ordinary verification 47.87%. Three seeds/four rounds, coefficient/feedback hashes, repairs/regressions, independent counts and full-call accounting are complete. Neither evolving verifier exceeds the author GRASP core's 50.81%. The existing English paper's common-task table is updated and compiles.
+
+Continue the local parameter study and connect the official MedAgentBench FHIR application/public database in an isolated local runtime. Validate real state reads/writes and official evaluation before reporting benchmark scores. API completion awaits account access restoration.
+
+---
+
 ## Current execution: P5 / v0.12 complete (2026-10-14)
 
 [English results](../upgrade_v12/RESULTS.en.md) · [中文结果](../upgrade_v12/RESULTS.zh.md) · [English paper](latex/v0.3/prismatic_v03_en.tex)

@@ -1,5 +1,12 @@
 # Manuscript change log / 论文变更记录
 
+## v0.13 complete — 2026-10-14
+
+- Added outcome-aware verification after both draft/review answers exist; compared uniform and reachable-error-prioritized feedback across three orders and four rounds. 新增核验器真实参数迭代。
+- Uniform 49.12%, error-prioritized 49.02%, fixed review 48.99%, full-data supervised verifier 47.87%; author-core GRASP remains 50.81%. 小幅点估计不当作机制领先。
+- Independently checked all transitions and full two-response costs; numerical warnings were audited against finite coefficients and an independent intercept recount. 完整保存失败与数值审计。
+- Updated bilingual reports and the existing English manuscript, with successful built-in compilation. 同步论文与长期计划。
+
 ## v0.11 partial results / v0.12 complete / transport audit — 2026-10-14
 
 - Completed fixed-label reviews and three-seed routing/gate ablation; routing evolves but average accuracy does not exceed the selected fixed tool. 完成证据工具、参数哈希与非单调轮次实测。

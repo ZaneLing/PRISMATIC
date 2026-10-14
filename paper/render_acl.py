@@ -32,6 +32,11 @@ Scoped RxRSI skills & 47.27 & 1\\'''
             gates=json.loads((ROOT/'upgrade_v12/results/summary.json').read_text())['gate_summaries']
             for key,label in [('independent_guard','Router: separate guard'),('joint_validation','Router: pooled validation')]:
                 z=gates[key];pr+=f"\n{label} & {100*z['accuracy_mean']:.2f} $\\pm$ {100*z['accuracy_sample_sd']:.2f} & {z['mean_calls']:.2f} \\\\"
+        if (ROOT/'upgrade_v13/results/summary.json').exists():
+            verifier=json.loads((ROOT/'upgrade_v13/results/summary.json').read_text())
+            pr+=f"\nFull-data outcome verifier & {100*verifier['static_verifier_correct']/verifier['test_n']:.2f} & 2 \\\\"
+            for key,label in [('uniform','Incremental verifier: uniform'),('error_prioritized','Incremental verifier: priority')]:
+                z=verifier['arms'][key];pr+=f"\n{label} & {100*z['accuracy_mean']:.2f} $\\pm$ {100*z['accuracy_sample_sd']:.2f} & 2 \\\\"
         public_section=r'''\begin{table}[t]\centering\small
 \caption{Executed method comparison on the same 988 derived RxSafeBench questions with DeepSeek-V4.1-Flash. Router rows are three-order means $\pm$ SD; other evolving rows use seed 42. Calls are mean test-time model calls; development costs differ. This is a development comparison, not original benchmark score equivalence.}
 \begin{tabular}{lrr}\toprule Method & Accuracy (\%) & Calls\\\midrule
@@ -52,6 +57,11 @@ Across three orders, separate-guard routing reaches 48.68$\pm$0.61\%; pooled rou
 
 \paragraph{Incomplete requests are unscored.}
 Account-credit exhaustion interrupted 153/988 indication-review requests and all 380 Gemini development requests. A later language-evolution seed has 713 unfinished GRASP-adaptation test requests; another has an incomplete round-four selection, which is rolled back before resumption. These evaluations are marked incomplete, not zero accuracy. The client now stops on account errors, and the scorer rejects transport failures. The complete seed-42 and author-core results are unaffected. Received malformed outputs still count as errors.'''
+    if (ROOT/'upgrade_v13/results/summary.json').exists():
+        public_section+=r'''\subsection{Outcome-Aware Verification}
+The pre-tool router cannot assess a revision it has not observed. A subsequent verifier consumes both the initial answer and the completed balanced evidence review, then chooses between them. Its features encode option mentions, nearby negative/positive terms and optionally separate fixed hashes of the question and both responses. Training targets the revision's correctness change. Uniform and error-prioritized updates use identical accumulated cases and 18 proposal candidates per round. Feedback weights are computed before updating and emphasize reachable selection errors; neither answer being correct provides no reachable repair. The same proposal/guard split controls promotion, and a full-data ordinary supervised verifier is included.
+
+Three-order final accuracy is 49.12$\pm$0.23\% for uniform updates and 49.02$\pm$0.06\% for error priorities, compared with 48.99\% for fixed review and 47.87\% for the full-data verifier. Only one update is accepted in each of two runs; four runs remain unchanged. Both responses are charged even when the initial answer is returned. These small exploratory changes do not surpass the author-core GRASP control or establish a feedback-prioritization advantage. Parameter, weight and transition journals are released; actual language-model weight updates are tested separately below.'''
     parameter_section=r'\paragraph{Execution status.} Local parameter-update experiments are in progress. No fine-tuning gain is claimed before generation-based evaluation is complete.'
     if parameter.exists():
         d=json.loads(parameter.read_text());rr=f"Frozen Qwen3-4B & {d['base']['drug_micro_f1']:.4f} & {d['base']['core_order_micro_f1']:.4f} \\\\\n"

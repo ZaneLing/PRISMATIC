@@ -1,0 +1,48 @@
+{
+  "status": "frozen_before_v13_test_scoring",
+  "actions": [
+    "cot",
+    "balanced"
+  ],
+  "inference_calls": 2,
+  "seeds": [
+    42,
+    137,
+    2026
+  ],
+  "round_case_counts": [
+    156,
+    312,
+    468,
+    625
+  ],
+  "alpha": [
+    1.0,
+    10.0,
+    100.0
+  ],
+  "threshold": [
+    -0.1,
+    0.0,
+    0.1
+  ],
+  "feature_variants": [
+    "response-relations-only",
+    "response-relations-and-three-text-hashes"
+  ],
+  "arms": [
+    "uniform",
+    "error_prioritized"
+  ],
+  "feedback_weight": "1 + 3 * pre-update reachable selection error; old weights retained",
+  "training": "All currently seen cases, same labels and candidate counts per arm; no backbone update.",
+  "selection": "190 proposal cases choose a candidate; 197 guard cases require positive net fixes.",
+  "initial_state": "Balanced review selected in v11 development data.",
+  "fixed_controls": [
+    "CoT",
+    "balanced review",
+    "full-data ordinary verifier with proposal-selected hyperparameters"
+  ],
+  "scope": "Exploratory development extension on an already observed test; no new network requests.",
+  "missing_actions": "Neither indication nor Gemini outputs are used."
+}
