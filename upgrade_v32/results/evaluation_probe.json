@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "synthetic_only": true,
+  "clinical_model_inference": 0,
+  "real_guard_or_test_predictions_read": false,
+  "real_proposal_entry_refuses_incomplete_training": true,
+  "synthetic_case_probability_bindings_recounted": 120,
+  "source_sha256": {
+    "upgrade_v32/protocol.json": "f9985ba96fb99f30949448c390397890539ecce0cb022b3fbc571a9947535bae",
+    "upgrade_v32/evaluation_addendum.json": "12e0bf84e49cc43bf64fd74ee9685c3f6ee80907e4123350abd9bf9e319ec839",
+    "upgrade_v32/inference.py": "7795ddeaa4e14f691e471eb341649d3f9ed0d9a04201e148360fbd2ac92dd854",
+    "upgrade_v32/evaluate.py": "d45ecc432b7dcfbafb144f1d01b3279528c2c3aafa5aea7eb59d8f4dcc10da5a",
+    "upgrade_v32/evaluation_metrics.py": "142e27d62ba188634f26e38b5fabfd4d9125f7664317996672ed7115ada8b808",
+    "upgrade_v32/evaluation_gate.py": "f10cb5b711151cf5847446b92aed4bd98ac8f5dd58b521e431b2823f86ae0ebf",
+    "upgrade_v32/decision_loss.py": "d74d9e50562eb4095499d14f9ed0723f804ae336dc55116e1d281d6cb5759e3b",
+    "upgrade_v31/views.py": "5936e65e36611d4619774b8594e1b50335cca149bb3d5a7079db961d5b0e29b9",
+    "upgrade_v7/rx_agent.py": "138323f6680bfdad67875707d4d7ac67a9d87a341e8dd3eada9923b2016a9b66",
+    "upgrade_v32/audit_evaluation.py": "cbe570371bbb8cd807f9d8d050ba9684f3544455beb023d81803080d475ba955",
+    "upgrade_v32/audit_training.py": "a98c67fdb5fe6a7112ac1f73e30e39a36c504d5e8b1f83bd4ac41e1928d21bb4"
+  },
+  "probe_sha256": "77a5a0abada085fa3c3f1919fd8cd9aac4ba6754ddaaa06923f509a03bf98766",
+  "checks": [
+    "six_neural_states_and_two_direct_controls",
+    "all99_thresholds_and_highest_tie_rule",
+    "fixed_vs_calibrated_decisions",
+    "unreachable_GT_and_empty_GT_preserved",
+    "duplicate_patient_cluster_and_duplicate_prompt_binding",
+    "factorial_and_calibration_only_contrasts",
+    "ranked_permuted_reversed_identity_transport",
+    "independent_source_and_score_recount",
+    "completed_result_resume_byte_identical"
+  ]
+}

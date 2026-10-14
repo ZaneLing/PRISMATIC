@@ -1,0 +1,37 @@
+"""Independently reconstruct repair supervision and verify original completed adapters."""
+import hashlib,json,re
+from pathlib import Path
+import mlx.core as mx
+import mlx_lm,mlx_lm.lora,mlx_lm.tuner.trainer
+from transformers import AutoTokenizer
+HERE=Path(__file__).resolve().parent;ROOT=HERE.parent;PRIVATE=Path.home()/'Desktop/MedTreeBench/dataset/restricted/prismatic-v32';SOURCE=PRIVATE.parent/'prismatic-v31';MODEL=Path.home()/'Desktop/PRISMATIC/upgrade_v2/.local/models/qwen3-4b-instruct-2507-4bit'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def remap(c):
+    orders=list(c['catalogue'].values());indices=sorted(range(20),key=lambda i:hashlib.sha256(f'v31|42|1|train|{c["case_id"]}|{i}'.encode()).hexdigest());gold={o['drug_name'] for o in c['gold']}
+    context=c['messages'][1]['content'].partition('\nCandidate order tools:\n')[0];rows=[f"O{j+1}: {orders[i]['drug_name'][:70]} | {orders[i]['route']} | {orders[i]['dose_value']} {orders[i]['dose_unit']} | original retrieval rank {i+1}" for j,i in enumerate(indices)]
+    system=c['messages'][0]['content']+' Original retrieval rank is provided on every candidate; smaller rank means a higher score from the same fixed retrieval tool. Return the inclusion mask in the displayed O1 through O20 order.'
+    return {'messages':[{'role':'system','content':system},{'role':'user','content':context+'\nCandidate order tools:\n'+'\n'.join(rows)},{'role':'assistant','content':json.dumps({'include':[int(orders[i]['drug_name'] in gold) for i in indices]})}]}
+def main():
+    spec=json.loads((HERE/'protocol.json').read_text());missing=[a for a in spec['arms'] if not (PRIVATE/a/'training_complete.json').exists()]
+    if missing:raise RuntimeError('Repair training audit waits for all four completed fits: '+','.join(missing))
+    lock=json.loads((PRIVATE/'training-lock.json').read_text());assert all(sha(HERE/name)==h for name,h in lock['source_sha256'].items()) and sha(HERE/'results/runtime_probe.json')==lock['runtime_probe_sha256']
+    probe=json.loads((HERE/'results/runtime_probe.json').read_text());assert probe['status']=='passed' and probe['probe_sha256']==sha(HERE/'probe_runtime.py') and probe['source_sha256']==lock['source_sha256'];assert all(sha(MODEL/name)==h for name,h in lock['model_files_sha256'].items())
+    audit=json.loads((HERE/'results/data_audit.json').read_text());assert sha(SOURCE/'cases.json')==spec['source_cases_sha256']==audit['source_cases_sha256'];original=json.loads((SOURCE/'cases.json').read_text());index={c['case_id']:c for b in original['blocks'] for c in b};sample=json.loads((SOURCE/'seed42/permuted_uniform-round1/sampling.json').read_text());selected=[index[k] for k in sample['selected_case_ids']];expected=[remap(c) for c in selected]
+    actual=[json.loads(x) for x in (PRIVATE/'data/train.jsonl').read_text().splitlines()];assert actual==expected and len(actual)==400 and sha(PRIVATE/'data/train.jsonl')==spec['source_training_sha256'];assert sha(PRIVATE/'data/valid.jsonl')==audit['source_valid_sha256']
+    proposal=json.loads((PRIVATE/'proposal.json').read_text());assert proposal==original['validation'] and sha(PRIVATE/'proposal.json')==audit['prepared_proposal_sha256'];assert not {c['subject_hash'] for c in selected}&{c['subject_hash'] for c in proposal}
+    config=json.loads((PRIVATE/'decision_config.json').read_text());assert sha(PRIVATE/'decision_config.json')==audit['decision_config_sha256'];tok=AutoTokenizer.from_pretrained(str(MODEL));counts=[0,0];max_length=0
+    for item in actual:
+        messages=item['messages'];target=json.loads(messages[-1]['content'])['include'];tokens=tok.apply_chat_template(messages,return_dict=False);prefix=tok.apply_chat_template(messages[:-1],add_generation_prompt=True,return_dict=False);assert tokens[:len(prefix)]==prefix
+        positions=[len(prefix)+i for i in config['decision_offsets']];assert [tokens[p] for p in positions]==[config['one_token_id'] if v else config['zero_token_id'] for v in target];assert len(target)==20;counts[1]+=sum(target);counts[0]+=20-sum(target);max_length=max(max_length,len(tokens))
+    assert counts==[6396,1604] and config['training_positive_weight']==counts[0]/counts[1] and max_length<=1536
+    predecessor=json.loads((SOURCE/'seed42/lock.json').read_text());trainer=sha(Path(mlx_lm.tuner.trainer.__file__));cli=sha(Path(mlx_lm.lora.__file__));assert predecessor['runtime']==mlx_lm.__version__=='0.32.0' and predecessor['trainer_sha256']==trainer and predecessor['trainer_cli_sha256']==cli
+    result={'status':'passed','auditor_sha256':sha(Path(__file__)),'training_lock_sha256':sha(PRIVATE/'training-lock.json'),'source_cases_sha256':spec['source_cases_sha256'],'training_examples':400,'training_patients':len({c['subject_hash'] for c in selected}),'proposal_patients':len({c['subject_hash'] for c in proposal}),'patient_overlap':0,'binary_labels_reconstructed':sum(counts),'positive_labels':counts[1],'maximum_training_sequence_tokens':max_length,'runtime':mlx_lm.__version__,'runtime_source_sha256':{'trainer':trainer,'cli':cli},'runtime_predecessor_lock_sha256':sha(SOURCE/'seed42/lock.json'),'arms':{},'scope':'Source-target reconstruction, configuration,100-step/8k-decision logs and finite changed original adapter tensors. Batch order and optimizer trajectory are not independently replayed; the runtime source hashes match the earlier v31 execution lock.'}
+    for arm in spec['arms']:
+        folder=PRIVATE/arm;receipt=json.loads((folder/'training_complete.json').read_text());assert receipt['arm']==arm and receipt['optimizer_steps']==100 and receipt['binary_target_decisions_expected']==8000
+        command=receipt['command'];assert command[command.index('--decision-arm')+1]==arm and command[command.index('--iters')+1]=='100' and command[command.index('--batch-size')+1]=='4' and '--resume-adapter-file' not in command and '--grad-checkpoint' in command
+        adapter=folder/'adapter/adapters.safetensors';assert sha(adapter)==receipt['adapter_sha256'] and sha(folder/'training.log')==receipt['training_log_sha256'];cfg=json.loads((folder/'adapter/adapter_config.json').read_text());assert cfg['seed']==42 and cfg['num_layers']==8 and cfg['mask_prompt'] and cfg['grad_checkpoint'] and cfg['max_seq_length']==1536 and cfg['lora_parameters']=={'rank':8,'dropout':0.0,'scale':20.0}
+        log=re.sub(r'\x1b\[[0-9;]*m','',(folder/'training.log').read_text());assert '0000100_adapters.safetensors' in log and '100/100' in re.sub(r'\s','',log) and '8.0k' in log and 'will be truncated' not in log
+        tensors=mx.load(str(adapter));assert all(bool(mx.all(mx.isfinite(v))) for v in tensors.values());bs=[v for k,v in tensors.items() if k.endswith('lora_b')];assert bs and any(bool(mx.any(v!=0)) for v in bs);count=sum(v.size for v in tensors.values());assert count==3670016
+        result['arms'][arm]={'adapter_sha256':sha(adapter),'training_receipt_sha256':sha(folder/'training_complete.json'),'training_log_sha256':sha(folder/'training.log'),'optimizer_steps':100,'decision_targets':8000,'adapter_parameters':count,'positive_weight':config['training_positive_weight'] if arm.endswith('balanced') else 1.};del tensors;mx.clear_cache()
+    path=HERE/'results/training_audit.json';path.write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({'status':'passed','arms':list(result['arms']),'decision_targets_per_arm':8000}),flush=True)
+if __name__=='__main__':main()
