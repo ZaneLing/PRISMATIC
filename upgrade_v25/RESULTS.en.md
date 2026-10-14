@@ -23,6 +23,12 @@ Three seeds run five rounds of 8k/16k/24k/32k/40k stays. Vocabulary (512 codes) 
 
 Changing artifacts are policy parameters, persistent feedback weights and order-tool parameters. No LLM/API is used; this is supervised artifact evolution. Static controls include prevalence, prior-order reuse, 30-neighbor retrieval, word models, word/character ensembles and full-data uniform learning. Extra ensemble fit/search budgets are disclosed; matched-arm contrasts isolate priority assignment. Component ablations do not retune other components.
 
+## Completed development trajectory replay
+
+All 45 policy/tool states are reexecuted, with independent checks of proposal thresholds, guard metrics and acceptance decisions. Raw and accepted curves are separate; these cases participate in development selection and are not a held-out test result.
+
+[Development curves and every feedback control](DEVELOPMENT_CURVES.en.md)
+
 ## Execution status
 
 Cohort construction and independent timing/membership/code audits passed. Three seed runs have started. The test has not been scored; partial development scores are not a method table. Completion runs freeze checks, sealed evaluation, independent recounting and bilingual reporting.

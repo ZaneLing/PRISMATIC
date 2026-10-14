@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import numpy as np
+from data_contract import sha
 HERE=Path(__file__).resolve().parent
 LABELS={
  'initial_state':('初始 8k 状态','Initial 8k state'),
@@ -86,6 +87,13 @@ Changing artifacts are policy parameters, persistent feedback weights and order-
 真实更新对象是策略参数、持久病例权重及订单工具；无 LLM/API。静态对照包括频率、近期订单复用、30 邻居病例检索、词模型、词/字符集成、全量普通监督。集成额外拟合/搜索预算单列，严格因果比较是匹配预算的三臂。冻结工具/策略消融不重新调参。
 '''
         text=intro+cohort_table+methods
+        development_path=HERE/'results/development_curves.json'
+        if development_path.exists():
+            development=read(development_path)
+            assert development['status']=='passed' and development['script_sha256']==sha(HERE/'recount_development.py')
+            assert all(sha(HERE/name)==value for name,value in development['source_sha256'].items())
+            text+=('\n## 已完成的开发集逐轮复算\n\n45 个参数／工具状态已重新执行，独立核对全部 proposal 阈值、guard 指标与接纳决定。原始曲线和接纳曲线分别展示；这些病例参与开发选择，不能当成留出测试成绩。\n\n' if lang=='zh' else '\n## Completed development trajectory replay\n\nAll 45 policy/tool states are reexecuted, with independent checks of proposal thresholds, guard metrics and acceptance decisions. Raw and accepted curves are separate; these cases participate in development selection and are not a held-out test result.\n\n')
+            text+=f'[Development curves and every feedback control](DEVELOPMENT_CURVES.{lang}.md)\n'
         if not complete:
             text+=('\n## 当前交付\n\n队列构建和独立时序/成员/编码核验已通过，三个种子训练已启动。测试集尚未评分；不将部分开发分数当主表。完成后自动执行冻结检查、统一测试、独立计数和双语报告。\n' if lang=='zh' else '\n## Execution status\n\nCohort construction and independent timing/membership/code audits passed. Three seed runs have started. The test has not been scored; partial development scores are not a method table. Completion runs freeze checks, sealed evaluation, independent recounting and bilingual reporting.\n')
         else:

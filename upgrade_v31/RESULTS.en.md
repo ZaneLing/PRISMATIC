@@ -10,9 +10,9 @@ Checkpoint selection uses100 proposal admissions under ranked and permuted views
 
 ## 2. Execution and data integrity
 
-- Completed optimizer runs / 已完成训练回执：**2/36**
+- Completed optimizer runs / 已完成训练回执：**3/36**
 - Updates with completed proposal evaluation / 已完成proposal评价的更新：**2/36**
-- Unique local model responses saved / 已保存本地唯一模型响应：**1778**
+- Unique local model responses saved / 已保存本地唯一模型响应：**1910**
 - Audited complete seeds / 已完整核验种子：**0/3**
 
 The data audit checks33,300 transformed views with zero patient-role overlap, unchanged candidate sets/GT and no target truncation. The longest complete sequence has1005 tokens against a1,536-token limit; each target has69 tokens. Eleven synthetic execution checks cover target transport, prompt blindness, shuffled-weight identity and loss masking. These are integrity checks, not performance gains.

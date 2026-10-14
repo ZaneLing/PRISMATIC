@@ -1,4 +1,5 @@
 """Update a stable bilingual entry block from executed, audited artifacts."""
+import hashlib
 import json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent.parent;PAPER=ROOT/'paper'
@@ -37,6 +38,15 @@ def main():
             d=json.loads(development.read_text());count=sum(sum(r['runs'] for r in p['methods'].values()) for p in d['panels'].values())
             block+=(f"**Executed cross-method recount:** {count} completed method runs are recounted on the same 1,231 guard visits / 467 patients, with patient-paired intervals using matched seeds. All available conventional, author-core and rule-memory methods are included. This remains a development comparison; the final test is gated. " if lang=='en' else f"**已执行跨方法复算：** 同一 1,231 次 guard 就诊／467 人上，重算 {count} 组已完成方法运行，并按匹配种子给出患者配对区间。所有已完成的传统、作者核心及规则记忆方法均纳入。此表属于开发集对照；最终测试继续等待前置条件。")
             block+=f'[Cross-method table and every paired contrast](../upgrade_v27/DEVELOPMENT_METHODS.{lang}.md)\n\n'
+        eicu_development=ROOT/'upgrade_v25/results/development_curves.json'
+        if eicu_development.exists():
+            ec=json.loads(eicu_development.read_text())
+            assert ec['status']=='passed' and ec['script_sha256']==hashlib.sha256((ROOT/'upgrade_v25/recount_development.py').read_bytes()).hexdigest()
+            assert all(hashlib.sha256((ROOT/'upgrade_v25'/name).read_bytes()).hexdigest()==value for name,value in ec['source_sha256'].items())
+            block+=('**Executed eICU learning curves:** all 45 completed policy/tool states are reexecuted on the 2,000-stay development guard, with independent set counts, original proposal choices and acceptance decisions. Raw and accepted trajectories are separate. ' if lang=='en' else '**已执行 eICU 学习曲线复算：** 在 2,000 次住院的开发 guard 上，重新运行全部 45 个已完成策略／工具状态，独立核对集合计数、原 proposal 选择及接纳决定；原始和接纳曲线分别报告。')
+            delta=ec['final_own_error_minus_control']['raw']['uniform']['mean']
+            block+=(f"At 40k encountered cases, raw own-error-minus-uniform drug/order F1 is {delta['drug_micro_f1']:+.5f}/{delta['core_order_micro_f1']:+.5f}. These guard cases participate in selection; this is not the held-out hospital test. " if lang=='en' else f"累计 40k 病例时，原始状态中自身错误优先相对普通训练的药物／订单 F1 差为 {delta['drug_micro_f1']:+.5f}/{delta['core_order_micro_f1']:+.5f}。此 guard 参与版本选择，不能当作留出医院测试。")
+            block+=f'[Raw/accepted curves, three seeds and regressions](../upgrade_v25/DEVELOPMENT_CURVES.{lang}.md)\n\n'
         if (PAPER/'public_benchmark_coverage.json').exists():
             block+=('**Public-data coverage:** a source/identity recount confirms all300 released RxQA OpenFDA questions and all2,000 deduplicated RxSafeBench cases in the historical full-set runs. Later adaptive comparisons use988 frozen test cases, keeping their625/190/197 development cases separate. The unavailable BNF component is excluded. ' if lang=='en' else '**公开数据覆盖：** 源记录／题目身份复核证实RxQA公开OpenFDA全部300题已覆盖，历史全量实验覆盖RxSafeBench去重后全部2,000题；后续进化方法使用988题冻结测试，625／190／197开发题分别保留。未获得的BNF部分不计入。')
             block+=f'[Exact scope, recounted results and metadata correction](PUBLIC_BENCHMARKS.{lang}.md)\n\n'

@@ -133,6 +133,33 @@ A separate eICU feasibility audit \citep{eicu} scans 200,859 stays and 7.30 mill
 The subsequent cohort excludes entire stays containing any target with absent/nonpositive/noninteger HICL, removing 8,003 parent-cohort stays. Fixed sampling yields 40,000/2,000/2,000 training/proposal/guard stays and all 8,005 eligible test stays, involving 6,227 test patients and 16 test hospitals. The test includes 3,842 zero-target stays; correct abstention and false extra orders must therefore be reported separately. Test labels contain 13,994 distinct stay--code targets and 15,594 joint tuples, of which 11,853 have all four observed fields: native code, route, dosage string and frequency string. Native HICL is not asserted equivalent to RxNorm or ATC.
 
 Independent reconstruction checks source membership, timing, finite labs, prior-order selection and complete target identities. An initial-8k vocabulary of 512 codes and feature maps are frozen. Three seeds compare uniform, own-error and shuffled-priority learning with exactly 60 epochs per classifier, alongside prevalence, prior-order reuse, retrieval, word, word/character and full-data supervised controls. All selections must freeze before test inference. Training is running; no external model score is claimed yet. This is training within eICU with hospitals held out, not zero-shot MIMIC transfer. Label-completeness selection and missing medication storage clocks limit prospective interpretation.'''
+    eicu_development=ROOT/'upgrade_v25/results/development_curves.json'
+    if eicu_development.exists():
+        ec=json.loads(eicu_development.read_text())
+        assert ec['status']=='passed' and ec['script_sha256']==hashlib.sha256((ROOT/'upgrade_v25/recount_development.py').read_bytes()).hexdigest()
+        assert all(hashlib.sha256((ROOT/'upgrade_v25'/name).read_bytes()).hexdigest()==value for name,value in ec['source_sha256'].items())
+        temporal_section=temporal_section.replace('Training is running; no external model score is claimed yet.', 'Static-control training and the gated external test remain unfinished; completed development trajectories are reported separately below.')
+        eicu_rows=[]
+        for r in range(5):
+            cells=[str(8000*(r+1))]
+            for arm in ['uniform','error_prioritized','permuted_priority']:
+                z=ec['aggregate']['raw'][arm][r]
+                cells.append(f"{z['drug_micro_f1']['mean']:.4f} / {z['core_order_micro_f1']['mean']:.4f}")
+            eicu_rows.append(' & '.join(cells)+r'\\')
+        temporal_section+=r'''
+\paragraph{Executed development learning curves.}
+A retrospective diagnostic reexecutes all 45 saved policy/tool checkpoints on the 2,000-stay, 1,912-patient, 17-hospital guard, including 1,001 zero-target stays. Independent set counting matches the original proposal-threshold choices, guard scores and all accept/reject decisions. Actual parameter hashes, epoch records and seen-only tool memberships are checked. Tool execution uses its frozen implementation; this does not independently replay optimization or establish the separate feedback-weight audit.
+\begin{table*}[t]\centering\small
+\caption{Raw eICU development checkpoints as experience grows. Each cell is drug / complete joint-order micro-F1, averaged over three seeds. The guard participates in state acceptance; these are not held-out test scores. The release includes sample SD, every seed and separate accepted-state curves.}
+\label{tab:eicu-development-curves}
+\begin{tabular}{rrrr}\toprule Training stays & Uniform & Own-error priorities & Shuffled priorities\\\midrule
+EICUDEVROWS
+\bottomrule\end{tabular}\end{table*}
+'''.replace('EICUDEVROWS','\n'.join(eicu_rows))
+        diff=ec['final_own_error_minus_control']['raw']['uniform']['mean']
+        accepted_diff=ec['final_own_error_minus_control']['accepted']['uniform']['mean']
+        temporal_section+=f"At the raw 40k checkpoint, own-error-minus-uniform drug/order F1 differences are {diff['drug_micro_f1']:+.5f}/{diff['core_order_micro_f1']:+.5f}; for the final guard-accepted states they are {accepted_diff['drug_micro_f1']:+.5f}/{accepted_diff['core_order_micro_f1']:+.5f}. "
+        temporal_section+=r'''Case-growth gains and feedback-assignment gains must therefore be evaluated separately. Guard acceptance creates a selection effect, and the horizontal axis counts encountered cases even when an earlier policy/tool bundle is retained. Raw regressions are preserved. These descriptive development differences do not establish generalization, clinical safety, or autonomous language-agent evolution; no test bundle is opened by this diagnostic.'''
     parameter_section=r'\paragraph{Execution status.} Local parameter-update experiments are in progress. No fine-tuning gain is claimed before generation-based evaluation is complete.'
     if parameter.exists() and (ROOT/'upgrade_v9/results/summary.json').exists():
         d=json.loads((ROOT/'upgrade_v9/results/summary.json').read_text())

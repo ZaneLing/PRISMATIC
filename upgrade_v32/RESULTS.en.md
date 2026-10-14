@@ -8,7 +8,7 @@ A fixed 0.5 threshold measures the uncalibrated decision behavior. A second endp
 
 ## 2. Actual completion
 
-- Completed fits: **2/4**
+- Completed fits: **3/4**
 - Independently audited score panels: **none yet**
 - API requests: **0**
 
@@ -16,7 +16,7 @@ A fixed 0.5 threshold measures the uncalibrated decision behavior. A second endp
 |---|---:|---:|---|
 | teacher_uniform | 100 | 1739.2 | 03e345d3b72d |
 | zero_uniform | 100 | 1505.8 | 200340a805f8 |
-| teacher_balanced | pending | — | — |
+| teacher_balanced | 100 | 1569.2 | a852a5c31571 |
 | zero_balanced | pending | — | — |
 
 Fit completion is checked against the saved original adapter hash. A separate audit reconstructs all 8,000 binary labels and checks all four training receipts before proposal inference. The scoring preflight passed 120 synthetic case/probability bindings, all threshold choices, source recounting and byte-identical resume; these synthetic checks are not clinical results.

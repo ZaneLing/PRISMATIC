@@ -10,9 +10,9 @@ v0.26发现训练后的适配器几乎总是选择展示在前面的连续一段
 
 ## 2. 真实执行与数据完整性
 
-- Completed optimizer runs / 已完成训练回执：**2/36**
+- Completed optimizer runs / 已完成训练回执：**3/36**
 - Updates with completed proposal evaluation / 已完成proposal评价的更新：**2/36**
-- Unique local model responses saved / 已保存本地唯一模型响应：**1778**
+- Unique local model responses saved / 已保存本地唯一模型响应：**1910**
 - Audited complete seeds / 已完整核验种子：**0/3**
 
 数据核验覆盖33,300个展示版本：患者角色无交叉、候选集合和真值保持一致、目标未截断。最长完整序列1005个token，低于1,536上限；每个目标69个token。十一项合成执行检查覆盖标签重排、提示不含真值、打乱权重分布和损失掩码；这些是完整性检查，不是性能提升。
