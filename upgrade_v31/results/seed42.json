@@ -340,7 +340,101 @@
         }
       }
     ],
-    "permuted_shuffled_error": []
+    "permuted_shuffled_error": [
+      {
+        "round": 1,
+        "source_block": 0,
+        "new_feedback_cases": 600,
+        "accumulated_cases": 600,
+        "accumulated_patients": 590,
+        "trained_cases": 400,
+        "optimizer_steps": 100,
+        "adapter_sha256": "4c79e032c551ff2abe1f794a4b64ee641da74160cfc8c504c7b0bfa94029c36e",
+        "previous_adapter_sha256": null,
+        "feedback_sha256": "a19f814a3f97049c960d96101ed8dad59b9d0f1a56931412cedce80f1c6eac8a",
+        "training_members_sha256": "d473335e6ab10649adf7ff27a3540973ab579c954755c5683befe0412d4e5584",
+        "supervision_sha256": "4b9248c528dd300cbdfee45f9c4056872c656389965e7841d5b53050fb02a7df",
+        "training_seconds": 2088.5885656250175,
+        "proposal": {
+          "ranked": {
+            "cases": 100,
+            "drug_micro_f1": 0.0,
+            "drug_precision": 0.0,
+            "drug_recall": 0.0,
+            "core_order_micro_f1": 0.0,
+            "known_field_accuracy_given_correct_drug": 0.0,
+            "known_fields_scored": 0,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 0,
+            "mean_predicted_drugs": 0.0,
+            "empty_fraction": 1.0,
+            "promotion_score": 0.0,
+            "invalid_json": 0,
+            "raw_strict_invalid_json": 100,
+            "empty_reasoning_envelope_removed": 100
+          },
+          "permuted": {
+            "cases": 100,
+            "drug_micro_f1": 0.0,
+            "drug_precision": 0.0,
+            "drug_recall": 0.0,
+            "core_order_micro_f1": 0.0,
+            "known_field_accuracy_given_correct_drug": 0.0,
+            "known_fields_scored": 0,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 0,
+            "mean_predicted_drugs": 0.0,
+            "empty_fraction": 1.0,
+            "promotion_score": 0.0,
+            "invalid_json": 0,
+            "raw_strict_invalid_json": 100,
+            "empty_reasoning_envelope_removed": 100
+          }
+        },
+        "objective": 0.0,
+        "promoted": false,
+        "best": {
+          "round": 0,
+          "objective": 0.12658148253047707,
+          "proposal": {
+            "ranked": {
+              "cases": 100,
+              "drug_micro_f1": 0.168462291870715,
+              "drug_precision": 0.2606060606060606,
+              "drug_recall": 0.12445730824891461,
+              "core_order_micro_f1": 0.10223048327137546,
+              "known_field_accuracy_given_correct_drug": 0.8376623376623377,
+              "known_fields_scored": 308,
+              "core_gold_orders": 746,
+              "core_predicted_orders": 330,
+              "mean_predicted_drugs": 3.3,
+              "empty_fraction": 0.05,
+              "promotion_score": 0.13534638757104522,
+              "invalid_json": 0,
+              "raw_strict_invalid_json": 0,
+              "empty_reasoning_envelope_removed": 0
+            },
+            "permuted": {
+              "cases": 100,
+              "drug_micro_f1": 0.14129353233830846,
+              "drug_precision": 0.22611464968152867,
+              "drug_recall": 0.10274963820549927,
+              "core_order_micro_f1": 0.09433962264150944,
+              "known_field_accuracy_given_correct_drug": 0.852,
+              "known_fields_scored": 250,
+              "core_gold_orders": 746,
+              "core_predicted_orders": 314,
+              "mean_predicted_drugs": 3.14,
+              "empty_fraction": 0.01,
+              "promotion_score": 0.11781657748990895,
+              "invalid_json": 0,
+              "raw_strict_invalid_json": 0,
+              "empty_reasoning_envelope_removed": 0
+            }
+          }
+        }
+      }
+    ]
   },
   "test_inference": false,
   "guard_generated": false

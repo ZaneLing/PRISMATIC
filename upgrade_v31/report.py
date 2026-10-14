@@ -60,6 +60,11 @@ v0.26发现训练后的适配器几乎总是选择展示在前面的连续一段
             failed=[(s,arm,r['round']) for s,a in audits.items() for arm,rows in a['arms'].items() for r in rows if all(m['empty_fraction']==1 for m in r['proposal'].values())]
             if failed:
                 text+=('\n**Observed failure:** '+str(failed)+'. These raw checkpoints produce entirely empty prescriptions on both proposal views and are rejected by the frozen promotion rule. A low language-model loss does not establish useful prescribing. The failure is retained in the results.\n' if lang=='en' else '\n**实际失败：** '+str(failed)+'。这些原始检查点在两种proposal视图下全部输出空处方，已被既定升级规则拒绝；语言模型损失下降不代表处方有效。保留失败结果。\n')
+            for seed,a in audits.items():
+                first={arm:next((r for r in entries if r['round']==1),None) for arm,entries in a['arms'].items()}
+                permuted=['permuted_uniform','permuted_own_error','permuted_shuffled_error']
+                if first.get('ranked_uniform') and all(first.get(arm) and all(m['empty_fraction']==1 and m['invalid_json']==0 for m in first[arm]['proposal'].values()) for arm in permuted):
+                    text+=(f'\n**Completed first-round control, seed {seed}:** all three permuted-training arms collapse despite ordinary, own-error or shuffled-error sampling; all parsed masks are empty. Collapse is therefore not confined to own-error sampling in this observed round. The ranked-training control remains sensitive to the evaluation display order. This is one round of development evidence and does not isolate a general training cause or demonstrate a successful repair.\n' if lang=='en' else f'\n**首轮完整对照，种子 {seed}：** 普通、自身错误、打乱错误三种采样下的随机位置训练均退化，解析成功的掩码全部为空。本轮退化现象并非只出现在自身错误采样中。原排序训练对照仍受评测展示顺序影响。这是单轮开发集证据，不能据此断定普遍训练原因或宣称修复成功。\n')
             if (HERE/'results/collapse_diagnostic_audit.json').exists():text+=f'\n[Binary decision collapse: source diagnosis and controls](COLLAPSE.{lang}.md)\n'
         finished={s:z for s,z in audits.items() if z['status']=='passed'}
         if finished:

@@ -211,10 +211,66 @@
         "active_round": 0
       }
     ],
-    "permuted_shuffled_error": []
+    "permuted_shuffled_error": [
+      {
+        "round": 1,
+        "complete_sha256": "25b74f6df76d59f593bc4b7a3b17e13f80d1fb8ca7d13efc72fc38eaa1f7e3b9",
+        "adapter_sha256": "4c79e032c551ff2abe1f794a4b64ee641da74160cfc8c504c7b0bfa94029c36e",
+        "adapter_parameters": 3670016,
+        "feedback_cases_verified": 600,
+        "sampling_and_targets_verified": 400,
+        "optimizer_steps": 100,
+        "completion_tokens_per_sequence": 69,
+        "expected_supervised_target_tokens": 27600,
+        "proposal": {
+          "ranked": {
+            "cases": 100,
+            "drug_micro_f1": 0.0,
+            "drug_precision": 0.0,
+            "drug_recall": 0.0,
+            "core_order_micro_f1": 0.0,
+            "known_field_accuracy_given_correct_drug": 0.0,
+            "known_fields_scored": 0,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 0,
+            "mean_predicted_drugs": 0.0,
+            "empty_fraction": 1.0,
+            "promotion_score": 0.0,
+            "invalid_json": 0,
+            "raw_strict_invalid_json": 100,
+            "empty_reasoning_envelope_removed": 100,
+            "patient_drug_f1": 0.33505154639175255,
+            "patient_order_f1": 0.33505154639175255,
+            "patients": 97
+          },
+          "permuted": {
+            "cases": 100,
+            "drug_micro_f1": 0.0,
+            "drug_precision": 0.0,
+            "drug_recall": 0.0,
+            "core_order_micro_f1": 0.0,
+            "known_field_accuracy_given_correct_drug": 0.0,
+            "known_fields_scored": 0,
+            "core_gold_orders": 746,
+            "core_predicted_orders": 0,
+            "mean_predicted_drugs": 0.0,
+            "empty_fraction": 1.0,
+            "promotion_score": 0.0,
+            "invalid_json": 0,
+            "raw_strict_invalid_json": 100,
+            "empty_reasoning_envelope_removed": 100,
+            "patient_drug_f1": 0.33505154639175255,
+            "patient_order_f1": 0.33505154639175255,
+            "patients": 97
+          }
+        },
+        "promoted": false,
+        "active_round": 0
+      }
+    ]
   },
   "guard": {},
   "test_inference": false,
-  "source_public_snapshot_sha256": "3d4da782b756bb9b19d620e8b4fddf582c93cf2cd7c3cf1be0926f154a33fc7f",
+  "source_public_snapshot_sha256": "50442f4f24bdfb8d0da7741c344b079c6aa1ccf834f065261973c5c9adf89593",
   "scope": "Independent source/prompt/GT/feedback/sampling reconstruction, finite changed adapter tensors,100-step execution receipts and output regrading. Optimizer trajectory is not independently refit; guard is reused development data and old tests are not scored."
 }

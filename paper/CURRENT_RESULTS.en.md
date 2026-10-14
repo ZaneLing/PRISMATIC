@@ -7,7 +7,7 @@
 
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 10/15 author-model runs finish their full 50 epochs, with 521/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 10/15 author-model runs finish their full 50 epochs, with 542/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Recorded method budgets:** the receipt ledger separates shared fits, optimizer steps, proposal searches and logical response prices. It checks completed author-epoch records against their original logs, counts shared policy fitting once, and identifies exact v29-to-v30 model reuse. SafeDrug has 3 audited seeds; molecular guard patient F1 is 0.53689 ± 0.00244. [Actual compute and development results](COMPUTE_ACCOUNTING.en.md)
 
@@ -43,7 +43,7 @@ All three seeds and 13 methods/components finish the same 8,005 stays / 6,227 pa
 
 v0.31 runs four arms across three seeds and three rounds: ranked uniform, permuted uniform, permuted own-error and permuted shuffled-error updates. Each round uses the same 400-example/100-step budget. Original retrieval ranks and candidate order fields remain visible. This tests whether weight updates learn drug decisions beyond display position, and whether own errors add value over ordinary training. Candidate tools and order templates stay fixed.
 
-Completed optimizer runs: **3/36**; fully audited seeds: **0/3**. Old test cases are excluded. Proposal selects checkpoints; the reused 200-case guard is exploratory development evidence, not an untouched test.
+Completed optimizer runs: **4/36**; fully audited seeds: **0/3**. Old test cases are excluded. Proposal selects checkpoints; the reused 200-case guard is exploratory development evidence, not an untouched test.
 
 | State on 100 proposal cases | Ranked drug/order F1 | Permuted drug/order F1 |
 |---|---:|---:|
@@ -51,10 +51,13 @@ Completed optimizer runs: **3/36**; fully audited seeds: **0/3**. Old test cases
 | permuted_uniform, round 1 | 0.00000/0.00000 | 0.00000/0.00000 |
 | ranked_uniform, round 1 | 0.23301/0.14815 | 0.10800/0.06960 |
 | permuted_own_error, round 1 | 0.00000/0.00000 | 0.00000/0.00000 |
+| permuted_shuffled_error, round 1 | 0.00000/0.00000 | 0.00000/0.00000 |
 
 **Observed failure:** seed42/permuted_uniform/round1 has 100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain.
 
 **Observed failure:** seed42/permuted_own_error/round1 has 100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain.
+
+**Observed failure:** seed42/permuted_shuffled_error/round1 has 100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain.
 
 The separate probability diagnostic covers the first permuted-uniform adapter (seed42, round1) and independently recounts 384 vectors. On 32 permuted proposal cases, AUROC changes from 0.7385 with oracle GT prefixes to 0.5503 with label-free zero prefixes, where no decision probability reaches 0.5. [Diagnosis and figure](../upgrade_v31/COLLAPSE.en.md)
 

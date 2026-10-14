@@ -288,6 +288,8 @@ The 100-case proposal score averages ranked and permuted views and may retain th
                     parameter_section+=' All these empty responses pass the registered parser; the zero scores reflect the decoded decisions.'
                 if any(arm=='permuted_own_error' for arm,r in failed):
                     parameter_section+=' Prioritizing the model\'s own error cases has not prevented collapse in this completed update; a decision-supervision repair is evaluated separately below.'
+                if ranked_first and all((arm,1) in failed for arm in ['permuted_uniform','permuted_own_error','permuted_shuffled_error']):
+                    parameter_section+=' The completed first-round controls therefore observe collapse under all three sampling policies with permuted training. This is not confined to own-error sampling in this seed and round; it neither identifies a general cause nor establishes that the separate repair succeeds.'
         p=ROOT/'upgrade_v31/results/progress.json'
         if p.exists():
             q=json.loads(p.read_text())
