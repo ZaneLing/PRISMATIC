@@ -58,8 +58,8 @@ def main():
                  ('## 1. What this experiment tests' if en else '## 1. 本实验回答什么'), '',
                  ('The failed first v31 update emits valid all-zero prescriptions. This four-arm pilot tests training-prefix exposure and class imbalance with the same 400 training examples and 100 optimizer steps per arm. All four new adapters, the frozen backbone and the failed adapter use the same label-free zero-prefix scorer. Original retrieval top-8 and all-20 candidates are direct controls.' if en else
                   'v31 首次更新生成了格式合法、内容全零的处方。本试验用相同 400 例、每组 100 步，交叉检验训练前缀和类别不平衡。四个新适配器、基础模型和原失败适配器均采用不含标签的全零前缀评分；另保留原检索前 8 个和全部 20 个候选的直接对照。'), '',
-                 ('A fixed 0.5 threshold measures the uncalibrated decision behavior. A second endpoint calibrates one global threshold on the 100 proposal admissions, shared across ranked and permuted views. It applies the same calibration to every neural state. Calibration-only gains are reported separately from weight-update contrasts.' if en else
-                  '固定 0.5 阈值反映未经校准的决策表现。另一组结果在 100 例 proposal 上选择一个全局阈值，两种候选排序共享该值；六个模型状态接受相同校准。单纯调阈值的收益与更新权重的收益分别报告。'), '',
+                 ('A fixed 0.5 threshold measures the uncalibrated decision behavior. A second endpoint calibrates one global threshold on the 100 proposal admissions, shared across ranked and permuted views. It applies the same calibration to every neural state. Calibration-only gains are reported separately from weight-update contrasts. Both endpoints retain drug precision, recall and mean prescription size alongside F1 and empty outputs, so selecting more medications cannot be mistaken for an unqualified improvement.' if en else
+                  '固定 0.5 阈值反映未经校准的决策表现。另一组结果在 100 例 proposal 上选择一个全局阈值，两种候选排序共享该值；六个模型状态接受相同校准。单纯调阈值的收益与更新权重的收益分别报告。两组均在 F1、空输出率之外展示药物精确率、召回率和平均开药数，避免把多选药物直接当成全面改善。'), '',
                  ('## 2. Actual completion' if en else '## 2. 真实完成情况'), '',
                  f"- {'Completed fits' if en else '已完成训练'}: **{len(completed)}/4**",
                  f"- {'Independently audited score panels' if en else '已独立复算成绩分组'}: **{', '.join(progress['audited_splits']) or ('none yet' if en else '暂无')}**",
@@ -82,6 +82,14 @@ def main():
                     for name in METHODS:
                         m = panel['methods'][name]
                         lines.append(f"| {kind} | {name} | {number(m.get('threshold'))} | {m['drug_micro_f1']:.5f} | {m['core_order_micro_f1']:.5f} | {100*m['empty_fraction']:.1f} | {number(m.get('binary_auroc'))} |")
+                lines += ['', ('#### Missed and extra recorded medications' if en else '#### 相对记录处方的漏项与额外药物'), '',
+                          '| View | Method | Drug precision | Drug recall | Mean predicted drugs |', '|---|---|---:|---:|---:|']
+                for kind, panel in views.items():
+                    for name in METHODS:
+                        m = panel['methods'][name]
+                        lines.append(f"| {kind} | {name} | {m['drug_precision']:.5f} | {m['drug_recall']:.5f} | {m['mean_predicted_drugs']:.2f} |")
+                lines += ['', ('Precision and recall use the recorded medication set, including ground-truth medications outside the candidate list. Mean prescription size makes over-selection visible alongside the empty-output rate. An extra medication relative to this reference is not by itself a clinical adjudication of inappropriate prescribing. These are existing independently recounted metrics; they do not change threshold or model selection.' if en else
+                               '精确率和召回率以记录处方为参照，召回率分母保留候选之外的真值药物。平均开药数与空输出率一起展示，便于发现过度选择。相对记录处方的额外药物，不等同于经过临床判定的不合理用药。这些指标已经计算并独立复算，展示它们不改变阈值或模型选择。')]
                 lines += ['', ('Core-order matching requires drug, route, dose value and dose unit. The compiler copies supplied order templates; it does not generate novel doses. Binary AUROC covers the 20 candidate decisions; drug/order F1 retains unreachable ground-truth medications.' if en else
                                '核心订单匹配要求药物、途径、剂量值和剂量单位同时一致。编译器复制候选订单模板，不生成新剂量。二元 AUROC 只覆盖 20 个候选决策；药物／订单 F1 分母仍保留候选之外的真值药物。'), '',
                           ('#### All registered contrasts' if en else '#### 全部预先登记的差值'), '',
