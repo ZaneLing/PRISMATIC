@@ -111,6 +111,20 @@ Independent saved-prediction counting reproduces all method and checkpoint score
         if (ROOT/'upgrade_v22/results/summary.json').exists():
             temporal_section+=r'''\paragraph{Development-only representation intervention.}
 The text policy treats numerical measurements as tokens. A subsequent registered pilot fits typed prior-order/lab features and numerical scales on the initial 8k training contexts, then compares typed and combined word/typed selectors on proposal validation. The single selected candidate retains the original conditional order tool and improves 2,000-case guard drug/order F1 from 0.2194/0.1346 to 0.2246/0.1366. Paired patient intervals for the differences are [-0.0006, 0.0108] and [-0.0024, 0.0065]. Both include zero. No test prediction is generated in this one-seed pilot; it motivates further study rather than establishing an RSI or held-out superiority result.'''
+    if (ROOT/'upgrade_v23/results/summary.json').exists():
+        feedback=json.loads((ROOT/'upgrade_v23/results/summary.json').read_text())
+        names={'initial_state':'Initial 8k state','uniform':'Uniform updates','error_prioritized':'Own-error priorities','permuted_priority':'Shuffled priorities','full_data_uniform':'Full-data uniform','error_priority_freeze_initial_tool':'Priorities, initial tool frozen'}
+        fr='\n'.join(f"{label} & {feedback['methods'][k]['drug_f1_mean']:.4f} $\\pm$ {feedback['methods'][k]['drug_f1_sd']:.4f} & {feedback['methods'][k]['order_f1_mean']:.4f} $\\pm$ {feedback['methods'][k]['order_f1_sd']:.4f} \\\\" for k,label in names.items())
+        temporal_section+=r'''\subsection{Matched Feedback-Assignment Controls}
+Following the representation pilot, three seeds compare uniform training, own-error priorities and randomly permuted priorities with fixed word/typed features. The accepted parent predicts each new block before its labels update the model. Its weight is $1+3(1-F1)$ in the reachable vocabulary; the randomized control permutes exactly those weights within the block. Previously assigned weights persist, and cumulative weights are normalized to mean one. All three arms use the same cases and exactly 60 epochs for each of 128 logistic classifiers, reinitialized at each of five checkpoints. Initial models are shared, and conditional order tools use only cases observed by the current round. A rejected state retains both its policy and tool.
+
+Seven thresholds compete on proposal validation; a separate guard promotes only an improved composite with neither endpoint dropping by more than 0.002. All seeds and arms finish selection before testing. Seeds change case order and optimization jointly; these retrospective blocks do not represent calendar-time deployment. The previously observed 1,082-admission test is explicitly reused for exploratory analysis, not fresh confirmation.
+\begin{table*}[t]\centering\small
+\caption{Matched feedback interventions on the recorded-availability task. Mean $\pm$ sample SD over three seeds; exploratory reuse of the earlier test.}
+\begin{tabular}{lrr}\toprule Method & Drug micro-F1 & Core-order micro-F1\\\midrule
+FEEDBACKROWS
+\bottomrule\end{tabular}\end{table*}
+An independent audit re-infers parent feedback, recounts error weights and test predictions, checks weight distributions, exact epochs and seen-only tool memberships, and reports patient-cluster intervals and per-case regressions. Improvements over the initial state alone do not establish an effect of error assignment; uniform and shuffled controls are the relevant comparisons. This study updates supervised parameters, persistent feedback weights and order tools, while LLM weights, executable code and representation remain fixed.'''.replace('FEEDBACKROWS',fr)
     parameter_section=r'\paragraph{Execution status.} Local parameter-update experiments are in progress. No fine-tuning gain is claimed before generation-based evaluation is complete.'
     if parameter.exists() and (ROOT/'upgrade_v9/results/summary.json').exists():
         d=json.loads((ROOT/'upgrade_v9/results/summary.json').read_text())

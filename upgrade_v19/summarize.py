@@ -15,6 +15,17 @@ def interval(d):
     for _ in range(4000):draws.append(d[rng.integers(0,len(d),len(d))].mean())
     return {'difference':float(d.mean()),'ci95':np.quantile(draws,[.025,.975]).tolist(),'fixes':int((d>0).sum()),'regressions':int((d<0).sum())}
 
+def patient_interval(d,cases):
+    """Preserve within-patient dependence without publishing patient identifiers."""
+    patients=[c['eval_MRN'] for c in cases];assert all(patients)
+    _,ix=np.unique(patients,return_inverse=True);n=int(ix.max()+1)
+    sums=np.bincount(ix,weights=d,minlength=n);sizes=np.bincount(ix,minlength=n)
+    rng=np.random.default_rng(42);draws=[]
+    for _ in range(4000):
+        selected=rng.integers(0,n,n);draws.append(sums[selected].sum()/sizes[selected].sum())
+    return {'difference':float(d.mean()),'ci95':np.quantile(draws,[.025,.975]).tolist(),'patients':n,
+            'note':'Paired patient-cluster bootstrap within this split; overlapping training patients still prevent new-patient generalization claims.'}
+
 def main():
     report=read(HERE/'results/method_results.json');assert report['status']=='complete'
     counts_now={r:total(r) for r in report['resource_counts_after']}
@@ -61,14 +72,17 @@ def main():
             expected=report['methods'][method][split];assert sum(values)==expected['state_correct'] and len(values)==expected['n']
             correctness[method][split]=np.array(values);by_type[method][split]={k:{'n':len(v),'state_correct':sum(v)} for k,v in types_out.items()}
             audits.append({'method':method,'split':split,'case_alignment_reference_regrade_receipt_recount':'passed','write_attempts':attempts,'field_loss_attempts':losses,'rollbacks':rollbacks,'remaining_writes_then_cleaned':active_writes,'cleanup_calls':cleanup})
-    pairs={}
+    pairs={};patient_pairs={}
     for split in ['id_test','test']:
-        pairs[split]={}
-        for a,b in [('fixed_compiled','direct_tools'),('evolving_compiled','fixed_compiled'),('evolving_compiled','direct_tools')]:pairs[split][a+'__minus__'+b]=interval(correctness[a][split]-correctness[b][split])
+        pairs[split]={};patient_pairs[split]={}
+        cases=read(RESOURCE/'benchmarks/MedAgentBench/data/medagentbench'/f'split_{split}.json')
+        for a,b in [('fixed_compiled','direct_tools'),('evolving_compiled','fixed_compiled'),('evolving_compiled','direct_tools')]:
+            delta=correctness[a][split]-correctness[b][split];key=a+'__minus__'+b
+            pairs[split][key]=interval(delta);patient_pairs[split][key]=patient_interval(delta,cases)
     updates=read(folder/'epoch_0/skill_updates.json')
-    summary.update(audits=audits,paired=pairs,by_task_type=by_type,resource_counts_before=report['resource_counts_before'],resource_counts_after=counts_now,
+    summary.update(audits=audits,paired=pairs,paired_patient_clusters=patient_pairs,by_task_type=by_type,resource_counts_before=report['resource_counts_before'],resource_counts_after=counts_now,
         updates=[{'round':u['update_cycle']+1,'new_cases':u['batch_size'],'applied':[{'action':a['action'],'name':a['name']} for a in u['applied']]} for u in updates],
-        interval_note='Descriptive paired task bootstrap4000 draws, not patient-disjoint; task types and some patient records overlap. One seed. No multiplicity correction.',
+        interval_note='Descriptive paired task and patient-cluster bootstrap4000 draws. Patient clustering added before the full study produced results. Task types and patient records overlap across splits. One seed. No multiplicity correction.',
         endpoint='Original task reference criteria AND preservation of all remaining canonical fields on actual readback; clinically invalid legacy units are not validated.',
         cost_scope='Logical episode calls/cost; exact cached episodes may replay, while receipt records refer to their first physical execution. Cleanup calls are counted separately.')
     (HERE/'results/summary.json').write_text(json.dumps(summary,indent=2)+'\n')

@@ -1,5 +1,10 @@
 # Manuscript change log / 论文变更记录
 
+## v0.23 — matched feedback assignment registered and executed
+
+Three seeds are training under exactly matched cases and epochs: uniform updates, own-error priorities and same-distribution permuted weights. Independent evaluation/audit code verifies parent feedback, seen-only tools and every final prediction; all selections must freeze first. This reuses an observed test, so forthcoming results are exploratory. API transport logging distinguishes HTTP429/provider payload failures from scored malformed answers. Returned usage is not claimed as reconciled billing. An external eICU hospital-partition feasibility audit is separately registered as v0.24, without model scores.
+
+
 ## 2026-10-14 — v0.21 completed and v0.22 development intervention executed
 
 - Complete all three seeds,14 method/ablation rows and five accepted-state checkpoints on the newly time-controlled1,082-admission test. Independently recount every prediction and publish patient-cluster intervals.

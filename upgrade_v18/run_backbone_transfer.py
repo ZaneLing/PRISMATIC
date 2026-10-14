@@ -19,8 +19,8 @@ class Backend:
     def inference(self,history,tools=None):
         assert tools is None
         messages=[{'role':'assistant' if h['role']=='agent' else h['role'],'content':h['content']} for h in history]
-        r=request(messages,'google/gemini-3.8-flash',2048,'backbone_transfer_actor',reasoning_effort='low')
-        if r.get('error'):raise RuntimeError('Incomplete transport response; no task score emitted')
+        r=request(messages,'google/gemini-3.8-flash',2048,'backbone_transfer_actor',reasoning_effort='low',timeout_seconds=180)
+        if r.get('error'):raise RuntimeError('Incomplete transport response ('+str(r['error'])+'); no task score emitted')
         self.latest.response=r;return r['raw']
 
 def main():
@@ -53,7 +53,7 @@ def main():
             r=task.rollout(c,agent);u=backend.latest.response
             return {'case_id':c['id'],'prediction':r.answer or None,'correct':task.evaluate(c,r),'status':r.status,
                 **{k:u.get(k) for k in ['input_tokens','output_tokens','cost_usd','finish_reason','reasoning_tokens','request_sha256']}}
-        with ThreadPoolExecutor(max_workers=8) as pool:rows=list(pool.map(one,cases))
+        with ThreadPoolExecutor(max_workers=4) as pool:rows=list(pool.map(one,cases))
         save(folder/(name+'-test.json'),rows)
         assert [r['case_id'] for r in rows]==[c['id'] for c in cases]
         report['methods'][name]={'n':len(rows),'correct':sum(r['correct'] for r in rows),'accuracy':sum(r['correct'] for r in rows)/len(rows),

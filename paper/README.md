@@ -1,11 +1,11 @@
 # PRISMATIC / RxRSIAgent manuscript and execution index
 
-**Target: ACL 2027. v0.9 local parameter tests and v0.17 grounded skill/round evaluations are complete and independently recounted. v0.15 binary supervision and v0.18 Gemini artifact transfer are running; the v0.21 temporal method suite and v0.22 development pilot are complete, and full FHIR skill learning is queued after Gemini.** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
+**Target: ACL 2027. v0.9 local parameter tests and v0.17 grounded skill/round evaluations are complete and independently recounted. v0.15 binary supervision and v0.18 Gemini artifact transfer are running; the v0.21 temporal method suite and v0.22 development pilot are complete, the v0.23 matched-feedback study is running, and full FHIR skill learning is queued after Gemini.** The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place and compiles with the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
 
 ## Start here
 
 - [中文系统流程与进化对象](RXRSI_DESIGN.zh.md) / [English design](RXRSI_DESIGN.en.md)
-- [中文真实结果](../upgrade_v7/RESULTS.zh.md) / [English results](../upgrade_v7/RESULTS.en.md)
+- [中文当前主表](CURRENT_RESULTS.zh.md) / [Current English method tables](CURRENT_RESULTS.en.md)
 - [持续更新计划](COMPLETION_PLAN.md) / [English plan](COMPLETION_PLAN.en.md)
 - [v0.7 evidence and reproduction](../upgrade_v7/README.md), [v0.8 language evolution](../upgrade_v8/README.md), [v0.9 parameter evolution](../upgrade_v9/README.md)
 
@@ -33,6 +33,7 @@ GT-based evaluation does not require clinician review. Missing attributes remain
 
 | Version | Record | Evidence |
 | --- | --- | --- |
+| v0.23 | [Matched feedback protocol](../upgrade_v23/README.en.md) | Three seeds/five rounds; equal-epoch uniform, own-error and shuffled-weight controls running |
 | v0.22 | [Numerical-state development pilot](../upgrade_v22/RESULTS.en.md) | Guard point gain passes the declared rule; intervals include zero; no test scoring |
 | v0.21 | [Recorded-availability method table](../upgrade_v21/RESULTS.en.md) | Three seeds,14 method/ablation rows, independent recounts and patient intervals complete |
 | v0.20 | [Order-entry audit](../upgrade_v20/RESULTS.en.md) | 1.788M target rows, actual provider/pharmacy clocks, explicit identity conflicts |

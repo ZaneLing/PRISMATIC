@@ -20,6 +20,14 @@ Round-mean drug F1 rises from0.1660 to0.1914, but the strong control scores0.201
 
 [Full protocol/results / 完整协议结果](../upgrade_v21/RESULTS.en.md)
 
+## Latest mechanism study: does error feedback add value?
+
+Three seeds/five rounds with fixed word+numeric features. Uniform, own-error-weighted and shuffled-weight arms share cases and exactly60 training epochs. Order tools use only cases seen by that round. Evaluation follows joint selection freeze.
+
+All three seed runs have started; the complete test table is pending. Guard scores are not test results.
+
+[Registered protocol / 已登记协议](../upgrade_v23/README.en.md)
+
 ## 1. Main method comparisons
 
 ### A. Medication and structured-order agreement

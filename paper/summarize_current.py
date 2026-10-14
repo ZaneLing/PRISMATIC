@@ -165,6 +165,18 @@ Hashes, promotions/rejections and case repairs/regressions accompany the artifac
         if (ROOT/'upgrade_v22/results/summary.json').exists():
             text+=('\n## 继续改进：数值状态开发试验已完成\n\n把已有检验值和用药剂量表示为数值，并保留缺失标记；没有增加未来信息。候选验证选定的词＋数值策略，在2,000例检查集上达到药物/订单F1 **0.22456/0.13656**，同集强对照为 **0.21942/0.13458**。通过预设继续条件，但两项患者配对区间都包含零。这里只是单种子开发结果，没有计算测试分数，也不算RSI胜出。\n' if lang=='zh' else '\n## Continued improvement: numerical-state development pilot complete\n\nRepresent existing lab/dose values numerically with observed flags; no future context is added. The proposal-selected word+typed policy reaches guard drug/order F1 **0.22456/0.13656**, versus the same-guard control at **0.21942/0.13458**. The continuation rule passes, but both patient-paired intervals include zero. This is one-seed development evidence, with no test scoring or RSI superiority claim.\n')
             text+='\n[Development protocol/results / 开发协议与结果](../upgrade_v22/RESULTS.'+lang+'.md)\n'
+        if (ROOT/'upgrade_v23/protocol.json').exists():
+            panel=('\n## 最新机制实验：错误反馈是否有独立收益？\n\n三种子、五轮，冻结词＋数值表示；普通更新、自身错误加权、同分布打乱权重三组共享病例和精确60轮训练预算。订单工具只用当轮已见病例。全部状态冻结后统一评价。\n\n' if lang=='zh' else '\n## Latest mechanism study: does error feedback add value?\n\nThree seeds/five rounds with fixed word+numeric features. Uniform, own-error-weighted and shuffled-weight arms share cases and exactly60 training epochs. Order tools use only cases seen by that round. Evaluation follows joint selection freeze.\n\n')
+            path=ROOT/'upgrade_v23/results/summary.json'
+            if path.exists():
+                z=json.loads(path.read_text());panel+='| Method | Drug F1 mean ± SD | Core-order F1 mean ± SD |\n|---|---:|---:|\n'
+                names={'initial_state':('初始状态','Initial state'),'uniform':('普通更新','Uniform updates'),'error_prioritized':('自身错误加权','Own-error priorities'),'permuted_priority':('打乱错误权重','Shuffled priorities'),'full_data_uniform':('全量普通监督','Full-data uniform')}
+                for k,labels in names.items():
+                    m=z['methods'][k];panel+=f"| {labels[0 if lang=='zh' else 1]} | {m['drug_f1_mean']:.5f} ± {m['drug_f1_sd']:.5f} | {m['order_f1_mean']:.5f} ± {m['order_f1_sd']:.5f} |\n"
+                panel+=('\n1,082次住院、1,024位患者；这是已观察过的v0.21测试集上的探索性复用。权重分配、训练预算、工具成员和全部预测均已独立核对。\n' if lang=='zh' else '\n1,082 admissions/1,024 patients; exploratory reuse of the previously observed v0.21 test. Weight assignment, training budgets, tool members and every prediction are independently checked.\n')
+                panel+='\n[Full results / 完整结果](../upgrade_v23/RESULTS.'+lang+'.md)\n'
+            else:panel+=('三种子均已真实启动，尚未形成完整测试主表。当前不能把检查集结果当成测试结果。\n' if lang=='zh' else 'All three seed runs have started; the complete test table is pending. Guard scores are not test results.\n')+'\n[Registered protocol / 已登记协议](../upgrade_v23/README.'+lang+'.md)\n'
+            text=text.replace('\n## 1.',panel+'\n## 1.',1)
         (HERE/f'CURRENT_RESULTS.{lang}.md').write_text(text)
 
 if __name__=='__main__':main()

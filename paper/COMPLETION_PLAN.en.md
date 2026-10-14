@@ -1,5 +1,16 @@
 # PRISMATIC manuscript completion and execution plan
 
+## Current execution status: v0.21–v0.23
+
+- v0.21 complete: 1,082 test admissions, three seeds,14 method/ablation rows. RxRSI drug/order F1 is0.19136/0.11533 versus0.20096/0.12071 for the word/character control. Independent recount passes; superiority is absent.
+- v0.22 development intervention complete: numeric-state guard scores0.22456/0.13656 versus0.21942/0.13458. Both paired intervals include zero; no test score is generated.
+- v0.23 registered and running: three seeds/five rounds, uniform/error-weighted/shuffled-weight arms with exactly matched training exposures. All selections freeze before test evaluation.
+- v0.18 Gemini transfer and v0.15 binary-supervision QLoRA continue. v0.19 real FHIR skill learning waits for Gemini completion to control the shared API budget.
+- Untouched confirmation remains required. Restricted records and weights stay local. Earlier pending/dependency statements below are historical; this section and the maintained results entry supersede them.
+
+[Current method tables](CURRENT_RESULTS.en.md) · [Mechanism protocol](../upgrade_v23/README.en.md)
+
+
 ## 14 October 2026 increment: rebuilt temporal cohort, registered comparison running
 
 - **Complete:** full-source admission6h→next6h order cohort; independent identity/clock, order reconstruction and previous-test exclusion checks.40k/2k/2k/1,082 admissions,1,024 test patients; all12 checks pass.

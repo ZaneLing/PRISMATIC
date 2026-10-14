@@ -9,6 +9,7 @@ BLOCK_FILE=LOCAL/'api-unavailable.json'
 _LEDGER_STATE={'path':None,'position':0,'cost':0.0}
 
 class PublicAPIUnavailable(RuntimeError):pass
+class ProviderPayloadError(RuntimeError):pass
 
 def ledger_total():
     """Incrementally read append-only charges, including other running workers."""
@@ -48,7 +49,7 @@ def json_object(raw):
             except ValueError:pass
     return {}
 
-def request(messages,model,max_tokens,role='actor',temperature=0,cache_salt=None,reasoning_effort=None):
+def request(messages,model,max_tokens,role='actor',temperature=0,cache_salt=None,reasoning_effort=None,timeout_seconds=90):
     body={'model':model,'messages':messages,'temperature':temperature,'max_tokens':max_tokens,
           'provider':{'zdr':True,'data_collection':'deny'}}
     if model.startswith('deepseek/'):body['reasoning']={'effort':'none'}
@@ -65,13 +66,21 @@ def request(messages,model,max_tokens,role='actor',temperature=0,cache_salt=None
     cost_cap=float(os.getenv('RXRSI_PUBLIC_COST_CAP_USD','15'))
     if ledger_total()>=cost_cap:raise RuntimeError('Public evaluation cost cap reached before request; cached progress retained')
     key=credentials();last=None
+    def failed(attempt,kind,elapsed):
+        with LOCK:
+            with (LOCAL/'transport_failures.jsonl').open('a') as stream:
+                stream.write(json.dumps({'request_sha256':signature,'role':role,'model':model,'attempt':attempt+1,
+                    'error':kind,'seconds':elapsed,'time':time.time(),'no_model_score':True})+'\n')
     for retry in range(3):
         if ledger_total()>=cost_cap:raise RuntimeError('Public evaluation cost cap reached before retry; cached progress retained')
+        retry_delay=min(2**retry,8)
         try:
             req=urllib.request.Request('https://openrouter.ai/api/v1/chat/completions',data=json.dumps(body).encode(),
                 headers={'Authorization':'Bearer '+key,'Content-Type':'application/json','X-Title':'RxRSIAgent public benchmark evolution'},method='POST')
             start=time.time()
-            with urllib.request.urlopen(req,timeout=90) as r:payload=json.load(r)
+            with urllib.request.urlopen(req,timeout=timeout_seconds) as r:payload=json.load(r)
+            if not isinstance(payload,dict) or payload.get('error') or not payload.get('choices'):
+                raise ProviderPayloadError('Provider did not return a model choice')
             usage=payload.get('usage') or {};content=payload.get('choices',[{}])[0].get('message',{}).get('content') or ''
             row={'raw':content,'input_tokens':usage.get('prompt_tokens',0),'output_tokens':usage.get('completion_tokens',0),
                  'cost_usd':usage.get('cost',0),'model_returned':payload.get('model'),
@@ -88,10 +97,16 @@ def request(messages,model,max_tokens,role='actor',temperature=0,cache_salt=None
             return row
         except urllib.error.HTTPError as e:
             last='HTTP_'+str(e.code)
+            failed(retry,last,time.time()-start)
+            if e.code==429:
+                try:server_wait=float((e.headers or {}).get('Retry-After','0'))
+                except (TypeError,ValueError):server_wait=0
+                retry_delay=max(30*(2**retry),min(300,max(0,server_wait)))
             if e.code in [401,402,403]:
                 BLOCK_FILE.write_text(json.dumps({'http_status':e.code,'time':time.time(),'reason':'Account authentication, credit or access failure; no secret logged.'})+'\n')
                 raise PublicAPIUnavailable('OpenRouter '+last+'; incomplete requests must not be scored as model mistakes')
             if e.code in [400,401,402,403,404]:break
-        except (urllib.error.URLError,TimeoutError,OSError) as e:last=type(e).__name__
-        time.sleep(min(2**retry,8))
+        except (urllib.error.URLError,TimeoutError,OSError,json.JSONDecodeError,ProviderPayloadError) as e:
+            last=type(e).__name__;failed(retry,last,time.time()-start)
+        if retry<2:time.sleep(retry_delay)
     return {'raw':'','error':last,'input_tokens':0,'output_tokens':0,'cost_usd':0,'request_sha256':signature,'role':role}

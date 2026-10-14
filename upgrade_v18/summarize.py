@@ -32,7 +32,7 @@ def main():
     interaction=correct['frozen_grounded_grasp']-correct['fixed_grounded']-correct['frozen_author_grasp']+correct['cot']
     summary={'status':'complete','methods':methods,'paired':pairs,'factorial_interaction':interval(interaction,cases),'audits':audit,
       'protocol':frozen['protocol'],'interpretation':'Frozen skill transfer, not Gemini skill training or checkpoint selection. One seed/artifact path; exploratory intervals.',
-      'cost_scope':'Logical inference usage, including cached requests; learning cost belongs to the original DeepSeek study. Actual charged requests are in the private ledger.'}
+      'cost_scope':'Logical successful-response usage, including cache reuse; learning cost belongs to the original DeepSeek study. The local ledger records returned usage, not provider-reconciled billing. Timed-out or retried requests may incur additional charges without returned usage.'}
     (HERE/'results/summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     labels={'cot':'CoT','frozen_author_grasp':'Frozen author-GRASP skills','fixed_grounded':'Fixed grounded harness','frozen_grounded_grasp':'Frozen grounded skills'}
     table='| Method | Correct / 988 | Accuracy (%) | Invalid | Logical inference USD |\n|---|---:|---:|---:|---:|\n'
@@ -61,13 +61,13 @@ Do DeepSeek-learned skills improve a different backbone without additional learn
         end='''
 ## Interpretation and verification
 
-This tests transfer of persistent language artifacts. LLM weights, tool code and skill text do not evolve during this test. Completion cap and call count match within this table; input lengths and actual cost differ. The DeepSeek source studies used a different completion cap, so raw cross-backbone scores are not an equal-compute comparison. One frozen skill-learning path does not establish seed robustness.
+This tests transfer of persistent language artifacts. LLM weights, tool code and skill text do not evolve during this test. Completion cap and call count match within this table; input lengths and returned usage differ. Costs are logical successful-response usage, including cache reuse, rather than reconciled provider bills; transport retries can add charges with no returned usage. The DeepSeek source studies used a different completion cap, so raw cross-backbone scores are not an equal-compute comparison. One frozen skill-learning path does not establish seed robustness.
 
 Every prediction was aligned to its case and independently rescored. Received malformed answers count as wrong; incomplete transport responses cannot enter the table. Paired intervals resample source-scenario clusters (4,000 draws); they are descriptive and not corrected for multiple comparisons. Negative transfers and regressions are retained. The repository contains aggregates and code; no restricted patient data entered these requests.
 ''' if lang=='en' else '''
 ## 如何解读与核验
 
-本轮验证持久技能的迁移能力；测试时没有修改模型权重、工具代码或技能文本。表内调用数和输出上限相同，输入长度及实际费用不同。DeepSeek 源实验的输出上限不同，因此跨模型原始分数不属于等算力比较。这里只有一条冻结技能学习轨迹，不能替代多种子稳健性实验。
+本轮验证持久技能的迁移能力；测试时没有修改模型权重、工具代码或技能文本。表内调用数和输出上限相同，输入长度和返回用量不同。费用按成功返回的逻辑请求计算，包含缓存复用，并非已经与供应商账单对账的实付总额；超时或重试可能产生未返回用量的额外收费。DeepSeek 源实验的输出上限不同，因此跨模型原始分数不属于等算力比较。这里只有一条冻结技能学习轨迹，不能替代多种子稳健性实验。
 
 所有预测已逐例对齐并独立重算。收到但格式不合格的答案计错；未完成的网络请求不得填表。配对区间按源场景聚类重采样 4,000 次，属于描述性区间，没有做多重比较校正。保留负迁移和退化。仓库发布代码与汇总；请求未使用受限患者数据。
 '''
