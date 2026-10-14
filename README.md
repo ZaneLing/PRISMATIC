@@ -3,7 +3,7 @@
 <!-- RXRSI_CURRENT_EXECUTION_START -->
 ## Current execution snapshot
 
-The rule-memory study completes **6/6 five-round runs**; genuine author-model baselines complete **8/15 full 50-epoch runs** (442/750 epochs saved). Independent development audits quantify the small memory increment against greedy/random/shuffled controls. A common test evaluator is implemented and stays closed until every selection and audit freezes.
+The rule-memory study completes **6/6 five-round runs**; genuine author-model baselines complete **8/15 full 50-epoch runs** (447/750 epochs saved). Independent development audits quantify the small memory increment against greedy/random/shuffled controls. A common test evaluator is implemented and stays closed until every selection and audit freezes.
 
 The real-FHIR factorial executes fixed answer-contract/statistics repairs and frozen learned skills in all eight combinations. This is exploratory execution repair, not autonomous tool-code evolution. All completed audited cells, costs and limits are maintained in the reports.
 

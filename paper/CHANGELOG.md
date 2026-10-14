@@ -1,5 +1,14 @@
 # Manuscript change log / 论文变更记录
 
+## 2026-10-15 — study organization and exact update/selection roles
+
+- Move the executed common medication-method comparison out of Related Work into its own Study A, after the agent definition. Keep original-paper scores in the literature section and all executed numbers unchanged.
+- Add a study map linking each dataset/task, output contract and evolving object. Rename the subsequent structured-order, language-artifact, parameter and FHIR sections as Studies B–E.
+- Correct the overly broad description of a universal regression guard. Structured-order gates, training-witness rule verification, author-GRASP epoch validation and proposal-only parameter selection now retain their actual distinct roles.
+- Replace stale numbered-table references in the maintained reading index with stable study names and direct result entries. Add live completion counts, the v32 repair entry and the completed v19 status. Preserve the existing English source and template.
+
+论文将真实跨方法比较移入独立实验章节，并新增“数据—输出—进化对象”对照表。修正了将不同实验概括为同一种 guard 选择规则的表述；所有分数、训练协议和已登记选择均保持原样。中英文总览与阅读入口同步更新。
+
 ## 2026-10-15 — completed author seeds, matched-patient method comparison and compute receipts
 
 - SafeDrug completes and independently verifies all three 50-epoch runs in the molecular space. GAMENet completes and verifies all three full-space runs. ARMR full-space seed2026 and the remaining molecular author runs continue under the original 50-epoch protocol.

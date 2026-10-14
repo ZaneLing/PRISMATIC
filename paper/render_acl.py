@@ -270,6 +270,7 @@ Public molecular lookup resolves 746 CIDs and validates structures spanning 399 
             rr='\n'.join(dev_method_rows)
             compatibility_section+=r'''\begin{table*}[t]\centering\small
 \caption{Executed cross-method development comparison on the same 1,231 guard visits from 467 patients. Each label panel is separate. Choices use proposal data; only completed independently audited runs are included, with mean $\pm$ sample seed SD when available. Unfinished seeds remain pending. This table does not replace the gated final test main table.}
+\label{tab:common-development}
 \begin{tabular}{llrrr}\toprule Label panel & Method & Runs & Patient-average F1 & Patient-average Jaccard\\\midrule
 CONTROLROWS
 \bottomrule\end{tabular}\end{table*}'''.replace('CONTROLROWS',rr)
@@ -415,6 +416,7 @@ Before common-test inference, a separate addendum registers all seven conditiona
                     rows_test.append(name.replace('_',' ')+' & '+' & '.join(vals)+r' \\')
                 compatibility_section+=r'''\begin{table*}[t]\centering\scriptsize
 \caption{Frozen common test: PANEL medication space, 2,422 visits from 890 patients. All checkpoint choices use proposal data. Means and sample deviations cover three seeds where applicable; deterministic controls have one result. All methods and within-panel label spaces are shared, while training and computation budgets differ. Raw round-five endpoints, all growth curves, regressions and paired contrasts accompany the released result report.}
+\label{tab:common-test-PANEL}
 \begin{tabular}{p{.48\textwidth}rrr}\toprule Method & Patient F1 & Patient Jaccard & Micro F1\\\midrule
 COMMONROWS
 \bottomrule\end{tabular}\end{table*}'''.replace('PANEL',panel).replace('COMMONROWS','\n'.join(rows_test))
@@ -555,21 +557,40 @@ Gemini-3.1-Pro (R) & F1 77.10\% & Exact match 46.10\%\\
 Qwen3.6-27B (R) & F1 71.70\% & Exact match 40.00\%\\
 \bottomrule\end{tabular}\end{table*}
 
-COMPATIBILITYSECTION
-
 \section{Agent State and Update Mechanism}
-At round $r$, let the persistent state be $S_r=(W_r,M_r,T_r,K_r)$: prescription-selection parameters, episodic memory, order-tool state, and language skills. Runtime inference takes a patient snapshot, retrieves candidates and applicable experience, plans selections, and compiles structured orders. The current order compiler returns drug, route, dose string, dose unit and observed frequency; unobserved clinical attributes remain unknown.
+At round $r$, let the persistent state be $S_r=(W_r,M_r,T_r,K_r)$: prescription-selection parameters, episodic or executable rule memory, learned tool state, and persistent language skills. RxRSIAgent provides a common versioning and evaluation interface, instantiated differently by the task adapters in Table~\ref{tab:study-map}. Policy parameters include ordinary supervised coefficients or local LLM adapters. Tool state includes observed joint-order templates and evidence-focus configuration; executable tool source remains fixed unless an explicitly disclosed engineering revision changes it.
+
+Runtime inference reads the allowed patient or task state, obtains candidates and applicable experience, scores decisions, and emits the task's required output. The structured-order adapter returns drug, route, dose string, dose unit and observed frequency; unobserved attributes remain unknown. Class-set and multiple-choice adapters have their own output contracts. The FHIR adapter additionally executes actions and checks persisted state. These endpoints cannot be pooled into one prescription score.
+
+\begin{table*}[t]\centering\small
+\caption{Study map: data, outputs and the objects whose updates are evaluated. Fixed engineering repairs are tracked separately from learned updates.}
+\label{tab:study-map}
+\begin{tabularx}{\textwidth}{@{}p{.65cm}p{3.6cm}p{3.5cm}X@{}}\toprule Study & Data / task & Evaluated update objects & Primary comparison\\\midrule
+A & MIMIC-IV; retrospective ATC-L4 medication sets & Executable rule or synthesized-program memory; shared supervised policy & Author methods and ordinary/greedy/shuffled controls on common patients and label spaces\\
+B & MIMIC-IV/ED structured orders; recorded-availability rebuild; eICU hospital transfer & Policy parameters, episodic memory and conditional order-template tool & Drug/core-order agreement; case growth and frozen-object interventions\\
+C & Derived RxSafeBench choices; all 300 public RxQA OpenFDA questions & Language skills, evidence-focus configuration and routing/verifier coefficients & Same-question method accuracy, fixed-state trajectories and transfer\\
+D & Local MIMIC admission-proxy candidate-order selection & QLoRA parameters; feedback-dependent sampling priorities & Drug/core-order agreement and position sensitivity under matched updates\\
+E & Released MedAgentBench tasks with an executed FHIR service & Persistent language skills; separately fixed compiler/statistics repairs & ID and held-out-task-type completion, readback, regressions and factorial controls\\
+\bottomrule\end{tabularx}\end{table*}
 
 \begin{figure}[t]\centering\small
-\fbox{\parbox{.91\columnwidth}{\centering Patient state\\$\downarrow$\\Candidate policy + order tools + applicable memory\\$\downarrow$\\Prescription planner and structured compiler\\$\downarrow$\\Research prescription\\[3pt]\hrule\vspace{3pt}Training prediction $\rightarrow$ observed GT errors\\$\rightarrow$ candidate artifact edits\\$\rightarrow$ proposal validation + regression guard\\$\rightarrow$ accepted state or retained prior version}}
+\fbox{\parbox{.91\columnwidth}{\centering Patient state\\$\downarrow$\\Candidate policy + order tools + applicable memory\\$\downarrow$\\Prescription planner and structured compiler\\$\downarrow$\\Research prescription\\[3pt]\hrule\vspace{3pt}Training prediction $\rightarrow$ observed GT errors\\$\rightarrow$ candidate artifact edits\\$\rightarrow$ registered selection / verification\\$\rightarrow$ active state or retained prior version}}
 \caption{Inference and training feedback. Test labels enter scoring only. Different experiments isolate different evolving objects.}
 \end{figure}
 
-For an incoming training block in the language and parameter studies, predictions precede ground-truth feedback. Error records identify omissions, extra drugs and observed-field mismatches. The updater proposes artifact changes. The candidate is selected on proposal validation; a patient-disjoint guard set then checks whether it improves the composite objective without excessive regression in either primary endpoint. Old states are retained. The guard is reused across rounds and is therefore a development resource, not an untouched test.
+Feedback comes from declared training cases: pre-update predictions in the streaming order/parameter experiments, cross-fitted errors for rule induction, or completed training-task failure traces for language skills. Error records identify observed omissions, extra selections and field mismatches. The updater proposes a versioned change; the study-specific selection procedure determines whether it becomes active.
+
+Selection roles are explicit. The structured-order studies use proposal selection followed by a regression guard. Rule/program studies verify edits on training-witness patients and use a separate guard only for reporting. The retained author GRASP core uses its released end-of-epoch validation mechanism. The position-randomized parameter study chooses checkpoints on proposal data before its report-only guard. Development resources can be reused across rounds; test predictions never supply update feedback. Raw candidates, rejected versions and selected states are all retained.
 
 Each version records the parent, edited objects, data membership hashes, artifact hashes, validation scores, acceptance, improvements and regressions. A changing memory size or hash demonstrates that an artifact changed; leave-one-object-out evaluation is required to demonstrate that it helped. LLM weights, tool configuration and executable tool code are distinct objects and are never conflated.
 
-\section{Study A: Structured-Order Artifact Learning}
+\section{Study A: Common Medication-Set Comparison}
+\label{sec:common-methods}
+This study addresses the cross-method prescription comparison under a shared preprocessing and split. Its development table and eventual frozen test tables report actual executions. The author-reported results in Table~\ref{tab:reported} remain a separate literature reference.
+
+COMPATIBILITYSECTION
+
+\section{Study B: Structured-Order Artifact Learning}
 \subsection{Data and metrics}
 The task uses six-hour all-route prescription targets after an ED-to-hospital admission in MIMIC-IV/ED. Training contains 40,000 admissions. Proposal validation and the regression guard contain 2,000 admissions each; test contains 4,000 admissions from 3,440 patients. Development/test patients used in the previous v0.6 increment are excluded. All current splits are patient-disjoint.
 
@@ -598,21 +619,21 @@ The accepted-state curves are non-decreasing on this test for all three seeds, i
 
 TEMPORALSECTION
 
-\section{Study B: Language-Artifact RSI}
+\section{Study C: Language-Artifact RSI}
 To test genuine changes to language-guided behavior, the next experiment freezes DeepSeek-V4.1-Flash and evolves reusable skills, episodic memory and the configuration of an evidence-focus tool. The tool returns exact current-dialogue excerpts selected by learned focus terms; its source code is fixed. An LLM proposes changes from its own training-error traces, and the runner saves the full before/after artifacts.
 
 The public RxSafeBench data are verified against pinned source hashes and converted to a clearly labeled three-option task. Its 2,443 source records yield 2,000 cases after exact task/dialogue/correct-drug deduplication. Medication-scenario grouping yields 625 training, 190 proposal, 197 guard and 988 test cases with no cross-split scenario or exact-dialogue overlap. Four rounds expose additional training cases. Direct, CoT, Self-Refine, case RAG and explicit Reflexion/GRASP/EvoTool task adaptations form the comparison set. Evolving comparators receive four candidate-evaluation slots per round; all token costs are reported. Transfer covers all 300 questions in the public RxQA OpenFDA release, retaining original options and answer labels without using them for evolution. The licensed BNF component is not publicly available and is not evaluated. An independent source/identity audit verifies complete public coverage and recounts the saved answers. These are public simulated/released questions; restricted patient inputs are never uploaded.
 
 PUBLICSECTION
 
-\section{Study C: Parameter Evolution}
+\section{Study D: Parameter Evolution}
 A local Qwen3-4B QLoRA study compares uniform supervised updates with feedback-prioritized updates, holding the initial-8k candidate tools fixed. Three disjoint feedback blocks contain 600 new training admissions each. Both arms make pre-update predictions, train on 400 sampled examples for 100 optimizer steps per round, and use the same 200-case guard. Feedback weights target reachable candidate-selection errors rather than blaming the language model for drugs missing from its fixed catalogue. A separate 500-admission test excludes all patients in the earlier v0.6/v0.7 tests.
 
 The Qwen chat template can emit an empty reasoning envelope before valid JSON. The parser removes only that empty envelope uniformly for all checkpoints, retains strict and normalized validity, and rebinds cached outputs to the current case. These repairs occurred on development data before test scoring; raw generations and learned weights are unchanged.
 
 PARAMETERSECTION
 
-\section{Study D: Executed FHIR Tools}
+\section{Study E: Executed FHIR Tools}
 We extract the unchanged application and public database from the digest-pinned official MedAgentBench image and run its HAPI FHIR 7.6.0 service on a native Java runtime. Five executed probes cover creation, readback, versioned updates, atomic rejection and cleanup. Original counts are restored: 695 patients, 21,991 medication requests and 563,426 observations. Runtime equivalence beyond these checks is not assumed.
 
 The released benchmark wrapper records accepted POST actions without performing the HTTP write; its reference grader checks trajectories. Our development adapter performs actual writes for both methods, reports the reference trajectory criterion separately from persisted-state checks, and removes only resources it creates. A 16-case pilot uses the first two cases from each of eight development task types, DeepSeek-V4.1-Flash and at most eight 512-token action calls. Direct tool use succeeds on 10/16; a fixed workflow/preflight/readback harness succeeds on 8/16. All 11 created resources pass readback checks and are cleaned up. Invalid-action counts are one and three, respectively. These small development results expose protocol and retrieval failures; they are neither full benchmark scores nor evidence of self-improvement. No restricted MIMIC records enter this service.

@@ -3,9 +3,11 @@
 <!-- RXRSI_CURRENT_EXECUTION_START -->
 ## Current executed increment — rule memory and tool repair
 
+**Manuscript navigation:** Study A contains the common ATC-L4 method comparison; Study B covers structured orders and external hospitals; Study C language skills; Study D parameter updates; Study E real FHIR execution. The agent-state section maps each task to its output and evolving objects, and states the actual selection roles. [Reading index](README.md).
+
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 8/15 author-model runs finish their full 50 epochs, with 442/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 8/15 author-model runs finish their full 50 epochs, with 447/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Recorded method budgets:** the receipt ledger separates shared fits, optimizer steps, proposal searches and logical response prices. It checks completed author-epoch records against their original logs, counts shared policy fitting once, and identifies exact v29-to-v30 model reuse. SafeDrug has 3 audited seeds; molecular guard patient F1 is 0.53689 ± 0.00244. [Actual compute and development results](COMPUTE_ACCOUNTING.en.md)
 

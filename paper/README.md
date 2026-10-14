@@ -1,6 +1,15 @@
 # PRISMATIC / RxRSIAgent manuscript and execution index
 
-**Target: ACL 2027.** The [current method tables and execution status](CURRENT_RESULTS.en.md) distinguish completed audited results from running work. All six isolated-witness program runs are audited; author-method training, the memory-gate factorial, local position-randomized parameter updates and eICU hospital evaluation are in progress. The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place using the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
+<!-- RXRSI_CURRENT_EXECUTION_START -->
+## Live execution snapshot
+
+The common medication-method study has **8/15** completed 50-epoch author runs (447/750 saved epochs) and **6/6** completed five-round rule runs. The final common test remains gated by the registered selections and audits. These counts describe a saved snapshot; running outputs continue to update.
+
+[中文当前结果](CURRENT_RESULTS.zh.md) · [English current results](CURRENT_RESULTS.en.md) · [Cross-method development comparison](../upgrade_v27/DEVELOPMENT_METHODS.en.md) · [Final common-test table and gate](../upgrade_v30/COMMON_TEST.en.md)
+<!-- RXRSI_CURRENT_EXECUTION_END -->
+
+
+**Target: ACL 2027.** The [current method tables and execution status](CURRENT_RESULTS.en.md) distinguish completed audited results from running work. The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place using the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
 
 ## Start here
 
@@ -15,26 +24,39 @@
 
 ## Where are the main tables?
 
-- **Table 1:** published datasets, task definitions and experiments.
-- **Table 2:** original reported GAMENet, SafeDrug, SafeRx and RxEval scores, grouped by source protocol. These are citations, not our reruns.
-- **Table 3:** actual same-4,000-admission method comparison; 12 rows, three seeds, drug and joint-order F1.
-- **Table 4:** frozen-checkpoint case-growth trajectory.
-- The recorded-availability table covers1,082 new test admissions; its protocol differs from Table3. Public language-agent and local QLoRA tables use their respective fixed cohorts. Incomplete experiments are explicitly marked.
+The manuscript now gives the common medication-method experiment its own **Study A: Common Medication-Set Comparison** section, following the agent definition. Figure/table numbering can change as results arrive; use these stable study names and report links.
+
+| Reader question | Maintained result entry | Manuscript location |
+|---|---|---|
+| How do GAMENet, SafeDrug, ARMR, conventional methods and our agent compare on identical cases? | [中文跨方法开发表](../upgrade_v27/DEVELOPMENT_METHODS.zh.md) / [English development comparison](../upgrade_v27/DEVELOPMENT_METHODS.en.md); [final-test table and gate](../upgrade_v30/COMMON_TEST.en.md) | Study A; development and final test remain distinct |
+| Which datasets and experiments do published papers use? | [Recent-method source audit](LATEST_METHODS.en.md) | Related Work: published task registry and author-reported scores |
+| Does more experience improve complete recorded orders? | [Recorded-availability results](../upgrade_v21/RESULTS.en.md), [matched feedback controls](../upgrade_v23/RESULTS.en.md), [eICU external study](../upgrade_v25/RESULTS.en.md) | Study B; each cohort and drug space is separate |
+| Do learned language skills generalize? | [Public component/round comparison](../upgrade_v17/RESULTS.en.md), [second-backbone transfer](../upgrade_v18/RESULTS.en.md) | Study C |
+| What changed in model weights, and is it robust to candidate order? | [Parameter rounds](../upgrade_v31/RESULTS.en.md), [controlled decision repair](../upgrade_v32/RESULTS.en.md) | Study D |
+| Do real tools execute the intended state changes? | [FHIR skill results](../upgrade_v19/RESULTS.en.md), [repair factorial](../upgrade_v28/RESULTS.en.md) | Study E |
+| What was the actual fitting and proposal budget? | [中文计算账本](COMPUTE_ACCOUNTING.zh.md) / [English compute receipts](COMPUTE_ACCOUNTING.en.md) | Study A computation paragraph and linked full receipts |
+
+The agent-state section includes a study map linking each task to its output and evolving object. The original 4,000-admission and later 1,082-admission order tasks retain their original protocols and results. Original-paper scores remain source-specific citations.
 
 ## Additional completed comparisons
 
 [Public method table, English](../upgrade_v8/RESULTS.en.md) / [中文](../upgrade_v8/RESULTS.zh.md): Direct 46.15%, CoT 47.27%, Self-Refine 47.57%, case RAG 49.09%, three-seed RxRSI 47.27%. The [unmodified GRASP core](../upgrade_v10/RESULTS.en.md) reaches 50.81% on the same 988 questions; scoped RxRSI remains flat. The [evidence-tool increment](../upgrade_v11/RESULTS.en.md) reaches 48.99% with the validation-selected fixed review. [Three-seed learned routing](../upgrade_v12/RESULTS.en.md) reaches 48.68%/48.79%; it changes parameters but has no stable advantage over the fixed tool.
 
-## Current conclusion
+## Evidence to read together
+
+The [cross-method development comparison](../upgrade_v27/DEVELOPMENT_METHODS.en.md) includes every available completed conventional, author-core and rule-memory method, with matched-patient intervals. The rule agent improves over some older neural architectures; strong greedy and ordinary-learning controls constrain an RSI-specific claim. The final common test remains conditional on every registered selection and audit completing. The [current execution entry](CURRENT_RESULTS.en.md) is the source for changing completion counts.
+
+### Earlier structured-order finding retained from v0.7
 
 v0.7 selected-state mean drug/order F1 is **0.39920 / 0.27865**; the stronger equal-data word/character ensemble reaches **0.40209 / 0.28110**. Three-seed accepted-state curves improve with accumulated cases, but ordinary learning remains a strong explanation. Conditional order tools help; expanding case memory is not consistently beneficial. This motivates the ongoing language-artifact and parameter studies.
 
-GT-based evaluation does not require clinician review. Missing attributes remain unknown. Current MIMIC inputs retain admission-proxy timing limitations; the task is not interchangeable with the original ATC-L4 or RxEval protocols. The saline-presence endpoint is removed from current scoring and tables.
+GT-based evaluation does not require clinician review. Missing attributes remain unknown. Legacy structured-order inputs retain admission-proxy timing limitations; the recorded-availability rebuild and retrospective ATC-L4 cohort have separately declared input rules. None is interchangeable with an unavailable official RxEval protocol. The saline-presence endpoint is removed from current scoring and tables.
 
 ## Versions
 
 | Version | Record | Evidence |
 | --- | --- | --- |
+| v0.32 | [Controlled decision repair](../upgrade_v32/RESULTS.en.md) | Four same-data/100-step prefix/loss arms; fixed and calibrated scoring, independent recount and guard prerequisites |
 | v0.31 | [Parameter intervention](../upgrade_v31/RESULTS.en.md) | Four arms, three seeds, three rounds; position randomization with original ranks retained; training running |
 | v0.30 | [Memory gates](../upgrade_v30/RESULTS.en.md) | Fourteen arms isolate old-memory compatibility and separate whole-update confirmation; audited completed seeds reported |
 | v0.29 | [Program synthesis](../upgrade_v29/RESULTS.en.md) | All six five-round runs independently audited; permanent witness separation, ordinary calibration, greedy/random/shuffled controls |
@@ -47,7 +69,7 @@ GT-based evaluation does not require clinician review. Missing attributes remain
 | v0.22 | [Numerical-state development pilot](../upgrade_v22/RESULTS.en.md) | Guard point gain passes the declared rule; intervals include zero; no test scoring |
 | v0.21 | [Recorded-availability method table](../upgrade_v21/RESULTS.en.md) | Three seeds,14 method/ablation rows, independent recounts and patient intervals complete |
 | v0.20 | [Order-entry audit](../upgrade_v20/RESULTS.en.md) | 1.788M target rows, actual provider/pharmacy clocks, explicit identity conflicts |
-| v0.19 | [Real-order compiler probes](../upgrade_v19/RESULTS.en.md) | Field preservation and rollback;13 development reference false negatives audited; revised learning running |
+| v0.19 | [Real-order skill results](../upgrade_v19/RESULTS.en.md) | Completed real-FHIR learning, ID and held-out-type comparisons; reference-shape correction and negative skill transfer retained |
 | v0.18 | [Frozen-transfer results](../upgrade_v18/RESULTS.en.md) | All four Gemini methods complete; grounded skills regress versus fixed grounding |
 | v0.17 | [Grounded skill results](../upgrade_v17/RESULTS.en.md) | Four matched components, all frozen rounds, transfer and paired intervals |
 | v0.16 | [Budget repair results](../upgrade_v16/RESULTS.en.md) | Completed 190-question Gemini development repair; 2,048-token follow-up complete; four-method backbone transfer complete in v0.18 |

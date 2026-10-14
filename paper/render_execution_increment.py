@@ -17,6 +17,7 @@ def main():
     summary=json.loads((ROOT/'upgrade_v27/results/rsi_development_summary.json').read_text());repair=json.loads((ROOT/'upgrade_v28/results/summary.json').read_text())
     for lang in ['en','zh']:
         block=('## Current executed increment — rule memory and tool repair\n\n' if lang=='en' else '## 当前增量：真实规则进化与工具修复\n\n')
+        block+=('**Manuscript navigation:** Study A contains the common ATC-L4 method comparison; Study B covers structured orders and external hospitals; Study C language skills; Study D parameter updates; Study E real FHIR execution. The agent-state section maps each task to its output and evolving objects, and states the actual selection roles. [Reading index](README.md).\n\n' if lang=='en' else '**论文阅读入口：** Study A 是同一 ATC-L4 数据上的跨方法比较；Study B 是完整订单与外部医院；Study C 是语言经验；Study D 是参数更新；Study E 是真实 FHIR 执行。方法章节逐项对应任务、输出、实际进化对象和各自的版本选择规则。[阅读索引](README.md)。\n\n')
         if (PAPER/'execution_status.json').exists() and json.loads((PAPER/'execution_status.json').read_text())['api']['status']=='waiting_for_credit':
             block+=('**Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.\n\n' if lang=='en' else '**执行状态：** 上次充值后，新OpenRouter请求再次返回HTTP402。未完成的API分支已保存断点，等待补充额度；已完成结果及独立本地训练／审计继续。缺失请求不计作模型错误。\n\n')
         elif (PAPER/'execution_status.json').exists() and json.loads((PAPER/'execution_status.json').read_text())['api']['status']=='restored_actual_completion_verified':
@@ -173,4 +174,11 @@ Earlier paragraphs below describe retained study versions; this snapshot governs
     if (PAPER/'execution_status.json').exists() and json.loads((PAPER/'execution_status.json').read_text())['api']['status']=='waiting_for_credit':
         readme+='\n**API status:** a new HTTP402 interrupted unfinished API branches; saved checkpoints and completed scores are retained. Local training/audits continue. [Execution status](paper/execution_status.json).\n'
     update(ROOT/'README.md',readme)
+    paper_snapshot=f'''## Live execution snapshot
+
+The common medication-method study has **{nr}/15** completed 50-epoch author runs ({epochs}/750 saved epochs) and **{complete}/6** completed five-round rule runs. The final common test remains gated by the registered selections and audits. These counts describe a saved snapshot; running outputs continue to update.
+
+[中文当前结果](CURRENT_RESULTS.zh.md) · [English current results](CURRENT_RESULTS.en.md) · [Cross-method development comparison](../upgrade_v27/DEVELOPMENT_METHODS.en.md) · [Final common-test table and gate](../upgrade_v30/COMMON_TEST.en.md)
+'''
+    update(PAPER/'README.md',paper_snapshot)
 if __name__=='__main__':main()
