@@ -1,0 +1,54 @@
+{
+  "selection_rule": "First lexicographic public ID in each fix/regression group; selected after evaluation.",
+  "public_data_only": true,
+  "cases": [
+    {
+      "type": "fix",
+      "public_dataset": "RxQA-OpenFDA",
+      "public_question_id": "104",
+      "gold": "B",
+      "fixed_prediction": "C",
+      "agent_prediction": "B",
+      "case_sha256": "a2d2af1d532ddfab3d3aee37f9ef88a1ac9c5c9dad73c7d388fb690f3473e62f",
+      "interpretation_limit": "Observed answers only; no causal reasoning trace or clinical recommendation inferred."
+    },
+    {
+      "type": "regression",
+      "public_dataset": "RxQA-OpenFDA",
+      "public_question_id": "10",
+      "gold": "C",
+      "fixed_prediction": "C",
+      "agent_prediction": "A",
+      "case_sha256": "2374b66f96dd06707fc18b14bdc72c13ac8a92853e9197f67abb258711e30a92",
+      "interpretation_limit": "Observed answers only; no causal reasoning trace or clinical recommendation inferred."
+    }
+  ],
+  "prediction_recounts": {
+    "rxsafebench": {
+      "fixed_grounded": {
+        "correct": 499,
+        "n": 988,
+        "predictions_sha256": "a40f88ea194c64604d1a49afda2c896c88b0653d92d15d56601acc96d8c64ef1"
+      },
+      "evolving_grounded": {
+        "correct": 501,
+        "n": 988,
+        "predictions_sha256": "402462acd6c40323ce9b85efe5485d610119a0b40bf69ab2f68976f40f860c18"
+      }
+    },
+    "rxqa": {
+      "fixed_grounded": {
+        "correct": 188,
+        "n": 300,
+        "predictions_sha256": "8b2f40030d457860532444178509e861459067cc5138b4a4094812bee5d822b6"
+      },
+      "evolving_grounded": {
+        "correct": 183,
+        "n": 300,
+        "predictions_sha256": "db5333dde25f933ffad9a53862c36fa18aee1a6a0644f42e2af81633ee5b3adc"
+      }
+    }
+  },
+  "fixed_prediction_sha256": "8b2f40030d457860532444178509e861459067cc5138b4a4094812bee5d822b6",
+  "agent_prediction_sha256": "db5333dde25f933ffad9a53862c36fa18aee1a6a0644f42e2af81633ee5b3adc"
+}

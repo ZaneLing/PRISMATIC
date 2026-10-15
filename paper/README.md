@@ -1,56 +1,36 @@
-# PRISMATIC / RxRSIAgent manuscript and execution index
+# RxRSIAgent: current manuscript and evidence index
 
-<!-- RXRSI_CURRENT_EXECUTION_START -->
-## Paused evidence snapshot — 15 October 2026
+Target: ACL 2027. Updated 15 October 2026.
 
-The [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) is organized as a research paper and preserves the existing editor path. Research and experiment queues remain paused. The snapshot includes **13/15** completed author runs, **6/6** rule trajectories, the completed three-seed eICU test, **9/36** parameter updates, and the completed precision diagnostic. The common MIMIC test remains unreported.
-
-[Evidence manifest](latex/v0.3/manuscript_evidence.json) · [Compile check](latex/v0.3/compile_check.json) · [中文当前结果](CURRENT_RESULTS.zh.md) · [English current results](CURRENT_RESULTS.en.md)
-<!-- RXRSI_CURRENT_EXECUTION_END -->
-
-
-**Target: ACL 2027.** The [current method tables and execution status](CURRENT_RESULTS.en.md) distinguish completed audited results from running work. The [active English LaTeX source](latex/v0.3/prismatic_v03_en.tex) is updated in place using the official ACL review style. See [template provenance](latex/v0.3/acl_template_provenance.json) and [compile check](latex/v0.3/compile_check.json). The earlier AAMAS template is preserved in Git history.
+The [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) is maintained at its existing editor path. It uses one development-selected **RxRSIAgent** configuration. Historical prototypes and version inventories are retained below and in Git, not inside the current paper.
 
 ## Start here
 
-- [中文系统流程与进化对象](RXRSI_DESIGN.zh.md) / [English design](RXRSI_DESIGN.en.md)
-- [中文当前主表](CURRENT_RESULTS.zh.md) / [Current English method tables](CURRENT_RESULTS.en.md)
-- [持续更新计划](COMPLETION_PLAN.md) / [English plan](COMPLETION_PLAN.en.md)
-- [历史病例与冻结子集核验](EXPOSURE.zh.md) / [Exposure audit and frozen subset](EXPOSURE.en.md)
-- [共同测试主表入口](../upgrade_v30/COMMON_TEST.zh.md) / [Frozen common-test comparison](../upgrade_v30/COMMON_TEST.en.md)
-- [v0.7 evidence and reproduction](../upgrade_v7/README.md), [v0.8 language evolution](../upgrade_v8/README.md), [v0.9 parameter evolution](../upgrade_v9/README.md)
+- [中文当前结果与主表](CURRENT_RESULTS.zh.md) / [Current English results](CURRENT_RESULTS.en.md).
+- [中文架构与临床问题映射](RXRSI_DESIGN.zh.md) / [English architecture and risk map](RXRSI_DESIGN.en.md).
+- [Executable RxRSIAgent components](../rxrsiagent/README.md) / [selected configuration](../rxrsiagent/evaluated_profile.json).
+- [Evidence manifest](latex/v0.3/manuscript_evidence.json), [compile check](latex/v0.3/compile_check.json), [ACL template provenance](latex/v0.3/acl_template_provenance.json).
+- [Earlier study archive, English](RESULTS_ARCHIVE_2026-10-15.en.md) / [历史实验归档](RESULTS_ARCHIVE_2026-10-15.zh.md).
 
-[Current consolidated results](CURRENT_RESULTS.en.md) / [中文总览](CURRENT_RESULTS.zh.md)
+## Where is each part of the paper?
 
-## Where are the main tables?
-
-The manuscript uses the following stable section names. Historical version reports retain their original study names.
-
-| Reader question | Manuscript location | Evidence |
+| Reader question | Location | Evidence boundary |
 |---|---|---|
-| How do methods compare on identical MIMIC cases? | Results: Common-data method comparison, Table 2 | 271-class and 219-class panels; development evidence; molecular ARMR has one completed seed |
-| How do methods compare on unseen hospitals? | Results: External-hospital method comparison, Table 3 | Completed eICU test; thirteen methods/configurations, three seeds |
-| Does performance improve with more cases, and what component helps? | Results: Experience growth and component attribution, Table 4 | Five frozen experience checkpoints and policy/tool interventions |
-| What is the agent's complete workflow? | RxRSIAgent, Figure 1 | Runtime contracts, persistent state and update lineage |
-| Why do language-model updates fail? | Diagnosing Language-Model Updates; detailed appendix | Empty selections, candidate-position dependence and precision readouts |
-| What about public QA, FHIR and original-paper scores? | Supplementary Public Tasks; Published Results under Their Original Protocols | Separate tasks and source protocols; no cross-protocol ranking |
-| What data and compute budgets were used? | Experimental Protocol; Detailed Reproduction Protocol | Cohort boundaries, mapping coverage, budgets and selection rules |
+| What is the complete agent workflow? | Figure1, RxRSIAgent | Measured QA core is solid; new clinical review interfaces are dashed |
+| Which datasets and tasks are evaluated? | Table1, Experimental Setup | Public option tasks and separate eICU order-tool study |
+| How does RxRSIAgent compare with other paper methods? | **Table2, Main agent comparison** | MedAgents, MDAgents, SafeRx-Agent, GRASP and **RxRSIAgent**; missing runs explicitly marked |
+| What do evidence and skills contribute? | Table3, Component ablations | Same backbone, questions and inference cap |
+| What changes as cases accumulate? | Table4, Experience trajectory | Five checkpoints of the retained algorithm; no monotonic improvement claim |
+| Does an order tool help? | Table5, Order-tool component evidence | eICU fixed-policy intervention; not a full-agent score |
+| Where are real examples? | Table6, Case Studies | Public case104 correction and case10 frequency regression |
+| What did the new retrieval repair accomplish? | Table7, Retrieval failure and repair | Coverage1→214/300, dosage0→193/300; no new answer accuracy |
+| Which clinical risks are implemented or unresolved? | Method, Clinical Review Scope appendix; bilingual design notes | Eighteen interfaces, structural checks, pending clinical engines |
 
-The main claims follow completed evidence: order-tool learning helps; feedback-specific RSI and overall superiority are not established. The evidence manifest binds the manuscript to its aggregate sources. Earlier version reports below remain historical.
+## Current interpretation
 
-## Additional completed comparisons
+The selected agent scores501/988 and183/300 and does not beat the measured GRASP control. The newly repaired retriever improves source availability, and twelve software tests exercise the new interfaces. Missing medical-agent comparisons, product applicability and clinical rule validation remain required work. The paper does not call all prescribing risks solved.
 
-[Public method table, English](../upgrade_v8/RESULTS.en.md) / [中文](../upgrade_v8/RESULTS.zh.md): Direct 46.15%, CoT 47.27%, Self-Refine 47.57%, case RAG 49.09%, three-seed RxRSI 47.27%. The [unmodified GRASP core](../upgrade_v10/RESULTS.en.md) reaches 50.81% on the same 988 questions; scoped RxRSI remains flat. The [evidence-tool increment](../upgrade_v11/RESULTS.en.md) reaches 48.99% with the validation-selected fixed review. [Three-seed learned routing](../upgrade_v12/RESULTS.en.md) reaches 48.68%/48.79%; it changes parameters but has no stable advantage over the fixed tool.
-
-## Evidence to read together
-
-The [cross-method development comparison](../upgrade_v27/DEVELOPMENT_METHODS.en.md) includes every available completed conventional, author-core and rule-memory method, with matched-patient intervals. The rule agent improves over some older neural architectures; strong greedy and ordinary-learning controls constrain an RSI-specific claim. The final common test remains conditional on every registered selection and audit completing. The [current execution entry](CURRENT_RESULTS.en.md) is the source for changing completion counts.
-
-### Earlier structured-order finding retained from v0.7
-
-v0.7 selected-state mean drug/order F1 is **0.39920 / 0.27865**; the stronger equal-data word/character ensemble reaches **0.40209 / 0.28110**. Three-seed accepted-state curves improve with accumulated cases, but ordinary learning remains a strong explanation. Conditional order tools help; expanding case memory is not consistently beneficial. This motivates the ongoing language-artifact and parameter studies.
-
-GT-based evaluation does not require clinician review. Missing attributes remain unknown. Legacy structured-order inputs retain admission-proxy timing limitations; the recorded-availability rebuild and retrospective ATC-L4 cohort have separately declared input rules. None is interchangeable with an unavailable official RxEval protocol. The saline-presence endpoint is removed from current scoring and tables.
+Existing long-running queues remain paused. This writing/implementation increment only audited public caches and synthetic fixtures, without new provider calls. Required follow-up experiments are listed in the [current results](CURRENT_RESULTS.en.md#5-auxiliary-evidence-and-remaining-experiments).
 
 ## Versions
 

@@ -321,14 +321,14 @@
 \usepackage{times,latexsym}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{microtype,booktabs,tabularx,amsmath,amssymb,graphicx}
-\title{RxRSIAgent: Tracing Memory, Tool, and Parameter Updates\\in Prescription Agents}
+\usepackage{microtype,booktabs,tabularx,amsmath,amssymb,graphicx,tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\title{RxRSIAgent: Evidence-Grounded Prescription Assistance\\with Persistent Skill Memory}
 \author{Anonymous ACL submission}
 \begin{document}
 \maketitle
-
 \begin{abstract}
-Prescription agents can change their memories, tools, and model parameters as cases accumulate, but these changes need not improve prescribing. We introduce RxRSIAgent, a versioned prescription harness, and evaluate which updates help under explicit data and selection protocols. A common MIMIC-IV medication-set comparison evaluates executable rule memory against conventional predictors and adapted author implementations. An external eICU study evaluates five experience checkpoints, three seeds, and thirteen methods or component configurations on 8,005 stays from sixteen held-out hospitals. Error-prioritized updates reach drug F1 of 0.11306, below matched uniform updates at 0.11825. Holding drug selections fixed, updating the order tool improves exact order F1 from 0.02334 to 0.02838; the improvement persists when incomplete outputs count in the prediction denominator. Local language-model experiments expose a different failure: parameter changes can collapse to empty selections, and removing numerical score ties does not remove candidate-position dependence. Supplementary language-skill and executed-tool studies retain both improvements and transfer regressions. Our results support separating artifact change, component utility, and generalizing improvement. They provide evidence for order-tool learning, but do not establish a distinct advantage from own-error feedback or overall method superiority.
+Prescription assistance requires medication decisions, applicable evidence, complete orders, and reliable execution. We present RxRSIAgent, a prescription-agent architecture with explicit evidence tools, persistent skill memory, and structured review contracts. Its evaluated configuration uses a fixed language-model backbone and a skill state selected on 387 development questions. On 988 derived RxSafeBench questions it answers 501 correctly, compared with 499 for the same evidence tool without learned skills and 502 for an adapted GRASP author-core baseline. On 300 public RxQA questions it answers 183 correctly, showing that development improvement does not ensure transfer. Public case studies reveal both a corrected option choice and a frequency error. An audit identifies a concrete tool failure: exact option-name lookup returns evidence for only one RxQA question. A mention-aware, dosage-inclusive retriever raises coverage to 214 questions, without yet establishing an answer-accuracy gain. We organize eighteen prescribing concerns into scoped review interfaces and report their implementation boundaries. The results support targeted tool repair and explicit evaluation of persistent experience, while leaving superiority over the full set of medical-agent baselines unresolved.
 \end{abstract}
 
 \section{Introduction}
@@ -338,435 +338,236 @@ Existing evaluation resources cover different parts of this process. MIMIC-III a
 
 Methods address complementary obstacles. GAMENet uses graph-augmented memory to combine patient history and medication relations \citep{gamenet}. SafeDrug incorporates molecular representations and an interaction objective \citep{safedrug}, while ARMR models historical reuse and changing medication needs \citep{armr}. Language-Assisted Medication Recommendation aligns language models with medication decisions to address overprescription \citep{lamrec}; SafeRx-Agent combines clinical context, knowledge retrieval, and safety verification \citep{saferx}. In the broader agent literature, Self-Refine revises individual responses, Reflexion retains linguistic feedback, and GRASP maintains skills with regression-aware acceptance \citep{selfrefine,reflexion,grasp}. These approaches provide mechanisms for prediction and adaptation, but their results do not by themselves answer which persistent update improves a prescription agent under matched experience and evaluation conditions.
 
-Our experiments reveal why this distinction matters. More cases can improve ordinary supervised learning without an advantage from the agent's own error feedback. An order tool can improve joint-order matching even when the medication selector does not improve. Conversely, a changed skill or parameter checkpoint can regress on a new task or collapse to empty selections. This motivates our central question: \textbf{How can a prescription agent convert accumulated case-level feedback into reusable improvements in medication selection and order completion, and how can we attribute those improvements to specific updates and verify their transfer beyond the cases used to select them?} We operationalize this question through three requirements: identify the updated object, compare feedback-driven learning with equal-data and matched-budget controls, and evaluate frozen versions on subsequent or held-out cases. Artifact changes and rising learning curves are insufficient evidence on their own.
+Prescription errors also arise from missing patient constraints, unsupported doses, incomplete evidence, and failures to execute an intended order. Medicines reconciliation and review require an accurate medication history and patient-specific goals \citep{nice,who}; RxBench distinguishes fourteen prescription-review error categories \citep{rxbench}. Our experiments reveal that an improved development score can coexist with negative transfer, and that a retrieval tool can return almost no evidence on a differently phrased task. This motivates our central question: \textbf{How can a prescription agent convert accumulated case-level feedback into reusable improvements in medication selection and order completion, and how can we attribute those improvements to specific updates and verify their transfer beyond the cases used to select them?} We operationalize this question through three requirements: identify the updated object, compare feedback-driven learning with equal-data and matched-budget controls, and evaluate frozen versions on subsequent or held-out cases. Artifact changes and rising learning curves are insufficient evidence on their own.
 
-We introduce \textbf{RxRSIAgent}, a prescription harness that connects task-available patient context, candidate retrieval, medication selection, and order completion through explicit output contracts. Its persistent state separates selection parameters, executable memory, learned order tools, and language skills. Training-case predictions are compared with recorded prescriptions; the declared updater proposes changes, development checks select the active version, and both accepted and rejected artifacts retain their lineage. Different task adapters instantiate different components. We compare common-data methods, track checkpoints as experience grows, and intervene on one component while freezing the others. Own-error, uniform, and shuffled-feedback controls test whether aligned feedback adds value. RSI is the motivating hypothesis: the implemented update procedure is fixed, and we do not claim that the agent recursively redesigns its learning algorithm.
+We introduce \textbf{RxRSIAgent}, an evidence-grounded prescription agent with a persistent skill memory and explicit tool and output contracts. Its evaluated configuration combines a fixed language-model backbone, frozen drug-label retrieval, and the skill checkpoint selected on development cases. We retain one selected configuration in the method comparison. A scoped clinical-review layer maps prescribing concerns to required facts, tools, and unresolved checks. We distinguish its implemented structural checks from clinical rules that still require authoritative resources and outcome validation. The skill updater uses the credited GRASP author core; we do not claim a new optimizer or recursive redesign of the learning algorithm.
 
 Our contributions are:
 \begin{itemize}
-\item \textbf{A prescription-specific update framework.} We define runtime contracts and versioned memory, tool, skill, and parameter states, making the learned object and its role in a prescription decision explicit.
-\item \textbf{An empirical protocol for improvement attribution.} We provide a common MIMIC-IV medication-set development comparison and a completed eICU test on 8,005 stays from sixteen held-out hospitals, with three seeds, experience trajectories, matched-feedback controls, and frozen-component interventions.
-\item \textbf{Evidence about useful and unsuccessful updates.} Holding selected drugs fixed, the learned order tool raises joint-order F1 from 0.02334 to 0.02838, with improvement retained under an incomplete-output sensitivity analysis. We also identify non-unique memory gains, weaker own-error learning than uniform learning, and empty-output and position-dependence failures in local language-model updates. These findings delimit the supported improvement claim rather than establishing overall superiority.
+\item \textbf{A prescription-specific agent architecture.} We connect evidence retrieval, decision making, persistent skills, structured review, and output verification, with explicit boundaries between measured capabilities and newly implemented interfaces.
+\item \textbf{A traceable evaluation of the selected agent.} We report named method comparisons, matched component ablations, experience trajectories, and public case studies. Missing medical-agent comparisons remain visible, and recorded answers are distinguished from clinical correctness.
+\item \textbf{An actionable evidence-retrieval diagnosis.} On all 300 public RxQA questions, a revised mention-aware retriever increases the number receiving label excerpts from 1 to 214; 193 receive dosage-section excerpts. This is a retrieval-coverage result, not a claim of improved answer accuracy. A separate fixed-policy intervention also establishes useful order-tool learning.
 \end{itemize}
 
 \section{Related Work}
-\paragraph{Medication recommendation.}
-GAMENet combines longitudinal records with graph-augmented memory \citep{gamenet}. SafeDrug adds molecular representations and an explicit interaction objective \citep{safedrug}; ARMR distinguishes historical medication reuse from changing medication needs \citep{armr}. SafeRx-Agent combines clinical context, external knowledge, and verification for finer-grained medication sets \citep{saferx}. We compare available author cores under one local preprocessing protocol and identify adaptations explicitly. Their original published scores are not interchangeable with our local results.
+\paragraph{Medical agents.}
+MedAgents assembles domain experts and uses iterative discussion for medical reasoning \citep{medagents}; MDAgents selects a collaboration structure according to task complexity \citep{mdagents}. SafeRx-Agent focuses on medication recommendation with clinical knowledge and safety verification \citep{saferx}. These are distinct methods. MedAgentBench is an interactive evaluation environment, not a competing agent \citep{medagentbench}. GRASP provides the skill-learning optimizer reused by our implemented agent \citep{grasp}; its contribution is credited explicitly.
 
-\paragraph{Agent improvement and execution.}
-Self-Refine iterates feedback and revision within a generation task \citep{selfrefine}, while Reflexion retains linguistic feedback across trials \citep{reflexion}. GRASP updates a bounded skill library with regression-aware acceptance \citep{grasp}. These mechanisms motivate distinguishing inference-time revision, persistent experience, and parameter updates. MedAgentBench evaluates agents in a FHIR-based electronic-record environment \citep{medagentbench}; successful interaction is a different endpoint from matching a medication set. Our supplementary experiments adapt language-skill learning and execute actual FHIR actions, while keeping their scores separate from prescription agreement.
+\paragraph{Prescription tasks.}
+GAMENet, SafeDrug, and ARMR address structured medication-set prediction \citep{gamenet,safedrug,armr}. Their medication-code results cannot be placed in a question-answering accuracy column. RxSafeBench, RxQA, RxEval, Rx-LLM, and RxBench expose different prescription-related decisions and risks \citep{rxsafe,rxqa,rxeval,rxllm,rxbench}. Our public experiments use their declared local task adaptations. We do not equate a benchmark answer with an independently verified treatment recommendation.
 
 \section{RxRSIAgent}
-\subsection{Runtime and persistent state}
-At experience round $r$, the state is
-\begin{equation}
- S_r=(\theta_r,M_r,T_r,K_r),
-\end{equation}
-where $\theta$ denotes selection parameters, $M$ executable or episodic memory, $T$ learned order-tool state, and $K$ language skills. A task adapter specifies the available input $x$, candidate construction, output contract, and scoring function. The shared inference pattern is
-\begin{equation}
- \begin{aligned}
- C&=\mathcal{R}(x),\quad D=\pi_{\theta,M,K}(x,C),\\
- \widehat{Y}&=\mathcal{C}\bigl(T(x,D)\bigr),
- \end{aligned}
-\end{equation}
-where $\mathcal{R}$ obtains candidates, $D$ is the selected medication set, and $\mathcal{C}$ compiles the task's required representation. In the FHIR adapter, compilation is followed by execution and persisted-state readback.
+\subsection{One selected configuration}
+The measured agent consists of a fixed backbone, a frozen label corpus and retrieval profile, the selected persistent skill file, and a JSON answer contract. The backbone is DeepSeek-V4.1-Flash; each evaluation case receives one actor call with a 512-token output cap. The selected skill state is the best checkpoint in the saved validation record: 206/387 correct, compared with 190/387 before skill learning. Selection precedes this checkpoint's test evaluation. The benchmark itself had been inspected in earlier research, so the comparison remains exploratory.
 
-The adapters are explicit instantiations, not a claim that a single trained model solves every task. The ATC adapter predicts classes and does not produce doses. The order adapter completes observed templates. The local LLM selects supplied candidate templates. The public question adapter chooses an answer option. An agent's output contract determines what its score can establish.
+We call this configuration \textbf{RxRSIAgent} throughout the main table. The new clinical-review interfaces and revised retriever are implemented additions whose end-to-end accuracy has not yet been measured. They receive no retroactive credit for the selected agent's saved scores. Model weights remain frozen in the retained configuration; unsuccessful parameter-update prototypes are excluded from the method definition.
+
+\subsection{Architecture and decision flow}
+Figure~\ref{fig:workflow} shows the complete architecture and its evidence boundaries. Given a task context $x$, an evidence tool obtains $E(x)$ and the actor uses the persistent skill state $K$:
+\begin{equation}
+ \widehat y = C\bigl(\pi_{\theta}(x,E(x),K)\bigr),
+\end{equation}
+where $C$ checks the task's output representation. In the measured question task, $C$ validates a choice letter and JSON fields. For order drafts, the review layer tracks required fields and unresolved clinical domains. It does not convert structural completeness into a safety clearance.
 
 \begin{figure*}[t]
-\centering\small
-\begin{tabular}{c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c}
-\fbox{\parbox{3.0cm}{\centering Task-available patient state}} &
-\fbox{\parbox{3.0cm}{\centering Candidate retrieval\\and applicable memory}} &
-\fbox{\parbox{3.0cm}{\centering Selection policy\\$\theta_r,M_r,K_r$}} &
-\fbox{\parbox{3.0cm}{\centering Order tool $T_r$\\Compile; execute if required}}\\[1em]
-\fbox{\parbox{3.0cm}{\centering Training prediction\\and observed-label errors}} &
-\fbox{\parbox{3.0cm}{\centering Propose a typed update\\Record changed objects}} &
-\fbox{\parbox{3.0cm}{\centering Declared development\\selection and checks}} &
-\fbox{\parbox{3.0cm}{\centering Freeze active state\\Retain rejected versions}}
-\end{tabular}
-\caption{Prescription inference (top) and experience-driven updating (bottom). Each experiment declares which state components change. Test labels are used only for measurement. Fixed compiler repairs and numerical changes are recorded separately from learned updates.}
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+ box/.style={draw,rounded corners=2pt,align=center,text width=2.55cm,minimum height=1.05cm,font=\small},
+ newbox/.style={box,dashed},line/.style={->,semithick}]
+\node[box] (patient) at (0,0) {Patient context\\and task contract};
+\node[box] (evidence) at (3.2,0) {Label evidence\\source and section};
+\node[box] (actor) at (6.4,0) {RxRSIAgent\\fixed LLM + skills};
+\node[box] (format) at (9.6,0) {Output compiler\\and validation};
+\node[box] (answer) at (12.8,0) {Answer / draft\\with explicit scope};
+\draw[line] (patient)--(evidence);\draw[line] (evidence)--(actor);
+\draw[line] (actor)--(format);\draw[line] (format)--(answer);
+\node[newbox] (registry) at (3.2,-2) {18 review domains\\facts + required tools};
+\node[newbox] (review) at (9.6,-2) {Structured review\\unresolved checks};
+\draw[line,dashed] (registry)--node[above,font=\scriptsize]{source-bound requirements}(review);
+\draw[line,dashed] (actor.south)--(review.north west);
+\draw[line,dashed] (review.north)--(format.south);
+\node[box] (feedback) at (0,-4) {Training cases\\prediction vs. labels};
+\node[box] (proposal) at (3.2,-4) {Skill proposal\\credited GRASP core};
+\node[box] (gate) at (6.4,-4) {Development checks\\select checkpoint};
+\node[box] (memory) at (9.6,-4) {Frozen skill memory\\scope and provenance};
+\node[box] (evaluation) at (12.8,-4) {Held-out evaluation\\never update feedback};
+\draw[line] (feedback)--(proposal);\draw[line] (proposal)--(gate);
+\draw[line] (gate)--(memory);\draw[line] (memory)--(evaluation);
+\draw[line] (memory.north)--(9.6,-2.95)--(6.4,-2.95)--(actor.south);
+\node[font=\scriptsize,fill=white] at (7.9,-2.95) {reuse selected experience};
+\end{tikzpicture}
+\caption{RxRSIAgent architecture. Solid boxes describe the evaluated option-selection core and its learning/evaluation lifecycle. Dashed boxes are the newly implemented clinical-review interfaces; the main-table scores do not include them. Revised mention-aware retrieval is audited separately. The order-draft interface does not execute real clinical writes.}
 \label{fig:workflow}
 \end{figure*}
 
-\subsection{Update lineage and selection}
-For a newly encountered training block $B_r$, we retain pre-update predictions and compare them with recorded labels. The updater produces a candidate state $\widetilde S_r$ from the existing state and its declared feedback. A study-specific development rule chooses an active state. We save the parent state, case membership, feedback, changed artifact hashes, selection scores, and accept/reject decision. Both raw and active checkpoints remain available.
+\subsection{Evidence tools and clinical review}
+The evaluated retriever searches a frozen openFDA label snapshot and returns source-tagged contiguous excerpts. It assumes that each option is a drug name and omits the dosage section. This works poorly when options are full treatment statements. The revised tool instead finds exact normalized aliases from source generic/brand-name fields in both the question and options, and permits dosage-section excerpts. It preserves label identity, section, date, offset, and corpus hash. Product/formulation applicability is still unresolved: recognizing an ingredient is not sufficient to validate its route or dose.
 
-Selection has different roles across experiments. The order study selects a threshold on proposal data, then uses a separate development guard to accept a bundle. The rule study verifies individual edits on training witnesses and uses its guard only for reporting. The local LLM study selects checkpoints on proposal data before any report-only guard evaluation. Reusing development patients across rounds is disclosed; these resources are not repeatedly described as fresh independent tests.
+The review layer organizes eighteen concerns spanning patient context, treatment purpose, medication reconciliation, allergy, interactions, renal/hepatic function, special populations, dose and units, formulation/route, schedule, IV preparation, adjunct purpose, duplication, monitoring, feasibility, evidence, and execution. These concerns are informed by medicines-optimization guidance and prescribing benchmarks \citep{nice,who,rxbench,rxllm}. Each interface declares required facts, a procedure, tool dependencies, source references, and an unknown-state policy.
 
-\subsection{Executable rule memory}
-The medication-set instantiation refits a shared logistic policy on nested fractions of training patients. Three patient-disjoint cross-fitting folds generate prediction errors for rule induction. A memory rule tests an observed input feature and a near-threshold probability band, then adds or removes one medication class. It cannot inspect the current prescription label at inference.
+Implemented deterministic checks detect missing fields, invalid numeric doses, repeated supplied ingredient identifiers, exact recorded ingredient-allergy matches, adjuncts without a linked purpose, and missing IV preparation/rate evidence. An empty draft requires an explicit justification rather than receiving a structural pass. These are structural checks. Clinical interaction resolution, renal-dose calculation, formulation compatibility, and patient-specific treatment selection require external validated rules and are not reported as solved. Twelve automated contract tests cover representative failure and unknown-state paths, including delivery of the hash-verified selected skill to the actor; they are software checks, not clinical accuracy measurements.
 
-Candidate induction considers at most 128 frequent features, requires support from at least 30 visits and 20 patients, and retains up to 24 beneficial candidates. Actions are restricted to probabilities within 0.15 of the shared threshold. The language agent receives aggregate descriptors and error changes, selects at most four edits per round, and retains at most twenty rules. Individual patient records never enter these API requests.
+\subsection{Persistent experience and updates}
+The evaluated learner uses the unmodified GRASP author core over 625 training questions in four batches. It proposes bounded language-skill edits from training feedback, tests candidates on balanced training probes, and retains a validation-selected checkpoint. The final skill describes indication matching and patient-triggered cautions. It is a model-authored heuristic, not authoritative prescribing guidance. The frozen state is identified by a content hash.
 
-A fixed 20\% of seen training patients supplies witness checks: an edit must affect at least five witness patients, improve patient-average F1, and not reduce Jaccard. Controls use the same shared policy and candidate mechanism: no rules, greedy selection, random selection, shuffled numeric evidence, and the agent's matched proposals with the witness gate removed. The last control is an intervention on the same proposals, not an independently relearned trajectory. Cross-fitting prevents a target from fitting its own predictor, but witness reuse and shared fitting resources do not constitute fully isolated confirmation.
+The implementation records raw and retained states and the cases used to propose and evaluate changes. New memory-entry contracts require task scope, source hashes, a trigger, an action, and counterexamples; they reject test-derived entries and claims of clinical authority. These contracts are engineering additions, not a new learning algorithm. RSI denotes the research goal of improving with experience; the present updater does not recursively rewrite itself.
 
-\subsection{Policy and order-tool learning}
-The eICU instantiation uses logistic SGD policies and learned joint-order templates. Three arms see identical cases in the same order with the same sixty classifier epochs: uniform learning, own-error priorities, and shuffled priorities. For a newly encountered case $i$, feedback weight is
-\begin{equation}
- w_i=1+3\bigl(1-F_1(\widehat D_i,D_i^{\mathrm{reachable}})\bigr).
-\end{equation}
-Weights are computed before using that block's targets for fitting, retained for earlier cases, and normalized to cumulative mean one. The shuffled arm preserves the new-block weight distribution while breaking its alignment with cases. Empty prediction and empty reachable target have quality one for this feedback calculation; evaluation still retains unreachable targets.
-
-The order tool learns global tuple defaults and conditional classifiers over supported observed tuples. It changes order fields without inventing unobserved doses or interpreting ambiguous units. All three arms share the fitted tool within a seed and round; rejected bundles retain their earlier policy and tool. Component interventions freeze the initial tool under the selected policy, or freeze the initial policy under the final tool. Thus drug-selection gains, order-tool gains, and error-priority effects can be measured separately.
-
-\section{Experimental Protocol}
-\subsection{Tasks and data}
-Table~\ref{tab:data} summarizes the primary experiments. MIMIC-IV and eICU require credentialed access \citep{mimiciv,eicu}. Patient records, predictions, learned weights, and cached hidden states remain local.
+\section{Experimental Setup}
+\subsection{Data and selection}
+Table~\ref{tab:data} fixes the task boundaries. RxSafeBench's 2,443 source records yield 2,000 distinct local cases after exact task/dialogue/correct-drug deduplication. They are adapted to three-option selection and split into 625 training, 387 development, and 988 evaluation cases. The task differs from the original free-generation benchmark. RxQA uses all 300 released OpenFDA questions; its licensed BNF component is unavailable. No RxQA answer selects the retained skill.
 
 \begin{table*}[t]\centering\small
-\caption{Task boundaries. ``Proposal'' selects development settings; ``guard'' has the study-specific role stated in the text. Counts describe the local cohorts, not the complete source databases.}
+\caption{Evaluation scope. Datasets and metrics are not pooled. New retrieval coverage is measured without rerunning an actor.}
 \label{tab:data}
-\begin{tabularx}{\textwidth}{@{}p{2.1cm}p{4.0cm}X@{}}\toprule
-Experiment & Input and target & Partition and evaluation status\\\midrule
-MIMIC-IV 3.1 & Completed-visit diagnoses/procedures and history $\rightarrow$ ATC-L4 medication set & 18,429 train / 1,095 proposal / 1,231 guard visits. Main comparison here is guard development evidence; reserved test is not reported.\\
-eICU & Recorded early medications/labs at ICU hour six $\rightarrow$ new orders in hours six--twelve & 40,000 train / 2,000 proposal / 2,000 guard / 8,005 test stays; hospitals and patients separated. Completed held-out-hospital test.\\
-Local LLM & Retrospective admission context and twenty candidate templates $\rightarrow$ selection mask & Three 600-case feedback blocks; 100 proposal and 200 report-only guard admissions. Current diagnostics use proposal only.\\
-Public supplements & Medication questions or FHIR tasks $\rightarrow$ options or executed actions & Dataset-specific splits; no pooling with medication or order F1. Details in Appendix~\ref{app:public}.\\
+\begin{tabularx}{\textwidth}{@{}p{2.4cm}p{3.9cm}X@{}}\toprule
+Resource & Task / metric & Local scope\\\midrule
+RxSafeBench & Derived option selection / accuracy & 625 train, 387 development, 988 evaluation; historically observed, exploratory.\\
+RxQA OpenFDA & Original option selection / accuracy & All 300 public questions; transfer of frozen skills.\\
+eICU & Recorded orders / exact joint-order F1 & Separate order-tool component study; 8,005 stays from sixteen held-out hospitals.\\
+Clinical review contracts & Structural detection / software checks & Synthetic contract tests only; no clinical-safety benchmark score.\\
 \bottomrule\end{tabularx}\end{table*}
 
-\paragraph{Common medication space.}
-The MIMIC cohort contains 8,905 patients and 23,177 visits, with training/proposal/guard/reserved-test patient counts of 7,115/433/467/890. We use exact unambiguous NDC mapping to five-character ATC-L4 classes. The bridge covers 27.23\% of source prescription rows. Training defines 271 medication classes; the molecular-compatible panel contains 219. Its restriction removes 52 classes lacking required molecular coverage and changes the target task. Inputs include completed-visit diagnoses and procedures, so this is a retrospective task rather than a prospective admission-time prescription claim. Historical research exposure also makes this panel exploratory. Reserved-test scores remain unreported.
+\subsection{Named methods and controls}
+Table~\ref{tab:main} names external agents explicitly. GRASP is an executed task adaptation of its author core with the same backbone and one-call inference cap, without our label evidence. MedAgents, MDAgents, and SafeRx-Agent are relevant comparators, but have not been executed under this local protocol. We leave their entries unmeasured instead of transplanting scores from other datasets. A full superiority claim requires these missing same-data comparisons and an explicit allocation of their multi-call budgets.
 
-\paragraph{External orders.}
-The eICU test has 6,227 patients in sixteen hospitals and includes 3,842 stays with no target orders. We train within eICU and test on unseen hospitals; this is not zero-shot transfer of a MIMIC model. Inputs include age decade, gender, early medications, and finite laboratory measurements with draw and revision timestamps before the decision. Medication storage clocks and full field histories are unavailable. Stays with any target lacking a valid HICL code are excluded before fixed sampling, creating a retrospective completeness selection. The order tuple is HICL, route, dosage string, and frequency string; normalization does not infer absent units.
-
-\subsection{Comparators, budgets, and metrics}
-The common panel includes prevalence, prior-visit reuse, case retrieval, logistic regression, and adapted author cores for GAMENet, SafeDrug, and ARMR. Author methods use fifty epochs and proposal-based checkpoint/threshold selection. Thirteen of fifteen registered author runs are complete at this snapshot; molecular ARMR has one completed seed. We do not infer results for unfinished seeds. SafeDrug is evaluated in the molecular panel. Training and search budgets differ across method families and are disclosed, while the feedback comparisons match their specified cases and update budgets.
-
-For medication sets, we report F1 and Jaccard averaged first over visits within a patient and then over patients. For orders, drug and joint-order F1 are micro scores aggregated from set counts. Let $P_i^c$ and $G_i^c$ denote complete predicted and reference tuples. The registered joint score is
-\begin{equation}
- F_{\mathrm{joint}}=\frac{2\sum_i|P_i^c\cap G_i^c|}
- {\sum_i|P_i^c|+\sum_i|G_i^c|}.
-\end{equation}
-We also report completion coverage. A post-test sensitivity score replaces $|P_i^c|$ in the denominator with all distinct emitted tuples $|P_i|$; missing reference fields remain unscorable. This sensitivity analysis preserves the original predictions and primary results. All medication recall denominators retain out-of-vocabulary targets.
-
-Seed standard deviations describe completed runs. Paired patient intervals, and hospital intervals for eICU, use within-study resampling protocols. They are descriptive, without multiplicity correction; they do not represent uncertainty over an unseen population of training seeds. Independent checks reconstruct saved selections, scores, and relevant update decisions. Their scope does not imply replaying every optimizer step or every model forward pass.
+Component controls use the same question identities: chain-of-thought with no evidence/learned skills, GRASP skills without evidence, label evidence without learned skills, and RxRSIAgent with both. Accuracy counts invalid received answers as incorrect; failed transport requests do not become model errors. Paired scenario intervals for RxSafeBench and item intervals for RxQA use 4,000 resamples without multiplicity adjustment. They are exploratory.
 
 \section{Results}
-\subsection{Common-data method comparison}
-Table~\ref{tab:main} compares methods within each medication space. Rule memory yields 0.61260 F1 in the full space, compared with 0.61151 for the shared policy and 0.61267 for greedy rules. In the molecular space, own-error memory reaches 0.58198, below greedy rules and shuffled evidence. Its full-space difference from ARMR is approximately 0.00396, with paired patient interval $[-0.00075,0.00870]$. These results establish neither a reliable advantage over the strongest comparator nor a unique benefit from language-agent rule selection.
-
+\subsection{Main agent comparison}
 \begin{table*}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
-\caption{Common MIMIC-IV development comparison on the same 1,231 visits/467 patients. Full and molecular panels have different target spaces. Values are patient-average F1; $\pm$ denotes completed-seed SD. Author cores use declared local adaptations. $\dagger$: molecular ARMR has one completed seed; two remain unfinished. These are not final-test results.}
+\caption{Main named-agent comparison: accuracy (\%). Measured rows use the same DeepSeek backbone, one 512-token actor call, and identical questions. A dash means not executed under this protocol, not zero. The medical-agent comparison is incomplete; original-paper scores are not substituted.}
 \label{tab:main}
+\begin{tabular}{@{}llrr@{}}\toprule
+Method & Main mechanism & RxSafeBench (988) & RxQA (300)\\\midrule
+MedAgents \citep{medagents} & Expert discussion & -- & -- \\
+MDAgents \citep{mdagents} & Adaptive collaboration & -- & -- \\
+SafeRx-Agent \citep{saferx} & Medication knowledge / verification & -- & -- \\
+GRASP \citep{grasp} & Author-core task adaptation & 50.81 & 63.00\\
+\textbf{RxRSIAgent (ours)} & Evidence + selected skill memory & 50.71 & 61.00\\
+\bottomrule\end{tabular}
+\end{table*}
+RxRSIAgent scores 501/988 on RxSafeBench and 183/300 on RxQA. GRASP answers one more RxSafeBench question and six more RxQA questions correctly. The current evidence therefore does not establish a method advantage. MedAgents, MDAgents, and SafeRx-Agent remain missing comparisons, not unsuccessful baselines.
+
+\subsection{Component ablations}
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Component ablations of the selected agent. Accuracy (\%); the same backbone, cases and inference cap apply. Component controls are not new paper methods.}
+\label{tab:ablation}
+\begin{tabular}{@{}lrr@{}}\toprule
+Configuration & RxSafeBench & RxQA\\\midrule
+No evidence or learned skills (CoT) & 47.27 & 64.33\\
+Without evidence (GRASP skills) & 50.81 & 63.00\\
+Without learned skills (fixed grounding) & 50.51 & 62.67\\
+\textbf{RxRSIAgent} & 50.71 & 61.00\\
+\bottomrule\end{tabular}
+\end{table*}
+Adding selected skills to fixed grounding fixes 83 RxSafeBench answers and regresses 81, a net gain of two. The paired difference is 0.20 percentage points with interval $[-2.43,2.73]$. On RxQA it fixes 19 and regresses 24, losing five answers. The combination is not reliably better than its components. ``Without skills'' and ``without evidence'' are ablations of the retained method, not separate claimed algorithms.
+
+\subsection{Experience trajectory}
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Frozen learning checkpoints of the retained skill-learning algorithm; descriptive evaluation on the same questions. Round zero is fixed grounding. These are experience rounds, not competing historical versions.}
+\label{tab:trajectory}
+\begin{tabular}{@{}rrrr@{}}\toprule
+Round & Training cases seen & RxSafeBench correct & RxQA correct\\\midrule
+0 & 0 & 499/988 & 188/300\\
+1 & 157 & 499/988 & 188/300\\
+2 & 314 & 475/988 & 175/300\\
+3 & 471 & 493/988 & 175/300\\
+4 & 625 & 501/988 & 183/300\\
+\bottomrule\end{tabular}
+\end{table*}
+These checkpoints describe learning rounds within the same algorithm, not historical manuscript versions. The first batch adds no accepted skill; later batches add and modify one persistent procedure. The trajectory is non-monotonic and transfer regresses. Validation improvement from 190/387 to 206/387 does not establish performance improvement on new questions.
+
+\subsection{Order-tool component evidence}
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Auxiliary order-tool experiment on 8,005 eICU test stays. Three-seed means; this is component evidence, not an end-to-end RxRSIAgent comparison. The first two rows hold medication selection fixed.}
+\label{tab:order}
 \begin{tabular}{@{}lrrr@{}}\toprule
-Method & Runs full/mol. & Full 271-class F1 & Molecular 219-class F1\\\midrule
-Training prevalence & 1/1 & 0.45794 & 0.42555\\
-Previous-visit reuse & 1/1 & 0.30154 & 0.28971\\
-Case retrieval & 1/1 & 0.55081 & 0.51751\\
-Structured logistic regression & 1/1 & 0.61151 & 0.58113\\
-ARMR author core & 3/1$^{\dagger}$ & 0.60864 $\pm$ 0.00132 & 0.58477\\
-GAMENet author core & 3/3 & 0.52708 $\pm$ 0.00664 & 0.50735 $\pm$ 0.00350\\
-SafeDrug author core & --/3 & -- & 0.53689 $\pm$ 0.00244\\
-Shared policy / no rule updates & 3/3 & 0.61151 $\pm$ 0.00000 & 0.58113 $\pm$ 0.00000\\
-Greedy error rules & 3/3 & 0.61267 $\pm$ 0.00066 & 0.58230 $\pm$ 0.00042\\
-Random candidate rules & 3/3 & 0.61205 $\pm$ 0.00031 & 0.58220 $\pm$ 0.00055\\
-\textbf{RxRSIAgent: own-error memory} & 3/3 & 0.61260 $\pm$ 0.00057 & 0.58198 $\pm$ 0.00014\\
-Shuffled-evidence memory & 3/3 & 0.61219 $\pm$ 0.00038 & 0.58255 $\pm$ 0.00029\\
-Same proposals / no witness gate & 3/3 & 0.61251 $\pm$ 0.00087 & 0.58202 $\pm$ 0.00067\\
+Component configuration & Drug F1 & Joint-order F1 & Complete (\%)\\\midrule
+Fixed selected policy + initial order tool & 0.11306 & 0.02334 & 53.67\\
+Same policy + learned order tool & 0.11306 & 0.02838 & 51.13\\
+Ordinary supervised update control & 0.11825 & 0.02993 & 50.81\\
 \bottomrule\end{tabular}
-
 \end{table*}
+This auxiliary experiment isolates order completion on eICU \citep{eicu} and is not an end-to-end RxRSIAgent score. A structured selector supplies identical drug sets while initial versus learned tools choose observed route/dosage/frequency tuples. The three-seed joint-order F1 increase persists when incomplete predictions enter the denominator: 0.01770 to 0.02114. Completeness decreases from 53.67\% to 51.13\%, so exact matching and field coverage must be reported together. The study supports conditional order-tool learning; it does not prove clinical dose correctness or a benefit from language-agent feedback.
 
-The rule operators and their effects are inspectable, but inspectability is not clinical validity. They encode statistical co-prescription corrections. In particular, their scores do not show that the agent acquired human-like prescribing rationale. A later isolated-witness program study also fails to outperform its calibrated ordinary control consistently (Appendix~\ref{app:memory}).
-
-\subsection{External-hospital method comparison}
-Table~\ref{tab:eicu} contains all thirteen completed method/configuration rows. Full-data uniform learning has the highest drug and joint-order F1 point estimates in this table. Among matched sequential arms, own-error priorities score 0.11306/0.02838 versus uniform updates at 0.11825/0.02993. Their mean difference is $-0.00519/-0.00155$. Shuffling the priorities does not produce a consistent disadvantage relative to using the aligned error values.
+\section{Case Studies and Tool Diagnosis}
+\subsection{Observed answers on public questions}
+We choose the first lexicographic public question ID in each fixed-grounding-to-agent fix/regression group. This is a post hoc illustrative selection, not a representative sample or a source of new skills. Case identities, answer changes, source hashes, and the selection rule are retained. We report output behavior rather than inventing hidden reasoning.
 
 \begin{table*}[t]\centering\small
-\setlength{\tabcolsep}{4pt}
-\caption{External eICU hospital test: 8,005 stays, 6,227 patients, sixteen hospitals. Three-seed means and SD; the primary joint score uses complete tuples, with output coverage reported. Ordinary full-data learning has the highest F1 point estimates.}
-\label{tab:eicu}
-\begin{tabular}{@{}lrrr@{}}\toprule
-Method / configuration & Drug F1 & Joint-order F1 & Complete outputs (\%)\\\midrule
-Initial 8k state & 0.09894 $\pm$ 0.00299 & 0.02082 $\pm$ 0.00090 & 58.01 \\
-Prevalence + global orders & 0.07082 $\pm$ 0.00000 & 0.00000 $\pm$ 0.00000 & 0.00 \\
-Reuse prior orders & 0.06108 $\pm$ 0.00000 & 0.01544 $\pm$ 0.00000 & 78.58 \\
-Case retrieval + conditional tool & 0.09501 $\pm$ 0.00000 & 0.02460 $\pm$ 0.00034 & 54.90 \\
-Word policy + global orders & 0.10668 $\pm$ 0.00092 & 0.00934 $\pm$ 0.00046 & 57.48 \\
-Word policy + conditional tool & 0.10668 $\pm$ 0.00092 & 0.02826 $\pm$ 0.00039 & 48.57 \\
-Word/character ensemble & 0.10736 $\pm$ 0.00063 & 0.02847 $\pm$ 0.00014 & 48.19 \\
-Full-data uniform learning & 0.11956 $\pm$ 0.00075 & 0.03087 $\pm$ 0.00020 & 49.59 \\
-Uniform round updates & 0.11825 $\pm$ 0.00163 & 0.02993 $\pm$ 0.00129 & 50.81 \\
-\textbf{Own-error round updates} & 0.11306 $\pm$ 0.00271 & 0.02838 $\pm$ 0.00155 & 51.13 \\
-Shuffled priorities & 0.11474 $\pm$ 0.00340 & 0.02799 $\pm$ 0.00146 & 50.85 \\
-Own-error policy + initial tool & 0.11306 $\pm$ 0.00271 & 0.02334 $\pm$ 0.00043 & 53.67 \\
-Initial policy + final tool & 0.09894 $\pm$ 0.00299 & 0.02491 $\pm$ 0.00092 & 55.60 \\
-\bottomrule\end{tabular}
+\caption{Two public RxQA cases from saved predictions. Summaries are paraphrases; correctness means agreement with the dataset's answer. No treatment recommendation is issued.}
+\label{tab:cases}
+\begin{tabularx}{\textwidth}{@{}p{2.1cm}XX@{}}\toprule
+Case & Observed behavior & Interpretation and required tool\\\midrule
+104: fix & A pregnancy-related dicyclomine/IBS question. Fixed grounding chooses C (substitution); RxRSIAgent chooses B (counseling and a lower starting regimen), matching the dataset. & The answer changes correctly under the dataset label. Both original runs receive zero label excerpts; this does not establish successful evidence use or the clinical validity of the choice.\\
+10: regression & A cyanocobalamin nasal-spray question. Fixed grounding chooses the weekly option C; RxRSIAgent chooses daily option A. The dataset expects C. & Frequency changes despite a correct baseline answer. The frozen label corpus still has no recognized label for this case after repair; dose/schedule reasoning remains unsupported.\\
+\bottomrule\end{tabularx}\end{table*}
 
-\end{table*}
-
-\subsection{Experience growth and component attribution}
-Table~\ref{tab:growth} evaluates the same held-out hospitals at each frozen active checkpoint. All arms improve substantially over the initial 8k-case state. This supports a learning-with-experience observation, but own-error updates remain below uniform updates. Active-state scores can regress at a later checkpoint because acceptance used development data. Raw final states also retain this ordering: uniform 0.11956/0.03087, own-error 0.11355/0.02906, and shuffled 0.11499/0.02937.
-
+\subsection{Retrieval failure and implemented repair}
 \begin{table*}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
-\caption{Frozen active-state trajectories on the same eICU test. Cells are drug/joint-order F1 averaged across three seeds. The horizontal axis counts encountered cases; rejected updates can retain earlier parameters and tools.}
-\label{tab:growth}
-\begin{tabular}{@{}rrrrr@{}}\toprule
-Round & Cases & Uniform & Own-error & Shuffled\\\midrule
-0 & 8,000 & 0.09894/0.02082 & 0.09894/0.02082 & 0.09894/0.02082\\
-1 & 16,000 & 0.10916/0.02540 & 0.10184/0.02305 & 0.10438/0.02358\\
-2 & 24,000 & 0.11597/0.02873 & 0.11000/0.02673 & 0.11237/0.02697\\
-3 & 32,000 & 0.11644/0.02853 & 0.11188/0.02815 & 0.11413/0.02811\\
-4 & 40,000 & 0.11825/0.02993 & 0.11306/0.02838 & 0.11474/0.02799\\
+\caption{Actual retrieval-only audit on all 300 public RxQA questions using the same frozen label corpus. Counts indicate excerpt availability, not verified relevance or clinical correctness. No answer scores are recomputed.}
+\label{tab:coverage}
+\begin{tabular}{@{}lrr@{}}\toprule
+Retriever & Any excerpt /300 & Dosage excerpt /300\\\midrule
+Original option-name tool & 1 & 0\\
+Revised mention-aware tool & 214 & 193\\
 \bottomrule\end{tabular}
-
 \end{table*}
+The original tool resolves options as exact drug names. RxQA commonly expresses complete actions or dosage statements, so this lookup returns any excerpt for only 1/300 questions. It also explicitly excludes dosage sections. The repaired retriever searches source aliases in question and option text and includes dosage material. On the same snapshot it returns excerpts for 214/300 questions, including dosage excerpts for 193. An independent source-span recount verifies all 1,666 returned excerpts against their original label paragraphs and offsets. Question 104 gains eight excerpts, while question 10 still receives none. This exposes both a fixable interface mismatch and a remaining corpus gap.
 
-The tool intervention gives a more specific positive result. Keeping the selected own-error policy and its drug sets fixed, the updated tool improves joint-order F1 from 0.02334 to 0.02838. All six per-seed patient/hospital intervals have positive lower bounds. With all emitted tuples in the denominator, the corresponding scores are 0.01770 and 0.02114. The latter analysis independently recounts all 129 frozen states. However, complete-output coverage falls from 53.67\% to 51.13\%: improved exact matches do not imply more complete outputs. This result supports learned order completion, not superiority of the entire feedback-driven agent.
-
-\section{Diagnosing Language-Model Updates}
-\subsection{Empty selections and prefix mismatch}
-The local parameter experiment uses a four-bit Qwen3-4B backbone with rank-eight adapters, fixed retrieval candidates, and observed order templates. Four arms cross ordinary versus error-based sampling with ranked or permuted candidate presentations. Each update uses 400 samples and 100 steps. The registered schedule contains three seeds and three rounds; 9 updates are complete, so this remains a partial development study.
-
-Eight of the nine completed updates produce empty selections on all 100 proposal admissions in both presentation views and are rejected by the checkpoint-selection rule. Ranked ordinary training improves its first ranked-view checkpoint to drug/order F1 of 0.23301/0.14815, but scores only 0.10800/0.06960 after permutation; its second update collapses. Complete generated JSON therefore need not encode useful decisions. Appendix~\ref{app:parameters} retains every completed update.
-
-A controlled one-round repair holds 400 training admissions and 100 steps fixed while crossing teacher versus all-zero answer prefixes with uniform versus class-balanced binary loss. Four fits complete. Class balancing reduces empty outputs under a fixed 0.5 threshold, but proposal calibration often selects nearly all twenty candidates. In particular, the zero-prefix balanced state selects 20.00/19.91 drugs on average across ranked/permuted views. Apparent nonempty output invariance in this regime does not demonstrate discrimination.
-
-\subsection{Numerical precision versus decision binding}
-To separate ranking from selection count, every state selects exactly eight candidates, with label-independent drug-identity tie breaking. We then compare three readouts of the same frozen hidden states: the native quantized output projection, an FP32 two-token projection reconstructed from the same stored four-bit parameters, and that FP32 output re-rounded to BF16. FP32 versus re-rounded output isolates final-logit rounding within the dense path; native versus FP32 also changes projection arithmetic.
-
-\begin{table*}[t]\centering\small
-\setlength{\tabcolsep}{4pt}
-\caption{Fixed-eight numerical diagnosis on 100 proposal admissions/97 patients. Drug/core-order F1 is shown under the primary drug-identity-hash tie rule. All readouts share frozen hidden states. This one-seed post-proposal analysis makes no new selection.}
-\label{tab:precision}
-\begin{tabular}{@{}lrrrr@{}}\toprule
-& \multicolumn{2}{c}{Ranked candidates} & \multicolumn{2}{c}{Permuted candidates}\\\cmidrule(lr){2-3}\cmidrule(lr){4-5} State & Native & FP32 & Native & FP32\\\midrule
-Frozen base & 0.2710/0.1811 & 0.2696/0.1798 & 0.2146/0.1449 & 0.2146/0.1449\\
-Original failed adapter & 0.2857/0.1940 & 0.2857/0.1940 & 0.2093/0.1410 & 0.2093/0.1410\\
-Teacher / uniform & 0.2871/0.1940 & 0.2884/0.1953 & 0.2039/0.1371 & 0.2039/0.1358\\
-Zero / uniform & 0.2388/0.1617 & 0.2401/0.1565 & 0.2388/0.1604 & 0.2066/0.1281\\
-Teacher / balanced & 0.2844/0.1940 & 0.2857/0.1940 & 0.2052/0.1384 & 0.2025/0.1358\\
-Zero / balanced & 0.2240/0.1488 & 0.2240/0.1501 & 0.2025/0.1462 & 0.1878/0.1281\\
-Retrieval top-eight & 0.2871/0.2018 & 0.2871/0.2018 & 0.2871/0.2018 & 0.2871/0.2018\\
-\bottomrule\end{tabular}
-
-\end{table*}
-
-The full 1,200-case-forward comparison is independently checked against saved hidden states, directly extracted output rows, all selections, and paired metrics. Native replay exactly matches the parent probabilities. FP32 removes every selection-boundary tie, but exact top-eight set agreement after candidate permutation remains 0\% for all six neural states. Display-slot rank correlation remains larger than drug-identity-aligned correlation.
-
-Teacher-prefix/uniform loss has the only FP32 ranked drug-F1 point estimate above retrieval: 0.28840 versus 0.28706. The paired difference is $+0.00134$ with interval $[-0.01058,0.01313]$, and joint-order F1 remains lower, 0.19534 versus 0.20181. Every permuted configuration is below retrieval in both endpoints. For zero-prefix/uniform loss, FP32 actually reduces permuted drug F1 from 0.23877 to 0.20657. Thus eliminating numerical ties does not repair the decision representation. This post-proposal diagnostic neither selects a new model nor constitutes learned RSI.
+Coverage is not retrieval relevance or answer accuracy. Exact mention matching can retrieve a label for a different formulation, and many retrieved ingredients may be contextual rather than treatment candidates. We do not use the repaired retriever's coverage to replace the frozen agent's main scores. A new end-to-end comparison and relevance/applicability audit are required.
 
 \section{Discussion}
-Three distinctions explain the results. First, \emph{artifact change} is necessary for a claim about learning, but a new hash or a larger memory is not evidence of benefit. Second, \emph{component utility} can be positive while the complete system loses to a simpler method: the order-tool intervention is such a case. Third, \emph{feedback-specific improvement} requires comparison with ordinary learning and aligned-versus-shuffled feedback. Our current evidence does not support that stronger claim.
+The current architecture offers concrete locations for addressing prescribing failures: source lookup for evidence gaps, structured fields for dose/schedule omissions, explicit patient facts for contraindication review, and scoped memory for reusable procedures. Adding a named skill is not evidence that the associated clinical problem is solved. Our interface inventory makes unresolved checks visible instead of converting absent evidence into a pass.
 
-These distinctions also guide interpretation of supplementary language-skill experiments. A skill can improve in-domain task completion while harming transfer, and engineering repairs can improve an answer contract without changing what the model learned. The next architectural hypothesis suggested by the local failure analysis is explicit binding of each medication to its decision. It remains untested here. We do not attribute future improvements to a mechanism before running its matched controls.
+The central empirical distinction is between a selected artifact, a useful component, and an improved complete agent. The selected skill changes behavior but fails to improve transfer. The order tool has a measurable component benefit. The new retriever repairs an observed coverage defect without yet establishing improved decisions. These findings guide the next complete agent evaluation without claiming that every prescribing risk has been addressed.
 
 \section{Conclusion}
-RxRSIAgent makes prescription-agent updates explicit and evaluates their consequences under task-specific protocols. Completed experiments show useful order-tool learning, small non-unique rule-memory gains, and failure modes in parameter and language-skill updates. Increasing experience improves several trajectories, yet error-driven updates do not consistently outperform ordinary learning. A defensible account of prescription-agent evolution therefore requires common-data comparators, frozen-state trajectories, component interventions, and retained regressions. The current results support these evaluation practices and the order-tool contribution, while leaving overall superiority and feedback-specific RSI unproven.
+RxRSIAgent combines a fixed language model, drug-label evidence, and development-selected persistent skills within explicit prescription interfaces. The retained agent and its ablations expose limited generalization of learned skills. Traceable public cases identify an evidence-interface failure, and a repaired retriever substantially improves excerpt availability. The architecture also specifies clinical-review dependencies and unknown-state behavior. Broad medical-agent superiority and end-to-end clinical utility remain to be demonstrated.
 
 \section*{Limitations}
-\paragraph{Exploratory and incomplete evidence.}
-The MIMIC main table is development evidence, with historical cohort exposure; its reserved test is not reported. Molecular ARMR has only one completed seed, and the parameter study is incomplete. The later program, numerical, and public-benchmark interventions were motivated by earlier observations and are explicitly exploratory. Reusing development or previously inspected benchmark cases can overfit researcher choices. The eICU hospital test supplies a stronger transport setting, but the denominator sensitivity analysis was specified after its primary results.
-
-\paragraph{Targets and availability.}
-Mapped medication labels cover a limited fraction of source prescriptions. Molecular filtering changes the target space. The MIMIC visit task uses completed-visit information; the local LLM task is an admission proxy. Even the eICU six-hour task lacks complete storage-time histories. Neither observed-order agreement nor a low known-graph interaction rate establishes safe prescribing. Recorded prescriptions are imperfect behavioral labels; alternative appropriate orders, contraindications, renal adjustment, clinical indications, and patient outcomes are not comprehensively assessed. No clinician-rated outcomes are reported.
-
-\paragraph{Scope of improvement.}
-The eICU updater is supervised and uses no language model. The rule agent chooses typed corrections; it does not autonomously rewrite its optimizer. The LLM selects existing templates rather than generating clinically validated doses. Separate adapters and medication spaces cannot be pooled into a universal agent score. Budget matching applies to specified causal contrasts, not to every baseline family. Three seeds and descriptive resampling intervals do not resolve all statistical uncertainty.
+The main comparison is exploratory and lacks matched MedAgents, MDAgents, and SafeRx-Agent runs. The retained configuration has one skill-learning seed and a fixed backbone. Benchmark answer agreement is not clinical correctness; public questions and reference prescriptions can be incomplete or imperfect. The revised retriever and new clinical-review layer have no end-to-end agent accuracy estimate. Their label corpus lacks some drugs, and exact matching does not resolve product applicability. The eICU component study has limited temporal availability and native-code targets; it is not interchangeable with RxQA or ATC-based evaluation. No universal risk-coverage, autonomous optimizer redesign, prospective clinical outcome, or overall superiority claim is supported.
 
 \section*{Ethics and Reproducibility}
-This work evaluates research systems offline. Ground-truth agreement can be measured automatically without requiring clinicians to label each prediction; establishing clinical appropriateness is a separate question. The system has not been validated for patient care. Restricted patient data, predictions, fitted models, and hidden states remain in the licensed local environment. Public API experiments use released benchmark content or aggregate rule descriptors, not restricted patient records. Simulated FHIR actions are read back and cleaned up. No real clinical order is transmitted.
-
-Protocols, preprocessing code, aggregate outcomes, update receipts, and audit programs are retained. Case identifiers and protected artifacts are excluded from the public release. Audits state what they reconstruct; saved-prediction recounts are not described as full training replication. Transport failures remain incomplete requests rather than incorrect model answers. The evidence inventory accompanying this manuscript binds the reported snapshot to source hashes.
+All evaluations are offline. Public-case studies contain no restricted patient records. Restricted eICU records and fitted artifacts remain local; released reports contain aggregates and source bindings. The review module makes no clinical writes. Recorded labels permit automated agreement scoring, while clinical appropriateness is a separate question. Learned skills are experience artifacts and must not be treated as prescribing authority. The supplied evidence manifest binds the current manuscript, selected configuration, aggregate outcomes, and case audit to their sources.
 
 \begin{thebibliography}{99}
 \bibitem[Ali et al.(2023)]{mrsurvey} Zafar Ali, Yi Huang, Irfan Ullah, Junlan Feng, Chao Deng, Nimbeshaho Thierry, Asad Khan, Asim Ullah Jan, Xiaoli Shen, Wu Rui, and Guilin Qi. 2023. Deep Learning for Medication Recommendation: A Systematic Survey. \emph{Data Intelligence}, 5(2):303--354. \url{https://doi.org/10.1162/dint_a_00197}.
 \bibitem[Chen et al.(2026)]{rxeval} Shuhao Chen, Weisen Jiang, Changmiao Wang, Xiaoqing Wu, Xuanren Shi, Yu Zhang, and James T. Kwok. 2026. RxEval: A Prescription-Level Benchmark for Evaluating LLM Medication Recommendation. \emph{arXiv preprint arXiv:2605.14543}. \url{https://arxiv.org/abs/2605.14543}.
-\bibitem[Johnson et al.(2024)]{mimiciv} Alistair Johnson, Lucas Bulgarelli, Tom Pollard, Brian Gow, Benjamin Moody, Steven Horng, Leo Anthony Celi, and Roger Mark. 2024. MIMIC-IV (version 3.1). PhysioNet. \url{https://doi.org/10.13026/kpb9-mt58}.
 \bibitem[Jiang et al.(2025)]{medagentbench} Yixing Jiang, Kameron C. Black, Gloria Geng, Danny Park, James Zou, Andrew Y. Ng, and Jonathan H. Chen. 2025. MedAgentBench: A Realistic Virtual EHR Environment to Benchmark Medical LLM Agents. \emph{arXiv preprint arXiv:2501.14654}. \url{https://arxiv.org/abs/2501.14654}.
+\bibitem[Johnson et al.(2024)]{mimiciv} Alistair Johnson, Lucas Bulgarelli, Tom Pollard, Brian Gow, Benjamin Moody, Steven Horng, Leo Anthony Celi, and Roger Mark. 2024. MIMIC-IV (version 3.1). PhysioNet. \url{https://doi.org/10.13026/kpb9-mt58}.
+\bibitem[Kim et al.(2024)]{mdagents} Yubin Kim, Chanwoo Park, Hyewon Jeong, Yik Siu Chan, Xuhai Xu, Daniel McDuff, Hyeonhoon Lee, Marzyeh Ghassemi, Cynthia Breazeal, and Hae Won Park. 2024. MDAgents: An Adaptive Collaboration of LLMs for Medical Decision-Making. \emph{arXiv preprint arXiv:2404.15155}. \url{https://arxiv.org/abs/2404.15155}.
 \bibitem[Madaan et al.(2023)]{selfrefine} Aman Madaan, Niket Tandon, Prakhar Gupta, Skyler Hallinan, Luyu Gao, Sarah Wiegreffe, Uri Alon, Nouha Dziri, Shrimai Prabhumoye, Yiming Yang, Shashank Gupta, Bodhisattwa Prasad Majumder, Katherine Hermann, Sean Welleck, Amir Yazdanbakhsh, and Peter Clark. 2023. Self-Refine: Iterative Refinement with Self-Feedback. \emph{Advances in Neural Information Processing Systems}. \url{https://arxiv.org/abs/2303.17651}.
 \bibitem[Moll et al.(2026)]{grasp} Johannes Moll, Jean-Philippe Corbeil, Jiazhen Pan, Martin Hadamitzky, Daniel Rueckert, Lisa Adams, and Keno Bressem. 2026. GRASP: Gated Regression-Aware Skill Proposer for Self-Improving LLM Agents. \emph{arXiv preprint arXiv:2605.29668}. \url{https://arxiv.org/abs/2605.29668}.
+\bibitem[NICE(2015)]{nice} National Institute for Health and Care Excellence. 2015. Medicines optimisation: The safe and effective use of medicines to enable the best possible outcomes. \emph{NICE guideline NG5}. \url{https://www.nice.org.uk/guidance/ng5/chapter/Recommendations}.
 \bibitem[Palepu et al.(2025)]{rxqa} Anil Palepu, Valentin Li\'evin, Wei-Hung Weng, Khaled Saab, David Stutz, Yong Cheng, Kavita Kulkarni, S. Sara Mahdavi, Jo\"elle Barral, Dale R. Webster, Katherine Chou, Avinatan Hassidim, Yossi Matias, James Manyika, Ryutaro Tanno, Vivek Natarajan, Adam Rodman, Tao Tu, Alan Karthikesalingam, and Mike Schaekermann. 2025. Towards Conversational AI for Disease Management. \emph{arXiv preprint arXiv:2503.06074}. \url{https://arxiv.org/abs/2503.06074}.
 \bibitem[Pollard et al.(2018)]{eicu} Tom J. Pollard, Alistair E. W. Johnson, Jesse D. Raffa, Leo A. Celi, Roger G. Mark, and Omar Badawi. 2018. The eICU Collaborative Research Database, a freely available multi-center database for critical care research. \emph{Scientific Data}, 5:180178. \url{https://doi.org/10.1038/sdata.2018.178}.
 \bibitem[Shang et al.(2019)]{gamenet} Junyuan Shang, Cao Xiao, Tengfei Ma, Hongyan Li, and Jimeng Sun. 2019. GAMENet: Graph Augmented MEmory Networks for Recommending Medication Combination. \emph{Proceedings of AAAI}. \url{https://arxiv.org/abs/1809.01852}.
 \bibitem[Shinn et al.(2023)]{reflexion} Noah Shinn, Federico Cassano, Ashwin Gopinath, Karthik Narasimhan, and Shunyu Yao. 2023. Reflexion: Language Agents with Verbal Reinforcement Learning. \emph{Advances in Neural Information Processing Systems}. \url{https://openreview.net/forum?id=vAElhFcKW6}.
+\bibitem[Tang et al.(2024)]{medagents} Xiangru Tang, Anni Zou, Zhuosheng Zhang, Ziming Li, Yilun Zhao, Xingyao Zhang, Arman Cohan, and Mark Gerstein. 2024. MedAgents: Large Language Models as Collaborators for Zero-shot Medical Reasoning. \emph{Findings of ACL}, pages 599--621. \url{https://aclanthology.org/2024.findings-acl.33/}.
 \bibitem[Wang et al.(2026)]{saferx} Xinyu Wang, Hanwei Wu, Zhenghan Tai, Sicheng Lyu, Qincheng Lu, Ziyu Zhao, Jijun Chi, Jingrui Tian, Xiao-Wen Chang, and Ziyang Song. 2026. SafeRx-Agent: A Knowledge-Grounded Multi-Agent Framework for Safe and Explainable Medication Recommendation. \emph{arXiv preprint arXiv:2605.29146}. \url{https://arxiv.org/abs/2605.29146}.
+\bibitem[WHO(2019)]{who} World Health Organization. 2019. Medication safety in polypharmacy: Technical report. WHO-UHC-SDS-2019.11. \url{https://www.who.int/publications/i/item/WHO-UHC-SDS-2019.11}.
 \bibitem[Wu et al.(2025)]{armr} Feiyue Wu, Tianxing Wu, and Shenqi Jing. 2025. ARMR: Adaptively Responsive Network for Medication Recommendation. \emph{Proceedings of IJCAI}, pages 7831--7839. \url{https://doi.org/10.24963/ijcai.2025/871}.
 \bibitem[Yang et al.(2021)]{safedrug} Chaoqi Yang, Cao Xiao, Fenglong Ma, Lucas Glass, and Jimeng Sun. 2021. SafeDrug: Dual Molecular Graph Encoders for Recommending Effective and Safe Drug Combinations. \emph{Proceedings of IJCAI}. \url{https://arxiv.org/abs/2105.02711}.
+\bibitem[Yang et al.(2025)]{rxbench} Yan Yang, Mouxiao Bian, Peiling Li, Bingjian Wen, Ruiyao Chen, Kangkun Mao, Xiaojun Ye, Tianbin Li, Pengcheng Chen, Bing Han, Jie Xu, Kaifeng Qiu, and Junyan Wu. 2025. Human-Level and Beyond: Benchmarking Large Language Models Against Clinical Pharmacists in Prescription Review. \emph{arXiv preprint arXiv:2512.02024}. \url{https://arxiv.org/abs/2512.02024}.
 \bibitem[Zhao et al.(2025a)]{rxsafe} Jiahao Zhao, Luxin Xu, Minghuan Tan, Lichao Zhang, Ahmadreza Argha, Hamid Alinejad-Rokny, and Min Yang. 2025a. RxSafeBench: Identifying Medication Safety Issues of Large Language Models in Simulated Consultation. \emph{Proceedings of IEEE BIBM}, pages 4491--4496. \url{https://doi.org/10.1109/BIBM66473.2025.11356353}.
 \bibitem[Zhao et al.(2025b)]{rxllm} Xingmeng Zhao, Kaitlin Blotske, Moriah Cargile, Adeleine Tilley, Brian Murray, Yanjun Gao, Kelli Henry, Susan E. Smith, Erin F. Barreto, Seth Bauer, Sunghwan Sohn, Tianming Liu, Tell Bennett, Mitch Cohen, and Andrea Sikora. 2025b. Rx-LLM: A Benchmarking Suite to Evaluate Safe Large Language Model Performance for Medication-Related Tasks. \emph{medRxiv preprint}. \url{https://doi.org/10.64898/2025.12.01.25341004}.
 \bibitem[Zhao et al.(2025c)]{lamrec} Zihao Zhao, Chenxiao Fan, Junlong Liu, Zheng Wang, Xiangnan He, Chongming Gao, Juan Li, and Fuli Feng. 2025c. Fine-grained Alignment of Large Language Models for General Medication Recommendation without Overprescription. \emph{arXiv preprint arXiv:2503.03687}. \url{https://arxiv.org/abs/2503.03687}.
 \end{thebibliography}
-
 \clearpage
 \appendix
-\section{Detailed Reproduction Protocol}\label{app:protocol}
-\subsection{Medication-set preprocessing and adaptation}
-Eligible MIMIC patients are adults with an ICU-associated hospital visit and at least two eligible visits. Each visit must contain diagnoses, procedures, and at least one unambiguously mapped medication class. Visits are ordered chronologically; current medication labels are excluded from current inputs. Training-only vocabularies contain 10,726 diagnosis codes, 5,330 procedure codes, and 271 medication classes. Five reserved-test target occurrences fall outside the training medication vocabulary and remain in the recall denominator of the declared future evaluation.
+\section{Retained Configuration and Reproduction}
+The measured skill updater uses the GRASP author-core commit \texttt{9d7d125a3e9b46ed591692475eb07aff4ae67d34}. It sees four training batches of 157/157/157/154 questions, uses four candidate slots and balanced probes of forty training questions, and selects on 387 development questions. The actor output cap is 512 tokens and the proposer cap is 3,072. The evidence profile, label snapshot, backbone weights, and source code remain fixed during this skill experiment. The selected file and validation record are bound in the retained-profile manifest. This is best validation within the saved run, not a search for the largest observed test score across historical prototypes.
 
-The molecular panel retains 219 classes. Its filtering excludes 5,613 targets in the reserved partition, while retaining three resulting empty-target visits. Molecular resources contain 627 graphs, 863 BRICS substructures, and 326 fingerprints. The known DDI graph has 266 edges and covers 202 classes; an absent edge or uncovered class is not treated as proof of safety. All resources and source mappings are pinned in the cohort audit.
+For the auxiliary eICU study, the first 8,000 training stays define a 512-code vocabulary; experience grows to 40,000 stays in five checkpoints. Three seeds use patient/hospital-disjoint proposal, guard, and test partitions. The conditional tool chooses among observed joint tuples with sufficient training support. Test contains 6,227 patients and 3,842 zero-target stays. The registered score uses complete tuples; a separate sensitivity includes all predicted tuples in the denominator. None of these component scores is assigned to the main question-answering agent.
 
-Author implementations retain their documented model cores with local input and label-space adapters. Each completed run has fifty epochs and 921,450 visit exposures; actual optimizer steps differ by architecture. ARMR uses 29,750 steps, while the recorded GAMENet and SafeDrug loops use 921,450. These counts are not equal FLOPs. The SafeDrug adaptation resolves the released minimum-versus-paper-maximum objective discrepancy in favor of the paper's maximum formulation and persists its molecular encoder; the choice is disclosed rather than labeled a bit-identical reproduction. Proposal search evaluates 300 epoch/threshold settings per author run. Concurrent wall time is not used to claim a speed advantage.
+\section{Clinical Review Scope}
+The eighteen-domain registry supplies trigger context, required facts, tool dependencies, source pointers, and memory boundaries. It covers broadly documented concerns; it is not an exhaustive taxonomy of all possible prescribing errors. The available source-backed label lookup and structural checks are executable. Product-specific interaction, organ-function, population, infusion, monitoring, formulary, and treatment-appropriateness engines remain integration dependencies. In the current software, those domains explicitly return \texttt{not\_assessed}.
 
-\begin{table*}[t]\centering\small
-\setlength{\tabcolsep}{4pt}
-\caption{Patient-average Jaccard for the same development methods, cases, and completed seeds as Table~\ref{tab:main}. $\dagger$ marks the single completed molecular ARMR seed.}
-\label{tab:jaccard}
-\begin{tabular}{@{}lrrr@{}}\toprule
-Method & Runs full/mol. & Full Jaccard & Molecular Jaccard\\\midrule
-Training prevalence & 1/1 & 0.30680 & 0.28089\\
-Previous-visit reuse & 1/1 & 0.21585 & 0.20613\\
-Case retrieval & 1/1 & 0.39614 & 0.36710\\
-Structured logistic regression & 1/1 & 0.45742 & 0.42971\\
-ARMR author core & 3/1$^{\dagger}$ & 0.45327 $\pm$ 0.00113 & 0.43181\\
-GAMENet author core & 3/3 & 0.37087 $\pm$ 0.00643 & 0.35384 $\pm$ 0.00324\\
-SafeDrug author core & --/3 & -- & 0.38432 $\pm$ 0.00223\\
-Shared policy / no rule updates & 3/3 & 0.45742 $\pm$ 0.00000 & 0.42971 $\pm$ 0.00000\\
-Greedy error rules & 3/3 & 0.45863 $\pm$ 0.00064 & 0.43084 $\pm$ 0.00039\\
-Random candidate rules & 3/3 & 0.45791 $\pm$ 0.00027 & 0.43078 $\pm$ 0.00058\\
-\textbf{RxRSIAgent: own-error memory} & 3/3 & 0.45856 $\pm$ 0.00057 & 0.43049 $\pm$ 0.00014\\
-Shuffled-evidence memory & 3/3 & 0.45811 $\pm$ 0.00044 & 0.43105 $\pm$ 0.00027\\
-Same proposals / no witness gate & 3/3 & 0.45840 $\pm$ 0.00102 & 0.43050 $\pm$ 0.00070\\
-\bottomrule\end{tabular}
-
-\end{table*}
-
-The 890-patient reserved partition overlaps historical study memberships. A separately frozen sensitivity subset excludes recorded earlier exposure and retains 318 patients/801 visits; neither the complete reserved test nor this subset has results in the present manuscript. The exposure inventory cannot establish that every patient is globally untouched.
-
-\subsection{External-order training}
-The eICU parent cohort has 142,485 stays; 8,003 fail target-code completeness, leaving 134,482 before fixed hash sampling. Training, proposal, guard, and test use 40,000/2,000/2,000/8,005 stays from 124/13/17/16 hospitals. Their patient counts are 35,249/1,914/1,912/6,227. Both patient and hospital identities are separated across these partitions. Test targets contain 11,853 complete order tuples among 15,594 target tuples.
-
-The initial 8,000 stays define the 512-code vocabulary and word, character, and numeric feature maps. Each subsequent block adds 8,000 stays. Policy fitting uses logistic SGD, regularization $10^{-5}$, exactly sixty epochs, and no tolerance-based early stop; each round refits from initialization. The conditional order tool considers at most eight frequent tuples per code, requiring tuple support of at least ten, at least eighty records, and at least two tuple choices. Its SGD regularization is $10^{-4}$, with at most forty iterations and tolerance $10^{-3}$.
-
-Proposal selects from thresholds $\{.10,.15,.20,.25,.30,.40,.50\}$ by the mean of drug and complete-order micro-F1. Guard promotion requires a composite improvement with neither endpoint decreasing by more than .002. All choices freeze before test inference. Word/character ensembles additionally search five mixture weights, so their larger fitting/search budgets are reported separately. Seeds are 42, 137, and 2026. Within each seed, matched priority arms share the same cases, exposure order, and optimizer budget.
-
-\section{Additional Memory Controls}\label{app:memory}
-A subsequent experiment reserves 1,423 of 7,115 training patients as witnesses and fits the policy on the remaining 5,692. It combines class calibration with conditional program synthesis over at most two predicates and four edits. This changes witness isolation, calibration, and program expressivity together; comparison with the earlier rule study cannot isolate any one change. Within the revised study, three-seed guard F1 is 0.60803 for class calibration, 0.60801 for greedy programs, and 0.60790 for own-error synthesis in the full space. Molecular values are 0.57989, 0.58094, and 0.58021. These results again do not establish an advantage from language-agent synthesis.
-
-Proposal-only replay of accepted edits finds both positive and negative transfer from witness evaluation. Later compatibility and whole-update confirmation experiments reuse the audited policy fits and separate edit and confirmation witness groups. Only two of six seed/panel runs are fully audited at this snapshot. They are not treated as a completed method comparison. Their unchanged protocols, partial receipts, and all rejected updates remain available in the release.
-
-\section{Parameter and Precision Diagnostics}\label{app:parameters}
-\subsection{Completed update inventory}
-The four parameter arms use ranked ordinary training, permuted ordinary training, permuted own-error sampling, and permuted shuffled-error sampling. All preserve original retrieval-rank fields and remap twenty-position masks by medication identity. The fixed backbone is Qwen3-4B in four-bit form; LoRA targets the last eight layers with rank eight, scale twenty, and zero dropout. Each round has 400 complete examples, batch size four, learning rate $10^{-4}$, and 100 optimizer steps. Completion-only loss excludes padding. The resulting adapters contain 3,670,016 trainable parameters.
-
-Feedback uses each arm's latest raw adapter on the next 600-case block before labels enter training. Earlier priorities retain their recorded errors. Ordinary arms sample uniformly; error arms use the same $1+3e$ weighting, with the shuffled control permuting error-to-case assignments. Each arm continues from its latest raw adapter even when that state is rejected for serving; optimizer state resets each round. Proposal selects by average drug/order F1 over ranked and permuted views with earliest ties. The base is eligible. The current inventory is incomplete and does not open the old 500-case test.
-
-\begin{table*}[t]\centering\small
-\setlength{\tabcolsep}{4pt}
-\caption{All nine completed parameter updates at the paused snapshot (seed 42). Scores are proposal drug/core-order F1. Empty rates are ranked/permuted percentages. This is a partial 36-update study, not a completed three-seed evaluation.}
-\label{tab:parameters}
-\begin{tabular}{@{}lrrrr@{}}\toprule
-Training / feedback & Round & Ranked & Permuted & Empty (\%)\\\midrule
-Permuted / uniform & 1 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
-Permuted / uniform & 2 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
-Permuted / uniform & 3 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
-Ranked / uniform & 1 & 0.23301/0.14815 & 0.10800/0.06960 & 0/4\\
-Ranked / uniform & 2 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
-Permuted / own-error & 1 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
-Permuted / own-error & 2 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
-Permuted / shuffled & 1 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
-Permuted / shuffled & 2 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
-\bottomrule\end{tabular}
-
-\end{table*}
-
-\subsection{Repair and precision scope}
-The four binary-loss repairs share 400 admissions from the first permuted-uniform update, comprising 8,000 decisions with 1,604 positive and 6,396 negative labels. Balanced loss uses positive weight $6396/1604$. Proposal has 100 admissions/97 patients, disjoint from those fitting patients. The first failed adapter, the frozen base, direct retrieval top-eight, and selecting all twenty candidates remain controls. Calibrated thresholds are chosen on a fixed .01--.99 grid, shared across views. Several optima occur at the lower boundary; this grid is not an exhaustive calibration procedure.
-
-The precision experiment is specified after the parent proposal and fixed-cardinality results. It runs all six frozen neural states in both views, three readouts per shared forward, and both drug-hash and lexical tie rules. It changes no weights, candidates, threshold, or promotion decision. Case-level AUROC includes 67 admissions with both positive and negative candidates; all 100 remain in F1. All selected eight-candidate outputs have complete core tuples, so incomplete predicted tuples do not explain this fixed-cardinality comparison.
-
-Independent raw-weight unpacking and float64 projection replay check 144,000 binary logit values. Maximum dense-logit and probability residuals are $1.98\times10^{-5}$ and $3.58\times10^{-6}$, within tolerances fixed before execution. All 1,200 forwards have completion receipts and none is unresolved. The audit replays readout and metric arithmetic, not the backbone or native projection kernel. All paired intervals use 4,000 patient resamples. The guard comparison remains unexecuted.
-
-\begin{table*}[t]\centering\small
-\setlength{\tabcolsep}{4pt}
-\caption{Numerical and identity-alignment diagnostics. AUROC averages 67 eligible admissions; all 100 remain in F1. Tie counts refer to the eighth/ninth score boundary. Correlations compare ranked/permuted outputs aligned by drug identity or unchanged display slot.}
-\label{tab:precision-detail}
-\begin{tabular}{@{}llrrrrrr@{}}\toprule
-State & Readout & R AUC & R ties & P AUC & P ties & Identity $\rho$ & Slot $\rho$\\\midrule
-Frozen base & Native & 0.6801 & 14 & 0.5506 & 8 & 0.2429 & 0.7274\\
-Frozen base & FP32 & 0.6806 & 0 & 0.5516 & 0 & 0.2440 & 0.7265\\
-Frozen base & FP32 $\to$ BF16 & 0.6801 & 13 & 0.5499 & 6 & 0.2428 & 0.7275\\
-Original failed adapter & Native & 0.7002 & 13 & 0.5365 & 14 & 0.2123 & 0.7962\\
-Original failed adapter & FP32 & 0.7001 & 0 & 0.5381 & 0 & 0.2146 & 0.7970\\
-Original failed adapter & FP32 $\to$ BF16 & 0.6993 & 12 & 0.5361 & 15 & 0.2128 & 0.7982\\
-Teacher / uniform & Native & 0.6982 & 9 & 0.5195 & 12 & 0.1979 & 0.8169\\
-Teacher / uniform & FP32 & 0.6980 & 0 & 0.5205 & 0 & 0.2013 & 0.8168\\
-Teacher / uniform & FP32 $\to$ BF16 & 0.6978 & 8 & 0.5203 & 12 & 0.1994 & 0.8173\\
-Zero / uniform & Native & 0.5685 & 93 & 0.5481 & 89 & 0.1238 & 0.1812\\
-Zero / uniform & FP32 & 0.6072 & 0 & 0.5500 & 0 & 0.1475 & 0.2701\\
-Zero / uniform & FP32 $\to$ BF16 & 0.5620 & 97 & 0.5535 & 95 & 0.1218 & 0.1872\\
-Teacher / balanced & Native & 0.6893 & 12 & 0.5408 & 15 & 0.2410 & 0.7642\\
-Teacher / balanced & FP32 & 0.6898 & 0 & 0.5402 & 0 & 0.2399 & 0.7618\\
-Teacher / balanced & FP32 $\to$ BF16 & 0.6893 & 14 & 0.5406 & 13 & 0.2401 & 0.7646\\
-Zero / balanced & Native & 0.5604 & 84 & 0.4907 & 80 & -0.0019 & 0.1505\\
-Zero / balanced & FP32 & 0.5863 & 0 & 0.4863 & 0 & 0.0171 & 0.4485\\
-Zero / balanced & FP32 $\to$ BF16 & 0.5585 & 95 & 0.5085 & 90 & 0.0269 & 0.1573\\
-\bottomrule\end{tabular}
-
-\end{table*}
-
-\section{Supplementary Public Tasks}\label{app:public}
-\subsection{Language skills and medication questions}
-RxSafeBench's 2,443 source records \citep{rxsafe} yield 2,000 distinct cases after exact task/dialogue/correct-drug deduplication. The local three-option adaptation has 625 training, 190 proposal, 197 guard, and 988 test questions with scenario grouping; it is not the original free-generation benchmark. Historical full-data evaluation covers all 2,000 derived cases, while later evolution comparisons use the frozen 988-case partition. Subsequent development reused this benchmark, so these results are exploratory. Transfer uses all 300 public RxQA OpenFDA questions \citep{rxqa} with their original options; the unavailable licensed BNF portion is not evaluated.
-
-With DeepSeek-V4.1-Flash, direct selection scores 46.15\%, chain-of-thought 47.27\%, two-call self-refinement 47.57\%, and case retrieval 49.09\% on the same 988 questions. A task adapter around the pinned author GRASP core retains its failure classification, proposals, regression gate, and skill injection. It scores 502/988 versus chain-of-thought's 467, with 102 fixes and 67 regressions. This is an adaptation to option selection, not a reproduction of the paper's original benchmark score.
-
-\begin{table}[t]\centering\small
-\caption{Completed language-skill composition, one learned skill trajectory. Counts are correct answers; each method uses one inference call. RxQA is transfer.}
-\label{tab:public}
-\begin{tabularx}{\columnwidth}{@{}Xrr@{}}\toprule
-Method & RxSafe /988 & RxQA /300\\\midrule
-Chain-of-thought & 467 & 193\\
-Author-core skills & 502 & 189\\
-Fixed label grounding & 499 & 188\\
-Grounding + evolving skills & 501 & 183\\
-\bottomrule\end{tabularx}\end{table}
-
-The evidence tool returns exact excerpts from a pinned openFDA label snapshot; its retrieval source code is fixed. The grounded learner changes one persistent indication/caution procedure. Its frozen round-zero through round-four RxSafe counts are 499, 499, 475, 493, and 501; RxQA counts are 188, 188, 175, 175, and 183. The final gain over fixed grounding is two questions, with paired scenario interval $[-2.43,2.73]$ percentage points. A changed skill therefore does not imply monotonic improvement or positive transfer.
-
-Frozen DeepSeek-learned artifacts also transfer unchanged to Gemini-3.8-Flash under a development-selected 2,048-token cap and low reasoning. On the same 988 questions, chain-of-thought, author skills, fixed grounding, and grounded skills score 532, 527, 538, and 510. The last method has 24 invalid outputs, including 23 reaching the length cap; on the 961 jointly valid cases, it still falls from 528 to 508 correct. This conditional diagnosis does not replace the full result or support a truncation-only explanation. Provider failures are handled as interrupted execution, while received malformed answers count as errors.
-
-\subsection{Executed FHIR tasks}
-The MedAgentBench adaptation runs the pinned released application/database through an actual local FHIR service. It executes writes, reads back persisted fields, and cleans up created resources. Reference trajectory success and persisted-state checks are recorded separately. A development-discovered singleton-note shape mismatch is handled by a declared lossless reference view before final selection; original traces remain retained. Task partitions contain 96 training, 80 validation, 64 ID, and 60 held-out-type cases. They overlap in patient identity, so held-out-type results are not patient-disjoint transfer.
-
-\begin{table}[t]\centering\small
-\caption{Completed executed-tool comparison. One learning seed; at most eight model action calls per episode.}
-\begin{tabularx}{\columnwidth}{@{}Xrr@{}}\toprule
-Method & ID /64 & Held-out type /60\\\midrule
-Direct tools & 39 & 27\\
-Fixed compiled workflow & 38 & 17\\
-Workflow + learned skills & 45 & 10\\
-\bottomrule\end{tabularx}\end{table}
-
-The two retained skills concern patient-name queries and a laboratory code/text fallback. Relative to the fixed workflow, ID success rises by 10.94 percentage points with paired patient interval $[0,20.55]$, while held-out-type success falls by 11.67 points with interval $[-22.95,-1.64]$. A post-test answer-contract diagnosis finds that fifteen correct first values were rejected for an extra timestamp; this does not replace the strict score, and fifteen other first values were wrong. Single-skill removals do not establish robust synergy.
-
-A subsequent fixed $2\times2\times2$ contract/statistics/skill factorial completes 23 of 24 split-condition cells. It retains the same eight-call episode budget and counts additional HTTP evidence requests. The completed cells are below; the missing cell prevents a complete factorial transfer conclusion. These are engineering interventions with frozen skills, not newly learned tools.
-
-\begin{table}[t]\centering\small
-\caption{Executed repair factorial. C: answer contract; S: source-bound observation statistics; K: frozen learned skills. A dash denotes an unfinished cell, not a failure score. Reused exploratory splits.}
-\label{tab:fhir-repair}
-\begin{tabular}{@{}lrrr@{}}\toprule
-Condition & Validation & ID & Held-out type\\\midrule
-C0S0K0 & 45/80 & 38/64 & 18/60\\
-C0S0K1 & 53/80 & 45/64 & 10/60\\
-C0S1K0 & 49/80 & 36/64 & 43/60\\
-C0S1K1 & 59/80 & 46/64 & 50/60\\
-C1S0K0 & 52/80 & 46/64 & 29/60\\
-C1S0K1 & 54/80 & 49/64 & 25/60\\
-C1S1K0 & 57/80 & 47/64 & 45/60\\
-C1S1K1 & 66/80 & 54/64 & --\\
-\bottomrule\end{tabular}
-
-\end{table}
-
-\section{Published Results under Their Original Protocols}
-Table~\ref{tab:published} gives directly cited results for context. Different cohorts, coding granularity, input fields, and evaluation conventions prevent ranking these numbers against our local main table. The original SafeRx test partition is unavailable locally, so we do not insert an RxRSIAgent result into its protocol.
-
-\begin{table*}[t]\centering\small
-\caption{Author-reported F1, not local reproductions. Each row retains its cited source protocol. Dashes indicate a dataset not reported in this selected source table.}
-\label{tab:published}
-\begin{tabular}{@{}lrrl@{}}\toprule
-Method & MIMIC-III & MIMIC-IV & Original source\\\midrule
-GAMENet & 0.6081 & -- & \citet{gamenet}, Table 3\\
-SafeDrug & 0.6768 & -- & \citet{safedrug}, Table 2\\
-ARMR & 0.6959 & 0.6712 & \citet{armr}, Table 3\\
-SafeRx / Claude Sonnet-4.6, no safety filter & 0.2758 & 0.4325 & \citet{saferx}, Table 2\\
-\bottomrule\end{tabular}\end{table*}
-
-\section{Evidence Inventory and Snapshot}
-The companion evidence manifest identifies the source files and hashes used to generate every table. Primary sources are the common-method development recount, independently audited molecular ARMR seed 42, the eICU frozen-test summary and denominator recount, the local parameter snapshot and its audit, and the precision summary with independent readout audit. Public-task sources include the grounded-skill, frozen-transfer, executed-FHIR, and repair summaries. The manuscript preserves the official pinned ACL review style. It is a research snapshot based on completed evidence, not a claim that the unfinished common test, remaining training seeds, or clinical evaluation have been completed.
+The software checks exercise unknown allergy status, duplicate ingredients, an exact recorded allergy, absent schedule fields, invalid numeric doses, IV evidence requirements, unsupported adjunct purposes, invalid output types, and memory provenance boundaries. Passing those checks establishes behavior on the declared synthetic fixtures only. No clinical pass rate is reported.
 \end{document}
