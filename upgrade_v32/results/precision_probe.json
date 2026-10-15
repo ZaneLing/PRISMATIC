@@ -1,0 +1,222 @@
+{
+  "status": "passed",
+  "synthetic_only": true,
+  "protocol_sha256": "93a41f4a40092591790eba79edd3fafe0e68c73033d2daeca4e724ec324312c3",
+  "source_sha256": {
+    "upgrade_v32/precision_protocol.json": "93a41f4a40092591790eba79edd3fafe0e68c73033d2daeca4e724ec324312c3",
+    "upgrade_v32/precision_readout.py": "484c5a629aa75278f943ebf6a210888ad07daf6310663d147bec16e9fcbd6391",
+    "upgrade_v32/probe_precision.py": "0c33596416ccefd26abf63fdadaa47818ac07b129c4b3e4e3da2820bcc8c1a66",
+    "upgrade_v32/inference.py": "7795ddeaa4e14f691e471eb341649d3f9ed0d9a04201e148360fbd2ac92dd854",
+    "upgrade_v32/decision_loss.py": "d74d9e50562eb4095499d14f9ed0723f804ae336dc55116e1d281d6cb5759e3b",
+    "upgrade_v32/evaluate.py": "d45ecc432b7dcfbafb144f1d01b3279528c2c3aafa5aea7eb59d8f4dcc10da5a"
+  },
+  "decision_config_sha256": "c229ac6bd17cf6554bd893443b55c79b2863b48922e95954d29f83fbe8ff9514",
+  "states": [
+    {
+      "state": "frozen_base",
+      "state_version": "2a73c6c248601ab904e035548abd8e6abb65ea27dcb5f342fb0a8910eb44173f",
+      "hidden_dtype": "mlx.core.bfloat16",
+      "native_projection_dtype": "mlx.core.bfloat16",
+      "stored_head_rows_sha256": "1a68f569f451ae93237b044cbbaf922a60bb08cf6670656877415dacac815c9b",
+      "max_weight_reconstruction_delta": 0.0,
+      "max_dense_logit_delta": 8.944422006607056e-06,
+      "max_rounding_control_delta": 0.0,
+      "max_binary_probability_delta": {
+        "native": 7.035896609774994e-08,
+        "fp32_binary": 5.5729504122581375e-08,
+        "fp32_rerounded": 7.035896609774994e-08,
+        "fp32_against_float64_dot": 2.712689132100543e-06
+      },
+      "unique_scores_per_synthetic_prompt": {
+        "native": [
+          18,
+          18
+        ],
+        "fp32_binary": [
+          20,
+          20
+        ],
+        "fp32_rerounded": [
+          18,
+          18
+        ]
+      },
+      "native_vs_rerounded_max_probability_delta": 0.014143407344818115,
+      "private_array_sha256": "7baf0090a028fd020f5b827c3f41176e28bd6f9ff57d15fc09c642918e9cf913",
+      "seconds_including_model_load": 3.235258417087607
+    },
+    {
+      "state": "original_failed_adapter",
+      "state_version": "864fe1562859cda2918da80d2727d35bd98af7caa8fa8a5ca91323991e174743",
+      "hidden_dtype": "mlx.core.bfloat16",
+      "native_projection_dtype": "mlx.core.bfloat16",
+      "stored_head_rows_sha256": "1a68f569f451ae93237b044cbbaf922a60bb08cf6670656877415dacac815c9b",
+      "max_weight_reconstruction_delta": 0.0,
+      "max_dense_logit_delta": 5.679496098309755e-06,
+      "max_rounding_control_delta": 0.0,
+      "max_binary_probability_delta": {
+        "native": 2.8519726774645093e-08,
+        "fp32_binary": 2.4519487690222164e-08,
+        "fp32_rerounded": 2.8519726774645093e-08,
+        "fp32_against_float64_dot": 9.202227752302949e-07
+      },
+      "unique_scores_per_synthetic_prompt": {
+        "native": [
+          16,
+          15
+        ],
+        "fp32_binary": [
+          20,
+          20
+        ],
+        "fp32_rerounded": [
+          16,
+          14
+        ]
+      },
+      "native_vs_rerounded_max_probability_delta": 0.0012784674763679504,
+      "private_array_sha256": "fdb1e921fbf3a7117507a2f0d1b59a12f5625b0f2367ac829f30c797d98ddcc7",
+      "seconds_including_model_load": 3.3764340840280056
+    },
+    {
+      "state": "teacher_uniform",
+      "state_version": "03e345d3b72d3bb91d060bb83b2aa7d9e25d3d8d84aa251ab0331bef5186595f",
+      "hidden_dtype": "mlx.core.bfloat16",
+      "native_projection_dtype": "mlx.core.bfloat16",
+      "stored_head_rows_sha256": "1a68f569f451ae93237b044cbbaf922a60bb08cf6670656877415dacac815c9b",
+      "max_weight_reconstruction_delta": 0.0,
+      "max_dense_logit_delta": 3.268476575613022e-06,
+      "max_rounding_control_delta": 0.0,
+      "max_binary_probability_delta": {
+        "native": 1.1523048168426975e-08,
+        "fp32_binary": 3.113986313252326e-08,
+        "fp32_rerounded": 1.1523048168426975e-08,
+        "fp32_against_float64_dot": 4.925602382910288e-07
+      },
+      "unique_scores_per_synthetic_prompt": {
+        "native": [
+          16,
+          12
+        ],
+        "fp32_binary": [
+          20,
+          20
+        ],
+        "fp32_rerounded": [
+          16,
+          12
+        ]
+      },
+      "native_vs_rerounded_max_probability_delta": 0.001534266397356987,
+      "private_array_sha256": "cc0a2b26ba324ca9ba179bf3f58e521561596f8904cd502d6f87ba41a29d5126",
+      "seconds_including_model_load": 3.037441832944751
+    },
+    {
+      "state": "zero_uniform",
+      "state_version": "200340a805f83887eb282b90c725a6a307597c69f37a553f30bdfcc0b42b76bd",
+      "hidden_dtype": "mlx.core.bfloat16",
+      "native_projection_dtype": "mlx.core.bfloat16",
+      "stored_head_rows_sha256": "1a68f569f451ae93237b044cbbaf922a60bb08cf6670656877415dacac815c9b",
+      "max_weight_reconstruction_delta": 0.0,
+      "max_dense_logit_delta": 2.566492184996605e-06,
+      "max_rounding_control_delta": 0.0,
+      "max_binary_probability_delta": {
+        "native": 2.8519726774645093e-08,
+        "fp32_binary": 4.5042713864296147e-08,
+        "fp32_rerounded": 2.8519726774645093e-08,
+        "fp32_against_float64_dot": 6.514214111741357e-07
+      },
+      "unique_scores_per_synthetic_prompt": {
+        "native": [
+          3,
+          4
+        ],
+        "fp32_binary": [
+          20,
+          20
+        ],
+        "fp32_rerounded": [
+          4,
+          4
+        ]
+      },
+      "native_vs_rerounded_max_probability_delta": 0.011006221175193787,
+      "private_array_sha256": "56c8a1e8e69c4dc99a798363835e35f9def6e2ab8fd819effc90e8755be42fea",
+      "seconds_including_model_load": 3.087310333037749
+    },
+    {
+      "state": "teacher_balanced",
+      "state_version": "a852a5c3157118df04267a9ffe2d8ba69a243892af19579db9b6969fb0eca2e1",
+      "hidden_dtype": "mlx.core.bfloat16",
+      "native_projection_dtype": "mlx.core.bfloat16",
+      "stored_head_rows_sha256": "1a68f569f451ae93237b044cbbaf922a60bb08cf6670656877415dacac815c9b",
+      "max_weight_reconstruction_delta": 0.0,
+      "max_dense_logit_delta": 3.787921741604805e-06,
+      "max_rounding_control_delta": 0.0,
+      "max_binary_probability_delta": {
+        "native": 4.5033163198482384e-08,
+        "fp32_binary": 4.458542979257629e-08,
+        "fp32_rerounded": 4.5033163198482384e-08,
+        "fp32_against_float64_dot": 6.666486723760912e-07
+      },
+      "unique_scores_per_synthetic_prompt": {
+        "native": [
+          15,
+          13
+        ],
+        "fp32_binary": [
+          20,
+          20
+        ],
+        "fp32_rerounded": [
+          14,
+          13
+        ]
+      },
+      "native_vs_rerounded_max_probability_delta": 0.015438377857208252,
+      "private_array_sha256": "58f7ceef91c127a71c4631c13fdfea04313b87869a39330347f57c816abc5962",
+      "seconds_including_model_load": 2.9510932499542832
+    },
+    {
+      "state": "zero_balanced",
+      "state_version": "d1e56ac1bd2c4d2e26fea9469b1ba102d78b7e07a49664e328c7ad9897a57806",
+      "hidden_dtype": "mlx.core.bfloat16",
+      "native_projection_dtype": "mlx.core.bfloat16",
+      "stored_head_rows_sha256": "1a68f569f451ae93237b044cbbaf922a60bb08cf6670656877415dacac815c9b",
+      "max_weight_reconstruction_delta": 0.0,
+      "max_dense_logit_delta": 2.880813553929329e-06,
+      "max_rounding_control_delta": 0.0,
+      "max_binary_probability_delta": {
+        "native": 1.788217851572682e-08,
+        "fp32_binary": 4.20948697565926e-08,
+        "fp32_rerounded": 1.788217851572682e-08,
+        "fp32_against_float64_dot": 7.565523235109062e-07
+      },
+      "unique_scores_per_synthetic_prompt": {
+        "native": [
+          3,
+          3
+        ],
+        "fp32_binary": [
+          20,
+          20
+        ],
+        "fp32_rerounded": [
+          3,
+          3
+        ]
+      },
+      "native_vs_rerounded_max_probability_delta": 0.015619903802871704,
+      "private_array_sha256": "074fdcb36e6ee57e1d744c8683a21dd46e3365061595fd37d272889ddb4f73da",
+      "seconds_including_model_load": 3.1966101669240743
+    }
+  ],
+  "synthetic_prompts_per_state": 2,
+  "backbone_case_forwards": 12,
+  "clinical_case_forwards": 0,
+  "training_steps": 0,
+  "api_calls": 0,
+  "guard_or_test_reads": false,
+  "clinical_evaluator_complete": false,
+  "scope": "Engineering preflight on frozen real model states and synthetic inputs. NumPy independently reconstructs stored quantized rows, float64 dense readout, softmax and bfloat16 rounding; no clinical effect is measured."
+}
