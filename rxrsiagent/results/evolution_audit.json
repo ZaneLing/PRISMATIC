@@ -1,0 +1,463 @@
+{
+  "status": "complete",
+  "scope": "Frozen public skill lineage and output audit; no new inference",
+  "source_core_commit": "9d7d125a3e9b46ed591692475eb07aff4ae67d34",
+  "core_modified": false,
+  "rounds": [
+    {
+      "round": 0,
+      "cases_seen": 0,
+      "skill_count": 0,
+      "artifact_revision": 0,
+      "semantic_change": "No learned skill; fixed label evidence.",
+      "interpretation_status": "Researcher description of artifact text, not verified clinical knowledge",
+      "new_cases": 0,
+      "action": "INITIAL",
+      "proposal_evaluations": 0,
+      "initial_proposal_evaluations": 0,
+      "revision_evaluations": 0,
+      "winner": null,
+      "candidates": [],
+      "artifact_path": null,
+      "artifact_sha256": null,
+      "body_words": 0,
+      "body_lines_added": 0,
+      "body_lines_removed": 0,
+      "rxsafebench": {
+        "n": 988,
+        "correct": 499,
+        "fixes": 0,
+        "regressions": 0,
+        "accuracy": 0.5050607287449392,
+        "reused_same_state": false
+      },
+      "rxqa": {
+        "n": 300,
+        "correct": 188,
+        "fixes": 0,
+        "regressions": 0,
+        "accuracy": 0.6266666666666667,
+        "reused_same_state": false
+      }
+    },
+    {
+      "round": 1,
+      "cases_seen": 157,
+      "skill_count": 0,
+      "artifact_revision": 0,
+      "semantic_change": "All four proposals rejected by the regression gate; no retained change.",
+      "interpretation_status": "Researcher description of artifact text, not verified clinical knowledge",
+      "new_cases": 157,
+      "proposal_evaluations": 4,
+      "initial_proposal_evaluations": 4,
+      "revision_evaluations": 0,
+      "reconstructed_probe_cases": 40,
+      "probe_overlap_with_proposal_batch": 40,
+      "action": "NONE",
+      "winner": null,
+      "candidates": [
+        {
+          "action": "ADD",
+          "name": "interaction_query_option_appropriateness_check",
+          "score": 2,
+          "fixes": 5,
+          "regressions": 3,
+          "baseline_fixes": 0,
+          "baseline_regressions": 0,
+          "eligible": false,
+          "contrastive_revision": false
+        },
+        {
+          "action": "ADD",
+          "name": "label_warning_vs_absolute_contraindication",
+          "score": 1,
+          "fixes": 3,
+          "regressions": 2,
+          "baseline_fixes": 0,
+          "baseline_regressions": 0,
+          "eligible": false,
+          "contrastive_revision": false
+        },
+        {
+          "action": "ADD",
+          "name": "match_indication_before_contraindication_claims",
+          "score": -1,
+          "fixes": 2,
+          "regressions": 3,
+          "baseline_fixes": 0,
+          "baseline_regressions": 0,
+          "eligible": false,
+          "contrastive_revision": false
+        },
+        {
+          "action": "ADD",
+          "name": "prior_uterine_surgery_inducible_agent_avoidance",
+          "score": 2,
+          "fixes": 4,
+          "regressions": 2,
+          "baseline_fixes": 0,
+          "baseline_regressions": 0,
+          "eligible": false,
+          "contrastive_revision": false
+        }
+      ],
+      "artifact_path": null,
+      "artifact_sha256": null,
+      "body_words": 0,
+      "body_lines_added": 0,
+      "body_lines_removed": 0,
+      "rxsafebench": {
+        "n": 988,
+        "correct": 499,
+        "fixes": 0,
+        "regressions": 0,
+        "accuracy": 0.5050607287449392,
+        "reused_same_state": true
+      },
+      "rxqa": {
+        "n": 300,
+        "correct": 188,
+        "fixes": 0,
+        "regressions": 0,
+        "accuracy": 0.6266666666666667,
+        "reused_same_state": true
+      }
+    },
+    {
+      "round": 2,
+      "cases_seen": 314,
+      "skill_count": 1,
+      "artifact_revision": 1,
+      "semantic_change": "Adds indication matching followed by patient-triggered label cautions.",
+      "interpretation_status": "Researcher description of artifact text, not verified clinical knowledge",
+      "new_cases": 157,
+      "proposal_evaluations": 4,
+      "initial_proposal_evaluations": 4,
+      "revision_evaluations": 0,
+      "reconstructed_probe_cases": 40,
+      "probe_overlap_with_proposal_batch": 0,
+      "action": "ADD",
+      "winner": {
+        "action": "ADD",
+        "name": "label_indication_and_caution_parsing",
+        "score": 3,
+        "fixes": 3,
+        "regressions": 0,
+        "baseline_fixes": 0,
+        "baseline_regressions": 0,
+        "eligible": true,
+        "contrastive_revision": false
+      },
+      "candidates": [
+        {
+          "action": "ADD",
+          "name": "interaction_query_requires_current_medication_contraindication_check",
+          "score": 2,
+          "fixes": 3,
+          "regressions": 1,
+          "baseline_fixes": 0,
+          "baseline_regressions": 0,
+          "eligible": false,
+          "contrastive_revision": false
+        },
+        {
+          "action": "ADD",
+          "name": "prefer_documented_indication_over_plausible_mechanism",
+          "score": 2,
+          "fixes": 2,
+          "regressions": 0,
+          "baseline_fixes": 0,
+          "baseline_regressions": 0,
+          "eligible": true,
+          "contrastive_revision": false
+        },
+        {
+          "action": "ADD",
+          "name": "label_excerpt_scope_check",
+          "score": 2,
+          "fixes": 2,
+          "regressions": 0,
+          "baseline_fixes": 0,
+          "baseline_regressions": 0,
+          "eligible": true,
+          "contrastive_revision": false
+        },
+        {
+          "action": "ADD",
+          "name": "label_indication_and_caution_parsing",
+          "score": 3,
+          "fixes": 3,
+          "regressions": 0,
+          "baseline_fixes": 0,
+          "baseline_regressions": 0,
+          "eligible": true,
+          "contrastive_revision": false
+        }
+      ],
+      "artifact_path": "upgrade_v17/artifacts/round_2/label_indication_and_caution_parsing.md",
+      "artifact_sha256": "62b985af4e66fe31f64009bbbd3b7c5c623e07376fac7a1c7b49414e9a785f28",
+      "body_words": 711,
+      "body_lines_added": 35,
+      "body_lines_removed": 0,
+      "rxsafebench": {
+        "n": 988,
+        "correct": 475,
+        "fixes": 70,
+        "regressions": 94,
+        "accuracy": 0.4807692307692308,
+        "reused_same_state": false
+      },
+      "rxqa": {
+        "n": 300,
+        "correct": 175,
+        "fixes": 19,
+        "regressions": 32,
+        "accuracy": 0.5833333333333334,
+        "reused_same_state": false
+      }
+    },
+    {
+      "round": 3,
+      "cases_seen": 471,
+      "skill_count": 1,
+      "artifact_revision": 2,
+      "semantic_change": "Revises the distinction between triggered stop language and monitoring cautions.",
+      "interpretation_status": "Researcher description of artifact text, not verified clinical knowledge",
+      "new_cases": 157,
+      "proposal_evaluations": 5,
+      "initial_proposal_evaluations": 4,
+      "revision_evaluations": 1,
+      "reconstructed_probe_cases": 40,
+      "probe_overlap_with_proposal_batch": 0,
+      "action": "MODIFY",
+      "winner": {
+        "action": "MODIFY",
+        "name": "label_indication_and_caution_parsing",
+        "score": 5,
+        "fixes": 7,
+        "regressions": 2,
+        "baseline_fixes": 2,
+        "baseline_regressions": 2,
+        "eligible": true,
+        "contrastive_revision": false
+      },
+      "candidates": [
+        {
+          "action": "MODIFY",
+          "name": "label_indication_and_caution_parsing",
+          "score": 2,
+          "fixes": 2,
+          "regressions": 0,
+          "baseline_fixes": 2,
+          "baseline_regressions": 2,
+          "eligible": true,
+          "contrastive_revision": false
+        },
+        {
+          "action": "ADD",
+          "name": "current_medication_interaction_screen",
+          "score": 2,
+          "fixes": 4,
+          "regressions": 2,
+          "baseline_fixes": 2,
+          "baseline_regressions": 2,
+          "eligible": true,
+          "contrastive_revision": false
+        },
+        {
+          "action": "MODIFY",
+          "name": "label_indication_and_caution_parsing",
+          "score": 5,
+          "fixes": 7,
+          "regressions": 2,
+          "baseline_fixes": 2,
+          "baseline_regressions": 2,
+          "eligible": true,
+          "contrastive_revision": false
+        },
+        {
+          "action": "ADD",
+          "name": "interaction_requires_documented_pair_check",
+          "score": 1,
+          "fixes": 3,
+          "regressions": 2,
+          "baseline_fixes": 2,
+          "baseline_regressions": 2,
+          "eligible": true,
+          "contrastive_revision": false
+        },
+        {
+          "action": "MODIFY",
+          "name": "label_indication_and_caution_parsing",
+          "score": -1,
+          "fixes": 2,
+          "regressions": 3,
+          "baseline_fixes": 2,
+          "baseline_regressions": 2,
+          "eligible": false,
+          "contrastive_revision": true
+        }
+      ],
+      "artifact_path": "upgrade_v17/artifacts/round_3/label_indication_and_caution_parsing.md",
+      "artifact_sha256": "81944b9ddfd4fd02920bb168d31a0a0f0685eae100e61cdbe3670e744baa52d2",
+      "body_words": 645,
+      "body_lines_added": 22,
+      "body_lines_removed": 30,
+      "rxsafebench": {
+        "n": 988,
+        "correct": 493,
+        "fixes": 74,
+        "regressions": 56,
+        "accuracy": 0.49898785425101216,
+        "reused_same_state": false
+      },
+      "rxqa": {
+        "n": 300,
+        "correct": 175,
+        "fixes": 17,
+        "regressions": 17,
+        "accuracy": 0.5833333333333334,
+        "reused_same_state": false
+      }
+    },
+    {
+      "round": 4,
+      "cases_seen": 625,
+      "skill_count": 1,
+      "artifact_revision": 3,
+      "semantic_change": "Requires checking stop clauses even for the only indication-matching option; expands output evidence instructions.",
+      "interpretation_status": "Researcher description of artifact text, not verified clinical knowledge",
+      "new_cases": 154,
+      "proposal_evaluations": 4,
+      "initial_proposal_evaluations": 4,
+      "revision_evaluations": 0,
+      "reconstructed_probe_cases": 40,
+      "probe_overlap_with_proposal_batch": 0,
+      "action": "MODIFY",
+      "winner": {
+        "action": "MODIFY",
+        "name": "label_indication_and_caution_parsing",
+        "score": 2,
+        "fixes": 3,
+        "regressions": 0,
+        "baseline_fixes": 2,
+        "baseline_regressions": 1,
+        "eligible": true,
+        "contrastive_revision": false
+      },
+      "candidates": [
+        {
+          "action": "MODIFY",
+          "name": "label_indication_and_caution_parsing",
+          "score": -1,
+          "fixes": 0,
+          "regressions": 0,
+          "baseline_fixes": 2,
+          "baseline_regressions": 1,
+          "eligible": false,
+          "contrastive_revision": false
+        },
+        {
+          "action": "MODIFY",
+          "name": "label_indication_and_caution_parsing",
+          "score": 2,
+          "fixes": 3,
+          "regressions": 0,
+          "baseline_fixes": 2,
+          "baseline_regressions": 1,
+          "eligible": true,
+          "contrastive_revision": false
+        },
+        {
+          "action": "MODIFY",
+          "name": "label_indication_and_caution_parsing",
+          "score": 0,
+          "fixes": 1,
+          "regressions": 0,
+          "baseline_fixes": 2,
+          "baseline_regressions": 1,
+          "eligible": false,
+          "contrastive_revision": false
+        },
+        {
+          "action": "MODIFY",
+          "name": "label_indication_and_caution_parsing",
+          "score": 0,
+          "fixes": 3,
+          "regressions": 2,
+          "baseline_fixes": 2,
+          "baseline_regressions": 1,
+          "eligible": false,
+          "contrastive_revision": false
+        }
+      ],
+      "artifact_path": "upgrade_v17/artifacts/round_4/label_indication_and_caution_parsing.md",
+      "artifact_sha256": "1667f4addf9710ae8f2984022748db3fb7eddd25c359b5db4b6f38e9b5ffaf3e",
+      "body_words": 774,
+      "body_lines_added": 45,
+      "body_lines_removed": 22,
+      "rxsafebench": {
+        "n": 988,
+        "correct": 501,
+        "fixes": 76,
+        "regressions": 68,
+        "accuracy": 0.507085020242915,
+        "reused_same_state": false
+      },
+      "rxqa": {
+        "n": 300,
+        "correct": 183,
+        "fixes": 22,
+        "regressions": 14,
+        "accuracy": 0.61,
+        "reused_same_state": false
+      }
+    }
+  ],
+  "initial_proposals_evaluated": 16,
+  "contrastive_revisions_evaluated": 1,
+  "accepted_updates": 3,
+  "validation": [
+    {
+      "epoch": "baseline",
+      "score": 0.4909560723514212,
+      "n_correct": 190,
+      "n_total": 387,
+      "dev_score": null
+    },
+    {
+      "epoch": 0,
+      "score": 0.5322997416020672,
+      "n_correct": 206,
+      "n_total": 387,
+      "dev_score": 0.4912
+    }
+  ],
+  "validation_timing": "Baseline and end of one epoch only; no per-round development curve was measured.",
+  "probe_scope": "Configured 40 training probes (target 20 failing/20 passing); first batch reuses its own training cases; later batches use prior training batches. No independent clinical regression set.",
+  "unchanged_modules": [
+    "LLM weights",
+    "retrieval code",
+    "label corpus",
+    "output contract"
+  ],
+  "counts_are_not_capability_scores": true,
+  "api_calls": 0,
+  "source_sha256": {
+    "skill_updates": "192306c6ae83963a075f56755a2f4031852e63e8697b162b4f22e0822bcacbb8",
+    "training_traces": "635e80dd73e9e8ed5a34a2b6c17adce49c523b489ecf2e5e59072747e69a0ac1",
+    "core_cycle": "5d5a79e5c8b7a730dcdeb67cb25e21081334d70dc2088a1c04af6dfa11479f18",
+    "summary": "0258e5b3d5d97e1e706db6990fc4a27bea2f068a46f175acb557dbfc7d129f48",
+    "audit_code": "141d5144358796a1bee64fd5f5d0a81c76460b43bb6d9d6e29dd5890662db51a",
+    "predictions": {
+      "fixed_grounded-rxsafebench": "00cb265604711e5fd0f43f5fcbeb4e8e2b2021f955bcbed9a2012a8022018fe0",
+      "round_2-rxsafebench": "858bfaeffa39cc6ce960c38569ff1a1a34fd001bba18b5d7422030f59f916dcb",
+      "round_3-rxsafebench": "3a398f453baa1f717257894768634251166c8928c7bb073c2284f2b8129e1595",
+      "round_4-rxsafebench": "33e30413e5b1304e2e4cb22288b8a0fd651df784cd36a4db1ed6e949d317a979",
+      "fixed_grounded-rxqa": "74a62237f0700822b284afc00245fbd945d418ec989a9d8e39329be50cbd9692",
+      "round_2-rxqa": "fa23e24bf280cdf4bb29ca88c305eda4d5e5701f5f10722179781da2987fad2a",
+      "round_3-rxqa": "07e0309f972f17991f9b86513c9243b4143c9817bf70678990ed3173d9fe4c4b",
+      "round_4-rxqa": "cde1cd89f36042d305ace7dea21b4a57d7365756e1b433539cb6d0489a346210"
+    }
+  }
+}

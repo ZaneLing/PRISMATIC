@@ -2,6 +2,8 @@
 
 Updated 2026-10-15. The method is **RxRSIAgent**. This document explains the retained configuration and new review interfaces; historical prototypes do not define the current method. The [existing English manuscript](latex/v0.3/prismatic_v03_en.tex) contains the full architecture in Figure1. [Current results](CURRENT_RESULTS.en.md) · [中文](RXRSI_DESIGN.zh.md)
 
+[Detailed update mechanism and artifact trajectory](EVOLUTION.en.md) · [Clinician-oriented endpoints and review](CLINICAL_EVALUATION.en.md)
+
 ## 1. Method and research question
 
 **RxRSIAgent uses drug-label evidence for prescription-related decisions, retains reusable skills from training-case feedback, and selects a skill state on development data. For order drafts, it explicitly exposes missing fields and unresolved clinical checks.**

@@ -47,3 +47,11 @@ The audit uses test questions only for retrospective diagnosis. It does not chan
 ## Current scientific claim
 
 RxRSIAgent's retained checkpoint is development-selected. Its saved scores are **501/988** on derived RxSafeBench and **183/300** on public RxQA. They do not yet beat the GRASP control. The new retriever repairs a measured tool-coverage failure; the new clinical interfaces expose unresolved checks. Neither result establishes medical-agent superiority or autonomous safe prescribing.
+
+## Clinical endpoint design and evolution audit
+
+- [Clinical evaluation protocol](../paper/CLINICAL_EVALUATION.en.md), [机器可读协议](clinical_evaluation_protocol.json), and [blank rating template](clinical_review_template.json). No clinician results have been collected.
+- [Audited skill evolution](../paper/EVOLUTION.en.md):625 unique training traces,16 initial proposals, one revision, three accepted edits; all saved round outcomes independently recounted.
+- `python -m rxrsiagent.audit_evolution` checks the local public caches and unchanged credited GRASP core without actor calls.
+- `python -m unittest rxrsiagent.test_clinical_metrics -v` runs seven synthetic aggregation checks. They are separate from the twelve structural contract tests.
+- `python -m rxrsiagent.clinical_metrics local_adjudicated_ratings.json local_summary.json` aggregates clinical labels only after they have been supplied; it does not generate clinical judgments.

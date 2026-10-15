@@ -1,0 +1,170 @@
+{
+  "status": "designed_awaiting_clinician_annotations",
+  "date": "2026-10-15",
+  "validated_clinical_scale": false,
+  "clinical_results_available": false,
+  "primary_endpoints": [
+    "goal_coverage",
+    "major_error",
+    "joint_order"
+  ],
+  "endpoints": [
+    {
+      "id": "goal_coverage",
+      "name": "Treatment-goal coverage",
+      "priority": "primary",
+      "unit": "Patient",
+      "definition": "Satisfied predeclared treatment or escalation requirements / applicable requirements; report critical needs separately.",
+      "domain": "therapeutic_goal"
+    },
+    {
+      "id": "major_error",
+      "name": "Major-error case rate",
+      "priority": "primary",
+      "unit": "Patient",
+      "definition": "Cases with at least one adjudicated serious or potentially life-threatening prescribing error / cases with an adjudicated major-error status.",
+      "domain": "major_error"
+    },
+    {
+      "id": "joint_order",
+      "name": "Joint clinically correct order rate",
+      "priority": "primary",
+      "unit": "Order",
+      "definition": "Orders with every applicable clinical field correct / assessed generated orders; pair with goal coverage to expose omissions.",
+      "domain": "order_correctness"
+    },
+    {
+      "id": "unnecessary",
+      "name": "Unnecessary-medication rate",
+      "priority": "secondary",
+      "unit": "Order",
+      "definition": "Adjudicated unnecessary or unjustified duplicate orders / assessed generated orders; empty output has no order-level rate.",
+      "domain": "unnecessary_orders"
+    },
+    {
+      "id": "fields",
+      "name": "Required-field completeness",
+      "priority": "secondary",
+      "unit": "Field",
+      "definition": "Present applicable fields / required fields; report clinical field correctness separately.",
+      "domain": "order_fields"
+    },
+    {
+      "id": "safety",
+      "name": "Clinical constraint handling",
+      "priority": "secondary",
+      "unit": "Hazard",
+      "definition": "Sensitivity and precision for adjudicated actionable hazards; separately report allergy, interactions, organ adjustment and population restrictions.",
+      "domain": "safety"
+    },
+    {
+      "id": "adjunct",
+      "name": "Adjunct and infusion adequacy",
+      "priority": "secondary",
+      "unit": "Requirement",
+      "definition": "Supported purpose and correct applicable preparation/volume/rate requirements; extra adjuncts count as unnecessary orders.",
+      "domain": "adjunct_infusion"
+    },
+    {
+      "id": "monitoring",
+      "name": "Monitoring-plan coverage",
+      "priority": "secondary",
+      "unit": "Requirement",
+      "definition": "Satisfied required follow-up targets, times and action criteria / applicable monitoring requirements.",
+      "domain": "monitoring"
+    },
+    {
+      "id": "evidence",
+      "name": "Applicable-evidence support",
+      "priority": "secondary",
+      "unit": "Claim",
+      "definition": "Clinically material claims supported by the cited source and correct product/population/time context / assessed claims; retrieval availability is separate.",
+      "domain": "evidence_applicability"
+    },
+    {
+      "id": "disposition",
+      "name": "Appropriate disposition",
+      "priority": "secondary",
+      "unit": "Patient",
+      "definition": "Correct prescribe/renew/withhold/request-information/escalate decisions / assessed cases; pair with action coverage and error rate.",
+      "domain": "disposition"
+    },
+    {
+      "id": "reconciliation",
+      "name": "Reconciliation completeness",
+      "priority": "secondary",
+      "unit": "Requirement",
+      "definition": "Correct continue/start/change/stop handling and relevant active/OTC medication reconciliation / applicable requirements.",
+      "domain": "reconciliation"
+    },
+    {
+      "id": "feasibility",
+      "name": "Patient feasibility",
+      "priority": "secondary",
+      "unit": "Requirement",
+      "definition": "Satisfied administration, access and patient-preference requirements / applicable requirements.",
+      "domain": "feasibility"
+    },
+    {
+      "id": "edits",
+      "name": "Clinician edit burden",
+      "priority": "secondary",
+      "unit": "Patient",
+      "definition": "Blinded reviewer edit count and time to an acceptable draft; report medians and dispersion.",
+      "domain": "edit_burden"
+    },
+    {
+      "id": "resources",
+      "name": "Operational cost and coverage",
+      "priority": "secondary",
+      "unit": "Patient",
+      "definition": "Action rate, unresolved/abstention rate, latency, calls and tokens per case; never optimize an error rate by hiding abstention.",
+      "domain": "operations"
+    }
+  ],
+  "denominator_rules": [
+    "Freeze patient-need requirements and acceptable alternatives before viewing method outputs.",
+    "Unknown applicability and unrated items stay explicit; no zero-denominator perfect scores.",
+    "Report assessment coverage with every score and patient-level macro plus opportunity-level micro estimates.",
+    "Report action coverage with safety and order rates; medically appropriate withholding can satisfy a predeclared requirement.",
+    "Reference drug sets and clinical appropriateness are separate endpoints."
+  ],
+  "review": {
+    "reviewers": 2,
+    "target_random_patients": 100,
+    "target_input_stratified_challenge_cases": 50,
+    "separate_calibration_cases": 20,
+    "status": "not_started",
+    "power_claim": false,
+    "blinding": "Hide method and checkpoint; randomized/counterbalanced order; independent first ratings retained.",
+    "disagreements": "Discuss after independent ratings; unresolved items remain unknown; retain both ratings.",
+    "statistics": [
+      "Binary agreement and severity-weighted kappa with coverage",
+      "Patient-paired bootstrap confidence intervals",
+      "Report random and challenge cohorts separately",
+      "Preregister multiplicity handling for confirmatory testing of three primary endpoints"
+    ]
+  },
+  "severity": {
+    "0": "No identified error within assessed scope",
+    "1": "Minor documentation/clarity issue",
+    "2": "Clinically relevant correction needed without serious expected harm",
+    "3": "Potential serious harm",
+    "4": "Potential life-threatening harm",
+    "unknown": "Insufficient context or unresolved judgment; not zero"
+  },
+  "software_scope": "clinical_metrics.py aggregates adjudicated requirement ratings, major-error labels and unnecessary-order labels. It does not create clinical labels, hazard matching, edit times, confidence intervals or kappa.",
+  "sources": [
+    "https://www.nice.org.uk/guidance/ng5/chapter/Recommendations",
+    "https://pubmed.ncbi.nlm.nih.gov/1474400/",
+    "https://arxiv.org/abs/2512.02024"
+  ],
+  "dataset": {
+    "source": "MIMIC-IV3.1",
+    "task": "Complete prescription drafts at a declared decision time",
+    "inputs": "Recorded availability; exclude post-decision facts and target orders from actor context",
+    "roster": "Not yet sampled; check against historical exposure registry and freeze before output scoring",
+    "historical_reuse": "Label as exploratory if prior exposure cannot be excluded",
+    "qa_boundary": "Public RxSafeBench/RxQA questions do not provide complete-order clinical labels"
+  }
+}

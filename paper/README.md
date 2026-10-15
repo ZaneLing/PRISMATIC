@@ -12,6 +12,9 @@ The [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) is maintained at i
 - [Evidence manifest](latex/v0.3/manuscript_evidence.json), [compile check](latex/v0.3/compile_check.json), [ACL template provenance](latex/v0.3/acl_template_provenance.json).
 - [Earlier study archive, English](RESULTS_ARCHIVE_2026-10-15.en.md) / [历史实验归档](RESULTS_ARCHIVE_2026-10-15.zh.md).
 
+- [Clinical assessment protocol](CLINICAL_EVALUATION.en.md) / [医生视角评估](CLINICAL_EVALUATION.zh.md).
+- [Audited evolution mechanism and rounds](EVOLUTION.en.md) / [机制与逐轮证据](EVOLUTION.zh.md).
+
 ## Where is each part of the paper?
 
 | Reader question | Location | Evidence boundary |
@@ -20,11 +23,13 @@ The [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) is maintained at i
 | Which datasets and tasks are evaluated? | Table1, Experimental Setup | Public option tasks and separate eICU order-tool study |
 | How does RxRSIAgent compare with other paper methods? | **Table2, Main agent comparison** | MedAgents, MDAgents, SafeRx-Agent, GRASP and **RxRSIAgent**; missing runs explicitly marked |
 | What do evidence and skills contribute? | Table3, Component ablations | Same backbone, questions and inference cap |
-| What changes as cases accumulate? | Table4, Experience trajectory | Five checkpoints of the retained algorithm; no monotonic improvement claim |
+| What changes as cases accumulate? | Table4, Experience trajectory | Five checkpoints, artifact words/operations and Figure2 curves; no monotonic improvement claim |
 | Does an order tool help? | Table5, Order-tool component evidence | eICU fixed-policy intervention; not a full-agent score |
 | Where are real examples? | Table6, Case Studies | Public case104 correction and case10 frequency regression |
 | What did the new retrieval repair accomplish? | Table7, Retrieval failure and repair | Coverage1→214/300, dosage0→193/300; no new answer accuracy |
 | Which clinical risks are implemented or unresolved? | Method, Clinical Review Scope appendix; bilingual design notes | Eighteen interfaces, structural checks, pending clinical engines |
+| What would clinicians measure beyond F1? | Table8, Clinician-Oriented Evaluation Protocol | Fourteen proposed endpoints, three primary; annotations pending |
+| Which modules actually evolve? | Table9, Module-level attribution | Learned skill updates versus fixed modules and separate component repairs |
 
 ## Current interpretation
 

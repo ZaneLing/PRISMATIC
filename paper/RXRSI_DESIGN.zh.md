@@ -2,6 +2,8 @@
 
 更新：2026-10-15。方法名统一为 **RxRSIAgent**。本文解释当前保留的方法与新增工具接口；旧版本不再组成当前方法。英文论文保持[原编辑路径](latex/v0.3/prismatic_v03_en.tex)，架构主图是 Figure 1。[当前结果](CURRENT_RESULTS.zh.md) · [English](RXRSI_DESIGN.en.md)
 
+[本轮详细机制与每轮变化](EVOLUTION.zh.md) · [医生视角指标与盲评方案](CLINICAL_EVALUATION.zh.md)
+
 ## 1. 一句话说清方法
 
 **RxRSIAgent 用药品说明书支持处方相关决策，把训练病例中获得的经验保存成可复用技能，并通过开发集检验决定保留哪份技能；生成处方草稿时，再显式检查缺失字段与尚未解决的临床问题。**

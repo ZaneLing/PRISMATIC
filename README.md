@@ -2,6 +2,8 @@
 
 ## Current paper and implementation — 15 October 2026
 
+New: [clinician-oriented evaluation](paper/CLINICAL_EVALUATION.en.md) / [医生视角指标](paper/CLINICAL_EVALUATION.zh.md), and [audited evolution rounds](paper/EVOLUTION.en.md) / [逐轮进化证据](paper/EVOLUTION.zh.md). The Introduction now discusses scoped Utah prescribing pilots; Figure2 and Tables8–9 connect artifact changes, outcomes and module attribution.
+
 **RxRSIAgent** is the method name. The current English ACL manuscript retains one development-selected agent, a complete architecture figure, a named-method main table, component ablations, learning rounds, and two public case studies. Historical prototypes remain in archived reports, outside the paper.
 
 - [English ACL manuscript](paper/latex/v0.3/prismatic_v03_en.tex) — existing editor path; official ACL review style.

@@ -4,6 +4,14 @@ Updated 2026-10-15. The method is **RxRSIAgent**; PRISMATIC remains the reposito
 
 [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) · [Architecture and clinical risk map](RXRSI_DESIGN.en.md) · [中文结果](CURRENT_RESULTS.zh.md) · [Implementation](../rxrsiagent/README.md)
 
+## New increment: deployed pilots, clinical endpoints and evolution mechanism
+
+- The Introduction adds Utah's[Doctronic renewal pilot](https://commerce.utah.gov/2026/01/06/news-release-utah-and-doctronic-announce-groundbreaking-partnership-for-ai-prescription-medication-renewals/) and[Nolla Health's scoped acne-prescribing pilot](https://commerce.utah.gov/ai/regulatory-relief-4/authorized-pilots/), with scope and oversight limits. Deployment motivates evaluation; it does not establish clinical effectiveness or general AI medical licensure.
+- **Clinical perspective:**14 endpoints, with treatment-goal coverage, major-error case rate and joint clinically correct order rate as primary. [Full protocol](CLINICAL_EVALUATION.en.md) includes two-reviewer blinding, denominators, unknowns, templates and aggregation. No clinician ratings are available.
+- **Evolution:**625 training traces,16 initial proposals and one contrastive revision independently checked; one addition and two modifications retained. [Mechanism and evidence](EVOLUTION.en.md) records the exact gate, probe scope, artifact changes and outcomes. First-round probes overlap their training batch; development is measured only at baseline/end of epoch.
+- **Paper locations:** Table4 expands case/artifact/outcome reporting; Figure2 shows actual learning curves; Table8 specifies clinician endpoints; Table9 attributes module changes. Existing main/case table numbers stay unchanged.
+- Seven new synthetic aggregation tests pass. The prior12 structural checks remain separately recorded; neither is clinical validation. Long-running queues remain paused, with no new actor calls.
+
 ## 1. Named-method main table
 
 **Table 2 is the named-agent comparison; RxRSIAgent is the final bold row. Table 3 contains component ablations.** MedAgents, MDAgents and SafeRx-Agent are methods; MedAgentBench is an evaluation environment.

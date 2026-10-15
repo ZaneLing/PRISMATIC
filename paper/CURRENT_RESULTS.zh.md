@@ -4,6 +4,14 @@
 
 [英文 ACL 论文](latex/v0.3/prismatic_v03_en.tex) · [中文结构与临床问题映射](RXRSI_DESIGN.zh.md) · [English results](CURRENT_RESULTS.en.md) · [实现入口](../rxrsiagent/README.md)
 
+## 本轮补充：真实部署背景、医生视角与进化机制
+
+- Introduction已加入犹他州的[Doctronic续方试点](https://commerce.utah.gov/2026/01/06/news-release-utah-and-doctronic-announce-groundbreaking-partnership-for-ai-prescription-medication-renewals/)与[Nolla Health限定痤疮处方试点](https://commerce.utah.gov/ai/regulatory-relief-4/authorized-pilots/)，保留范围和阶段性监管条件。它们说明处方agent已进入真实工作流程，不代表AI取得全面医生执照或临床效果已获证明。
+- **医生视角：** 新增14项终点，其中治疗需求覆盖率、严重错误病例率、完整且临床正确订单比例为三个主终点。指标定义、双人盲评、分母与未知处理、模板和评分工具见[完整方案](CLINICAL_EVALUATION.zh.md)。尚无医生评分结果。
+- **进化机制：** 独立核对625条训练记录、16个初始提案和1次额外修订，确认接受1次新增与2次修改；具体公式、训练探针、逐轮技能内容和前后变化见[进化证据](EVOLUTION.zh.md)。第1轮探针与本轮训练病例重叠，开发集只有初始／epoch结束两次测量，均已披露。
+- **论文位置：** Table4扩展为病例数／技能状态／词数／效果；Figure2为实际学习曲线；Table8是医生视角指标设计，Table9是模块变化与证据。原主表、案例编号不变。
+- 新增评分汇总工具通过7项合成测试；原12项结构测试的结果仍单独记录。这些都不是临床验证。未恢复长期队列或产生新模型调用。
+
 ## 1. 主表在哪里，比较的是什么？
 
 **论文 Table 2 是具名方法主表，RxRSIAgent 位于最后一行并加粗。** Table 3 才是组件消融。MedAgents、MDAgents 和 SafeRx-Agent 是论文方法；MedAgentBench 是评测环境，不是方法名。
