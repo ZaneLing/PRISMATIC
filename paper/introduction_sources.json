@@ -1,0 +1,53 @@
+{
+  "checked_date": "2026-10-15",
+  "scope": "Primary-source checks for the revised Introduction. Literature additions do not represent newly executed comparisons.",
+  "sources": [
+    {
+      "key": "mrsurvey",
+      "title": "Deep Learning for Medication Recommendation: A Systematic Survey",
+      "year": 2023,
+      "source": "https://doi.org/10.1162/dint_a_00197",
+      "checked_records": [
+        "https://direct.mit.edu/dint/article/5/2/303/114891/Deep-Learning-for-Medication-Recommendation-A",
+        "https://www.sciengine.com/doi/pdfView/FFBD41AF24B943B199805BD00C3520A7"
+      ],
+      "supports": "EHR medication recommendation; personalization, temporal dynamics, DDI; journal volume 5(2), pages 303-354.",
+      "access_note": "Publisher-indexed search text and original PDF indexed front matter checked; direct publisher fetch returned 403. No exhaustive survey replication claimed."
+    },
+    {
+      "key": "rxeval",
+      "source": "https://arxiv.org/abs/2605.14543",
+      "version": "v1",
+      "supports": "Time-specific medication-dose-route option selection; 1547 questions and 584 patients.",
+      "local_execution": "Not executed; official data package not available in this project."
+    },
+    {
+      "key": "rxllm",
+      "source": "https://doi.org/10.64898/2025.12.01.25341004",
+      "checked_records": [
+        "https://pubmed.ncbi.nlm.nih.gov/41404284/",
+        "https://www.medrxiv.org/content/10.64898/2025.12.01.25341004v2.full"
+      ],
+      "supports": "Six tasks: formulation, order generation, route, interactions, renal dose and indication.",
+      "bibliography_note": "Uses the revised 15-author record indexed by PubMed; the earlier v1 record has a shorter author list. Cited as a preprint.",
+      "local_execution": "Not executed; contextual benchmark citation only."
+    },
+    {
+      "key": "lamrec",
+      "source": "https://arxiv.org/html/2503.03687v2",
+      "version": "v2",
+      "supports": "Language-Assisted Medication Recommendation uses medication-aware alignment to address overprescription and use clinical notes.",
+      "local_execution": "Not executed; related-method citation only."
+    }
+  ],
+  "existing_sources_rechecked": [
+    "https://github.com/CAS-SIAT-XinHai/RxSafeBench",
+    "https://github.com/Google-Health/rxqa",
+    "https://arxiv.org/abs/2501.14654",
+    "https://arxiv.org/abs/1809.01852",
+    "https://arxiv.org/abs/2105.02711",
+    "https://www.ijcai.org/proceedings/2025/871",
+    "https://arxiv.org/abs/2605.29146"
+  ],
+  "claim_boundary": "Benchmark endpoints alone do not identify the contribution of persistent updates. This is the paper's methodological inference, not a claim that no prior method uses feedback or memory."
+}

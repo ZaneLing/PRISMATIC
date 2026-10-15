@@ -2,6 +2,48 @@
 
 Target: ACL 2027. Beating prior methods is a research objective, never a patient-level inference instruction.
 
+## 15 October 2026: overall method and Introduction structure
+
+RxRSIAgent connects prescription inference with updates from training-case feedback. Its harness organizes task-available context, candidates, medication selection, order fields, output contracts, version selection and evaluation. Different task adapters activate different components; the current evidence does not describe one model jointly evolving all four state objects with an established overall advantage.
+
+```mermaid
+flowchart TB
+  subgraph RUN[Prescription inference]
+    direction LR
+    A[Task-available patient context] --> B[Retrieve candidates or templates]
+    B --> C[Medication policy and applicable memory]
+    C --> D[Order tool chooses route, dosage, frequency]
+    D --> E[Task-specific output]
+  end
+  S[Active state: parameters, memory, tool, skills] -. Task-specific use .-> C
+  S -. Order tool .-> D
+  E --> F[Training cases only: compare predictions with recorded orders]
+  G[Training prescription labels] --> F
+  F --> H[Propose a declared state update]
+  H --> I[Study-specific development checks and selection]
+  I --> J[Record acceptance or rejection and retain both trajectories]
+  J --> S
+  S --> Q[Freeze versions for evaluation]
+  Q --> R[Common-data methods, experience curves, component interventions, transfer]
+```
+
+The ATC adapter omits order completion; eICU selects historical order tuples; the local LLM selects supplied templates; QA returns options; FHIR executes and reads back simulated record changes. Evaluation labels do not enter the learning loop. Development selection has different roles in the different experiments.
+
+| Updated object | Actual mechanism | Current evidence |
+|---|---|---|
+| Memory | Conditional inclusion/exclusion rules from aggregate errors | Full-space F1 0.61260 vs greedy rules 0.61267; no unique language-agent advantage |
+| Order tool | Learned tuple defaults and conditional tuple classifiers | Fixed drug sets: joint-order F1 0.02334 to 0.02838 |
+| Language skills | Persistent instructions for QA or FHIR tasks | In-distribution gains and transfer regressions |
+| Parameters | Structured-policy refits or local LLM LoRA updates | Ordinary learning improves; local LLM updates can collapse or depend on position |
+
+Tool learning changes fitted state; the completed eICU study does not autonomously rewrite tool code. Matching recorded labels can be scored automatically. Clinical appropriateness remains a separate endpoint.
+
+The revised English Introduction follows six steps: **field and survey → benchmark scope → methods and the obstacles they address → central problem → our approach → contributions**. It adds Ali et al.'s medication-recommendation survey, RxEval, Rx-LLM, and medication-aware language-model alignment to the existing sources. The [Chinese explanation](RXRSI_DESIGN.zh.md) includes the detailed benchmark and method map with original-source links.
+
+**Central problem: How can a prescription agent convert accumulated case-level feedback into reusable improvements in medication selection and order completion, and how can we attribute those improvements to specific updates and verify their transfer beyond the cases used to select them?**
+
+The supported contributions are the prescription-specific update framework, controlled improvement-attribution protocol, and evidence identifying useful order-tool changes and unsuccessful updates. The update algorithm is fixed; recursive algorithm redesign and overall superiority are not established. Research and experiment queues remain paused. The detailed version records below are retained.
+
 ## Completed order-tool intervention: what was learned
 
 The eICU path separates medication-code selection from order completion. Given selected codes and patient context, the tool chooses route, dosage string and frequency from tuples observed in training. As cases grow from 8k to 40k, default tuples and conditional classifier parameters change while executable code stays fixed. This path uses no language model and generates no novel doses.

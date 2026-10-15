@@ -162,6 +162,8 @@ def fhir_table():
 
 
 REFERENCES=r'''\begin{thebibliography}{99}
+\bibitem[Ali et al.(2023)]{mrsurvey} Zafar Ali, Yi Huang, Irfan Ullah, Junlan Feng, Chao Deng, Nimbeshaho Thierry, Asad Khan, Asim Ullah Jan, Xiaoli Shen, Wu Rui, and Guilin Qi. 2023. Deep Learning for Medication Recommendation: A Systematic Survey. \emph{Data Intelligence}, 5(2):303--354. \url{https://doi.org/10.1162/dint_a_00197}.
+\bibitem[Chen et al.(2026)]{rxeval} Shuhao Chen, Weisen Jiang, Changmiao Wang, Xiaoqing Wu, Xuanren Shi, Yu Zhang, and James T. Kwok. 2026. RxEval: A Prescription-Level Benchmark for Evaluating LLM Medication Recommendation. \emph{arXiv preprint arXiv:2605.14543}. \url{https://arxiv.org/abs/2605.14543}.
 \bibitem[Johnson et al.(2024)]{mimiciv} Alistair Johnson, Lucas Bulgarelli, Tom Pollard, Brian Gow, Benjamin Moody, Steven Horng, Leo Anthony Celi, and Roger Mark. 2024. MIMIC-IV (version 3.1). PhysioNet. \url{https://doi.org/10.13026/kpb9-mt58}.
 \bibitem[Jiang et al.(2025)]{medagentbench} Yixing Jiang, Kameron C. Black, Gloria Geng, Danny Park, James Zou, Andrew Y. Ng, and Jonathan H. Chen. 2025. MedAgentBench: A Realistic Virtual EHR Environment to Benchmark Medical LLM Agents. \emph{arXiv preprint arXiv:2501.14654}. \url{https://arxiv.org/abs/2501.14654}.
 \bibitem[Madaan et al.(2023)]{selfrefine} Aman Madaan, Niket Tandon, Prakhar Gupta, Skyler Hallinan, Luyu Gao, Sarah Wiegreffe, Uri Alon, Nouha Dziri, Shrimai Prabhumoye, Yiming Yang, Shashank Gupta, Bodhisattwa Prasad Majumder, Katherine Hermann, Sean Welleck, Amir Yazdanbakhsh, and Peter Clark. 2023. Self-Refine: Iterative Refinement with Self-Feedback. \emph{Advances in Neural Information Processing Systems}. \url{https://arxiv.org/abs/2303.17651}.
@@ -173,7 +175,9 @@ REFERENCES=r'''\begin{thebibliography}{99}
 \bibitem[Wang et al.(2026)]{saferx} Xinyu Wang, Hanwei Wu, Zhenghan Tai, Sicheng Lyu, Qincheng Lu, Ziyu Zhao, Jijun Chi, Jingrui Tian, Xiao-Wen Chang, and Ziyang Song. 2026. SafeRx-Agent: A Knowledge-Grounded Multi-Agent Framework for Safe and Explainable Medication Recommendation. \emph{arXiv preprint arXiv:2605.29146}. \url{https://arxiv.org/abs/2605.29146}.
 \bibitem[Wu et al.(2025)]{armr} Feiyue Wu, Tianxing Wu, and Shenqi Jing. 2025. ARMR: Adaptively Responsive Network for Medication Recommendation. \emph{Proceedings of IJCAI}, pages 7831--7839. \url{https://doi.org/10.24963/ijcai.2025/871}.
 \bibitem[Yang et al.(2021)]{safedrug} Chaoqi Yang, Cao Xiao, Fenglong Ma, Lucas Glass, and Jimeng Sun. 2021. SafeDrug: Dual Molecular Graph Encoders for Recommending Effective and Safe Drug Combinations. \emph{Proceedings of IJCAI}. \url{https://arxiv.org/abs/2105.02711}.
-\bibitem[Zhao et al.(2025)]{rxsafe} Jiahao Zhao, Luxin Xu, Minghuan Tan, Lichao Zhang, Ahmadreza Argha, Hamid Alinejad-Rokny, and Min Yang. 2025. RxSafeBench: Identifying Medication Safety Issues of Large Language Models in Simulated Consultation. \emph{Proceedings of IEEE BIBM}, pages 4491--4496. \url{https://doi.org/10.1109/BIBM66473.2025.11356353}.
+\bibitem[Zhao et al.(2025a)]{rxsafe} Jiahao Zhao, Luxin Xu, Minghuan Tan, Lichao Zhang, Ahmadreza Argha, Hamid Alinejad-Rokny, and Min Yang. 2025a. RxSafeBench: Identifying Medication Safety Issues of Large Language Models in Simulated Consultation. \emph{Proceedings of IEEE BIBM}, pages 4491--4496. \url{https://doi.org/10.1109/BIBM66473.2025.11356353}.
+\bibitem[Zhao et al.(2025b)]{rxllm} Xingmeng Zhao, Kaitlin Blotske, Moriah Cargile, Adeleine Tilley, Brian Murray, Yanjun Gao, Kelli Henry, Susan E. Smith, Erin F. Barreto, Seth Bauer, Sunghwan Sohn, Tianming Liu, Tell Bennett, Mitch Cohen, and Andrea Sikora. 2025b. Rx-LLM: A Benchmarking Suite to Evaluate Safe Large Language Model Performance for Medication-Related Tasks. \emph{medRxiv preprint}. \url{https://doi.org/10.64898/2025.12.01.25341004}.
+\bibitem[Zhao et al.(2025c)]{lamrec} Zihao Zhao, Chenxiao Fan, Junlong Liu, Zheng Wang, Xiangnan He, Chongming Gao, Juan Li, and Fuli Feng. 2025c. Fine-grained Alignment of Large Language Models for General Medication Recommendation without Overprescription. \emph{arXiv preprint arXiv:2503.03687}. \url{https://arxiv.org/abs/2503.03687}.
 \end{thebibliography}'''
 
 
@@ -182,7 +186,7 @@ def run():
     replacements={'COMMON_TABLE':common,'JACCARD_TABLE':jaccard,'EICU_TABLE':external,'GROWTH_TABLE':growth,'PARAMETER_COUNT':count,
                   'PARAMETER_TABLE':parameters,'PRECISION_TABLE':precision,'PRECISION_DETAIL_TABLE':detail,
                   'FHIR_TABLE':fhir_table(),'REFERENCES':REFERENCES}
-    for name in ['upgrade_v27/rsi_addendum.json','upgrade_v27/results/cohort_audit.json','upgrade_v25/protocol.json',
+    for name in ['paper/introduction_sources.json','upgrade_v27/rsi_addendum.json','upgrade_v27/results/cohort_audit.json','upgrade_v25/protocol.json',
                  'upgrade_v31/protocol.json','upgrade_v32/protocol.json','upgrade_v29/results/summary.json',
                  'upgrade_v17/results/summary.json','upgrade_v18/results/summary.json','upgrade_v19/results/summary.json']:
         read(name)
