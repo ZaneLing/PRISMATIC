@@ -20,6 +20,6 @@
 
 [v0.27数据协议](../upgrade_v27/protocol.json)定义独立的历史就诊药物集合任务：本地授权 MIMIC-IV 3.1、患者互斥划分、真正五字符 ATC-L4、仅训练集拟合词表。后续[训练附录](../upgrade_v27/training_addendum.json)正式登记 ARMR-2025、GAMENet、SafeDrug 作者核心、四种传统方法及另行定义的 RxRSI 机制。RETAIN 仍是数据阶段的候选，尚未执行，不出现在实测表中。输入使用整次就诊诊断／操作，与六小时可用时间受控任务分别报告。
 
-公开分子资源已完成：**746/746 个 CID 全部返回并通过 RDKit 验证，覆盖 399 个 ATC-L4 类**。[公开资源审计](../upgrade_v27/results/molecular_resource_audit.json)保留原始哈希。队列专用资源也已补齐：覆盖 **219/271** 个训练药类，包含 **627** 个分子图、**863** 个 BRICS 片段。完整与分子空间分别比较，并明确排除标签和保留的空目标病例。SafeDrug 三个已登记种子均已完成 50 轮并通过检查点／预测独立核验；完整空间 ARMR 和 GAMENet 各三个种子均已完成，分子空间 GAMENet 前两个种子也已核验。其他已登记作者运行继续。[实际执行和成绩](../upgrade_v27/RESULTS.zh.md)。
+公开分子资源已完成：**746/746 个 CID 全部返回并通过 RDKit 验证，覆盖 399 个 ATC-L4 类**。[公开资源审计](../upgrade_v27/results/molecular_resource_audit.json)保留原始哈希。队列专用资源也已补齐：覆盖 **219/271** 个训练药类，包含 **627** 个分子图、**863** 个 BRICS 片段。完整与分子空间分别比较，并明确排除标签和保留的空目标病例。SafeDrug 三个已登记种子均已完成 50 轮并通过检查点／预测独立核验；完整空间 ARMR 和 GAMENet 各三个种子均已完成，分子空间 GAMENet 三个种子也均已核验。其他已登记作者运行继续。[实际执行和成绩](../upgrade_v27/RESULTS.zh.md)。
 
 [跨方法开发集复算](../upgrade_v27/DEVELOPMENT_METHODS.zh.md)使用相同 1,231 次就诊／467 人，按共同完成的种子做配对。[计算账本](COMPUTE_ACCOUNTING.zh.md)列出实际拟合、病例曝光与提议预算。[最终共同测试扩展](../upgrade_v30/COMMON_TEST.zh.md)等待已登记方法及核验全部完成。HADRec 继续保留原作者报告结果，其层级和完整执行协议仍需明确的兼容适配。缺失分数不填零，已复用开发／测试人群均明确标注。

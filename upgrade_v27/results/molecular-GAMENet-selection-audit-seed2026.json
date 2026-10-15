@@ -1,0 +1,80 @@
+{
+  "status": "passed",
+  "panel": "molecular",
+  "method": "GAMENet",
+  "seed": 2026,
+  "source_report_sha256": "980510de5b14ed6c09cb766ac48a164276968c71f79471e861b027528a90645b",
+  "checkpoint_sha256": "b5b0093e93aecd5862cd590c124685c99fb614e46f35cc100059bc7e86892642",
+  "source_sha256": {
+    "audit_author_selection.py": "712c64c454a9000936082b69f03d8aac032c198ecf8bdd16395ca1ac4422d697",
+    "evaluation_metrics.py": "d5aea98ea253ae6ce57d67a800bdc2637869445e277afc49b63e47ba9e66d85d"
+  },
+  "test_inference": false,
+  "splits": {
+    "proposal": {
+      "status": "passed",
+      "visits": 1095,
+      "patients": 433,
+      "selected_metrics": {
+        "patients": 433,
+        "visits": 1095,
+        "patient_f1": 0.509574622391499,
+        "patient_jaccard": 0.3555660348984392,
+        "micro_f1": 0.5268299122170154,
+        "micro_precision": 0.40868363115047873,
+        "micro_recall": 0.7410639680623897,
+        "mean_medications": 17.836529680365295,
+        "empty_prediction_fraction": 0.0,
+        "empty_target_fraction": 0.0,
+        "known_graph_pair_rate_all_predictions": 0.03645480271581824,
+        "ddi_source_covered_pair_fraction": 0.9898479615223216,
+        "known_graph_pair_rate_covered_pairs": 0.03682868898346079,
+        "strata": {
+          "zero_target": {
+            "visits": 0,
+            "patients": 0
+          },
+          "nonzero_target": {
+            "visits": 1095,
+            "patients": 433,
+            "patient_f1": 0.509574622391499,
+            "patient_jaccard": 0.3555660348984392
+          }
+        }
+      }
+    },
+    "guard": {
+      "status": "passed",
+      "visits": 1231,
+      "patients": 467,
+      "selected_metrics": {
+        "patients": 467,
+        "visits": 1231,
+        "patient_f1": 0.5078680497649017,
+        "patient_jaccard": 0.35418580068247413,
+        "micro_f1": 0.5215999051205266,
+        "micro_precision": 0.4034862385321101,
+        "micro_recall": 0.7374863754506582,
+        "mean_medications": 17.709179528838344,
+        "empty_prediction_fraction": 0.0,
+        "empty_target_fraction": 0.0,
+        "known_graph_pair_rate_all_predictions": 0.03677933360883396,
+        "ddi_source_covered_pair_fraction": 0.9869441534602559,
+        "known_graph_pair_rate_covered_pairs": 0.037265871103126263,
+        "strata": {
+          "zero_target": {
+            "visits": 0,
+            "patients": 0
+          },
+          "nonzero_target": {
+            "visits": 1231,
+            "patients": 467,
+            "patient_f1": 0.5078680497649017,
+            "patient_jaccard": 0.35418580068247413
+          }
+        }
+      }
+    }
+  },
+  "scope": "Raw-source input/target reconstruction; selected checkpoint reload and exact threshold decisions; independent development metrics. Historical epoch ranking uses retained logs, not a rerun of all historical checkpoints."
+}
