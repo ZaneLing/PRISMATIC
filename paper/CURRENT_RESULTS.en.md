@@ -1,13 +1,69 @@
 # RxRSIAgent: current method tables, evolution evidence and execution status
 
+## ACL manuscript snapshot — 15 October 2026
+
+Research and experiment queues are **paused**. The [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) now contains the workflow, common-data main table, completed external-hospital comparison, growth curves and component/failure analyses. See the [reading index](README.md) and [evidence manifest](latex/v0.3/manuscript_evidence.json).
+
+Latest saved evidence: **13/15** author runs, **9/36** parameter updates; molecular ARMR seed 42 has guard F1 **0.58477** and Jaccard **0.43181**. The precision diagnostic is complete: removing cutoff ties does not remove position dependence. [Full precision results](../upgrade_v32/PRECISION.en.md). The eICU conditional order-tool intervention remains positive; own-error learning does not beat matched uniform learning.
+
+The dated incremental report below is retained as a historical snapshot. Its older completion counts and “running” descriptions are superseded by this notice and the manuscript.
+
+
 <!-- RXRSI_CURRENT_EXECUTION_START -->
 ## Current executed increment — rule memory and tool repair
 
 **Manuscript navigation:** Study A contains the common ATC-L4 method comparison; Study B covers structured orders and external hospitals; Study C language skills; Study D parameter updates; Study E real FHIR execution. The agent-state section maps each task to its output and evolving objects, and states the actual selection roles. [Reading index](README.md).
 
+### Study A: available cross-method table — development data
+
+**Dataset and task:** MIMIC-IV 3.1, the same 1,231 guard visits / 467 patients for every row. Inputs contain completed-visit diagnosis/procedure codes; the target is the ATC-L4 medication set. This is a retrospective visit task. Full 271-class and molecular 219-class spaces have separate panels. Proposal selects checkpoints/thresholds; the final common test remains gated.
+
+The RxRSIAgent row evaluates its rule-memory branch with a shared prediction policy. Language skills, parameter updates and structured-order tools have their own studies below. Author-core rows use the declared local data adaptation.
+
+#### Full ATC-L4: 271 classes
+
+| Method | Audited runs | Patient F1 ± seed SD | Patient Jaccard ± seed SD |
+|---|---:|---:|---:|
+| Training prevalence | 1 | 0.45794 | 0.30680 |
+| Previous-visit medications | 1 | 0.30154 | 0.21585 |
+| Case retrieval (cosine kNN) | 1 | 0.55081 | 0.39614 |
+| Structured logistic regression | 1 | 0.61151 | 0.45742 |
+| ARMR author core | 3 | 0.60864 ± 0.00132 | 0.45327 ± 0.00113 |
+| GAMENet author core | 3 | 0.52708 ± 0.00664 | 0.37087 ± 0.00643 |
+| Shared policy / no rule updates | 3 | 0.61151 ± 0.00000 | 0.45742 ± 0.00000 |
+| Greedy error rules | 3 | 0.61267 ± 0.00066 | 0.45863 ± 0.00064 |
+| Random candidate rules | 3 | 0.61205 ± 0.00031 | 0.45791 ± 0.00027 |
+| **RxRSIAgent: own-error rule memory** | 3 | 0.61260 ± 0.00057 | 0.45856 ± 0.00057 |
+| Shuffled-evidence rule memory | 3 | 0.61219 ± 0.00038 | 0.45811 ± 0.00044 |
+| Matched proposals / witness gate removed | 3 | 0.61251 ± 0.00087 | 0.45840 ± 0.00102 |
+
+#### Molecular ATC-L4: 219 classes
+
+| Method | Audited runs | Patient F1 ± seed SD | Patient Jaccard ± seed SD |
+|---|---:|---:|---:|
+| Training prevalence | 1 | 0.42555 | 0.28089 |
+| Previous-visit medications | 1 | 0.28971 | 0.20613 |
+| Case retrieval (cosine kNN) | 1 | 0.51751 | 0.36710 |
+| Structured logistic regression | 1 | 0.58113 | 0.42971 |
+| ARMR author core | Pending full runs | — | — |
+| GAMENet author core | 3 | 0.50735 ± 0.00350 | 0.35384 ± 0.00324 |
+| SafeDrug author core | 3 | 0.53689 ± 0.00244 | 0.38432 ± 0.00223 |
+| Shared policy / no rule updates | 3 | 0.58113 ± 0.00000 | 0.42971 ± 0.00000 |
+| Greedy error rules | 3 | 0.58230 ± 0.00042 | 0.43084 ± 0.00039 |
+| Random candidate rules | 3 | 0.58220 ± 0.00055 | 0.43078 ± 0.00058 |
+| **RxRSIAgent: own-error rule memory** | 3 | 0.58198 ± 0.00014 | 0.43049 ± 0.00014 |
+| Shuffled-evidence rule memory | 3 | 0.58255 ± 0.00029 | 0.43105 ± 0.00027 |
+| Matched proposals / witness gate removed | 3 | 0.58202 ± 0.00067 | 0.43050 ± 0.00070 |
+
+Patient metrics average visits within each patient, then patients. The ± term is the SD across completed training seeds; single deterministic controls have no seed SD. Shared-policy scores may coincide across seeds. The witness-removal row reuses matched proposals and is an intervention, not an independently relearned trajectory. SafeDrug is evaluated in the 219-class molecular space; 52 training classes lack the required molecular coverage in the full space. The NDC bridge covers 27.23% of source prescription rows, so these panels measure the declared mapped medication space.
+
+**Current interpretation:** these development results do not establish a unique own-error advantage over greedy and shuffled-evidence controls. Paired patient intervals condition on the completed seeds and have no multiplicity adjustment. No new method is selected from this overview.
+
+[Full paired contrasts](../upgrade_v27/DEVELOPMENT_METHODS.en.md) · [Compute budgets](COMPUTE_ACCOUNTING.en.md) · [Final-test protocol and gate](../upgrade_v30/COMMON_TEST.en.md)
+
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 12/15 author-model runs finish their full 50 epochs, with 622/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 12/15 author-model runs finish their full 50 epochs, with 627/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Recorded method budgets:** the receipt ledger separates shared fits, optimizer steps, proposal searches and logical response prices. It checks completed author-epoch records against their original logs, counts shared policy fitting once, and identifies exact v29-to-v30 model reuse. SafeDrug has 3 audited seeds; molecular guard patient F1 is 0.53689 ± 0.00244. [Actual compute and development results](COMPUTE_ACCOUNTING.en.md)
 
@@ -101,7 +157,21 @@ No neural state exceeds retrieval in either F1 under either declared tie rule. S
 
 [Fixed-cardinality ranking diagnosis](../upgrade_v32/RANKING_DIAGNOSTIC.en.md)
 
-**Readout precision execution:** six frozen model states and two synthetic prompts each pass independent raw-weight, float64 projection and rounding checks. For the two zero-prefix states, native scores occupy only 3–4 levels out of 20; FP32 gives 20, and re-rounding reduces them again. This is engineering evidence. The complete clinical comparison has been launched with shared hidden states, all three readouts and both tie rules; only an independently audited clinical summary can establish a prescription-metric effect.
+**Completed readout precision comparison:** 100 proposal admissions / 97 patients, all six frozen states, three readouts and two tie rules pass independent recount. Each policy selects eight candidates. The table shows drug/core-order micro-F1 under the primary drug-identity tie rule.
+
+| State | Ranked native | Ranked FP32 | Permuted native | Permuted FP32 |
+|---|---:|---:|---:|---:|
+| Frozen base | 0.27096/0.18111 | 0.26962/0.17982 | 0.21462/0.14489 | 0.21462/0.14489 |
+| Original failed adapter | 0.28571/0.19405 | 0.28571/0.19405 | 0.20926/0.14101 | 0.20926/0.14101 |
+| GT prefix / uniform | 0.28706/0.19405 | 0.28840/0.19534 | 0.20389/0.13713 | 0.20389/0.13583 |
+| Zero prefix / uniform | 0.23877/0.16171 | 0.24011/0.15653 | 0.23877/0.16041 | 0.20657/0.12807 |
+| GT prefix / balanced | 0.28437/0.19405 | 0.28571/0.19405 | 0.20523/0.13842 | 0.20255/0.13583 |
+| Zero prefix / balanced | 0.22401/0.14877 | 0.22401/0.15006 | 0.20255/0.14618 | 0.18779/0.12807 |
+| Direct retrieval top-8 | 0.28706/0.20181 | 0.28706/0.20181 | 0.28706/0.20181 | 0.28706/0.20181 |
+
+Across the six states and two views, FP32-minus-native drug/order F1 ranges are [-0.03219, +0.00134]/[-0.03234, +0.00129]. The complete report retains re-rounding controls, all paired intervals, cutoff ties, AUROC and identity-versus-slot alignment. No new model or threshold is selected. Precision effects are implementation effects, not learned RSI.
+
+**Finding:** removing cutoff ties does not remove position dependence: all six FP32 states retain 0% exact drug-set agreement after permutation. The sole ranked drug-F1 point improvement over retrieval has difference +0.00134, 95% patient interval [-0.01058, +0.01313], with lower order F1. Every permuted configuration remains below retrieval. Candidate-specific decision binding, followed by matched ordinary-training and error-feedback controls, is the next implementation target.
 
 [Readout precision comparison](../upgrade_v32/PRECISION.en.md)
 

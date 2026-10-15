@@ -1,856 +1,213 @@
-"""Update the existing editor file using the pinned official ACL style and results."""
-import hashlib,json
+"""Render the paused evidence snapshot into the existing English ACL editor file.
+
+Only saved aggregate artifacts are read. No experiment, API request, or private
+patient inference is launched. The editorial narrative lives in Python so the
+existing .tex remains the sole standalone manuscript document.
+"""
+import hashlib
+import json
 from pathlib import Path
-ROOT=Path(__file__).resolve().parent.parent
-PAPER=ROOT/'paper/latex/v0.3/prismatic_v03_en.tex'
-STYLE=Path.home()/'Desktop/PRISMATIC/upgrade_v2/.local/resources/acl-style-files/acl.sty'
+from acl_manuscript_text import MANUSCRIPT
+
+ROOT = Path(__file__).resolve().parent.parent
+TARGET = ROOT / 'paper/latex/v0.3/prismatic_v03_en.tex'
+SOURCES = {}
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def read(name):
+    path = ROOT / name
+    SOURCES[name] = sha(path)
+    return json.loads(path.read_text())
+
+
+def score(value):
+    return f"{value['mean']:.5f}" + (f" $\\pm$ {value['seed_sd']:.5f}" if value['seed_sd'] is not None else '')
+
+
+def table(caption, label, columns, header, rows, wide=False, note=''):
+    env = 'table*' if wide else 'table'
+    return (f'\\begin{{{env}}}[t]\\centering\\small\n'+(r'\setlength{\tabcolsep}{4pt}'+'\n' if wide else '')
+            + '\\caption{' + caption + '}\n\\label{' + label + '}\n'
+            + '\\begin{tabular}{@{}' + columns + '@{}}\\toprule\n' + header + r'\\\midrule' + '\n'
+            + '\n'.join(rows) + '\n\\bottomrule\\end{tabular}\n' + note + '\n'
+            + f'\\end{{{env}}}')
+
+
+def common_table():
+    data = read('upgrade_v27/results/development_methods.json')
+    assert data['test_predictions_read'] is False
+    assert all(sha(ROOT / name) == digest for name, digest in data['source_sha256'].items())
+    extra = read('upgrade_v27/results/molecular-ARMR-selection-audit-seed42.json')
+    report = read('upgrade_v27/results/molecular-ARMR-seed42.json')
+    assert extra['status'] == 'passed' and extra['source_report_sha256'] == SOURCES['upgrade_v27/results/molecular-ARMR-seed42.json']
+    assert report['status'] == 'selection_frozen' and len(report['epochs']) == 50
+    labels = [('prevalence','Training prevalence'),('last_visit','Previous-visit reuse'),('cosine_knn','Case retrieval'),
+              ('structured_logistic','Structured logistic regression'),('ARMR','ARMR author core'),('GAMENet','GAMENet author core'),
+              ('SafeDrug','SafeDrug author core'),('uniform_policy','Shared policy / no rule updates'),('greedy_error_rules','Greedy error rules'),
+              ('random_candidate_rules','Random candidate rules'),('own_error_rule_agent',r'\textbf{RxRSIAgent: own-error memory}'),
+              ('shuffled_evidence_rule_agent','Shuffled-evidence memory'),('matched_proposals_without_witness_gate','Same proposals / no witness gate')]
+    rows=[]; jaccard_rows=[]
+    for key,label in labels:
+        counts=[]; f1=[]; jaccard=[]
+        for panel in ['full','molecular']:
+            m=data['panels'][panel]['methods'].get(key)
+            if m:
+                counts.append(str(m['runs']));f1.append(score(m['patient_f1']));jaccard.append(score(m['patient_jaccard']))
+            elif key=='ARMR' and panel=='molecular':
+                m=extra['splits']['guard']['selected_metrics'];counts.append(r'1$^{\dagger}$');f1.append(f"{m['patient_f1']:.5f}");jaccard.append(f"{m['patient_jaccard']:.5f}")
+            else:counts.append('--');f1.append('--');jaccard.append('--')
+        rows.append(' & '.join([label,'/'.join(counts)]+f1)+r'\\')
+        jaccard_rows.append(' & '.join([label,'/'.join(counts)]+jaccard)+r'\\')
+    main=table('Common MIMIC-IV development comparison on the same 1,231 visits/467 patients. Full and molecular panels have different target spaces. Values are patient-average F1; $\\pm$ denotes completed-seed SD. Author cores use declared local adaptations. $\\dagger$: molecular ARMR has one completed seed; two remain unfinished. These are not final-test results.',
+                 'tab:main','lrrr',r'Method & Runs full/mol. & Full 271-class F1 & Molecular 219-class F1',rows,True)
+    supplemental=table('Patient-average Jaccard for the same development methods, cases, and completed seeds as Table~\\ref{tab:main}. $\\dagger$ marks the single completed molecular ARMR seed.',
+                 'tab:jaccard','lrrr',r'Method & Runs full/mol. & Full Jaccard & Molecular Jaccard',jaccard_rows,True)
+    return main,supplemental
+
+
+def eicu_tables():
+    data=read('upgrade_v25/results/summary.json');assert data['status']=='complete' and data['test_used_for_selection'] is False
+    assert all(a['all_prediction_recounts']=='passed' for a in data['audits'])
+    read('upgrade_v25/results/frozen_before_test.json');read('upgrade_v25/results/interval_numeric_audit.json')
+    denominator=read('upgrade_v25/results/order_denominator_summary.json');audit=read('upgrade_v25/results/order_denominator_audit.json')
+    assert audit['status']=='passed' and audit['summary_sha256']==SOURCES['upgrade_v25/results/order_denominator_summary.json']
+    labels=[('initial_state','Initial 8k state'),('prevalence_global','Prevalence + global orders'),('reuse_prior_orders','Reuse prior orders'),
+            ('retrieval_conditional','Case retrieval + conditional tool'),('word_global','Word policy + global orders'),('word_conditional','Word policy + conditional tool'),
+            ('word_char_ensemble','Word/character ensemble'),('full_data_uniform','Full-data uniform learning'),('uniform','Uniform round updates'),
+            ('error_prioritized',r'\textbf{Own-error round updates}'),('permuted_priority','Shuffled priorities'),
+            ('error_priority_initial_tool','Own-error policy + initial tool'),('initial_policy_final_tool','Initial policy + final tool')]
+    rows=[]
+    for key,label in labels:
+        m=data['methods'][key]
+        rows.append(f"{label} & {m['drug_f1_mean']:.5f} $\\pm$ {m['drug_f1_sd']:.5f} & {m['order_f1_mean']:.5f} $\\pm$ {m['order_f1_sd']:.5f} & {100*m['predicted_order_completion']:.2f} \\\\")
+    main=table('External eICU hospital test: 8,005 stays, 6,227 patients, sixteen hospitals. Three-seed means and SD; the primary joint score uses complete tuples, with output coverage reported. Ordinary full-data learning has the highest F1 point estimates.',
+               'tab:eicu','lrrr',r'Method / configuration & Drug F1 & Joint-order F1 & Complete outputs (\%)',rows,True)
+    rows=[]
+    for r in range(5):
+        cells=[str(r),f'{8000*(r+1):,}']
+        for arm in ['uniform','error_prioritized','permuted_priority']:
+            vals=[sum(s[arm][r][metric] for s in data['accepted_curves'].values())/3 for metric in ['drug_f1','order_f1']]
+            cells.append('/'.join(f'{v:.5f}' for v in vals))
+        rows.append(' & '.join(cells)+r'\\')
+    growth=table('Frozen active-state trajectories on the same eICU test. Cells are drug/joint-order F1 averaged across three seeds. The horizontal axis counts encountered cases; rejected updates can retain earlier parameters and tools.',
+                 'tab:growth','rrrrr','Round & Cases & Uniform & Own-error & Shuffled',rows,True)
+    return main,growth
+
+
+def parameter_tables():
+    data=read('upgrade_v31/results/seed42.json');audit=read('upgrade_v31/results/audit-seed42.json')
+    assert audit['source_public_snapshot_sha256']==SOURCES['upgrade_v31/results/seed42.json']
+    count=sum(len(rows) for rows in data['arms'].values())
+    assert count==9, 'Refresh the editorial snapshot before changing completed-run claims.'
+    labels={'permuted_uniform':'Permuted / uniform','ranked_uniform':'Ranked / uniform','permuted_own_error':'Permuted / own-error','permuted_shuffled_error':'Permuted / shuffled'}
+    rows=[]
+    for name,states in data['arms'].items():
+        for state in states:
+            cells=[labels[name],str(state['round'])]
+            for kind in ['ranked','permuted']:
+                m=state['proposal'][kind];cells.append(f"{m['drug_micro_f1']:.5f}/{m['core_order_micro_f1']:.5f}")
+            cells.append('/'.join(f"{100*state['proposal'][k]['empty_fraction']:.0f}" for k in ['ranked','permuted']))
+            rows.append(' & '.join(cells)+r'\\')
+    result=table('All nine completed parameter updates at the paused snapshot (seed 42). Scores are proposal drug/core-order F1. Empty rates are ranked/permuted percentages. This is a partial 36-update study, not a completed three-seed evaluation.',
+                 'tab:parameters','lrrrr','Training / feedback & Round & Ranked & Permuted & Empty (\\%)',rows,True)
+    return str(count),result
+
+
+def precision_tables():
+    data=read('upgrade_v32/results/proposal_precision.json');audit=read('upgrade_v32/results/proposal_precision_audit.json')
+    assert audit['status']=='passed' and audit['summary_sha256']==SOURCES['upgrade_v32/results/proposal_precision.json']
+    assert audit['auditor_sha256']==sha(ROOT/'upgrade_v32/audit_precision.py')
+    read('upgrade_v32/results/precision_execution_lock.json');read('upgrade_v32/results/proposal_summary.json');read('upgrade_v32/results/proposal_audit.json')
+    labels={'frozen_base':'Frozen base','original_failed_adapter':'Original failed adapter','teacher_uniform':'Teacher / uniform',
+            'zero_uniform':'Zero / uniform','teacher_balanced':'Teacher / balanced','zero_balanced':'Zero / balanced','original_retrieval_top8':'Retrieval top-eight'}
+    panels=data['panels']['drug_sha256'];rows=[]
+    for key,label in labels.items():
+        cells=[label]
+        for kind in ['ranked','permuted']:
+            for readout in ['native','fp32_binary']:
+                m=panels[kind][readout]['methods'][key];cells.append(f"{m['drug_micro_f1']:.4f}/{m['core_order_micro_f1']:.4f}")
+        rows.append(' & '.join(cells)+r'\\')
+    main=table('Fixed-eight numerical diagnosis on 100 proposal admissions/97 patients. Drug/core-order F1 is shown under the primary drug-identity-hash tie rule. All readouts share frozen hidden states. This one-seed post-proposal analysis makes no new selection.',
+               'tab:precision','lrrrr',r'& \multicolumn{2}{c}{Ranked candidates} & \multicolumn{2}{c}{Permuted candidates}\\\cmidrule(lr){2-3}\cmidrule(lr){4-5} State & Native & FP32 & Native & FP32',rows,True)
+    rows=[]
+    for key in data['state_versions']:
+        for readout,label in [('native','Native'),('fp32_binary','FP32'),('fp32_rerounded',r'FP32 $\to$ BF16')]:
+            cells=[labels[key],label]
+            for kind in ['ranked','permuted']:
+                m=panels[kind][readout]['methods'][key]
+                cells += [f"{m['within_case_auroc_mean']:.4f}",str(m['boundary_tie_cases'])]
+            a=data['score_rank_alignment'][readout]['permuted'][key]
+            cells += [f"{a['drug_identity_aligned']['mean_spearman']:.4f}",f"{a['same_display_slots_unaligned']['mean_spearman']:.4f}"]
+            rows.append(' & '.join(cells)+r'\\')
+    detail=table('Numerical and identity-alignment diagnostics. AUROC averages 67 eligible admissions; all 100 remain in F1. Tie counts refer to the eighth/ninth score boundary. Correlations compare ranked/permuted outputs aligned by drug identity or unchanged display slot.',
+                 'tab:precision-detail','llrrrrrr',r'State & Readout & R AUC & R ties & P AUC & P ties & Identity $\rho$ & Slot $\rho$',rows,True)
+    return main,detail
+
+
+def fhir_table():
+    data=read('upgrade_v28/results/summary.json');rows=[]
+    for name,condition in data['conditions'].items():
+        cells=[name]
+        for split in ['val','id_test','test']:
+            if split not in condition['splits']:cells.append('--');continue
+            r=condition['splits'][split];assert r['independent_reference_field_and_arithmetic_audit']=='passed'
+            cells.append(f"{r['state_correct']}/{r['n']}")
+        rows.append(' & '.join(cells)+r'\\')
+    return table('Executed repair factorial. C: answer contract; S: source-bound observation statistics; K: frozen learned skills. A dash denotes an unfinished cell, not a failure score. Reused exploratory splits.',
+                 'tab:fhir-repair','lrrr','Condition & Validation & ID & Held-out type',rows)
+
+
+REFERENCES=r'''\begin{thebibliography}{99}
+\bibitem[Johnson et al.(2024)]{mimiciv} Alistair Johnson, Lucas Bulgarelli, Tom Pollard, Brian Gow, Benjamin Moody, Steven Horng, Leo Anthony Celi, and Roger Mark. 2024. MIMIC-IV (version 3.1). PhysioNet. \url{https://doi.org/10.13026/kpb9-mt58}.
+\bibitem[Jiang et al.(2025)]{medagentbench} Yixing Jiang, Kameron C. Black, Gloria Geng, Danny Park, James Zou, Andrew Y. Ng, and Jonathan H. Chen. 2025. MedAgentBench: A Realistic Virtual EHR Environment to Benchmark Medical LLM Agents. \emph{arXiv preprint arXiv:2501.14654}. \url{https://arxiv.org/abs/2501.14654}.
+\bibitem[Madaan et al.(2023)]{selfrefine} Aman Madaan, Niket Tandon, Prakhar Gupta, Skyler Hallinan, Luyu Gao, Sarah Wiegreffe, Uri Alon, Nouha Dziri, Shrimai Prabhumoye, Yiming Yang, Shashank Gupta, Bodhisattwa Prasad Majumder, Katherine Hermann, Sean Welleck, Amir Yazdanbakhsh, and Peter Clark. 2023. Self-Refine: Iterative Refinement with Self-Feedback. \emph{Advances in Neural Information Processing Systems}. \url{https://arxiv.org/abs/2303.17651}.
+\bibitem[Moll et al.(2026)]{grasp} Johannes Moll, Jean-Philippe Corbeil, Jiazhen Pan, Martin Hadamitzky, Daniel Rueckert, Lisa Adams, and Keno Bressem. 2026. GRASP: Gated Regression-Aware Skill Proposer for Self-Improving LLM Agents. \emph{arXiv preprint arXiv:2605.29668}. \url{https://arxiv.org/abs/2605.29668}.
+\bibitem[Palepu et al.(2025)]{rxqa} Anil Palepu, Valentin Li\'evin, Wei-Hung Weng, Khaled Saab, David Stutz, Yong Cheng, Kavita Kulkarni, S. Sara Mahdavi, Jo\"elle Barral, Dale R. Webster, Katherine Chou, Avinatan Hassidim, Yossi Matias, James Manyika, Ryutaro Tanno, Vivek Natarajan, Adam Rodman, Tao Tu, Alan Karthikesalingam, and Mike Schaekermann. 2025. Towards Conversational AI for Disease Management. \emph{arXiv preprint arXiv:2503.06074}. \url{https://arxiv.org/abs/2503.06074}.
+\bibitem[Pollard et al.(2018)]{eicu} Tom J. Pollard, Alistair E. W. Johnson, Jesse D. Raffa, Leo A. Celi, Roger G. Mark, and Omar Badawi. 2018. The eICU Collaborative Research Database, a freely available multi-center database for critical care research. \emph{Scientific Data}, 5:180178. \url{https://doi.org/10.1038/sdata.2018.178}.
+\bibitem[Shang et al.(2019)]{gamenet} Junyuan Shang, Cao Xiao, Tengfei Ma, Hongyan Li, and Jimeng Sun. 2019. GAMENet: Graph Augmented MEmory Networks for Recommending Medication Combination. \emph{Proceedings of AAAI}. \url{https://arxiv.org/abs/1809.01852}.
+\bibitem[Shinn et al.(2023)]{reflexion} Noah Shinn, Federico Cassano, Ashwin Gopinath, Karthik Narasimhan, and Shunyu Yao. 2023. Reflexion: Language Agents with Verbal Reinforcement Learning. \emph{Advances in Neural Information Processing Systems}. \url{https://openreview.net/forum?id=vAElhFcKW6}.
+\bibitem[Wang et al.(2026)]{saferx} Xinyu Wang, Hanwei Wu, Zhenghan Tai, Sicheng Lyu, Qincheng Lu, Ziyu Zhao, Jijun Chi, Jingrui Tian, Xiao-Wen Chang, and Ziyang Song. 2026. SafeRx-Agent: A Knowledge-Grounded Multi-Agent Framework for Safe and Explainable Medication Recommendation. \emph{arXiv preprint arXiv:2605.29146}. \url{https://arxiv.org/abs/2605.29146}.
+\bibitem[Wu et al.(2025)]{armr} Feiyue Wu, Tianxing Wu, and Shenqi Jing. 2025. ARMR: Adaptively Responsive Network for Medication Recommendation. \emph{Proceedings of IJCAI}, pages 7831--7839. \url{https://doi.org/10.24963/ijcai.2025/871}.
+\bibitem[Yang et al.(2021)]{safedrug} Chaoqi Yang, Cao Xiao, Fenglong Ma, Lucas Glass, and Jimeng Sun. 2021. SafeDrug: Dual Molecular Graph Encoders for Recommending Effective and Safe Drug Combinations. \emph{Proceedings of IJCAI}. \url{https://arxiv.org/abs/2105.02711}.
+\bibitem[Zhao et al.(2025)]{rxsafe} Jiahao Zhao, Luxin Xu, Minghuan Tan, Lichao Zhang, Ahmadreza Argha, Hamid Alinejad-Rokny, and Min Yang. 2025. RxSafeBench: Identifying Medication Safety Issues of Large Language Models in Simulated Consultation. \emph{Proceedings of IEEE BIBM}, pages 4491--4496. \url{https://doi.org/10.1109/BIBM66473.2025.11356353}.
+\end{thebibliography}'''
+
 
 def run():
-    summary=json.loads((ROOT/'upgrade_v7/results/summary.json').read_text());m=summary['methods']
-    labels={'retrieval_global':'Case retrieval + global templates','retrieval_conditional_tool':'Case retrieval + conditional tool',
-       'multinomial_nb':'Naive Bayes + order tool','word_policy_global':'Word policy + global templates',
-       'word_policy_conditional_tool':'Word policy + conditional tool','word':'Tuned word policy + tool',
-       'char':'Character policy + tool','word_char_ensemble':'Word/character ensemble + tool',
-       'rxrsi_selected':'RxRSI accepted version','without_parameters_evolution':'Freeze initial policy parameters',
-       'without_tool_evolution':'Freeze initial order tool','without_memory_evolution':'Freeze initial episode memory'}
-    rows='\n'.join(f"{label} & {m[k]['drug_f1_mean']:.4f} $\\pm$ {m[k]['drug_f1_sd']:.4f} & {m[k]['order_f1_mean']:.4f} $\\pm$ {m[k]['order_f1_sd']:.4f} \\\\" for k,label in labels.items())
-    seeds=[json.loads((ROOT/f'upgrade_v7/results/round_results_seed_{s}.json').read_text()) for s in [42,137,2026]]
-    growth='\n'.join(f"{r} & {8000*(r+1):,} & "+' & '.join(f"{sum(d['rounds'][r]['metrics'][k] for d in seeds)/3:.4f}" for k in ['drug_micro_f1','core_order_micro_f1'])+r' \\' for r in range(5))
-    public=ROOT/'upgrade_v8/results/public_results_seed_42.json';parameter=ROOT/'upgrade_v9/results/parameter_results.json'
-    public_section=r'\paragraph{Execution status.} The public language-artifact experiment is running; incomplete evaluations are not presented as final results.'
-    if public.exists():
-        d=json.loads((ROOT/'upgrade_v8/results/summary.json').read_text())
-        pr='\n'.join(f"{name.replace('_',' ')} & {z['accuracy_mean']*100:.2f} $\\pm$ {z['accuracy_sample_sd']*100:.2f} & {2 if name=='self_refine' else 1} \\\\" for name,z in d['methods'].items())
-        if (ROOT/'upgrade_v10/results/grasp_core_seed_42.json').exists():
-            pr+=r'''
-Author GRASP core + task adapter & 50.81 & 1\\
-Scoped RxRSI skills & 47.27 & 1\\'''
-        if (ROOT/'upgrade_v11/results/summary.json').exists():
-            evidence=json.loads((ROOT/'upgrade_v11/results/summary.json').read_text())
-            for key,label in [('balanced','Fixed balanced evidence'),('safety','Fixed safety evidence'),('indication','Fixed indication evidence')]:
-                if key not in evidence['complete_test_methods']:continue
-                pr+=f"\n{label} & {100*evidence['complete_test_methods'][key]['accuracy']:.2f} & 2 \\\\"
-        if (ROOT/'upgrade_v12/results/summary.json').exists():
-            gates=json.loads((ROOT/'upgrade_v12/results/summary.json').read_text())['gate_summaries']
-            for key,label in [('independent_guard','Router: separate guard'),('joint_validation','Router: pooled validation')]:
-                z=gates[key];pr+=f"\n{label} & {100*z['accuracy_mean']:.2f} $\\pm$ {100*z['accuracy_sample_sd']:.2f} & {z['mean_calls']:.2f} \\\\"
-        if (ROOT/'upgrade_v13/results/summary.json').exists():
-            verifier=json.loads((ROOT/'upgrade_v13/results/summary.json').read_text())
-            pr+=f"\nFull-data outcome verifier & {100*verifier['static_verifier_correct']/verifier['test_n']:.2f} & 2 \\\\"
-            for key,label in [('uniform','Incremental verifier: uniform'),('error_prioritized','Incremental verifier: priority')]:
-                z=verifier['arms'][key];pr+=f"\n{label} & {100*z['accuracy_mean']:.2f} $\\pm$ {100*z['accuracy_sample_sd']:.2f} & 2 \\\\"
-        if (ROOT/'upgrade_v17/results/summary.json').exists():
-            grounded=json.loads((ROOT/'upgrade_v17/results/summary.json').read_text())['datasets']['rxsafebench']['methods']
-            for key,label in [('fixed_grounded','One-call fixed grounding'),('evolving_grounded','Grounded skill evolution')]:
-                pr+=f"\n{label} & {100*grounded[key]['accuracy']:.2f} & 1 \\\\"
-        public_section=r'''\begin{table}[t]\centering\small
-\caption{Executed method comparison on the same 988 derived RxSafeBench questions with DeepSeek-V4.1-Flash. Rows with $\pm$ report three evolution orders; fixed outputs are reused across orders. Author-core and scoped-skill rows use seed 42. Calls are mean test-time model calls; development costs differ. This is a development comparison, not original benchmark score equivalence.}
-\begin{tabularx}{\columnwidth}{@{}Xrr@{}}\toprule Method & Accuracy (\%) & Calls\\\midrule
-PUBLICROWS
-\bottomrule\end{tabularx}\end{table}'''.replace('PUBLICROWS',pr)
-    core_path=ROOT/'upgrade_v10/results/grasp_core_seed_42.json'
-    scoped_path=ROOT/'upgrade_v10/results/scoped_rsi_seed_42.json'
-    if core_path.exists() and scoped_path.exists():
-        public_section+=r'''\paragraph{Stronger implementation control.}
-The unmodified author GRASP core, pinned to commit \texttt{9d7d125a}, is also executed through our new option-selection task adapter. It retains the released failure classification, skill proposals, balanced probes, regression gate and skill injection. This is not an original MedAgentBench rerun. It scores 502/988 (50.81\%) versus CoT's 467/988 (47.27\%), repairing 102 cases and regressing 67. The descriptive paired scenario-cluster 95\% interval for the gain is [0.91, 6.07] percentage points. Its RxQA result is 189/300 versus CoT's 193/300. Our additional scope-conditioned skill variant accepts no update and remains at 467/988: candidate rules activate on only 0--3 proposal cases. The author core and scoped variant use different development-selection mechanisms; their proposal cap is 3,072 tokens and inference cap is 512. No unrestricted method superiority is inferred.'''
-    if (ROOT/'upgrade_v12/results/summary.json').exists():
-        public_section+=r'''\subsection{Grounded Tools and Evolving Routing}
-The next increment retrieves exact contiguous excerpts from company-submitted openFDA drug labels, retaining label IDs, sections and missingness. These records are not uniformly FDA-verified. A frozen snapshot matches 623/699 candidate names and covers 92.98\% of test options. Each evidence review receives the same initial CoT answer and at most two excerpts per option. The fixed balanced review, selected on proposal validation, scores 484/988; the fixed safety review scores 487/988. These require two model calls, versus one for CoT.
+    common,jaccard=common_table();external,growth=eicu_tables();count,parameters=parameter_tables();precision,detail=precision_tables()
+    replacements={'COMMON_TABLE':common,'JACCARD_TABLE':jaccard,'EICU_TABLE':external,'GROWTH_TABLE':growth,'PARAMETER_COUNT':count,
+                  'PARAMETER_TABLE':parameters,'PRECISION_TABLE':precision,'PRECISION_DETAIL_TABLE':detail,
+                  'FHIR_TABLE':fhir_table(),'REFERENCES':REFERENCES}
+    for name in ['upgrade_v27/rsi_addendum.json','upgrade_v27/results/cohort_audit.json','upgrade_v25/protocol.json',
+                 'upgrade_v31/protocol.json','upgrade_v32/protocol.json','upgrade_v29/results/summary.json',
+                 'upgrade_v17/results/summary.json','upgrade_v18/results/summary.json','upgrade_v19/results/summary.json']:
+        read(name)
+    text=MANUSCRIPT
+    for key,value in replacements.items():text=text.replace('@@'+key+'@@',value)
+    assert '@@' not in text
+    original=TARGET.read_text()
+    prefix=original[:original.index(r'\documentclass')]
+    start=prefix.index(r'\begin{filecontents*}[overwrite]{acl.sty}')+len(r'\begin{filecontents*}[overwrite]{acl.sty}')+1
+    end=prefix.index(r'\end{filecontents*}',start)
+    provenance=read('paper/latex/v0.3/acl_template_provenance.json')
+    # The standalone wrapper adds one separator newline after the original file.
+    assert hashlib.sha256((prefix[start:end].rstrip()+'\n').encode()).hexdigest()==provenance['acl_sty_sha256']
+    output=prefix+text.lstrip('\n')
+    TARGET.write_text(output)
+    manifest={'snapshot':'2026-10-15 paused experimental evidence','experiments_resumed':False,
+              'paper_path':str(TARGET.relative_to(ROOT)),'paper_sha256':sha(TARGET),'acl_style_sha256':provenance['acl_sty_sha256'],
+              'generator_sha256':sha(Path(__file__)),'narrative_sha256':sha(ROOT/'paper/acl_manuscript_text.py'),
+              'source_sha256':SOURCES,'completed_author_runs':13,'registered_author_runs':15,
+              'completed_parameter_updates':int(count),'registered_parameter_updates':36,
+              'common_main_table':'MIMIC guard development; no final-test scores',
+              'external_main_table':'eICU held-out-hospital test; three seeds',
+              'precision':'100 proposal admissions, one training seed; independent readout audit passed'}
+    (ROOT/'paper/latex/v0.3/manuscript_evidence.json').write_text(json.dumps(manifest,indent=2)+'\n')
+    print(json.dumps({'written':str(TARGET),'evidence_sources':len(SOURCES),'experiments_resumed':False}))
 
-We learn action-benefit routing from complete counterfactual training outputs. A fixed 65,536-dimensional word/bigram hashing transform encodes the question, options and initial response. Ridge coefficients predict each review's correctness change relative to CoT. Four rounds expose 156/312/468/625 training cases. Three regularizers and three thresholds are selected on development labels. The original four-action experiment rejects all updates. A subsequent matched ablation uses the same three complete actions under two gates: 190-case proposal selection followed by 197-case regression checking, or pooled selection on all 387 development cases. Pooled selection has no independent regression check.
-
-Across three orders, separate-guard routing reaches 48.68$\pm$0.61\%; pooled routing reaches 48.79$\pm$0.54\%, against the selected fixed tool's 48.99\%. Mean runtime calls are 1.710 and 1.490, respectively. Coefficients, intercepts and thresholds change; LLM weights, retrieval code and labels stay fixed. Full version hashes and per-round repairs/regressions are released. An accepted pooled update for seed 2026 reduces test correctness from 480 to 476. Thus accepted updates need not generalize, and parameter changes alone do not establish recursive improvement. This offline trace replay makes no new requests, but generating counterfactual development traces has an explicit model-call cost. It is a development extension on an already observed test, not untouched confirmation.
-
-\paragraph{Transport recovery and output validity.}
-Credit exhaustion interrupted indication review, Gemini development requests and two language-evolution orders. After account restoration, these runs resumed under their existing protocols; the invalid round-four selection was rolled back before resumption. All three language-evolution seeds are now complete, and indication review scores 478/988 (48.38\%). The client stops on account errors and the scorer rejects transport failures. Received malformed outputs still count as errors. Original invalidated summaries remain archived; they are not model scores.
-
-The completed Gemini-3.8-Flash development pilot illustrates a separate token-budget failure. With its default reasoning setting and 512-token completion cap, CoT scores 72/190 with 69 invalid outputs; safety evidence scores 62/190 with 85 invalid outputs. Most invalid generations reach the output cap. A declared development-only repair selects low reasoning and a 1,024-token cap from two settings on the first 30 proposal cases. On all 190 proposal cases, CoT reaches 100/190 with 16 invalid outputs and evidence reaches 94/190 with 13. The 30-case selection subset contains only contraindication questions, a limitation of this pilot. A separately declared 2,048-token follow-up further reaches 105/190 with two invalid CoT outputs and 100/190 with one invalid evidence output. The setting is selected on development only. These are budget-sensitive development measurements, not a cross-backbone test claim.'''
-    if (ROOT/'upgrade_v13/results/summary.json').exists():
-        public_section+=r'''\subsection{Outcome-Aware Verification}
-The pre-tool router cannot assess a revision it has not observed. A subsequent verifier consumes both the initial answer and the completed balanced evidence review, then chooses between them. Its features encode option mentions, nearby negative/positive terms and optionally separate fixed hashes of the question and both responses. Training targets the revision's correctness change. Uniform and error-prioritized updates use identical accumulated cases and 18 proposal candidates per round. Feedback weights are computed before updating and emphasize reachable selection errors; neither answer being correct provides no reachable repair. The same proposal/guard split controls promotion, and a full-data ordinary supervised verifier is included.
-
-Three-order final accuracy is 49.12$\pm$0.23\% for uniform updates and 49.02$\pm$0.06\% for error priorities, compared with 48.99\% for fixed review and 47.87\% for the full-data verifier. Only one update is accepted in each of two runs; four runs remain unchanged. Both responses are charged even when the initial answer is returned. These small exploratory changes do not surpass the author-core GRASP control or establish a feedback-prioritization advantage. Parameter, weight and transition journals are released; actual language-model weight updates are tested separately below.'''
-    if (ROOT/'upgrade_v17/results/summary.json').exists():
-        public_section+=r'''\subsection{Grounded Skill Composition}
-We combine the fixed balanced label tool with the unchanged GRASP optimizer, holding the actor prompt, backbone and one-call 512-token inference budget constant. The four-cell comparison is CoT (467/988), skills without labels (502), labels without skills (499), and learned skills with labels (501). The combined state repairs 83 cases and regresses 81 relative to fixed grounding: +0.20 percentage points, with a descriptive paired scenario interval [-2.43, 2.73]. The factorial interaction is -3.34 points, interval [-7.18, 0.30]. Thus separate component gains do not add reliably.
-
-On 300 RxQA transfer items, the same four states score 193, 189, 188 and 183. The first feedback batch accepts no skill; the following three add and then twice modify one indication/caution procedure. Actual text and hashes are released. The author core selects its final checkpoint on end-of-epoch validation, which rises from 49.1\% to 53.2\%; it does not apply our independent-guard mechanism at every batch. LLM weights and retrieval code remain fixed. On the fixed 988-case test, round 0--4 correctness is 499, 499, 475, 493 and 501; on RxQA it is 188, 188, 175, 175 and 183. The first accepted skill therefore regresses before later edits recover part of the loss. These are frozen-state trajectories, distinct from batch accuracies on different cases; they do not show monotonic self-improvement.'''
-    if (ROOT/'upgrade_v18/results/summary.json').exists():
-        transfer=json.loads((ROOT/'upgrade_v18/results/summary.json').read_text())
-        names={'cot':'CoT','frozen_author_grasp':'Frozen author-core skills','fixed_grounded':'Fixed grounded harness','frozen_grounded_grasp':'Frozen grounded skills'}
-        rr='\n'.join(f"{label} & {transfer['methods'][key]['correct']} & {transfer['methods'][key]['invalid']} \\\\" for key,label in names.items())
-        public_section+=r'''\subsection{Frozen Skill Transfer to a Second Backbone}
-The two DeepSeek-learned skill states transfer unchanged to Gemini-3.8-Flash. All four methods use the same 988 questions, one call, low reasoning and a 2,048-token completion cap selected on development before testing. Skills, tool code and backbone weights remain fixed during evaluation. These are method comparisons within the second backbone; different completion caps prevent interpreting the two backbones as an equal-compute ranking.
-\begin{table}[t]\centering\small
-\caption{Frozen-artifact transfer: correct answers out of 988 and received invalid outputs.}
-\begin{tabular}{lrr}\toprule Method & Correct & Invalid\\\midrule
-TRANSFERROWS
-\bottomrule\end{tabular}\end{table}
-All case-level decisions are independently recounted. Transport failures are resumed from cache and never scored as model errors. Paired source-scenario intervals, fixes, regressions and successful-response usage are released; retry charges without returned usage are not reconciled. Frozen grounded skills score 510/988 versus 538 for fixed grounding, a difference of -2.83 percentage points with descriptive interval [-4.85, -0.81]. Of 24 invalid skill outputs, 23 reach the length cap. Yet on the 961 cases with valid outputs in both arms, correctness still falls from 528 to 508. This post-hoc conditional diagnosis does not replace the full table or establish a truncation-only explanation. One source skill-learning path does not establish seed robustness.'''.replace('TRANSFERROWS',rr)
-    temporal_section=''
-    if (ROOT/'upgrade_v21/results/independent_cohort_audit.json').exists():
-        temporal_section=r'''\subsection{Recorded-Availability-Controlled New Orders}
-The earlier start-time task does not establish prospective availability. We therefore re-read the complete source tables and set the decision to actual hospital admission plus six hours, predicting new/changed orders in the next six hours. Both provider ordertime and pharmacy entertime must lie in that future window, linked patient/admission/POE identities must agree, and pharmacy verification must occur by its end. An admission is excluded if any potentially in-window order fails these criteria, and follow-up must cover the whole window. This defines a selected coherent-time, nonempty-target cohort, not the general inpatient population.
-
-Inputs contain gender, decade-binned age, at most 24 prior joint-order tuples and 32 blood measurements. Every prior order has all three recorded timestamps before the decision; laboratory charttime and storetime must both be available. Untimed triage and discharge diagnoses are excluded. Of 201,750 source admissions, 54,959 satisfy eligibility. After fixed sampling and excluding all previous v0.6/v0.7/v0.9 test patients, the split is 40,000/2,000/2,000/1,082 train/proposal/guard/test, with 1,024 test patients and no cross-split patient overlap. Independent reconstruction checks 198,850 target rows, 589,393 prior-order rows and 506,710 lab rows with zero violations of the declared identity/time/finiteness checks.
-
-The initial-8k vocabulary, feature mapping, output cap, method family and three seeds are frozen before training. We repeat policy, memory and conditional-tool evolution alongside full-data word/character models, retrieval, naive Bayes, prevalence and prior-order reuse. Test scoring follows within-seed selection freeze. This is a separate temporal task; its raw-name scores cannot be pooled with the older start-time table or published ATC results. Released tables lack full field-version histories, so recorded timestamps do not prove what clinicians actually viewed.
-'''
-        if (ROOT/'upgrade_v21/results/summary.json').exists():
-            tm=json.loads((ROOT/'upgrade_v21/results/summary.json').read_text())['methods']
-            keys={'prevalence':'Training prevalence','reuse_prior_orders':'Reuse prior orders','retrieval_conditional_tool':'Case retrieval + tool','word_policy_conditional_tool':'Word policy + tool','word_char_ensemble':'Word/character + tool','rxrsi_selected':'RxRSI selected state','without_tool_evolution':'Freeze initial tool','without_memory_evolution':'Freeze initial memory'}
-            tr='\n'.join(f"{label} & {tm[k]['drug_f1_mean']:.4f} $\\pm$ {tm[k]['drug_f1_sd']:.4f} & {tm[k]['order_f1_mean']:.4f} $\\pm$ {tm[k]['order_f1_sd']:.4f} \\\\" for k,label in keys.items())
-            temporal_section+=r'''\begin{table*}[t]\centering\small
-\caption{Recorded-availability task: matched 1,082 test admissions, mean $\pm$ sample SD across three seeds. Fixed prevalence/reuse controls are reused across seeds.}
-\begin{tabular}{lrr}\toprule Method & Drug micro-F1 & Core-order micro-F1\\\midrule
-TEMPORALROWS
-\bottomrule\end{tabular}\end{table*}
-Independent saved-prediction counting reproduces all method and checkpoint scores. Accepted-state trajectories, per-case improvements/regressions, artifact hashes and descriptive patient-cluster intervals accompany the release. A gain over the initial 8k checkpoint alone is insufficient evidence of an advantage over equal-data learning.'''.replace('TEMPORALROWS',tr)
-            temporal_section+=r'''Mean drug/order F1 rises from 0.1660/0.0942 to 0.1914/0.1153, yet the full-data ensemble reaches 0.2010/0.1207. Drug-F1 differences versus the ensemble have negative paired intervals in all three seeds. Freezing initial memory improves the final mean to 0.1956/0.1183. The final empty-output rate is 2.74\% on this new protocol; it is not a matched before/after comparison to earlier pilots. These results again separate case-growth gains from a unique RSI advantage.'''
-        else:temporal_section+=r'\paragraph{Execution status.} The cohort and its independent audit are complete; the registered three-seed method experiment is running. No incomplete method table is treated as final.'
-        if (ROOT/'upgrade_v22/results/summary.json').exists():
-            temporal_section+=r'''\paragraph{Development-only representation intervention.}
-The text policy treats numerical measurements as tokens. A subsequent registered pilot fits typed prior-order/lab features and numerical scales on the initial 8k training contexts, then compares typed and combined word/typed selectors on proposal validation. The single selected candidate retains the original conditional order tool and improves 2,000-case guard drug/order F1 from 0.2194/0.1346 to 0.2246/0.1366. Paired patient intervals for the differences are [-0.0006, 0.0108] and [-0.0024, 0.0065]. Both include zero. No test prediction is generated in this one-seed pilot; it motivates further study rather than establishing an RSI or held-out superiority result.'''
-    if (ROOT/'upgrade_v23/results/summary.json').exists():
-        feedback=json.loads((ROOT/'upgrade_v23/results/summary.json').read_text())
-        names={'initial_state':'Initial 8k state','uniform':'Uniform updates','error_prioritized':'Own-error priorities','permuted_priority':'Shuffled priorities','full_data_uniform':'Full-data uniform','error_priority_freeze_initial_tool':'Priorities, initial tool frozen'}
-        fr='\n'.join(f"{label} & {feedback['methods'][k]['drug_f1_mean']:.4f} $\\pm$ {feedback['methods'][k]['drug_f1_sd']:.4f} & {feedback['methods'][k]['order_f1_mean']:.4f} $\\pm$ {feedback['methods'][k]['order_f1_sd']:.4f} \\\\" for k,label in names.items())
-        temporal_section+=r'''\subsection{Matched Feedback-Assignment Controls}
-Following the representation pilot, three seeds compare uniform training, own-error priorities and randomly permuted priorities with fixed word/typed features. The accepted parent predicts each new block before its labels update the model. Its weight is $1+3(1-F1)$ in the reachable vocabulary; the randomized control permutes exactly those weights within the block. Previously assigned weights persist, and cumulative weights are normalized to mean one. All three arms use the same cases and exactly 60 epochs for each of 128 logistic classifiers, reinitialized at each of five checkpoints. Initial models are shared, and conditional order tools use only cases observed by the current round. A rejected state retains both its policy and tool.
-
-Seven thresholds compete on proposal validation; a separate guard promotes only an improved composite with neither endpoint dropping by more than 0.002. All seeds and arms finish selection before testing. Seeds change case order and optimization jointly; these retrospective blocks do not represent calendar-time deployment. The previously observed 1,082-admission test is explicitly reused for exploratory analysis, not fresh confirmation.
-\begin{table*}[t]\centering\small
-\caption{Matched feedback interventions on the recorded-availability task. Mean $\pm$ sample SD over three seeds; exploratory reuse of the earlier test.}
-\begin{tabular}{lrr}\toprule Method & Drug micro-F1 & Core-order micro-F1\\\midrule
-FEEDBACKROWS
-\bottomrule\end{tabular}\end{table*}
-An independent audit re-infers parent feedback, recounts error weights and test predictions, checks weight distributions, exact epochs and seen-only tool memberships, and reports patient-cluster intervals and per-case regressions. Improvements over the initial state alone do not establish an effect of error assignment; uniform and shuffled controls are the relevant comparisons. This study updates supervised parameters, persistent feedback weights and order tools, while LLM weights, executable code and representation remain fixed. Uniform updates reach 0.20446/0.12403 drug/order F1, own-error priorities 0.20143/0.12219 and shuffled priorities 0.20204/0.12197. Own-error-minus-uniform intervals contain zero for both endpoints in every seed; there is no consistent advantage over shuffled weights. Own-error mean trajectories improve from 0.16840/0.10130, but individual seed/endpoint trajectories can regress. The updated-tool mean order-F1 gain over freezing the initial tool is 0.00311, with an interval excluding zero in only one seed. These results separate observed case-growth gains from an unestablished feedback-assignment effect.'''.replace('FEEDBACKROWS',fr)
-    if (ROOT/'upgrade_v24/results/source_audit.json').exists():
-        temporal_section+=r'''\paragraph{External hospital evaluation preparation.}
-A separate eICU feasibility audit \citep{eicu} scans 200,859 stays and 7.30 million medication records. A fixed hospital hash and cross-partition patient removal retain 142,485 adult stays, including 8,188 stays from 16 test hospitals, with zero patient or hospital overlap. Zero-target stays remain included. Of 6,283 test-window records missing drug names, 6,064 retain HICL identifiers. Native code coverage and a missing-identity policy must therefore precede modeling. Dual laboratory offsets exclude 238,680 measurements revised after the decision. This is an executed data audit without model scores; its ICU order-time protocol and dosage/frequency fields differ from the MIMIC task, and medication storage timestamps remain unavailable.'''
-    if (ROOT/'upgrade_v25/results/cohort_audit.json').exists():
-        temporal_section+=r'''\paragraph{Registered native-code hospital comparison.}
-The subsequent cohort excludes entire stays containing any target with absent/nonpositive/noninteger HICL, removing 8,003 parent-cohort stays. Fixed sampling yields 40,000/2,000/2,000 training/proposal/guard stays and all 8,005 eligible test stays, involving 6,227 test patients and 16 test hospitals. The test includes 3,842 zero-target stays; correct abstention and false extra orders must therefore be reported separately. Test labels contain 13,994 distinct stay--code targets and 15,594 joint tuples, of which 11,853 have all four observed fields: native code, route, dosage string and frequency string. Native HICL is not asserted equivalent to RxNorm or ATC.
-
-Independent reconstruction checks source membership, timing, finite labs, prior-order selection and complete target identities. An initial-8k vocabulary of 512 codes and feature maps are frozen. Three seeds compare uniform, own-error and shuffled-priority learning with exactly 60 epochs per classifier, alongside prevalence, prior-order reuse, retrieval, word, word/character and full-data supervised controls. All selections must freeze before test inference. Training is running; no external model score is claimed yet. This is training within eICU with hospitals held out, not zero-shot MIMIC transfer. Label-completeness selection and missing medication storage clocks limit prospective interpretation.'''
-    eicu_development=ROOT/'upgrade_v25/results/development_curves.json'
-    if eicu_development.exists():
-        ec=json.loads(eicu_development.read_text())
-        assert ec['status']=='passed' and ec['script_sha256']==hashlib.sha256((ROOT/'upgrade_v25/recount_development.py').read_bytes()).hexdigest()
-        assert all(hashlib.sha256((ROOT/'upgrade_v25'/name).read_bytes()).hexdigest()==value for name,value in ec['source_sha256'].items())
-        temporal_section=temporal_section.replace('Training is running; no external model score is claimed yet.', 'Static-control training and the gated external test remain unfinished; completed development trajectories are reported separately below.')
-        eicu_rows=[]
-        for r in range(5):
-            cells=[str(8000*(r+1))]
-            for arm in ['uniform','error_prioritized','permuted_priority']:
-                z=ec['aggregate']['raw'][arm][r]
-                cells.append(f"{z['drug_micro_f1']['mean']:.4f} / {z['core_order_micro_f1']['mean']:.4f}")
-            eicu_rows.append(' & '.join(cells)+r'\\')
-        temporal_section+=r'''
-\paragraph{Executed development learning curves.}
-A retrospective diagnostic reexecutes all 45 saved policy/tool checkpoints on the 2,000-stay, 1,912-patient, 17-hospital guard, including 1,001 zero-target stays. Independent set counting matches the original proposal-threshold choices, guard scores and all accept/reject decisions. Actual parameter hashes, epoch records and seen-only tool memberships are checked. Tool execution uses its frozen implementation; this does not independently replay optimization or establish the separate feedback-weight audit.
-\begin{table*}[t]\centering\small
-\caption{Raw eICU development checkpoints as experience grows. Each cell is drug / complete joint-order micro-F1, averaged over three seeds. The guard participates in state acceptance; these are not held-out test scores. The release includes sample SD, every seed and separate accepted-state curves.}
-\label{tab:eicu-development-curves}
-\begin{tabular}{rrrr}\toprule Training stays & Uniform & Own-error priorities & Shuffled priorities\\\midrule
-EICUDEVROWS
-\bottomrule\end{tabular}\end{table*}
-'''.replace('EICUDEVROWS','\n'.join(eicu_rows))
-        diff=ec['final_own_error_minus_control']['raw']['uniform']['mean']
-        accepted_diff=ec['final_own_error_minus_control']['accepted']['uniform']['mean']
-        temporal_section+=f"At the raw 40k checkpoint, own-error-minus-uniform drug/order F1 differences are {diff['drug_micro_f1']:+.5f}/{diff['core_order_micro_f1']:+.5f}; for the final guard-accepted states they are {accepted_diff['drug_micro_f1']:+.5f}/{accepted_diff['core_order_micro_f1']:+.5f}. "
-        temporal_section+=r'''Case-growth gains and feedback-assignment gains must therefore be evaluated separately. Guard acceptance creates a selection effect, and the horizontal axis counts encountered cases even when an earlier policy/tool bundle is retained. Raw regressions are preserved. These descriptive development differences do not establish generalization, clinical safety, or autonomous language-agent evolution; no test bundle is opened by this diagnostic.'''
-    eicu_freeze=ROOT/'upgrade_v25/results/frozen_before_test.json'
-    if eicu_freeze.exists() and not (ROOT/'upgrade_v25/results/summary.json').exists():
-        ef=json.loads(eicu_freeze.read_text())
-        assert all(hashlib.sha256((ROOT/f'upgrade_v25/results/selection_seed_{s}.json').read_bytes()).hexdigest()==value for s,value in ef['selections_sha256'].items())
-        for previous in ['Training is running; no external model score is claimed yet.', 'Static-control training and the gated external test remain unfinished; completed development trajectories are reported separately below.']:
-            temporal_section=temporal_section.replace(previous, 'All three seeds and static-control choices are frozen. Unified evaluation of the 8,005-stay external test and its independent audit are now in progress; only completed development trajectories are reported below.')
-    eicu_final=ROOT/'upgrade_v25/results/summary.json';eicu_numeric=ROOT/'upgrade_v25/results/interval_numeric_audit.json'
-    if eicu_final.exists() and eicu_numeric.exists():
-        en=json.loads(eicu_numeric.read_text());et=json.loads(eicu_final.read_text())
-        assert et['status']=='complete' and en['status']=='passed'
-        assert en['script_sha256']==hashlib.sha256((ROOT/'upgrade_v25/audit_interval_numerics.py').read_bytes()).hexdigest()
-        assert all(hashlib.sha256((ROOT/'upgrade_v25'/name).read_bytes()).hexdigest()==value for name,value in en['source_sha256'].items())
-        assert {a['seed'] for a in et['audits']}=={42,137,2026} and all(a['all_prediction_recounts']=='passed' for a in et['audits'])
-        for previous in ['Training is running; no external model score is claimed yet.', 'Static-control training and the gated external test remain unfinished; completed development trajectories are reported separately below.']:
-            temporal_section=temporal_section.replace(previous, 'All three seeds and static-control choices froze before the completed held-out hospital test reported below.')
-        names={'initial_state':'Initial 8k state','prevalence_global':'Prevalence + global tool','reuse_prior_orders':'Prior-order reuse','retrieval_conditional':'30-neighbor retrieval + tool','word_global':'Word policy + global tool','word_conditional':'Word policy + conditional tool','word_char_ensemble':'Word/character ensemble + tool','full_data_uniform':'Full-data uniform (raw 40k)','uniform':'Uniform, development-accepted','error_prioritized':'Own-error, development-accepted','permuted_priority':'Shuffled priorities, accepted','error_priority_initial_tool':'Own-error, initial tool frozen','initial_policy_final_tool':'Initial policy, final tool'}
-        eicu_method_rows=[]
-        for name,label in names.items():
-            z=et['methods'][name]
-            eicu_method_rows.append(f"{label} & {z['drug_f1_mean']:.5f} $\\pm$ {z['drug_f1_sd']:.5f} & {z['order_f1_mean']:.5f} $\\pm$ {z['order_f1_sd']:.5f} & {100*z['empty_fraction']:.2f} "+r'\\')
-        temporal_section+=r'''
-\subsection{Completed External Hospital Test}
-All three seeds and all static choices are frozen before testing 8,005 stays from 6,227 patients and 16 hospitals absent from development. The 3,842 zero-target stays remain included. Independent scoring checks every saved final and raw/accepted checkpoint prediction. Parameter hashes, pre-update feedback probabilities, error weights, matched exposure counts and seen-only order-tool labels are checked. This is an independent metric and provenance audit, not a replay of every test forward pass or optimization trajectory.
-\begin{table*}[t]\centering\small
-\caption{eICU held-out hospital method comparison: three-seed mean $\pm$ sample SD. Native HICL targets and literal route/dosage/frequency tuples differ from the MIMIC ATC task. Medication recall retains out-of-vocabulary targets; joint-order scoring uses complete observed tuples. All methods share the same test stays.}
-\label{tab:eicu-test-methods}
-\begin{tabular}{lrrr}\toprule Method & Drug micro-F1 & Joint-order micro-F1 & Empty (\%)\\\midrule
-EICUTESTROWS
-\bottomrule\end{tabular}\end{table*}
-'''.replace('EICUTESTROWS','\n'.join(eicu_method_rows))
-        reports=[json.loads((ROOT/f'upgrade_v25/results/test_seed_{s}.json').read_text()) for s in [42,137,2026]]
-        eicu_test_growth_rows=[]
-        for r in range(5):
-            values=[str(8000*(r+1))]
-            for arm in ['uniform','error_prioritized','permuted_priority']:
-                values.append(' / '.join(f"{sum(v['raw_curves'][arm][r]['metrics'][k] for v in reports)/3:.5f}" for k in ['drug_micro_f1','core_order_micro_f1']))
-            eicu_test_growth_rows.append(' & '.join(values)+r'\\')
-        temporal_section+=r'''
-\begin{table*}[t]\centering\small
-\caption{Raw checkpoint trajectories on the same eICU test, reported without selecting a test winner. Each cell is the three-seed mean drug / joint-order micro-F1. Accepted-state curves and seed variation are also retained in the release.}
-\label{tab:eicu-test-growth}
-\begin{tabular}{rrrr}\toprule Training stays & Uniform & Own-error priorities & Shuffled priorities\\\midrule
-EICUGROWTHROWS
-\bottomrule\end{tabular}\end{table*}
-'''.replace('EICUGROWTHROWS','\n'.join(eicu_test_growth_rows))
-        own=et['methods']['error_prioritized'];ordinary=et['methods']['uniform'];frozen_tool=et['methods']['error_priority_initial_tool']
-        temporal_section+=f"For development-accepted states, mean own-error-minus-uniform drug/order F1 is {own['drug_f1_mean']-ordinary['drug_f1_mean']:+.5f}/{own['order_f1_mean']-ordinary['order_f1_mean']:+.5f}. Updating the order tool rather than composing the same selected own-error policy with its initial tool changes mean joint-order F1 by {own['order_f1_mean']-frozen_tool['order_f1_mean']:+.5f}. "
-        temporal_section+=r'''The accompanying report gives per-seed, paired patient- and hospital-cluster intervals from 2,000 resamples, without multiplicity correction, plus false nonempty predictions among zero-target stays. Following a floating-matmul warning in the original statistics pass, integer accumulation independently recounts all 36 cluster contrasts (144 interval bounds). All original values are finite and every bound agrees within $10^{-12}$. No prediction or model choice changes in this check.
-
-Logical five-round exposure is identical across feedback arms; the initial fit is physically shared. Static word/character fits and their five-weight/seven-threshold ensemble search have separate recorded budgets. Tool fitting, retrieval and inference are outside the policy-fitting time ledger, and concurrent runtime is not a speed benchmark. These comparisons distinguish case-growth gains, error-assignment effects and learned order-tool effects; they do not establish autonomous clinical reasoning or clinical safety.'''
-        denominator_audit_path=ROOT/'upgrade_v25/results/order_denominator_audit.json'
-        if denominator_audit_path.exists():
-            denominator_path=ROOT/'upgrade_v25/results/order_denominator_summary.json'
-            denominator_proof=json.loads(denominator_audit_path.read_text());denominator_data=json.loads(denominator_path.read_text())
-            assert denominator_proof['status']=='passed' and denominator_proof['summary_sha256']==hashlib.sha256(denominator_path.read_bytes()).hexdigest()
-            assert denominator_proof['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v25/audit_order_denominator.py').read_bytes()).hexdigest()
-            assert denominator_data['script_sha256']==hashlib.sha256((ROOT/'upgrade_v25/evaluate_order_denominator.py').read_bytes()).hexdigest()
-            assert all(hashlib.sha256((ROOT/'upgrade_v25'/name).read_bytes()).hexdigest()==value for name,value in denominator_data['source_sha256'].items())
-            denom_before=denominator_data['all_states']['error_priority_initial_tool'];denom_after=denominator_data['all_states']['error_prioritized']
-            denom_changes=[p['paired']['error_prioritized__minus__error_priority_initial_tool']['matched_complete_tuple_change'] for p in denominator_data['seeds'].values()]
-            temporal_section+=r'''
-\paragraph{Incomplete-output denominator sensitivity.}
-The registered joint-order endpoint excludes incomplete predicted and reference tuples. A declared post-test analysis instead counts every distinct emitted tuple in the prediction denominator, while retaining only complete reference tuples as scorable targets. The numerator remains the count of complete exact matches. This is an observed-reference sensitivity, not a complete-reference clinical accuracy measure or a replacement primary endpoint. All 129 saved final/raw/accepted states receive a separate source recount (1,032,645 per-stay vectors); neither predictions nor choices change. '''
-            temporal_section+=f"With identical per-stay selected drug sets, the updated tool changes mean all-output-denominator F1 from {denom_before['all_output_denominator_f1']['mean']:.5f} to {denom_after['all_output_denominator_f1']['mean']:.5f}. Complete exact matches increase by {', '.join(str(v) for v in denom_changes)} across the three seeds. However, mean output completeness falls from {100*denom_before['complete_output_fraction']['mean']:.2f}\\% to {100*denom_after['complete_output_fraction']['mean']:.2f}\\%. Matching improves while completeness declines. All methods, counts and descriptive patient/hospital intervals accompany the released sensitivity report. These new intervals use the verified integer cluster draws; they are not a second independent bootstrap execution."
-    parameter_section=r'\paragraph{Execution status.} Local parameter-update experiments are in progress. No fine-tuning gain is claimed before generation-based evaluation is complete.'
-    if parameter.exists() and (ROOT/'upgrade_v9/results/summary.json').exists():
-        d=json.loads((ROOT/'upgrade_v9/results/summary.json').read_text())
-        names={'base':'Frozen Qwen3-4B','uniform_sft':'Uniform updates','error_prioritized_sft':'Error-prioritized updates','all_20_candidate_tools':'All 20 candidate tools','guard_selected_top_k_tools':'Guard-selected top-8 tool'}
-        rr='\n'.join(f"{label} & {d['methods'][key]['drug_f1']:.4f} & {d['methods'][key]['core_order_f1']:.4f} \\\\" for key,label in names.items())
-        parameter_section=r'''\begin{table}[t]\centering\small
-\caption{Local parameter evolution on 500 new test admissions. Checkpoints are selected on the separate guard set.}
-\begin{tabular}{lrr}\toprule Method & Drug F1 & Order F1\\\midrule
-PARAMROWS
-\bottomrule\end{tabular}\end{table}'''.replace('PARAMROWS',rr)
-        parameter_section+=r'''Both training arms improve over the frozen language model, but neither beats direct use of the same guard-selected top-8 tool. The paired patient-cluster 95\% drug-F1 intervals versus that tool are [-0.0367, -0.0132] for uniform updates and [-0.0400, -0.0149] for error priorities. Uniform updating is slightly stronger on drug F1; the priority-minus-uniform interval [-0.0067, 0.0013] does not establish a prioritization benefit.
-
-The test contains 6.784 gold drugs per admission and 3.802 reachable drugs in the fixed catalogue. Selected uniform and priority models emit 17.416 and 18.976 drugs on average, exposing severe over-selection. The uniform active state improves in round one, slightly regresses after the accepted round-two update, and retains round two thereafter. Priority retains round one; its last raw checkpoint degenerates on the guard, with 53\% empty outputs, and is rejected. This is a genuine learned-checkpoint failure after valid parsing. A subsequent exact 20-position inclusion-mask intervention was declared before these test results with the same patients and step budgets.'''
-    if (ROOT/'upgrade_v15/results/summary.json').exists():
-        binary=json.loads((ROOT/'upgrade_v15/results/summary.json').read_text())
-        names={'base':'Frozen model, binary prompt','uniform_sft':'Uniform binary updates','error_prioritized_sft':'Priority binary updates','guard_selected_top_k_tools':'Direct top-8 tool'}
-        br='\n'.join(f"{label} & {binary['methods'][key]['drug_f1']:.4f} & {binary['methods'][key]['core_order_f1']:.4f} \\\\" for key,label in names.items())
-        parameter_section+=r'''\subsection{Explicit Inclusion and Exclusion}
-The binary intervention restarts both arms from the original model and supervises every candidate decision, using the same patients, 400 sampled examples and 100 optimizer steps per round. Target-token counts differ from positive-ID output. Both arms select round two before testing.
-\begin{table}[t]\centering\small
-\caption{Binary supervision on the same 500 admissions. One learning seed; descriptive paired comparisons.}
-\begin{tabular}{lrr}\toprule Method & Drug F1 & Order F1\\\midrule
-BINARYROWS
-\bottomrule\end{tabular}\end{table}
-Priority-minus-uniform drug/order differences are 0.05098/0.04257, with patient-cluster 95\% intervals [0.03495, 0.06641]/[0.02972, 0.05428]. Priority still trails the top-8 tool by 0.01977/0.01410, with both intervals negative. This single-seed benefit over ordinary updates does not establish general superiority.
-
-Raw-checkpoint diagnostics reveal failure beneath the accepted curve. The first priority checkpoint emits only all-zero or all-one masks; the second has 16 distinct masks, with 99\% selecting a prefix of the ranked catalogue, versus 34\% of GT masks. The third emits all zeros on guard and test and is rejected. Valid parsed zeros are learned outputs, not API failures. Thus checkpoint protection should not be confused with monotonic model improvement or learned clinical reasoning.
-
-Actual adapter hashes, six 100-step logs, serialized targets, sampling from recorded weights and all test predictions are independently checked. Ten of 3,600 pre-update feedback values cannot be exactly recovered from the shared input cache because duplicate-input generations could overwrite earlier responses. Recorded weights and sampled memberships remain available; missing individual generations are not reconstructed or invented. This training-trace limitation does not change saved-prediction scores, but motivates immutable case-bound feedback receipts in subsequent runs.'''.replace('BINARYROWS',br)
-    if (ROOT/'upgrade_v26/results/data_audit.json').exists():
-        parameter_section+=r'''\paragraph{Registered position-sensitivity diagnostic.}
-A subsequent development-only experiment freezes the base model and both selected round-two adapters on the existing 200-case guard (197 patients). Four conditions compare original prompts, explicit original retrieval ranks, deterministic permutations retaining those ranks, and reversed display order retaining ranks. Candidate fields and patient context remain identical; local IDs and masks are remapped consistently. The added-rank prompt effect is separated from reordering, so ranking information is not silently removed. Fresh deduplicated inference saves immutable case-bound receipts. This post-test-motivated diagnostic is running, with no checkpoint/prompt promotion or held-out improvement claim.'''
-        if (ROOT/'upgrade_v26/results/summary.json').exists():
-            position=json.loads((ROOT/'upgrade_v26/results/summary.json').read_text())
-            parameter_section=parameter_section.replace('This post-test-motivated diagnostic is running, with no checkpoint/prompt promotion or held-out improvement claim.','This post-test-motivated diagnostic is complete, with no checkpoint/prompt promotion or held-out improvement claim.')
-            rr='\n'.join(f"{model.replace('_',' ')} & {condition.replace('_',' ')} & {z['drug_order_f1'][0]:.4f} & {z['drug_order_f1'][1]:.4f} \\\\" for model,conditions in position['methods'].items() for condition,z in conditions.items())
-            parameter_section+=r'''\begin{table*}[t]\centering\small
-\caption{Frozen-model candidate-position diagnostic on the existing 200-case guard. Explicit-rank conditions preserve the same candidate content and original retrieval rank. These are development scores, not a new test comparison.}
-\begin{tabular}{llrr}\toprule Frozen state & Display condition & Drug F1 & Order F1\\\midrule
-POSITIONROWS
-\bottomrule\end{tabular}\end{table*}
-All saved outputs, remapped candidates and immutable case receipts pass independent recounting. Explicit-rank permutation reduces priority drug F1 from 0.27471 to 0.17441, a difference of $-0.10030$ with patient-cluster interval $[-0.13508,-0.06646]$. Both adapters select display prefixes in 100\% of nontrivial permuted masks, versus 1.5\% for the base model; all 2,400 outputs parse successfully. Reordering sensitivity with rank information retained is evidence of a representation weakness; it does not alone establish the cause of training collapse or clinical reasoning. No prompt winner is promoted from these results.'''.replace('POSITIONROWS',rr)
-    if (ROOT/'upgrade_v31/results/data_audit.json').exists():
-        parameter_section+=r'''\paragraph{Registered position-randomized parameter intervention.}
-A subsequent local study compares ranked uniform, permuted uniform, permuted own-error and permuted shuffled-error QLoRA updates across three seeds and three case-growth rounds. Original retrieval ranks, candidate identities and order fields remain visible. Each round scores a fresh 600-admission feedback block before sampling 400 accumulated admissions for 100 steps (batch four); earlier priorities retain their original pre-update errors. All arms share a completion-only loss correction excluding a trailing padded target, verified before generation and fitting. This correction does not establish the cause of earlier collapse. Candidate tools and order templates remain fixed.
-
-The 100-case proposal score averages ranked and permuted views and may retain the base model. Training continues from each latest raw adapter. All per-seed selections freeze before evaluating every raw state on the reused 200-case guard under ranked, permuted and reversed views. The 500 previous test admissions are excluded. An executed data audit checks 33,300 transformed views, zero patient-role overlap and no target truncation (maximum 1,005 of 1,536 tokens). This is exploratory development work on the legacy admission-proxy task, with incomplete entry-time provenance; it does not generate novel doses.'''
-        p=ROOT/'upgrade_v31/results/audit-seed42.json'
-        if p.exists():
-            parameter_audit=json.loads(p.read_text());q=parameter_audit['base_proposal']
-            assert parameter_audit['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v31/audit_learning.py').read_bytes()).hexdigest()
-            parameter_section+=f"\nThe independently recounted frozen-base drug/order F1 on proposal is {q['ranked']['drug_micro_f1']:.5f}/{q['ranked']['core_order_micro_f1']:.5f} for ranked views and {q['permuted']['drug_micro_f1']:.5f}/{q['permuted']['core_order_micro_f1']:.5f} for permuted views. These are selection-set reference scores, not evidence of an intervention gain."
-            ranked_first=[r for r in parameter_audit['arms'].get('ranked_uniform',[]) if r['round']==1]
-            if ranked_first:
-                r=ranked_first[0];a=r['proposal']['ranked'];b=r['proposal']['permuted']
-                parameter_section+=f" The completed first ranked-uniform update scores {a['drug_micro_f1']:.5f}/{a['core_order_micro_f1']:.5f} under ranked presentation and {b['drug_micro_f1']:.5f}/{b['core_order_micro_f1']:.5f} after candidate permutation, with {100*a['empty_fraction']:.1f}\\%/{100*b['empty_fraction']:.1f}\\% empty outputs. This single-round control shows that lower training loss and an improved ranked-view score can coexist with worse permuted-view performance; it does not establish position-robust learning."
-            failed=[(arm,r['round']) for arm,rows in parameter_audit['arms'].items() for r in rows if all(m['empty_fraction']==1 for m in r['proposal'].values())]
-            if failed:
-                failed_labels=', '.join(f"{arm.replace('_',' ')} (round {r})" for arm,r in failed)
-                parameter_section+=f" In seed42, {len(failed)} completed raw checkpoint(s)---{failed_labels}---return empty prescriptions on all 100 proposal admissions in each view. Their drug/order micro-F1 is zero, and the predefined promotion rule retains a prior state. These failures remain reported; decreasing training loss is not evidence of effective prescription learning."
-                if all(m.get('invalid_json')==0 for arm,rows in parameter_audit['arms'].items() for r in rows if (arm,r['round']) in failed for m in r['proposal'].values()):
-                    parameter_section+=' All these empty responses pass the registered parser; the zero scores reflect the decoded decisions.'
-                if any(arm=='permuted_own_error' for arm,r in failed):
-                    parameter_section+=' Prioritizing the model\'s own error cases has not prevented collapse in this completed update; a decision-supervision repair is evaluated separately below.'
-                if ranked_first and all((arm,1) in failed for arm in ['permuted_uniform','permuted_own_error','permuted_shuffled_error']):
-                    parameter_section+=' The completed first-round controls therefore observe collapse under all three sampling policies with permuted training. This is not confined to own-error sampling in this seed and round; it neither identifies a general cause nor establishes that the separate repair succeeds.'
-        p=ROOT/'upgrade_v31/results/progress.json'
-        if p.exists():
-            q=json.loads(p.read_text())
-            parameter_section+=f" At this snapshot, {q['optimizer_runs_with_complete_receipts']}/36 optimizer runs have completion receipts and {len(q['seeds_fully_audited'])}/3 seeds have complete independent audits. Running jobs do not establish superiority."
-        diagnosis=ROOT/'upgrade_v31/results/collapse_diagnostic.json';diagnostic_audit=ROOT/'upgrade_v31/results/collapse_diagnostic_audit.json'
-        if diagnosis.exists() and diagnostic_audit.exists():
-            checked=json.loads(diagnostic_audit.read_text());assert checked['status']=='passed' and checked['source_report_sha256']==hashlib.sha256(diagnosis.read_bytes()).hexdigest();d=json.loads(diagnosis.read_text());collapse_rows=[]
-            for state,label in [('frozen_base','Base'),('permuted_uniform_seed42_round1','Updated')]:
-                for group,view_label in [('proposal_ranked','Ranked'),('proposal_permuted','Permuted')]:
-                    o=d['states'][state][group]['teacher_forced_ground_truth_prefix'];q=d['states'][state][group]['all_zero_prefix_without_ground_truth']
-                    collapse_rows.append(f"{label} & {view_label} & {o['auroc']:.4f} & {q['auroc']:.4f} & {q['mean_probability_given_positive']:.4f} & {100*q['fraction_at_or_above_half']:.1f} "+r'\\')
-            parameter_section+=r'''\paragraph{Frozen-checkpoint collapse diagnosis.}
-The 400 actual training masks contain 1,604 positive decisions among 8,000 slots; 122 masks have no reachable target. Each 69-token answer contains only 20 decision tokens. An additional registered diagnostic fixes the first 32 training examples and first 32 proposal cases in two views. It measures conditional binary-token probabilities under either oracle ground-truth answer prefixes or label-free all-zero prefixes. Oracle-prefix discrimination is not deployable accuracy. A separate implementation reconstructs targets and recounts all 384 saved probability vectors; it does not rerun neural forward passes.
-\begin{table}[t]\centering\scriptsize
-\caption{Post-observation probability diagnosis on 32 proposal cases. GT/zero denote previous answer prefixes; probabilities condition on token0 or1. This is exploratory development evidence without threshold selection.}
-\begin{tabular}{llrrrr}\toprule State & View & GT AUC & Zero AUC & Positive $P(1)$ & $P(1)\geq.5$ (\%)\\\midrule
-COLLAPSEROWS
-\bottomrule\end{tabular}\end{table}
-All 200 saved generated proposal responses are valid all-zero masks after removal of an empty reasoning wrapper. Thus the zero score is a decision failure rather than a JSON parser failure. Prefix-dependent discrimination and low probabilities motivate a controlled change to decision supervision and inference; this diagnosis alone does not isolate a training cause or establish a repaired agent.'''.replace('COLLAPSEROWS','\n'.join(collapse_rows))
-        pilot=ROOT/'upgrade_v32/results/training_progress.json'
-        if pilot.exists():
-            p=json.loads(pilot.read_text())
-            parameter_section+=r'''\paragraph{Controlled decision-supervision repair.}
-A registered one-seed pilot crosses ground-truth versus all-zero training answer prefixes with uniform versus training-prevalence-balanced binary decision loss. All four arms restart the same backbone on the exact 400 examples for 100 steps; only the 20 decision positions contribute to loss. All use label-free zero-prefix scoring at inference, with fixed-threshold and ordinary proposal-calibrated results to be reported separately. Pre-fit probes verify target alignment, label blindness, finite gradients and projection equivalence with the original vocabulary head. Candidate fields and templates remain fixed. This supervised repair does not by itself establish feedback-specific RSI. All pilot states and thresholds, and the original seed42 choices, must freeze before report-only guard evaluation.'''
-            repair_progress=ROOT/'upgrade_v32/results/progress.json';rp=json.loads(repair_progress.read_text()) if repair_progress.exists() else {'completed_optimizer_fits':len(p['arms']),'audited_splits':[]}
-            parameter_section+=f" At this snapshot, {rp['completed_optimizer_fits']}/4 fits have completion receipts."
-            if 'training_audit_sha256' in rp.get('gates', {}).get('proposal', {}).get('proof', {}):
-                training_audit=ROOT/'upgrade_v32/results/training_audit.json'
-                assert hashlib.sha256(training_audit.read_bytes()).hexdigest()==rp['gates']['proposal']['proof']['training_audit_sha256']
-                parameter_section+=' All four arms pass the source-target and training-receipt audit: 8,000 reconstructed decisions per arm, 100-step logs, 3,670,016 finite adapter parameters and a nonzero LoRA update. Training and proposal patients do not overlap. The optimizer trajectories were not independently replayed.'
-            parameter_section+=r''' The scoring implementation separates fixed $0.5$ decisions from a shared proposal-selected threshold on a $0.01$--$0.99$ grid for every neural state. A synthetic end-to-end preflight independently recounts 120 case/probability bindings, threshold ties, unreachable targets, patient-cluster intervals and resumed outputs. These checks are implementation evidence, not clinical performance. All-empty agreement is accompanied by nonempty-union counts to avoid interpreting collapse as position invariance.'''
-            repair_report=None;repair_split=None
-            for split in ['proposal','guard']:
-                score_path=ROOT/f'upgrade_v32/results/{split}_summary.json';audit_path=ROOT/f'upgrade_v32/results/{split}_audit.json'
-                if score_path.exists() and audit_path.exists():
-                    checked=json.loads(audit_path.read_text());assert checked['status']=='passed' and checked['summary_sha256']==hashlib.sha256(score_path.read_bytes()).hexdigest() and checked['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v32/audit_evaluation.py').read_bytes()).hexdigest();repair_report=json.loads(score_path.read_text());repair_split=split
-            if repair_report is None:
-                parameter_section+=' Repair performance remains pending independent evaluation.'
-            else:
-                labels={'frozen_base':'Frozen base','original_failed_adapter':'Original failed adapter','teacher_uniform':'Teacher / uniform','zero_uniform':'Zero / uniform','teacher_balanced':'Teacher / balanced','zero_balanced':'Zero / balanced','original_retrieval_top8':'Retrieval top-8','all20_candidate_tools':'All 20 candidates'}
-                for endpoint,views in repair_report['endpoints'].items():
-                    repair_rows=[]
-                    for method,label in labels.items():
-                        vals=[label];threshold=views['ranked']['methods'][method].get('threshold');vals.append('--' if threshold is None else f'{threshold:.2f}')
-                        for view_name,panel in views.items():
-                            m=panel['methods'][method];vals.extend([f"{m['drug_micro_f1']:.4f}",f"{m['core_order_micro_f1']:.4f}",f"{100*m['empty_fraction']:.1f}"])
-                        repair_rows.append(' & '.join(vals)+r'\\')
-                    column_spec='@{}l r '+'rrr '*len(views)+'@{}';header=r'Method & $\tau$ & '+' & '.join(r'\multicolumn{3}{c}{'+v.capitalize()+'}' for v in views)+r'\\';subheader=' & & '+' & '.join(['Drug F1 & Order F1 & Empty (\%)']*len(views))+r'\\'
-                    endpoint_label='Fixed-threshold' if endpoint=='fixed_half' else 'Proposal-calibrated'
-                    parameter_section+=r'\begin{table*}[t]\centering\scriptsize'+'\n'+r'\caption{'+f'{endpoint_label} controlled repair on {repair_report["cases"]} {repair_split} admissions ({repair_report["patients"]} patients). Every registered state is retained. These are one-seed development results; the '+('proposal set selects thresholds' if repair_split=='proposal' else 'reused guard is report-only')+r'. Core-order F1 matches drug, route, dose value and unit using supplied templates.}'+'\n'+r'\begin{tabular}{'+column_spec+r'}\toprule '+header+'\n'+subheader+r'\midrule'+'\n'+'\n'.join(repair_rows)+'\n'+r'\bottomrule\end{tabular}\end{table*}'+'\n'
-                parameter_section+=r''' The accompanying release retains both proposal and guard panels when complete, all factorial contrasts, calibration-only effects, and 4,000-resample paired patient intervals without multiplicity correction. Guard outcomes do not select an arm. The independent audit reconstructs targets and scores from saved probabilities; it does not replay neural forward passes or optimizer trajectories. One-seed supervised repair remains distinct from multi-round feedback-specific RSI.'''
-                repair_arms=['teacher_uniform','zero_uniform','teacher_balanced','zero_balanced']
-                if all(panel['methods'][arm]['drug_micro_f1'] < panel['methods']['original_retrieval_top8']['drug_micro_f1'] and panel['methods'][arm]['core_order_micro_f1'] < panel['methods']['original_retrieval_top8']['core_order_micro_f1'] for views in repair_report['endpoints'].values() for panel in views.values() for arm in repair_arms):
-                    parameter_section+=' Every new repair has lower drug and core-order F1 point estimates than direct top-8 retrieval in every reported view under both endpoints; reduced empty outputs alone do not establish successful repair.'
-                calibrated_repair=repair_report['endpoints']['proposal_calibrated']
-                if all(panel['methods']['zero_balanced']['mean_predicted_drugs']>=19.5 for panel in calibrated_repair.values()):
-                    repair_behavior='; '.join(f"{view}: {panel['methods']['zero_balanced']['mean_predicted_drugs']:.2f} of 20 candidates, precision {panel['methods']['zero_balanced']['drug_precision']:.5f}" for view,panel in calibrated_repair.items())
-                    parameter_section+=' After calibration, zero-prefix/balanced loss nearly reproduces the all-20 control ('+repair_behavior+'). High nonempty position agreement can reflect nearly universal selection rather than useful discrimination; both all-empty and all-positive policies can appear invariant.'
-                repair_boundaries=[name for name,choice in repair_report['selected_thresholds'].items() if choice['threshold'] in [.01,.99]]
-                if repair_boundaries:
-                    parameter_section+=f" {len(repair_boundaries)}/6 neural calibration choices reach the declared grid boundary. These results do not establish a globally optimal threshold or exhaustive ordinary calibration; the original grid remains unchanged."
-            for diagnostic_split in ['proposal','guard']:
-                diagnostic_path=ROOT/f'upgrade_v32/results/{diagnostic_split}_rank_diagnostic.json'
-                diagnostic_audit_path=ROOT/f'upgrade_v32/results/{diagnostic_split}_rank_diagnostic_audit.json'
-                if not diagnostic_audit_path.exists():
-                    continue
-                diagnostic_proof=json.loads(diagnostic_audit_path.read_text())
-                assert diagnostic_proof['status']=='passed' and diagnostic_proof['summary_sha256']==hashlib.sha256(diagnostic_path.read_bytes()).hexdigest()
-                assert diagnostic_proof['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v32/audit_rank_diagnostic.py').read_bytes()).hexdigest()
-                diagnostic=json.loads(diagnostic_path.read_text());diagnostic_views=diagnostic['panels']['drug_sha256']
-                parameter_section+=r'''\paragraph{Fixed-cardinality ranking diagnosis.}
-After observing the proposal repair outcomes, we specified and committed an additional diagnostic before computing its endpoints. Every frozen state selects exactly eight candidates by its stored probabilities, using a drug-identity hash to break exact ties; lexical drug-name order provides a declared sensitivity analysis. No new inference, training, checkpoint or threshold selection is added. This post-proposal development analysis does not replace the original endpoints or provide independent confirmation. Fixed cardinality isolates ranking behavior; it is not a clinical prescription-count rule.'''
-                diagnostic_rows=[]
-                for method in diagnostic_views['ranked']['methods']:
-                    diagnostic_cells=[labels[method]]
-                    for diagnostic_view,panel in diagnostic_views.items():
-                        m=panel['methods'][method];diagnostic_cells.append(f"{m['drug_micro_f1']:.4f}/{m['core_order_micro_f1']:.4f}")
-                    diagnostic_rows.append(' & '.join(diagnostic_cells)+r'\\')
-                parameter_section+=r'\begin{table*}[t]\centering\small'+'\n'+r'\caption{'+f"Fixed-eight diagnosis on {diagnostic['cases']} {diagnostic_split} admissions ({diagnostic['patients']} patients). Cells show drug/core-order micro-F1 with identity-hash tie-breaking. All neural states and retrieval have the same medication count. The release retains both tie rules, all paired intervals and rank statistics."+r'}'+'\n'+r'\begin{tabular}{l'+'r'*len(diagnostic_views)+r'}\toprule Method & '+' & '.join(v.capitalize() for v in diagnostic_views)+r'\\\midrule'+'\n'+'\n'.join(diagnostic_rows)+'\n'+r'\bottomrule\end{tabular}\end{table*}'+'\n'
-                if all(m['drug_micro_f1']<=panel['methods']['original_retrieval_top8']['drug_micro_f1'] and m['core_order_micro_f1']<=panel['methods']['original_retrieval_top8']['core_order_micro_f1'] for views in diagnostic['panels'].values() for panel in views.values() for name,m in panel['methods'].items() if name!='original_retrieval_top8'):
-                    parameter_section+=' No neural state exceeds retrieval in either F1 under either tie rule in any reported view.'
-                alignment_diag=diagnostic['score_rank_alignment']['permuted']['teacher_uniform']
-                parameter_section+=f" For teacher-prefix/uniform loss, same-display-slot Spearman correlation is {alignment_diag['same_display_slots_unaligned']['mean_spearman']:.4f}, whereas drug-identity-aligned correlation is {alignment_diag['drug_identity_aligned']['mean_spearman']:.4f}. These within-case averages are consistent with positional dependence but do not establish its causal origin."
-                tie_ranked=diagnostic_views['ranked']['methods']['zero_uniform']['boundary_tie_cases'];tie_permuted=diagnostic_views['permuted']['methods']['zero_uniform']['boundary_tie_cases']
-                parameter_section+=f" Zero-prefix/uniform scores have exact ties across the eighth/ninth cutoff in {tie_ranked}/{diagnostic['cases']} ranked and {tie_permuted}/{diagnostic['cases']} permuted cases. Tie sensitivity warrants a separate numerical-readout check before attributing the failure to learned representations. Independent recount covers {diagnostic_proof['case_probability_bindings_recounted']} probability bindings and {diagnostic_proof['case_selections_recounted']} case selections, including within-case AUROC and 4,000-draw paired patient intervals; neural forward passes are not replayed."
-    precision_probe_path=ROOT/'upgrade_v32/results/precision_probe.json';precision_audit_path=ROOT/'upgrade_v32/results/precision_probe_audit.json'
-    if precision_audit_path.exists():
-        precision_proof=json.loads(precision_audit_path.read_text());assert precision_proof['status']=='passed' and precision_proof['probe_sha256']==hashlib.sha256(precision_probe_path.read_bytes()).hexdigest()
-        assert precision_proof['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v32/audit_precision_probe.py').read_bytes()).hexdigest()
-        precision_probe=json.loads(precision_probe_path.read_text())
-        parameter_section+=r'''\paragraph{Frozen-readout precision control.}
-The cutoff-tie diagnosis motivates an additional post-proposal implementation experiment. Three readouts share the same frozen backbone hidden states: the original quantized vocabulary projection, a float32 dense projection using the same stored four-bit parameters for the two output-token rows, and that dense projection re-rounded to bfloat16 before softmax. The latter pair isolates final-logit rounding within the dense path. Native versus dense projection also changes arithmetic, so its entire difference cannot be attributed to rounding. The backbone, adapters, memory, tools and candidate templates remain fixed; any benefit is an implementation effect rather than learned RSI.'''
-        zero_counts=[n for state in precision_probe['states'] if state['state'].startswith('zero_') for n in state['unique_scores_per_synthetic_prompt']['native']]
-        residual=precision_proof['maximum_numeric_residuals']
-        parameter_section+=f" A real-model preflight uses two nonclinical synthetic inputs for each of six frozen states. The zero-prefix states yield {min(zero_counts)}--{max(zero_counts)} distinct native scores among 20 candidates, versus 20 under float32 projection; re-rounding reduces their distinct scores again. Direct safetensors-byte extraction and independent NumPy reconstruction verify the two output rows, float64 dot products and nearest-even rounding. Maximum logit/probability residuals are {residual['dense_logit']:.3g}/{residual['binary_probability']:.3g}. These twelve synthetic backbone forwards establish numerical behavior, not prescription performance."
-        clinical_precision_available=False
-        for precision_split in ['proposal','guard']:
-            precision_path=ROOT/f'upgrade_v32/results/{precision_split}_precision.json';precision_check=ROOT/f'upgrade_v32/results/{precision_split}_precision_audit.json'
-            if not precision_check.exists():continue
-            proof=json.loads(precision_check.read_text());assert proof['status']=='passed' and proof['summary_sha256']==hashlib.sha256(precision_path.read_bytes()).hexdigest()
-            assert proof['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v32/audit_precision.py').read_bytes()).hexdigest()
-            precision_data=json.loads(precision_path.read_text());precision_views=precision_data['panels']['drug_sha256'];clinical_precision_available=True
-            precision_labels={'frozen_base':'Frozen base','original_failed_adapter':'Original failed','teacher_uniform':'Teacher/uniform','zero_uniform':'Zero/uniform','teacher_balanced':'Teacher/balanced','zero_balanced':'Zero/balanced'}
-            precision_rows=[]
-            for method,label in precision_labels.items():
-                for readout,readout_label in [('native','Native'),('fp32_binary','FP32'),('fp32_rerounded',r'FP32 $\to$ BF16')]:
-                    precision_cells=[label,readout_label]
-                    for kind,panel in precision_views.items():
-                        m=panel[readout]['methods'][method];precision_cells.append(f"{m['drug_micro_f1']:.4f}/{m['core_order_micro_f1']:.4f}")
-                    precision_rows.append(' & '.join(precision_cells)+r'\\')
-            precision_cells=['Retrieval top-8','--']
-            for panel in precision_views.values():
-                m=panel['native']['methods']['original_retrieval_top8'];precision_cells.append(f"{m['drug_micro_f1']:.4f}/{m['core_order_micro_f1']:.4f}")
-            precision_rows.append(' & '.join(precision_cells)+r'\\')
-            parameter_section+=r'\begin{table*}[t]\centering\scriptsize'+'\n'+r'\caption{'+f"Fixed-eight precision diagnosis on {precision_data['cases']} {precision_split} admissions. Cells are drug/core-order F1; all readouts share each frozen backbone forward. Primary drug-identity-hash tie-breaking is shown; both tie rules and all paired intervals remain in the release. This is post-proposal development evidence."+r'}'+'\n'+r'\begin{tabular}{ll'+'r'*len(precision_views)+r'}\toprule State & Readout & '+' & '.join(k.capitalize() for k in precision_views)+r'\\\midrule'+'\n'+'\n'.join(precision_rows)+'\n'+r'\bottomrule\end{tabular}\end{table*}'+'\n'
-            parameter_section+=f" The independent audit replays {proof['shared_hidden_state_receipts_replayed']} saved hidden-state readouts, both tie rules and all patient intervals. Actual completed case-forwards total {proof['completed_actual_case_forwards']}, with {proof['unresolved_forward_attempts']} unresolved attempts. Backbone and native-kernel forward passes are not independently replayed. No new model, threshold or promotion is selected."
-        if not clinical_precision_available:
-            parameter_section+=' The source-bound clinical evaluator and independent auditor are implemented, and the complete proposal comparison has been launched. No independently audited clinical precision score is available at this snapshot.'
-    compatibility_section=''
-    if (ROOT/'upgrade_v27/results/cohort_audit.json').exists():
-        compatibility_section=r'''\paragraph{Standard-method compatibility panel.}
-A separate retrospective MIMIC-IV 3.1 panel now contains 8,905 repeated-visit adult ICU patients and 23,177 hospital visits. Patient-disjoint training/proposal/guard/test partitions contain 7,115/433/467/890 patients and 18,429/1,095/1,231/2,422 visits. Every selected diagnosis, procedure and mapped medication set is independently reconstructed from sources. Training-only vocabularies include 271 true five-character ATC-L4 classes, with five test target occurrences outside that vocabulary. The public NDC map covers only 27.23\% of selected source prescription rows; this is explicitly mapped-class prediction, not complete prescription recovery. Completed-visit diagnosis/procedure inputs also distinguish it from the six-hour task. Earlier observed test patients overlap, so this panel is exploratory.
-
-Public molecular lookup resolves 746 CIDs and validates structures spanning 399 ATC-L4 classes. Coverage is 219/271 classes in this cohort. Actual pinned ARMR, GAMENet and SafeDrug cores pass synthetic forward/backward execution probes. SafeDrug still requires complete cohort-specific molecular/substructure compatibility; the probe's synthetic mask is never used as an experimental resource. No trained method score is claimed at this preparation stage.'''
-        if (ROOT/'upgrade_v27/results/training_runtime_probe.json').exists():
-            compatibility_section=compatibility_section.replace("SafeDrug still requires complete cohort-specific molecular/substructure compatibility; the probe's synthetic mask is never used as an experimental resource. No trained method score is claimed at this preparation stage.",r'''Full resources now contain 627 molecular graphs and 863 BRICS fragments; no synthetic mask is used for training. Dense/sparse forward and registered-gradient probes agree, and the released fixed molecular embedding is persisted in checkpoints. A separate 219-class molecular panel retains all visits, including three empty-target test visits, and explicitly excludes 5,613 test target occurrences. ARMR/GAMENet run in both spaces and SafeDrug in the molecular space, for three seeds and 50 full epochs each. Proposal Jaccard selects checkpoints/thresholds, guard reports development performance, and testing waits for all baseline and future RxRSI states to freeze. Equal case exposure is not equal FLOPs. The released SafeDrug training script's negative-cap coefficient conflicts with Eq.~19; the adapted run uses the paper's nonnegative cap \citep{safedrug}.''')
-        if (ROOT/'upgrade_v27/results/control_audit.json').exists():
-            audit=json.loads((ROOT/'upgrade_v27/results/control_audit.json').read_text());assert audit['status']=='passed'
-            dev_method_rows=[f"{panel} & {name.replace('_',' ')} & 1 & {z['patient_f1']:.4f} & {z['patient_jaccard']:.4f} \\\\" for panel,p in audit['panels'].items() for name,z in p['methods'].items()]
-            accounting=ROOT/'paper/compute_accounting.json'
-            if accounting.exists():
-                costs=json.loads(accounting.read_text());assert costs['script_sha256']==hashlib.sha256((ROOT/'paper/build_compute_accounting.py').read_bytes()).hexdigest()
-                assert all(hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==h for name,h in costs['source_sha256'].items())
-                for name,z in costs['author_method_summary'].items():
-                    panel,method=name.split('/');vals=[]
-                    for key in ['guard_patient_f1','guard_patient_jaccard']:
-                        q=z[key];vals.append(f"{q['mean']:.4f}"+(f" $\\pm$ {q['seed_sd']:.4f}" if q['seed_sd'] is not None else ''))
-                    dev_method_rows.append(f"{panel} & {method} & {len(z['seeds'])} & "+' & '.join(vals)+r'\\')
-            rule_summary=ROOT/'upgrade_v27/results/rsi_development_summary.json'
-            if rule_summary.exists():
-                for panel,p in json.loads(rule_summary.read_text())['panels'].items():
-                    for arm,label in [('greedy_error_rules','Greedy candidate-rule memory'),('own_error_rule_agent','RxRSI candidate-rule memory')]:
-                        vals=[]
-                        for key in ['patient_f1','patient_jaccard']:
-                            q=p['methods'][arm][key];vals.append(f"{q['mean']:.4f}"+(f" $\\pm$ {q['seed_sd']:.4f}" if q['seed_sd'] is not None else ''))
-                        dev_method_rows.append(f"{panel} & {label} & {len(p['seeds'])} & "+' & '.join(vals)+r'\\')
-            rr='\n'.join(dev_method_rows)
-            compatibility_section+=r'''\begin{table*}[t]\centering\small
-\caption{Executed cross-method development comparison on the same 1,231 guard visits from 467 patients. Each label panel is separate. Choices use proposal data; only completed independently audited runs are included, with mean $\pm$ sample seed SD when available. Unfinished seeds remain pending. This table does not replace the gated final test main table.}
-\label{tab:common-development}
-\begin{tabular}{llrrr}\toprule Label panel & Method & Runs & Patient-average F1 & Patient-average Jaccard\\\midrule
-CONTROLROWS
-\bottomrule\end{tabular}\end{table*}'''.replace('CONTROLROWS',rr)
-            if accounting.exists():
-                compatibility_section+=r'''\paragraph{Recorded computation and selection budgets.}
-Each author neural run uses 50 epochs, 921,450 visit exposures, and 300 epoch/threshold choices on proposal data. Native batching produces 29,750 ARMR optimizer steps versus 921,450 for GAMENet/SafeDrug in the completed runs. ARMR uses Apple MPS and the other two CPU; concurrent work makes recorded fit times unsuitable as an isolated speed ranking. Five-round rule and synthesized-program runs each record 30 shared model-collection fits (three regularization candidates and three cross-fit models per round). These fits are counted once across their six or seven arms; the later 14-arm gate study reuses the corresponding synthesized-program fits exactly. Its memory induction and verification still consume computation. The released ledger distinguishes fit timers, broader conventional-method timing blocks, and logical proposal prices. Logical response reuse is not fresh account spend; FLOPs and complete isolated runtime are not measured.'''
-            paired_development=ROOT/'upgrade_v27/results/development_methods.json'
-            if paired_development.exists():
-                comparison=json.loads(paired_development.read_text());assert comparison['script_sha256']==hashlib.sha256((ROOT/'upgrade_v27/summarize_development_methods.py').read_bytes()).hexdigest()
-                assert all(hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==h for name,h in comparison['source_sha256'].items())
-                total=sum(sum(row['runs'] for row in p['methods'].values()) for p in comparison['panels'].values())
-                compatibility_section+=r'\paragraph{Paired cross-method development analysis.} '+f'A separate saved-output recount covers {total} completed method runs on the same guard patients. For RxRSI candidate-rule memory minus each author method, the patient-F1 differences on matched available seeds are '
-                effects=[]
-                for panel,p in comparison['panels'].items():
-                    for name in ['ARMR','GAMENet','SafeDrug']:
-                        if name not in p['own_rule_agent_minus_control']:continue
-                        item=p['own_rule_agent_minus_control'][name];q=item['patient_f1'];lo,hi=q['patient_ci95']
-                        effects.append(f"{name} ({panel}, {len(item['matched_seeds'])} seeds): {100*q['difference']:+.3f} pp, interval $[{100*lo:+.3f},{100*hi:+.3f}]$")
-                compatibility_section+='; '.join(effects)+'. '
-                effects=[]
-                for panel,p in comparison['panels'].items():
-                    q=p['own_rule_agent_minus_control']['greedy_error_rules']['patient_f1'];lo,hi=q['patient_ci95']
-                    effects.append(f"{panel}: {100*q['difference']:+.3f} pp $[{100*lo:+.3f},{100*hi:+.3f}]$")
-                compatibility_section+='Against greedy memory, the corresponding differences are '+'; '.join(effects)+r'''. These 4,000-draw patient intervals condition on the observed matched seeds and have no multiplicity correction. All comparisons, including conventional and shuffled controls, remain in the release. Gains over an older architecture do not establish an advantage of the language-agent update mechanism; this reused development analysis does not select a model or establish final-test superiority.'''
-        if (ROOT/'upgrade_v27/rsi_addendum.json').exists():
-            compatibility_section+=r'''
-\paragraph{Executable rule-memory evolution.}
-Five nested patient-hash rounds expose 20/40/60/80/100\% of training patients. A common logistic class policy is refit with the same development selection as the conventional control. Three patient-disjoint fitting folds produce training-error probabilities. Candidate edits add or remove typed feature--drug inclusion/exclusion rules within a fixed 0.15 threshold band; they cannot inspect the current prescription target at inference. A fixed candidate generator proposes at most 24 supported edits. A language agent receives only aggregate descriptors, support counts and measured error changes and selects up to four IDs per round. A training-witness gate accepts edits only when patient F1 improves without lowering Jaccard, with at least five affected witness patients. At most 20 rules persist.
-
-The evolving artifact is this executable rule memory. Coefficients change through ordinary supervised refitting, and the language model is an offline policy-maintenance component rather than a patient-level prescription generator. Greedy, random, shuffled-evidence and no-witness controls retain identical data exposure and edit limits. The latter reuses the own-error agent's proposals; it is not an independently learned counterfactual trajectory. Full dosage generation is outside this class-set task.
-
-Witness patients are excluded from candidate induction, but their labels participate in other folds' policy fits, and the shared regularization choice uses proposal performance of full seen-patient fits. Direct own-label fitting is prevented, but the pipeline is not wholly isolated nested validation. Repeated witness reuse is training validation, not independent confirmation. Original cross-fit probabilities were saved; fold weights were not. Fresh, explicitly labeled reconstructions reproduce the saved probabilities and threshold decisions. Candidate effects, prompt fields, rule transitions and selected guard predictions receive separate audits.
-
-\begin{figure*}[t]\centering\small
-\begin{tabular}{c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c}
-\fbox{\parbox{2.9cm}{\centering More training patients; shared policy fits}} &
-\fbox{\parbox{2.9cm}{\centering Cross-fitted errors; typed edit candidates}} &
-\fbox{\parbox{2.9cm}{\centering LLM selects edits from aggregate evidence}} &
-\fbox{\parbox{2.9cm}{\centering Witness verification; retained rule memory}}\\[1em]
-\fbox{\parbox{2.9cm}{\centering Observed current codes and prior history}} &
-\fbox{\parbox{2.9cm}{\centering Frozen class-probability policy}} &
-\fbox{\parbox{2.9cm}{\centering Apply frozen feature--drug rules}} &
-\fbox{\parbox{2.9cm}{\centering Medication class set; automatic GT scoring}}
-\end{tabular}
-\caption{Implemented rule-agent maintenance (top) and inference (bottom). No test labels enter maintenance. The two rows specify a class-set experiment rather than unrestricted clinical prescribing.}
-\end{figure*}
-'''
-        if (ROOT/'upgrade_v27/results/rsi_development_summary.json').exists():
-            z=json.loads((ROOT/'upgrade_v27/results/rsi_development_summary.json').read_text())
-            rr=[];growth_rows=[]
-            for panel,p in z['panels'].items():
-                for arm,m in p['methods'].items():
-                    def fmt(key):
-                        q=m[key];return f"{q['mean']:.5f}"+(f" $\\pm$ {q['seed_sd']:.5f}" if q['seed_sd'] is not None else '')
-                    rr.append(f"{panel} & {arm.replace('_',' ')} & {len(p['seeds'])} & {fmt('patient_f1')} & {fmt('patient_jaccard')} \\\\")
-                for own,base in zip(p['proposal_curves']['own_error_rule_agent'],p['proposal_curves']['uniform_policy']):
-                    avg=lambda v:sum(v)/len(v)
-                    growth_rows.append(f"{panel} & {own['round']} & {own['training_patients'][0]} & {avg(base['proposal_patient_f1']):.5f} & {avg(own['proposal_patient_f1']):.5f} & "+'/'.join(map(str,own['memory_size']))+r' \\')
-            compatibility_section+=r'''\begin{table*}[t]\centering\small
-\caption{Audited rule-agent comparison on the 1,231-visit, 467-patient guard set. Included seeds have completed cross-fit and candidate/output audits. Values are mean $\pm$ sample seed deviation when multiple seeds are available. These development results do not replace the pending common test main table.}
-\begin{tabular}{llrrr}\toprule Panel & Method & Seeds & Patient F1 & Patient Jaccard\\\midrule
-RULEDEVROWS
-\bottomrule\end{tabular}\end{table*}
-\begin{table*}[t]\centering\small
-\caption{Actual experience-growth curves on proposal data, which also select models and rounds. Memory counts follow the included seed order 42/137/2026. Policy-only and policy-plus-memory gains are separated.}
-\begin{tabular}{lrrrrl}\toprule Panel & Round & Train patients & Shared policy F1 & Own-agent F1 & Retained rules\\\midrule
-RULEGROWTHROWS
-\bottomrule\end{tabular}\end{table*}
-These curves demonstrate changing artifacts and improvement with more cases, but the language-agent increment is small and must outperform greedy and shuffled controls to support a distinct mechanism claim. Proposal curves are selected-development evidence; final fixed-test curves remain gated.'''.replace('RULEDEVROWS','\n'.join(rr)).replace('RULEGROWTHROWS','\n'.join(growth_rows))
-        compatibility_section=compatibility_section.replace('all baseline and future RxRSI states','all baseline and registered RxRSI states')
-    if (ROOT/'upgrade_v29/protocol.json').exists():
-        compatibility_section+=r'''
-\paragraph{Isolated witnesses and conditional program synthesis.}
-An ensuing registered development study assigns 5,692 training patients to policy fits and permanently reserves 1,423 witnesses, using seed-specific label-independent hashing. The five fresh witness batches contain 285/285/285/284/284 patients, disjoint across rounds and from every coefficient fit and candidate statistic. Fixed earlier vocabularies precede this role assignment. Each batch can be adaptively queried for at most four sequential edits within its one round; it is still training validation. All original fold models are now retained, and independent refits check their provenance numerically.
-
-The frozen per-round state is $(\theta_r,\tau_r,M_r)$: ordinary supervised logistic coefficients, ordinary class-specific threshold calibration, and executable rule memory. Two coordinate passes learn threshold offsets from cross-fitted fit-patient predictions. A language agent then synthesizes up to four typed edits with one or two present/absent feature predicates and a drug inclusion/exclusion action near the calibrated threshold. Induction support and fresh-witness F1/Jaccard changes verify each edit. No arbitrary code or dose is executed. Greedy enumeration includes positive--negative conjunctions; raw/calibrated policies, random programs, shuffled numeric evidence and the same proposals without witness verification remain explicit controls. Error-based focus-drug and feature selection are not shuffled.
-
-This design changes witness isolation, calibration and program expressivity together; comparisons with the prior study do not isolate any one change. The new seven-arm study isolates the language contribution within the same revised data/budget protocol. Proposal data select rounds, guard is report-only, and no new test inference is authorized by its current protocol.'''
-        if (ROOT/'upgrade_v29/results/summary.json').exists():
-            isolated=json.loads((ROOT/'upgrade_v29/results/summary.json').read_text());names={'raw_policy':'Raw logistic','calibrated_policy':'Class calibration','greedy_conditional_memory':'Greedy programs','random_conditional_memory':'Random programs','own_error_program_agent':'Own-error synthesis','shuffled_evidence_program_agent':'Shuffled-evidence synthesis','matched_proposals_no_witness':'Same proposals, no witness'}
-            rr=[]
-            for panel,p in isolated['panels'].items():
-                for name,z in p['methods'].items():
-                    def fmt(k):
-                        q=z[k];return f"{q['mean']:.5f}"+(f" $\\pm$ {q['seed_sd']:.5f}" if q['seed_sd'] is not None else '')
-                    rr.append(f"{panel} & {names[name]} & {len(p['seeds'])} & {fmt('patient_f1')} & {fmt('patient_jaccard')} \\\\")
-            if rr:
-                compatibility_section+=r'''\begin{table*}[t]\centering\small
-\caption{Isolated-witness development study on the same 1,231 guard visits/467 patients. Only independently audited seeds appear; these models fit 5,692 patients and reserve 1,423 witnesses, unlike the earlier all-training-patient policy fits. Sample seed deviation is shown only when multiple seeds complete.}
-\begin{tabular}{llrrr}\toprule Panel & Method & Audited seeds & Patient F1 & Patient Jaccard\\\midrule
-ISOLATEDROWS
-\bottomrule\end{tabular}\end{table*}
-Calibration gains are ordinary supervised gains. A score above raw logistic alone is insufficient evidence for language-agent self-improvement; the calibrated, greedy and shuffled controls are necessary.'''.replace('ISOLATEDROWS','\n'.join(rr))
-        if (ROOT/'upgrade_v29/results/memory_diagnostic.json').exists():
-            d=json.loads((ROOT/'upgrade_v29/results/memory_diagnostic.json').read_text());rr=[]
-            for name,z in d['runs'].items():rr.append(f"{name.replace('-',' ')} & {z['accepted_positive_transfer']} & {z['accepted_negative_transfer']} & {z['accepted_zero_transfer']} \\\\")
-            if rr:
-                compatibility_section+=r'''\paragraph{Executed development attribution.}
-A separately registered proposal-only replay compares no memory, prior-round memory and current memory under the identical current policy/calibration, and replays every actual edit without changing its original accept/reject decision. Positive witness effects can transfer negatively, and old-memory effects can change when the shared predictor changes. These descriptive decompositions motivate compatibility revalidation; they are not a newly trained counterfactual agent.
-\begin{table}[t]\centering\small
-\caption{Proposal transfer of actually accepted edits in audited runs. Registration followed early development observations; no test labels or new API calls are used.}
-\begin{tabular}{lrrr}\toprule Run & Positive & Negative & Zero\\\midrule
-TRANSFERROWS
-\bottomrule\end{tabular}\end{table}'''.replace('TRANSFERROWS','\n'.join(rr))
-        compatibility_section+=r'''
-\paragraph{Historical metadata correction.}
-Rolling exports reused a mutable nested best-selection dictionary, causing some old nested entries to show later choices. Immutable per-round receipts and each arm's stored best-round field independently preserve the actual history; corrected historical choices are released separately. Proposal scores, rule states and final selections are verified unchanged. Frozen source/result hashes are retained.'''
-    if (ROOT/'upgrade_v30/protocol.json').exists():
-        compatibility_section+=r'''
-\paragraph{Compatibility revalidation and disjoint promotion.}
-A further registered factorial tests two fixed memory-maintenance policies without refitting the audited base models. Each fresh witness batch is divided by patient into editing group A and confirmation group B. Compatibility factor C checks old memory against the empty-memory policy on cross-fitted fitting patients and A before generating new edits; failed checks reset the corrections. Confirmation factor P checks the entire edited memory once on B. All checks require at least three affected patients, positive F1 change and nonnegative Jaccard change. Failed promotion returns the calibrated policy with no correction memory, not an empty prescription.
-
-Greedy, own-error synthesis and shuffled-evidence synthesis each run all four C/P combinations, alongside raw and calibrated policy controls: fourteen arms per seed and medication space. Every combination edits on A and computes the same shadow checks. C0P0 is consequently different from the preceding full-witness-batch study; only within-factorial contrasts isolate these gates. Identical prompts share exact responses across conditions, whereas diverging memories receive new prompts. The policies C/P are fixed engineering choices; executable rule memory remains the agent-generated object. B affects later rounds through retained memory, so this remains adaptive training validation on reused development patients.
-
-All raw states and verification decisions are retained. Proposal Jaccard selects a checkpoint with earliest ties; both that checkpoint and raw round five receive report-only guard evaluation after all five rounds. Independent scalar replays reconstruct source probabilities, induction effects, compatibility checks, every edit, whole-state promotion and final outputs. No test inference is performed in this intervention.'''
-        if (ROOT/'upgrade_v30/results/summary.json').exists():
-            repair=json.loads((ROOT/'upgrade_v30/results/summary.json').read_text());rr=[]
-            for panel,p in repair['panels'].items():
-                for arm,z in p['endpoints']['selected']['methods'].items():
-                    q=z['patient_f1'];f=f"{q['mean']:.5f}"+(f" $\\pm$ {q['seed_sd']:.5f}" if q['seed_sd'] is not None else '')
-                    final=p['endpoints']['final']['methods'][arm]['patient_f1']['mean']
-                    rr.append(f"{panel} & {arm.replace('_',' ')} & {len(p['seeds'])} & {f} & {final:.5f} \\\\")
-            if rr:
-                compatibility_section+=r'''\begin{table*}[t]\centering\small
-\caption{Audited compatibility/confirmation factorial on the same 467-patient guard set. C/P enable old-memory and whole-update checks respectively. Selected states use proposal Jaccard; the separate final column reports raw round five. Only audited seeds appear, with sample deviation when multiple seeds complete. This is exploratory development evidence.}
-\begin{tabular}{llrrr}\toprule Panel & Arm & Seeds & Selected patient F1 & Final-round F1\\\midrule
-MEMORYGATEROWS
-\bottomrule\end{tabular}\end{table*}'''.replace('MEMORYGATEROWS','\n'.join(rr))
-    if (ROOT/'upgrade_v30/common_test_addendum.json').exists():
-        compatibility_section+=r'''\paragraph{Frozen common-test extension.}
-Before common-test inference, a separate addendum registers all seven conditional-program and fourteen compatibility/confirmation methods on the exact 2,422-visit, 890-patient test cohort and both medication spaces. All five raw rounds and proposal-selected states are retained. The implemented evaluator waits for every author-method selection and all program audits; an independent audit reexecutes 315 program states per panel from original models and raw-source features. Comparisons include every conventional, author and earlier rule method, with descriptive paired patient intervals and seed variation. The permanently reserved witness patients change policy-fitting exposure, and computation budgets differ; these limits accompany the shared test protocol. This extension is still gated and does not supply test scores at this snapshot.'''
-        test_path=ROOT/'upgrade_v30/results/common_test_summary.json';audit_path=ROOT/'upgrade_v30/results/common_test_audit.json'
-        if test_path.exists() and audit_path.exists():
-            checked=json.loads(audit_path.read_text());test=json.loads(test_path.read_text())
-            assert checked['status']=='passed' and checked['source_report_sha256']==hashlib.sha256(test_path.read_bytes()).hexdigest()
-            compatibility_section=compatibility_section.replace('This extension is still gated and does not supply test scores at this snapshot.','The frozen extension and independent prediction reexecution are complete. These exploratory scores retain the known legacy test-patient overlap; they are not untouched confirmation.')
-            for panel,z in test['panels'].items():
-                selected=z['endpoints']['selected'];methods={f'v27 / {k}':v['metrics'] for k,v in selected['v27_methods'].items()};methods.update(selected['methods']);rows_test=[]
-                for name,m in methods.items():
-                    vals=[]
-                    for key in ['patient_f1','patient_jaccard','micro_f1']:
-                        v=m[key];vals.append(f"{v['mean']:.5f}"+(f" $\\pm$ {v['seed_sd']:.5f}" if v['seed_sd'] is not None else ''))
-                    rows_test.append(name.replace('_',' ')+' & '+' & '.join(vals)+r' \\')
-                compatibility_section+=r'''\begin{table*}[t]\centering\scriptsize
-\caption{Frozen common test: PANEL medication space, 2,422 visits from 890 patients. All checkpoint choices use proposal data. Means and sample deviations cover three seeds where applicable; deterministic controls have one result. All methods and within-panel label spaces are shared, while training and computation budgets differ. Raw round-five endpoints, all growth curves, regressions and paired contrasts accompany the released result report.}
-\label{tab:common-test-PANEL}
-\begin{tabular}{p{.48\textwidth}rrr}\toprule Method & Patient F1 & Patient Jaccard & Micro F1\\\midrule
-COMMONROWS
-\bottomrule\end{tabular}\end{table*}'''.replace('PANEL',panel).replace('COMMONROWS','\n'.join(rows_test))
-    if (ROOT/'paper/exposure_registry_audit.json').exists():
-        exposure=json.loads((ROOT/'paper/exposure_registry_audit.json').read_text());assert exposure['status']=='passed'
-        compatibility_section+=r'''\paragraph{Prior-case-excluded sensitivity subset.}
-Before common-test predictions, a separate registered identity audit reconstructs eleven recorded MIMIC-IV experiment families and thirty-eight data roles. Their union includes 69,839 previously used or conservatively reserved patients. Of the 890 current test patients, 572 occur in that union. The complementary 318 patients retain all 801 original test visits, with zero prior-record intersection, and the identical subset applies to both medication spaces. Independent reconstruction checks original deterministic sampling, stored identities, membership digests and complete patient-visit retention. Early samples lack original membership digests; their source/code hashes and reconstructed counts remain explicit.
-
-The all-patient main table is unchanged. An implemented evaluator waits for both parent test audits, then regrades the exact immutable predictions for the retained and excluded groups without fitting or checkpoint selection. Membership never uses labels, predictions or scores. This registry covers named PRISMATIC histories, not foundation-model pretraining, undocumented experiments or external use; it is a prior-record-excluded sensitivity analysis, not proof of globally untouched confirmation. Group composition differences also preclude a causal interpretation of exposure. No subgroup performance score is available at this snapshot.'''
-    fhir_results=''
-    if (ROOT/'upgrade_v19/results/summary.json').exists():
-        fhir=json.loads((ROOT/'upgrade_v19/results/summary.json').read_text())
-        rr='\n'.join(f"{method.replace('_',' ')} & {split.replace('_',' ')} & {z['state_correct']}/{z['n']} & {z['trace_correct']}/{z['n']} & {z['model_calls']} \\\\" for method,splits in fhir['methods'].items() for split,z in splits.items())
-        fhir_results=r'''\subsection{Completed Real-Tool Skill Comparison}
-The revised study completes 96 training tasks, 80 validation tasks, 64 ID-test tasks and 60 held-out-task-type tasks. The unchanged GRASP core proposes persistent language-skill edits, while the backbone, compiler and evaluator remain fixed. Two retained skills concern patient-name URL encoding and a lab-code/text fallback query. Their text is model-authored, not an independently validated clinical rule. End-of-epoch validation selects the frozen skill state before testing; validation rises from 56.25\% to 66.25\%.
-\begin{table*}[t]\centering\small
-\caption{Executed FHIR task comparison, one learning seed. State success uses the declared reference-shape projection plus persisted-field verification. Original trace success remains separate. Counts are logical model calls; exact cached episodes retain their original physical receipts.}
-\begin{tabular}{llrrr}\toprule Method & Split & State success & Raw trace success & Calls\\\midrule
-FHIRROWS
-\bottomrule\end{tabular}\end{table*}
-Independent regrading recounts each creation, readback, rollback and cleanup; resource counts return to their original values. Skills-minus-fixed ID success improves by 10.94 percentage points, but the paired patient-cluster interval $[0,20.55]$ includes zero. Held-out-type success falls by 11.67 points against fixed ($[-22.95,-1.64]$) and 28.33 against direct tools ($[-40.68,-16.67]$). On held-out task7, learned skills score 0/30, versus 5/30 fixed and 14/30 direct. No held-out-type arm writes a resource; the fixed system also adds workflow instructions, preventing attribution of this decline to serialization alone. This is not evidence of overall successful evolution. Intervals use 4,000 descriptive patient-cluster resamples; one learning seed and patient overlap limit claims.
-
-A subsequent read-only claim audit finds that the name skill's alleged space-encoding failure is contradicted by the existing HTTP adapter: raw/encoded inputs produce identical URLs and results. The generated example observations are not execution receipts. Global code/text lab-query counts differ for A1C but do not validate patient-specific utility; route serialization does not imply observation-code structure. Exact skill bytes and hashes are released as unvalidated experimental artifacts. Registered frozen single-skill removals test contribution and interaction without rewriting the evaluated skills.'''.replace('FHIRROWS',rr)
-        if (ROOT/'upgrade_v19/results/answer_contract_audit.json').exists():
-            fhir_results+=r'''
-\paragraph{Answer-contract diagnosis.}
-All 30 learned-skill task7 answers contain a number and timestamp, whereas the original reference requires a single numeric element. Complete-record read-only rechecking finds 15 correct first values rejected solely for the extra timestamp and 15 wrong first values. Name-only answers are prose strings in all 30 cases. Thus zero strict successes does not imply 30 wrong glucose values. Field projection is a post-test diagnostic, not a replacement score or executed repaired-agent result; syntax-only JSON validation is insufficient.'''
-        if (ROOT/'upgrade_v19/results/skill_ablation.json').exists():
-            ablation=json.loads((ROOT/'upgrade_v19/results/skill_ablation.json').read_text())
-            if ablation['status']=='complete':
-                rr='\n'.join(f"{name.replace('_',' ')} & {p['id_test']['state_correct']}/64 & {p['test']['state_correct']}/60 \\\\" for name,p in ablation['methods'].items())
-                fhir_results+=r'''\begin{table}[t]\centering\small
-\caption{Frozen-skill attribution with identical execution budgets. Registered after direct/fixed outcomes, before ablation execution; exploratory.}
-\begin{tabular}{lrr}\toprule Skills & ID & Held-out type\\\midrule
-ABLATIONROWS
-\bottomrule\end{tabular}\end{table}
-The factorial interaction is 0.00 ID points ($[-10.35,10.77]$) and $+3.33$ transfer points ($[-8.62,15.25]$). Individual removal intervals also include zero; robust skill synergy is not established.'''.replace('ABLATIONROWS',rr)
-    if (ROOT/'upgrade_v28/results/summary.json').exists():
-        repair=json.loads((ROOT/'upgrade_v28/results/summary.json').read_text());rr=[]
-        for c in [0,1]:
-            for s in [0,1]:
-                for k in [0,1]:
-                    cells=repair['conditions'].get(f'C{c}S{s}K{k}',{}).get('splits',{})
-                    values=[str(cells[split]['state_correct']) if split in cells else '--' for split in ['val','id_test','test']]
-                    rr.append(f'{c} & {s} & {k} & '+' & '.join(values)+r' \\')
-        fhir_results+=r'''
-\paragraph{Executed answer and evidence-tool repair.}
-A registered $2\times2\times2$ fixed factorial separates an instruction-derived answer contract (C), source-bound Observation statistics (S), and the frozen two-skill state (K). Invalid answer shapes trigger another model decision inside the same eight-call budget; no favorable field is extracted after grading. The statistics tool follows actual FHIR pages, groups by exact code and unit, and reports latest/24-hour values with source IDs, completeness and omission flags. Additional HTTP calls and token costs are counted. The compiler and original reference logic remain fixed.
-\begin{table}[t]\centering\small
-\caption{Independently audited repair cells. C/S/K denote contract/statistics/frozen skills. Dashes mean pending, not zero. One fixed run per condition; these are reused exploratory splits.}
-\begin{tabular}{rrrrrr}\toprule C & S & K & Val./80 & ID/64 & Type/60\\\midrule
-REPAIRROWS
-\bottomrule\end{tabular}\end{table}
-These manually implemented execution repairs are not autonomous tool-code evolution. All eight conditions stay fixed; observed validation or repeated-test outcomes do not select a winner. Raw-page arithmetic, persisted fields and reference scores are independently reconstructed. Earlier skill failures remain in the original table. New independent confirmation and subsequent evidence-validated learning are still required.'''.replace('REPAIRROWS','\n'.join(rr))
-    body=r'''
-\documentclass[11pt]{article}
-\usepackage[review]{acl}
-\usepackage{times,latexsym}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{microtype,booktabs,tabularx,amsmath,graphicx}
-\title{RxRSIAgent: Auditing Iterative Improvement in Prescription Decisions}
-\author{Anonymous ACL submission}
-\begin{document}
-\maketitle
-\begin{abstract}
-An improving prescription agent must demonstrate what changes between versions and whether those changes improve held-out decisions. We study RxRSIAgent as a system of separately versioned prescription policies, episodic memories, order-completion tools and language skills. Ground-truth training prescriptions provide error feedback, with explicit development-selection protocols. Three-seed experiments use 40,000 training admissions, a legacy 4,000-admission test and a rebuilt recorded-availability task with 1,082 new test admissions. Mean five-checkpoint scores increase with cases, but strong same-data supervised controls remain better. On 988 public prescription-choice questions, combining grounded evidence with learned skills scores 50.71\%, against 50.81\% for the author skill-learning core, and transfer declines. Local QLoRA updates improve over a frozen model on 500 new admissions but trail direct top-8 tool use. Real FHIR skill learning improves ID success from 38/64 to 45/64 but reduces held-out-type success from 17/60 to 10/60; answer-contract errors explain part of the decline. These results distinguish artifact changes, reliable execution and generalizing gains. Published comparisons retain their original protocols; universal superiority and a unique RSI advantage remain unproven.
-\end{abstract}
-
-\section{Introduction}
-Prescription generation combines medication selection with detailed order construction. A system that improves as cases accumulate could reduce repeated omissions and field errors, but a higher final score alone does not establish recursive self-improvement (RSI). More training data, a stronger backbone, a larger inference budget or a changed scorer can produce the same appearance.
-
-We therefore separate three questions. H1 concerns performance against methods under a common task protocol. H2 concerns improvement across frozen checkpoints on a fixed test set. H3 concerns the causal contribution of updated artifacts relative to equal-data controls. H2 can hold even when H3 fails. Existing prescription ground truth supports automatic training and evaluation; clinician review is not a prerequisite for observed-label agreement.
-
-Our current contributions are an executable structured-order task, a versioned update protocol, and an artifact-level evaluation that retains regressions and rejected versions. We do not present ordinary cumulative supervised fitting as proof of autonomous reasoning improvement. Two further experiments isolate LLM-authored language artifacts and actual LLM parameter updates.
-
-\begin{figure*}[t]\centering\small
-\begin{tabular}{c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c}
-\fbox{\parbox{2.9cm}{\centering Available patient or task state}} &
-\fbox{\parbox{2.9cm}{\centering Candidate orders, labels or FHIR records}} &
-\fbox{\parbox{2.9cm}{\centering Decision policy with versioned skills}} &
-\fbox{\parbox{2.9cm}{\centering Compile orders; execute and read back}}\\[1.2em]
-\fbox{\parbox{2.9cm}{\centering Training-only GT and error traces}} &
-\fbox{\parbox{2.9cm}{\centering Propose artifact or parameter updates}} &
-\fbox{\parbox{2.9cm}{\centering Declared development selection}} &
-\fbox{\parbox{2.9cm}{\centering Freeze accepted state; retain regressions}}
-\end{tabular}
-\caption{Shared prescription-harness design. Each study instantiates the stated components: option selection does not execute orders, and local template selection does not generate new doses. Only training feedback drives updates; test GT is reserved for measurement. The FHIR compiler is an engineering repair, not an autonomously evolved tool.}
-\label{fig:harness}
-\end{figure*}
-
-\section{Related Work and Comparison Protocols}
-GAMENet and SafeDrug predict medication sets from structured histories \citep{gamenet,safedrug}. SafeRx-Agent evaluates finer ATC-L4 sets using expert generation and verification \citep{saferx}. RxEval evaluates medication--dose--route options at prescribing timepoints \citep{rxeval}. Their reported results can be cited directly without reproducing every baseline, but our own comparison row must follow the corresponding data, input and scoring protocol.
-
-Recent structured comparators include ARMR's piecewise history and existing/new-drug modeling \citep{armr2025}, and HADRec's hierarchy/molecular fusion \citep{hadrec}. Code identity matters: the checked HADRec release truncates medication codes to four characters while calling its output level four. We retain the authors' scores as reported and flag this discrepancy against standard five-character ATC-L4 \citep{atcstructure}. LT3 generates prescription text from supplied medication attributes; its downstream entity-recognition F1 is not medication-set F1 \citep{lt3}.
-
-GRASP learns persistent skills with regression-aware selection \citep{grasp}. EvoTool mutates modular tool-use policies while freezing the backbone \citep{evotool}. Process-oriented work such as EvoPathBench motivates evaluating capability retention and adaptation along artifact trajectories \citep{evopath}. These mechanisms inform our controls; our task adaptations are explicitly distinguished from official benchmark reruns.
-
-\begin{table*}[t]\centering\small
-\caption{Published task registry. These datasets and protocols differ from the local order task.}
-\label{tab:registry}
-\begin{tabularx}{\textwidth}{@{}p{2.2cm}p{4.0cm}X@{}}\toprule
-Work & Data & Experiments / outputs\\\midrule
-GAMENet & MIMIC-III; 6,350 patients, 15,016 visits & 145 medication classes; prediction, DDI and memory ablations\\
-SafeDrug & MIMIC-III; 6,350 patients, 14,995 visits & 131 classes; DDI, molecular representations, efficiency\\
-ARMR (2025) & MIMIC-III / IV; 6,350 / 9,036 patients & 131 ATC-L3 classes; history and new-drug ablations\\
-HADRec (2026) & MIMIC-III / IV & Hierarchy, molecules, transfer; released coding needs clarification\\
-LT3 (2025) & n2c2-2018 / MIMIC-III & Label-to-text generation and downstream entity recognition\\
-SafeRx-Agent & MIMIC-IV 1,586 test; MIMIC-III 901 patients & ATC-L4, expert routing and verification\\
-RxEval & MIMIC-IV; 1,547 questions, 584 patients & Medication/dose/route options; macro F1 and exact match\\
-RxSafeBench & 2,443 source consultation scenarios & Medication risks; our derived option-selection split is separate\\
-RxQA & All 300 public OpenFDA questions & Pharmacist-reviewed medication reasoning; transfer evaluation\\
-GRASP / EvoTool & FHIR and general tool-task benchmarks & Skill or modular prompt evolution; regression/transfer ablations\\
-\bottomrule\end{tabularx}\end{table*}
-
-\begin{table*}[t]\centering\small
-\caption{Directly cited author-reported prescription results (R). Panels must not be ranked across protocols. Our matching official RxEval and SafeRx test data are unavailable locally; no unsupported comparison row is inserted.}
-\label{tab:reported}
-\begin{tabular}{@{}p{8.4cm}rr@{}}\toprule Method / source protocol & Primary score & Secondary score\\\midrule
-\multicolumn{3}{l}{Original GAMENet, Table 3 \citep{gamenet}}\\
-GAMENet (R) & F1 0.6081 & Jaccard 0.4509\\
-\multicolumn{3}{l}{SafeDrug MIMIC-III, Table 2 \citep{safedrug}}\\
-GAMENet, as reported by SafeDrug (R) & F1 0.6626 & DDI 0.0864\\
-SafeDrug (R) & F1 0.6768 & DDI 0.0589\\
-\multicolumn{3}{l}{ARMR 2025, Table 3: MIMIC-III / IV patient-average F1 \citep{armr2025}}\\
-GAMENet, as reported by ARMR (R) & 0.6674 & 0.6441\\
-COGNet, as reported by ARMR (R) & 0.6869 & 0.6582\\
-ARMR (R) & 0.6959 & 0.6712\\
-\multicolumn{3}{l}{HADRec, Tables 4 and 8: MIMIC-III / IV F1 \citep{hadrec}}\\
-HADRec (R; coding caveat in text) & 0.7010 & 0.6408\\
-\multicolumn{3}{l}{SafeRx ATC-L4, Table 2: MIMIC-IV / III F1 \citep{saferx}}\\
-GAMENet, as reported by SafeRx (R) & 0.3356 & 0.2153\\
-SafeDrug, as reported by SafeRx (R) & 0.3519 & 0.2361\\
-SafeRx / GPT-5.2, no filter (R) & 0.4138 & 0.2812\\
-SafeRx / Claude Sonnet-4.6, no filter (R) & 0.4325 & 0.2758\\
-\multicolumn{3}{l}{RxEval option selection, Table 2 \citep{rxeval}}\\
-Gemini-3.1-Pro (R) & F1 77.10\% & Exact match 46.10\%\\
-Qwen3.6-27B (R) & F1 71.70\% & Exact match 40.00\%\\
-\bottomrule\end{tabular}\end{table*}
-
-\section{Agent State and Update Mechanism}
-At round $r$, let the persistent state be $S_r=(W_r,M_r,T_r,K_r)$: prescription-selection parameters, episodic or executable rule memory, learned tool state, and persistent language skills. RxRSIAgent provides a common versioning and evaluation interface, instantiated differently by the task adapters in Table~\ref{tab:study-map}. Policy parameters include ordinary supervised coefficients or local LLM adapters. Tool state includes observed joint-order templates and evidence-focus configuration; executable tool source remains fixed unless an explicitly disclosed engineering revision changes it.
-
-Runtime inference reads the allowed patient or task state, obtains candidates and applicable experience, scores decisions, and emits the task's required output. The structured-order adapter returns drug, route, dose string, dose unit and observed frequency; unobserved attributes remain unknown. Class-set and multiple-choice adapters have their own output contracts. The FHIR adapter additionally executes actions and checks persisted state. These endpoints cannot be pooled into one prescription score.
-
-\begin{table*}[t]\centering\small
-\caption{Study map: data, outputs and the objects whose updates are evaluated. Fixed engineering repairs are tracked separately from learned updates.}
-\label{tab:study-map}
-\begin{tabularx}{\textwidth}{@{}p{.65cm}p{3.6cm}p{3.5cm}X@{}}\toprule Study & Data / task & Evaluated update objects & Primary comparison\\\midrule
-A & MIMIC-IV; retrospective ATC-L4 medication sets & Executable rule or synthesized-program memory; shared supervised policy & Author methods and ordinary/greedy/shuffled controls on common patients and label spaces\\
-B & MIMIC-IV/ED structured orders; recorded-availability rebuild; eICU hospital transfer & Policy parameters, episodic memory and conditional order-template tool & Drug/core-order agreement; case growth and frozen-object interventions\\
-C & Derived RxSafeBench choices; all 300 public RxQA OpenFDA questions & Language skills, evidence-focus configuration and routing/verifier coefficients & Same-question method accuracy, fixed-state trajectories and transfer\\
-D & Local MIMIC admission-proxy candidate-order selection & QLoRA parameters; feedback-dependent sampling priorities & Drug/core-order agreement and position sensitivity under matched updates\\
-E & Released MedAgentBench tasks with an executed FHIR service & Persistent language skills; separately fixed compiler/statistics repairs & ID and held-out-task-type completion, readback, regressions and factorial controls\\
-\bottomrule\end{tabularx}\end{table*}
-
-\begin{figure}[t]\centering\small
-\fbox{\parbox{.91\columnwidth}{\centering Patient state\\$\downarrow$\\Candidate policy + order tools + applicable memory\\$\downarrow$\\Prescription planner and structured compiler\\$\downarrow$\\Research prescription\\[3pt]\hrule\vspace{3pt}Training prediction $\rightarrow$ observed GT errors\\$\rightarrow$ candidate artifact edits\\$\rightarrow$ registered selection / verification\\$\rightarrow$ active state or retained prior version}}
-\caption{Inference and training feedback. Test labels enter scoring only. Different experiments isolate different evolving objects.}
-\end{figure}
-
-Feedback comes from declared training cases: pre-update predictions in the streaming order/parameter experiments, cross-fitted errors for rule induction, or completed training-task failure traces for language skills. Error records identify observed omissions, extra selections and field mismatches. The updater proposes a versioned change; the study-specific selection procedure determines whether it becomes active.
-
-Selection roles are explicit. The structured-order studies use proposal selection followed by a regression guard. Rule/program studies verify edits on training-witness patients and use a separate guard only for reporting. The retained author GRASP core uses its released end-of-epoch validation mechanism. The position-randomized parameter study chooses checkpoints on proposal data before its report-only guard. Development resources can be reused across rounds; test predictions never supply update feedback. Raw candidates, rejected versions and selected states are all retained.
-
-Each version records the parent, edited objects, data membership hashes, artifact hashes, validation scores, acceptance, improvements and regressions. A changing memory size or hash demonstrates that an artifact changed; leave-one-object-out evaluation is required to demonstrate that it helped. LLM weights, tool configuration and executable tool code are distinct objects and are never conflated.
-
-\section{Study A: Common Medication-Set Comparison}
-\label{sec:common-methods}
-This study addresses the cross-method prescription comparison under a shared preprocessing and split. Its development table and eventual frozen test tables report actual executions. The author-reported results in Table~\ref{tab:reported} remain a separate literature reference.
-
-COMPATIBILITYSECTION
-
-\section{Study B: Structured-Order Artifact Learning}
-\subsection{Data and metrics}
-The task uses six-hour all-route prescription targets after an ED-to-hospital admission in MIMIC-IV/ED. Training contains 40,000 admissions. Proposal validation and the regression guard contain 2,000 admissions each; test contains 4,000 admissions from 3,440 patients. Development/test patients used in the previous v0.6 increment are excluded. All current splits are patient-disjoint.
-
-Actual model inputs are chief complaint, acuity and home-medication text. The 128 raw-name vocabulary and word representation are fixed from the first 8,000 training admissions. Drug micro-F1 compares name sets, including out-of-vocabulary targets in recall. Joint-order micro-F1 compares complete normalized (drug, route, dose-string, unit) tuples. The test contains 30,769 complete reference tuples. Frequency agreement is secondary and excludes missing GT values. These endpoints measure recorded-order agreement, not clinical safety.
-
-\subsection{Methods and rounds}
-We compare retrieval, Naive Bayes, word and character policies, a validation-tuned ensemble, global templates, and a learned context-conditioned joint-order tool. The tool predicts an observed field combination rather than independently mixing fields. Thresholds and word/character weights are selected using proposal validation, with the same 20-order maximum.
-
-The evolving system receives 8k, 16k, 24k, 32k and 40k accumulated cases. Candidate updates change parameters, memory, the order tool, or their combination. The guard accepts a candidate only when the mean drug/order F1 improves and neither endpoint falls by more than 0.002. Seeds 42, 137 and 2026 repeat the experiment. Test evaluation begins after all choices are frozen.
-
-\begin{table*}[t]\centering\small
-\caption{Executed same-4,000-case comparison: mean $\pm$ sample SD across three seeds. The final three rows freeze one object of the selected state without retuning the others.}
-\label{tab:local}
-\begin{tabular}{@{}p{7.7cm}rr@{}}\toprule Method & Drug micro-F1 & Joint-order micro-F1\\\midrule
-METHODROWS
-\bottomrule\end{tabular}\end{table*}
-
-\begin{table}[t]\centering\small
-\caption{Accepted-state trajectory on the fixed test; mean over three seeds.}
-\label{tab:rounds}
-\begin{tabular}{rrrr}\toprule Round & Cases & Drug F1 & Order F1\\\midrule
-GROWTHROWS
-\bottomrule\end{tabular}\end{table}
-
-The accepted-state curves are non-decreasing on this test for all three seeds, including a flat final step when seed 137 rejects its proposal. Individual cases still regress. Conditional order-tool learning improves joint-field matching. Memory expansion is not consistently helpful; freezing initial memory can improve the final state. The full evolving system does not beat the strong same-data ensemble/tool control. Thus case-growth gains support H2 in this setting but do not establish H3. Independent set counting reproduces all scores; paired patient-cluster bootstrap intervals and per-round regressions are released with the aggregate results.
-
-TEMPORALSECTION
-
-\section{Study C: Language-Artifact RSI}
-To test genuine changes to language-guided behavior, the next experiment freezes DeepSeek-V4.1-Flash and evolves reusable skills, episodic memory and the configuration of an evidence-focus tool. The tool returns exact current-dialogue excerpts selected by learned focus terms; its source code is fixed. An LLM proposes changes from its own training-error traces, and the runner saves the full before/after artifacts.
-
-The public RxSafeBench data are verified against pinned source hashes and converted to a clearly labeled three-option task. Its 2,443 source records yield 2,000 cases after exact task/dialogue/correct-drug deduplication. Medication-scenario grouping yields 625 training, 190 proposal, 197 guard and 988 test cases with no cross-split scenario or exact-dialogue overlap. Four rounds expose additional training cases. Direct, CoT, Self-Refine, case RAG and explicit Reflexion/GRASP/EvoTool task adaptations form the comparison set. Evolving comparators receive four candidate-evaluation slots per round; all token costs are reported. Transfer covers all 300 questions in the public RxQA OpenFDA release, retaining original options and answer labels without using them for evolution. The licensed BNF component is not publicly available and is not evaluated. An independent source/identity audit verifies complete public coverage and recounts the saved answers. These are public simulated/released questions; restricted patient inputs are never uploaded.
-
-PUBLICSECTION
-
-\section{Study D: Parameter Evolution}
-A local Qwen3-4B QLoRA study compares uniform supervised updates with feedback-prioritized updates, holding the initial-8k candidate tools fixed. Three disjoint feedback blocks contain 600 new training admissions each. Both arms make pre-update predictions, train on 400 sampled examples for 100 optimizer steps per round, and use the same 200-case guard. Feedback weights target reachable candidate-selection errors rather than blaming the language model for drugs missing from its fixed catalogue. A separate 500-admission test excludes all patients in the earlier v0.6/v0.7 tests.
-
-The Qwen chat template can emit an empty reasoning envelope before valid JSON. The parser removes only that empty envelope uniformly for all checkpoints, retains strict and normalized validity, and rebinds cached outputs to the current case. These repairs occurred on development data before test scoring; raw generations and learned weights are unchanged.
-
-PARAMETERSECTION
-
-\section{Study E: Executed FHIR Tools}
-We extract the unchanged application and public database from the digest-pinned official MedAgentBench image and run its HAPI FHIR 7.6.0 service on a native Java runtime. Five executed probes cover creation, readback, versioned updates, atomic rejection and cleanup. Original counts are restored: 695 patients, 21,991 medication requests and 563,426 observations. Runtime equivalence beyond these checks is not assumed.
-
-The released benchmark wrapper records accepted POST actions without performing the HTTP write; its reference grader checks trajectories. Our development adapter performs actual writes for both methods, reports the reference trajectory criterion separately from persisted-state checks, and removes only resources it creates. A 16-case pilot uses the first two cases from each of eight development task types, DeepSeek-V4.1-Flash and at most eight 512-token action calls. Direct tool use succeeds on 10/16; a fixed workflow/preflight/readback harness succeeds on 8/16. All 11 created resources pass readback checks and are cleaned up. Invalid-action counts are one and three, respectively. These small development results expose protocol and retrieval failures; they are neither full benchmark scores nor evidence of self-improvement. No restricted MIMIC records enter this service.
-
-A further synthetic medication-order probe finds that the server accepts a literal route string with HTTP 201 but fails to preserve the dosage fields. A lossless conversion to FHIR R4 CodeableConcept text preserves the route on readback \citep{fhirr4}. Duration-like units in legacy rate fields are retained and flagged, without claiming clinically valid rate semantics. This motivates checking stored fields in addition to API status. Full ID and held-out-task-type evaluation is in progress. Released task splits overlap in patients (22 explicit development/ID-test patients and 33 development/held-out-type patients); this study does not claim patient-disjoint transfer.
-
-\paragraph{Development-discovered grading revision.}
-Thirteen development episodes preserve their final active writes but fail the legacy reference because a valid singleton ServiceRequest note array is treated as an object \citep{fhirnote}. We stop and archive the affected learning run before final selection or any ID/OOD test. A declared lossless reference view maps singleton note arrays to legacy objects and text-only route objects to legacy strings for grading only. All text and other values remain unchanged; multi-note arrays and coded route objects are not collapsed. Every arm uses the same view and canonical-intent readback comparison, so harmless server normalization is not scored as a direct-tool error. Original raw reference scores remain separate: this is an adapted execution endpoint, not an unmodified official benchmark score.
-
-Regrading all thirteen existing receipts accepts correct final writes while rejecting wrong-note and active-field-loss controls; eight execution/compatibility contracts pass. Prior failed readbacks were rolled back, and those changed interaction trajectories are not reused. Language-skill learning restarts with empty skills; only identical physical episodes with unchanged submissions/feedback and successful readback/cleanup are eligible for reuse. Compiler and evaluator repairs are fixed engineering changes, not agent evolution gains.
-
-FHIRRESULTS
-
-\section{Limitations}
-The legacy structured-order experiment uses admission-proxy inputs. Triage has no verified entry timestamp and medication reconciliation lacks storetime; temporal availability is therefore not fully established. A full target-row audit links 1,788,195 records to provider and pharmacy clocks: 42,005 matching provider orders precede admission, 1,425,392 fall within the intended next-six-hour horizon, and 276,269 occur later. There are 438 provider-link admission conflicts, which remain untrusted. Pharmacy entry falls within the horizon for 1,777,546 rows. The two source linkage paths agree on all 1,757,038 rows where both IDs exist and reproduce identical temporal counts. These clocks still differ; the retrospective start-window results are not prospective new-order evidence. The rebuilt recorded-availability cohort addresses these clocks but conditions on coherent, nonempty future orders and lacks complete field-version histories. Candidate vocabularies and one-template-per-drug output limit recall. Recorded prescriptions may omit clinically acceptable alternatives, and agreement does not prove indication or safety. Current language-artifact baselines are task adaptations, not official reruns. Repeated development selection can overfit; independent tests, multiple evolution orders, transfer and matched optimization budgets are necessary before claiming general RSI benefits. External RxEval and SafeRx data access remains unresolved.
-
-\section{Conclusion}
-An auditable improving agent must show both changing artifacts and beneficial effects. Our completed rounds show data-growth gains and a useful conditional order tool, alongside weak memory gains and a stronger static control. We continue beyond that negative result by isolating language-artifact and parameter evolution. No claim that RxRSIAgent is the best existing method is made without corresponding benchmark evidence.
-
-\section*{Ethics and Data Access}
-All restricted MIMIC records, predictions and checkpoints remain on the authorized local machine. Public releases contain code, configurations and aggregate measurements. Existing GT supports automated evaluation without mandatory new clinical annotation. The system is evaluated for research and is not deployed to prescribe for patients.
-
-\begin{thebibliography}{9}
-\bibitem[Shang et al.(2019)]{gamenet} Shang et al. 2019. GAMENet. \url{https://arxiv.org/abs/1809.01852}.
-\bibitem[Yang et al.(2021)]{safedrug} Yang et al. 2021. SafeDrug. \url{https://arxiv.org/abs/2105.02711}.
-\bibitem[Wu et al.(2025)]{armr2025} Feiyue Wu, Tianxing Wu, and Shenqi Jing. 2025. ARMR: Adaptively Responsive Network for Medication Recommendation. IJCAI. \url{https://www.ijcai.org/proceedings/2025/871}.
-\bibitem[Wang et al.(2026)]{hadrec} Junke Wang et al. 2026. HADRec: A Hierarchy-Aware Drug Recommendation Framework by Fusing Molecular Knowledge and Electronic Health Record. Preprint. \url{https://arxiv.org/abs/2610.00984}.
-\bibitem[Belkadi et al.(2025)]{lt3} Samuel Belkadi et al. 2025. LT3: Generating Medication Prescriptions with Conditional Transformer. CL4Health. \url{https://aclanthology.org/2025.cl4health-1.17/}.
-\bibitem[WHO Collaborating Centre(2022)]{atcstructure} WHO Collaborating Centre for Drug Statistics Methodology. 2022. ATC Structure and Principles. \url{https://atcddd.fhi.no/atc/structure_and_principles/}.
-\bibitem[Wang et al.(2026)]{saferx} Wang et al. 2026. SafeRx-Agent. \url{https://arxiv.org/abs/2605.29146}.
-\bibitem[Chen et al.(2026)]{rxeval} Chen et al. 2026. RxEval. \url{https://arxiv.org/abs/2605.14543}.
-\bibitem[Moll et al.(2026)]{grasp} Moll et al. 2026. GRASP: Gated Regression-Aware Skill Proposer for Self-Improving LLM Agents. \url{https://arxiv.org/abs/2605.29668}.
-\bibitem[Yang et al.(2026)]{evotool} Yang et al. 2026. EvoTool: Self-Evolving Tool-Use Policy Optimization in LLM Agents via Blame-Aware Mutation and Diversity-Aware Selection. ACL. \url{https://syang2000.github.io/ACL_2026_EvoTool/}.
-\bibitem[Lin et al.(2026)]{evopath} Lin et al. 2026. Beyond Endpoint Performance: Process-Level Evaluation of Self-Evolving Agents. \url{https://arxiv.org/abs/2609.24663}.
-\bibitem[HL7 International(2019)]{fhirr4} HL7 International. 2019. FHIR R4: Dosage Detailed Descriptions. \url{https://hl7.org/fhir/R4/dosage-definitions.html}.
-\bibitem[HL7 International(2019)]{fhirnote} HL7 International. 2019. FHIR R4: ServiceRequest Detailed Descriptions. \url{https://hl7.org/fhir/R4/servicerequest-definitions.html}.
-\bibitem[Pollard et al.(2018)]{eicu} Pollard et al. 2018. The eICU Collaborative Research Database, a freely available multi-center database for critical care research. Scientific Data. \url{https://doi.org/10.1038/sdata.2018.178}.
-\end{thebibliography}
-\end{document}
-'''
-    body=body.replace('METHODROWS',rows).replace('GROWTHROWS',growth).replace('PUBLICSECTION',public_section).replace('PARAMETERSECTION',parameter_section).replace('TEMPORALSECTION',temporal_section).replace('COMPATIBILITYSECTION',compatibility_section).replace('FHIRRESULTS',fhir_results)
-    if fhir_results:
-        body=body.replace('Full ID and held-out-task-type evaluation is in progress.','The completed ID and held-out-task-type comparison is reported below.')
-    sty=STYLE.read_text();prefix='% Official ACL style embedded for the standalone editor. See acl_template_provenance.json.\n'+r'\begin{filecontents*}[overwrite]{acl.sty}'+'\n'+sty+'\n'+r'\end{filecontents*}'+'\n% PRISMATIC MANUSCRIPT START\n'
-    PAPER.write_text(prefix+body)
-    provenance={'repository':'https://github.com/acl-org/acl-style-files','commit':'d5adc823ff0f80f98c80405ca0ab66c68e684409',
-        'acl_sty_sha256':hashlib.sha256(STYLE.read_bytes()).hexdigest(),'target':'ACL 2027','mode':'review','path_preserved':str(PAPER.relative_to(ROOT)),
-        'previous_template':'Original AAMAS template preserved in Git history through commit 9875d2fd.'}
-    (PAPER.parent/'acl_template_provenance.json').write_text(json.dumps(provenance,indent=2)+'\n')
 
 if __name__=='__main__':run()

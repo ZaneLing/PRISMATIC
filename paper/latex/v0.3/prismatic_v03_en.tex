@@ -321,637 +321,441 @@
 \usepackage{times,latexsym}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{microtype,booktabs,tabularx,amsmath,graphicx}
-\title{RxRSIAgent: Auditing Iterative Improvement in Prescription Decisions}
+\usepackage{microtype,booktabs,tabularx,amsmath,amssymb,graphicx}
+\title{RxRSIAgent: Tracing Memory, Tool, and Parameter Updates\\in Prescription Agents}
 \author{Anonymous ACL submission}
 \begin{document}
 \maketitle
+
 \begin{abstract}
-An improving prescription agent must demonstrate what changes between versions and whether those changes improve held-out decisions. We study RxRSIAgent as a system of separately versioned prescription policies, episodic memories, order-completion tools and language skills. Ground-truth training prescriptions provide error feedback, with explicit development-selection protocols. Three-seed experiments use 40,000 training admissions, a legacy 4,000-admission test and a rebuilt recorded-availability task with 1,082 new test admissions. Mean five-checkpoint scores increase with cases, but strong same-data supervised controls remain better. On 988 public prescription-choice questions, combining grounded evidence with learned skills scores 50.71\%, against 50.81\% for the author skill-learning core, and transfer declines. Local QLoRA updates improve over a frozen model on 500 new admissions but trail direct top-8 tool use. Real FHIR skill learning improves ID success from 38/64 to 45/64 but reduces held-out-type success from 17/60 to 10/60; answer-contract errors explain part of the decline. These results distinguish artifact changes, reliable execution and generalizing gains. Published comparisons retain their original protocols; universal superiority and a unique RSI advantage remain unproven.
+Prescription agents can change their memories, tools, and model parameters as cases accumulate, but these changes need not improve prescribing. We introduce RxRSIAgent, a versioned prescription harness, and evaluate which updates help under explicit data and selection protocols. A common MIMIC-IV medication-set comparison evaluates executable rule memory against conventional predictors and adapted author implementations. An external eICU study evaluates five experience checkpoints, three seeds, and thirteen methods or component configurations on 8,005 stays from sixteen held-out hospitals. Error-prioritized updates reach drug F1 of 0.11306, below matched uniform updates at 0.11825. Holding drug selections fixed, updating the order tool improves exact order F1 from 0.02334 to 0.02838; the improvement persists when incomplete outputs count in the prediction denominator. Local language-model experiments expose a different failure: parameter changes can collapse to empty selections, and removing numerical score ties does not remove candidate-position dependence. Supplementary language-skill and executed-tool studies retain both improvements and transfer regressions. Our results support separating artifact change, component utility, and generalizing improvement. They provide evidence for order-tool learning, but do not establish a distinct advantage from own-error feedback or overall method superiority.
 \end{abstract}
 
 \section{Introduction}
-Prescription generation combines medication selection with detailed order construction. A system that improves as cases accumulate could reduce repeated omissions and field errors, but a higher final score alone does not establish recursive self-improvement (RSI). More training data, a stronger backbone, a larger inference budget or a changed scorer can produce the same appearance.
+Prescription assistance requires several decisions: which medications to select, how to complete their orders, and, in an interactive environment, whether the intended changes were actually recorded. These decisions also provide different opportunities for learning. An agent may accumulate co-prescription rules, improve an order-completion tool, acquire reusable language instructions, or update its prediction parameters. Calling all of these changes self-improvement obscures what was learned and whether it helped.
 
-We therefore separate three questions. H1 concerns performance against methods under a common task protocol. H2 concerns improvement across frozen checkpoints on a fixed test set. H3 concerns the causal contribution of updated artifacts relative to equal-data controls. H2 can hold even when H3 fails. Existing prescription ground truth supports automatic training and evaluation; clinician review is not a prerequisite for observed-label agreement.
+The distinction matters when evaluating agents that encounter increasing numbers of cases. A later checkpoint can outperform an early checkpoint because it has more supervised data. A tool can improve order fields while the drug-selection policy remains weak. A validation gate can accept an update that subsequently regresses on new patients. An output repair can improve parsing without improving the underlying decision. These alternatives require different controls.
 
-Our current contributions are an executable structured-order task, a versioned update protocol, and an artifact-level evaluation that retains regressions and rejected versions. We do not present ordinary cumulative supervised fitting as proof of autonomous reasoning improvement. Two further experiments isolate LLM-authored language artifacts and actual LLM parameter updates.
+We study these questions through \textbf{RxRSIAgent}, a prescription harness with explicit runtime contracts and versioned update objects. We use recursive self-improvement (RSI) as a research hypothesis about feedback-dependent updates, rather than as an assumed property of the system. The implemented updater is fixed: the experiments do not demonstrate recursive modification of the learning algorithm itself. Recorded prescription labels supply supervised error feedback; the central question is whether using the agent's own errors adds value beyond ordinary learning with the same cases and update budget.
 
-\begin{figure*}[t]\centering\small
+We ask three questions. \textbf{RQ1:} How does each instantiated method compare with strong methods on the same patients and medication space? \textbf{RQ2:} Do frozen checkpoints improve as experience grows? \textbf{RQ3:} Which changed object accounts for an improvement, and does feedback alignment matter? Improvement on RQ2 does not imply a positive answer to RQ3.
+
+Our contributions are: (1) a task-specific prescription harness that records the lineage and acceptance of memory, tool, skill, and parameter updates; (2) a common medication-set comparison and an external-hospital order study with ordinary-learning, shuffled-feedback, and frozen-component controls; and (3) a failure analysis separating empty outputs, candidate-position dependence, and numerical readout effects. The strongest completed evidence is a positive order-tool intervention. The same experiments also expose negative results: error priorities underperform uniform updates, rule-memory gains are not unique to the language agent, and current local language-model updates remain unstable.
+
+\section{Related Work}
+\paragraph{Medication recommendation.}
+GAMENet combines longitudinal records with graph-augmented memory \citep{gamenet}. SafeDrug adds molecular representations and an explicit interaction objective \citep{safedrug}; ARMR distinguishes historical medication reuse from changing medication needs \citep{armr}. SafeRx-Agent combines clinical context, external knowledge, and verification for finer-grained medication sets \citep{saferx}. We compare available author cores under one local preprocessing protocol and identify adaptations explicitly. Their original published scores are not interchangeable with our local results.
+
+\paragraph{Agent improvement and execution.}
+Self-Refine iterates feedback and revision within a generation task \citep{selfrefine}, while Reflexion retains linguistic feedback across trials \citep{reflexion}. GRASP updates a bounded skill library with regression-aware acceptance \citep{grasp}. These mechanisms motivate distinguishing inference-time revision, persistent experience, and parameter updates. MedAgentBench evaluates agents in a FHIR-based electronic-record environment \citep{medagentbench}; successful interaction is a different endpoint from matching a medication set. Our supplementary experiments adapt language-skill learning and execute actual FHIR actions, while keeping their scores separate from prescription agreement.
+
+\section{RxRSIAgent}
+\subsection{Runtime and persistent state}
+At experience round $r$, the state is
+\begin{equation}
+ S_r=(\theta_r,M_r,T_r,K_r),
+\end{equation}
+where $\theta$ denotes selection parameters, $M$ executable or episodic memory, $T$ learned order-tool state, and $K$ language skills. A task adapter specifies the available input $x$, candidate construction, output contract, and scoring function. The shared inference pattern is
+\begin{equation}
+ \begin{aligned}
+ C&=\mathcal{R}(x),\quad D=\pi_{\theta,M,K}(x,C),\\
+ \widehat{Y}&=\mathcal{C}\bigl(T(x,D)\bigr),
+ \end{aligned}
+\end{equation}
+where $\mathcal{R}$ obtains candidates, $D$ is the selected medication set, and $\mathcal{C}$ compiles the task's required representation. In the FHIR adapter, compilation is followed by execution and persisted-state readback.
+
+The adapters are explicit instantiations, not a claim that a single trained model solves every task. The ATC adapter predicts classes and does not produce doses. The order adapter completes observed templates. The local LLM selects supplied candidate templates. The public question adapter chooses an answer option. An agent's output contract determines what its score can establish.
+
+\begin{figure*}[t]
+\centering\small
 \begin{tabular}{c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c}
-\fbox{\parbox{2.9cm}{\centering Available patient or task state}} &
-\fbox{\parbox{2.9cm}{\centering Candidate orders, labels or FHIR records}} &
-\fbox{\parbox{2.9cm}{\centering Decision policy with versioned skills}} &
-\fbox{\parbox{2.9cm}{\centering Compile orders; execute and read back}}\\[1.2em]
-\fbox{\parbox{2.9cm}{\centering Training-only GT and error traces}} &
-\fbox{\parbox{2.9cm}{\centering Propose artifact or parameter updates}} &
-\fbox{\parbox{2.9cm}{\centering Declared development selection}} &
-\fbox{\parbox{2.9cm}{\centering Freeze accepted state; retain regressions}}
+\fbox{\parbox{3.0cm}{\centering Task-available patient state}} &
+\fbox{\parbox{3.0cm}{\centering Candidate retrieval\\and applicable memory}} &
+\fbox{\parbox{3.0cm}{\centering Selection policy\\$\theta_r,M_r,K_r$}} &
+\fbox{\parbox{3.0cm}{\centering Order tool $T_r$\\Compile; execute if required}}\\[1em]
+\fbox{\parbox{3.0cm}{\centering Training prediction\\and observed-label errors}} &
+\fbox{\parbox{3.0cm}{\centering Propose a typed update\\Record changed objects}} &
+\fbox{\parbox{3.0cm}{\centering Declared development\\selection and checks}} &
+\fbox{\parbox{3.0cm}{\centering Freeze active state\\Retain rejected versions}}
 \end{tabular}
-\caption{Shared prescription-harness design. Each study instantiates the stated components: option selection does not execute orders, and local template selection does not generate new doses. Only training feedback drives updates; test GT is reserved for measurement. The FHIR compiler is an engineering repair, not an autonomously evolved tool.}
-\label{fig:harness}
+\caption{Prescription inference (top) and experience-driven updating (bottom). Each experiment declares which state components change. Test labels are used only for measurement. Fixed compiler repairs and numerical changes are recorded separately from learned updates.}
+\label{fig:workflow}
 \end{figure*}
 
-\section{Related Work and Comparison Protocols}
-GAMENet and SafeDrug predict medication sets from structured histories \citep{gamenet,safedrug}. SafeRx-Agent evaluates finer ATC-L4 sets using expert generation and verification \citep{saferx}. RxEval evaluates medication--dose--route options at prescribing timepoints \citep{rxeval}. Their reported results can be cited directly without reproducing every baseline, but our own comparison row must follow the corresponding data, input and scoring protocol.
+\subsection{Update lineage and selection}
+For a newly encountered training block $B_r$, we retain pre-update predictions and compare them with recorded labels. The updater produces a candidate state $\widetilde S_r$ from the existing state and its declared feedback. A study-specific development rule chooses an active state. We save the parent state, case membership, feedback, changed artifact hashes, selection scores, and accept/reject decision. Both raw and active checkpoints remain available.
 
-Recent structured comparators include ARMR's piecewise history and existing/new-drug modeling \citep{armr2025}, and HADRec's hierarchy/molecular fusion \citep{hadrec}. Code identity matters: the checked HADRec release truncates medication codes to four characters while calling its output level four. We retain the authors' scores as reported and flag this discrepancy against standard five-character ATC-L4 \citep{atcstructure}. LT3 generates prescription text from supplied medication attributes; its downstream entity-recognition F1 is not medication-set F1 \citep{lt3}.
+Selection has different roles across experiments. The order study selects a threshold on proposal data, then uses a separate development guard to accept a bundle. The rule study verifies individual edits on training witnesses and uses its guard only for reporting. The local LLM study selects checkpoints on proposal data before any report-only guard evaluation. Reusing development patients across rounds is disclosed; these resources are not repeatedly described as fresh independent tests.
 
-GRASP learns persistent skills with regression-aware selection \citep{grasp}. EvoTool mutates modular tool-use policies while freezing the backbone \citep{evotool}. Process-oriented work such as EvoPathBench motivates evaluating capability retention and adaptation along artifact trajectories \citep{evopath}. These mechanisms inform our controls; our task adaptations are explicitly distinguished from official benchmark reruns.
+\subsection{Executable rule memory}
+The medication-set instantiation refits a shared logistic policy on nested fractions of training patients. Three patient-disjoint cross-fitting folds generate prediction errors for rule induction. A memory rule tests an observed input feature and a near-threshold probability band, then adds or removes one medication class. It cannot inspect the current prescription label at inference.
+
+Candidate induction considers at most 128 frequent features, requires support from at least 30 visits and 20 patients, and retains up to 24 beneficial candidates. Actions are restricted to probabilities within 0.15 of the shared threshold. The language agent receives aggregate descriptors and error changes, selects at most four edits per round, and retains at most twenty rules. Individual patient records never enter these API requests.
+
+A fixed 20\% of seen training patients supplies witness checks: an edit must affect at least five witness patients, improve patient-average F1, and not reduce Jaccard. Controls use the same shared policy and candidate mechanism: no rules, greedy selection, random selection, shuffled numeric evidence, and the agent's matched proposals with the witness gate removed. The last control is an intervention on the same proposals, not an independently relearned trajectory. Cross-fitting prevents a target from fitting its own predictor, but witness reuse and shared fitting resources do not constitute fully isolated confirmation.
+
+\subsection{Policy and order-tool learning}
+The eICU instantiation uses logistic SGD policies and learned joint-order templates. Three arms see identical cases in the same order with the same sixty classifier epochs: uniform learning, own-error priorities, and shuffled priorities. For a newly encountered case $i$, feedback weight is
+\begin{equation}
+ w_i=1+3\bigl(1-F_1(\widehat D_i,D_i^{\mathrm{reachable}})\bigr).
+\end{equation}
+Weights are computed before using that block's targets for fitting, retained for earlier cases, and normalized to cumulative mean one. The shuffled arm preserves the new-block weight distribution while breaking its alignment with cases. Empty prediction and empty reachable target have quality one for this feedback calculation; evaluation still retains unreachable targets.
+
+The order tool learns global tuple defaults and conditional classifiers over supported observed tuples. It changes order fields without inventing unobserved doses or interpreting ambiguous units. All three arms share the fitted tool within a seed and round; rejected bundles retain their earlier policy and tool. Component interventions freeze the initial tool under the selected policy, or freeze the initial policy under the final tool. Thus drug-selection gains, order-tool gains, and error-priority effects can be measured separately.
+
+\section{Experimental Protocol}
+\subsection{Tasks and data}
+Table~\ref{tab:data} summarizes the primary experiments. MIMIC-IV and eICU require credentialed access \citep{mimiciv,eicu}. Patient records, predictions, learned weights, and cached hidden states remain local.
 
 \begin{table*}[t]\centering\small
-\caption{Published task registry. These datasets and protocols differ from the local order task.}
-\label{tab:registry}
-\begin{tabularx}{\textwidth}{@{}p{2.2cm}p{4.0cm}X@{}}\toprule
-Work & Data & Experiments / outputs\\\midrule
-GAMENet & MIMIC-III; 6,350 patients, 15,016 visits & 145 medication classes; prediction, DDI and memory ablations\\
-SafeDrug & MIMIC-III; 6,350 patients, 14,995 visits & 131 classes; DDI, molecular representations, efficiency\\
-ARMR (2025) & MIMIC-III / IV; 6,350 / 9,036 patients & 131 ATC-L3 classes; history and new-drug ablations\\
-HADRec (2026) & MIMIC-III / IV & Hierarchy, molecules, transfer; released coding needs clarification\\
-LT3 (2025) & n2c2-2018 / MIMIC-III & Label-to-text generation and downstream entity recognition\\
-SafeRx-Agent & MIMIC-IV 1,586 test; MIMIC-III 901 patients & ATC-L4, expert routing and verification\\
-RxEval & MIMIC-IV; 1,547 questions, 584 patients & Medication/dose/route options; macro F1 and exact match\\
-RxSafeBench & 2,443 source consultation scenarios & Medication risks; our derived option-selection split is separate\\
-RxQA & All 300 public OpenFDA questions & Pharmacist-reviewed medication reasoning; transfer evaluation\\
-GRASP / EvoTool & FHIR and general tool-task benchmarks & Skill or modular prompt evolution; regression/transfer ablations\\
+\caption{Task boundaries. ``Proposal'' selects development settings; ``guard'' has the study-specific role stated in the text. Counts describe the local cohorts, not the complete source databases.}
+\label{tab:data}
+\begin{tabularx}{\textwidth}{@{}p{2.1cm}p{4.0cm}X@{}}\toprule
+Experiment & Input and target & Partition and evaluation status\\\midrule
+MIMIC-IV 3.1 & Completed-visit diagnoses/procedures and history $\rightarrow$ ATC-L4 medication set & 18,429 train / 1,095 proposal / 1,231 guard visits. Main comparison here is guard development evidence; reserved test is not reported.\\
+eICU & Recorded early medications/labs at ICU hour six $\rightarrow$ new orders in hours six--twelve & 40,000 train / 2,000 proposal / 2,000 guard / 8,005 test stays; hospitals and patients separated. Completed held-out-hospital test.\\
+Local LLM & Retrospective admission context and twenty candidate templates $\rightarrow$ selection mask & Three 600-case feedback blocks; 100 proposal and 200 report-only guard admissions. Current diagnostics use proposal only.\\
+Public supplements & Medication questions or FHIR tasks $\rightarrow$ options or executed actions & Dataset-specific splits; no pooling with medication or order F1. Details in Appendix~\ref{app:public}.\\
 \bottomrule\end{tabularx}\end{table*}
 
-\begin{table*}[t]\centering\small
-\caption{Directly cited author-reported prescription results (R). Panels must not be ranked across protocols. Our matching official RxEval and SafeRx test data are unavailable locally; no unsupported comparison row is inserted.}
-\label{tab:reported}
-\begin{tabular}{@{}p{8.4cm}rr@{}}\toprule Method / source protocol & Primary score & Secondary score\\\midrule
-\multicolumn{3}{l}{Original GAMENet, Table 3 \citep{gamenet}}\\
-GAMENet (R) & F1 0.6081 & Jaccard 0.4509\\
-\multicolumn{3}{l}{SafeDrug MIMIC-III, Table 2 \citep{safedrug}}\\
-GAMENet, as reported by SafeDrug (R) & F1 0.6626 & DDI 0.0864\\
-SafeDrug (R) & F1 0.6768 & DDI 0.0589\\
-\multicolumn{3}{l}{ARMR 2025, Table 3: MIMIC-III / IV patient-average F1 \citep{armr2025}}\\
-GAMENet, as reported by ARMR (R) & 0.6674 & 0.6441\\
-COGNet, as reported by ARMR (R) & 0.6869 & 0.6582\\
-ARMR (R) & 0.6959 & 0.6712\\
-\multicolumn{3}{l}{HADRec, Tables 4 and 8: MIMIC-III / IV F1 \citep{hadrec}}\\
-HADRec (R; coding caveat in text) & 0.7010 & 0.6408\\
-\multicolumn{3}{l}{SafeRx ATC-L4, Table 2: MIMIC-IV / III F1 \citep{saferx}}\\
-GAMENet, as reported by SafeRx (R) & 0.3356 & 0.2153\\
-SafeDrug, as reported by SafeRx (R) & 0.3519 & 0.2361\\
-SafeRx / GPT-5.2, no filter (R) & 0.4138 & 0.2812\\
-SafeRx / Claude Sonnet-4.6, no filter (R) & 0.4325 & 0.2758\\
-\multicolumn{3}{l}{RxEval option selection, Table 2 \citep{rxeval}}\\
-Gemini-3.1-Pro (R) & F1 77.10\% & Exact match 46.10\%\\
-Qwen3.6-27B (R) & F1 71.70\% & Exact match 40.00\%\\
-\bottomrule\end{tabular}\end{table*}
+\paragraph{Common medication space.}
+The MIMIC cohort contains 8,905 patients and 23,177 visits, with training/proposal/guard/reserved-test patient counts of 7,115/433/467/890. We use exact unambiguous NDC mapping to five-character ATC-L4 classes. The bridge covers 27.23\% of source prescription rows. Training defines 271 medication classes; the molecular-compatible panel contains 219. Its restriction removes 52 classes lacking required molecular coverage and changes the target task. Inputs include completed-visit diagnoses and procedures, so this is a retrospective task rather than a prospective admission-time prescription claim. Historical research exposure also makes this panel exploratory. Reserved-test scores remain unreported.
 
-\section{Agent State and Update Mechanism}
-At round $r$, let the persistent state be $S_r=(W_r,M_r,T_r,K_r)$: prescription-selection parameters, episodic or executable rule memory, learned tool state, and persistent language skills. RxRSIAgent provides a common versioning and evaluation interface, instantiated differently by the task adapters in Table~\ref{tab:study-map}. Policy parameters include ordinary supervised coefficients or local LLM adapters. Tool state includes observed joint-order templates and evidence-focus configuration; executable tool source remains fixed unless an explicitly disclosed engineering revision changes it.
+\paragraph{External orders.}
+The eICU test has 6,227 patients in sixteen hospitals and includes 3,842 stays with no target orders. We train within eICU and test on unseen hospitals; this is not zero-shot transfer of a MIMIC model. Inputs include age decade, gender, early medications, and finite laboratory measurements with draw and revision timestamps before the decision. Medication storage clocks and full field histories are unavailable. Stays with any target lacking a valid HICL code are excluded before fixed sampling, creating a retrospective completeness selection. The order tuple is HICL, route, dosage string, and frequency string; normalization does not infer absent units.
 
-Runtime inference reads the allowed patient or task state, obtains candidates and applicable experience, scores decisions, and emits the task's required output. The structured-order adapter returns drug, route, dose string, dose unit and observed frequency; unobserved attributes remain unknown. Class-set and multiple-choice adapters have their own output contracts. The FHIR adapter additionally executes actions and checks persisted state. These endpoints cannot be pooled into one prescription score.
+\subsection{Comparators, budgets, and metrics}
+The common panel includes prevalence, prior-visit reuse, case retrieval, logistic regression, and adapted author cores for GAMENet, SafeDrug, and ARMR. Author methods use fifty epochs and proposal-based checkpoint/threshold selection. Thirteen of fifteen registered author runs are complete at this snapshot; molecular ARMR has one completed seed. We do not infer results for unfinished seeds. SafeDrug is evaluated in the molecular panel. Training and search budgets differ across method families and are disclosed, while the feedback comparisons match their specified cases and update budgets.
+
+For medication sets, we report F1 and Jaccard averaged first over visits within a patient and then over patients. For orders, drug and joint-order F1 are micro scores aggregated from set counts. Let $P_i^c$ and $G_i^c$ denote complete predicted and reference tuples. The registered joint score is
+\begin{equation}
+ F_{\mathrm{joint}}=\frac{2\sum_i|P_i^c\cap G_i^c|}
+ {\sum_i|P_i^c|+\sum_i|G_i^c|}.
+\end{equation}
+We also report completion coverage. A post-test sensitivity score replaces $|P_i^c|$ in the denominator with all distinct emitted tuples $|P_i|$; missing reference fields remain unscorable. This sensitivity analysis preserves the original predictions and primary results. All medication recall denominators retain out-of-vocabulary targets.
+
+Seed standard deviations describe completed runs. Paired patient intervals, and hospital intervals for eICU, use within-study resampling protocols. They are descriptive, without multiplicity correction; they do not represent uncertainty over an unseen population of training seeds. Independent checks reconstruct saved selections, scores, and relevant update decisions. Their scope does not imply replaying every optimizer step or every model forward pass.
+
+\section{Results}
+\subsection{Common-data method comparison}
+Table~\ref{tab:main} compares methods within each medication space. Rule memory yields 0.61260 F1 in the full space, compared with 0.61151 for the shared policy and 0.61267 for greedy rules. In the molecular space, own-error memory reaches 0.58198, below greedy rules and shuffled evidence. Its full-space difference from ARMR is approximately 0.00396, with paired patient interval $[-0.00075,0.00870]$. These results establish neither a reliable advantage over the strongest comparator nor a unique benefit from language-agent rule selection.
 
 \begin{table*}[t]\centering\small
-\caption{Study map: data, outputs and the objects whose updates are evaluated. Fixed engineering repairs are tracked separately from learned updates.}
-\label{tab:study-map}
-\begin{tabularx}{\textwidth}{@{}p{.65cm}p{3.6cm}p{3.5cm}X@{}}\toprule Study & Data / task & Evaluated update objects & Primary comparison\\\midrule
-A & MIMIC-IV; retrospective ATC-L4 medication sets & Executable rule or synthesized-program memory; shared supervised policy & Author methods and ordinary/greedy/shuffled controls on common patients and label spaces\\
-B & MIMIC-IV/ED structured orders; recorded-availability rebuild; eICU hospital transfer & Policy parameters, episodic memory and conditional order-template tool & Drug/core-order agreement; case growth and frozen-object interventions\\
-C & Derived RxSafeBench choices; all 300 public RxQA OpenFDA questions & Language skills, evidence-focus configuration and routing/verifier coefficients & Same-question method accuracy, fixed-state trajectories and transfer\\
-D & Local MIMIC admission-proxy candidate-order selection & QLoRA parameters; feedback-dependent sampling priorities & Drug/core-order agreement and position sensitivity under matched updates\\
-E & Released MedAgentBench tasks with an executed FHIR service & Persistent language skills; separately fixed compiler/statistics repairs & ID and held-out-task-type completion, readback, regressions and factorial controls\\
-\bottomrule\end{tabularx}\end{table*}
+\setlength{\tabcolsep}{4pt}
+\caption{Common MIMIC-IV development comparison on the same 1,231 visits/467 patients. Full and molecular panels have different target spaces. Values are patient-average F1; $\pm$ denotes completed-seed SD. Author cores use declared local adaptations. $\dagger$: molecular ARMR has one completed seed; two remain unfinished. These are not final-test results.}
+\label{tab:main}
+\begin{tabular}{@{}lrrr@{}}\toprule
+Method & Runs full/mol. & Full 271-class F1 & Molecular 219-class F1\\\midrule
+Training prevalence & 1/1 & 0.45794 & 0.42555\\
+Previous-visit reuse & 1/1 & 0.30154 & 0.28971\\
+Case retrieval & 1/1 & 0.55081 & 0.51751\\
+Structured logistic regression & 1/1 & 0.61151 & 0.58113\\
+ARMR author core & 3/1$^{\dagger}$ & 0.60864 $\pm$ 0.00132 & 0.58477\\
+GAMENet author core & 3/3 & 0.52708 $\pm$ 0.00664 & 0.50735 $\pm$ 0.00350\\
+SafeDrug author core & --/3 & -- & 0.53689 $\pm$ 0.00244\\
+Shared policy / no rule updates & 3/3 & 0.61151 $\pm$ 0.00000 & 0.58113 $\pm$ 0.00000\\
+Greedy error rules & 3/3 & 0.61267 $\pm$ 0.00066 & 0.58230 $\pm$ 0.00042\\
+Random candidate rules & 3/3 & 0.61205 $\pm$ 0.00031 & 0.58220 $\pm$ 0.00055\\
+\textbf{RxRSIAgent: own-error memory} & 3/3 & 0.61260 $\pm$ 0.00057 & 0.58198 $\pm$ 0.00014\\
+Shuffled-evidence memory & 3/3 & 0.61219 $\pm$ 0.00038 & 0.58255 $\pm$ 0.00029\\
+Same proposals / no witness gate & 3/3 & 0.61251 $\pm$ 0.00087 & 0.58202 $\pm$ 0.00067\\
+\bottomrule\end{tabular}
 
-\begin{figure}[t]\centering\small
-\fbox{\parbox{.91\columnwidth}{\centering Patient state\\$\downarrow$\\Candidate policy + order tools + applicable memory\\$\downarrow$\\Prescription planner and structured compiler\\$\downarrow$\\Research prescription\\[3pt]\hrule\vspace{3pt}Training prediction $\rightarrow$ observed GT errors\\$\rightarrow$ candidate artifact edits\\$\rightarrow$ registered selection / verification\\$\rightarrow$ active state or retained prior version}}
-\caption{Inference and training feedback. Test labels enter scoring only. Different experiments isolate different evolving objects.}
-\end{figure}
+\end{table*}
 
-Feedback comes from declared training cases: pre-update predictions in the streaming order/parameter experiments, cross-fitted errors for rule induction, or completed training-task failure traces for language skills. Error records identify observed omissions, extra selections and field mismatches. The updater proposes a versioned change; the study-specific selection procedure determines whether it becomes active.
+The rule operators and their effects are inspectable, but inspectability is not clinical validity. They encode statistical co-prescription corrections. In particular, their scores do not show that the agent acquired human-like prescribing rationale. A later isolated-witness program study also fails to outperform its calibrated ordinary control consistently (Appendix~\ref{app:memory}).
 
-Selection roles are explicit. The structured-order studies use proposal selection followed by a regression guard. Rule/program studies verify edits on training-witness patients and use a separate guard only for reporting. The retained author GRASP core uses its released end-of-epoch validation mechanism. The position-randomized parameter study chooses checkpoints on proposal data before its report-only guard. Development resources can be reused across rounds; test predictions never supply update feedback. Raw candidates, rejected versions and selected states are all retained.
-
-Each version records the parent, edited objects, data membership hashes, artifact hashes, validation scores, acceptance, improvements and regressions. A changing memory size or hash demonstrates that an artifact changed; leave-one-object-out evaluation is required to demonstrate that it helped. LLM weights, tool configuration and executable tool code are distinct objects and are never conflated.
-
-\section{Study A: Common Medication-Set Comparison}
-\label{sec:common-methods}
-This study addresses the cross-method prescription comparison under a shared preprocessing and split. Its development table and eventual frozen test tables report actual executions. The author-reported results in Table~\ref{tab:reported} remain a separate literature reference.
-
-\paragraph{Standard-method compatibility panel.}
-A separate retrospective MIMIC-IV 3.1 panel now contains 8,905 repeated-visit adult ICU patients and 23,177 hospital visits. Patient-disjoint training/proposal/guard/test partitions contain 7,115/433/467/890 patients and 18,429/1,095/1,231/2,422 visits. Every selected diagnosis, procedure and mapped medication set is independently reconstructed from sources. Training-only vocabularies include 271 true five-character ATC-L4 classes, with five test target occurrences outside that vocabulary. The public NDC map covers only 27.23\% of selected source prescription rows; this is explicitly mapped-class prediction, not complete prescription recovery. Completed-visit diagnosis/procedure inputs also distinguish it from the six-hour task. Earlier observed test patients overlap, so this panel is exploratory.
-
-Public molecular lookup resolves 746 CIDs and validates structures spanning 399 ATC-L4 classes. Coverage is 219/271 classes in this cohort. Actual pinned ARMR, GAMENet and SafeDrug cores pass synthetic forward/backward execution probes. Full resources now contain 627 molecular graphs and 863 BRICS fragments; no synthetic mask is used for training. Dense/sparse forward and registered-gradient probes agree, and the released fixed molecular embedding is persisted in checkpoints. A separate 219-class molecular panel retains all visits, including three empty-target test visits, and explicitly excludes 5,613 test target occurrences. ARMR/GAMENet run in both spaces and SafeDrug in the molecular space, for three seeds and 50 full epochs each. Proposal Jaccard selects checkpoints/thresholds, guard reports development performance, and testing waits for all baseline and registered RxRSI states to freeze. Equal case exposure is not equal FLOPs. The released SafeDrug training script's negative-cap coefficient conflicts with Eq.~19; the adapted run uses the paper's nonnegative cap \citep{safedrug}.\begin{table*}[t]\centering\small
-\caption{Executed cross-method development comparison on the same 1,231 guard visits from 467 patients. Each label panel is separate. Choices use proposal data; only completed independently audited runs are included, with mean $\pm$ sample seed SD when available. Unfinished seeds remain pending. This table does not replace the gated final test main table.}
-\label{tab:common-development}
-\begin{tabular}{llrrr}\toprule Label panel & Method & Runs & Patient-average F1 & Patient-average Jaccard\\\midrule
-full & prevalence & 1 & 0.4579 & 0.3068 \\
-full & last visit & 1 & 0.3015 & 0.2159 \\
-full & cosine knn & 1 & 0.5508 & 0.3961 \\
-full & structured logistic & 1 & 0.6115 & 0.4574 \\
-molecular & prevalence & 1 & 0.4255 & 0.2809 \\
-molecular & last visit & 1 & 0.2897 & 0.2061 \\
-molecular & cosine knn & 1 & 0.5175 & 0.3671 \\
-molecular & structured logistic & 1 & 0.5811 & 0.4297 \\
-full & ARMR & 3 & 0.6086 $\pm$ 0.0013 & 0.4533 $\pm$ 0.0011\\
-full & GAMENet & 3 & 0.5271 $\pm$ 0.0066 & 0.3709 $\pm$ 0.0064\\
-molecular & GAMENet & 3 & 0.5073 $\pm$ 0.0035 & 0.3538 $\pm$ 0.0032\\
-molecular & SafeDrug & 3 & 0.5369 $\pm$ 0.0024 & 0.3843 $\pm$ 0.0022\\
-full & Greedy candidate-rule memory & 3 & 0.6127 $\pm$ 0.0007 & 0.4586 $\pm$ 0.0006\\
-full & RxRSI candidate-rule memory & 3 & 0.6126 $\pm$ 0.0006 & 0.4586 $\pm$ 0.0006\\
-molecular & Greedy candidate-rule memory & 3 & 0.5823 $\pm$ 0.0004 & 0.4308 $\pm$ 0.0004\\
-molecular & RxRSI candidate-rule memory & 3 & 0.5820 $\pm$ 0.0001 & 0.4305 $\pm$ 0.0001\\
-\bottomrule\end{tabular}\end{table*}\paragraph{Recorded computation and selection budgets.}
-Each author neural run uses 50 epochs, 921,450 visit exposures, and 300 epoch/threshold choices on proposal data. Native batching produces 29,750 ARMR optimizer steps versus 921,450 for GAMENet/SafeDrug in the completed runs. ARMR uses Apple MPS and the other two CPU; concurrent work makes recorded fit times unsuitable as an isolated speed ranking. Five-round rule and synthesized-program runs each record 30 shared model-collection fits (three regularization candidates and three cross-fit models per round). These fits are counted once across their six or seven arms; the later 14-arm gate study reuses the corresponding synthesized-program fits exactly. Its memory induction and verification still consume computation. The released ledger distinguishes fit timers, broader conventional-method timing blocks, and logical proposal prices. Logical response reuse is not fresh account spend; FLOPs and complete isolated runtime are not measured.\paragraph{Paired cross-method development analysis.} A separate saved-output recount covers 56 completed method runs on the same guard patients. For RxRSI candidate-rule memory minus each author method, the patient-F1 differences on matched available seeds are ARMR (full, 3 seeds): +0.396 pp, interval $[-0.075,+0.870]$; GAMENet (full, 3 seeds): +8.552 pp, interval $[+7.882,+9.184]$; GAMENet (molecular, 3 seeds): +7.464 pp, interval $[+6.713,+8.212]$; SafeDrug (molecular, 3 seeds): +4.509 pp, interval $[+3.828,+5.157]$. Against greedy memory, the corresponding differences are full: -0.007 pp $[-0.020,+0.006]$; molecular: -0.031 pp $[-0.062,-0.002]$. These 4,000-draw patient intervals condition on the observed matched seeds and have no multiplicity correction. All comparisons, including conventional and shuffled controls, remain in the release. Gains over an older architecture do not establish an advantage of the language-agent update mechanism; this reused development analysis does not select a model or establish final-test superiority.
-\paragraph{Executable rule-memory evolution.}
-Five nested patient-hash rounds expose 20/40/60/80/100\% of training patients. A common logistic class policy is refit with the same development selection as the conventional control. Three patient-disjoint fitting folds produce training-error probabilities. Candidate edits add or remove typed feature--drug inclusion/exclusion rules within a fixed 0.15 threshold band; they cannot inspect the current prescription target at inference. A fixed candidate generator proposes at most 24 supported edits. A language agent receives only aggregate descriptors, support counts and measured error changes and selects up to four IDs per round. A training-witness gate accepts edits only when patient F1 improves without lowering Jaccard, with at least five affected witness patients. At most 20 rules persist.
-
-The evolving artifact is this executable rule memory. Coefficients change through ordinary supervised refitting, and the language model is an offline policy-maintenance component rather than a patient-level prescription generator. Greedy, random, shuffled-evidence and no-witness controls retain identical data exposure and edit limits. The latter reuses the own-error agent's proposals; it is not an independently learned counterfactual trajectory. Full dosage generation is outside this class-set task.
-
-Witness patients are excluded from candidate induction, but their labels participate in other folds' policy fits, and the shared regularization choice uses proposal performance of full seen-patient fits. Direct own-label fitting is prevented, but the pipeline is not wholly isolated nested validation. Repeated witness reuse is training validation, not independent confirmation. Original cross-fit probabilities were saved; fold weights were not. Fresh, explicitly labeled reconstructions reproduce the saved probabilities and threshold decisions. Candidate effects, prompt fields, rule transitions and selected guard predictions receive separate audits.
-
-\begin{figure*}[t]\centering\small
-\begin{tabular}{c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c@{\ $\rightarrow$\ }c}
-\fbox{\parbox{2.9cm}{\centering More training patients; shared policy fits}} &
-\fbox{\parbox{2.9cm}{\centering Cross-fitted errors; typed edit candidates}} &
-\fbox{\parbox{2.9cm}{\centering LLM selects edits from aggregate evidence}} &
-\fbox{\parbox{2.9cm}{\centering Witness verification; retained rule memory}}\\[1em]
-\fbox{\parbox{2.9cm}{\centering Observed current codes and prior history}} &
-\fbox{\parbox{2.9cm}{\centering Frozen class-probability policy}} &
-\fbox{\parbox{2.9cm}{\centering Apply frozen feature--drug rules}} &
-\fbox{\parbox{2.9cm}{\centering Medication class set; automatic GT scoring}}
-\end{tabular}
-\caption{Implemented rule-agent maintenance (top) and inference (bottom). No test labels enter maintenance. The two rows specify a class-set experiment rather than unrestricted clinical prescribing.}
-\end{figure*}
-\begin{table*}[t]\centering\small
-\caption{Audited rule-agent comparison on the 1,231-visit, 467-patient guard set. Included seeds have completed cross-fit and candidate/output audits. Values are mean $\pm$ sample seed deviation when multiple seeds are available. These development results do not replace the pending common test main table.}
-\begin{tabular}{llrrr}\toprule Panel & Method & Seeds & Patient F1 & Patient Jaccard\\\midrule
-full & uniform policy & 3 & 0.61151 $\pm$ 0.00000 & 0.45742 $\pm$ 0.00000 \\
-full & greedy error rules & 3 & 0.61267 $\pm$ 0.00066 & 0.45863 $\pm$ 0.00064 \\
-full & random candidate rules & 3 & 0.61205 $\pm$ 0.00031 & 0.45791 $\pm$ 0.00027 \\
-full & own error rule agent & 3 & 0.61260 $\pm$ 0.00057 & 0.45856 $\pm$ 0.00057 \\
-full & shuffled evidence rule agent & 3 & 0.61219 $\pm$ 0.00038 & 0.45811 $\pm$ 0.00044 \\
-full & matched proposals without witness gate & 3 & 0.61251 $\pm$ 0.00087 & 0.45840 $\pm$ 0.00102 \\
-molecular & uniform policy & 3 & 0.58113 $\pm$ 0.00000 & 0.42971 $\pm$ 0.00000 \\
-molecular & greedy error rules & 3 & 0.58230 $\pm$ 0.00042 & 0.43084 $\pm$ 0.00039 \\
-molecular & random candidate rules & 3 & 0.58220 $\pm$ 0.00055 & 0.43078 $\pm$ 0.00058 \\
-molecular & own error rule agent & 3 & 0.58198 $\pm$ 0.00014 & 0.43049 $\pm$ 0.00014 \\
-molecular & shuffled evidence rule agent & 3 & 0.58255 $\pm$ 0.00029 & 0.43105 $\pm$ 0.00027 \\
-molecular & matched proposals without witness gate & 3 & 0.58202 $\pm$ 0.00067 & 0.43050 $\pm$ 0.00070 \\
-\bottomrule\end{tabular}\end{table*}
-\begin{table*}[t]\centering\small
-\caption{Actual experience-growth curves on proposal data, which also select models and rounds. Memory counts follow the included seed order 42/137/2026. Policy-only and policy-plus-memory gains are separated.}
-\begin{tabular}{lrrrrl}\toprule Panel & Round & Train patients & Shared policy F1 & Own-agent F1 & Retained rules\\\midrule
-full & 1 & 1423 & 0.56896 & 0.56958 & 1/3/4 \\
-full & 2 & 2846 & 0.58492 & 0.58562 & 5/5/7 \\
-full & 3 & 4269 & 0.59287 & 0.59323 & 6/5/10 \\
-full & 4 & 5692 & 0.59804 & 0.59863 & 6/7/14 \\
-full & 5 & 7115 & 0.60142 & 0.60190 & 8/8/17 \\
-molecular & 1 & 1423 & 0.54232 & 0.54262 & 2/3/2 \\
-molecular & 2 & 2846 & 0.55987 & 0.56008 & 5/5/5 \\
-molecular & 3 & 4269 & 0.56816 & 0.56824 & 7/5/8 \\
-molecular & 4 & 5692 & 0.57481 & 0.57559 & 8/9/10 \\
-molecular & 5 & 7115 & 0.57926 & 0.57996 & 10/9/12 \\
-\bottomrule\end{tabular}\end{table*}
-These curves demonstrate changing artifacts and improvement with more cases, but the language-agent increment is small and must outperform greedy and shuffled controls to support a distinct mechanism claim. Proposal curves are selected-development evidence; final fixed-test curves remain gated.
-\paragraph{Isolated witnesses and conditional program synthesis.}
-An ensuing registered development study assigns 5,692 training patients to policy fits and permanently reserves 1,423 witnesses, using seed-specific label-independent hashing. The five fresh witness batches contain 285/285/285/284/284 patients, disjoint across rounds and from every coefficient fit and candidate statistic. Fixed earlier vocabularies precede this role assignment. Each batch can be adaptively queried for at most four sequential edits within its one round; it is still training validation. All original fold models are now retained, and independent refits check their provenance numerically.
-
-The frozen per-round state is $(\theta_r,\tau_r,M_r)$: ordinary supervised logistic coefficients, ordinary class-specific threshold calibration, and executable rule memory. Two coordinate passes learn threshold offsets from cross-fitted fit-patient predictions. A language agent then synthesizes up to four typed edits with one or two present/absent feature predicates and a drug inclusion/exclusion action near the calibrated threshold. Induction support and fresh-witness F1/Jaccard changes verify each edit. No arbitrary code or dose is executed. Greedy enumeration includes positive--negative conjunctions; raw/calibrated policies, random programs, shuffled numeric evidence and the same proposals without witness verification remain explicit controls. Error-based focus-drug and feature selection are not shuffled.
-
-This design changes witness isolation, calibration and program expressivity together; comparisons with the prior study do not isolate any one change. The new seven-arm study isolates the language contribution within the same revised data/budget protocol. Proposal data select rounds, guard is report-only, and no new test inference is authorized by its current protocol.\begin{table*}[t]\centering\small
-\caption{Isolated-witness development study on the same 1,231 guard visits/467 patients. Only independently audited seeds appear; these models fit 5,692 patients and reserve 1,423 witnesses, unlike the earlier all-training-patient policy fits. Sample seed deviation is shown only when multiple seeds complete.}
-\begin{tabular}{llrrr}\toprule Panel & Method & Audited seeds & Patient F1 & Patient Jaccard\\\midrule
-full & Raw logistic & 3 & 0.60570 $\pm$ 0.00050 & 0.45138 $\pm$ 0.00060 \\
-full & Class calibration & 3 & 0.60803 $\pm$ 0.00087 & 0.45407 $\pm$ 0.00088 \\
-full & Greedy programs & 3 & 0.60801 $\pm$ 0.00072 & 0.45394 $\pm$ 0.00078 \\
-full & Random programs & 3 & 0.60762 $\pm$ 0.00086 & 0.45366 $\pm$ 0.00089 \\
-full & Own-error synthesis & 3 & 0.60790 $\pm$ 0.00038 & 0.45381 $\pm$ 0.00049 \\
-full & Shuffled-evidence synthesis & 3 & 0.60794 $\pm$ 0.00071 & 0.45399 $\pm$ 0.00070 \\
-full & Same proposals, no witness & 3 & 0.60742 $\pm$ 0.00046 & 0.45317 $\pm$ 0.00055 \\
-molecular & Raw logistic & 3 & 0.57564 $\pm$ 0.00053 & 0.42407 $\pm$ 0.00070 \\
-molecular & Class calibration & 3 & 0.57989 $\pm$ 0.00088 & 0.42804 $\pm$ 0.00064 \\
-molecular & Greedy programs & 3 & 0.58094 $\pm$ 0.00060 & 0.42903 $\pm$ 0.00059 \\
-molecular & Random programs & 3 & 0.57930 $\pm$ 0.00168 & 0.42723 $\pm$ 0.00154 \\
-molecular & Own-error synthesis & 3 & 0.58021 $\pm$ 0.00105 & 0.42827 $\pm$ 0.00095 \\
-molecular & Shuffled-evidence synthesis & 3 & 0.57956 $\pm$ 0.00097 & 0.42769 $\pm$ 0.00070 \\
-molecular & Same proposals, no witness & 3 & 0.58010 $\pm$ 0.00106 & 0.42801 $\pm$ 0.00102 \\
-\bottomrule\end{tabular}\end{table*}
-Calibration gains are ordinary supervised gains. A score above raw logistic alone is insufficient evidence for language-agent self-improvement; the calibrated, greedy and shuffled controls are necessary.\paragraph{Executed development attribution.}
-A separately registered proposal-only replay compares no memory, prior-round memory and current memory under the identical current policy/calibration, and replays every actual edit without changing its original accept/reject decision. Positive witness effects can transfer negatively, and old-memory effects can change when the shared predictor changes. These descriptive decompositions motivate compatibility revalidation; they are not a newly trained counterfactual agent.
-\begin{table}[t]\centering\small
-\caption{Proposal transfer of actually accepted edits in audited runs. Registration followed early development observations; no test labels or new API calls are used.}
-\begin{tabular}{lrrr}\toprule Run & Positive & Negative & Zero\\\midrule
-full seed42 & 4 & 4 & 0 \\
-full seed137 & 7 & 4 & 0 \\
-full seed2026 & 5 & 3 & 0 \\
-molecular seed42 & 4 & 3 & 0 \\
-molecular seed137 & 5 & 3 & 0 \\
-molecular seed2026 & 6 & 3 & 0 \\
-\bottomrule\end{tabular}\end{table}
-\paragraph{Historical metadata correction.}
-Rolling exports reused a mutable nested best-selection dictionary, causing some old nested entries to show later choices. Immutable per-round receipts and each arm's stored best-round field independently preserve the actual history; corrected historical choices are released separately. Proposal scores, rule states and final selections are verified unchanged. Frozen source/result hashes are retained.
-\paragraph{Compatibility revalidation and disjoint promotion.}
-A further registered factorial tests two fixed memory-maintenance policies without refitting the audited base models. Each fresh witness batch is divided by patient into editing group A and confirmation group B. Compatibility factor C checks old memory against the empty-memory policy on cross-fitted fitting patients and A before generating new edits; failed checks reset the corrections. Confirmation factor P checks the entire edited memory once on B. All checks require at least three affected patients, positive F1 change and nonnegative Jaccard change. Failed promotion returns the calibrated policy with no correction memory, not an empty prescription.
-
-Greedy, own-error synthesis and shuffled-evidence synthesis each run all four C/P combinations, alongside raw and calibrated policy controls: fourteen arms per seed and medication space. Every combination edits on A and computes the same shadow checks. C0P0 is consequently different from the preceding full-witness-batch study; only within-factorial contrasts isolate these gates. Identical prompts share exact responses across conditions, whereas diverging memories receive new prompts. The policies C/P are fixed engineering choices; executable rule memory remains the agent-generated object. B affects later rounds through retained memory, so this remains adaptive training validation on reused development patients.
-
-All raw states and verification decisions are retained. Proposal Jaccard selects a checkpoint with earliest ties; both that checkpoint and raw round five receive report-only guard evaluation after all five rounds. Independent scalar replays reconstruct source probabilities, induction effects, compatibility checks, every edit, whole-state promotion and final outputs. No test inference is performed in this intervention.\begin{table*}[t]\centering\small
-\caption{Audited compatibility/confirmation factorial on the same 467-patient guard set. C/P enable old-memory and whole-update checks respectively. Selected states use proposal Jaccard; the separate final column reports raw round five. Only audited seeds appear, with sample deviation when multiple seeds complete. This is exploratory development evidence.}
-\begin{tabular}{llrrr}\toprule Panel & Arm & Seeds & Selected patient F1 & Final-round F1\\\midrule
-full & raw policy & 1 & 0.60594 & 0.60594 \\
-full & calibrated policy & 1 & 0.60719 & 0.60719 \\
-full & greedy C0P0 & 1 & 0.60747 & 0.60747 \\
-full & greedy C0P1 & 1 & 0.60719 & 0.60719 \\
-full & greedy C1P0 & 1 & 0.60777 & 0.60777 \\
-full & greedy C1P1 & 1 & 0.60719 & 0.60719 \\
-full & own C0P0 & 1 & 0.60694 & 0.60694 \\
-full & own C0P1 & 1 & 0.60706 & 0.60706 \\
-full & own C1P0 & 1 & 0.60706 & 0.60706 \\
-full & own C1P1 & 1 & 0.60706 & 0.60706 \\
-full & shuffled C0P0 & 1 & 0.60761 & 0.60761 \\
-full & shuffled C0P1 & 1 & 0.60719 & 0.60719 \\
-full & shuffled C1P0 & 1 & 0.60719 & 0.60719 \\
-full & shuffled C1P1 & 1 & 0.60719 & 0.60719 \\
-molecular & raw policy & 1 & 0.57623 & 0.57623 \\
-molecular & calibrated policy & 1 & 0.57911 & 0.57911 \\
-molecular & greedy C0P0 & 1 & 0.57960 & 0.57960 \\
-molecular & greedy C0P1 & 1 & 0.57911 & 0.57911 \\
-molecular & greedy C1P0 & 1 & 0.57972 & 0.57972 \\
-molecular & greedy C1P1 & 1 & 0.57972 & 0.57972 \\
-molecular & own C0P0 & 1 & 0.57874 & 0.57874 \\
-molecular & own C0P1 & 1 & 0.57911 & 0.57911 \\
-molecular & own C1P0 & 1 & 0.57935 & 0.57935 \\
-molecular & own C1P1 & 1 & 0.57911 & 0.57911 \\
-molecular & shuffled C0P0 & 1 & 0.57911 & 0.57911 \\
-molecular & shuffled C0P1 & 1 & 0.57911 & 0.57911 \\
-molecular & shuffled C1P0 & 1 & 0.57911 & 0.57911 \\
-molecular & shuffled C1P1 & 1 & 0.57911 & 0.57911 \\
-\bottomrule\end{tabular}\end{table*}\paragraph{Frozen common-test extension.}
-Before common-test inference, a separate addendum registers all seven conditional-program and fourteen compatibility/confirmation methods on the exact 2,422-visit, 890-patient test cohort and both medication spaces. All five raw rounds and proposal-selected states are retained. The implemented evaluator waits for every author-method selection and all program audits; an independent audit reexecutes 315 program states per panel from original models and raw-source features. Comparisons include every conventional, author and earlier rule method, with descriptive paired patient intervals and seed variation. The permanently reserved witness patients change policy-fitting exposure, and computation budgets differ; these limits accompany the shared test protocol. This extension is still gated and does not supply test scores at this snapshot.\paragraph{Prior-case-excluded sensitivity subset.}
-Before common-test predictions, a separate registered identity audit reconstructs eleven recorded MIMIC-IV experiment families and thirty-eight data roles. Their union includes 69,839 previously used or conservatively reserved patients. Of the 890 current test patients, 572 occur in that union. The complementary 318 patients retain all 801 original test visits, with zero prior-record intersection, and the identical subset applies to both medication spaces. Independent reconstruction checks original deterministic sampling, stored identities, membership digests and complete patient-visit retention. Early samples lack original membership digests; their source/code hashes and reconstructed counts remain explicit.
-
-The all-patient main table is unchanged. An implemented evaluator waits for both parent test audits, then regrades the exact immutable predictions for the retained and excluded groups without fitting or checkpoint selection. Membership never uses labels, predictions or scores. This registry covers named PRISMATIC histories, not foundation-model pretraining, undocumented experiments or external use; it is a prior-record-excluded sensitivity analysis, not proof of globally untouched confirmation. Group composition differences also preclude a causal interpretation of exposure. No subgroup performance score is available at this snapshot.
-
-\section{Study B: Structured-Order Artifact Learning}
-\subsection{Data and metrics}
-The task uses six-hour all-route prescription targets after an ED-to-hospital admission in MIMIC-IV/ED. Training contains 40,000 admissions. Proposal validation and the regression guard contain 2,000 admissions each; test contains 4,000 admissions from 3,440 patients. Development/test patients used in the previous v0.6 increment are excluded. All current splits are patient-disjoint.
-
-Actual model inputs are chief complaint, acuity and home-medication text. The 128 raw-name vocabulary and word representation are fixed from the first 8,000 training admissions. Drug micro-F1 compares name sets, including out-of-vocabulary targets in recall. Joint-order micro-F1 compares complete normalized (drug, route, dose-string, unit) tuples. The test contains 30,769 complete reference tuples. Frequency agreement is secondary and excludes missing GT values. These endpoints measure recorded-order agreement, not clinical safety.
-
-\subsection{Methods and rounds}
-We compare retrieval, Naive Bayes, word and character policies, a validation-tuned ensemble, global templates, and a learned context-conditioned joint-order tool. The tool predicts an observed field combination rather than independently mixing fields. Thresholds and word/character weights are selected using proposal validation, with the same 20-order maximum.
-
-The evolving system receives 8k, 16k, 24k, 32k and 40k accumulated cases. Candidate updates change parameters, memory, the order tool, or their combination. The guard accepts a candidate only when the mean drug/order F1 improves and neither endpoint falls by more than 0.002. Seeds 42, 137 and 2026 repeat the experiment. Test evaluation begins after all choices are frozen.
+\subsection{External-hospital method comparison}
+Table~\ref{tab:eicu} contains all thirteen completed method/configuration rows. Full-data uniform learning has the highest drug and joint-order F1 point estimates in this table. Among matched sequential arms, own-error priorities score 0.11306/0.02838 versus uniform updates at 0.11825/0.02993. Their mean difference is $-0.00519/-0.00155$. Shuffling the priorities does not produce a consistent disadvantage relative to using the aligned error values.
 
 \begin{table*}[t]\centering\small
-\caption{Executed same-4,000-case comparison: mean $\pm$ sample SD across three seeds. The final three rows freeze one object of the selected state without retuning the others.}
-\label{tab:local}
-\begin{tabular}{@{}p{7.7cm}rr@{}}\toprule Method & Drug micro-F1 & Joint-order micro-F1\\\midrule
-Case retrieval + global templates & 0.3525 $\pm$ 0.0000 & 0.2452 $\pm$ 0.0000 \\
-Case retrieval + conditional tool & 0.3525 $\pm$ 0.0000 & 0.2530 $\pm$ 0.0003 \\
-Naive Bayes + order tool & 0.3747 $\pm$ 0.0000 & 0.2661 $\pm$ 0.0002 \\
-Word policy + global templates & 0.4007 $\pm$ 0.0007 & 0.2725 $\pm$ 0.0007 \\
-Word policy + conditional tool & 0.4007 $\pm$ 0.0007 & 0.2791 $\pm$ 0.0005 \\
-Tuned word policy + tool & 0.3963 $\pm$ 0.0006 & 0.2789 $\pm$ 0.0004 \\
-Character policy + tool & 0.3978 $\pm$ 0.0027 & 0.2777 $\pm$ 0.0020 \\
-Word/character ensemble + tool & 0.4021 $\pm$ 0.0006 & 0.2811 $\pm$ 0.0006 \\
-RxRSI accepted version & 0.3992 $\pm$ 0.0025 & 0.2786 $\pm$ 0.0014 \\
-Freeze initial policy parameters & 0.3611 $\pm$ 0.0046 & 0.2545 $\pm$ 0.0030 \\
-Freeze initial order tool & 0.3992 $\pm$ 0.0025 & 0.2749 $\pm$ 0.0014 \\
-Freeze initial episode memory & 0.3998 $\pm$ 0.0022 & 0.2793 $\pm$ 0.0011 \\
-\bottomrule\end{tabular}\end{table*}
+\setlength{\tabcolsep}{4pt}
+\caption{External eICU hospital test: 8,005 stays, 6,227 patients, sixteen hospitals. Three-seed means and SD; the primary joint score uses complete tuples, with output coverage reported. Ordinary full-data learning has the highest F1 point estimates.}
+\label{tab:eicu}
+\begin{tabular}{@{}lrrr@{}}\toprule
+Method / configuration & Drug F1 & Joint-order F1 & Complete outputs (\%)\\\midrule
+Initial 8k state & 0.09894 $\pm$ 0.00299 & 0.02082 $\pm$ 0.00090 & 58.01 \\
+Prevalence + global orders & 0.07082 $\pm$ 0.00000 & 0.00000 $\pm$ 0.00000 & 0.00 \\
+Reuse prior orders & 0.06108 $\pm$ 0.00000 & 0.01544 $\pm$ 0.00000 & 78.58 \\
+Case retrieval + conditional tool & 0.09501 $\pm$ 0.00000 & 0.02460 $\pm$ 0.00034 & 54.90 \\
+Word policy + global orders & 0.10668 $\pm$ 0.00092 & 0.00934 $\pm$ 0.00046 & 57.48 \\
+Word policy + conditional tool & 0.10668 $\pm$ 0.00092 & 0.02826 $\pm$ 0.00039 & 48.57 \\
+Word/character ensemble & 0.10736 $\pm$ 0.00063 & 0.02847 $\pm$ 0.00014 & 48.19 \\
+Full-data uniform learning & 0.11956 $\pm$ 0.00075 & 0.03087 $\pm$ 0.00020 & 49.59 \\
+Uniform round updates & 0.11825 $\pm$ 0.00163 & 0.02993 $\pm$ 0.00129 & 50.81 \\
+\textbf{Own-error round updates} & 0.11306 $\pm$ 0.00271 & 0.02838 $\pm$ 0.00155 & 51.13 \\
+Shuffled priorities & 0.11474 $\pm$ 0.00340 & 0.02799 $\pm$ 0.00146 & 50.85 \\
+Own-error policy + initial tool & 0.11306 $\pm$ 0.00271 & 0.02334 $\pm$ 0.00043 & 53.67 \\
+Initial policy + final tool & 0.09894 $\pm$ 0.00299 & 0.02491 $\pm$ 0.00092 & 55.60 \\
+\bottomrule\end{tabular}
 
-\begin{table}[t]\centering\small
-\caption{Accepted-state trajectory on the fixed test; mean over three seeds.}
-\label{tab:rounds}
-\begin{tabular}{rrrr}\toprule Round & Cases & Drug F1 & Order F1\\\midrule
-0 & 8,000 & 0.3666 & 0.2548 \\
-1 & 16,000 & 0.3824 & 0.2661 \\
-2 & 24,000 & 0.3912 & 0.2731 \\
-3 & 32,000 & 0.3975 & 0.2774 \\
-4 & 40,000 & 0.3992 & 0.2786 \\
-\bottomrule\end{tabular}\end{table}
+\end{table*}
 
-The accepted-state curves are non-decreasing on this test for all three seeds, including a flat final step when seed 137 rejects its proposal. Individual cases still regress. Conditional order-tool learning improves joint-field matching. Memory expansion is not consistently helpful; freezing initial memory can improve the final state. The full evolving system does not beat the strong same-data ensemble/tool control. Thus case-growth gains support H2 in this setting but do not establish H3. Independent set counting reproduces all scores; paired patient-cluster bootstrap intervals and per-round regressions are released with the aggregate results.
-
-\subsection{Recorded-Availability-Controlled New Orders}
-The earlier start-time task does not establish prospective availability. We therefore re-read the complete source tables and set the decision to actual hospital admission plus six hours, predicting new/changed orders in the next six hours. Both provider ordertime and pharmacy entertime must lie in that future window, linked patient/admission/POE identities must agree, and pharmacy verification must occur by its end. An admission is excluded if any potentially in-window order fails these criteria, and follow-up must cover the whole window. This defines a selected coherent-time, nonempty-target cohort, not the general inpatient population.
-
-Inputs contain gender, decade-binned age, at most 24 prior joint-order tuples and 32 blood measurements. Every prior order has all three recorded timestamps before the decision; laboratory charttime and storetime must both be available. Untimed triage and discharge diagnoses are excluded. Of 201,750 source admissions, 54,959 satisfy eligibility. After fixed sampling and excluding all previous v0.6/v0.7/v0.9 test patients, the split is 40,000/2,000/2,000/1,082 train/proposal/guard/test, with 1,024 test patients and no cross-split patient overlap. Independent reconstruction checks 198,850 target rows, 589,393 prior-order rows and 506,710 lab rows with zero violations of the declared identity/time/finiteness checks.
-
-The initial-8k vocabulary, feature mapping, output cap, method family and three seeds are frozen before training. We repeat policy, memory and conditional-tool evolution alongside full-data word/character models, retrieval, naive Bayes, prevalence and prior-order reuse. Test scoring follows within-seed selection freeze. This is a separate temporal task; its raw-name scores cannot be pooled with the older start-time table or published ATC results. Released tables lack full field-version histories, so recorded timestamps do not prove what clinicians actually viewed.
-\begin{table*}[t]\centering\small
-\caption{Recorded-availability task: matched 1,082 test admissions, mean $\pm$ sample SD across three seeds. Fixed prevalence/reuse controls are reused across seeds.}
-\begin{tabular}{lrr}\toprule Method & Drug micro-F1 & Core-order micro-F1\\\midrule
-Training prevalence & 0.1268 $\pm$ 0.0000 & 0.0747 $\pm$ 0.0000 \\
-Reuse prior orders & 0.0951 $\pm$ 0.0000 & 0.0556 $\pm$ 0.0000 \\
-Case retrieval + tool & 0.1559 $\pm$ 0.0000 & 0.0952 $\pm$ 0.0008 \\
-Word policy + tool & 0.1933 $\pm$ 0.0013 & 0.1165 $\pm$ 0.0003 \\
-Word/character + tool & 0.2010 $\pm$ 0.0025 & 0.1207 $\pm$ 0.0028 \\
-RxRSI selected state & 0.1914 $\pm$ 0.0015 & 0.1153 $\pm$ 0.0009 \\
-Freeze initial tool & 0.1914 $\pm$ 0.0015 & 0.1142 $\pm$ 0.0004 \\
-Freeze initial memory & 0.1956 $\pm$ 0.0025 & 0.1183 $\pm$ 0.0011 \\
-\bottomrule\end{tabular}\end{table*}
-Independent saved-prediction counting reproduces all method and checkpoint scores. Accepted-state trajectories, per-case improvements/regressions, artifact hashes and descriptive patient-cluster intervals accompany the release. A gain over the initial 8k checkpoint alone is insufficient evidence of an advantage over equal-data learning.Mean drug/order F1 rises from 0.1660/0.0942 to 0.1914/0.1153, yet the full-data ensemble reaches 0.2010/0.1207. Drug-F1 differences versus the ensemble have negative paired intervals in all three seeds. Freezing initial memory improves the final mean to 0.1956/0.1183. The final empty-output rate is 2.74\% on this new protocol; it is not a matched before/after comparison to earlier pilots. These results again separate case-growth gains from a unique RSI advantage.\paragraph{Development-only representation intervention.}
-The text policy treats numerical measurements as tokens. A subsequent registered pilot fits typed prior-order/lab features and numerical scales on the initial 8k training contexts, then compares typed and combined word/typed selectors on proposal validation. The single selected candidate retains the original conditional order tool and improves 2,000-case guard drug/order F1 from 0.2194/0.1346 to 0.2246/0.1366. Paired patient intervals for the differences are [-0.0006, 0.0108] and [-0.0024, 0.0065]. Both include zero. No test prediction is generated in this one-seed pilot; it motivates further study rather than establishing an RSI or held-out superiority result.\subsection{Matched Feedback-Assignment Controls}
-Following the representation pilot, three seeds compare uniform training, own-error priorities and randomly permuted priorities with fixed word/typed features. The accepted parent predicts each new block before its labels update the model. Its weight is $1+3(1-F1)$ in the reachable vocabulary; the randomized control permutes exactly those weights within the block. Previously assigned weights persist, and cumulative weights are normalized to mean one. All three arms use the same cases and exactly 60 epochs for each of 128 logistic classifiers, reinitialized at each of five checkpoints. Initial models are shared, and conditional order tools use only cases observed by the current round. A rejected state retains both its policy and tool.
-
-Seven thresholds compete on proposal validation; a separate guard promotes only an improved composite with neither endpoint dropping by more than 0.002. All seeds and arms finish selection before testing. Seeds change case order and optimization jointly; these retrospective blocks do not represent calendar-time deployment. The previously observed 1,082-admission test is explicitly reused for exploratory analysis, not fresh confirmation.
-\begin{table*}[t]\centering\small
-\caption{Matched feedback interventions on the recorded-availability task. Mean $\pm$ sample SD over three seeds; exploratory reuse of the earlier test.}
-\begin{tabular}{lrr}\toprule Method & Drug micro-F1 & Core-order micro-F1\\\midrule
-Initial 8k state & 0.1684 $\pm$ 0.0008 & 0.1013 $\pm$ 0.0010 \\
-Uniform updates & 0.2045 $\pm$ 0.0010 & 0.1240 $\pm$ 0.0005 \\
-Own-error priorities & 0.2014 $\pm$ 0.0014 & 0.1222 $\pm$ 0.0005 \\
-Shuffled priorities & 0.2020 $\pm$ 0.0008 & 0.1220 $\pm$ 0.0029 \\
-Full-data uniform & 0.2045 $\pm$ 0.0010 & 0.1240 $\pm$ 0.0005 \\
-Priorities, initial tool frozen & 0.2014 $\pm$ 0.0014 & 0.1191 $\pm$ 0.0018 \\
-\bottomrule\end{tabular}\end{table*}
-An independent audit re-infers parent feedback, recounts error weights and test predictions, checks weight distributions, exact epochs and seen-only tool memberships, and reports patient-cluster intervals and per-case regressions. Improvements over the initial state alone do not establish an effect of error assignment; uniform and shuffled controls are the relevant comparisons. This study updates supervised parameters, persistent feedback weights and order tools, while LLM weights, executable code and representation remain fixed. Uniform updates reach 0.20446/0.12403 drug/order F1, own-error priorities 0.20143/0.12219 and shuffled priorities 0.20204/0.12197. Own-error-minus-uniform intervals contain zero for both endpoints in every seed; there is no consistent advantage over shuffled weights. Own-error mean trajectories improve from 0.16840/0.10130, but individual seed/endpoint trajectories can regress. The updated-tool mean order-F1 gain over freezing the initial tool is 0.00311, with an interval excluding zero in only one seed. These results separate observed case-growth gains from an unestablished feedback-assignment effect.\paragraph{External hospital evaluation preparation.}
-A separate eICU feasibility audit \citep{eicu} scans 200,859 stays and 7.30 million medication records. A fixed hospital hash and cross-partition patient removal retain 142,485 adult stays, including 8,188 stays from 16 test hospitals, with zero patient or hospital overlap. Zero-target stays remain included. Of 6,283 test-window records missing drug names, 6,064 retain HICL identifiers. Native code coverage and a missing-identity policy must therefore precede modeling. Dual laboratory offsets exclude 238,680 measurements revised after the decision. This is an executed data audit without model scores; its ICU order-time protocol and dosage/frequency fields differ from the MIMIC task, and medication storage timestamps remain unavailable.\paragraph{Registered native-code hospital comparison.}
-The subsequent cohort excludes entire stays containing any target with absent/nonpositive/noninteger HICL, removing 8,003 parent-cohort stays. Fixed sampling yields 40,000/2,000/2,000 training/proposal/guard stays and all 8,005 eligible test stays, involving 6,227 test patients and 16 test hospitals. The test includes 3,842 zero-target stays; correct abstention and false extra orders must therefore be reported separately. Test labels contain 13,994 distinct stay--code targets and 15,594 joint tuples, of which 11,853 have all four observed fields: native code, route, dosage string and frequency string. Native HICL is not asserted equivalent to RxNorm or ATC.
-
-Independent reconstruction checks source membership, timing, finite labs, prior-order selection and complete target identities. An initial-8k vocabulary of 512 codes and feature maps are frozen. Three seeds compare uniform, own-error and shuffled-priority learning with exactly 60 epochs per classifier, alongside prevalence, prior-order reuse, retrieval, word, word/character and full-data supervised controls. All selections must freeze before test inference. All three seeds and static-control choices froze before the completed held-out hospital test reported below. This is training within eICU with hospitals held out, not zero-shot MIMIC transfer. Label-completeness selection and missing medication storage clocks limit prospective interpretation.
-\paragraph{Executed development learning curves.}
-A retrospective diagnostic reexecutes all 45 saved policy/tool checkpoints on the 2,000-stay, 1,912-patient, 17-hospital guard, including 1,001 zero-target stays. Independent set counting matches the original proposal-threshold choices, guard scores and all accept/reject decisions. Actual parameter hashes, epoch records and seen-only tool memberships are checked. Tool execution uses its frozen implementation; this does not independently replay optimization or establish the separate feedback-weight audit.
-\begin{table*}[t]\centering\small
-\caption{Raw eICU development checkpoints as experience grows. Each cell is drug / complete joint-order micro-F1, averaged over three seeds. The guard participates in state acceptance; these are not held-out test scores. The release includes sample SD, every seed and separate accepted-state curves.}
-\label{tab:eicu-development-curves}
-\begin{tabular}{rrrr}\toprule Training stays & Uniform & Own-error priorities & Shuffled priorities\\\midrule
-8000 & 0.1084 / 0.0157 & 0.1084 / 0.0157 & 0.1084 / 0.0157\\
-16000 & 0.1268 / 0.0238 & 0.1172 / 0.0207 & 0.1210 / 0.0220\\
-24000 & 0.1364 / 0.0273 & 0.1253 / 0.0247 & 0.1294 / 0.0260\\
-32000 & 0.1376 / 0.0268 & 0.1319 / 0.0250 & 0.1344 / 0.0267\\
-40000 & 0.1394 / 0.0265 & 0.1328 / 0.0239 & 0.1377 / 0.0261\\
-\bottomrule\end{tabular}\end{table*}
-At the raw 40k checkpoint, own-error-minus-uniform drug/order F1 differences are -0.00655/-0.00264; for the final guard-accepted states they are -0.00619/+0.00015. Case-growth gains and feedback-assignment gains must therefore be evaluated separately. Guard acceptance creates a selection effect, and the horizontal axis counts encountered cases even when an earlier policy/tool bundle is retained. Raw regressions are preserved. These descriptive development differences do not establish generalization, clinical safety, or autonomous language-agent evolution; no test bundle is opened by this diagnostic.
-\subsection{Completed External Hospital Test}
-All three seeds and all static choices are frozen before testing 8,005 stays from 6,227 patients and 16 hospitals absent from development. The 3,842 zero-target stays remain included. Independent scoring checks every saved final and raw/accepted checkpoint prediction. Parameter hashes, pre-update feedback probabilities, error weights, matched exposure counts and seen-only order-tool labels are checked. This is an independent metric and provenance audit, not a replay of every test forward pass or optimization trajectory.
-\begin{table*}[t]\centering\small
-\caption{eICU held-out hospital method comparison: three-seed mean $\pm$ sample SD. Native HICL targets and literal route/dosage/frequency tuples differ from the MIMIC ATC task. Medication recall retains out-of-vocabulary targets; joint-order scoring uses complete observed tuples. All methods share the same test stays.}
-\label{tab:eicu-test-methods}
-\begin{tabular}{lrrr}\toprule Method & Drug micro-F1 & Joint-order micro-F1 & Empty (\%)\\\midrule
-Initial 8k state & 0.09894 $\pm$ 0.00299 & 0.02082 $\pm$ 0.00090 & 30.12 \\
-Prevalence + global tool & 0.07082 $\pm$ 0.00000 & 0.00000 $\pm$ 0.00000 & 0.00 \\
-Prior-order reuse & 0.06108 $\pm$ 0.00000 & 0.01544 $\pm$ 0.00000 & 7.81 \\
-30-neighbor retrieval + tool & 0.09501 $\pm$ 0.00000 & 0.02460 $\pm$ 0.00034 & 18.88 \\
-Word policy + global tool & 0.10668 $\pm$ 0.00092 & 0.00934 $\pm$ 0.00046 & 31.99 \\
-Word policy + conditional tool & 0.10668 $\pm$ 0.00092 & 0.02826 $\pm$ 0.00039 & 31.99 \\
-Word/character ensemble + tool & 0.10736 $\pm$ 0.00063 & 0.02847 $\pm$ 0.00014 & 32.48 \\
-Full-data uniform (raw 40k) & 0.11956 $\pm$ 0.00075 & 0.03087 $\pm$ 0.00020 & 33.13 \\
-Uniform, development-accepted & 0.11825 $\pm$ 0.00163 & 0.02993 $\pm$ 0.00129 & 32.40 \\
-Own-error, development-accepted & 0.11306 $\pm$ 0.00271 & 0.02838 $\pm$ 0.00155 & 26.13 \\
-Shuffled priorities, accepted & 0.11474 $\pm$ 0.00340 & 0.02799 $\pm$ 0.00146 & 32.05 \\
-Own-error, initial tool frozen & 0.11306 $\pm$ 0.00271 & 0.02334 $\pm$ 0.00043 & 26.13 \\
-Initial policy, final tool & 0.09894 $\pm$ 0.00299 & 0.02491 $\pm$ 0.00092 & 30.12 \\
-\bottomrule\end{tabular}\end{table*}
+\subsection{Experience growth and component attribution}
+Table~\ref{tab:growth} evaluates the same held-out hospitals at each frozen active checkpoint. All arms improve substantially over the initial 8k-case state. This supports a learning-with-experience observation, but own-error updates remain below uniform updates. Active-state scores can regress at a later checkpoint because acceptance used development data. Raw final states also retain this ordering: uniform 0.11956/0.03087, own-error 0.11355/0.02906, and shuffled 0.11499/0.02937.
 
 \begin{table*}[t]\centering\small
-\caption{Raw checkpoint trajectories on the same eICU test, reported without selecting a test winner. Each cell is the three-seed mean drug / joint-order micro-F1. Accepted-state curves and seed variation are also retained in the release.}
-\label{tab:eicu-test-growth}
-\begin{tabular}{rrrr}\toprule Training stays & Uniform & Own-error priorities & Shuffled priorities\\\midrule
-8000 & 0.09894 / 0.02082 & 0.09894 / 0.02082 & 0.09894 / 0.02082\\
-16000 & 0.10916 / 0.02540 & 0.10184 / 0.02305 & 0.10438 / 0.02358\\
-24000 & 0.11597 / 0.02873 & 0.11000 / 0.02673 & 0.11237 / 0.02697\\
-32000 & 0.11736 / 0.02980 & 0.11177 / 0.02774 & 0.11413 / 0.02811\\
-40000 & 0.11956 / 0.03087 & 0.11355 / 0.02906 & 0.11499 / 0.02937\\
-\bottomrule\end{tabular}\end{table*}
-For development-accepted states, mean own-error-minus-uniform drug/order F1 is -0.00519/-0.00155. Updating the order tool rather than composing the same selected own-error policy with its initial tool changes mean joint-order F1 by +0.00504. The accompanying report gives per-seed, paired patient- and hospital-cluster intervals from 2,000 resamples, without multiplicity correction, plus false nonempty predictions among zero-target stays. Following a floating-matmul warning in the original statistics pass, integer accumulation independently recounts all 36 cluster contrasts (144 interval bounds). All original values are finite and every bound agrees within $10^{-12}$. No prediction or model choice changes in this check.
+\setlength{\tabcolsep}{4pt}
+\caption{Frozen active-state trajectories on the same eICU test. Cells are drug/joint-order F1 averaged across three seeds. The horizontal axis counts encountered cases; rejected updates can retain earlier parameters and tools.}
+\label{tab:growth}
+\begin{tabular}{@{}rrrrr@{}}\toprule
+Round & Cases & Uniform & Own-error & Shuffled\\\midrule
+0 & 8,000 & 0.09894/0.02082 & 0.09894/0.02082 & 0.09894/0.02082\\
+1 & 16,000 & 0.10916/0.02540 & 0.10184/0.02305 & 0.10438/0.02358\\
+2 & 24,000 & 0.11597/0.02873 & 0.11000/0.02673 & 0.11237/0.02697\\
+3 & 32,000 & 0.11644/0.02853 & 0.11188/0.02815 & 0.11413/0.02811\\
+4 & 40,000 & 0.11825/0.02993 & 0.11306/0.02838 & 0.11474/0.02799\\
+\bottomrule\end{tabular}
 
-Logical five-round exposure is identical across feedback arms; the initial fit is physically shared. Static word/character fits and their five-weight/seven-threshold ensemble search have separate recorded budgets. Tool fitting, retrieval and inference are outside the policy-fitting time ledger, and concurrent runtime is not a speed benchmark. These comparisons distinguish case-growth gains, error-assignment effects and learned order-tool effects; they do not establish autonomous clinical reasoning or clinical safety.
-\paragraph{Incomplete-output denominator sensitivity.}
-The registered joint-order endpoint excludes incomplete predicted and reference tuples. A declared post-test analysis instead counts every distinct emitted tuple in the prediction denominator, while retaining only complete reference tuples as scorable targets. The numerator remains the count of complete exact matches. This is an observed-reference sensitivity, not a complete-reference clinical accuracy measure or a replacement primary endpoint. All 129 saved final/raw/accepted states receive a separate source recount (1,032,645 per-stay vectors); neither predictions nor choices change. With identical per-stay selected drug sets, the updated tool changes mean all-output-denominator F1 from 0.01770 to 0.02114. Complete exact matches increase by 49, 31, 48 across the three seeds. However, mean output completeness falls from 53.67\% to 51.13\%. Matching improves while completeness declines. All methods, counts and descriptive patient/hospital intervals accompany the released sensitivity report. These new intervals use the verified integer cluster draws; they are not a second independent bootstrap execution.
+\end{table*}
 
-\section{Study C: Language-Artifact RSI}
-To test genuine changes to language-guided behavior, the next experiment freezes DeepSeek-V4.1-Flash and evolves reusable skills, episodic memory and the configuration of an evidence-focus tool. The tool returns exact current-dialogue excerpts selected by learned focus terms; its source code is fixed. An LLM proposes changes from its own training-error traces, and the runner saves the full before/after artifacts.
+The tool intervention gives a more specific positive result. Keeping the selected own-error policy and its drug sets fixed, the updated tool improves joint-order F1 from 0.02334 to 0.02838. All six per-seed patient/hospital intervals have positive lower bounds. With all emitted tuples in the denominator, the corresponding scores are 0.01770 and 0.02114. The latter analysis independently recounts all 129 frozen states. However, complete-output coverage falls from 53.67\% to 51.13\%: improved exact matches do not imply more complete outputs. This result supports learned order completion, not superiority of the entire feedback-driven agent.
 
-The public RxSafeBench data are verified against pinned source hashes and converted to a clearly labeled three-option task. Its 2,443 source records yield 2,000 cases after exact task/dialogue/correct-drug deduplication. Medication-scenario grouping yields 625 training, 190 proposal, 197 guard and 988 test cases with no cross-split scenario or exact-dialogue overlap. Four rounds expose additional training cases. Direct, CoT, Self-Refine, case RAG and explicit Reflexion/GRASP/EvoTool task adaptations form the comparison set. Evolving comparators receive four candidate-evaluation slots per round; all token costs are reported. Transfer covers all 300 questions in the public RxQA OpenFDA release, retaining original options and answer labels without using them for evolution. The licensed BNF component is not publicly available and is not evaluated. An independent source/identity audit verifies complete public coverage and recounts the saved answers. These are public simulated/released questions; restricted patient inputs are never uploaded.
+\section{Diagnosing Language-Model Updates}
+\subsection{Empty selections and prefix mismatch}
+The local parameter experiment uses a four-bit Qwen3-4B backbone with rank-eight adapters, fixed retrieval candidates, and observed order templates. Four arms cross ordinary versus error-based sampling with ranked or permuted candidate presentations. Each update uses 400 samples and 100 steps. The registered schedule contains three seeds and three rounds; 9 updates are complete, so this remains a partial development study.
 
-\begin{table}[t]\centering\small
-\caption{Executed method comparison on the same 988 derived RxSafeBench questions with DeepSeek-V4.1-Flash. Rows with $\pm$ report three evolution orders; fixed outputs are reused across orders. Author-core and scoped-skill rows use seed 42. Calls are mean test-time model calls; development costs differ. This is a development comparison, not original benchmark score equivalence.}
-\begin{tabularx}{\columnwidth}{@{}Xrr@{}}\toprule Method & Accuracy (\%) & Calls\\\midrule
-direct & 46.15 $\pm$ 0.00 & 1 \\
-cot & 47.27 $\pm$ 0.00 & 1 \\
-self refine & 47.57 $\pm$ 0.00 & 2 \\
-case rag & 49.09 $\pm$ 0.00 & 1 \\
-reflexion adapt & 47.64 $\pm$ 0.64 & 1 \\
-grasp adapt & 48.01 $\pm$ 1.29 & 1 \\
-evotool adapt & 47.27 $\pm$ 0.00 & 1 \\
-rxrsi & 47.27 $\pm$ 0.00 & 1 \\
-Author GRASP core + task adapter & 50.81 & 1\\
-Scoped RxRSI skills & 47.27 & 1\\
-Fixed balanced evidence & 48.99 & 2 \\
-Fixed safety evidence & 49.29 & 2 \\
-Fixed indication evidence & 48.38 & 2 \\
-Router: separate guard & 48.68 $\pm$ 0.61 & 1.71 \\
-Router: pooled validation & 48.79 $\pm$ 0.54 & 1.49 \\
-Full-data outcome verifier & 47.87 & 2 \\
-Incremental verifier: uniform & 49.12 $\pm$ 0.23 & 2 \\
-Incremental verifier: priority & 49.02 $\pm$ 0.06 & 2 \\
-One-call fixed grounding & 50.51 & 1 \\
-Grounded skill evolution & 50.71 & 1 \\
-\bottomrule\end{tabularx}\end{table}\paragraph{Stronger implementation control.}
-The unmodified author GRASP core, pinned to commit \texttt{9d7d125a}, is also executed through our new option-selection task adapter. It retains the released failure classification, skill proposals, balanced probes, regression gate and skill injection. This is not an original MedAgentBench rerun. It scores 502/988 (50.81\%) versus CoT's 467/988 (47.27\%), repairing 102 cases and regressing 67. The descriptive paired scenario-cluster 95\% interval for the gain is [0.91, 6.07] percentage points. Its RxQA result is 189/300 versus CoT's 193/300. Our additional scope-conditioned skill variant accepts no update and remains at 467/988: candidate rules activate on only 0--3 proposal cases. The author core and scoped variant use different development-selection mechanisms; their proposal cap is 3,072 tokens and inference cap is 512. No unrestricted method superiority is inferred.\subsection{Grounded Tools and Evolving Routing}
-The next increment retrieves exact contiguous excerpts from company-submitted openFDA drug labels, retaining label IDs, sections and missingness. These records are not uniformly FDA-verified. A frozen snapshot matches 623/699 candidate names and covers 92.98\% of test options. Each evidence review receives the same initial CoT answer and at most two excerpts per option. The fixed balanced review, selected on proposal validation, scores 484/988; the fixed safety review scores 487/988. These require two model calls, versus one for CoT.
+Eight of the nine completed updates produce empty selections on all 100 proposal admissions in both presentation views and are rejected by the checkpoint-selection rule. Ranked ordinary training improves its first ranked-view checkpoint to drug/order F1 of 0.23301/0.14815, but scores only 0.10800/0.06960 after permutation; its second update collapses. Complete generated JSON therefore need not encode useful decisions. Appendix~\ref{app:parameters} retains every completed update.
 
-We learn action-benefit routing from complete counterfactual training outputs. A fixed 65,536-dimensional word/bigram hashing transform encodes the question, options and initial response. Ridge coefficients predict each review's correctness change relative to CoT. Four rounds expose 156/312/468/625 training cases. Three regularizers and three thresholds are selected on development labels. The original four-action experiment rejects all updates. A subsequent matched ablation uses the same three complete actions under two gates: 190-case proposal selection followed by 197-case regression checking, or pooled selection on all 387 development cases. Pooled selection has no independent regression check.
+A controlled one-round repair holds 400 training admissions and 100 steps fixed while crossing teacher versus all-zero answer prefixes with uniform versus class-balanced binary loss. Four fits complete. Class balancing reduces empty outputs under a fixed 0.5 threshold, but proposal calibration often selects nearly all twenty candidates. In particular, the zero-prefix balanced state selects 20.00/19.91 drugs on average across ranked/permuted views. Apparent nonempty output invariance in this regime does not demonstrate discrimination.
 
-Across three orders, separate-guard routing reaches 48.68$\pm$0.61\%; pooled routing reaches 48.79$\pm$0.54\%, against the selected fixed tool's 48.99\%. Mean runtime calls are 1.710 and 1.490, respectively. Coefficients, intercepts and thresholds change; LLM weights, retrieval code and labels stay fixed. Full version hashes and per-round repairs/regressions are released. An accepted pooled update for seed 2026 reduces test correctness from 480 to 476. Thus accepted updates need not generalize, and parameter changes alone do not establish recursive improvement. This offline trace replay makes no new requests, but generating counterfactual development traces has an explicit model-call cost. It is a development extension on an already observed test, not untouched confirmation.
+\subsection{Numerical precision versus decision binding}
+To separate ranking from selection count, every state selects exactly eight candidates, with label-independent drug-identity tie breaking. We then compare three readouts of the same frozen hidden states: the native quantized output projection, an FP32 two-token projection reconstructed from the same stored four-bit parameters, and that FP32 output re-rounded to BF16. FP32 versus re-rounded output isolates final-logit rounding within the dense path; native versus FP32 also changes projection arithmetic.
 
-\paragraph{Transport recovery and output validity.}
-Credit exhaustion interrupted indication review, Gemini development requests and two language-evolution orders. After account restoration, these runs resumed under their existing protocols; the invalid round-four selection was rolled back before resumption. All three language-evolution seeds are now complete, and indication review scores 478/988 (48.38\%). The client stops on account errors and the scorer rejects transport failures. Received malformed outputs still count as errors. Original invalidated summaries remain archived; they are not model scores.
-
-The completed Gemini-3.8-Flash development pilot illustrates a separate token-budget failure. With its default reasoning setting and 512-token completion cap, CoT scores 72/190 with 69 invalid outputs; safety evidence scores 62/190 with 85 invalid outputs. Most invalid generations reach the output cap. A declared development-only repair selects low reasoning and a 1,024-token cap from two settings on the first 30 proposal cases. On all 190 proposal cases, CoT reaches 100/190 with 16 invalid outputs and evidence reaches 94/190 with 13. The 30-case selection subset contains only contraindication questions, a limitation of this pilot. A separately declared 2,048-token follow-up further reaches 105/190 with two invalid CoT outputs and 100/190 with one invalid evidence output. The setting is selected on development only. These are budget-sensitive development measurements, not a cross-backbone test claim.\subsection{Outcome-Aware Verification}
-The pre-tool router cannot assess a revision it has not observed. A subsequent verifier consumes both the initial answer and the completed balanced evidence review, then chooses between them. Its features encode option mentions, nearby negative/positive terms and optionally separate fixed hashes of the question and both responses. Training targets the revision's correctness change. Uniform and error-prioritized updates use identical accumulated cases and 18 proposal candidates per round. Feedback weights are computed before updating and emphasize reachable selection errors; neither answer being correct provides no reachable repair. The same proposal/guard split controls promotion, and a full-data ordinary supervised verifier is included.
-
-Three-order final accuracy is 49.12$\pm$0.23\% for uniform updates and 49.02$\pm$0.06\% for error priorities, compared with 48.99\% for fixed review and 47.87\% for the full-data verifier. Only one update is accepted in each of two runs; four runs remain unchanged. Both responses are charged even when the initial answer is returned. These small exploratory changes do not surpass the author-core GRASP control or establish a feedback-prioritization advantage. Parameter, weight and transition journals are released; actual language-model weight updates are tested separately below.\subsection{Grounded Skill Composition}
-We combine the fixed balanced label tool with the unchanged GRASP optimizer, holding the actor prompt, backbone and one-call 512-token inference budget constant. The four-cell comparison is CoT (467/988), skills without labels (502), labels without skills (499), and learned skills with labels (501). The combined state repairs 83 cases and regresses 81 relative to fixed grounding: +0.20 percentage points, with a descriptive paired scenario interval [-2.43, 2.73]. The factorial interaction is -3.34 points, interval [-7.18, 0.30]. Thus separate component gains do not add reliably.
-
-On 300 RxQA transfer items, the same four states score 193, 189, 188 and 183. The first feedback batch accepts no skill; the following three add and then twice modify one indication/caution procedure. Actual text and hashes are released. The author core selects its final checkpoint on end-of-epoch validation, which rises from 49.1\% to 53.2\%; it does not apply our independent-guard mechanism at every batch. LLM weights and retrieval code remain fixed. On the fixed 988-case test, round 0--4 correctness is 499, 499, 475, 493 and 501; on RxQA it is 188, 188, 175, 175 and 183. The first accepted skill therefore regresses before later edits recover part of the loss. These are frozen-state trajectories, distinct from batch accuracies on different cases; they do not show monotonic self-improvement.\subsection{Frozen Skill Transfer to a Second Backbone}
-The two DeepSeek-learned skill states transfer unchanged to Gemini-3.8-Flash. All four methods use the same 988 questions, one call, low reasoning and a 2,048-token completion cap selected on development before testing. Skills, tool code and backbone weights remain fixed during evaluation. These are method comparisons within the second backbone; different completion caps prevent interpreting the two backbones as an equal-compute ranking.
-\begin{table}[t]\centering\small
-\caption{Frozen-artifact transfer: correct answers out of 988 and received invalid outputs.}
-\begin{tabular}{lrr}\toprule Method & Correct & Invalid\\\midrule
-CoT & 532 & 4 \\
-Frozen author-core skills & 527 & 5 \\
-Fixed grounded harness & 538 & 5 \\
-Frozen grounded skills & 510 & 24 \\
-\bottomrule\end{tabular}\end{table}
-All case-level decisions are independently recounted. Transport failures are resumed from cache and never scored as model errors. Paired source-scenario intervals, fixes, regressions and successful-response usage are released; retry charges without returned usage are not reconciled. Frozen grounded skills score 510/988 versus 538 for fixed grounding, a difference of -2.83 percentage points with descriptive interval [-4.85, -0.81]. Of 24 invalid skill outputs, 23 reach the length cap. Yet on the 961 cases with valid outputs in both arms, correctness still falls from 528 to 508. This post-hoc conditional diagnosis does not replace the full table or establish a truncation-only explanation. One source skill-learning path does not establish seed robustness.
-
-\section{Study D: Parameter Evolution}
-A local Qwen3-4B QLoRA study compares uniform supervised updates with feedback-prioritized updates, holding the initial-8k candidate tools fixed. Three disjoint feedback blocks contain 600 new training admissions each. Both arms make pre-update predictions, train on 400 sampled examples for 100 optimizer steps per round, and use the same 200-case guard. Feedback weights target reachable candidate-selection errors rather than blaming the language model for drugs missing from its fixed catalogue. A separate 500-admission test excludes all patients in the earlier v0.6/v0.7 tests.
-
-The Qwen chat template can emit an empty reasoning envelope before valid JSON. The parser removes only that empty envelope uniformly for all checkpoints, retains strict and normalized validity, and rebinds cached outputs to the current case. These repairs occurred on development data before test scoring; raw generations and learned weights are unchanged.
-
-\begin{table}[t]\centering\small
-\caption{Local parameter evolution on 500 new test admissions. Checkpoints are selected on the separate guard set.}
-\begin{tabular}{lrr}\toprule Method & Drug F1 & Order F1\\\midrule
-Frozen Qwen3-4B & 0.2340 & 0.1359 \\
-Uniform updates & 0.2869 & 0.1911 \\
-Error-prioritized updates & 0.2843 & 0.1914 \\
-All 20 candidate tools & 0.2839 & 0.1918 \\
-Guard-selected top-8 tool & 0.3117 & 0.2074 \\
-\bottomrule\end{tabular}\end{table}Both training arms improve over the frozen language model, but neither beats direct use of the same guard-selected top-8 tool. The paired patient-cluster 95\% drug-F1 intervals versus that tool are [-0.0367, -0.0132] for uniform updates and [-0.0400, -0.0149] for error priorities. Uniform updating is slightly stronger on drug F1; the priority-minus-uniform interval [-0.0067, 0.0013] does not establish a prioritization benefit.
-
-The test contains 6.784 gold drugs per admission and 3.802 reachable drugs in the fixed catalogue. Selected uniform and priority models emit 17.416 and 18.976 drugs on average, exposing severe over-selection. The uniform active state improves in round one, slightly regresses after the accepted round-two update, and retains round two thereafter. Priority retains round one; its last raw checkpoint degenerates on the guard, with 53\% empty outputs, and is rejected. This is a genuine learned-checkpoint failure after valid parsing. A subsequent exact 20-position inclusion-mask intervention was declared before these test results with the same patients and step budgets.\subsection{Explicit Inclusion and Exclusion}
-The binary intervention restarts both arms from the original model and supervises every candidate decision, using the same patients, 400 sampled examples and 100 optimizer steps per round. Target-token counts differ from positive-ID output. Both arms select round two before testing.
-\begin{table}[t]\centering\small
-\caption{Binary supervision on the same 500 admissions. One learning seed; descriptive paired comparisons.}
-\begin{tabular}{lrr}\toprule Method & Drug F1 & Order F1\\\midrule
-Frozen model, binary prompt & 0.1741 & 0.1014 \\
-Uniform binary updates & 0.2409 & 0.1507 \\
-Priority binary updates & 0.2919 & 0.1933 \\
-Direct top-8 tool & 0.3117 & 0.2074 \\
-\bottomrule\end{tabular}\end{table}
-Priority-minus-uniform drug/order differences are 0.05098/0.04257, with patient-cluster 95\% intervals [0.03495, 0.06641]/[0.02972, 0.05428]. Priority still trails the top-8 tool by 0.01977/0.01410, with both intervals negative. This single-seed benefit over ordinary updates does not establish general superiority.
-
-Raw-checkpoint diagnostics reveal failure beneath the accepted curve. The first priority checkpoint emits only all-zero or all-one masks; the second has 16 distinct masks, with 99\% selecting a prefix of the ranked catalogue, versus 34\% of GT masks. The third emits all zeros on guard and test and is rejected. Valid parsed zeros are learned outputs, not API failures. Thus checkpoint protection should not be confused with monotonic model improvement or learned clinical reasoning.
-
-Actual adapter hashes, six 100-step logs, serialized targets, sampling from recorded weights and all test predictions are independently checked. Ten of 3,600 pre-update feedback values cannot be exactly recovered from the shared input cache because duplicate-input generations could overwrite earlier responses. Recorded weights and sampled memberships remain available; missing individual generations are not reconstructed or invented. This training-trace limitation does not change saved-prediction scores, but motivates immutable case-bound feedback receipts in subsequent runs.\paragraph{Registered position-sensitivity diagnostic.}
-A subsequent development-only experiment freezes the base model and both selected round-two adapters on the existing 200-case guard (197 patients). Four conditions compare original prompts, explicit original retrieval ranks, deterministic permutations retaining those ranks, and reversed display order retaining ranks. Candidate fields and patient context remain identical; local IDs and masks are remapped consistently. The added-rank prompt effect is separated from reordering, so ranking information is not silently removed. Fresh deduplicated inference saves immutable case-bound receipts. This post-test-motivated diagnostic is complete, with no checkpoint/prompt promotion or held-out improvement claim.\begin{table*}[t]\centering\small
-\caption{Frozen-model candidate-position diagnostic on the existing 200-case guard. Explicit-rank conditions preserve the same candidate content and original retrieval rank. These are development scores, not a new test comparison.}
-\begin{tabular}{llrr}\toprule Frozen state & Display condition & Drug F1 & Order F1\\\midrule
-base & original & 0.1921 & 0.1209 \\
-base & ranked explicit & 0.2148 & 0.1384 \\
-base & permuted rank explicit & 0.1942 & 0.1260 \\
-base & reversed rank explicit & 0.1040 & 0.0692 \\
-uniform sft round2 & original & 0.2756 & 0.1921 \\
-uniform sft round2 & ranked explicit & 0.2213 & 0.1435 \\
-uniform sft round2 & permuted rank explicit & 0.1049 & 0.0738 \\
-uniform sft round2 & reversed rank explicit & 0.0330 & 0.0212 \\
-error prioritized sft round2 & original & 0.3204 & 0.2218 \\
-error prioritized sft round2 & ranked explicit & 0.2747 & 0.1921 \\
-error prioritized sft round2 & permuted rank explicit & 0.1744 & 0.1265 \\
-error prioritized sft round2 & reversed rank explicit & 0.2198 & 0.1515 \\
-\bottomrule\end{tabular}\end{table*}
-All saved outputs, remapped candidates and immutable case receipts pass independent recounting. Explicit-rank permutation reduces priority drug F1 from 0.27471 to 0.17441, a difference of $-0.10030$ with patient-cluster interval $[-0.13508,-0.06646]$. Both adapters select display prefixes in 100\% of nontrivial permuted masks, versus 1.5\% for the base model; all 2,400 outputs parse successfully. Reordering sensitivity with rank information retained is evidence of a representation weakness; it does not alone establish the cause of training collapse or clinical reasoning. No prompt winner is promoted from these results.\paragraph{Registered position-randomized parameter intervention.}
-A subsequent local study compares ranked uniform, permuted uniform, permuted own-error and permuted shuffled-error QLoRA updates across three seeds and three case-growth rounds. Original retrieval ranks, candidate identities and order fields remain visible. Each round scores a fresh 600-admission feedback block before sampling 400 accumulated admissions for 100 steps (batch four); earlier priorities retain their original pre-update errors. All arms share a completion-only loss correction excluding a trailing padded target, verified before generation and fitting. This correction does not establish the cause of earlier collapse. Candidate tools and order templates remain fixed.
-
-The 100-case proposal score averages ranked and permuted views and may retain the base model. Training continues from each latest raw adapter. All per-seed selections freeze before evaluating every raw state on the reused 200-case guard under ranked, permuted and reversed views. The 500 previous test admissions are excluded. An executed data audit checks 33,300 transformed views, zero patient-role overlap and no target truncation (maximum 1,005 of 1,536 tokens). This is exploratory development work on the legacy admission-proxy task, with incomplete entry-time provenance; it does not generate novel doses.
-The independently recounted frozen-base drug/order F1 on proposal is 0.16846/0.10223 for ranked views and 0.14129/0.09434 for permuted views. These are selection-set reference scores, not evidence of an intervention gain. The completed first ranked-uniform update scores 0.23301/0.14815 under ranked presentation and 0.10800/0.06960 after candidate permutation, with 0.0\%/4.0\% empty outputs. This single-round control shows that lower training loss and an improved ranked-view score can coexist with worse permuted-view performance; it does not establish position-robust learning. In seed42, 4 completed raw checkpoint(s)---permuted uniform (round 1), permuted uniform (round 2), permuted own error (round 1), permuted shuffled error (round 1)---return empty prescriptions on all 100 proposal admissions in each view. Their drug/order micro-F1 is zero, and the predefined promotion rule retains a prior state. These failures remain reported; decreasing training loss is not evidence of effective prescription learning. All these empty responses pass the registered parser; the zero scores reflect the decoded decisions. Prioritizing the model's own error cases has not prevented collapse in this completed update; a decision-supervision repair is evaluated separately below. The completed first-round controls therefore observe collapse under all three sampling policies with permuted training. This is not confined to own-error sampling in this seed and round; it neither identifies a general cause nor establishes that the separate repair succeeds. At this snapshot, 5/36 optimizer runs have completion receipts and 0/3 seeds have complete independent audits. Running jobs do not establish superiority.\paragraph{Frozen-checkpoint collapse diagnosis.}
-The 400 actual training masks contain 1,604 positive decisions among 8,000 slots; 122 masks have no reachable target. Each 69-token answer contains only 20 decision tokens. An additional registered diagnostic fixes the first 32 training examples and first 32 proposal cases in two views. It measures conditional binary-token probabilities under either oracle ground-truth answer prefixes or label-free all-zero prefixes. Oracle-prefix discrimination is not deployable accuracy. A separate implementation reconstructs targets and recounts all 384 saved probability vectors; it does not rerun neural forward passes.
-\begin{table}[t]\centering\scriptsize
-\caption{Post-observation probability diagnosis on 32 proposal cases. GT/zero denote previous answer prefixes; probabilities condition on token0 or1. This is exploratory development evidence without threshold selection.}
-\begin{tabular}{llrrrr}\toprule State & View & GT AUC & Zero AUC & Positive $P(1)$ & $P(1)\geq.5$ (\%)\\\midrule
-Base & Ranked & 0.7154 & 0.6724 & 0.1832 & 10.2 \\
-Base & Permuted & 0.6844 & 0.5555 & 0.1614 & 9.8 \\
-Updated & Ranked & 0.7424 & 0.6855 & 0.1096 & 0.0 \\
-Updated & Permuted & 0.7385 & 0.5503 & 0.0832 & 0.0 \\
-\bottomrule\end{tabular}\end{table}
-All 200 saved generated proposal responses are valid all-zero masks after removal of an empty reasoning wrapper. Thus the zero score is a decision failure rather than a JSON parser failure. Prefix-dependent discrimination and low probabilities motivate a controlled change to decision supervision and inference; this diagnosis alone does not isolate a training cause or establish a repaired agent.\paragraph{Controlled decision-supervision repair.}
-A registered one-seed pilot crosses ground-truth versus all-zero training answer prefixes with uniform versus training-prevalence-balanced binary decision loss. All four arms restart the same backbone on the exact 400 examples for 100 steps; only the 20 decision positions contribute to loss. All use label-free zero-prefix scoring at inference, with fixed-threshold and ordinary proposal-calibrated results to be reported separately. Pre-fit probes verify target alignment, label blindness, finite gradients and projection equivalence with the original vocabulary head. Candidate fields and templates remain fixed. This supervised repair does not by itself establish feedback-specific RSI. All pilot states and thresholds, and the original seed42 choices, must freeze before report-only guard evaluation. At this snapshot, 4/4 fits have completion receipts. All four arms pass the source-target and training-receipt audit: 8,000 reconstructed decisions per arm, 100-step logs, 3,670,016 finite adapter parameters and a nonzero LoRA update. Training and proposal patients do not overlap. The optimizer trajectories were not independently replayed. The scoring implementation separates fixed $0.5$ decisions from a shared proposal-selected threshold on a $0.01$--$0.99$ grid for every neural state. A synthetic end-to-end preflight independently recounts 120 case/probability bindings, threshold ties, unreachable targets, patient-cluster intervals and resumed outputs. These checks are implementation evidence, not clinical performance. All-empty agreement is accompanied by nonempty-union counts to avoid interpreting collapse as position invariance.\begin{table*}[t]\centering\scriptsize
-\caption{Fixed-threshold controlled repair on 100 proposal admissions (97 patients). Every registered state is retained. These are one-seed development results; the proposal set selects thresholds. Core-order F1 matches drug, route, dose value and unit using supplied templates.}
-\begin{tabular}{@{}l r rrr rrr @{}}\toprule Method & $\tau$ & \multicolumn{3}{c}{Ranked} & \multicolumn{3}{c}{Permuted}\\
- & & Drug F1 & Order F1 & Empty (\%) & Drug F1 & Order F1 & Empty (\%)\\\midrule
-Frozen base & 0.50 & 0.1417 & 0.0890 & 1.0 & 0.1176 & 0.0682 & 4.0\\
-Original failed adapter & 0.50 & 0.0000 & 0.0000 & 100.0 & 0.0000 & 0.0000 & 100.0\\
-Teacher / uniform & 0.50 & 0.0000 & 0.0000 & 100.0 & 0.0000 & 0.0000 & 100.0\\
-Zero / uniform & 0.50 & 0.0000 & 0.0000 & 100.0 & 0.0000 & 0.0000 & 100.0\\
-Teacher / balanced & 0.50 & 0.1563 & 0.0938 & 3.0 & 0.1298 & 0.0741 & 5.0\\
-Zero / balanced & 0.50 & 0.2196 & 0.1433 & 0.0 & 0.1915 & 0.1354 & 0.0\\
-Retrieval top-8 & -- & 0.2871 & 0.2018 & 0.0 & 0.2871 & 0.2018 & 0.0\\
-All 20 candidates & -- & 0.2631 & 0.1843 & 0.0 & 0.2631 & 0.1843 & 0.0\\
-\bottomrule\end{tabular}\end{table*}
-\begin{table*}[t]\centering\scriptsize
-\caption{Proposal-calibrated controlled repair on 100 proposal admissions (97 patients). Every registered state is retained. These are one-seed development results; the proposal set selects thresholds. Core-order F1 matches drug, route, dose value and unit using supplied templates.}
-\begin{tabular}{@{}l r rrr rrr @{}}\toprule Method & $\tau$ & \multicolumn{3}{c}{Ranked} & \multicolumn{3}{c}{Permuted}\\
- & & Drug F1 & Order F1 & Empty (\%) & Drug F1 & Order F1 & Empty (\%)\\\midrule
-Frozen base & 0.01 & 0.2344 & 0.1585 & 0.0 & 0.1766 & 0.1068 & 0.0\\
-Original failed adapter & 0.01 & 0.2788 & 0.1935 & 0.0 & 0.2496 & 0.1735 & 0.0\\
-Teacher / uniform & 0.01 & 0.2650 & 0.1854 & 0.0 & 0.2610 & 0.1833 & 0.0\\
-Zero / uniform & 0.21 & 0.2648 & 0.1851 & 0.0 & 0.2638 & 0.1833 & 0.0\\
-Teacher / balanced & 0.04 & 0.2699 & 0.1883 & 0.0 & 0.2598 & 0.1815 & 0.0\\
-Zero / balanced & 0.40 & 0.2631 & 0.1843 & 0.0 & 0.2640 & 0.1849 & 0.0\\
-Retrieval top-8 & -- & 0.2871 & 0.2018 & 0.0 & 0.2871 & 0.2018 & 0.0\\
-All 20 candidates & -- & 0.2631 & 0.1843 & 0.0 & 0.2631 & 0.1843 & 0.0\\
-\bottomrule\end{tabular}\end{table*}
- The accompanying release retains both proposal and guard panels when complete, all factorial contrasts, calibration-only effects, and 4,000-resample paired patient intervals without multiplicity correction. Guard outcomes do not select an arm. The independent audit reconstructs targets and scores from saved probabilities; it does not replay neural forward passes or optimizer trajectories. One-seed supervised repair remains distinct from multi-round feedback-specific RSI. Every new repair has lower drug and core-order F1 point estimates than direct top-8 retrieval in every reported view under both endpoints; reduced empty outputs alone do not establish successful repair. After calibration, zero-prefix/balanced loss nearly reproduces the all-20 control (ranked: 20.00 of 20 candidates, precision 0.17700; permuted: 19.91 of 20 candidates, precision 0.17780). High nonempty position agreement can reflect nearly universal selection rather than useful discrimination; both all-empty and all-positive policies can appear invariant. 3/6 neural calibration choices reach the declared grid boundary. These results do not establish a globally optimal threshold or exhaustive ordinary calibration; the original grid remains unchanged.\paragraph{Fixed-cardinality ranking diagnosis.}
-After observing the proposal repair outcomes, we specified and committed an additional diagnostic before computing its endpoints. Every frozen state selects exactly eight candidates by its stored probabilities, using a drug-identity hash to break exact ties; lexical drug-name order provides a declared sensitivity analysis. No new inference, training, checkpoint or threshold selection is added. This post-proposal development analysis does not replace the original endpoints or provide independent confirmation. Fixed cardinality isolates ranking behavior; it is not a clinical prescription-count rule.\begin{table*}[t]\centering\small
-\caption{Fixed-eight diagnosis on 100 proposal admissions (97 patients). Cells show drug/core-order micro-F1 with identity-hash tie-breaking. All neural states and retrieval have the same medication count. The release retains both tie rules, all paired intervals and rank statistics.}
-\begin{tabular}{lrr}\toprule Method & Ranked & Permuted\\\midrule
-Frozen base & 0.2710/0.1811 & 0.2146/0.1449\\
-Original failed adapter & 0.2857/0.1940 & 0.2093/0.1410\\
-Teacher / uniform & 0.2871/0.1940 & 0.2039/0.1371\\
-Zero / uniform & 0.2388/0.1617 & 0.2388/0.1604\\
-Teacher / balanced & 0.2844/0.1940 & 0.2052/0.1384\\
-Zero / balanced & 0.2240/0.1488 & 0.2025/0.1462\\
-Retrieval top-8 & 0.2871/0.2018 & 0.2871/0.2018\\
-\bottomrule\end{tabular}\end{table*}
- No neural state exceeds retrieval in either F1 under either tie rule in any reported view. For teacher-prefix/uniform loss, same-display-slot Spearman correlation is 0.8169, whereas drug-identity-aligned correlation is 0.1979. These within-case averages are consistent with positional dependence but do not establish its causal origin. Zero-prefix/uniform scores have exact ties across the eighth/ninth cutoff in 93/100 ranked and 89/100 permuted cases. Tie sensitivity warrants a separate numerical-readout check before attributing the failure to learned representations. Independent recount covers 1200 probability bindings and 2800 case selections, including within-case AUROC and 4,000-draw paired patient intervals; neural forward passes are not replayed.\paragraph{Frozen-readout precision control.}
-The cutoff-tie diagnosis motivates an additional post-proposal implementation experiment. Three readouts share the same frozen backbone hidden states: the original quantized vocabulary projection, a float32 dense projection using the same stored four-bit parameters for the two output-token rows, and that dense projection re-rounded to bfloat16 before softmax. The latter pair isolates final-logit rounding within the dense path. Native versus dense projection also changes arithmetic, so its entire difference cannot be attributed to rounding. The backbone, adapters, memory, tools and candidate templates remain fixed; any benefit is an implementation effect rather than learned RSI. A real-model preflight uses two nonclinical synthetic inputs for each of six frozen states. The zero-prefix states yield 3--4 distinct native scores among 20 candidates, versus 20 under float32 projection; re-rounding reduces their distinct scores again. Direct safetensors-byte extraction and independent NumPy reconstruction verify the two output rows, float64 dot products and nearest-even rounding. Maximum logit/probability residuals are 8.94e-06/2.71e-06. These twelve synthetic backbone forwards establish numerical behavior, not prescription performance. The source-bound clinical evaluator and independent auditor are implemented, and the complete proposal comparison has been launched. No independently audited clinical precision score is available at this snapshot.
-
-\section{Study E: Executed FHIR Tools}
-We extract the unchanged application and public database from the digest-pinned official MedAgentBench image and run its HAPI FHIR 7.6.0 service on a native Java runtime. Five executed probes cover creation, readback, versioned updates, atomic rejection and cleanup. Original counts are restored: 695 patients, 21,991 medication requests and 563,426 observations. Runtime equivalence beyond these checks is not assumed.
-
-The released benchmark wrapper records accepted POST actions without performing the HTTP write; its reference grader checks trajectories. Our development adapter performs actual writes for both methods, reports the reference trajectory criterion separately from persisted-state checks, and removes only resources it creates. A 16-case pilot uses the first two cases from each of eight development task types, DeepSeek-V4.1-Flash and at most eight 512-token action calls. Direct tool use succeeds on 10/16; a fixed workflow/preflight/readback harness succeeds on 8/16. All 11 created resources pass readback checks and are cleaned up. Invalid-action counts are one and three, respectively. These small development results expose protocol and retrieval failures; they are neither full benchmark scores nor evidence of self-improvement. No restricted MIMIC records enter this service.
-
-A further synthetic medication-order probe finds that the server accepts a literal route string with HTTP 201 but fails to preserve the dosage fields. A lossless conversion to FHIR R4 CodeableConcept text preserves the route on readback \citep{fhirr4}. Duration-like units in legacy rate fields are retained and flagged, without claiming clinically valid rate semantics. This motivates checking stored fields in addition to API status. The completed ID and held-out-task-type comparison is reported below. Released task splits overlap in patients (22 explicit development/ID-test patients and 33 development/held-out-type patients); this study does not claim patient-disjoint transfer.
-
-\paragraph{Development-discovered grading revision.}
-Thirteen development episodes preserve their final active writes but fail the legacy reference because a valid singleton ServiceRequest note array is treated as an object \citep{fhirnote}. We stop and archive the affected learning run before final selection or any ID/OOD test. A declared lossless reference view maps singleton note arrays to legacy objects and text-only route objects to legacy strings for grading only. All text and other values remain unchanged; multi-note arrays and coded route objects are not collapsed. Every arm uses the same view and canonical-intent readback comparison, so harmless server normalization is not scored as a direct-tool error. Original raw reference scores remain separate: this is an adapted execution endpoint, not an unmodified official benchmark score.
-
-Regrading all thirteen existing receipts accepts correct final writes while rejecting wrong-note and active-field-loss controls; eight execution/compatibility contracts pass. Prior failed readbacks were rolled back, and those changed interaction trajectories are not reused. Language-skill learning restarts with empty skills; only identical physical episodes with unchanged submissions/feedback and successful readback/cleanup are eligible for reuse. Compiler and evaluator repairs are fixed engineering changes, not agent evolution gains.
-
-\subsection{Completed Real-Tool Skill Comparison}
-The revised study completes 96 training tasks, 80 validation tasks, 64 ID-test tasks and 60 held-out-task-type tasks. The unchanged GRASP core proposes persistent language-skill edits, while the backbone, compiler and evaluator remain fixed. Two retained skills concern patient-name URL encoding and a lab-code/text fallback query. Their text is model-authored, not an independently validated clinical rule. End-of-epoch validation selects the frozen skill state before testing; validation rises from 56.25\% to 66.25\%.
 \begin{table*}[t]\centering\small
-\caption{Executed FHIR task comparison, one learning seed. State success uses the declared reference-shape projection plus persisted-field verification. Original trace success remains separate. Counts are logical model calls; exact cached episodes retain their original physical receipts.}
-\begin{tabular}{llrrr}\toprule Method & Split & State success & Raw trace success & Calls\\\midrule
-direct tools & id test & 39/64 & 39/64 & 133 \\
-direct tools & test & 27/60 & 27/60 & 120 \\
-fixed compiled & id test & 38/64 & 38/64 & 174 \\
-fixed compiled & test & 17/60 & 17/60 & 139 \\
-evolving compiled & id test & 45/64 & 45/64 & 207 \\
-evolving compiled & test & 10/60 & 10/60 & 124 \\
-\bottomrule\end{tabular}\end{table*}
-Independent regrading recounts each creation, readback, rollback and cleanup; resource counts return to their original values. Skills-minus-fixed ID success improves by 10.94 percentage points, but the paired patient-cluster interval $[0,20.55]$ includes zero. Held-out-type success falls by 11.67 points against fixed ($[-22.95,-1.64]$) and 28.33 against direct tools ($[-40.68,-16.67]$). On held-out task7, learned skills score 0/30, versus 5/30 fixed and 14/30 direct. No held-out-type arm writes a resource; the fixed system also adds workflow instructions, preventing attribution of this decline to serialization alone. This is not evidence of overall successful evolution. Intervals use 4,000 descriptive patient-cluster resamples; one learning seed and patient overlap limit claims.
+\setlength{\tabcolsep}{4pt}
+\caption{Fixed-eight numerical diagnosis on 100 proposal admissions/97 patients. Drug/core-order F1 is shown under the primary drug-identity-hash tie rule. All readouts share frozen hidden states. This one-seed post-proposal analysis makes no new selection.}
+\label{tab:precision}
+\begin{tabular}{@{}lrrrr@{}}\toprule
+& \multicolumn{2}{c}{Ranked candidates} & \multicolumn{2}{c}{Permuted candidates}\\\cmidrule(lr){2-3}\cmidrule(lr){4-5} State & Native & FP32 & Native & FP32\\\midrule
+Frozen base & 0.2710/0.1811 & 0.2696/0.1798 & 0.2146/0.1449 & 0.2146/0.1449\\
+Original failed adapter & 0.2857/0.1940 & 0.2857/0.1940 & 0.2093/0.1410 & 0.2093/0.1410\\
+Teacher / uniform & 0.2871/0.1940 & 0.2884/0.1953 & 0.2039/0.1371 & 0.2039/0.1358\\
+Zero / uniform & 0.2388/0.1617 & 0.2401/0.1565 & 0.2388/0.1604 & 0.2066/0.1281\\
+Teacher / balanced & 0.2844/0.1940 & 0.2857/0.1940 & 0.2052/0.1384 & 0.2025/0.1358\\
+Zero / balanced & 0.2240/0.1488 & 0.2240/0.1501 & 0.2025/0.1462 & 0.1878/0.1281\\
+Retrieval top-eight & 0.2871/0.2018 & 0.2871/0.2018 & 0.2871/0.2018 & 0.2871/0.2018\\
+\bottomrule\end{tabular}
 
-A subsequent read-only claim audit finds that the name skill's alleged space-encoding failure is contradicted by the existing HTTP adapter: raw/encoded inputs produce identical URLs and results. The generated example observations are not execution receipts. Global code/text lab-query counts differ for A1C but do not validate patient-specific utility; route serialization does not imply observation-code structure. Exact skill bytes and hashes are released as unvalidated experimental artifacts. Registered frozen single-skill removals test contribution and interaction without rewriting the evaluated skills.
-\paragraph{Answer-contract diagnosis.}
-All 30 learned-skill task7 answers contain a number and timestamp, whereas the original reference requires a single numeric element. Complete-record read-only rechecking finds 15 correct first values rejected solely for the extra timestamp and 15 wrong first values. Name-only answers are prose strings in all 30 cases. Thus zero strict successes does not imply 30 wrong glucose values. Field projection is a post-test diagnostic, not a replacement score or executed repaired-agent result; syntax-only JSON validation is insufficient.\begin{table}[t]\centering\small
-\caption{Frozen-skill attribution with identical execution budgets. Registered after direct/fixed outcomes, before ablation execution; exploratory.}
-\begin{tabular}{lrr}\toprule Skills & ID & Held-out type\\\midrule
-name only & 44/64 & 14/60 \\
-lab only & 39/64 & 11/60 \\
-neither & 38/64 & 17/60 \\
-both & 45/64 & 10/60 \\
-\bottomrule\end{tabular}\end{table}
-The factorial interaction is 0.00 ID points ($[-10.35,10.77]$) and $+3.33$ transfer points ($[-8.62,15.25]$). Individual removal intervals also include zero; robust skill synergy is not established.
-\paragraph{Executed answer and evidence-tool repair.}
-A registered $2\times2\times2$ fixed factorial separates an instruction-derived answer contract (C), source-bound Observation statistics (S), and the frozen two-skill state (K). Invalid answer shapes trigger another model decision inside the same eight-call budget; no favorable field is extracted after grading. The statistics tool follows actual FHIR pages, groups by exact code and unit, and reports latest/24-hour values with source IDs, completeness and omission flags. Additional HTTP calls and token costs are counted. The compiler and original reference logic remain fixed.
-\begin{table}[t]\centering\small
-\caption{Independently audited repair cells. C/S/K denote contract/statistics/frozen skills. Dashes mean pending, not zero. One fixed run per condition; these are reused exploratory splits.}
-\begin{tabular}{rrrrrr}\toprule C & S & K & Val./80 & ID/64 & Type/60\\\midrule
-0 & 0 & 0 & 45 & 38 & 18 \\
-0 & 0 & 1 & 53 & 45 & 10 \\
-0 & 1 & 0 & 49 & 36 & 43 \\
-0 & 1 & 1 & 59 & 46 & 50 \\
-1 & 0 & 0 & 52 & 46 & 29 \\
-1 & 0 & 1 & 54 & 49 & 25 \\
-1 & 1 & 0 & 57 & 47 & 45 \\
-1 & 1 & 1 & 66 & 54 & -- \\
-\bottomrule\end{tabular}\end{table}
-These manually implemented execution repairs are not autonomous tool-code evolution. All eight conditions stay fixed; observed validation or repeated-test outcomes do not select a winner. Raw-page arithmetic, persisted fields and reference scores are independently reconstructed. Earlier skill failures remain in the original table. New independent confirmation and subsequent evidence-validated learning are still required.
+\end{table*}
 
-\section{Limitations}
-The legacy structured-order experiment uses admission-proxy inputs. Triage has no verified entry timestamp and medication reconciliation lacks storetime; temporal availability is therefore not fully established. A full target-row audit links 1,788,195 records to provider and pharmacy clocks: 42,005 matching provider orders precede admission, 1,425,392 fall within the intended next-six-hour horizon, and 276,269 occur later. There are 438 provider-link admission conflicts, which remain untrusted. Pharmacy entry falls within the horizon for 1,777,546 rows. The two source linkage paths agree on all 1,757,038 rows where both IDs exist and reproduce identical temporal counts. These clocks still differ; the retrospective start-window results are not prospective new-order evidence. The rebuilt recorded-availability cohort addresses these clocks but conditions on coherent, nonempty future orders and lacks complete field-version histories. Candidate vocabularies and one-template-per-drug output limit recall. Recorded prescriptions may omit clinically acceptable alternatives, and agreement does not prove indication or safety. Current language-artifact baselines are task adaptations, not official reruns. Repeated development selection can overfit; independent tests, multiple evolution orders, transfer and matched optimization budgets are necessary before claiming general RSI benefits. External RxEval and SafeRx data access remains unresolved.
+The full 1,200-case-forward comparison is independently checked against saved hidden states, directly extracted output rows, all selections, and paired metrics. Native replay exactly matches the parent probabilities. FP32 removes every selection-boundary tie, but exact top-eight set agreement after candidate permutation remains 0\% for all six neural states. Display-slot rank correlation remains larger than drug-identity-aligned correlation.
+
+Teacher-prefix/uniform loss has the only FP32 ranked drug-F1 point estimate above retrieval: 0.28840 versus 0.28706. The paired difference is $+0.00134$ with interval $[-0.01058,0.01313]$, and joint-order F1 remains lower, 0.19534 versus 0.20181. Every permuted configuration is below retrieval in both endpoints. For zero-prefix/uniform loss, FP32 actually reduces permuted drug F1 from 0.23877 to 0.20657. Thus eliminating numerical ties does not repair the decision representation. This post-proposal diagnostic neither selects a new model nor constitutes learned RSI.
+
+\section{Discussion}
+Three distinctions explain the results. First, \emph{artifact change} is necessary for a claim about learning, but a new hash or a larger memory is not evidence of benefit. Second, \emph{component utility} can be positive while the complete system loses to a simpler method: the order-tool intervention is such a case. Third, \emph{feedback-specific improvement} requires comparison with ordinary learning and aligned-versus-shuffled feedback. Our current evidence does not support that stronger claim.
+
+These distinctions also guide interpretation of supplementary language-skill experiments. A skill can improve in-domain task completion while harming transfer, and engineering repairs can improve an answer contract without changing what the model learned. The next architectural hypothesis suggested by the local failure analysis is explicit binding of each medication to its decision. It remains untested here. We do not attribute future improvements to a mechanism before running its matched controls.
 
 \section{Conclusion}
-An auditable improving agent must show both changing artifacts and beneficial effects. Our completed rounds show data-growth gains and a useful conditional order tool, alongside weak memory gains and a stronger static control. We continue beyond that negative result by isolating language-artifact and parameter evolution. No claim that RxRSIAgent is the best existing method is made without corresponding benchmark evidence.
+RxRSIAgent makes prescription-agent updates explicit and evaluates their consequences under task-specific protocols. Completed experiments show useful order-tool learning, small non-unique rule-memory gains, and failure modes in parameter and language-skill updates. Increasing experience improves several trajectories, yet error-driven updates do not consistently outperform ordinary learning. A defensible account of prescription-agent evolution therefore requires common-data comparators, frozen-state trajectories, component interventions, and retained regressions. The current results support these evaluation practices and the order-tool contribution, while leaving overall superiority and feedback-specific RSI unproven.
 
-\section*{Ethics and Data Access}
-All restricted MIMIC records, predictions and checkpoints remain on the authorized local machine. Public releases contain code, configurations and aggregate measurements. Existing GT supports automated evaluation without mandatory new clinical annotation. The system is evaluated for research and is not deployed to prescribe for patients.
+\section*{Limitations}
+\paragraph{Exploratory and incomplete evidence.}
+The MIMIC main table is development evidence, with historical cohort exposure; its reserved test is not reported. Molecular ARMR has only one completed seed, and the parameter study is incomplete. The later program, numerical, and public-benchmark interventions were motivated by earlier observations and are explicitly exploratory. Reusing development or previously inspected benchmark cases can overfit researcher choices. The eICU hospital test supplies a stronger transport setting, but the denominator sensitivity analysis was specified after its primary results.
 
-\begin{thebibliography}{9}
-\bibitem[Shang et al.(2019)]{gamenet} Shang et al. 2019. GAMENet. \url{https://arxiv.org/abs/1809.01852}.
-\bibitem[Yang et al.(2021)]{safedrug} Yang et al. 2021. SafeDrug. \url{https://arxiv.org/abs/2105.02711}.
-\bibitem[Wu et al.(2025)]{armr2025} Feiyue Wu, Tianxing Wu, and Shenqi Jing. 2025. ARMR: Adaptively Responsive Network for Medication Recommendation. IJCAI. \url{https://www.ijcai.org/proceedings/2025/871}.
-\bibitem[Wang et al.(2026)]{hadrec} Junke Wang et al. 2026. HADRec: A Hierarchy-Aware Drug Recommendation Framework by Fusing Molecular Knowledge and Electronic Health Record. Preprint. \url{https://arxiv.org/abs/2610.00984}.
-\bibitem[Belkadi et al.(2025)]{lt3} Samuel Belkadi et al. 2025. LT3: Generating Medication Prescriptions with Conditional Transformer. CL4Health. \url{https://aclanthology.org/2025.cl4health-1.17/}.
-\bibitem[WHO Collaborating Centre(2022)]{atcstructure} WHO Collaborating Centre for Drug Statistics Methodology. 2022. ATC Structure and Principles. \url{https://atcddd.fhi.no/atc/structure_and_principles/}.
-\bibitem[Wang et al.(2026)]{saferx} Wang et al. 2026. SafeRx-Agent. \url{https://arxiv.org/abs/2605.29146}.
-\bibitem[Chen et al.(2026)]{rxeval} Chen et al. 2026. RxEval. \url{https://arxiv.org/abs/2605.14543}.
-\bibitem[Moll et al.(2026)]{grasp} Moll et al. 2026. GRASP: Gated Regression-Aware Skill Proposer for Self-Improving LLM Agents. \url{https://arxiv.org/abs/2605.29668}.
-\bibitem[Yang et al.(2026)]{evotool} Yang et al. 2026. EvoTool: Self-Evolving Tool-Use Policy Optimization in LLM Agents via Blame-Aware Mutation and Diversity-Aware Selection. ACL. \url{https://syang2000.github.io/ACL_2026_EvoTool/}.
-\bibitem[Lin et al.(2026)]{evopath} Lin et al. 2026. Beyond Endpoint Performance: Process-Level Evaluation of Self-Evolving Agents. \url{https://arxiv.org/abs/2609.24663}.
-\bibitem[HL7 International(2019)]{fhirr4} HL7 International. 2019. FHIR R4: Dosage Detailed Descriptions. \url{https://hl7.org/fhir/R4/dosage-definitions.html}.
-\bibitem[HL7 International(2019)]{fhirnote} HL7 International. 2019. FHIR R4: ServiceRequest Detailed Descriptions. \url{https://hl7.org/fhir/R4/servicerequest-definitions.html}.
-\bibitem[Pollard et al.(2018)]{eicu} Pollard et al. 2018. The eICU Collaborative Research Database, a freely available multi-center database for critical care research. Scientific Data. \url{https://doi.org/10.1038/sdata.2018.178}.
+\paragraph{Targets and availability.}
+Mapped medication labels cover a limited fraction of source prescriptions. Molecular filtering changes the target space. The MIMIC visit task uses completed-visit information; the local LLM task is an admission proxy. Even the eICU six-hour task lacks complete storage-time histories. Neither observed-order agreement nor a low known-graph interaction rate establishes safe prescribing. Recorded prescriptions are imperfect behavioral labels; alternative appropriate orders, contraindications, renal adjustment, clinical indications, and patient outcomes are not comprehensively assessed. No clinician-rated outcomes are reported.
+
+\paragraph{Scope of improvement.}
+The eICU updater is supervised and uses no language model. The rule agent chooses typed corrections; it does not autonomously rewrite its optimizer. The LLM selects existing templates rather than generating clinically validated doses. Separate adapters and medication spaces cannot be pooled into a universal agent score. Budget matching applies to specified causal contrasts, not to every baseline family. Three seeds and descriptive resampling intervals do not resolve all statistical uncertainty.
+
+\section*{Ethics and Reproducibility}
+This work evaluates research systems offline. Ground-truth agreement can be measured automatically without requiring clinicians to label each prediction; establishing clinical appropriateness is a separate question. The system has not been validated for patient care. Restricted patient data, predictions, fitted models, and hidden states remain in the licensed local environment. Public API experiments use released benchmark content or aggregate rule descriptors, not restricted patient records. Simulated FHIR actions are read back and cleaned up. No real clinical order is transmitted.
+
+Protocols, preprocessing code, aggregate outcomes, update receipts, and audit programs are retained. Case identifiers and protected artifacts are excluded from the public release. Audits state what they reconstruct; saved-prediction recounts are not described as full training replication. Transport failures remain incomplete requests rather than incorrect model answers. The evidence inventory accompanying this manuscript binds the reported snapshot to source hashes.
+
+\begin{thebibliography}{99}
+\bibitem[Johnson et al.(2024)]{mimiciv} Alistair Johnson, Lucas Bulgarelli, Tom Pollard, Brian Gow, Benjamin Moody, Steven Horng, Leo Anthony Celi, and Roger Mark. 2024. MIMIC-IV (version 3.1). PhysioNet. \url{https://doi.org/10.13026/kpb9-mt58}.
+\bibitem[Jiang et al.(2025)]{medagentbench} Yixing Jiang, Kameron C. Black, Gloria Geng, Danny Park, James Zou, Andrew Y. Ng, and Jonathan H. Chen. 2025. MedAgentBench: A Realistic Virtual EHR Environment to Benchmark Medical LLM Agents. \emph{arXiv preprint arXiv:2501.14654}. \url{https://arxiv.org/abs/2501.14654}.
+\bibitem[Madaan et al.(2023)]{selfrefine} Aman Madaan, Niket Tandon, Prakhar Gupta, Skyler Hallinan, Luyu Gao, Sarah Wiegreffe, Uri Alon, Nouha Dziri, Shrimai Prabhumoye, Yiming Yang, Shashank Gupta, Bodhisattwa Prasad Majumder, Katherine Hermann, Sean Welleck, Amir Yazdanbakhsh, and Peter Clark. 2023. Self-Refine: Iterative Refinement with Self-Feedback. \emph{Advances in Neural Information Processing Systems}. \url{https://arxiv.org/abs/2303.17651}.
+\bibitem[Moll et al.(2026)]{grasp} Johannes Moll, Jean-Philippe Corbeil, Jiazhen Pan, Martin Hadamitzky, Daniel Rueckert, Lisa Adams, and Keno Bressem. 2026. GRASP: Gated Regression-Aware Skill Proposer for Self-Improving LLM Agents. \emph{arXiv preprint arXiv:2605.29668}. \url{https://arxiv.org/abs/2605.29668}.
+\bibitem[Palepu et al.(2025)]{rxqa} Anil Palepu, Valentin Li\'evin, Wei-Hung Weng, Khaled Saab, David Stutz, Yong Cheng, Kavita Kulkarni, S. Sara Mahdavi, Jo\"elle Barral, Dale R. Webster, Katherine Chou, Avinatan Hassidim, Yossi Matias, James Manyika, Ryutaro Tanno, Vivek Natarajan, Adam Rodman, Tao Tu, Alan Karthikesalingam, and Mike Schaekermann. 2025. Towards Conversational AI for Disease Management. \emph{arXiv preprint arXiv:2503.06074}. \url{https://arxiv.org/abs/2503.06074}.
+\bibitem[Pollard et al.(2018)]{eicu} Tom J. Pollard, Alistair E. W. Johnson, Jesse D. Raffa, Leo A. Celi, Roger G. Mark, and Omar Badawi. 2018. The eICU Collaborative Research Database, a freely available multi-center database for critical care research. \emph{Scientific Data}, 5:180178. \url{https://doi.org/10.1038/sdata.2018.178}.
+\bibitem[Shang et al.(2019)]{gamenet} Junyuan Shang, Cao Xiao, Tengfei Ma, Hongyan Li, and Jimeng Sun. 2019. GAMENet: Graph Augmented MEmory Networks for Recommending Medication Combination. \emph{Proceedings of AAAI}. \url{https://arxiv.org/abs/1809.01852}.
+\bibitem[Shinn et al.(2023)]{reflexion} Noah Shinn, Federico Cassano, Ashwin Gopinath, Karthik Narasimhan, and Shunyu Yao. 2023. Reflexion: Language Agents with Verbal Reinforcement Learning. \emph{Advances in Neural Information Processing Systems}. \url{https://openreview.net/forum?id=vAElhFcKW6}.
+\bibitem[Wang et al.(2026)]{saferx} Xinyu Wang, Hanwei Wu, Zhenghan Tai, Sicheng Lyu, Qincheng Lu, Ziyu Zhao, Jijun Chi, Jingrui Tian, Xiao-Wen Chang, and Ziyang Song. 2026. SafeRx-Agent: A Knowledge-Grounded Multi-Agent Framework for Safe and Explainable Medication Recommendation. \emph{arXiv preprint arXiv:2605.29146}. \url{https://arxiv.org/abs/2605.29146}.
+\bibitem[Wu et al.(2025)]{armr} Feiyue Wu, Tianxing Wu, and Shenqi Jing. 2025. ARMR: Adaptively Responsive Network for Medication Recommendation. \emph{Proceedings of IJCAI}, pages 7831--7839. \url{https://doi.org/10.24963/ijcai.2025/871}.
+\bibitem[Yang et al.(2021)]{safedrug} Chaoqi Yang, Cao Xiao, Fenglong Ma, Lucas Glass, and Jimeng Sun. 2021. SafeDrug: Dual Molecular Graph Encoders for Recommending Effective and Safe Drug Combinations. \emph{Proceedings of IJCAI}. \url{https://arxiv.org/abs/2105.02711}.
+\bibitem[Zhao et al.(2025)]{rxsafe} Jiahao Zhao, Luxin Xu, Minghuan Tan, Lichao Zhang, Ahmadreza Argha, Hamid Alinejad-Rokny, and Min Yang. 2025. RxSafeBench: Identifying Medication Safety Issues of Large Language Models in Simulated Consultation. \emph{Proceedings of IEEE BIBM}, pages 4491--4496. \url{https://doi.org/10.1109/BIBM66473.2025.11356353}.
 \end{thebibliography}
+
+\clearpage
+\appendix
+\section{Detailed Reproduction Protocol}\label{app:protocol}
+\subsection{Medication-set preprocessing and adaptation}
+Eligible MIMIC patients are adults with an ICU-associated hospital visit and at least two eligible visits. Each visit must contain diagnoses, procedures, and at least one unambiguously mapped medication class. Visits are ordered chronologically; current medication labels are excluded from current inputs. Training-only vocabularies contain 10,726 diagnosis codes, 5,330 procedure codes, and 271 medication classes. Five reserved-test target occurrences fall outside the training medication vocabulary and remain in the recall denominator of the declared future evaluation.
+
+The molecular panel retains 219 classes. Its filtering excludes 5,613 targets in the reserved partition, while retaining three resulting empty-target visits. Molecular resources contain 627 graphs, 863 BRICS substructures, and 326 fingerprints. The known DDI graph has 266 edges and covers 202 classes; an absent edge or uncovered class is not treated as proof of safety. All resources and source mappings are pinned in the cohort audit.
+
+Author implementations retain their documented model cores with local input and label-space adapters. Each completed run has fifty epochs and 921,450 visit exposures; actual optimizer steps differ by architecture. ARMR uses 29,750 steps, while the recorded GAMENet and SafeDrug loops use 921,450. These counts are not equal FLOPs. The SafeDrug adaptation resolves the released minimum-versus-paper-maximum objective discrepancy in favor of the paper's maximum formulation and persists its molecular encoder; the choice is disclosed rather than labeled a bit-identical reproduction. Proposal search evaluates 300 epoch/threshold settings per author run. Concurrent wall time is not used to claim a speed advantage.
+
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Patient-average Jaccard for the same development methods, cases, and completed seeds as Table~\ref{tab:main}. $\dagger$ marks the single completed molecular ARMR seed.}
+\label{tab:jaccard}
+\begin{tabular}{@{}lrrr@{}}\toprule
+Method & Runs full/mol. & Full Jaccard & Molecular Jaccard\\\midrule
+Training prevalence & 1/1 & 0.30680 & 0.28089\\
+Previous-visit reuse & 1/1 & 0.21585 & 0.20613\\
+Case retrieval & 1/1 & 0.39614 & 0.36710\\
+Structured logistic regression & 1/1 & 0.45742 & 0.42971\\
+ARMR author core & 3/1$^{\dagger}$ & 0.45327 $\pm$ 0.00113 & 0.43181\\
+GAMENet author core & 3/3 & 0.37087 $\pm$ 0.00643 & 0.35384 $\pm$ 0.00324\\
+SafeDrug author core & --/3 & -- & 0.38432 $\pm$ 0.00223\\
+Shared policy / no rule updates & 3/3 & 0.45742 $\pm$ 0.00000 & 0.42971 $\pm$ 0.00000\\
+Greedy error rules & 3/3 & 0.45863 $\pm$ 0.00064 & 0.43084 $\pm$ 0.00039\\
+Random candidate rules & 3/3 & 0.45791 $\pm$ 0.00027 & 0.43078 $\pm$ 0.00058\\
+\textbf{RxRSIAgent: own-error memory} & 3/3 & 0.45856 $\pm$ 0.00057 & 0.43049 $\pm$ 0.00014\\
+Shuffled-evidence memory & 3/3 & 0.45811 $\pm$ 0.00044 & 0.43105 $\pm$ 0.00027\\
+Same proposals / no witness gate & 3/3 & 0.45840 $\pm$ 0.00102 & 0.43050 $\pm$ 0.00070\\
+\bottomrule\end{tabular}
+
+\end{table*}
+
+The 890-patient reserved partition overlaps historical study memberships. A separately frozen sensitivity subset excludes recorded earlier exposure and retains 318 patients/801 visits; neither the complete reserved test nor this subset has results in the present manuscript. The exposure inventory cannot establish that every patient is globally untouched.
+
+\subsection{External-order training}
+The eICU parent cohort has 142,485 stays; 8,003 fail target-code completeness, leaving 134,482 before fixed hash sampling. Training, proposal, guard, and test use 40,000/2,000/2,000/8,005 stays from 124/13/17/16 hospitals. Their patient counts are 35,249/1,914/1,912/6,227. Both patient and hospital identities are separated across these partitions. Test targets contain 11,853 complete order tuples among 15,594 target tuples.
+
+The initial 8,000 stays define the 512-code vocabulary and word, character, and numeric feature maps. Each subsequent block adds 8,000 stays. Policy fitting uses logistic SGD, regularization $10^{-5}$, exactly sixty epochs, and no tolerance-based early stop; each round refits from initialization. The conditional order tool considers at most eight frequent tuples per code, requiring tuple support of at least ten, at least eighty records, and at least two tuple choices. Its SGD regularization is $10^{-4}$, with at most forty iterations and tolerance $10^{-3}$.
+
+Proposal selects from thresholds $\{.10,.15,.20,.25,.30,.40,.50\}$ by the mean of drug and complete-order micro-F1. Guard promotion requires a composite improvement with neither endpoint decreasing by more than .002. All choices freeze before test inference. Word/character ensembles additionally search five mixture weights, so their larger fitting/search budgets are reported separately. Seeds are 42, 137, and 2026. Within each seed, matched priority arms share the same cases, exposure order, and optimizer budget.
+
+\section{Additional Memory Controls}\label{app:memory}
+A subsequent experiment reserves 1,423 of 7,115 training patients as witnesses and fits the policy on the remaining 5,692. It combines class calibration with conditional program synthesis over at most two predicates and four edits. This changes witness isolation, calibration, and program expressivity together; comparison with the earlier rule study cannot isolate any one change. Within the revised study, three-seed guard F1 is 0.60803 for class calibration, 0.60801 for greedy programs, and 0.60790 for own-error synthesis in the full space. Molecular values are 0.57989, 0.58094, and 0.58021. These results again do not establish an advantage from language-agent synthesis.
+
+Proposal-only replay of accepted edits finds both positive and negative transfer from witness evaluation. Later compatibility and whole-update confirmation experiments reuse the audited policy fits and separate edit and confirmation witness groups. Only two of six seed/panel runs are fully audited at this snapshot. They are not treated as a completed method comparison. Their unchanged protocols, partial receipts, and all rejected updates remain available in the release.
+
+\section{Parameter and Precision Diagnostics}\label{app:parameters}
+\subsection{Completed update inventory}
+The four parameter arms use ranked ordinary training, permuted ordinary training, permuted own-error sampling, and permuted shuffled-error sampling. All preserve original retrieval-rank fields and remap twenty-position masks by medication identity. The fixed backbone is Qwen3-4B in four-bit form; LoRA targets the last eight layers with rank eight, scale twenty, and zero dropout. Each round has 400 complete examples, batch size four, learning rate $10^{-4}$, and 100 optimizer steps. Completion-only loss excludes padding. The resulting adapters contain 3,670,016 trainable parameters.
+
+Feedback uses each arm's latest raw adapter on the next 600-case block before labels enter training. Earlier priorities retain their recorded errors. Ordinary arms sample uniformly; error arms use the same $1+3e$ weighting, with the shuffled control permuting error-to-case assignments. Each arm continues from its latest raw adapter even when that state is rejected for serving; optimizer state resets each round. Proposal selects by average drug/order F1 over ranked and permuted views with earliest ties. The base is eligible. The current inventory is incomplete and does not open the old 500-case test.
+
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{All nine completed parameter updates at the paused snapshot (seed 42). Scores are proposal drug/core-order F1. Empty rates are ranked/permuted percentages. This is a partial 36-update study, not a completed three-seed evaluation.}
+\label{tab:parameters}
+\begin{tabular}{@{}lrrrr@{}}\toprule
+Training / feedback & Round & Ranked & Permuted & Empty (\%)\\\midrule
+Permuted / uniform & 1 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
+Permuted / uniform & 2 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
+Permuted / uniform & 3 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
+Ranked / uniform & 1 & 0.23301/0.14815 & 0.10800/0.06960 & 0/4\\
+Ranked / uniform & 2 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
+Permuted / own-error & 1 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
+Permuted / own-error & 2 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
+Permuted / shuffled & 1 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
+Permuted / shuffled & 2 & 0.00000/0.00000 & 0.00000/0.00000 & 100/100\\
+\bottomrule\end{tabular}
+
+\end{table*}
+
+\subsection{Repair and precision scope}
+The four binary-loss repairs share 400 admissions from the first permuted-uniform update, comprising 8,000 decisions with 1,604 positive and 6,396 negative labels. Balanced loss uses positive weight $6396/1604$. Proposal has 100 admissions/97 patients, disjoint from those fitting patients. The first failed adapter, the frozen base, direct retrieval top-eight, and selecting all twenty candidates remain controls. Calibrated thresholds are chosen on a fixed .01--.99 grid, shared across views. Several optima occur at the lower boundary; this grid is not an exhaustive calibration procedure.
+
+The precision experiment is specified after the parent proposal and fixed-cardinality results. It runs all six frozen neural states in both views, three readouts per shared forward, and both drug-hash and lexical tie rules. It changes no weights, candidates, threshold, or promotion decision. Case-level AUROC includes 67 admissions with both positive and negative candidates; all 100 remain in F1. All selected eight-candidate outputs have complete core tuples, so incomplete predicted tuples do not explain this fixed-cardinality comparison.
+
+Independent raw-weight unpacking and float64 projection replay check 144,000 binary logit values. Maximum dense-logit and probability residuals are $1.98\times10^{-5}$ and $3.58\times10^{-6}$, within tolerances fixed before execution. All 1,200 forwards have completion receipts and none is unresolved. The audit replays readout and metric arithmetic, not the backbone or native projection kernel. All paired intervals use 4,000 patient resamples. The guard comparison remains unexecuted.
+
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Numerical and identity-alignment diagnostics. AUROC averages 67 eligible admissions; all 100 remain in F1. Tie counts refer to the eighth/ninth score boundary. Correlations compare ranked/permuted outputs aligned by drug identity or unchanged display slot.}
+\label{tab:precision-detail}
+\begin{tabular}{@{}llrrrrrr@{}}\toprule
+State & Readout & R AUC & R ties & P AUC & P ties & Identity $\rho$ & Slot $\rho$\\\midrule
+Frozen base & Native & 0.6801 & 14 & 0.5506 & 8 & 0.2429 & 0.7274\\
+Frozen base & FP32 & 0.6806 & 0 & 0.5516 & 0 & 0.2440 & 0.7265\\
+Frozen base & FP32 $\to$ BF16 & 0.6801 & 13 & 0.5499 & 6 & 0.2428 & 0.7275\\
+Original failed adapter & Native & 0.7002 & 13 & 0.5365 & 14 & 0.2123 & 0.7962\\
+Original failed adapter & FP32 & 0.7001 & 0 & 0.5381 & 0 & 0.2146 & 0.7970\\
+Original failed adapter & FP32 $\to$ BF16 & 0.6993 & 12 & 0.5361 & 15 & 0.2128 & 0.7982\\
+Teacher / uniform & Native & 0.6982 & 9 & 0.5195 & 12 & 0.1979 & 0.8169\\
+Teacher / uniform & FP32 & 0.6980 & 0 & 0.5205 & 0 & 0.2013 & 0.8168\\
+Teacher / uniform & FP32 $\to$ BF16 & 0.6978 & 8 & 0.5203 & 12 & 0.1994 & 0.8173\\
+Zero / uniform & Native & 0.5685 & 93 & 0.5481 & 89 & 0.1238 & 0.1812\\
+Zero / uniform & FP32 & 0.6072 & 0 & 0.5500 & 0 & 0.1475 & 0.2701\\
+Zero / uniform & FP32 $\to$ BF16 & 0.5620 & 97 & 0.5535 & 95 & 0.1218 & 0.1872\\
+Teacher / balanced & Native & 0.6893 & 12 & 0.5408 & 15 & 0.2410 & 0.7642\\
+Teacher / balanced & FP32 & 0.6898 & 0 & 0.5402 & 0 & 0.2399 & 0.7618\\
+Teacher / balanced & FP32 $\to$ BF16 & 0.6893 & 14 & 0.5406 & 13 & 0.2401 & 0.7646\\
+Zero / balanced & Native & 0.5604 & 84 & 0.4907 & 80 & -0.0019 & 0.1505\\
+Zero / balanced & FP32 & 0.5863 & 0 & 0.4863 & 0 & 0.0171 & 0.4485\\
+Zero / balanced & FP32 $\to$ BF16 & 0.5585 & 95 & 0.5085 & 90 & 0.0269 & 0.1573\\
+\bottomrule\end{tabular}
+
+\end{table*}
+
+\section{Supplementary Public Tasks}\label{app:public}
+\subsection{Language skills and medication questions}
+RxSafeBench's 2,443 source records \citep{rxsafe} yield 2,000 distinct cases after exact task/dialogue/correct-drug deduplication. The local three-option adaptation has 625 training, 190 proposal, 197 guard, and 988 test questions with scenario grouping; it is not the original free-generation benchmark. Historical full-data evaluation covers all 2,000 derived cases, while later evolution comparisons use the frozen 988-case partition. Subsequent development reused this benchmark, so these results are exploratory. Transfer uses all 300 public RxQA OpenFDA questions \citep{rxqa} with their original options; the unavailable licensed BNF portion is not evaluated.
+
+With DeepSeek-V4.1-Flash, direct selection scores 46.15\%, chain-of-thought 47.27\%, two-call self-refinement 47.57\%, and case retrieval 49.09\% on the same 988 questions. A task adapter around the pinned author GRASP core retains its failure classification, proposals, regression gate, and skill injection. It scores 502/988 versus chain-of-thought's 467, with 102 fixes and 67 regressions. This is an adaptation to option selection, not a reproduction of the paper's original benchmark score.
+
+\begin{table}[t]\centering\small
+\caption{Completed language-skill composition, one learned skill trajectory. Counts are correct answers; each method uses one inference call. RxQA is transfer.}
+\label{tab:public}
+\begin{tabularx}{\columnwidth}{@{}Xrr@{}}\toprule
+Method & RxSafe /988 & RxQA /300\\\midrule
+Chain-of-thought & 467 & 193\\
+Author-core skills & 502 & 189\\
+Fixed label grounding & 499 & 188\\
+Grounding + evolving skills & 501 & 183\\
+\bottomrule\end{tabularx}\end{table}
+
+The evidence tool returns exact excerpts from a pinned openFDA label snapshot; its retrieval source code is fixed. The grounded learner changes one persistent indication/caution procedure. Its frozen round-zero through round-four RxSafe counts are 499, 499, 475, 493, and 501; RxQA counts are 188, 188, 175, 175, and 183. The final gain over fixed grounding is two questions, with paired scenario interval $[-2.43,2.73]$ percentage points. A changed skill therefore does not imply monotonic improvement or positive transfer.
+
+Frozen DeepSeek-learned artifacts also transfer unchanged to Gemini-3.8-Flash under a development-selected 2,048-token cap and low reasoning. On the same 988 questions, chain-of-thought, author skills, fixed grounding, and grounded skills score 532, 527, 538, and 510. The last method has 24 invalid outputs, including 23 reaching the length cap; on the 961 jointly valid cases, it still falls from 528 to 508 correct. This conditional diagnosis does not replace the full result or support a truncation-only explanation. Provider failures are handled as interrupted execution, while received malformed answers count as errors.
+
+\subsection{Executed FHIR tasks}
+The MedAgentBench adaptation runs the pinned released application/database through an actual local FHIR service. It executes writes, reads back persisted fields, and cleans up created resources. Reference trajectory success and persisted-state checks are recorded separately. A development-discovered singleton-note shape mismatch is handled by a declared lossless reference view before final selection; original traces remain retained. Task partitions contain 96 training, 80 validation, 64 ID, and 60 held-out-type cases. They overlap in patient identity, so held-out-type results are not patient-disjoint transfer.
+
+\begin{table}[t]\centering\small
+\caption{Completed executed-tool comparison. One learning seed; at most eight model action calls per episode.}
+\begin{tabularx}{\columnwidth}{@{}Xrr@{}}\toprule
+Method & ID /64 & Held-out type /60\\\midrule
+Direct tools & 39 & 27\\
+Fixed compiled workflow & 38 & 17\\
+Workflow + learned skills & 45 & 10\\
+\bottomrule\end{tabularx}\end{table}
+
+The two retained skills concern patient-name queries and a laboratory code/text fallback. Relative to the fixed workflow, ID success rises by 10.94 percentage points with paired patient interval $[0,20.55]$, while held-out-type success falls by 11.67 points with interval $[-22.95,-1.64]$. A post-test answer-contract diagnosis finds that fifteen correct first values were rejected for an extra timestamp; this does not replace the strict score, and fifteen other first values were wrong. Single-skill removals do not establish robust synergy.
+
+A subsequent fixed $2\times2\times2$ contract/statistics/skill factorial completes 23 of 24 split-condition cells. It retains the same eight-call episode budget and counts additional HTTP evidence requests. The completed cells are below; the missing cell prevents a complete factorial transfer conclusion. These are engineering interventions with frozen skills, not newly learned tools.
+
+\begin{table}[t]\centering\small
+\caption{Executed repair factorial. C: answer contract; S: source-bound observation statistics; K: frozen learned skills. A dash denotes an unfinished cell, not a failure score. Reused exploratory splits.}
+\label{tab:fhir-repair}
+\begin{tabular}{@{}lrrr@{}}\toprule
+Condition & Validation & ID & Held-out type\\\midrule
+C0S0K0 & 45/80 & 38/64 & 18/60\\
+C0S0K1 & 53/80 & 45/64 & 10/60\\
+C0S1K0 & 49/80 & 36/64 & 43/60\\
+C0S1K1 & 59/80 & 46/64 & 50/60\\
+C1S0K0 & 52/80 & 46/64 & 29/60\\
+C1S0K1 & 54/80 & 49/64 & 25/60\\
+C1S1K0 & 57/80 & 47/64 & 45/60\\
+C1S1K1 & 66/80 & 54/64 & --\\
+\bottomrule\end{tabular}
+
+\end{table}
+
+\section{Published Results under Their Original Protocols}
+Table~\ref{tab:published} gives directly cited results for context. Different cohorts, coding granularity, input fields, and evaluation conventions prevent ranking these numbers against our local main table. The original SafeRx test partition is unavailable locally, so we do not insert an RxRSIAgent result into its protocol.
+
+\begin{table*}[t]\centering\small
+\caption{Author-reported F1, not local reproductions. Each row retains its cited source protocol. Dashes indicate a dataset not reported in this selected source table.}
+\label{tab:published}
+\begin{tabular}{@{}lrrl@{}}\toprule
+Method & MIMIC-III & MIMIC-IV & Original source\\\midrule
+GAMENet & 0.6081 & -- & \citet{gamenet}, Table 3\\
+SafeDrug & 0.6768 & -- & \citet{safedrug}, Table 2\\
+ARMR & 0.6959 & 0.6712 & \citet{armr}, Table 3\\
+SafeRx / Claude Sonnet-4.6, no safety filter & 0.2758 & 0.4325 & \citet{saferx}, Table 2\\
+\bottomrule\end{tabular}\end{table*}
+
+\section{Evidence Inventory and Snapshot}
+The companion evidence manifest identifies the source files and hashes used to generate every table. Primary sources are the common-method development recount, independently audited molecular ARMR seed 42, the eICU frozen-test summary and denominator recount, the local parameter snapshot and its audit, and the precision summary with independent readout audit. Public-task sources include the grounded-skill, frozen-transfer, executed-FHIR, and repair summaries. The manuscript preserves the official pinned ACL review style. It is a research snapshot based on completed evidence, not a claim that the unfinished common test, remaining training seeds, or clinical evaluation have been completed.
 \end{document}

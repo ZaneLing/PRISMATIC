@@ -55,6 +55,40 @@ def main():
             lines += [f'## 3. {split}: {data["cases"]} admissions / {data["patients"]} patients','',
                       ('Post-proposal descriptive development diagnosis, one training seed. Each scored policy selects eight candidate templates. All reference drugs are retained. No new threshold, checkpoint, arm or promotion is selected. Case-level AUROC omits only admissions without both positive and negative candidates; their F1 remains included.' if en else
                        '事后提出的描述性开发诊断，一个训练种子。每个被评分策略选择8个候选模板，保留全部真值药物。未重新选择阈值、检查点、试验组或接纳状态。病例内AUROC只排除候选中不同时含阳性和阴性的病例；这些病例仍参与F1。'),'']
+            lines += [('### Main comparison: fixed eight medications' if en else '### 主要对照：固定选择8个药物'),'',
+                      ('Cells show drug/core-order micro-F1. The primary drug-identity-hash tie rule is used here; the complete tables below retain the re-rounded readout, both tie rules and paired intervals.' if en else
+                       '表格为药物／核心订单micro-F1，使用预先声明的药物身份哈希同分规则。下文保留重新舍入读出、两种同分规则和配对区间。'),'',
+                      '| State | Ranked native | Ranked FP32 | Permuted native | Permuted FP32 |', '|---|---:|---:|---:|---:|']
+            primary=data['panels']['drug_sha256']
+            for name in list(data['state_versions'])+['original_retrieval_top8']:
+                cells=[LABELS[name][int(en)]]
+                for kind in ['ranked','permuted']:
+                    for readout in ['native','fp32_binary']:
+                        m=primary[kind][readout]['methods'][name]
+                        cells.append(f"{m['drug_micro_f1']:.5f}/{m['core_order_micro_f1']:.5f}")
+                lines.append('| '+' | '.join(cells)+' |')
+            lines += ['',('The retrieval row is unchanged across readouts. These are shared-case implementation contrasts; a higher F1 here is not evidence that an agent learned or evolved.' if en else
+                           '检索对照在不同读出下保持相同。这是同病例的实现对照；此处F1提高不等于agent学到了新知识或发生了进化。'),'']
+            if split=='proposal':
+                m=primary['ranked']['fp32_binary']['methods']['teacher_uniform'];control=primary['ranked']['fp32_binary']['methods']['original_retrieval_top8']
+                delta=primary['ranked']['fp32_binary']['contrasts_vs_retrieval']['teacher_uniform']['drug']
+                low,high=delta['micro_f1_patient_ci95']
+                lines += [('**Interpretation:** FP32 removes every cutoff tie in this panel, but the six neural states still have 0% exact drug-set agreement after candidate permutation. Only teacher-prefix/uniform loss in the ranked view has a drug-F1 point estimate above retrieval: '
+                           f"{m['drug_micro_f1']:.5f} versus {control['drug_micro_f1']:.5f}, paired difference {delta['micro_f1_difference']:+.5f} [{low:+.5f}, {high:+.5f}]. Its order F1 remains lower ({m['core_order_micro_f1']:.5f} versus {control['core_order_micro_f1']:.5f}). Every permuted-view neural configuration remains below retrieval in both endpoints. These exploratory intervals do not establish superiority. Higher readout precision does not resolve the candidate-position failure." if en else
+                           '**结果解读：** FP32消除了本组全部选取边界同分，但六个神经状态在候选打乱后，药物集合完全一致率仍为0%。只有真实前缀／普通损失在原排序下的药物F1点估计高于检索：'
+                           f"{m['drug_micro_f1']:.5f} 对 {control['drug_micro_f1']:.5f}，配对差值{delta['micro_f1_difference']:+.5f} [{low:+.5f}, {high:+.5f}]；订单F1仍较低（{m['core_order_micro_f1']:.5f} 对 {control['core_order_micro_f1']:.5f}）。所有随机排序神经配置的两个端点均低于检索。探索性区间不能支持优越性结论。提高读出精度没有解决候选位置依赖。"),'']
+            lines += [('### Position dependence after the precision change' if en else '### 改变精度后的位置依赖'),'',
+                      ('Spearman correlations compare drug-identity alignment with unchanged display slots. Agreement is the fraction of admissions whose complete top-eight drug set is identical after candidate permutation; the primary tie rule is used.' if en else
+                       'Spearman相关分别按药物身份对齐和按展示槽位对齐。一致率为候选打乱后完整前8药物集合相同的病例比例，使用主要同分规则。'),'',
+                      '| State | Readout | Drug-identity ρ | Display-slot ρ | Exact set agreement |', '|---|---|---:|---:|---:|']
+            for name in data['state_versions']:
+                for readout in ['native','fp32_binary','fp32_rerounded']:
+                    a=data['score_rank_alignment'][readout]['permuted'][name]
+                    vals=[a[key]['mean_spearman'] for key in ['drug_identity_aligned','same_display_slots_unaligned']]
+                    cells=[f'{v:.5f}' if v is not None else 'undefined' for v in vals]
+                    agree=data['top8_view_invariance']['drug_sha256']['permuted'][readout][name]['drug_set_agreement']
+                    lines.append('| '+LABELS[name][int(en)]+' | '+readout+' | '+' | '.join(cells)+f' | {agree:.1%} |')
+            lines += ['']
             for rule,views in data['panels'].items():
                 lines += ['### '+rule,'','| View | State | Readout | Drug F1 | Core-order F1 | AUROC (n) | Mean distinct scores | Cutoff tie cases |','|---|---|---|---:|---:|---:|---:|---:|']
                 for kind,reads in views.items():

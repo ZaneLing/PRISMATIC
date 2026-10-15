@@ -5,6 +5,45 @@ import json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent.parent;PAPER=ROOT/'paper'
 START='<!-- RXRSI_CURRENT_EXECUTION_START -->';END='<!-- RXRSI_CURRENT_EXECUTION_END -->'
+def method_table_overview(lang):
+    path=ROOT/'upgrade_v27/results/development_methods.json'
+    if not path.exists():return ''
+    data=json.loads(path.read_text());en=lang=='en'
+    assert data['test_predictions_read'] is False
+    assert data['script_sha256']==hashlib.sha256((ROOT/'upgrade_v27/summarize_development_methods.py').read_bytes()).hexdigest()
+    assert all(hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==value for name,value in data['source_sha256'].items())
+    labels={
+        'prevalence':('训练集频率基线','Training prevalence'),
+        'last_visit':('上次就诊药物复用','Previous-visit medications'),
+        'cosine_knn':('相似病例检索','Case retrieval (cosine kNN)'),
+        'structured_logistic':('结构化逻辑回归','Structured logistic regression'),
+        'ARMR':('ARMR 作者核心','ARMR author core'),
+        'GAMENet':('GAMENet 作者核心','GAMENet author core'),
+        'SafeDrug':('SafeDrug 作者核心','SafeDrug author core'),
+        'uniform_policy':('共享策略／不更新规则','Shared policy / no rule updates'),
+        'greedy_error_rules':('贪心错误规则','Greedy error rules'),
+        'random_candidate_rules':('随机候选规则','Random candidate rules'),
+        'own_error_rule_agent':('**RxRSIAgent：自身错误规则记忆**','**RxRSIAgent: own-error rule memory**'),
+        'shuffled_evidence_rule_agent':('打乱证据规则记忆','Shuffled-evidence rule memory'),
+        'matched_proposals_without_witness_gate':('同提案／移除独立确认门槛','Matched proposals / witness gate removed')}
+    text=('### Study A: available cross-method table — development data\n\n' if en else '### Study A：当前可用的跨方法主表——开发集\n\n')
+    text+=('**Dataset and task:** MIMIC-IV 3.1, the same 1,231 guard visits / 467 patients for every row. Inputs contain completed-visit diagnosis/procedure codes; the target is the ATC-L4 medication set. This is a retrospective visit task. Full 271-class and molecular 219-class spaces have separate panels. Proposal selects checkpoints/thresholds; the final common test remains gated.\n\n' if en else '**数据集与任务：** MIMIC-IV 3.1，每行使用相同的1,231次guard就诊／467位患者。输入包含完整就诊的诊断／操作编码，预测ATC-L4药物集合，属于回顾性就诊任务。完整271类与分子219类空间分别列表。proposal用于选择检查点／阈值；正式共同测试仍待前置条件完成。\n\n')
+    text+=('The RxRSIAgent row evaluates its rule-memory branch with a shared prediction policy. Language skills, parameter updates and structured-order tools have their own studies below. Author-core rows use the declared local data adaptation.\n\n' if en else 'RxRSIAgent行评测规则记忆分支，规则方法共用预测策略；语言技能、参数更新和订单工具分别在后续Study中评价。作者核心方法使用已声明的本地数据适配。\n\n')
+    def number(value):
+        return f"{value['mean']:.5f}"+(f" ± {value['seed_sd']:.5f}" if value['seed_sd'] is not None else '')
+    for panel_name,panel in data['panels'].items():
+        heading=('Full ATC-L4: 271 classes' if en else '完整ATC-L4：271类') if panel_name=='full' else ('Molecular ATC-L4: 219 classes' if en else '分子ATC-L4：219类')
+        text+='#### '+heading+'\n\n'
+        text+=('| Method | Audited runs | Patient F1 ± seed SD | Patient Jaccard ± seed SD |\n' if en else '| 方法 | 已核验运行数 | 患者F1 ± 种子标准差 | 患者Jaccard ± 种子标准差 |\n')+'|---|---:|---:|---:|\n'
+        for name,label in labels.items():
+            if name in panel['methods']:
+                m=panel['methods'][name];text+=f"| {label[int(en)]} | {m['runs']} | {number(m['patient_f1'])} | {number(m['patient_jaccard'])} |\n"
+            elif name=='ARMR' and panel_name=='molecular':
+                text+=(f'| {label[int(en)]} | Pending full runs | — | — |\n' if en else f'| {label[int(en)]} | 完整运行待完成 | — | — |\n')
+        text+='\n'
+    text+=('Patient metrics average visits within each patient, then patients. The ± term is the SD across completed training seeds; single deterministic controls have no seed SD. Shared-policy scores may coincide across seeds. The witness-removal row reuses matched proposals and is an intervention, not an independently relearned trajectory. SafeDrug is evaluated in the 219-class molecular space; 52 training classes lack the required molecular coverage in the full space. The NDC bridge covers 27.23% of source prescription rows, so these panels measure the declared mapped medication space.\n\n' if en else '患者指标先在每位患者内平均就诊成绩，再对患者平均；±为已完成训练种子的标准差，单次确定性对照不报告种子标准差。共享策略在不同种子的分数可能相同。移除确认门槛一行复用相同提案，是对象干预，并非独立重新学习的轨迹。SafeDrug在219类分子空间评价；完整空间中52个训练药类缺少所需分子覆盖。NDC桥接覆盖27.23%的源处方行，因此这里评测已声明的映射药物空间。\n\n')
+    text+=('**Current interpretation:** these development results do not establish a unique own-error advantage over greedy and shuffled-evidence controls. Paired patient intervals condition on the completed seeds and have no multiplicity adjustment. No new method is selected from this overview.\n\n' if en else '**当前结论：** 这些开发结果尚未证明自身错误机制相对贪心和打乱证据对照有独有优势。患者配对区间条件于已完成种子，未作多重比较校正；本总览不重新选择方法。\n\n')
+    return text+f'[Full paired contrasts](../upgrade_v27/DEVELOPMENT_METHODS.{lang}.md) · [Compute budgets](COMPUTE_ACCOUNTING.{lang}.md) · [Final-test protocol and gate](../upgrade_v30/COMMON_TEST.{lang}.md)\n\n'
 def update(path,block):
     text=path.read_text();new=START+'\n'+block.strip()+'\n'+END
     if START in text:
@@ -20,6 +59,7 @@ def main():
     for lang in ['en','zh']:
         block=('## Current executed increment — rule memory and tool repair\n\n' if lang=='en' else '## 当前增量：真实规则进化与工具修复\n\n')
         block+=('**Manuscript navigation:** Study A contains the common ATC-L4 method comparison; Study B covers structured orders and external hospitals; Study C language skills; Study D parameter updates; Study E real FHIR execution. The agent-state section maps each task to its output and evolving objects, and states the actual selection roles. [Reading index](README.md).\n\n' if lang=='en' else '**论文阅读入口：** Study A 是同一 ATC-L4 数据上的跨方法比较；Study B 是完整订单与外部医院；Study C 是语言经验；Study D 是参数更新；Study E 是真实 FHIR 执行。方法章节逐项对应任务、输出、实际进化对象和各自的版本选择规则。[阅读索引](README.md)。\n\n')
+        block+=method_table_overview(lang)
         if (PAPER/'execution_status.json').exists() and json.loads((PAPER/'execution_status.json').read_text())['api']['status']=='waiting_for_credit':
             block+=('**Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.\n\n' if lang=='en' else '**执行状态：** 上次充值后，新OpenRouter请求再次返回HTTP402。未完成的API分支已保存断点，等待补充额度；已完成结果及独立本地训练／审计继续。缺失请求不计作模型错误。\n\n')
         elif (PAPER/'execution_status.json').exists() and json.loads((PAPER/'execution_status.json').read_text())['api']['status']=='restored_actual_completion_verified':
@@ -143,7 +183,26 @@ def main():
                     precision_proof=json.loads(precision_probe_audit.read_text());precision_probe=ROOT/'upgrade_v32/results/precision_probe.json'
                     assert precision_proof['status']=='passed' and precision_proof['probe_sha256']==hashlib.sha256(precision_probe.read_bytes()).hexdigest()
                     block=block.replace('A numerical-readout precision check remains a next investigation, not an implemented repair.','The numerical-readout precision investigation has since been implemented; its stage-specific evidence follows.').replace('数值读出精度检查属于下一步调查，尚未实现为修复。','数值读出精度调查随后已实现，各阶段证据如下。')
-                    block+=('**Readout precision execution:** six frozen model states and two synthetic prompts each pass independent raw-weight, float64 projection and rounding checks. For the two zero-prefix states, native scores occupy only 3–4 levels out of 20; FP32 gives 20, and re-rounding reduces them again. This is engineering evidence. The complete clinical comparison has been launched with shared hidden states, all three readouts and both tie rules; only an independently audited clinical summary can establish a prescription-metric effect.\n\n' if lang=='en' else '**读出精度已执行：** 六个冻结模型状态、各两条合成输入通过独立原始权重、float64投影及舍入检查。两组全零前缀状态的原分数只有3–4档，FP32得到20档，重新舍入后再次减少。这属于工程证据。完整病例对照已启动，使用共享隐藏状态、全部三路读出及两种同分规则；只有独立核验后的病例汇总才能说明处方指标是否提高。\n\n')
+                    clinical_precision=ROOT/'upgrade_v32/results/proposal_precision.json';clinical_audit=ROOT/'upgrade_v32/results/proposal_precision_audit.json'
+                    if clinical_audit.exists():
+                        check=json.loads(clinical_audit.read_text());assert check['status']=='passed' and check['summary_sha256']==hashlib.sha256(clinical_precision.read_bytes()).hexdigest()
+                        assert check['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v32/audit_precision.py').read_bytes()).hexdigest()
+                        cp=json.loads(clinical_precision.read_text());primary=cp['panels']['drug_sha256']
+                        block+=(f"**Completed readout precision comparison:** {cp['cases']} proposal admissions / {cp['patients']} patients, all six frozen states, three readouts and two tie rules pass independent recount. Each policy selects eight candidates. The table shows drug/core-order micro-F1 under the primary drug-identity tie rule.\n\n" if lang=='en' else f"**读出精度病例对照已完成：** {cp['cases']}次proposal住院／{cp['patients']}人，六个冻结状态、三路读出与两种同分规则均通过独立复算。每个策略选择8个候选药物；表格为主要药物身份同分规则下的药物／核心订单micro-F1。\n\n")
+                        block+=('| State | Ranked native | Ranked FP32 | Permuted native | Permuted FP32 |\n' if lang=='en' else '| 模型状态 | 原排序／原读出 | 原排序／FP32 | 随机排序／原读出 | 随机排序／FP32 |\n')+'|---|---:|---:|---:|---:|\n'
+                        for name in list(cp['state_versions'])+['original_retrieval_top8']:
+                            cells=[repair_labels[name][1 if lang=='en' else 0]]
+                            for kind in ['ranked','permuted']:
+                                for readout in ['native','fp32_binary']:
+                                    m=primary[kind][readout]['methods'][name];cells.append(f"{m['drug_micro_f1']:.5f}/{m['core_order_micro_f1']:.5f}")
+                            block+='| '+' | '.join(cells)+' |\n'
+                        deltas={metric:[p['fp32_binary']['methods'][name][metric]-p['native']['methods'][name][metric] for p in primary.values() for name in cp['state_versions']] for metric in ['drug_micro_f1','core_order_micro_f1']}
+                        ranges=[f"[{min(values):+.5f}, {max(values):+.5f}]" for values in deltas.values()]
+                        block+=(f"\nAcross the six states and two views, FP32-minus-native drug/order F1 ranges are {ranges[0]}/{ranges[1]}. The complete report retains re-rounding controls, all paired intervals, cutoff ties, AUROC and identity-versus-slot alignment. No new model or threshold is selected. Precision effects are implementation effects, not learned RSI.\n\n" if lang=='en' else f"\n六个状态与两种视图中，FP32相对原读出的药物／订单F1差值范围为{ranges[0]}/{ranges[1]}。完整报告保留重新舍入对照、全部配对区间、截断同分、AUROC，以及药物身份／槽位对齐。没有据此重新选择模型或阈值；精度影响属于实现效果，不能当作学得的RSI。\n\n")
+                        c=primary['ranked']['fp32_binary']['contrasts_vs_retrieval']['teacher_uniform']['drug'];lo,hi=c['micro_f1_patient_ci95']
+                        block+=(f"**Finding:** removing cutoff ties does not remove position dependence: all six FP32 states retain 0% exact drug-set agreement after permutation. The sole ranked drug-F1 point improvement over retrieval has difference {c['micro_f1_difference']:+.5f}, 95% patient interval [{lo:+.5f}, {hi:+.5f}], with lower order F1. Every permuted configuration remains below retrieval. Candidate-specific decision binding, followed by matched ordinary-training and error-feedback controls, is the next implementation target.\n\n" if lang=='en' else f"**结论：** 消除边界同分仍未消除位置依赖：六个FP32状态的候选打乱前后药物集合完全一致率仍为0%。唯一高于检索的原排序药物F1点差为{c['micro_f1_difference']:+.5f}，95%患者区间[{lo:+.5f}, {hi:+.5f}]，订单F1仍更低；所有随机排序配置均低于检索。下一步实现逐药决策绑定，再用匹配的普通训练与自身错误反馈对照检验收益。\n\n")
+                    else:
+                        block+=('**Readout precision execution:** six frozen model states and two synthetic prompts each pass independent raw-weight, float64 projection and rounding checks. For the two zero-prefix states, native scores occupy only 3–4 levels out of 20; FP32 gives 20, and re-rounding reduces them again. This is engineering evidence. The complete clinical comparison has been launched with shared hidden states, all three readouts and both tie rules; only an independently audited clinical summary can establish a prescription-metric effect.\n\n' if lang=='en' else '**读出精度已执行：** 六个冻结模型状态、各两条合成输入通过独立原始权重、float64投影及舍入检查。两组全零前缀状态的原分数只有3–4档，FP32得到20档，重新舍入后再次减少。这属于工程证据。完整病例对照已启动，使用共享隐藏状态、全部三路读出及两种同分规则；只有独立核验后的病例汇总才能说明处方指标是否提高。\n\n')
                     block+=f'[Readout precision comparison](../upgrade_v32/PRECISION.{lang}.md)\n\n'
         if (ROOT/'upgrade_v30/protocol.json').exists():
             repaired=json.loads((ROOT/'upgrade_v30/results/summary.json').read_text()) if (ROOT/'upgrade_v30/results/summary.json').exists() else {'panels':{}}
@@ -215,7 +274,9 @@ def main():
             if 'proposal' in rp['audited_splits']:
                 plan+=('**Local repair subtask:** all four fits and the complete eight-method proposal comparison pass independent audits. Fixed-threshold class balancing reduces empty outputs, while calibration often selects nearly all candidates; none of the new repairs beats direct top-8 point estimates. Continue the registered multi-round control and report-only guard queue. ' if lang=='en' else '**本地修复子任务：** 四组拟合及完整八方法 proposal 对照均通过独立核验。固定阈值下的类别平衡减少空输出，校准后则常接近全选；新修复的点估计仍未超过直接前8检索。继续已登记的多轮对照和只用于报告的 guard 队列。')
                 if (ROOT/'upgrade_v32/results/proposal_rank_diagnostic_audit.json').exists():
-                    if (ROOT/'upgrade_v32/results/precision_probe_audit.json').exists():
+                    if (ROOT/'upgrade_v32/results/proposal_precision_audit.json').exists():
+                        plan+=('The full three-way numerical-readout comparison now passes independent readout and metric recount. Use its F1, ranking and permutation results to decide the next candidate-scoring change; no model or threshold has been reselected. ' if lang=='en' else '完整三路数值读出对照现已通过独立读出与指标复算。依据F1、排序和候选打乱后的结果确定下一步逐药评分改动；没有重新选择模型或阈值。')
+                    elif (ROOT/'upgrade_v32/results/precision_probe_audit.json').exists():
                         plan+=('The fixed-eight diagnosis has led to an implemented three-way numerical-readout comparison. Its real-model synthetic preflight and independent weight audit pass; finish the frozen clinical run and independent readout/metric recount before deciding on training or candidate-specific scoring changes. ' if lang=='en' else '固定8药诊断已推进为三路数值读出对照。真实模型合成预检与独立权重核验已通过；继续完成冻结的病例评价及独立读出／指标复算，再决定训练或逐药评分改动。')
                     else:
                         plan+=('The additional fixed-eight diagnosis is also independently recounted: positional dependence and frequent cutoff ties remain. Next isolate numerical-readout precision before changing training or candidate-specific scoring; this investigation has not yet been executed. ' if lang=='en' else '追加的固定8药诊断也已独立复算：位置依赖和频繁截断同分仍存在。下一步先隔离数值读出精度，再决定训练或逐药评分改动；该精度调查尚未执行。')

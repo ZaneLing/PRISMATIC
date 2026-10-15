@@ -1,11 +1,11 @@
 # PRISMATIC / RxRSIAgent manuscript and execution index
 
 <!-- RXRSI_CURRENT_EXECUTION_START -->
-## Live execution snapshot
+## Paused evidence snapshot — 15 October 2026
 
-The common medication-method study has **12/15** completed 50-epoch author runs (622/750 saved epochs) and **6/6** completed five-round rule runs. The final common test remains gated by the registered selections and audits. These counts describe a saved snapshot; running outputs continue to update.
+The [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) is organized as a research paper and preserves the existing editor path. Research and experiment queues remain paused. The snapshot includes **13/15** completed author runs, **6/6** rule trajectories, the completed three-seed eICU test, **9/36** parameter updates, and the completed precision diagnostic. The common MIMIC test remains unreported.
 
-[中文当前结果](CURRENT_RESULTS.zh.md) · [English current results](CURRENT_RESULTS.en.md) · [Cross-method development comparison](../upgrade_v27/DEVELOPMENT_METHODS.en.md) · [Final common-test table and gate](../upgrade_v30/COMMON_TEST.en.md)
+[Evidence manifest](latex/v0.3/manuscript_evidence.json) · [Compile check](latex/v0.3/compile_check.json) · [中文当前结果](CURRENT_RESULTS.zh.md) · [English current results](CURRENT_RESULTS.en.md)
 <!-- RXRSI_CURRENT_EXECUTION_END -->
 
 
@@ -24,19 +24,19 @@ The common medication-method study has **12/15** completed 50-epoch author runs 
 
 ## Where are the main tables?
 
-The manuscript now gives the common medication-method experiment its own **Study A: Common Medication-Set Comparison** section, following the agent definition. Figure/table numbering can change as results arrive; use these stable study names and report links.
+The manuscript uses the following stable section names. Historical version reports retain their original study names.
 
-| Reader question | Maintained result entry | Manuscript location |
+| Reader question | Manuscript location | Evidence |
 |---|---|---|
-| How do GAMENet, SafeDrug, ARMR, conventional methods and our agent compare on identical cases? | [中文跨方法开发表](../upgrade_v27/DEVELOPMENT_METHODS.zh.md) / [English development comparison](../upgrade_v27/DEVELOPMENT_METHODS.en.md); [final-test table and gate](../upgrade_v30/COMMON_TEST.en.md) | Study A; development and final test remain distinct |
-| Which datasets and experiments do published papers use? | [Recent-method source audit](LATEST_METHODS.en.md) | Related Work: published task registry and author-reported scores |
-| Does more experience improve complete recorded orders? | [Recorded-availability results](../upgrade_v21/RESULTS.en.md), [matched feedback controls](../upgrade_v23/RESULTS.en.md), [eICU external study](../upgrade_v25/RESULTS.en.md) | Study B; each cohort and drug space is separate |
-| Do learned language skills generalize? | [Public component/round comparison](../upgrade_v17/RESULTS.en.md), [second-backbone transfer](../upgrade_v18/RESULTS.en.md) | Study C |
-| What changed in model weights, and is it robust to candidate order? | [Parameter rounds](../upgrade_v31/RESULTS.en.md), [controlled decision repair](../upgrade_v32/RESULTS.en.md) | Study D |
-| Do real tools execute the intended state changes? | [FHIR skill results](../upgrade_v19/RESULTS.en.md), [repair factorial](../upgrade_v28/RESULTS.en.md) | Study E |
-| What was the actual fitting and proposal budget? | [中文计算账本](COMPUTE_ACCOUNTING.zh.md) / [English compute receipts](COMPUTE_ACCOUNTING.en.md) | Study A computation paragraph and linked full receipts |
+| How do methods compare on identical MIMIC cases? | Results: Common-data method comparison, Table 2 | 271-class and 219-class panels; development evidence; molecular ARMR has one completed seed |
+| How do methods compare on unseen hospitals? | Results: External-hospital method comparison, Table 3 | Completed eICU test; thirteen methods/configurations, three seeds |
+| Does performance improve with more cases, and what component helps? | Results: Experience growth and component attribution, Table 4 | Five frozen experience checkpoints and policy/tool interventions |
+| What is the agent's complete workflow? | RxRSIAgent, Figure 1 | Runtime contracts, persistent state and update lineage |
+| Why do language-model updates fail? | Diagnosing Language-Model Updates; detailed appendix | Empty selections, candidate-position dependence and precision readouts |
+| What about public QA, FHIR and original-paper scores? | Supplementary Public Tasks; Published Results under Their Original Protocols | Separate tasks and source protocols; no cross-protocol ranking |
+| What data and compute budgets were used? | Experimental Protocol; Detailed Reproduction Protocol | Cohort boundaries, mapping coverage, budgets and selection rules |
 
-The agent-state section includes a study map linking each task to its output and evolving object. The original 4,000-admission and later 1,082-admission order tasks retain their original protocols and results. Original-paper scores remain source-specific citations.
+The main claims follow completed evidence: order-tool learning helps; feedback-specific RSI and overall superiority are not established. The evidence manifest binds the manuscript to its aggregate sources. Earlier version reports below remain historical.
 
 ## Additional completed comparisons
 
@@ -57,7 +57,7 @@ GT-based evaluation does not require clinician review. Missing attributes remain
 | Version | Record | Evidence |
 | --- | --- | --- |
 | v0.32 | [Controlled decision repair](../upgrade_v32/RESULTS.en.md) | Four same-data/100-step prefix/loss arms; fixed and calibrated scoring, independent recount and guard prerequisites |
-| v0.31 | [Parameter intervention](../upgrade_v31/RESULTS.en.md) | Four arms, three seeds, three rounds; position randomization with original ranks retained; training running |
+| v0.31 | [Parameter intervention](../upgrade_v31/RESULTS.en.md) | Four arms, three seeds, three rounds; position randomization with original ranks retained; partial; paused |
 | v0.30 | [Memory gates](../upgrade_v30/RESULTS.en.md) | Fourteen arms isolate old-memory compatibility and separate whole-update confirmation; audited completed seeds reported |
 | v0.29 | [Program synthesis](../upgrade_v29/RESULTS.en.md) | All six five-round runs independently audited; permanent witness separation, ordinary calibration, greedy/random/shuffled controls |
 | v0.28 | [FHIR factorial](../upgrade_v28/RESULTS.en.md) | Twenty-three of24 cells audited; fixed engineering repairs distinguished from learned frozen skills |

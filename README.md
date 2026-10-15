@@ -1,23 +1,17 @@
 # PRISMATIC: ***P***rescription ***R***isk ***I***nspection ***S***ystem for ***M***ulti-***A***gent ***T***actical ***I***nteraction in ***C***linical Decision
 
 <!-- RXRSI_CURRENT_EXECUTION_START -->
-## Current execution snapshot
+## Paused research snapshot / English ACL manuscript — 15 October 2026
 
-The rule-memory study completes **6/6 five-round runs**; genuine author-model baselines complete **12/15 full 50-epoch runs** (622/750 epochs saved). Independent development audits quantify the small memory increment against greedy/random/shuffled controls. A common test evaluator is implemented and stays closed until every selection and audit freezes.
+The research goal and experiment queues are paused at the user's request. The English manuscript has been reorganized around the saved evidence using the official ACL review template.
 
-The real-FHIR factorial executes fixed answer-contract/statistics repairs and frozen learned skills in all eight combinations. This is exploratory execution repair, not autonomous tool-code evolution. All completed audited cells, costs and limits are maintained in the reports.
+- [English ACL manuscript](paper/latex/v0.3/prismatic_v03_en.tex): workflow, common-data method comparison, external-hospital test, experience curves, component interventions, and failure analysis.
+- **13/15** author-method runs complete; **6/6** rule trajectories complete; the final common MIMIC test remains unreported.
+- External eICU test complete: **13 methods/configurations, three seeds, 8,005 stays, sixteen held-out hospitals**.
+- **9/36** parameter updates complete; the precision diagnostic is complete and independently audited. Its results do not establish a neural advantage over retrieval.
+- [Evidence manifest](paper/latex/v0.3/manuscript_evidence.json) · [English reading index](paper/README.md) · [中文结果](paper/CURRENT_RESULTS.zh.md) · [English results](paper/CURRENT_RESULTS.en.md).
 
-[中文当前结果与方法对照](paper/CURRENT_RESULTS.zh.md) · [English current results](paper/CURRENT_RESULTS.en.md) · [Rule mechanism and rounds](upgrade_v27/RESULTS.en.md) · [FHIR repair](upgrade_v28/RESULTS.en.md)
-
-Earlier paragraphs below describe retained study versions; this snapshot governs current execution status.
-
-**New mechanism executing:** v0.29 permanently separates fit/witness patients, adds a strong ordinary calibration control and lets the language agent synthesize conditional programs. Only independently audited development results are published. [Conditional-program study](upgrade_v29/RESULTS.en.md) · [中文机制与结果](upgrade_v29/RESULTS.zh.md).
-
-**Current improvement:** the registered 14-arm v0.30 factorial tests old-memory compatibility and whole-update confirmation on separate patients, with greedy and shuffled controls. [Actual gate study](upgrade_v30/RESULTS.en.md) · [中文验证机制与结果](upgrade_v30/RESULTS.zh.md).
-
-**Local parameter intervention:** v0.31 randomizes candidate display positions while preserving retrieval ranks, comparing ordinary, own-error and shuffled-error QLoRA under matched budgets. Three seeds and all raw/accepted checkpoints are registered; only independently audited results are reported. [Parameter study](upgrade_v31/RESULTS.en.md) · [中文参数进化](upgrade_v31/RESULTS.zh.md).
-
-**API status:** a new HTTP402 interrupted unfinished API branches; saved checkpoints and completed scores are retained. Local training/audits continue. [Execution status](paper/execution_status.json).
+Writing did not resume experiments. Earlier research-status paragraphs below are historical entries; this snapshot governs current status.
 <!-- RXRSI_CURRENT_EXECUTION_END -->
 
 

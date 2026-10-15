@@ -1,5 +1,7 @@
 # PRISMATIC manuscript completion and execution plan
 
+> 2026-10-15: Research and experiment queues are paused at the user’s request. The English ACL manuscript was written from the existing evidence; the items below remain a historical plan, not an instruction to resume.
+
 <!-- RXRSI_CURRENT_EXECUTION_START -->
 ## Current execution queue — concrete delivery status
 
@@ -12,7 +14,7 @@
 7. Regrade the exact frozen common-test predictions on the independently audited prior-case-excluded318-patient/801-visit subset and the complementary group, with no reselection. Keep the complete original main table. The implemented queue waits for both parent test audits; report the registry's coverage limits.
 8. Keep the existing English LaTeX source, bilingual results entry and versioned reports synchronized. Only completed audited experiments enter score tables; compilation and GitHub pushes are checked explicitly.
 
-**Local repair subtask:** all four fits and the complete eight-method proposal comparison pass independent audits. Fixed-threshold class balancing reduces empty outputs, while calibration often selects nearly all candidates; none of the new repairs beats direct top-8 point estimates. Continue the registered multi-round control and report-only guard queue. The fixed-eight diagnosis has led to an implemented three-way numerical-readout comparison. Its real-model synthetic preflight and independent weight audit pass; finish the frozen clinical run and independent readout/metric recount before deciding on training or candidate-specific scoring changes. All four repairs, two neural controls and two retrieval controls receive fixed-threshold and ordinary-calibration comparisons. Every pilot state/threshold freezes before guard. This one-round supervised repair still needs multi-round RSI verification. [Actual repair execution and results](../upgrade_v32/RESULTS.en.md)
+**Local repair subtask:** all four fits and the complete eight-method proposal comparison pass independent audits. Fixed-threshold class balancing reduces empty outputs, while calibration often selects nearly all candidates; none of the new repairs beats direct top-8 point estimates. Continue the registered multi-round control and report-only guard queue. The full three-way numerical-readout comparison now passes independent readout and metric recount. Use its F1, ranking and permutation results to decide the next candidate-scoring change; no model or threshold has been reselected. All four repairs, two neural controls and two retrieval controls receive fixed-threshold and ordinary-calibration comparisons. Every pilot state/threshold freezes before guard. This one-round supervised repair still needs multi-round RSI verification. [Actual repair execution and results](../upgrade_v32/RESULTS.en.md)
 
 [Current actual results](CURRENT_RESULTS.en.md) · [Rule study](../upgrade_v27/RESULTS.en.md) · [FHIR repair](../upgrade_v28/RESULTS.en.md)
 
