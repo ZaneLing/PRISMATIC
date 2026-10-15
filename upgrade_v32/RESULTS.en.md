@@ -277,3 +277,5 @@ This pilot is one-seed, one-round supervised repair. It does not by itself show 
 [Protocol](protocol.json) · [Evaluation addendum](evaluation_addendum.json) · [Execution progress](results/progress.json) · [Synthetic scoring preflight](results/evaluation_probe.json) · [Earlier collapse diagnosis](../upgrade_v31/COLLAPSE.en.md)
 
 A separate post-proposal diagnosis fixes every output to eight medications and independently recounts drug-identity ranking, position sensitivity and cutoff ties. It changes no original selection. [Fixed-cardinality ranking diagnosis](RANKING_DIAGNOSTIC.en.md)
+
+The frozen-readout precision comparison has passed its numerical preflight and has a separate clinical evaluation/audit pipeline. [Precision comparison](PRECISION.en.md)

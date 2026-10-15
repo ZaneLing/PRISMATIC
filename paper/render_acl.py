@@ -375,6 +375,39 @@ After observing the proposal repair outcomes, we specified and committed an addi
                 parameter_section+=f" For teacher-prefix/uniform loss, same-display-slot Spearman correlation is {alignment_diag['same_display_slots_unaligned']['mean_spearman']:.4f}, whereas drug-identity-aligned correlation is {alignment_diag['drug_identity_aligned']['mean_spearman']:.4f}. These within-case averages are consistent with positional dependence but do not establish its causal origin."
                 tie_ranked=diagnostic_views['ranked']['methods']['zero_uniform']['boundary_tie_cases'];tie_permuted=diagnostic_views['permuted']['methods']['zero_uniform']['boundary_tie_cases']
                 parameter_section+=f" Zero-prefix/uniform scores have exact ties across the eighth/ninth cutoff in {tie_ranked}/{diagnostic['cases']} ranked and {tie_permuted}/{diagnostic['cases']} permuted cases. Tie sensitivity warrants a separate numerical-readout check before attributing the failure to learned representations. Independent recount covers {diagnostic_proof['case_probability_bindings_recounted']} probability bindings and {diagnostic_proof['case_selections_recounted']} case selections, including within-case AUROC and 4,000-draw paired patient intervals; neural forward passes are not replayed."
+    precision_probe_path=ROOT/'upgrade_v32/results/precision_probe.json';precision_audit_path=ROOT/'upgrade_v32/results/precision_probe_audit.json'
+    if precision_audit_path.exists():
+        precision_proof=json.loads(precision_audit_path.read_text());assert precision_proof['status']=='passed' and precision_proof['probe_sha256']==hashlib.sha256(precision_probe_path.read_bytes()).hexdigest()
+        assert precision_proof['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v32/audit_precision_probe.py').read_bytes()).hexdigest()
+        precision_probe=json.loads(precision_probe_path.read_text())
+        parameter_section+=r'''\paragraph{Frozen-readout precision control.}
+The cutoff-tie diagnosis motivates an additional post-proposal implementation experiment. Three readouts share the same frozen backbone hidden states: the original quantized vocabulary projection, a float32 dense projection using the same stored four-bit parameters for the two output-token rows, and that dense projection re-rounded to bfloat16 before softmax. The latter pair isolates final-logit rounding within the dense path. Native versus dense projection also changes arithmetic, so its entire difference cannot be attributed to rounding. The backbone, adapters, memory, tools and candidate templates remain fixed; any benefit is an implementation effect rather than learned RSI.'''
+        zero_counts=[n for state in precision_probe['states'] if state['state'].startswith('zero_') for n in state['unique_scores_per_synthetic_prompt']['native']]
+        residual=precision_proof['maximum_numeric_residuals']
+        parameter_section+=f" A real-model preflight uses two nonclinical synthetic inputs for each of six frozen states. The zero-prefix states yield {min(zero_counts)}--{max(zero_counts)} distinct native scores among 20 candidates, versus 20 under float32 projection; re-rounding reduces their distinct scores again. Direct safetensors-byte extraction and independent NumPy reconstruction verify the two output rows, float64 dot products and nearest-even rounding. Maximum logit/probability residuals are {residual['dense_logit']:.3g}/{residual['binary_probability']:.3g}. These twelve synthetic backbone forwards establish numerical behavior, not prescription performance."
+        clinical_precision_available=False
+        for precision_split in ['proposal','guard']:
+            precision_path=ROOT/f'upgrade_v32/results/{precision_split}_precision.json';precision_check=ROOT/f'upgrade_v32/results/{precision_split}_precision_audit.json'
+            if not precision_check.exists():continue
+            proof=json.loads(precision_check.read_text());assert proof['status']=='passed' and proof['summary_sha256']==hashlib.sha256(precision_path.read_bytes()).hexdigest()
+            assert proof['auditor_sha256']==hashlib.sha256((ROOT/'upgrade_v32/audit_precision.py').read_bytes()).hexdigest()
+            precision_data=json.loads(precision_path.read_text());precision_views=precision_data['panels']['drug_sha256'];clinical_precision_available=True
+            precision_labels={'frozen_base':'Frozen base','original_failed_adapter':'Original failed','teacher_uniform':'Teacher/uniform','zero_uniform':'Zero/uniform','teacher_balanced':'Teacher/balanced','zero_balanced':'Zero/balanced'}
+            precision_rows=[]
+            for method,label in precision_labels.items():
+                for readout,readout_label in [('native','Native'),('fp32_binary','FP32'),('fp32_rerounded',r'FP32 $\to$ BF16')]:
+                    precision_cells=[label,readout_label]
+                    for kind,panel in precision_views.items():
+                        m=panel[readout]['methods'][method];precision_cells.append(f"{m['drug_micro_f1']:.4f}/{m['core_order_micro_f1']:.4f}")
+                    precision_rows.append(' & '.join(precision_cells)+r'\\')
+            precision_cells=['Retrieval top-8','--']
+            for panel in precision_views.values():
+                m=panel['native']['methods']['original_retrieval_top8'];precision_cells.append(f"{m['drug_micro_f1']:.4f}/{m['core_order_micro_f1']:.4f}")
+            precision_rows.append(' & '.join(precision_cells)+r'\\')
+            parameter_section+=r'\begin{table*}[t]\centering\scriptsize'+'\n'+r'\caption{'+f"Fixed-eight precision diagnosis on {precision_data['cases']} {precision_split} admissions. Cells are drug/core-order F1; all readouts share each frozen backbone forward. Primary drug-identity-hash tie-breaking is shown; both tie rules and all paired intervals remain in the release. This is post-proposal development evidence."+r'}'+'\n'+r'\begin{tabular}{ll'+'r'*len(precision_views)+r'}\toprule State & Readout & '+' & '.join(k.capitalize() for k in precision_views)+r'\\\midrule'+'\n'+'\n'.join(precision_rows)+'\n'+r'\bottomrule\end{tabular}\end{table*}'+'\n'
+            parameter_section+=f" The independent audit replays {proof['shared_hidden_state_receipts_replayed']} saved hidden-state readouts, both tie rules and all patient intervals. Actual completed case-forwards total {proof['completed_actual_case_forwards']}, with {proof['unresolved_forward_attempts']} unresolved attempts. Backbone and native-kernel forward passes are not independently replayed. No new model, threshold or promotion is selected."
+        if not clinical_precision_available:
+            parameter_section+=' The source-bound clinical evaluator and independent auditor are implemented, and the complete proposal comparison has been launched. No independently audited clinical precision score is available at this snapshot.'
     compatibility_section=''
     if (ROOT/'upgrade_v27/results/cohort_audit.json').exists():
         compatibility_section=r'''\paragraph{Standard-method compatibility panel.}

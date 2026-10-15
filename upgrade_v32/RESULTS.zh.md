@@ -277,3 +277,5 @@ v31 首次更新生成了格式合法、内容全零的处方。本试验用相�
 [Protocol](protocol.json) · [Evaluation addendum](evaluation_addendum.json) · [Execution progress](results/progress.json) · [Synthetic scoring preflight](results/evaluation_probe.json) · [Earlier collapse diagnosis](../upgrade_v31/COLLAPSE.zh.md)
 
 另已完成事后提出的固定8药诊断，独立复算按药物身份对齐的排序、位置依赖和截断同分；不改变原有选择。[Fixed-cardinality ranking diagnosis](RANKING_DIAGNOSTIC.zh.md)
+
+固定权重读出精度对照已通过数值预检，并具有单独的病例评价／复算流程。[Precision comparison](PRECISION.zh.md)

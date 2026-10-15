@@ -143,6 +143,8 @@ Intervals use 4,000 paired patient resamples, without multiplicity correction. T
 
 ## 3. Next implementation decision
 
-Threshold tuning alone has not resolved the ranking failure. Frequent exact cutoff ties also require a separate numerical-readout precision check before attributing them to the learned representation. A future candidate-specific readout should preserve drug identity across permutations and be compared with the same retrieval evidence and output budget. These are next investigations, not implemented or validated repairs. Existing multi-round studies and their selection gates continue unchanged.
+Threshold tuning alone has not resolved the ranking failure. Numerical precision and candidate-specific scoring require separate interventions; the precision execution status follows below when available. A future candidate-specific readout should preserve drug identity across permutations and be compared with the same retrieval evidence and output budget. Candidate-specific scoring remains a future design direction, without an implemented or validated repair. Existing multi-round studies and their selection gates continue unchanged.
+
+**Execution update:** the three-way frozen-readout precision comparison has passed its real-model synthetic preflight and independent raw-weight audit. The source-bound clinical evaluator/auditor are implemented and the proposal run has been launched. Clinical effects require the subsequent audit. [Readout precision evidence](PRECISION.en.md)
 
 The original guard is still closed or awaiting its parent audit. No guard score is available for this diagnostic.

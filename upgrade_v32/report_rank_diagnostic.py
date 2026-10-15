@@ -95,8 +95,11 @@ def main():
                        f"**独立核验：** 复核{audit['case_probability_bindings_recounted']:,}个概率绑定、{audit['case_selections_recounted']:,}组病例选择，并独立复算订单指标、病例内AUROC、排序相关性和配对区间。没有重跑优化器或神经前向。"), '',
                       f'[Machine-readable results](results/{split}_rank_diagnostic.json) · [Independent audit](results/{split}_rank_diagnostic_audit.json)', '']
         lines += [('## 3. Next implementation decision' if en else '## 3. 这对下一次改进意味着什么'), '',
-                  ('Threshold tuning alone has not resolved the ranking failure. Frequent exact cutoff ties also require a separate numerical-readout precision check before attributing them to the learned representation. A future candidate-specific readout should preserve drug identity across permutations and be compared with the same retrieval evidence and output budget. These are next investigations, not implemented or validated repairs. Existing multi-round studies and their selection gates continue unchanged.' if en else
-                   '仅调阈值仍未解决排序失败。截断位置频繁同分还需要单独检查数值读出精度，才能判断是否源于学到的表示。后续逐药物读出应在候选换序时保留药物身份，并与相同检索证据、相同输出预算的对照比较。这里列的是下一步调查方向，尚未实现或验证为有效修复。现有多轮试验及选择门槛继续保持。'), '']
+                  ('Threshold tuning alone has not resolved the ranking failure. Numerical precision and candidate-specific scoring require separate interventions; the precision execution status follows below when available. A future candidate-specific readout should preserve drug identity across permutations and be compared with the same retrieval evidence and output budget. Candidate-specific scoring remains a future design direction, without an implemented or validated repair. Existing multi-round studies and their selection gates continue unchanged.' if en else
+                   '仅调阈值仍未解决排序失败。数值精度和逐药评分需要分别干预，精度对照的执行情况见下方更新。后续逐药物读出应在候选换序时保留药物身份，并与相同检索证据、相同输出预算的对照比较。逐药评分仍是后续设计方向，尚未实现或验证为有效修复。现有多轮试验及选择门槛继续保持。'), '']
+        if (HERE/'results/precision_probe_audit.json').exists():
+            lines += [('**Execution update:** the three-way frozen-readout precision comparison has passed its real-model synthetic preflight and independent raw-weight audit. The source-bound clinical evaluator/auditor are implemented and the proposal run has been launched. Clinical effects require the subsequent audit. ' if en else
+                       '**执行更新：** 三路固定权重精度对照已通过真实模型合成预检及独立原始权重核验。病例评价器／复算器已实现并冻结，proposal评价已启动，病例效果须等待后续核验。')+f'[Readout precision evidence](PRECISION.{lang}.md)', '']
         if 'guard' not in reports:
             lines += [('The original guard is still closed or awaiting its parent audit. No guard score is available for this diagnostic.' if en else
                        '原guard尚未开放或尚待父实验核验，本诊断没有guard分数。'), '']

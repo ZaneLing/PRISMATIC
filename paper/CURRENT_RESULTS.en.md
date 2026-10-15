@@ -7,7 +7,7 @@
 
 **Execution notice:** new OpenRouter requests returned HTTP402 after the previous recharge. Unfinished API branches retain checkpoints and await credit; completed results and independent local training/audits continue. Missing requests are never scored as model errors.
 
-**Actual training:** 6/6 rule runs finish five rounds; 11/15 author-model runs finish their full 50 epochs, with 588/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
+**Actual training:** 6/6 rule runs finish five rounds; 11/15 author-model runs finish their full 50 epochs, with 614/750 completed epochs overall. Training/audit queues continue. The final common ATC-L4 test table opens only after all registered choices and audits freeze.
 
 **Recorded method budgets:** the receipt ledger separates shared fits, optimizer steps, proposal searches and logical response prices. It checks completed author-epoch records against their original logs, counts shared policy fitting once, and identifies exact v29-to-v30 model reuse. SafeDrug has 3 audited seeds; molecular guard patient F1 is 0.53689 ± 0.00244. [Actual compute and development results](COMPUTE_ACCOUNTING.en.md)
 
@@ -43,17 +43,20 @@ All three seeds and 13 methods/components finish the same 8,005 stays / 6,227 pa
 
 v0.31 runs four arms across three seeds and three rounds: ranked uniform, permuted uniform, permuted own-error and permuted shuffled-error updates. Each round uses the same 400-example/100-step budget. Original retrieval ranks and candidate order fields remain visible. This tests whether weight updates learn drug decisions beyond display position, and whether own errors add value over ordinary training. Candidate tools and order templates stay fixed.
 
-Completed optimizer runs: **4/36**; fully audited seeds: **0/3**. Old test cases are excluded. Proposal selects checkpoints; the reused 200-case guard is exploratory development evidence, not an untouched test.
+Completed optimizer runs: **5/36**; fully audited seeds: **0/3**. Old test cases are excluded. Proposal selects checkpoints; the reused 200-case guard is exploratory development evidence, not an untouched test.
 
 | State on 100 proposal cases | Ranked drug/order F1 | Permuted drug/order F1 |
 |---|---:|---:|
 | Frozen base | 0.16846/0.10223 | 0.14129/0.09434 |
 | permuted_uniform, round 1 | 0.00000/0.00000 | 0.00000/0.00000 |
+| permuted_uniform, round 2 | 0.00000/0.00000 | 0.00000/0.00000 |
 | ranked_uniform, round 1 | 0.23301/0.14815 | 0.10800/0.06960 |
 | permuted_own_error, round 1 | 0.00000/0.00000 | 0.00000/0.00000 |
 | permuted_shuffled_error, round 1 | 0.00000/0.00000 | 0.00000/0.00000 |
 
 **Observed failure:** seed42/permuted_uniform/round1 has 100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain.
+
+**Observed failure:** seed42/permuted_uniform/round2 has 100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain.
 
 **Observed failure:** seed42/permuted_own_error/round1 has 100% empty predictions in both proposal views and drug/order micro-F1=0. The frozen promotion rule rejects it; original results remain.
 
@@ -94,9 +97,13 @@ The report-only guard is still pending; its original selection gate and current 
 | Zero prefix / balanced | 0.22401/0.14877 | 0.20255/0.14618 |
 | Direct retrieval top-8 | 0.28706/0.20181 | 0.28706/0.20181 |
 
-No neural state exceeds retrieval in either F1 under either declared tie rule. Same-slot correlations exceed identity-aligned correlations; frequent cutoff ties make the zero-prefix states sensitive to tie handling. The full report retains both tie rules, within-case AUROC and patient intervals. A numerical-readout precision check remains a next investigation, not an implemented repair.
+No neural state exceeds retrieval in either F1 under either declared tie rule. Same-slot correlations exceed identity-aligned correlations; frequent cutoff ties make the zero-prefix states sensitive to tie handling. The full report retains both tie rules, within-case AUROC and patient intervals. The numerical-readout precision investigation has since been implemented; its stage-specific evidence follows.
 
 [Fixed-cardinality ranking diagnosis](../upgrade_v32/RANKING_DIAGNOSTIC.en.md)
+
+**Readout precision execution:** six frozen model states and two synthetic prompts each pass independent raw-weight, float64 projection and rounding checks. For the two zero-prefix states, native scores occupy only 3–4 levels out of 20; FP32 gives 20, and re-rounding reduces them again. This is engineering evidence. The complete clinical comparison has been launched with shared hidden states, all three readouts and both tie rules; only an independently audited clinical summary can establish a prescription-metric effect.
+
+[Readout precision comparison](../upgrade_v32/PRECISION.en.md)
 
 ### Memory repair now executing: compatibility and separate confirmation
 

@@ -156,6 +156,9 @@ def main():
             lines += [('A separate post-proposal diagnosis fixes every output to eight medications and independently recounts drug-identity ranking, position sensitivity and cutoff ties. It changes no original selection. ' if en else
                        '另已完成事后提出的固定8药诊断，独立复算按药物身份对齐的排序、位置依赖和截断同分；不改变原有选择。') +
                       f'[Fixed-cardinality ranking diagnosis](RANKING_DIAGNOSTIC.{lang}.md)', '']
+        if (HERE/'results/precision_probe_audit.json').exists():
+            lines += [('The frozen-readout precision comparison has passed its numerical preflight and has a separate clinical evaluation/audit pipeline. ' if en else
+                       '固定权重读出精度对照已通过数值预检，并具有单独的病例评价／复算流程。')+f'[Precision comparison](PRECISION.{lang}.md)', '']
         (HERE / f'RESULTS.{lang}.md').write_text('\n'.join(lines))
     print(json.dumps({'completed_fits': len(completed), 'audited_splits': progress['audited_splits']}), flush=True)
 
