@@ -1,0 +1,27 @@
+{
+  "name": "Frozen binary readout precision diagnosis",
+  "stage": "Specified after the parent proposal and fixed-cardinality diagnostics, before any new precision comparison",
+  "parent_ranking_release_commit": "18bd5201",
+  "question": "Do low-precision final logits explain frequent score ties, and do higher-precision readouts improve within-case ranking without changing learned weights?",
+  "states": ["frozen_base", "original_failed_adapter", "teacher_uniform", "zero_uniform", "teacher_balanced", "zero_balanced"],
+  "shared_forward": "Use the exact parent label-blind all-zero answer-prefix encoding and frozen model/adapter. All readouts share the same twenty hidden states from one backbone forward.",
+  "readouts": {
+    "native": "Original quantized full-vocabulary output projection; extract token 0/1 logits and cast the completed logits to float32, exactly as in the parent scorer.",
+    "fp32_binary": "Reconstruct only token 0/1 weight rows in float32 from the same packed four-bit weights, stored scales and affine offsets. Multiply the original hidden states cast to float32 by these two rows. Backbone and stored quantization parameters are unchanged.",
+    "fp32_rerounded": "Round fp32_binary logits to bfloat16, then cast back to float32 before the same binary softmax. Its difference from fp32_binary isolates final-logit rounding within the new dense readout path."
+  },
+  "interpretation": "Native versus fp32_binary changes projection arithmetic as well as final precision. Native versus fp32_rerounded measures residual implementation differences. Do not attribute all native/FP32 differences solely to final-logit rounding. Hidden states and backbone weights remain quantized; this is not a full-float32 model.",
+  "runtime_preflight": "Two explicitly synthetic, nonclinical prompts per frozen state. Independently unpack four-bit rows and reconstruct weights using NumPy float64; independently recompute dense logits, softmax and bfloat16 rounding. Record dtypes, unique scores and numerical residuals. Synthetic tie changes are not clinical performance.",
+  "tolerances_fixed_before_preflight": {
+    "dense_weight_max_absolute_delta": 1e-7,
+    "dense_logit_max_absolute_delta": 0.0005,
+    "binary_probability_max_absolute_delta": 0.00001,
+    "rounding_control_max_absolute_delta": 0.0,
+    "native_parent_probability_replay_max_absolute_delta": 0.002
+  },
+  "proposal_plan": "After a passing preflight and frozen evaluator/auditor, evaluate all six states on all 100 parent proposal admissions in ranked/permuted views, batch size four. Save hidden states and all three readouts privately for independent CPU readout replay. Use both previously declared identity-based tie rules to select eight medications; retain the original retrieval top-eight control, all reference medications, within-case AUROC, cutoff ties, score alignment and paired patient intervals. Do not recalibrate thresholds, train, promote a state or open a test.",
+  "guard_plan": "Only after the original parent guard inference and independent audit complete; no guard-based choices. The guard remains reused development data.",
+  "clinical_execution_gate": "Do not run the clinical precision comparison until the synthetic preflight and the dedicated evaluator/auditor implementation are both complete and source-bound. A preflight alone is not clinical execution.",
+  "statistical_scope": "Post-proposal descriptive diagnosis, one training seed. 4000 paired patient bootstrap draws, seed 32032, no multiplicity adjustment. No independent confirmation or feedback-specific RSI claim.",
+  "privacy_and_budget": "No API requests. New backbone forwards and projection arithmetic must be counted. Restricted hidden states, cases, labels and selections stay local; publish only aggregates and source hashes."
+}
