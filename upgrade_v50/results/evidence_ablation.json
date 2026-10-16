@@ -1,0 +1,83 @@
+{
+  "complete": true,
+  "split": "proposal, 48 cases",
+  "baseline": {
+    "cases": 48,
+    "drug_micro_f1": 0.06521739130434782,
+    "drug_precision": 0.07377049180327869,
+    "drug_recall": 0.05844155844155844,
+    "core_order_micro_f1": 0.041811846689895474,
+    "known_field_accuracy_given_correct_drug": 0.875,
+    "known_fields_scored": 32,
+    "core_gold_orders": 165,
+    "core_predicted_orders": 122,
+    "mean_predicted_drugs": 2.5416666666666665,
+    "empty_fraction": 0.0,
+    "promotion_score": 0.05351461899712165,
+    "core5_micro_f1": 0.019417475728155338,
+    "core5_gt_field_coverage": 0.6845238095238095,
+    "invalid_fraction": 0.0,
+    "catalogue_drug_recall_ceiling": 0.6233766233766234,
+    "output_tokens": 2920,
+    "input_tokens": 263523,
+    "logical_calls": 144,
+    "api_cost_usd": 0
+  },
+  "without_label_excerpts": {
+    "cases": 48,
+    "drug_micro_f1": 0.10554089709762533,
+    "drug_precision": 0.08888888888888889,
+    "drug_recall": 0.12987012987012986,
+    "core_order_micro_f1": 0.06666666666666667,
+    "known_field_accuracy_given_correct_drug": 0.8266666666666667,
+    "known_fields_scored": 75,
+    "core_gold_orders": 165,
+    "core_predicted_orders": 225,
+    "mean_predicted_drugs": 4.6875,
+    "empty_fraction": 0.0,
+    "promotion_score": 0.086103781882146,
+    "core5_micro_f1": 0.04067796610169491,
+    "core5_gt_field_coverage": 0.6845238095238095,
+    "invalid_fraction": 0.0,
+    "catalogue_drug_recall_ceiling": 0.6233766233766234,
+    "output_tokens": 3860,
+    "input_tokens": 212074,
+    "logical_calls": 144,
+    "api_cost_usd": 0
+  },
+  "paired": {
+    "patients": 48,
+    "resamples": 2000,
+    "drug_delta_ci95": [
+      -0.01279250421973301,
+      0.09495721173803363
+    ],
+    "core4_delta_ci95": [
+      -0.018555636334692444,
+      0.06791035229574338
+    ],
+    "changed_cases": 47,
+    "case_f1_improved": 9,
+    "case_f1_regressed": 5
+  },
+  "checkpoint_selected": false,
+  "cached_to_fresh_no_edit_replay": {
+    "patients": 48,
+    "resamples": 2000,
+    "drug_delta_ci95": [
+      -0.025280524424483548,
+      0.0
+    ],
+    "core4_delta_ci95": [
+      -0.02412621113139872,
+      0.0
+    ],
+    "changed_cases": 3,
+    "case_f1_improved": 0,
+    "case_f1_regressed": 1
+  },
+  "fixed_case_order_and_chunks": true,
+  "source_metadata_preserved": true,
+  "protocol_sha256": "57698f171f5dac94e9fe8009e2228d6b4654a32cc3b7a35e43049e07ca608fae",
+  "limits": "Exploratory development intervention; changed source content and token count, not a same-token safety comparison"
+}

@@ -55,7 +55,7 @@ On Llama-3.2-3B, all 1,082 cases: initial drug/Core4 F1 **{fmt(a['drug_micro_f1'
 - Training observability audit: 1,722/40,000 admissions belong to 144 groups with identical visible context and differing reference drug sets. This supports an information/variation limitation, not a claim that every error is unavoidable.
 - Selected test predictions miss {counts['selection_missing']} targets already inside the catalogue; {counts['catalogue_missing']} targets are outside it. These distinguish selection and candidate-generation bottlenecks.
 - Case-level GT/prediction differences and before/after interventions are saved locally as `failure_case_studies.json` in the restricted experiment directory. No patient-level content is published.
-- Recorded actions are not unique clinical optima. No clinical-safety, DDI, allergy or renal-dose success is inferred from F1 or source quotation.
+- Recorded actions are not unique clinical optima. No clinical-safety, DDI, allergy or renal-dose success is inferred from F1 or source quotation. A second restricted file, `EVIDENCE_CASE_STUDIES.bilingual.md`, shows two reference-agreement corrections and two regressions from the paired evidence-removal experiment; these are illustrative development cases, not independent clinical validation.
 
 ## 6. Cost, provenance and limitations
 
@@ -95,7 +95,7 @@ The test has historical exposure from earlier supervised studies; the result is 
 2. 训练集中有 1,722/40,000 例属于 144 组“可见上下文相同、GT 药物集合不同”的记录。低分也受信息缺失、治疗差异或记录过程影响，不能直接推断模型不理解医生。
 3. 最终测试中，已有候选却漏选的 GT 共 {counts['selection_missing']} 个；候选库外 GT 共 {counts['catalogue_missing']} 个。前者针对决策，后者针对候选检索，不能混成一种错误。
 4. 真实训练失败病例、GT、前后预测及字段差异保存在受限目录的 `failure_case_studies.json`，不向 GitHub 发布病例内容。
-5. GT 是记录到的医生行为，不能直接当作唯一临床最优方案；F1 和引用有效不等于 DDI、过敏、肾剂量或处方适宜性已经验证。
+5. GT 是记录到的医生行为，不能直接当作唯一临床最优方案；F1 和引用有效不等于 DDI、过敏、肾剂量或处方适宜性已经验证。受限文件 `EVIDENCE_CASE_STUDIES.bilingual.md` 另外展示证据移除实验中2例改善和2例退步，属于开发案例说明，不是独立临床验证。
 
 ## 六、费用与可复现性
 

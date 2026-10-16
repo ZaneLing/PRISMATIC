@@ -1,0 +1,70 @@
+{
+  "complete": true,
+  "cases": 128,
+  "original": {
+    "cases": 128,
+    "drug_micro_f1": 0.07496977025392987,
+    "drug_precision": 0.09090909090909091,
+    "drug_recall": 0.06378600823045268,
+    "core_order_micro_f1": 0.04927211646136618,
+    "known_field_accuracy_given_correct_drug": 0.8532110091743119,
+    "known_fields_scored": 109,
+    "core_gold_orders": 552,
+    "core_predicted_orders": 341,
+    "mean_predicted_drugs": 2.6640625,
+    "empty_fraction": 0.0,
+    "promotion_score": 0.06212094335764802,
+    "core5_micro_f1": 0.025179856115107913,
+    "core5_gt_field_coverage": 0.5796064400715564,
+    "invalid_fraction": 0.0,
+    "catalogue_drug_recall_ceiling": 0.5082304526748971,
+    "output_tokens": 8141,
+    "input_tokens": 673754,
+    "logical_calls": 384,
+    "api_cost_usd": 0
+  },
+  "permuted": {
+    "cases": 128,
+    "drug_micro_f1": 0.04438964241676942,
+    "drug_precision": 0.055384615384615386,
+    "drug_recall": 0.037037037037037035,
+    "core_order_micro_f1": 0.018244013683010263,
+    "known_field_accuracy_given_correct_drug": 0.7903225806451613,
+    "known_fields_scored": 62,
+    "core_gold_orders": 552,
+    "core_predicted_orders": 325,
+    "mean_predicted_drugs": 2.5390625,
+    "empty_fraction": 0.0,
+    "promotion_score": 0.03131682804988984,
+    "core5_micro_f1": 0.014388489208633094,
+    "core5_gt_field_coverage": 0.5796064400715564,
+    "invalid_fraction": 0.0,
+    "catalogue_drug_recall_ceiling": 0.5082304526748971,
+    "output_tokens": 8077,
+    "input_tokens": 675409,
+    "logical_calls": 384,
+    "api_cost_usd": 0
+  },
+  "same_drug_set_cases": 17,
+  "paired": {
+    "patients": 127,
+    "resamples": 2000,
+    "drug_delta_ci95": [
+      -0.05809333516115821,
+      -0.004306069910051566
+    ],
+    "core4_delta_ci95": [
+      -0.053984523564058175,
+      -0.01037750724878014
+    ],
+    "changed_cases": 111,
+    "case_f1_improved": 9,
+    "case_f1_regressed": 19
+  },
+  "baseline": "fresh component initial-state replay, same case/chunk order",
+  "evidence_content_changed_cases": 25,
+  "interpretation": "Whole-pipeline order/identifier sensitivity; retrieval tie-breaking may also change evidence, not an isolated LLM-position effect.",
+  "selection_from_results": false,
+  "api_cost_usd": 0,
+  "protocol_sha256": "544405782c0560eb6e394d5333f36a3e29979c43c875b9285cd280766edda6d9"
+}

@@ -56,6 +56,8 @@ def main():
     if not checkpoint.exists():
         snapshots.mkdir(exist_ok=True);shutil.copytree(store_path,snapshots/'0')
         save(checkpoint,{'rounds':[]})
+    if not rounds:
+        save(HERE/'results/skemex_initialization.json',{'seed_meta_skills':sum(s.branch=='meta_memory' for s in store.list_skills()),'initial_nonmeta_skills':sum(s.branch!='meta_memory' for s in store.list_skills()),'source':'pinned author initialization assets'})
     calls=LocalCalls(b)
     TrajectoryEncoder._build_llm=lambda self,model,max_tokens:calls.llm(max_tokens)
     governance_module.build_llm=lambda config:calls.llm(config.max_tokens)
@@ -110,9 +112,11 @@ def main():
         save(checkpoint,{'rounds':rounds})
         save(HERE/'results/skemex_learning.json',{'rounds':rounds,'complete':False})
     store.read_only=True
+    frozen_hash=digest([s.to_dict() for s in store.list_skills()])
     cases=inject(data['test'],6)
+    assert frozen_hash==digest([s.to_dict() for s in store.list_skills()]), 'Test retrieval must not mutate the frozen skill state'
     save(HERE/'skemex_freeze.json',{'source_commit':'a640474590e384669dd71b657c441264beef73d2',
-      'skill_state_sha256':digest([s.to_dict() for s in store.list_skills()]),'test_labels_used':False,
+      'skill_state_sha256':frozen_hash,'test_labels_used':False,'model_sha256':b.model_hash,'test_retrieval_state_unchanged':True,
       'adaptations':['common three-call prescription actor','offline MiniLM semantic embeddings with full-text chunk pooling','continuous order-agreement reward','144 training cases','no web tools','pre-screening disabled; all active skills enter scoring']})
     rows=run(b,cases,'skemex',tag='skemex/test')
     for c,row in zip(cases,rows):row['injected_skill_ids']=c['injected_ids']
