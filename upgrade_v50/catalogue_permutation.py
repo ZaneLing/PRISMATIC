@@ -33,9 +33,13 @@ def main():
     rows=run(b,altered,'rxrsi',{'cards':[]},'catalogue-permutation')
     save(PRIVATE/'permuted-catalogue-test.json',{'rows':rows})
     drug_agreement=sum({o['drug_name'] for o in x['orders']}=={o['drug_name'] for o in y['orders']} for x,y in zip(baseline,rows))
+    def spans(r):return sorted((x.get('source_id'),x.get('section'),x.get('quote')) for x in r['evidence'].get('spans',[]))
+    changed_evidence=sum(spans(a)!=spans(b) for a,b in zip(baseline,rows))
     save(HERE/'results/catalogue_permutation.json',{'complete':True,'cases':len(cases),'original':metrics(baseline,cases),
       'permuted':metrics(rows,altered),'same_drug_set_cases':drug_agreement,'paired':paired(cases,baseline,rows),
       'baseline':'fresh component initial-state replay, same case/chunk order',
+      'evidence_content_changed_cases':changed_evidence,
+      'interpretation':'Whole-pipeline order/identifier sensitivity; retrieval tie-breaking may also change evidence, not an isolated LLM-position effect.',
       'selection_from_results':False,'api_cost_usd':0,'protocol_sha256':sha(HERE/'permutation_protocol.json')})
 if __name__=='__main__':
     import sys

@@ -53,7 +53,9 @@ def main():
         methods[name]={'metrics':metrics(rows,cases),'counts':dict(total),'prediction_sha256':sha(p),
           'parsed_plan_fraction':sum(bool(parse(r.get('plan',''))) for r in rows)/len(rows),
           'parsed_assessment_fraction':sum(bool(parse(r.get('assessment',''))) for r in rows)/len(rows),
-          'verified_fact_cases':sum(bool(r.get('checks',{}).get('verified_input_quotes')) for r in rows)}
+          'verified_fact_cases':sum(bool(r.get('checks',{}).get('verified_input_quotes')) for r in rows),
+          'invalid_identifier_cases':sum(bool(r.get('invalid_ids')) for r in rows),
+          'invalid_identifiers':sum(r.get('invalid_ids',0) for r in rows)}
         pairs=[({o['drug_name'] for o in c['gold']},{o['drug_name'] for o in r['orders']}) for c,r in zip(cases,rows)]
         methods[name]['descriptive_endpoints']={'drug_exact_set_accuracy':sum(g==p for g,p in pairs)/len(pairs),
           'mean_drug_jaccard':sum(len(g&p)/len(g|p) if g|p else 1.0 for g,p in pairs)/len(pairs),

@@ -37,7 +37,7 @@ All numbers below are percentages. The first five local rows use the same cases,
 
 {table}
 
-Candidate coverage ceiling: **{fmt(main['catalogue_drug_recall_ceiling'])}% of GT drugs**. Complete Core5 reference coverage: **{fmt(main['core5_gt_field_coverage'])}%**. Missing frequency does not become a match. No saline-presence metric is used.
+Candidate coverage ceiling: **{fmt(main['catalogue_drug_recall_ceiling'])}% of GT drugs**. Complete Core5 reference coverage: **{fmt(main['core5_gt_field_coverage'])}%**. Missing frequency does not become a match. No saline-presence metric is used. All scores apply to compiled orders. Unknown requested identifiers are discarded by the compiler and separately counted in the audit; they are not hidden as successful raw model output.
 
 ## 3. Sequential experience updates
 
@@ -77,7 +77,7 @@ The test has historical exposure from earlier supervised studies; the result is 
 
 {table}
 
-候选库最多覆盖 **{fmt(main['catalogue_drug_recall_ceiling'])}%** 的 GT 药物；五字段均已知的参考订单覆盖率为 **{fmt(main['core5_gt_field_coverage'])}%**。缺失频次不算匹配，不计算盐水出现 F1。
+候选库最多覆盖 **{fmt(main['catalogue_drug_recall_ceiling'])}%** 的 GT 药物；五字段均已知的参考订单覆盖率为 **{fmt(main['core5_gt_field_coverage'])}%**。缺失频次不算匹配，不计算盐水出现 F1。所有分数针对编译后的订单；模型请求的未知编号会被编译器丢弃，并在审计中单独计数，不等于原始输出全部有效。
 
 ## 三、逐轮进化
 
@@ -142,8 +142,8 @@ def details(audit,learning):
     per_path=HERE/'results/catalogue_permutation.json';position_en=position_zh=''
     if per_path.exists():
         per=json.loads(per_path.read_text());same=per['same_drug_set_cases']
-        position_en=f"Catalogue permutation preserves the drug set in {same}/128 cases. Drug F1 changes from {fmt(per['original']['drug_micro_f1'])}% to {fmt(per['permuted']['drug_micro_f1'])}%. This tests position sensitivity, not absence of pretrained drug priors."
-        position_zh=f"只打乱候选编号和顺序后，{same}/128例仍选择相同药物集合；药物 F1 从 {fmt(per['original']['drug_micro_f1'])}% 变为 {fmt(per['permuted']['drug_micro_f1'])}%。这检验位置敏感性，不能证明预训练药名先验已被排除。"
+        position_en=f"Catalogue permutation preserves the drug set in {same}/128 cases. Drug F1 changes from {fmt(per['original']['drug_micro_f1'])}% to {fmt(per['permuted']['drug_micro_f1'])}%. This tests whole-pipeline order/identifier sensitivity; evidence content changes in {per['evidence_content_changed_cases']}/128 cases. Retrieval tie-breaks may change, so this is not isolated LLM position bias or absence of pretrained drug priors."
+        position_zh=f"只打乱候选编号和顺序后，{same}/128例仍选择相同药物集合；药物 F1 从 {fmt(per['original']['drug_micro_f1'])}% 变为 {fmt(per['permuted']['drug_micro_f1'])}%。这检验完整流程对顺序/编号的敏感性；{per['evidence_content_changed_cases']}/128例的检索证据内容发生变化，因此不能单独归因为LLM位置偏差，也不能证明药名先验已排除。"
     en=f'''
 ## 7. Retention is not the same as verified improvement
 
@@ -169,7 +169,7 @@ For retained RxRSIAgent, mean drug Jaccard is {fmt(de['mean_drug_jaccard'])}%, e
 
 Training-only trace audit (144 admissions): {trace['reference_drugs_in_catalogue']}/{trace['reference_drugs']} reference drugs enter the catalogue; {trace['reference_candidate_drugs_with_cached_label']} of those have an exact-name cached label, but only {trace['reference_drugs_with_excerpt']} reference drugs receive a selected excerpt. Conversely, {trace['predicted_drugs_with_excerpt']}/{trace['predicted_drugs']} predicted drugs have an excerpt. Only two sentences are allocated globally per case. This exposes uneven evidence availability/selection; it does not establish its causal effect. The checker covers {trace['checked_unique_facts']}/{trace['observed_facts']} supplied facts; the LLM still sees the complete supplied input. No extra clinical context is created by expanding checker scope.
 
-On the same 48 proposal cases, with label excerpts: drug/Core4 F1 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**; without excerpts: **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**. This changes information and input length, and is an exploratory development ablation. It does not prove that drug labels are intrinsically harmful or that their clinical use is unnecessary.
+On the same 48 proposal cases, with label excerpts: drug/Core4 F1 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**; without excerpts: **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**. Both arms use fresh generation with the same case order and batch layout; metadata is preserved and only source spans are removed. This changes information and input length, and is an exploratory development ablation. It does not prove that drug labels are intrinsically harmful or that their clinical use is unnecessary.
 
 SkeMex author-memory training, with all 144 training admissions:
 
@@ -206,7 +206,7 @@ Primary method sources: [SafeRx-Agent](https://arxiv.org/html/2605.29146v1), [FL
 
 144例训练追踪：{trace['reference_drugs_in_catalogue']}/{trace['reference_drugs']}个GT药物进入候选库，其中{trace['reference_candidate_drugs_with_cached_label']}个有精确药名匹配的缓存说明书，但最终只有{trace['reference_drugs_with_excerpt']}个GT药物获得摘录；相对地，预测药物有{trace['predicted_drugs_with_excerpt']}/{trace['predicted_drugs']}个获得摘录。当前每例只在全局分配两个句子，证据覆盖明显不均衡；这还不是它造成错选的因果证明。核验器检查{trace['checked_unique_facts']}/{trace['observed_facts']}条输入事实，LLM仍能看见完整输入，扩大核验范围不会增加原始临床信息。
 
-相同48例候选集：有说明书片段时药物/订单 F1 为 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**；去掉片段后为 **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**。这是同时改变信息量和输入长度的探索性开发消融，不能推断药品说明书本身有害或临床上不需要它。
+相同48例候选集：有说明书片段时药物/订单 F1 为 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**；去掉片段后为 **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**。两个臂按同一病例顺序及分批方式重新生成，保留来源元数据、只去掉摘录。这是同时改变信息量和输入长度的探索性开发消融，不能推断药品说明书本身有害或临床上不需要它。
 
 SkeMex 作者记忆核心处理全部144例训练病例：
 
