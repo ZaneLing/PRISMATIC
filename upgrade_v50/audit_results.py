@@ -12,7 +12,9 @@ def counts(c,r):
       'catalogue_missing':len(g-cat),'selection_missing':len((g&cat)-p),'prior_gold':len(g&prior),'prior_hits':len(g&p&prior),
       'new_gold':len(g-prior),'new_hits':len((g-prior)&p),'core_hits':len(g4&p4),'core_pred':len(p4),'core_gold':len(g4),
       'core_reachable_given_drug':len(drug_reachable_core),'catalogue_core4_covered':len(g4&cat4),
-      'no_labs':int(not c['context']['available_labs'])}
+      'no_labs':int(not c['context']['available_labs']),
+      'all_predicted_tuples':len({key(o,FIELDS) for o in r['orders']}),
+      'complete5_predicted_tuples':len({key(o,FIELDS) for o in r['orders'] if all(o.get(f) is not None for f in FIELDS)})}
 def paired(cases,a,b,reps=2000):
     groups=collections.defaultdict(list)
     for i,c in enumerate(cases):groups[c['subject_hash']].append(i)
@@ -31,6 +33,9 @@ def paired(cases,a,b,reps=2000):
       'case_f1_regressed':sum(score([y['orders']],[c['gold']])['drug_micro_f1']<score([x['orders']],[c['gold']])['drug_micro_f1'] for c,x,y in zip(cases,a,b))}
 def main():
     data=load_cases();cases=data['test'];methods={};private_cases=[]
+    frozen=json.loads((PRIVATE/'test_freeze.json').read_text())
+    for name in ['actor','evidence','common']:assert frozen[name+'_sha256']==sha(HERE/(name+'.py'))
+    preparation=json.loads((HERE/'results/preparation.json').read_text());assert preparation['data_sha256']==sha(PRIVATE/'cases.json')
     seed=json.loads((PRIVATE/'flame-initial-seed.json').read_text())
     assert seed['case_ids']==[c['case_id'] for c in cases]
     seed_rows=[{'case_id':c['case_id'],'orders':[o for o in c['catalogue'].values() if o['drug_name'] in set(names)],'invalid':False}
@@ -57,6 +62,8 @@ def main():
           'new_target_recall':total['new_hits']/max(1,total['new_gold']),
           'catalogue_core4_recall_ceiling':total['catalogue_core4_covered']/max(1,total['core_gold']),
           'joint_fields_recall_given_correct_drug':total['core_hits']/max(1,total['core_reachable_given_drug']),
+          'core4_prediction_field_coverage':total['core_pred']/max(1,total['all_predicted_tuples']),
+          'core5_prediction_field_coverage':total['complete5_predicted_tuples']/max(1,total['all_predicted_tuples']),
           'reference_relative_not_clinical_harm':True}
     contrasts={}
     if 'rxrsi_selected' in raw:

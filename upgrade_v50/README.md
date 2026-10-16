@@ -4,7 +4,7 @@ The previous literal-example interface is diagnosed in `../upgrade_v49/results/s
 
 ## Executed task
 
-At admission +6 hours, predict the complete set of recorded new/change orders in hours 6–12. The 1,082-admission, 1,024-patient evaluation cohort, 24-candidate catalogue and 128-name vocabulary are unchanged. A shared supervised tool trained on 40,000 admissions supplies joint drug/route/dose/unit/frequency templates. Targets outside the catalogue remain in recall. This is catalogue-constrained order forecasting, not unrestricted prescribing or the whole hospital-stay regimen.
+At admission +6 hours, predict the complete set of recorded new/change orders in hours 6–12. The coherent-time, nonempty-target cohort requires complete 12-hour follow-up, provider and pharmacy entry timestamps in the target window, and verification by its end; ambiguous admissions are excluded. It does not represent all admissions, and released field-version histories are incomplete. The [source reconstruction audit](../upgrade_v21/results/independent_cohort_audit.json) applies to the unchanged source cases. The 1,082-admission, 1,024-patient evaluation cohort, 24-candidate catalogue and 128-name vocabulary are unchanged. A shared supervised tool trained on 40,000 admissions supplies joint drug/route/dose/unit/frequency templates. Targets outside the catalogue remain in recall. This is catalogue-constrained order forecasting, not unrestricted prescribing or the whole hospital-stay regimen.
 
 ## Learning and comparison
 

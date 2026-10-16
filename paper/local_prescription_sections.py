@@ -1,7 +1,7 @@
 """Data-linked local prescription and cross-backbone evaluation sections."""
 def render(read,table):
     audit=read('upgrade_v50/results/audit.json');learning=read('upgrade_v50/results/learning_scope.json')
-    read('upgrade_v50/protocol.json');read('upgrade_v50/results/preparation.json')
+    read('upgrade_v50/protocol.json');read('upgrade_v50/results/preparation.json');read('upgrade_v21/results/independent_cohort_audit.json')
     read('upgrade_v50/test_freeze_scope.json');read('upgrade_v50/results/embedding_backend.json');read('upgrade_v50/results/flame_conversion.json')
     comp=read('upgrade_v50/results/comparison.json');transfer=read('upgrade_v50/results/transfer.json');curve=read('upgrade_v50/results/round_curve.json')
     read('upgrade_v50/results/skemex.json');read('upgrade_v50/results/skemex_learning.json');read('upgrade_v50/results/flame.json')
@@ -27,7 +27,7 @@ def render(read,table):
     probe=read('upgrade_v49/results/schema_probe.json')
     text=r'''
 \subsection{Local structured-prescription evaluation}\label{sec:local-orders}
-We extend the workflow to the entire set of new/change orders within the audited six-hour window. This is a local prescription-task adaptation of RxRSIAgent; the hosted QA backbone is not sent restricted EHR records. A frozen40,000-admission supervised tool proposes24 joint order templates from the original128-name vocabulary, shared by all local actors. It supplies a candidate space rather than overriding the final selection. Every out-of-vocabulary target remains in recall. Thus this is catalogue-constrained structured order prediction, not unrestricted prescribing or prediction of the entire hospitalization. Facts are bound to observed input identifiers, product-label excerpts are retrieved offline, and selected identifiers compile to joint drug/route/dose/unit/frequency fields. Missing information is preserved. Current diagnoses, allergy completeness, renal clearance, infusion purpose and duration are not established by this input contract.
+We extend the workflow to the entire set of new/change orders within the audited six-hour window. The cohort is retrospectively restricted to nonempty targets, complete12-hour follow-up and no ambiguous target rows. Provider order and pharmacy entry times must both fall in hours6--12, with verification by hour12. Prior orders and labs are filtered by recorded availability clocks. Released field-version histories are incomplete; this does not establish all-admission performance. This is a local prescription-task adaptation of RxRSIAgent; the hosted QA backbone is not sent restricted EHR records. A frozen40,000-admission supervised tool proposes24 joint order templates from the original128-name vocabulary, shared by all local actors. It supplies a candidate space rather than overriding the final selection. Every out-of-vocabulary target remains in recall. Thus this is catalogue-constrained structured order prediction, not unrestricted prescribing or prediction of the entire hospitalization. Facts are bound to observed input identifiers, product-label excerpts are retrieved offline, and selected identifiers compile to joint drug/route/dose/unit/frequency fields. Missing information is preserved. Current diagnoses, allergy completeness, renal clearance, infusion purpose and duration are not established by this input contract.
 
 \begin{figure*}[t]\centering
 \begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
@@ -82,7 +82,7 @@ All new patient inference, reflection and embeddings run locally, with zero paid
     text+=('The interval includes zero; this does not establish a reliable improvement. ' if ci[0]<=0<=ci[1] else 'This interval is exploratory and unadjusted for repeated development. ')
     per=read('upgrade_v50/results/catalogue_permutation.json');read('upgrade_v50/permutation_protocol.json')
     text+=f"Permuting the same catalogue contents and reassigning order identifiers preserves the selected drug set in {per['same_drug_set_cases']}/128 cases; drug F1 changes from {pct(per['original']['drug_micro_f1'])}\\% to {pct(per['permuted']['drug_micro_f1'])}\\%. This diagnoses position sensitivity and cannot exclude pretrained drug priors. "
-    text+=r'An earlier literal-schema scope update passed development but changed full-test drug F1 from7.34 to7.27\%, adding3 true-positive drugs and138 extra drugs. Development acceptance therefore did not establish generalization. ' 
+    text+=r'An earlier literal-schema scope update passed development but changed full-test drug F1 from7.34 to7.27\%, adding3 true-positive drugs and138 extra drugs. Development acceptance therefore did not establish generalization. '
     read('upgrade_v50/results/learning_diagnostics.json')
     text+=r'The two valid candidates trigger only when both prior orders and laboratory observations are absent. They activate on two cases in each development subset, each containing one observed fact. All-observed scope adds no checked facts, and no order changes. This is an observed condition/action mismatch, not effective tool improvement. '
     de=methods['rxrsi_selected']['descriptive_endpoints']

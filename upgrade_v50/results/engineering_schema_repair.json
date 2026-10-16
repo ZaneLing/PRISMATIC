@@ -1,0 +1,63 @@
+{
+  "complete": true,
+  "old": {
+    "cases": 1082,
+    "drug_micro_f1": 0.07341337907375643,
+    "drug_precision": 0.10536681437715412,
+    "drug_recall": 0.05633061331929455,
+    "core_order_micro_f1": 0.03529034327879371,
+    "known_field_accuracy_given_correct_drug": 0.7516425755584757,
+    "known_fields_scored": 761,
+    "core_gold_orders": 4203,
+    "core_predicted_orders": 2031,
+    "mean_predicted_drugs": 1.8770794824399262,
+    "empty_fraction": 0.0018484288354898336,
+    "promotion_score": 0.05435186117627507,
+    "core5_micro_f1": 0.019668737060041408,
+    "core5_gt_field_coverage": 0.6019783325482807,
+    "invalid_fraction": 0.0,
+    "catalogue_drug_recall_ceiling": 0.5161884706501711,
+    "output_tokens": 41076,
+    "input_tokens": 5776212,
+    "logical_calls": 3246,
+    "api_cost_usd": 0
+  },
+  "new": {
+    "cases": 1082,
+    "drug_micro_f1": 0.07187969924812031,
+    "drug_precision": 0.08383023500526131,
+    "drug_recall": 0.06291129244538037,
+    "core_order_micro_f1": 0.04224553444853984,
+    "known_field_accuracy_given_correct_drug": 0.8298850574712644,
+    "known_fields_scored": 870,
+    "core_gold_orders": 4203,
+    "core_predicted_orders": 2851,
+    "mean_predicted_drugs": 2.634935304990758,
+    "empty_fraction": 0.0018484288354898336,
+    "promotion_score": 0.05706261684833007,
+    "core5_micro_f1": 0.028614784305224367,
+    "core5_gt_field_coverage": 0.6019783325482807,
+    "invalid_fraction": 0.0009242144177449168,
+    "catalogue_drug_recall_ceiling": 0.5161884706501711,
+    "output_tokens": 65822,
+    "input_tokens": 5871862,
+    "logical_calls": 3246,
+    "api_cost_usd": 0
+  },
+  "paired": {
+    "patients": 1024,
+    "resamples": 2000,
+    "drug_delta_ci95": [
+      -0.012054800339530755,
+      0.009444940339403688
+    ],
+    "core4_delta_ci95": [
+      -4.271580492627785e-05,
+      0.014157351760339935
+    ],
+    "changed_cases": 944,
+    "case_f1_improved": 129,
+    "case_f1_regressed": 135
+  },
+  "classification": "common researcher interface repair, not RSI"
+}

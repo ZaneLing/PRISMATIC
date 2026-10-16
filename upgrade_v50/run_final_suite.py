@@ -1,4 +1,4 @@
-"""Finish all full-size evaluations after both development phases are frozen."""
+"""Finish all full-size evaluations after the six-round development trajectory is frozen."""
 import argparse,json
 from common import *
 from experiment import execute

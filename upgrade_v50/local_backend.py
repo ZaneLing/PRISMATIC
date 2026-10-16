@@ -1,4 +1,4 @@
-"""Local MLX only, deterministic cached batched generation with receipts."""
+"""Local MLX only, cached greedy batched generation with receipts; batch-sensitive numerics."""
 import os,time,json
 os.environ.setdefault('TOKENIZERS_PARALLELISM','false')
 from common import *
