@@ -12,7 +12,7 @@ def main():
       (LLM,'trajectory_eval.py',[]),(LLM,'component_ablation.py',[]),(LLM,'catalogue_permutation.py',[]),
       (LLM,'evidence_ablation.py',[]),(LLM,'skemex_adapter.py',[]),(LLM,'run_final_suite.py',['--model','llama']),
       (LLM,'flame_adapter.py',[]),(ANALYSIS,'audit_results.py',[]),(ANALYSIS,'private_cases.py',[]),
-      (ANALYSIS,'report.py',[]),(ANALYSIS,'make_figures.py',[])]
+      (ANALYSIS,'report.py',[]),(ANALYSIS,'make_figures.py',[]),(ANALYSIS,'provenance.py',[])]
     history=[]
     for python,script,args in stages:
         name=Path(script).stem+('-'+args[-1] if args else '');start=time.time();log=PRIVATE/(name+'-pipeline.log')

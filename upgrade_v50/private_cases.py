@@ -35,7 +35,7 @@ def main():
           'A per-case improvement does not imply that its candidate passed the global proposal/guard gate. The gate records in learning_scope.json determine retention. / 单例修复不代表该候选通过全局守门，保留状态以学习轨迹记录为准。']
     text+=['\n## Common patterns / 共性规律',
       '1. A candidate generator can exclude GT before the actor reasons; changing a skill cannot recover a drug outside the supplied action space. / 候选生成先排除了部分 GT，后续技能不能选择库外药物。',
-      '2. Restricting verification to three selected facts can hide observed context; an all-observed configuration tests this workflow hypothesis. It does not supply missing diagnoses. / 仅核验三个事实会丢掉已有上下文，扩展核验范围用于检验此假设，但不会补出缺失诊断。',
+      '2. The checker verifies at most three selected facts while the LLM still sees the full supplied input. All-observed scope changes checker coverage, not underlying available information. / 核验器最多检查三个选中事实，但LLM仍可见完整输入；扩大范围改变核验覆盖，不增加原始可用信息。',
       '3. Source quotation and valid JSON are execution properties, not proof of appropriate drug choice. / 引用真实、JSON 有效均不等于药物选择适宜。',
       '4. A reference discrepancy is feedback, not a runtime predicate. Rules such as “if GT contains X” or copied drug-to-drug actions are rejected. / GT 差距用于反馈，不能成为运行时条件；依赖 GT 或照搬药名的规则被拒绝。']
     (PRIVATE/'CASE_STUDIES.bilingual.md').write_text('\n\n'.join(text)+'\n')

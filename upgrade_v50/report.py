@@ -43,11 +43,11 @@ Candidate coverage ceiling: **{fmt(main['catalogue_drug_recall_ceiling'])}% of G
 
 {tr}
 
-Six rounds process 24 new training admissions each (144 total, disjoint from the previous 144 training admissions). The local reflector receives full available-input, plan, evidence, checker and reference traces for discrepant examples and a comparatively better example; better does not mean correct. A researcher-defined interface permits conditional procedure text and selected/all-observed fact scope. It cannot change weights, executable tool code, vocabulary, templates or descriptive output schemas. Each proposed rule requires an observable trigger and counterexample. Numeric dose rules and unsupported copied drug actions are rejected. Explicit {{}} means no proposed update. Retention requires a strictly higher proposal mean of drug/Core4 F1 and no decrease in either guard endpoint. Proposal/guard subsets (48/64) are reused. All states freeze before new test inference; earlier literal-schema test scores had already been observed. A flat trajectory is not successful RSI.
+Six rounds process 24 new training admissions each (144 total, disjoint from the previous 144 training admissions). The local reflector receives full available-input, plan, evidence, checker and reference traces for discrepant examples and a comparatively better example; better does not mean correct. A researcher-defined interface permits conditional procedure text and selected/all-observed fact scope. It cannot change weights, executable tool code, vocabulary, templates or descriptive output schemas. Each proposed rule requires an observable trigger and counterexample. Numeric dose rules and unsupported copied drug actions are rejected. Explicit {{}} means no proposed update. Retention requires a strictly higher proposal mean of drug/Core4 F1 and no decrease in either guard endpoint. Proposal/guard subsets (48/64) are reused. All states freeze before new test inference; earlier literal-schema test scores had already been observed. A flat trajectory is not successful RSI. The available trigger language contains only five observation-presence predicates (or a two-predicate conjunction), and the only tool configuration is fact scope; this does not yet express a broad clinical indication/dose skill library.
 
 ## 4. Frozen-memory transfer
 
-On Llama-3.2-3B, all 1,082 cases: initial drug/Core4 F1 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**; retained memory **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**. Drug-F1 change **{100*(b['drug_micro_f1']-a['drug_micro_f1']):+.2f} percentage points**. No Llama-specific rule selection or retraining. Two local backbones do not establish model-independent benefit.
+On Llama-3.2-3B, all 1,082 cases: initial drug/Core4 F1 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**; retained memory **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**. Drug-F1 change **{100*(b['drug_micro_f1']-a['drug_micro_f1']):+.2f} percentage points**. No Llama-specific rule selection or retraining. Since the retained memory is empty, this is a second-backbone baseline check; it does not test transfer of a learned rule or establish model-independent benefit.
 
 ## 5. Failure findings and cases
 
@@ -83,11 +83,11 @@ The test has historical exposure from earlier supervised studies; the result is 
 
 {tr}
 
-六轮各处理24例新训练病例，共144例，与此前144例训练病例不重叠。反思器读取可用输入、计划、证据、核验与参考订单的完整追踪，包括失败例和相对较好例；后者不一定完全正确。研究者预先定义可更新的程序文本、可观察触发条件、反例和所选/全部观察事实配置；底座、工具代码、词表、订单模板和描述性输出协议在轨迹内固定。数字剂量规则与未独立验证的药名动作被拒绝；明确输出 {{}} 代表不提案。候选集药物/订单 F1 均值须严格提高，守门集两个端点均不得下降。复用48/64例开发子集，全部状态冻结后才开始新测试；此前含编号示例的测试分数已被观察，属于探索性实验。**没有保留变化就不能声称成功 RSI。**
+六轮各处理24例新训练病例，共144例，与此前144例训练病例不重叠。反思器读取可用输入、计划、证据、核验与参考订单的完整追踪，包括失败例和相对较好例；后者不一定完全正确。研究者预先定义可更新的程序文本、可观察触发条件、反例和所选/全部观察事实配置；底座、工具代码、词表、订单模板和描述性输出协议在轨迹内固定。数字剂量规则与未独立验证的药名动作被拒绝；明确输出 {{}} 代表不提案。候选集药物/订单 F1 均值须严格提高，守门集两个端点均不得下降。复用48/64例开发子集，全部状态冻结后才开始新测试；此前含编号示例的测试分数已被观察，属于探索性实验。**没有保留变化就不能声称成功 RSI。** 当前条件语言仅有五个观察是否存在的谓词及至多两个谓词的合取，工具配置也只支持事实范围；它尚不足以表达广泛的适应证和剂量技能库。
 
 ## 四、跨模型迁移
 
-将冻结的规则直接交给 Llama-3.2-3B，不在该模型上再挑规则。全量 1,082 例：初始药物/四字段 F1 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**；迁移后 **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**。药物 F1 变化 **{100*(b['drug_micro_f1']-a['drug_micro_f1']):+.2f} pp**。两个小型本地模型的结果不足以证明任意模型都能获益。
+将冻结的规则直接交给 Llama-3.2-3B，不在该模型上再挑规则。全量 1,082 例：初始药物/四字段 F1 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**；迁移后 **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**。药物 F1 变化 **{100*(b['drug_micro_f1']-a['drug_micro_f1']):+.2f} pp**。保留记忆为空，因此这里只能作为第二底座的基线检查，没有可迁移的学习规则；不能称为已证明跨模型进化收益。
 
 ## 五、从失败中得到什么
 
@@ -126,6 +126,7 @@ def details(audit,learning):
     learned='\n'.join('- Trigger / 条件: `'+c['condition']+'`; scope / 范围: `'+c.get('fact_scope','selected')+'`; SHA-256: `'+c['card_sha256']+'`.' for c in cards) or 'No retained rule / 未保留规则。'
     learned+='\n\nFull generated text remains in restricted local learning.json; public cards expose hashes and structural fields only. / 完整生成文本保留在受限目录，公开卡片仅含哈希及结构字段。'
     ab=json.loads((HERE/'results/evidence_ablation.json').read_text());a=ab['baseline'];b=ab['without_label_excerpts']
+    trace=json.loads((HERE/'results/training_trace_audit.json').read_text())['counts']
     semantic=json.loads((HERE/'results/skemex_learning.json').read_text())
     sr=['| Round | Cases | Created | Active skills | Schema/materialization errors |','|---:|---:|---:|---:|---:|']
     for r in semantic['rounds']:sr.append(f"| {r['round']} | {r['cases_seen']} | {r['created']} | {r['active']} | {len(r.get('adapter_errors',[]))} |")
@@ -166,6 +167,8 @@ For retained RxRSIAgent, mean drug Jaccard is {fmt(de['mean_drug_jaccard'])}%, e
 
 ## 8. Evidence-removal intervention and comparator learning
 
+Training-only trace audit (144 admissions): {trace['reference_drugs_in_catalogue']}/{trace['reference_drugs']} reference drugs enter the catalogue; {trace['reference_candidate_drugs_with_cached_label']} of those have an exact-name cached label, but only {trace['reference_drugs_with_excerpt']} reference drugs receive a selected excerpt. Conversely, {trace['predicted_drugs_with_excerpt']}/{trace['predicted_drugs']} predicted drugs have an excerpt. Only two sentences are allocated globally per case. This exposes uneven evidence availability/selection; it does not establish its causal effect. The checker covers {trace['checked_unique_facts']}/{trace['observed_facts']} supplied facts; the LLM still sees the complete supplied input. No extra clinical context is created by expanding checker scope.
+
 On the same 48 proposal cases, with label excerpts: drug/Core4 F1 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**; without excerpts: **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**. This changes information and input length, and is an exploratory development ablation. It does not prove that drug labels are intrinsically harmful or that their clinical use is unnecessary.
 
 SkeMex author-memory training, with all 144 training admissions:
@@ -200,6 +203,8 @@ Primary method sources: [SafeRx-Agent](https://arxiv.org/html/2605.29146v1), [FL
 最终 RxRSIAgent 的平均药物 Jaccard 为 {fmt(de['mean_drug_jaccard'])}%，整套药物完全匹配率 {fmt(de['drug_exact_set_accuracy'])}%；每例相对于GT平均漏 {de['missed_drugs_per_admission']:.2f} 个药、多 {de['extra_drugs_per_admission']:.2f} 个药。此前已出现药物的目标召回率 {fmt(de['prior_target_recall'])}%，新药目标召回率 {fmt(de['new_target_recall'])}%。共享候选模板最多覆盖 {fmt(de['catalogue_core4_recall_ceiling'])}% 的完整四字段 GT。剂量等联合字段由冻结模板工具提供，不是 LLM 自由生成的剂量。预测订单的四/五字段完整率分别为{fmt(de['core4_prediction_field_coverage'])}%/{fmt(de['core5_prediction_field_coverage'])}%；字段F1只比较字段均已知的元组，须与完整率一起读。
 
 ## 八、证据检索干预与对照学习过程
+
+144例训练追踪：{trace['reference_drugs_in_catalogue']}/{trace['reference_drugs']}个GT药物进入候选库，其中{trace['reference_candidate_drugs_with_cached_label']}个有精确药名匹配的缓存说明书，但最终只有{trace['reference_drugs_with_excerpt']}个GT药物获得摘录；相对地，预测药物有{trace['predicted_drugs_with_excerpt']}/{trace['predicted_drugs']}个获得摘录。当前每例只在全局分配两个句子，证据覆盖明显不均衡；这还不是它造成错选的因果证明。核验器检查{trace['checked_unique_facts']}/{trace['observed_facts']}条输入事实，LLM仍能看见完整输入，扩大核验范围不会增加原始临床信息。
 
 相同48例候选集：有说明书片段时药物/订单 F1 为 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**；去掉片段后为 **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**。这是同时改变信息量和输入长度的探索性开发消融，不能推断药品说明书本身有害或临床上不需要它。
 

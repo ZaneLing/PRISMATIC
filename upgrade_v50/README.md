@@ -16,6 +16,8 @@ At admission +6 hours, predict the complete set of recorded new/change orders in
 - FLAME separately transfers the actual released trained list policy, including all 224 merged adapter layers, with a fixed supervised top-8 initializer. Its full classifier and collaborative embeddings are not reproduced. Source scores remain separate in `published_reference_scores.json`.
 - Transfer freezes the learned state on Llama-3.2-3B, without model-specific selection. Component and catalogue-permutation diagnostics use a fixed 128-case subset with controlled fresh batch layouts.
 
+[Training update diagnostics](results/learning_diagnostics.json) separate proposal validity, trigger activation, checked facts and actual order changes. [Training evidence audit](results/training_trace_audit.json) measures catalogue, source and excerpt coverage without claiming clinical efficacy.
+
 ## Run
 
 ```bash
