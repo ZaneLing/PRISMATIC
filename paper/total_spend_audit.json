@@ -1,0 +1,268 @@
+{
+  "snapshot_utc": "2026-10-16T12:25:42.440004+00:00",
+  "scope": "Located PRISMATIC upgrade experiments; successful provider-reported response costs. Not an invoice, account balance, or all-time account spend.",
+  "network_calls_in_this_audit": 0,
+  "main_ledger": {
+    "sha256": "03aa292e9977a0e42dec41f0f072720074228509c8de4877c5e6d895f91327a8",
+    "successful_response_events": 171219,
+    "distinct_request_signatures": 169877,
+    "repeated_signature_events": 1342,
+    "repeated_signatures": 1058,
+    "exact_duplicate_ledger_lines": 0,
+    "reported_usd": 87.79773723476,
+    "null_or_absent_cost_records": 0,
+    "zero_cost_records": 1,
+    "by_model": {
+      "deepseek/deepseek-v4.1-flash": {
+        "responses": 166028,
+        "usd": 65.38481498476,
+        "input_tokens": 308511214,
+        "output_tokens": 23282810
+      },
+      "google/gemini-3.8-flash": {
+        "responses": 5123,
+        "usd": 13.52553225,
+        "input_tokens": 7694568,
+        "output_tokens": 2067895
+      },
+      "anthropic/claude-opus-4.8": {
+        "responses": 68,
+        "usd": 8.88739,
+        "input_tokens": 1455103,
+        "output_tokens": 64475
+      }
+    },
+    "by_role": {
+      "actor": {
+        "responses": 55812,
+        "usd": 11.4929758308
+      },
+      "proposer": {
+        "responses": 156,
+        "usd": 0.17196252544
+      },
+      "grasp_proposer": {
+        "responses": 83,
+        "usd": 0.50887549888
+      },
+      "grasp_actor": {
+        "responses": 9852,
+        "usd": 2.290784025
+      },
+      "scoped_rsi_proposer": {
+        "responses": 4,
+        "usd": 0.00647701
+      },
+      "fhir_actor": {
+        "responses": 6401,
+        "usd": 3.71898458016
+      },
+      "backbone_transfer_actor": {
+        "responses": 3952,
+        "usd": 11.00216925
+      },
+      "v27_aggregate_rule_proposer": {
+        "responses": 60,
+        "usd": 0.02520322808
+      },
+      "v29_aggregate_program_synthesis": {
+        "responses": 60,
+        "usd": 0.0996237396
+      },
+      "v30_aggregate_program_synthesis": {
+        "responses": 53,
+        "usd": 0.0656284922
+      },
+      "retrieval_factorial_actor": {
+        "responses": 380,
+        "usd": 0.293824475
+      },
+      "medical_agent_author_adapter": {
+        "responses": 50266,
+        "usd": 16.6716155312
+      },
+      "scoped_memory_actor": {
+        "responses": 3968,
+        "usd": 0.6767513804
+      },
+      "contrastive_skill_proposer": {
+        "responses": 25,
+        "usd": 0.065214201
+      },
+      "semantic_skill_router": {
+        "responses": 6253,
+        "usd": 0.976783295
+      },
+      "rx35_plan": {
+        "responses": 3601,
+        "usd": 2.159510272
+      },
+      "rx35_assess": {
+        "responses": 6609,
+        "usd": 5.942741162
+      },
+      "rx35_decide": {
+        "responses": 6618,
+        "usd": 4.323585148
+      },
+      "rx35_skill_proposal": {
+        "responses": 4,
+        "usd": 0.02135175
+      },
+      "rx35_active_assess": {
+        "responses": 190,
+        "usd": 0.34732008
+      },
+      "rx35_active_decide": {
+        "responses": 190,
+        "usd": 0.2009253384
+      },
+      "rx35_bound_skill_proposal": {
+        "responses": 4,
+        "usd": 0.004226319
+      },
+      "rx35_grasp_common_budget": {
+        "responses": 1288,
+        "usd": 0.27548646
+      },
+      "rx36_rx35_plan": {
+        "responses": 120,
+        "usd": 0.08075295
+      },
+      "rx36_rx35_assess": {
+        "responses": 240,
+        "usd": 0.226314276
+      },
+      "rx36_rx35_decide": {
+        "responses": 240,
+        "usd": 0.1589095794
+      },
+      "rx36_contrast_plan": {
+        "responses": 120,
+        "usd": 0.079142898
+      },
+      "rx36_contrast_assess": {
+        "responses": 120,
+        "usd": 0.142290312
+      },
+      "rx36_contrast_decide": {
+        "responses": 120,
+        "usd": 0.0737757468
+      },
+      "rx36_memory_assess": {
+        "responses": 120,
+        "usd": 0.069935496
+      },
+      "rx36_memory_decide": {
+        "responses": 120,
+        "usd": 0.0616689524
+      },
+      "rx37_plan": {
+        "responses": 2887,
+        "usd": 1.639425625
+      },
+      "rx37_assess": {
+        "responses": 4270,
+        "usd": 4.148789333
+      },
+      "rx37_decide": {
+        "responses": 4270,
+        "usd": 6.760214026
+      },
+      "rx37_root_reflection": {
+        "responses": 201,
+        "usd": 0.46726386
+      },
+      "rx37_skill_proposal": {
+        "responses": 102,
+        "usd": 0.467888718
+      },
+      "rx42_external_proposer": {
+        "responses": 68,
+        "usd": 8.88739
+      },
+      "rx45_assess": {
+        "responses": 1196,
+        "usd": 1.2373695
+      },
+      "rx45_decide": {
+        "responses": 1196,
+        "usd": 1.95458637
+      }
+    },
+    "counting_rule": "Every ledger event is a new successful response. Repeated request signatures are retained: request equality does not imply only one paid execution. Cached rereads do not append.",
+    "schema_limitation": "Client defaults absent provider cost to zero; provider generation IDs and completion timestamps were not preserved. Zero prices cannot all be verified as free calls."
+  },
+  "cache_reconciliation": {
+    "files": 169877,
+    "successful_orphan_records": 0,
+    "orphan_recorded_usd": 0.0,
+    "counting_rule": "Cached replies already represented by the ledger are never added again."
+  },
+  "legacy": {
+    "files": [
+      {
+        "path": "upgrade_v2/results/openrouter_rxqa_pilot_predictions.json",
+        "sha256": "3dbc8b216f55494f133031d758460f3e4feffb01b7bcfbb8a2a529275f86cec8",
+        "successful_records": 300,
+        "recorded_usd": 0.1629410204
+      },
+      {
+        "path": "upgrade_v2/results/openrouter_rxsafe_harness_pilot_predictions.json",
+        "sha256": "7fd3bf3f1cd9a363c7381314d1a0c9ec6a1cac2fbc11a0dda70adb94047f2a84",
+        "successful_records": 360,
+        "recorded_usd": 0.79636814948
+      },
+      {
+        "path": "upgrade_v2/results/openrouter_rxsafe_pilot_predictions.json",
+        "sha256": "80650513b8409fbece8b358f68159329d8927c0709092c368eb7feeed5983899",
+        "successful_records": 180,
+        "recorded_usd": 0.1350237787
+      },
+      {
+        "path": "upgrade_v3/results/openrouter_rxqa_full_predictions.json",
+        "sha256": "40dc92bc7835fdb6e38d38e08e525de2df59cc9c7fbef77e8058f3af16458546",
+        "successful_records": 300,
+        "recorded_usd": 0.0113963514
+      },
+      {
+        "path": "upgrade_v3/results/openrouter_rxsafe_full_harness_predictions.json",
+        "sha256": "78414f2ef7571561759d9c3252673ac29ec90c8adc421fe17e024553b35aefa1",
+        "successful_records": 4000,
+        "recorded_usd": 0.4797074612
+      },
+      {
+        "path": "upgrade_v3/results/openrouter_rxsafe_full_predictions.json",
+        "sha256": "b6cb5a07c825ae90fcc5421725c257b97da9f39086b36a216298808e71a8215e",
+        "successful_records": 2000,
+        "recorded_usd": 0.14861753444
+      }
+    ],
+    "successful_records": 7140,
+    "distinct_full_records": 7054,
+    "ambiguous_repeat_records": 86,
+    "deduplicated_recorded_usd": 1.72910863462,
+    "all_records_usd": 1.73405429562,
+    "recorded_error_records": {},
+    "missing_cost_records": 6,
+    "note": "Pilot/full-run overlap has no provider generation IDs. Exact record overlap could be copied results or separate identical deterministic calls. Endpoints bound only this overlap ambiguity, not missing historical spend."
+  },
+  "located_successful_reported_usd_range": [
+    89.52684586938,
+    89.53179153038
+  ],
+  "transport_failure_attempts": 16,
+  "transport_failure_types": {
+    "HTTP_429": 5,
+    "HTTP_402": 2,
+    "URLError": 7,
+    "timeout": 2
+  },
+  "excluded_or_unknown": [
+    "Timed-out or failed requests may incur charges without a locally received priced response.",
+    "Superseded legacy receipts, ad hoc requests without receipts and original 2025 work cannot be reconstructed from these stores.",
+    "Local CPU/MPS inference and training have no dollar meter; available fit time is reported separately.",
+    "Chat/Codex subscription or token costs, taxes, top-up fees, credits and refunds are not included.",
+    "Logical cost sums across methods/versions include reused replies and must not be added to this total."
+  ]
+}

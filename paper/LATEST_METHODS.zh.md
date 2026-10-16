@@ -23,3 +23,7 @@
 公开分子资源已完成：**746/746 个 CID 全部返回并通过 RDKit 验证，覆盖 399 个 ATC-L4 类**。[公开资源审计](../upgrade_v27/results/molecular_resource_audit.json)保留原始哈希。队列专用资源也已补齐：覆盖 **219/271** 个训练药类，包含 **627** 个分子图、**863** 个 BRICS 片段。完整与分子空间分别比较，并明确排除标签和保留的空目标病例。SafeDrug 三个已登记种子均已完成 50 轮并通过检查点／预测独立核验；完整空间 ARMR 和 GAMENet 各三个种子均已完成，分子空间 GAMENet 三个种子也均已核验。其他已登记作者运行继续。[实际执行和成绩](../upgrade_v27/RESULTS.zh.md)。
 
 [跨方法开发集复算](../upgrade_v27/DEVELOPMENT_METHODS.zh.md)使用相同 1,231 次就诊／467 人，按共同完成的种子做配对。[计算账本](COMPUTE_ACCOUNTING.zh.md)列出实际拟合、病例曝光与提议预算。[最终共同测试扩展](../upgrade_v30/COMMON_TEST.zh.md)等待已登记方法及核验全部完成。HADRec 继续保留原作者报告结果，其层级和完整执行协议仍需明确的兼容适配。缺失分数不填零，已复用开发／测试人群均明确标注。
+
+## 2026-10-16 update
+
+[Expanded comparator families, verified code availability, task compatibility and mechanism hypotheses](RESEARCH_ASSESSMENT.zh.md#4-审稿人应看到哪些外部方法). FLAME, SafeRx-Agent, RareAgents and SkeMex are priority additions; no new local method scores are claimed.

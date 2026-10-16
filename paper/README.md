@@ -4,6 +4,8 @@ Target: ACL2027. Updated16 October2026. The English manuscript remains in its or
 
 ## Read first
 
+- [研究定位、完整对照与处方差距](RESEARCH_ASSESSMENT.zh.md) · [Research assessment](RESEARCH_ASSESSMENT.en.md) · [累计费用约 USD 89.53](TOTAL_COST.zh.md). New aggregate audits; current actor unchanged.
+
 - [Failure cases, task definitions and MIMIC-IV (中文)](TASKS_CASES_AND_MIMIC.zh.md) · [English](TASKS_CASES_AND_MIMIC.en.md). Four new development candidates failed acceptance; main-table actor unchanged.
 
 - [中文完整结果](CURRENT_RESULTS.zh.md) · [Current English results](CURRENT_RESULTS.en.md).
@@ -30,6 +32,7 @@ Current results are491/988 and196/300. These do not beat the strongest controls 
 
 | Version | Record | Evidence |
 | --- | --- | --- |
+| v0.48 | [Research and cost audit](versions/v0.48-2026-10-16.en.md) | Historical error decomposition, broader comparator coverage, cumulative response costs; no new actor |
 | v0.44 | [Trace-root updates and independent task](../upgrade_v44/RESULTS.en.md) | Eight four-round controls;112 attempts;0 retained updates; main and467-question independent evaluation; targets unmet |
 | v0.36 | [Prior calibrated report](versions/v0.36-2026-10-16.en.md) | Ordinary supervised calibration, not positive RSI; source-task description corrected below |
 | v0.34 | [Medical agents and scoped memory](../upgrade_v34/RESULTS.en.md) | Two full author-workflow comparisons; three four-round memory trajectories; independent200-question transfer; target unmet |

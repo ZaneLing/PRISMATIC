@@ -126,3 +126,9 @@
 三个公开bench都是选项判断，不是完整处方覆盖率。MIMIC-IV并非没做：之前完成了1,082次入院的时间受控新订单预测。本次从保存预测重算，旧监督agent药物precision/recall/F1为15.85%/24.16%/19.14%，集成对照17.56%/23.53%/20.10%。旧方法不等于当前LLM agent；ATC-L4方法的完整最终测试主表仍未完成。
 
 [完整中文：五个case、失败共性、四种候选、三个bench与MIMIC](TASKS_CASES_AND_MIMIC.zh.md) · [English](TASKS_CASES_AND_MIMIC.en.md)。新增开发预测、来源审计和本地MIMIC重算见`upgrade_v45/results/`及`upgrade_v47/results/`。新增成功响应账本约USD3.192。
+
+## 12. 研究范围与累计审计 — 2026-10-16
+
+本次新增本地重算：历史 MIMIC 漏项的 75.12% 在词表内；新目标药召回 20.87%；药名命中后的核心订单匹配 55.56%。这些是历史流水线的事后诊断，不是当前 actor 的新分数。已定位成功响应费用累计约 89.53 美元，不含未知/失败请求及本地算力成本；当前 actor 未变。
+
+[Research assessment / 研究定位](RESEARCH_ASSESSMENT.zh.md) · [Cumulative spending / 累计费用](TOTAL_COST.zh.md)

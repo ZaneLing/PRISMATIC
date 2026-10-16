@@ -115,3 +115,9 @@ Four failure-directed candidates were executed: product scope, decision obligati
 The three public benchmarks are option-answering tasks, not complete-prescription coverage. Earlier MIMIC-IV work completed a time-controlled new-order task on1,082 test admissions. A new local recount gives the earlier supervised agent15.85%/24.16%/19.14% drug precision/recall/F1, versus17.56%/23.53%/20.10% for the ensemble. These are not current LLM-agent scores. The full final ATC-L4 comparison remains unfinished.
 
 [Full English case/task/MIMIC report](TASKS_CASES_AND_MIMIC.en.md) · [中文](TASKS_CASES_AND_MIMIC.zh.md). New development predictions, source audits and local MIMIC recounts are in`upgrade_v45/results/` and`upgrade_v47/results/`. Incremental successful-response ledger cost is approximatelyUSD3.192.
+
+## 12. Research scope and cumulative audit — 2026-10-16
+
+New local-only recount: 75.12% of historical MIMIC missed targets are in vocabulary; new-target recall is 20.87%; conditional Core4 agreement is 55.56%. These are post hoc historical-pipeline diagnostics, not new current-actor scores. Located successful-response costs total approximately USD 89.53, with unpriced/failed/local-compute exclusions. The actor remains unchanged.
+
+[Research assessment / 研究定位](RESEARCH_ASSESSMENT.en.md) · [Cumulative spending / 累计费用](TOTAL_COST.en.md)

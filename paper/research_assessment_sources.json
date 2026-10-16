@@ -1,0 +1,60 @@
+{
+  "checked_date": "2026-10-16",
+  "scope": "Primary-source research update; source availability is not a successful reproduction.",
+  "verified_repositories": [
+    {
+      "name": "FLAME",
+      "url": "https://github.com/cxfann/Flame",
+      "head": "642500e5a48e64c1a888ceb0e8d450ea285776ae",
+      "status": "Author training/evaluation files inspected; not run locally."
+    },
+    {
+      "name": "RareAgents",
+      "url": "https://github.com/chenxz1111/RareAgents",
+      "head": "c776d09277e515da41579d74a409e40afb085130",
+      "status": "Repository and preprocessing file located; full runnable pipeline not audited."
+    },
+    {
+      "name": "SkeMex",
+      "url": "https://github.com/manglu097/SkeMex",
+      "head": "a640474590e384669dd71b657c441264beef73d2",
+      "status": "Implementation, configs and evaluator listed; not run locally. Current paper v4 checked."
+    }
+  ],
+  "primary_sources": [
+    {
+      "name": "Utah active/approved pilots",
+      "url": "https://commerce.utah.gov/ai/regulatory-relief-4/authorized-pilots/",
+      "verified_fact": "Doctronic Phase1 with practitioner authorization; Nolla adult topical acne term begins2026-10-05, specified initial prescriptions/refills, initial two-physician review."
+    },
+    {
+      "name": "FLAME",
+      "url": "https://arxiv.org/html/2505.20218v1",
+      "verified_fact": "List-wise medication recommendation; MIMIC-III main study, MIMIC-IV/eICU transfer."
+    },
+    {
+      "name": "SafeRx-Agent",
+      "url": "https://arxiv.org/html/2605.29146v1",
+      "verified_fact": "Specialty/supportive-care experts, MIMIC-III/IV ATC-L4 sets, source-grounded verification; not the decision-time6h task."
+    },
+    {
+      "name": "SkeMex",
+      "url": "https://arxiv.org/html/2606.09365v4",
+      "verified_fact": "Value-aware skill retrieval and repository governance; multi-task and cross-backbone evaluations."
+    },
+    {
+      "name": "AgentRx",
+      "url": "https://arxiv.org/html/2605.10286v1",
+      "verified_fact": "Mortality and length-of-stay prediction; exclude from prescription accuracy table."
+    },
+    {
+      "name": "MedPIC",
+      "url": "https://arxiv.org/html/2608.03028v1",
+      "verified_fact": "Already studies persistent safety judgments after triggering patient condition is removed; broad phenomenon is not our novelty."
+    }
+  ],
+  "local_evidence_sha256": {
+    "paper/prescription_gap_audit.json": "ba4daa3766e5f0aab1c6699c8dd2f59736cec4aa9697e3257fa427cdd2426869",
+    "paper/total_spend_audit.json": "ea200c52d2d16c53654282a68bfe9c3828278a78de351d116aea51fd51123eb3"
+  }
+}

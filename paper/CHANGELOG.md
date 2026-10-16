@@ -1,5 +1,13 @@
 # Manuscript change log / 论文变更记录
 
+## 2026-10-16 — prescribing-gap and cumulative-cost audit
+
+- Recount three frozen historical MIMIC seeds; separate in-vocabulary omissions, new-treatment targets and joint-order failures. No new inference or checkpoint selection.
+- Audit171,219 shared response events and legacy files; report approximately USD89.53 in located response costs with unresolved billing exclusions.
+- Expand comparator coverage with FLAME, SafeRx-Agent, RareAgents and SkeMex; pin available repositories and distinguish task compatibility from completed reproduction.
+- Verify current Utah pilot scope; define human alignment and falsifiable workflow hypotheses without claiming clinical effectiveness or novel mechanisms already established.
+- Update the existing English ACL manuscript, bilingual living reports and v0.48 audit snapshot; current actor unchanged.
+
 ## 2026-10-16 — trace-root updates, calibration separation and independent diagnostics
 
 - Complete eight four-round updater experiments on the same400 public training cases:112 attempts, zero accepted updates. Preserve all schema failures, intervention regressions and legitimate no-edit decisions.
