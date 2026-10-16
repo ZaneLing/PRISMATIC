@@ -13,7 +13,7 @@ def main():
         new=(HERE/f'RESULTS.{lang}.md').read_text()
         if lang=='en':
             intro=f'# RxRSIAgent: current experimental evidence\n\nUpdated {date}. Local order results below are new; public-QA results remain unchanged.\n\n'
-            qa='''\n## 10. Public-QA results retained alongside the order task
+            qa='''\n## 11. Public-QA results retained alongside the order task
 
 | Method | RxSafe 988 | RxQA 300 | Output allowance |
 |---|---:|---:|---:|
@@ -30,7 +30,7 @@ MedPIC remains 274/467 (58.67%), with 3/35 strict pairs both correct. The QA lea
 '''
         else:
             intro=f'# RxRSIAgent：当前实验结果\n\n更新日期：{date}。下面是新完成的本地处方实验；此前公开选择题结果保持不变。\n\n'
-            qa='''\n## 十、同时保留公开选择题结果
+            qa='''\n## 十一、同时保留公开选择题结果
 
 | 方法 | RxSafe 988 | RxQA 300 | 输出额度 |
 |---|---:|---:|---:|

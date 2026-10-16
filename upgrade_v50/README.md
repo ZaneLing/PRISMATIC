@@ -31,3 +31,7 @@ Local model files and pinned author resources from the preceding setup must exis
 **Incremental paid model API expenditure remains USD 0 of the USD 10 cap.** Patient inference, reflection and semantic embeddings are local. Downloaded public checkpoints do not invoke paid inference. Local compute is not monetized. No patient data are sent to OpenRouter.
 
 Source pins: SkeMex `a640474590e384669dd71b657c441264beef73d2`; FLAME `642500e5a48e64c1a888ceb0e8d450ea285776ae`; FLAME weights `2dbdc8d5c31ab320e57b9e6b1a07683301b44dfc`.
+
+## Source-route diagnostic
+
+The training audit finds 66/288 selected excerpts with no declared source/order route overlap. `route_evidence.py` filters these label records before ranking, without prohibiting orders or inferring clinical contraindications; oral/nasogastric partial overlap remains unresolved. `route_evidence_protocol.json` declares a fresh paired 48-case development test before its inference. This researcher tool repair is separate from frozen RSI and main-table selection.

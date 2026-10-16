@@ -106,6 +106,8 @@ The test has historical exposure from earlier supervised studies; the result is 
     more_en,more_zh=details(audit,learning)
     en+=more_en;zh+=more_zh
     e,z=schema_details(audit);en+=e;zh+=z
+    if (HERE/'results/route_evidence_trial.json').exists():
+        e,z=route_details();en+=e;zh+=z
     (HERE/'RESULTS.en.md').write_text(en);(HERE/'RESULTS.zh.md').write_text(zh)
     for lang,text in [('en',en),('zh',zh)]:
         (ROOT/f'paper/versions/v0.50-2026-10-17.{lang}.md').write_text(text)
@@ -254,5 +256,25 @@ The earlier bounded-scope learner passed development but failed on all 1,082 tes
 """
     full=json.loads((PRIVATE/'test_freeze.json').read_text())
     (PRIVATE/'LEARNED_STATE.bilingual.md').write_text('# Local learned state / 本地学习状态\n\n```json\n'+json.dumps(full['state'],ensure_ascii=False,indent=2)+'\n```\n')
+    return en,zh
+def route_details():
+    audit=json.loads((HERE/'results/route_evidence_audit.json').read_text())
+    trial=json.loads((HERE/'results/route_evidence_trial.json').read_text());assert trial['complete']
+    a=trial['baseline'];b=trial['route_filtered'];ci=trial['paired']['drug_delta_ci95']
+    fmt=lambda x:f'{100*x:.2f}'
+    summary=f"Drug F1 {fmt(a['drug_micro_f1'])}% → {fmt(b['drug_micro_f1'])}%; Core4 {fmt(a['core_order_micro_f1'])}% → {fmt(b['core_order_micro_f1'])}%; drug-difference 95% CI [{100*ci[0]:+.2f}, {100*ci[1]:+.2f}] pp."
+    source='https://www.fda.gov/drugs/data-standards-manual-monographs/route-administration'
+    en=f'''\n## 10. Source-route attribution repair
+
+The 144-case training audit finds 66/288 retrieved excerpts with no declared source/order route overlap, 104 with partial oral/nasogastric overlap, and 118 with declared overlap. Overlap does not validate formulation, indication or dose. [FDA terminology]({source}) distinguishes nasal, nasogastric and oral routes. A label for a different route is insufficient direct support, but does not prove that an order is contraindicated; off-label use and cross-route warnings still require separate assessment.
+
+The new executable `route_evidence.py` filters non-overlapping labels before the original ranking, preserves unknown/partial route records, and leaves the two-excerpt limit, catalogue and compiler fixed. Five route-boundary checks passed. On 48 previously used proposal cases, both arms run fresh with identical case order, batch layout and output allowance: **{summary}** Evidence changes in {trial['evidence_changed_cases']}/48 cases; first-stage plans change in {trial['plan_changed_cases']}/48. This is an exploratory researcher repair, not an autonomous RSI update or a main-table checkpoint. Its source-content and input-length intervention does not establish clinical safety. The paired result, including regressions, is preserved in `results/route_evidence_trial.json`.
+'''
+    zh=f'''\n## 十、说明书途径归属修复
+
+144例训练审计：288条检索摘录中，66条的来源标注途径与订单没有交集，104条仅部分对应“口服/胃管”，118条有明确途径交集。途径有交集也不等于剂型、适应证或剂量合适。[FDA术语]({source})区分鼻腔、鼻胃管和口服。来源途径不同意味着不能直接当作该订单的支持证据，不代表处方禁忌；超说明书使用和跨途径警告仍需另行判断。
+
+新增可执行工具`route_evidence.py`在原排序前过滤无途径交集的来源，保留未知/部分对应项，保持两条摘录上限、候选库和订单编译器不变；5个途径边界检查通过。48例已使用的候选集采用相同病例顺序、批次与输出预算，两个实验臂都重新生成：**{summary}**。{trial['evidence_changed_cases']}/48例证据变化，{trial['plan_changed_cases']}/48例第一阶段计划变化。这是探索性的研究者工具修复，不是自主RSI更新，也没有替换主表检查点。来源内容和输入长度同时可能变化，不能据此宣称临床安全。改善与退步均保留在`results/route_evidence_trial.json`。
+'''
     return en,zh
 if __name__=='__main__':main()
