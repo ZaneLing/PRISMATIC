@@ -1,0 +1,16 @@
+{
+  "created_utc": "2026-10-16T08:47:51.281235+00:00",
+  "shared_protocol": "upgrade_v37/protocol.json",
+  "shared_budget": "35USD increment shared across37/38/39/40",
+  "actor": {
+    "upgrade_v40/agent40.py": "d655130a75c96612da7cfe132db8ebf67ed06965c1458382b1b91b2f36ca4bcf",
+    "upgrade_v40/run40.py": "93462c9a520fcd1eef2ffa59a66d2737e710c8d8f937e0b8e48ad567ced67791",
+    "upgrade_v37/common37.py": "9cd619815c87758702a506df8b474fa07b0ef97602dfcfbd67dc29bb65734ca1",
+    "upgrade_v37/evidence37.py": "1f29555e35ffc23e7fea85a11eef0391c6681df67e787bfe49d589205f1e5f1b"
+  },
+  "changes": "Fixed feature matcher accepts model-proposed data-bound context-phrase extensions. Empty-state inference prompts identical to37; cached initial traces reused. No test/MedPIC outcome inspected.",
+  "selection": "Final development-gated40 state; no choice of experiment or round by test results",
+  "guard": "Each proposal task non-decreasing and pooled strictly improves; each guard task non-decreasing; training paired probe net>=2. This pre-test change is disclosed, not presented as unchanged37 gate.",
+  "training_exposure": "Same400 training cohort reused after earlier training/development failures; not a fresh prospective training stream.",
+  "learnable": "Scoped procedure, bounded retrieval configuration, context-trigger lexicon. No option/drug frequency weights or raw answer memory."
+}

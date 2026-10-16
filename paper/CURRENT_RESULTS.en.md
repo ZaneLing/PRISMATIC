@@ -1,125 +1,109 @@
-# RxRSIAgent: completed evidence, calibration and matched-output experiments
+# RxRSIAgent: trace-root reflection, scoped interventions, and independent evaluation
 
-Updated 16 October 2026. Versioned evidence: v35 main experiment and v36 independent follow-up. Method name remains **RxRSIAgent**. [English ACL source](latex/v0.3/prismatic_v03_en.tex).
+Updated 16 October 2026. This living report supersedes the previous current summary; prior evidence is archived. The paper method is **RxRSIAgent**, not a list of version names.
 
-## 1. Findings
+## 1. Actual results and outstanding targets
 
-- Selected RxRSIAgent: **556/988 (56.28%) RxSafeBench;199/300 (66.33%) RxQA**.
-- Relative to the prior retained agent501/988 and183/300: **+5.57 and+5.33 percentage points**. These are historical descriptive changes, not a causal matched-budget ablation.
-- RxSafe exceeds matched-output GRASP495/988 by6.17pp, paired scenario-bootstrap95% interval[2.84,9.63]. It exceeds earlier GRASP502/988 descriptively by5.47pp.
-- RxQA remains below matched-output MedAgents200/300 by0.33pp and higher-allowance MedAgents208/300 by3.00pp. The latter paired interval is[-8.33,+2.33]pp. **The two-benchmark superiority target is not achieved.**
-- Gains come from ordinary supervised calibration, not proven autonomous skill evolution. Strong identity-only controls expose a shortcut risk.
+- Current frozen actor: **491/988 (49.70%) RxSafe; 196/300 (65.33%) RxQA**.
+- Independent MedPIC exact-set score: **274/467 (58.67%)**. Guideline-following:193/284; counterfactual:81/183; both members correct:3/35 strict pairs.
+- **The target of beating the strongest completed named-agent controls on both benchmarks is unmet.**
+- **No positive evolution is established: no procedural, retrieval or vocabulary update is retained. Identical states reuse predictions; the flat trajectory is not five independent replications.**
 
-## 2. Main table: other methods on the same questions
+## 2. What supervised calibration actually means
 
-Same served model `deepseek/deepseek-v4.1-flash`. Each row permits4608 generated output tokens/case. Author adapters preserve their workflow within an80-call ceiling; RxRSIAgent uses3×1536 and GRASP one call. **Equal output allowance does not equal input cost, training supervision or number of calls.** MedAgents/MDAgents are task-adapted author workflows; GRASP uses the pinned author core and previously selected skill. These are executed local results, not imported paper scores.
+The previous 556/988 result includes ordinary logistic regression trained on 625 labeled cases. It learns weights for drug identities, drug/UNII–question-word interactions, and an LLM draft indicator. When all options are short names seen in training and the score gap is at least 0.2, it may override the LLM. It was applied on 527 RxSafe cases and applied on zero RxQA items. This is a statistical option scorer, not reflection, root-cause tracing or tool evolution. A name-only diagnostic scored 564/988, exposing a shortcut concern.
 
-| Method | RxSafeBench derived test | RxQA OpenFDA | Mean calls S/Q | Invalid S/Q |
-|---|---:|---:|---:|---:|
-| GRASP | 495/988 (50.10%) | 185/300 (61.67%) | 1.00 / 1.00 | 0 / 0 |
-| MedAgents | 462/988 (46.76%) | 200/300 (66.67%) | 18.87 / 18.43 | 81 / 16 |
-| MDAgents | 475/988 (48.08%) | 197/300 (65.67%) | 4.31 / 4.63 | 18 / 9 |
-| **RxRSIAgent** | 556/988 (56.28%) | 199/300 (66.33%) | 3.00 / 3.00 | 0 / 0 |
+GT feedback can legitimately supervise an agent-update experiment. The distinction is **what is updated and what is validated**: ordinary option-weight fitting is kept separate from persistent process/tool-configuration changes. Even the latter does not become successful RSI merely because code exists or memory grows. We require an actual accepted change and independent improvement. The current actor has no fitted option ranker or raw training-answer retrieval; pretrained drug knowledge still exists.
 
-Higher-allowance results remain visible:
+## 3. Named-method main table
 
-| Method | Total output allowance | RxSafe988 | RxQA300 |
+| Method / 方法 | RxSafe 988 | RxQA 300 | Output cap / 输出上限 |
 |---|---:|---:|---:|
-| MedAgents |24000|468 (47.37%)|208 (69.33%)|
-| MDAgents |24000|478 (48.38%)|199 (66.33%)|
-| GRASP earlier run |512|502 (50.81%)|189 (63.00%)|
+| GRASP | 495/988 (50.10%) | 185/300 (61.67%) | 4608 |
+| MedAgents | 462/988 (46.76%) | 200/300 (66.67%) | 4608 |
+| MDAgents | 475/988 (48.08%) | 197/300 (65.67%) | 4608 |
+| Supervised source-agent control / 普通监督校准对照 | 556/988 (56.28%) | 199/300 (66.33%) | 4608 |
+| **RxRSIAgent** | **491/988 (49.70%)** | **196/300 (65.33%)** | 4608 |
+| MedAgents, higher allowance / 高额度 | 468/988 (47.37%) | 208/300 (69.33%) | 24000 |
+| MDAgents, higher allowance / 高额度 | 478/988 (48.38%) | 199/300 (66.33%) | 24000 |
 
-MedAgents' matched-output failures:78/14 budget exhaustion and3/2 invalid finals (RxSafe/RxQA). MDAgents:8/7 exhaustion and10/2 invalid finals. Invalids are retained in denominators. SafeRx-Agent is unexecuted; GAMENet/SafeDrug medication-set scores do not belong in QA accuracy columns. No global SOTA claim is supported.
+Same served DeepSeek identifier and identical question sets. Author workflows are pinned local adaptations, not their papers' copied scores. RxRSIAgent uses 3×1536 output tokens. Shared output allowance does **not** equal input cost, call count or training supervision. The source-agent calibration control uses its earlier fixed source workflow; it is a separate method/control, not a clean one-factor ablation of the new actor. Higher-allowance MedAgents remains 208/300. No SafeRx-Agent score is invented; medication-set methods cannot populate QA accuracy columns.
 
-## 3. Datasets and selection
+## 4. Why earlier skill updates all failed
 
-RxSafeBench:2443 source rows become2000 deduplicated local option tasks;625 train,190 proposal,197 guard,988 evaluation. This is a derived three-option task, not the original free-generation metric. RxQA:all300 public OpenFDA questions; no licensed BNF subset. Main benchmarks have historical exposure and remain exploratory.
+The earlier eight updates never passed the proposal set; no guard rejection occurred. Two produced no schema-valid cards. The other proposals caused more regressions than fixes (for example 9 corrections versus 16 regressions). The code audit identified missing retrieved spans/intermediate checks in reflection, unconditional skill injection, nearest-success examples without scope validation, and missing replay of rejected interventions.
 
-New independent development uses the public MedQA training mirror (revision `153e61cdd129eb79d3c27f82cdf3bc5e018c11b0`, source train10178). An input-only medication/treatment keyword plus one option longer than6 words gives784 eligible cases; hash order selects120 proposal and120 guard. Exact overlap with earlier local benchmark texts is excluded. These are general medical exam questions, including some references to unavailable images, not a curated dose dataset. The mirror and parquet hash are pinned in `upgrade_v36/protocol.json`; raw data is not uploaded.
+Further real experiments found: long-context ID/role confusion; a broad age-or-pregnancy trigger activating on 115/120 MedQA questions and reducing 103 correct to 97; a missed gestational-timing phrase in the context detector; old root IDs being invalidated solely because they came from an earlier round; and treating a legitimate null/no-edit response as a schema error, forcing an unsupported repair. These defects have explicit fixes and retained negative experiments. They are not all failures of clinical knowledge or merely an overly strict gate.
 
-## 4. What changed in the agent
+## 5. Current inference and learning mechanism
 
-1. Call1 extracts patient facts with input quotations, drug entities, explicit route and question intent.
-2. Label tool rejects unrelated fixed-combination products, handles generic/salt/brand identity, exposes UNII and available routes, and excludes explicit route conflicts. It returns balanced indication/dose/safety windows with source IDs and offsets.
-3. Call2 assesses each option, proposes citations and source-bound arithmetic.
-4. Deterministic tools check exact quotations and bounded arithmetic. They do not validate clinical applicability, units, renal dosing or complete DDIs.
-5. Call3 chooses a final option with remaining uncertainty.
-6. A frozen supervised logistic calibrator may override short, previously observed medication names when its probability gap is≥0.2. After an override, the old explanation is explicitly separated and is not presented as justification for the new choice.
+1. Extract quoted facts, medication roles and explicit routes.
+2. Resolve product variants and retrieve indication/dose/safety windows with balanced per-product allocation. Record exact source offsets and unresolved metadata.
+3. Assess every option. Verify quotations, bounded arithmetic and explicitly sourced age/eGFR/CrCl comparisons. Unit consistency, all rule qualifiers and overall clinical applicability remain unverified.
+4. Decide with the original input and check results; no numeric answer override.
+5. On training feedback, record GT/prediction discrepancy, earliest suspected failure stage, source-grounded root hypothesis, minimal repair and counterexample requirement. A model's hypothesis is not clinical adjudication.
+6. Accumulate past eligible roots, recent rejected edits and the two highest positive-net failed probes. Use compact typed role pools and short IDs. Do not forget an earlier root when new cases arrive.
+7. Propose one scoped procedure or one retrieval-parameter change; data-bound context-vocabulary patches can repair detector misses. The patch must match a failure and a success; this does not prove every term's meaning. Explicit no-edit decisions are preserved.
+8. Training probe: at least 2 net corrections and no extra invalid answers. Proposal RxSafe 190/MedQA120: neither loses and pooled count improves. Guard RxSafe 197/MedQA120: neither loses. Freeze all states before evaluation.
 
-Current entry: `rxrsiagent/selected_agent.py`; profile: `rxrsiagent/selected_profile.json`. Historical `core.py` and `evaluated_profile.json` preserve their old audits and are not the current main-table entry.
+Only procedures, retrieval configuration and condition vocabulary can change. Backbone weights and executable tools remain fixed during learning. Tool repairs between experiments are **researcher changes**, not autonomous agent gains. The final proposal model is **anthropic/claude-opus-4.8**; actor and initial reflector remainDeepSeek. This is externally assisted agent-state learning with additional offline compute, not autonomous same-model recursion. Earlier controls used a strict positive guard gain; the non-regression guard was declared before tests.
 
-## 5. Controlled components and attribution
+## 6. Completed updater experiments
 
-| Configuration | RxSafe988 correct | RxQA300 correct |
+| Experiment / 实验 | Attempts / 尝试 | Schema / 角色或格式 | No edit / 无证据更新 | Probe rejected / 探针拒绝 | Proposal / 候选集拒绝 | Guard / 守门拒绝 | Accepted / 保留 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| v37 | 8 | 5 | 0 | 3 | 0 | 0 | 0 |
+| v38 | 8 | 3 | 0 | 4 | 1 | 0 | 0 |
+| v39 | 16 | 4 | 0 | 12 | 0 | 0 | 0 |
+| v40 | 16 | 12 | 0 | 4 | 0 | 0 | 0 |
+| v41 | 16 | 3 | 0 | 12 | 1 | 0 | 0 |
+| v42 | 16 | 9 | 0 | 7 | 0 | 0 | 0 |
+| v43 | 16 | 3 | 13 | 0 | 0 | 0 | 0 |
+| v44 | 16 | 2 | 14 | 0 | 0 | 0 | 0 |
+
+These are 112 proposal attempts across eight four-round development experiments, all reusing the same 400-case training cohort. They are not 3,200 unique cases or independent random-seed runs. All rejected/declined candidates remain in the records. v37 adds full traces; v38 explicit role repair; v39 narrow interventions; v40 condition vocabulary; v41 compact context; v42 external proposer; v43 legitimate abstention; v44 cumulative root and promising-failure replay.
+
+## 7. Round-by-round independent validation
+
+| Round / 轮次 | Cases / 累计病例 | Cards / 技能 | Retrieval edits / 检索项 | Terms / 条件词 | Proposal S/M | Guard S/M | MedPIC |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 0 | 0 | 0 | 0 | 0 | 99/190; 103/120 | 104/197; 102/120 | 274/467 |
+| 1 | 100 | 0 | 0 | 0 | 99/190; 103/120 | 104/197; 102/120 | 274/467 |
+| 2 | 200 | 0 | 0 | 0 | 99/190; 103/120 | 104/197; 102/120 | 274/467 |
+| 3 | 300 | 0 | 0 | 0 | 99/190; 103/120 | 104/197; 102/120 | 274/467 |
+| 4 | 400 | 0 | 0 | 0 | 99/190; 103/120 | 104/197; 102/120 | 274/467 |
+
+**No positive evolution is established: no procedural, retrieval or vocabulary update is retained. Identical states reuse predictions; the flat trajectory is not five independent replications.** New training comprises 200 existing RxSafe train cases and 200 non-overlapping MedQA train cases, mixed 50/50 per round. Repeated development exposure is disclosed. Main RxSafe/RxQA sets have historical exposure and are exploratory. MedPIC uses the pinned author release 467, including 108 multiple-answer questions. All stages freeze before independent inference; no best-test checkpoint selection occurs. One publicly viewed schema example remains in the predeclared denominator.
+
+## 8. Drug-prior and patient-condition diagnostics
+
+| Condition / 条件 | Exact-set / 完全正确 | Both pair members / 成对全对 |
 |---|---:|---:|
-| No evidence / 无证据 | 487/988 | 194/300 |
-| Old lookup / 原名称检索 | 488/988 | 189/300 |
-| Verified source / 来源核验 | 472/988 | 199/300 |
-| Selected full agent / 选定完整方法 | 556/988 | 199/300 |
+| Original / 原始 | 24/70 | 3/35 |
+| Permutation / 选项置换 | 26/70 | 4/35 |
+| No vignette / 去掉患者背景 | 24/70 | 0/35 |
 
-Verified retrieval alone **regresses** on RxSafe test, despite improving proposal94→103 and guard98→102 against the no-evidence control. RxQA source availability rises from1/300 under old name lookup to267/300. Availability is not relevance or correctness. The selected calibrator fixes118 source-agent test errors and regresses34, adding8.50pp [6.08,10.93]. It applies527 times on RxSafe and0 on RxQA.
+The 35 pairs share identical option strings and all 35 change the correct answer set when patient information changes. Option-remapping prediction agreement is 48/70. No-vignette inputs retain the question/options, which can still contain clinical clues. Removing the vignette leaves 24/70 exact answers unchanged, and option permutation changes 22/70 mapped predictions. Thus shortcut robustness is not demonstrated. These controls assess context and position sensitivity; they cannot exclude all parametric drug priors or establish clinical quality.
 
-The numerical module uses draft, normalized medication-name indicators and medication/UNII×focus words. It uses ordinary logistic regression; C grid0.1/1/10 and margin grid0/.05/.1/.2/.3. Proposal selects C10,margin0.2:110/190; guard116/197 versus102. Model hash freezes before test. There are no answer-position or case-ID features.
+## 9. Audits, costs and limitations
 
-### Post-selection diagnostic controls
+- Recounted 1895 distinct evaluation rows and 31401 exact source spans; receipts and numeric checks were revalidated. A declared post-freeze parser repair normalized list-valued search focus for two incomplete cases; the other 986 saved predictions were hash-verified unchanged. Ten synthetic verifier/routing tests pass; these are software checks, not clinical validation.
+- Root ledger:131 records,114 with verified supporting quotes. Reference-status judgments:{"ambiguous": 73, "supported": 11, "inconsistent": 20, "insufficient_evidence": 27}. These model-generated categories do not prove GT errors.
+- Enhanced source-request outcomes:{"http_404": 340, "retrieved": 300}. An intended 600-request cap overshot during initial concurrent fetching; cached responses and actual counts are retained, not hidden. Missing labels and query-limit fallbacks remain limitations.
+- Shared new successful-response ledger increment: **USD 22.370972**, including all updater variants and final evaluation. Logical cached inference cost differs from newly billed responses; this is not an invoice.
+- Source-span validity and narrow threshold checks do not establish correct complete prescriptions, full DDI handling, renal dosing, dose units, formulation strength or monitoring. Clinical annotations and real EHR execution remain unfinished.
 
-Fixed C10 and margin0.2; none replaces the selected main model using test performance.
+## 10. Protocol correction and artifacts
 
-| Features | Proposal | Guard | RxSafe test |
-|---|---:|---:|---:|
-| identity_only | 116/190 | 120/197 | 564/988 |
-| identity_and_draft | 112/190 | 121/197 | 553/988 |
-| context_only | 112/190 | 116/197 | 574/988 |
-| context_and_draft | 106/190 | 115/197 | 533/988 |
+**Correction:** original RxSafeBench already uses three-option MCQ (paper SectionII-C). Earlier local prose calling it free generation was wrong. Our local deduplication, ordering, grouped split and evaluation subset still differ, so published scores cannot be copied into the same-protocol main table. Historical hash-bound files remain archived with this correction.
 
-Identity-only scoring reaches564/988 and context interactions without a draft574/988, above the selected full model556. This weakens a claim that the full architecture is necessary or that all gain reflects clinical reasoning. New medication combinations and independently constructed tasks are required for confirmation.
+- Current code/profile: `rxrsiagent/selected_agent.py`, `rxrsiagent/selected_profile.json`.
+- Actor/checks: `upgrade_v40/agent40.py`; evidence tool: `upgrade_v37/evidence37.py`.
+- Final learner and compact context: `upgrade_v44/learn.py`, `proposal_context.py`.
+- Final states/gates: `upgrade_v44/results/learning.json`; independent trajectory and shortcut results alongside it.
+- Freeze and audit: `upgrade_v44/test_freeze.json`, `upgrade_v44/results/audit.json`.
+- Public per-case answer letters: `upgrade_v44/results/public_predictions.jsonl` (1,895 rows, no patient/source prose); its manifest independently recounts the totals.
+- Current English ACL source: `paper/latex/v0.3/prismatic_v03_en.tex`; numbers are generated from audited artifacts. The paper does not rename earlier variants as different proposed methods.
+- Raw benchmark data, downloaded label bodies, provider receipts, restricted records and credentials remain outside Git.
 
-## 6. What evolves as cases increase
-
-Two four-round language-memory attempts require applicability, exclusion conditions, supporting failures and successful counterexamples. Every proposed update is rejected. No text card is retained. The numeric state is learned by ordinary supervised optimization; tools, prompts and backbone weights do not evolve during learning.
-
-| Cumulative cases | Numeric features/weights | Proposal | Guard | Retained text cards run1/run2 |
-|---:|---:|---:|---:|---:|
-| 156 | 4,848 | 102/190 | 101/197 | 0 / 0 |
-| 312 | 9,250 | 108/190 | 107/197 | 0 / 0 |
-| 468 | 13,546 | 113/190 | 112/197 | 0 / 0 |
-| 625 | 17,672 | 110/190 | 116/197 | 0 / 0 |
-
-These are **post hoc fixed-hyperparameter prefix diagnostics**: C and margin were selected using all625 training cases and development feedback. They are not a prospective onlineRSI study. Proposal accuracy is nonmonotonic. Guard growth alone does not prove independent transfer.
-
-## 7. Continued independent experiments, including failures
-
-| Candidate | Proposal120 | Fixes/regressions vs static | Decision |
-|---|---:|---:|---|
-| Static source agent |99|reference|control|
-| Expanded dose/population sections |99|4/4|rejected|
-| Independent draft + contradiction review |99|7/7|rejected|
-| Retrieval of3 training examples from9936 cases |99|5/5|rejected|
-
-All three candidates retain3×1536 call allowance. The last uses extra external training data, so is not equal-data. None strictly improves proposal; **guard and RxQA are not run for these candidates**. The240-case cohort was prepared, but only its120 proposal cases were needed. Earlier active second retrieval also fails103→100/190. Failure gates prevent test-driven cherry-picking; they do not guarantee that the retained configuration generalizes.
-
-## 8. Cases and clinical boundary
-
-Deterministically choose the first lexical calibration fix and regression (post hoc public examples):
-
-- `0445a1cf61c5e4ac`:risperidone→sertraline, matching the reference. The old rationale supports risperidone and cannot justify the overridden answer. This is a reference correction, not established clinical improvement.
-- `0d0cc811ec14bfd3`:griseofulvin→ketoconazole, creating an error. The source rationale also overgeneralizes from one shampoo product label. Both calibration and applicability remain imperfect.
-
-Eight synthetic software tests pass;24735 original and1556 follow-up source spans are checked. No clinician ratings are fabricated. Fourteen clinician-oriented endpoints, including treatment-goal coverage, major-error cases, joint clinically correct orders and unnecessary medication, remain awaiting the two reviewers. QA accuracy is not prescription execution or clinical safety.
-
-## 9. Audit, cost and reproduction
-
-- Main audit: `upgrade_v35/results/audit.json`; test freeze: `upgrade_v35/test_freeze.json`.
-- Follow-up: `upgrade_v36/results/audit.json`; calibration diagnostics: `upgrade_v35/results/calibration_diagnostics.json`.
-- Main successful-response ledger increment:USD16.260916; follow-up:USD0.892790; total:USD17.153706. This is the local response ledger, not a provider invoice. Logical full-inference costs include cached responses and are reported separately.
-- 1655 receipt references differ from the latest exact-request cache because concurrent identical calls can yield different raw responses; per-case raw receipts are authoritative. This count includes repeated references. No claim of identical planner samples in v35; v36 adds cross-process request locks.
-- Source requests are cached with statuses, including missing sources and HTTP errors. No missing evidence is converted to “safe.”
-- Raw benchmark traces, downloaded labels, credentials and trained pickle remain local. Code, aggregates and hashes are tracked.
-
-Reproduction uses Python3.9 with numpy/scipy/scikit-learn/pandas/pyarrow and the existing public client. After restoring the local input/cache manifests, run the stage CLIs in the README; audits run without new API calls. Do not rerun `prepare.py` over an existing experiment directory because it starts a new ledger/split record.
-
-## 10. Remaining research target
-
-The two-benchmark win and convincing autonomous RSI are **not complete**. Priority:build independent label-grounded dosing/applicability tasks, fix product-strength/release-form matching, validate clinical rules, and compare calibration against ordinary supervised baselines on unseen medication combinations. Choose subsequent configurations on new development data; reserve a new final test before further optimization. Real order execution and blinded clinical endpoints are separate required evidence.
-
-Primary sources: [openFDA](https://open.fda.gov/apis/drug/label/), [MedQA author repository](https://github.com/jind11/MedQA), [RxQA official release](https://github.com/Google-Health/rxqa). Historical runs and rejected candidates remain versioned; only the selected configuration appears as RxRSIAgent in the main paper.
+Sources: [RxSafeBench paper](https://arxiv.org/html/2511.04328v1), [MedPIC paper](https://arxiv.org/abs/2608.03028), [MedPIC author data](https://huggingface.co/datasets/TIM0927/MedPIC-Bench), [openFDA fields](https://open.fda.gov/apis/drug/label/searchable-fields/).

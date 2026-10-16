@@ -1,0 +1,549 @@
+{
+  "status": "frozen",
+  "frozen_utc": "2026-10-16T09:06:24.456002+00:00",
+  "rounds": [
+    {
+      "round": 0,
+      "cases_seen": 0,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false
+    },
+    {
+      "round": 1,
+      "cases_seen": 100,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false,
+      "new_batch": {
+        "n": 100,
+        "correct": 67,
+        "invalid": 0,
+        "calls": 300,
+        "input_tokens": 1174545,
+        "output_tokens": 93557,
+        "logical_cost_usd": 0.322132063,
+        "active_cases": 0,
+        "predictions_sha256": "cc9ba034e8e8c38c513dc36a08a29939e62e64b0985d58cf62764d4dd8fcdd2b"
+      },
+      "root_count": 33,
+      "root_eligible": 3,
+      "root_quote_valid": 24,
+      "trials": [
+        {
+          "round": 1,
+          "attempt": 1,
+          "schema_errors": [
+            []
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": true,
+          "proposal_diagnosis": "The only allowed root is T0026, whose own root analysis classifies it as a 'trace_based_hypothesis_not_proven_cause' and whose decisive gap is the ABSENCE of a retrieved span naming the diagnosis as an indication for the predicted option. Encoding a procedure that defaults to the option whose label indication section contains the closest matching syndrome would (a) turn the presence/absence of a retrieved indication span into an option preference, which the contract explicitly forbids ('absence of a retrieved span must not eliminate a treatment'; 'never turn the presence of a label span into a preference for that option'), and (b) effectively assert a new medical rule (one macrolide preferred over another) unsupported by the sources, since both candidate macrolides lack an explicit bacillary-angiomatosis indication span. The required single trigger is conditional_question. For a valid card I need at least two observed FAILURES in the triggered region sharing the trace-level cause, and at least two prior SUCCESSES including one inside the region, explained. But among the conditional_question failures, only T0026 has a traced indication-matching root; T0046, T0013, T0017, T0061, T0062 are different question types (resistance/next-step/dose-adequacy/management) with no shared traced indication-selection cause, so they cannot serve as genuine supports for the same recurring process failure. Thus two supported failures with one common trace-level cause do not exist, and no permissible, source-grounded procedure remains that does not either invert indication/absence polarity or invent a drug-preference rule. Per the contract, I return null rather than inventing a medical rule or broadening the trigger. No trigger_terms are proposed because the condition (conditional_question) is already observed in T0026; the failure is not a detector miss but an unsupported-preference reasoning error that the contract bars me from encoding.",
+          "rejection": "no_supported_edit"
+        },
+        {
+          "round": 1,
+          "attempt": 2,
+          "schema_errors": [
+            []
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": true,
+          "proposal_diagnosis": "The only genuine support for a gestational-age-scoped contraindication trace cause is T0082 (where pregnancy_context is a detector gap, repairable via trigger_terms). However, the contract requires at least two observed failures in the triggered region sharing the SAME trace-level cause. The second pregnancy-region failure available, T0061, fails for a distinct reason (anti-D immune-globulin dose adequacy / fetal-maternal hemorrhage quantification), not for treating a term-only contraindication as applicable earlier in gestation or treating a missing pregnancy-category span as a contraindication. Using T0061 would conflate two unrelated mechanisms and violate the one-traced-failure narrow-intervention contract. The remaining pregnancy-region IDs (T0020, T0078, T0041, T0018, T0086, T0034, T0060) are successes, not failures. Because two failures sharing one recurring trace-level cause do not exist in the allowed pool, no supported persistent edit can be written without inventing a medical rule or broadening the trigger. This differs from the prior failed round (which risked encoding an indication-span-presence preference); here the blocker is insufficient co-triggered supporting failures rather than a polarity/preference inversion. Returning null rather than fabricating a second support or a drug-identity rule.",
+          "rejection": "no_supported_edit"
+        },
+        {
+          "round": 1,
+          "attempt": 3,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            [
+              "missing_card"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": false,
+          "proposal_diagnosis": null,
+          "rejection": "schema"
+        },
+        {
+          "round": 1,
+          "attempt": 4,
+          "schema_errors": [
+            []
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": true,
+          "proposal_diagnosis": "The required single trigger is pregnancy_context. The only root-supported trace cause (T0082) is: treating a term-only contraindication as applicable mid-gestation and treating absence of a pregnancy-category span as evidence against an indicated drug. The narrow-intervention contract requires at least two observed failures sharing THIS same trace-level cause, with at least two of them inside the triggered region. The allowed failure pool contains only T0082 and T0061. T0061 is a different mechanism (anti-D immune globulin dose adequacy / fetal-maternal hemorrhage quantification after a term delivery); it does not involve a gestational-age-scoped contraindication or a missing-pregnancy-span inversion, so it cannot serve as a second support for the same cause without conflating two unrelated mechanisms. All other pregnancy-region IDs (T0020, T0078, T0041, T0018, T0086, T0034, T0060) are successes, not failures. Therefore two observed failures sharing one recurring trace-level cause do not exist in the allowed pool. Note also that T0082's observed_features lack pregnancy_context (a genuine detector gap repairable via trigger_terms), but even a correct trigger-miss repair cannot supply a second co-triggered failure with the same cause. Writing a single-support card, or borrowing T0061, would either violate the two-support requirement or invent an unsupported rule / encode a drug-identity preference (the prior round's rejected risk). This differs from recent_failures attempt 2 only in confirming the same blocker after re-checking trigger_terms viability, and from attempt 3 (schema: missing_card) by returning a well-formed null. Per contract, return null rather than fabricate a second support or a medical rule.",
+          "rejection": "no_supported_edit"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "cases_seen": 200,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false,
+      "new_batch": {
+        "n": 100,
+        "correct": 66,
+        "invalid": 0,
+        "calls": 300,
+        "input_tokens": 1234103,
+        "output_tokens": 93622,
+        "logical_cost_usd": 0.33338292800000036,
+        "active_cases": 0,
+        "predictions_sha256": "4f992f1e7af86b89844fc5185ae6a06a873b27d01abec39fa7cc1d449048c4df"
+      },
+      "root_count": 34,
+      "root_eligible": 1,
+      "root_quote_valid": 32,
+      "trials": [
+        {
+          "round": 2,
+          "attempt": 1,
+          "schema_errors": [
+            []
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": true,
+          "proposal_diagnosis": "The required single trigger is conditional_question. A valid card needs at least two observed failures sharing ONE recurring trace-level cause inside the triggered region, plus two genuine successes (one inside the region), with the failures and successes separable by that cause. The conditional_question failure pool is large (T0121, T0163, T0046, T0193, T0013, T0154, T0061, T0111, T0017, T0062), but these do not share a single executable trace-level cause. They scatter across unrelated mechanisms: antiplatelet/NSAID interaction (T0121), prior-illness-as-contraindication reasoning (T0163), antibiotic-resistance workup (T0046), no-contraindication-found management (T0193), substance-use-history alternative selection (T0013), explicit absence-of-renal-disease handling (T0154), anti-D dose adequacy after delivery (T0061), structural-cardiac contraindicated-substance listing (T0111), undisclosed-pregnancy next-step workup (T0017), and hypotensive-trauma management (T0062). Each turns on a different reasoning step; grouping any two under one procedure would require inventing a unifying medical rule not supported by the sources, or inverting indication/contraindication polarity. The matched successes (T0028, T0093, T0095, T0076, T0194, T0122, T0063, T0066, T0052) likewise correctly handle their own distinct conditions, so they cannot all be explained as preserved behavior for a single traced failure cause. No trigger_terms repair helps: the detector already fires conditional_question for the candidate failures, so the blocker is cause-heterogeneity, not a detection gap, and no added phrase would make two failures share one mechanism without conflation. Writing a card anchored on any single mechanism would leave only one supporting failure for that cause, violating the two-support requirement; broadening the procedure to cover multiple mechanisms would encode an unsupported rule and risk converting label-span presence/absence into treatment preference. This differs from recent_failures attempt 4 (which blocked on pregnancy_context having only one same-cause failure) by confirming an analogous but distinct blocker for conditional_question: here failures are plentiful but mechanistically disjoint rather than scarce. Per the narrow-intervention contract, I return null rather than fabricate a second co-caused support or a new medical rule.",
+          "rejection": "no_supported_edit"
+        },
+        {
+          "round": 2,
+          "attempt": 2,
+          "schema_errors": [
+            [
+              "root_ID_roles"
+            ],
+            [
+              "root_ID_roles"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": false,
+          "proposal_diagnosis": "Role repair: all support IDs (T0163, T0013, T0154) are confirmed in allowed_support_ids and all counterexample IDs (T0093, T0076, T0052) in allowed_success_ids, so no ID crosses its pool. The flagged root_ID_roles error is resolved by keeping root_ids empty: the only allowed root (T0105) is not among my observed supports and I have no trace linking it to this assertion-status cause, so asserting it would be an unsupported root attribution. Empty root_ids is the honest, supported value given supported_roots is empty. Mechanistically this card still isolates exactly three failures sharing one trace cause — a historical or unasserted comorbidity span used to oppose an indicated option, or absence-of-span misread as clearance — separated from successes that confirm current activity (T0076) or retain monitoring polarity (T0093, T0052). No trigger_terms needed since conditional_question already fires on all cited IDs; no new medical rule is added, only a status-classification step preserving native indication/contraindication polarity.",
+          "rejection": "schema"
+        },
+        {
+          "round": 2,
+          "attempt": 3,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            [
+              "missing_card"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": false,
+          "proposal_diagnosis": null,
+          "rejection": "schema"
+        },
+        {
+          "round": 2,
+          "attempt": 4,
+          "schema_errors": [
+            []
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": true,
+          "proposal_diagnosis": "ALLOWED_ROOT_IDS is empty and supported_roots is empty. Every valid card requires root_ids grounding a traced recurring cause, but there is no allowed Txxxx root identifier to cite. Prior attempts (round 2, attempts 2-3) tried to submit a card with empty root_ids; both were rejected on schema (root_ID_roles, then missing_card), confirming that an empty root_ids value is not acceptable here and that no in-pool root exists to populate it honestly. Asserting any root would be an unsupported attribution. The candidate trace-level cause (a historical/unasserted comorbidity span used to oppose an indicated option, or absence-of-span misread as clearance) is plausible across T0163/T0013/T0154 vs successes T0076/T0093/T0052, but a persistent edit without a grounded root would fabricate the very linkage the contract forbids. Per the instruction to return null rather than invent an unsupported root or rule, no supported edit exists.",
+          "rejection": "no_supported_edit"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "cases_seen": 300,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false,
+      "new_batch": {
+        "n": 100,
+        "correct": 69,
+        "invalid": 0,
+        "calls": 300,
+        "input_tokens": 1200105,
+        "output_tokens": 97182,
+        "logical_cost_usd": 0.33055006400000003,
+        "active_cases": 0,
+        "predictions_sha256": "6cf7f3101e761ba5fb3e64c96bb3601f91ee8cfd0ac01cc4002ce2ca9b109f2e"
+      },
+      "root_count": 31,
+      "root_eligible": 1,
+      "root_quote_valid": 27,
+      "trials": [
+        {
+          "round": 3,
+          "attempt": 1,
+          "schema_errors": [
+            []
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": true,
+          "proposal_diagnosis": "ALLOWED_ROOT_IDS and supported_roots are both empty. The contract requires root_ids to ground a traced recurring cause in an in-pool Txxxx root identifier, and separately forbids inventing attributions. Prior attempts in round 2 confirm this: attempt 4 was rejected as no_supported_edit precisely because there is no allowed root identifier to honestly populate root_ids, and earlier attempts failed schema on root_ID_roles / missing_card. Although a plausible trace-level cause exists (a historical or unasserted comorbidity span being used to oppose an indicated treatment, e.g. T0013 opioid history, T0163 malaria history, T0244 prior rituximab; or absence-of-span misread as safety clearance, e.g. T0154), and genuine successes exist that correctly retained indicated options despite comorbidity mention (T0093 lichen planus with hypothyroidism preserved treatment; T0255 allergic rhinitis with myasthenia gravis handled cautiously without eliminating treatment; T0243 continued prednisone appropriately; T0028 kept antibiotic options open on Advair), I cannot cite any root_ids without fabricating the linkage the contract explicitly prohibits. Per the instruction to return null rather than invent an unsupported root, no supported edit exists.",
+          "rejection": "no_supported_edit"
+        },
+        {
+          "round": 3,
+          "attempt": 2,
+          "schema_errors": [
+            []
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": true,
+          "proposal_diagnosis": "ALLOWED_ROOT_IDS and supported_roots are both empty. The schema requires root_ids to cite an in-pool Txxxx root identifier that grounds a traced recurring cause, and the contract forbids inventing attributions. There is no allowed root identifier available to honestly populate root_ids. Prior attempts (round 2 attempt 4, round 3 attempt 1) were both rejected as no_supported_edit for exactly this reason, and earlier attempts failed schema on root_ID_roles / missing_card, confirming that empty root_ids is not acceptable and no in-pool root exists. A plausible trace-level cause is visible across failures (a historical or unasserted comorbidity span being used to oppose an indicated treatment — T0013 opioid history, T0163 malaria history, T0244 prior rituximab — or absence-of-span misread as safety clearance, T0154), and genuine in/near-region successes exist that correctly retained indicated options despite a comorbidity mention (T0093 preserved treatment with hypothyroidism; T0255 handled myasthenia gravis cautiously without eliminating treatment; T0243 appropriately continued therapy; T0028 kept antibiotic options open). But without any citable root identifier, issuing a persistent card would fabricate the linkage the contract explicitly prohibits. Per the instruction to return null rather than invent an unsupported root or rule, no supported edit exists.",
+          "rejection": "no_supported_edit"
+        },
+        {
+          "round": 3,
+          "attempt": 3,
+          "schema_errors": [
+            []
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": true,
+          "proposal_diagnosis": "ALLOWED_ROOT_IDS and supported_roots are both empty. The schema requires root_ids to cite at least one in-pool Txxxx root identifier that grounds the traced recurring cause, and the contract explicitly forbids inventing attributions or encoding a medical rule unsupported by a cited root. There is no allowed root identifier available to honestly populate root_ids. A plausible trace-level cause is observable across the failure pool (a historical or unasserted comorbidity span being used to oppose an otherwise indicated treatment — e.g. T0013 opioid history, T0163 malaria history, T0244 prior rituximab — or absence of a retrieved span being misread as safety clearance, e.g. T0154), and genuine successes exist that correctly retained indicated options despite a comorbidity mention (T0093 preserved treatment alongside hypothyroidism; T0255 handled myasthenia gravis cautiously without eliminating treatment; T0243 appropriately continued therapy; T0028 kept antibiotic options open on Advair). These would satisfy the two-support / two-counterexample requirement including in-region successes. However, with no citable root_ids, issuing a persistent card would fabricate the very linkage the contract prohibits. This matches the two prior round-3 rejections (no_supported_edit) for the same unavailable-root reason. Per the instruction to return null rather than invent an unsupported root, no supported edit exists.",
+          "rejection": "no_supported_edit"
+        },
+        {
+          "round": 3,
+          "attempt": 4,
+          "schema_errors": [
+            []
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": true,
+          "proposal_diagnosis": "ALLOWED_ROOT_IDS and supported_roots are both empty. The schema requires root_ids to cite at least one in-pool Txxxx root identifier grounding the traced recurring cause, and the contract forbids inventing attributions or encoding an unsupported linkage. No allowed root identifier exists to honestly populate root_ids. A plausible trace-level cause is observable (historical or unasserted comorbidity spans used to oppose an otherwise indicated treatment — T0013 opioid history, T0163 malaria history, T0244 prior rituximab — or absence-of-span misread as safety clearance, T0154), and genuine successes exist that correctly retained indicated options despite a comorbidity mention (T0093 preserved treatment alongside hypothyroidism; T0255 handled myasthenia gravis cautiously without eliminating treatment; T0243 continued therapy appropriately; T0028 kept antibiotic options open). These would satisfy the two-support/two-counterexample requirement with in-region successes. But with no citable root_ids, issuing a persistent card would fabricate the required linkage. This matches the two prior round-3 no_supported_edit rejections for the same unavailable-root reason. Per the instruction to return null rather than invent an unsupported root, no supported edit exists.",
+          "rejection": "no_supported_edit"
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "cases_seen": 400,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false,
+      "new_batch": {
+        "n": 100,
+        "correct": 67,
+        "invalid": 0,
+        "calls": 300,
+        "input_tokens": 1373350,
+        "output_tokens": 98701,
+        "logical_cost_usd": 0.370297755,
+        "active_cases": 0,
+        "predictions_sha256": "08d9ad5444b1b5406abf46fada4b0542351e2a92e3e88bfd547b4c20eea83761"
+      },
+      "root_count": 33,
+      "root_eligible": 1,
+      "root_quote_valid": 31,
+      "trials": [
+        {
+          "round": 4,
+          "attempt": 1,
+          "schema_errors": [
+            []
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": true,
+          "proposal_diagnosis": "The only in-pool root is T0316, whose traced cause is a risk-factor ranking asserted without any retrieved source span (source_quotes empty, evidence excerpts empty), leading the model to override the best-established host association with an unsupported contextual modifier. This is a single-case, ranking-specific reasoning failure, not a recurring trace-level pattern. The NARROW INTERVENTION CONTRACT requires exactly ONE observable trigger, and the required_single_trigger is explicit_route. Although T0316 lists explicit_route in observed_features, that span is 'topical glucocorticoid' for the lesion treatment and is entirely incidental to the actual failure, which concerns a risk-factor ranking question. Routing a persistent card on explicit_route would attach the repair to an unrelated feature: none of the explicit_route failures (T0104, T0158, T0213, T0253, T0340 etc.) share the traced cause of T0316 (unsupported ranking of a contextual modifier over an established association). Thus I cannot assemble two support IDs in a genuinely triggered region sharing the SAME traced cause, nor two counterexamples demonstrating correct handling of that same cause within that region. The successes available (e.g., T0255 handling myasthenia cautiously without eliminating treatment, T0393 checking interactions) address a different pattern (comorbidity-span polarity), which the prior rounds already identified and which has no citable root here. Encoding the ranking-evidence procedure under explicit_route would broaden an unrelated feature and risk converting absence of a retrieved span into treatment elimination, both prohibited. Per the contract, with only one single-case root and no supported recurring repair routable on the mandated trigger, I return null rather than invent a medical ranking rule or mis-route the edit.",
+          "rejection": "no_supported_edit"
+        },
+        {
+          "round": 4,
+          "attempt": 2,
+          "schema_errors": [
+            []
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": true,
+          "proposal_diagnosis": "The only in-pool root is T0316, and ALLOWED_ROOT_IDS contains only T0316. Its traced cause is a single-case reasoning failure: a risk-factor ranking (HIV co-infection asserted as most-implicated) was adopted with zero retrieved source support (source_quotes empty, evidence.excerpts empty), overriding the best-established host association. The mandated single trigger is explicit_route. In T0316 the explicit_route span is 'topical glucocorticoid', which treats the lesion and is entirely incidental to the ranking question that actually failed. Routing any persistent card on explicit_route would bind the repair to a feature unrelated to the traced cause. The other explicit_route failures (T0104 plantar fibromatosis, T0158 ehrlichiosis, T0213 IOP, T0253 pneumonia, T0340 COPD, T0310 toxic ingestion, T0062 trauma) do not share T0316's traced cause (unsupported ranking of a contextual modifier over an established association); they are heterogeneous treatment-selection or management cases. I therefore cannot assemble two support failures in a genuinely triggered region sharing the SAME traced cause, nor two in-region successes demonstrating correct handling of that same cause. The available successes (T0393, T0255, T0085) concern comorbidity-span polarity, a different pattern with no citable root here. Encoding the ranking-evidence procedure under explicit_route would broaden an unrelated feature and risk converting absence of a retrieved span into treatment elimination, both prohibited by the contract. No trigger_terms repair applies, since the miss is not a condition-detector synonym gap but a mismatch between the mandated trigger and the single available root's actual failure locus. Consistent with the round-4 attempt-1 rejection reasoning and the instruction to return null rather than invent a medical ranking rule or mis-route the edit, no supported recurring repair exists on the required trigger.",
+          "rejection": "no_supported_edit"
+        },
+        {
+          "round": 4,
+          "attempt": 3,
+          "schema_errors": [
+            []
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": true,
+          "proposal_diagnosis": "The only allowed root is T0316, whose traced cause is a single-case reasoning failure: a risk-factor ranking (HIV co-infection asserted as most-implicated) was adopted with zero retrieved source support (source_quotes empty, evidence.excerpts empty, flag label_unavailable), overriding the best-established host association. The contract mandates exactly ONE trigger and fixes required_single_trigger to explicit_route. In T0316 the only explicit_route span is 'topical glucocorticoid', which treats the lesions and is entirely incidental to the ranking question that actually failed; binding a persistent card to explicit_route would attach the repair to a feature unrelated to the traced cause. The other explicit_route failures (T0104 plantar fibromatosis, T0158 ehrlichiosis, T0213 IOP, T0253 pneumonia, T0340 COPD, T0310 toxic ingestion, T0062 trauma, T0224 fistula) are heterogeneous treatment-selection/management cases and do NOT share T0316's traced cause (unsupported ranking of a contextual modifier over an established association). I therefore cannot assemble two support failures in a genuinely triggered region sharing the SAME traced cause, nor two in-region successes demonstrating correct handling of that cause. The available successes (T0393, T0255, T0085) concern comorbidity-span polarity, a different pattern with no citable root here, so they cannot serve as explained counterexamples for this cause. A trigger_terms repair does not apply: the gap is not a missing condition synonym but a structural mismatch between the mandated trigger and the single root's actual failure locus. Encoding a ranking-evidence procedure under explicit_route would broaden an unrelated feature and risk converting absence of a retrieved span into treatment elimination, both prohibited. Consistent with the round-4 rejections and the instruction to return null rather than invent a medical ranking rule or mis-route the edit, no supported recurring repair exists on the required trigger.",
+          "rejection": "no_supported_edit"
+        },
+        {
+          "round": 4,
+          "attempt": 4,
+          "schema_errors": [
+            []
+          ],
+          "card": null,
+          "accepted": false,
+          "declined": true,
+          "proposal_diagnosis": "The sole allowed root T0316 traces to a single-case reasoning failure: an unsupported risk-factor ranking (HIV co-infection asserted as most-implicated) was adopted with zero retrieved source support (evidence.excerpts empty, flag label_unavailable), overriding the best-established host association. The contract fixes required_single_trigger to explicit_route. In T0316 the only explicit_route span is 'topical glucocorticoid', which treats the lesions and is entirely incidental to the ranking question that actually failed; routing a persistent card on explicit_route would bind the repair to a feature unrelated to the traced cause. The other explicit_route failures (T0104 plantar fibromatosis, T0158 ehrlichiosis, T0213 IOP, T0253 pneumonia, T0340 COPD, T0310 toxic ingestion, T0062 trauma, T0224 fistula) are heterogeneous treatment-selection/management cases and do not share T0316's traced cause (unsupported ranking of a contextual modifier over an established association). Thus two support failures sharing the SAME traced cause in a genuinely triggered region cannot be assembled, nor two in-region successes demonstrating correct handling of that cause. The available successes (T0393, T0255, T0085) concern comorbidity-span polarity, a different pattern, so they cannot serve as explained counterexamples here. No trigger_terms repair applies: the gap is not a missing condition synonym but a structural mismatch between the mandated trigger and the single root's actual failure locus. Encoding a ranking-evidence procedure under explicit_route would broaden an unrelated feature and risk converting absence of a retrieved span into treatment elimination, both prohibited. Consistent with the round-4 rejections, I return null rather than mis-route the edit or invent a medical ranking rule.",
+          "rejection": "no_supported_edit"
+        }
+      ]
+    }
+  ],
+  "protocol_sha256": "02a78a712391e028b09b957df3c0e8e19c0ef3f1bce7782cac24149c734a9ff7",
+  "interventions_sha256": "5a431891b63ad9f005e0f8bbb5ddc10fb5f69aac70d41ac28d6e32cd71dd003d"
+}

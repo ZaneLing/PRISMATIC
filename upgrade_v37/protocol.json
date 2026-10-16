@@ -1,0 +1,56 @@
+{
+  "created_utc": "2026-10-16T08:18:12.268985+00:00",
+  "model": "deepseek/deepseek-v4.1-flash",
+  "ledger_start_usd": 62.234809802759976,
+  "max_incremental_usd": 35,
+  "data_sha256": "5b371acf6e48b78b5cfb95bd88598a15ec6f9d9e6ae007b8d05aba7d01ba8c83",
+  "sizes": {
+    "train": 400,
+    "proposal_rx": 190,
+    "guard_rx": 197,
+    "proposal_med": 120,
+    "guard_med": 120,
+    "test_rx": 988,
+    "test_qa": 300,
+    "test_independent": 467
+  },
+  "membership": {
+    "train": "f4f8bf77e2467c0a70d861264f3150b31a519d1442e507b0fb619b83fc0e7c7c",
+    "proposal_rx": "e46287e58ac630a070307ce44203cb5c5fbf364a5f811347a2ba8552fd7106fc",
+    "guard_rx": "a4dee9f584c21d02944fbcf1e5565ea89dcf6933ccf4f140995070bb459f656d",
+    "proposal_med": "8e7b2d2d7dc749eb6684a4e9f3d64e5c764aaa552802e669e7e1d2437ea7af7e",
+    "guard_med": "6a83217f871c5c17dc06b51c38b0d916eb223e8b409bdb440e636d2706d54036",
+    "test_rx": "65b3959698c3e8a7890c5bb862a031d3e05e54db666d2659f26d927a10eaac18",
+    "test_qa": "9d719fe8b987de64b572b6ffb4f212633251b8bf4f43158f40a0cef239b5b40c",
+    "test_independent": "43bd7e9c4dcf8ce20fddf13a93531e54f709a58890beb687cb97a6b73e38e0cb"
+  },
+  "training": "400 mixed cases,4 rounds of100.200 RxSafe from original train625 and200 MedQA train not in previous development or test. No calibration, drug-frequency or name-to-answer memory.",
+  "changes": "Automatically proposed scoped procedural cards and bounded retrieval configurations; actor weights and code fixed. Root ledger includes trace-based hypotheses, counterexamples, local intervention results and rejected gates.",
+  "gates": "First paired training probes:at least2 net corrections,no invalid increase. Then proposal RxSafe190 and MedQA120:neither loses correct answers and total strictly improves; then guard RxSafe197 and MedQA120:neither loses and total strictly improves. Failure retains incumbent. Four-round trajectory freezes before independent/main inference.",
+  "candidate_limit_per_round": 2,
+  "output_allowance": 4608,
+  "calls_per_case": 3,
+  "independent": {
+    "source": "https://huggingface.co/datasets/TIM0927/MedPIC-Bench/resolve/9ef6db4f13865b14fc2e6be3f94dcfaf3a0cf983/questions.json",
+    "dataset": "TIM0927/MedPIC-Bench",
+    "revision": "9ef6db4f13865b14fc2e6be3f94dcfaf3a0cf983",
+    "license": "CC-BY-4.0",
+    "sha256": "c28c054ed788de7cbaf7592883e90ef85e530cf9464019dfd39618dcc5ea4ae6",
+    "n": 467,
+    "primary": "Exact-set accuracy on all467; paired/counterfactual metrics if unambiguous grouping is recoverable. Multi-answer task is not coerced to single choice.",
+    "public_schema_example_exposure": [
+      "SS-HF-HFREF-001"
+    ],
+    "selection_feedback": false,
+    "rounds": "Evaluate0,1,2,3,4 only after learning frozen; no best-independent-test checkpoint selection."
+  },
+  "shortcut_controls": [
+    "No learned identity priors or direct case-answer retrieval in procedural memory",
+    "Option permutation with answer remapping",
+    "Patient-context ablation on a fixed independent subset",
+    "Independent patient-condition-change task; separate guideline-following and counterfactual scores"
+  ],
+  "history": "RxSafe/RxQA repeatedly observed; earlier MedQA proposal120 used, guard120 not previously inferred. MedPIC new task, one public schema example seen.",
+  "clinical_scope": "Choice agreement and mechanistic applicability tests, not validated clinical prescribing.",
+  "not_guaranteed": "Target to exceed strongest executed method; no mandated positive result."
+}

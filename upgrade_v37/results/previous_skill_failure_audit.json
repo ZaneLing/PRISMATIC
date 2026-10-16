@@ -1,0 +1,143 @@
+{
+  "status": "complete",
+  "rows": [
+    {
+      "run": "learning",
+      "round": 1,
+      "cases_seen": 156,
+      "schema_cards": 0,
+      "proposal_calls": 1,
+      "proposed_names": [],
+      "correct": 103,
+      "fixes": 0,
+      "regressions": 0,
+      "changed": 0,
+      "guard_run": false,
+      "retained": 0
+    },
+    {
+      "run": "learning",
+      "round": 2,
+      "cases_seen": 312,
+      "schema_cards": 1,
+      "proposal_calls": 1,
+      "proposed_names": [
+        "Context-Drug Interaction as Indication Signal"
+      ],
+      "correct": 96,
+      "fixes": 9,
+      "regressions": 16,
+      "changed": 25,
+      "guard_run": false,
+      "retained": 0
+    },
+    {
+      "run": "learning",
+      "round": 3,
+      "cases_seen": 468,
+      "schema_cards": 2,
+      "proposal_calls": 1,
+      "proposed_names": [
+        "Indication-first elimination with patient-specific label cautions",
+        "Route and formulation plausibility screen"
+      ],
+      "correct": 99,
+      "fixes": 8,
+      "regressions": 12,
+      "changed": 20,
+      "guard_run": false,
+      "retained": 0
+    },
+    {
+      "run": "learning",
+      "round": 4,
+      "cases_seen": 625,
+      "schema_cards": 0,
+      "proposal_calls": 1,
+      "proposed_names": [],
+      "correct": 103,
+      "fixes": 0,
+      "regressions": 0,
+      "changed": 0,
+      "guard_run": false,
+      "retained": 0
+    },
+    {
+      "run": "learning_bound",
+      "round": 1,
+      "cases_seen": 156,
+      "schema_cards": 2,
+      "proposal_calls": 1,
+      "proposed_names": [
+        "Indication-first drug selection with explicit contraindication check",
+        "Prefer the option without a labeled safety caution when two options share the same indication"
+      ],
+      "correct": 101,
+      "fixes": 10,
+      "regressions": 12,
+      "changed": 22,
+      "guard_run": false,
+      "retained": 0
+    },
+    {
+      "run": "learning_bound",
+      "round": 2,
+      "cases_seen": 312,
+      "schema_cards": 2,
+      "proposal_calls": 1,
+      "proposed_names": [
+        "Ingredient-vs-Brand and Route Fit Before Indication Match",
+        "Context-Drug Interaction as a Tiebreaker, Not a Contraindication"
+      ],
+      "correct": 97,
+      "fixes": 7,
+      "regressions": 13,
+      "changed": 20,
+      "guard_run": false,
+      "retained": 0
+    },
+    {
+      "run": "learning_bound",
+      "round": 3,
+      "cases_seen": 468,
+      "schema_cards": 2,
+      "proposal_calls": 1,
+      "proposed_names": [
+        "Match the labeled indication to the working diagnosis before invoking comorbidity-based caution",
+        "Prefer the option whose labeled safety cautions do not match the patient's active comorbidity or interacting medication"
+      ],
+      "correct": 97,
+      "fixes": 10,
+      "regressions": 16,
+      "changed": 26,
+      "guard_run": false,
+      "retained": 0
+    },
+    {
+      "run": "learning_bound",
+      "round": 4,
+      "cases_seen": 625,
+      "schema_cards": 2,
+      "proposal_calls": 1,
+      "proposed_names": [
+        "Indication-first selection with explicit label-indication check",
+        "Route and formulation plausibility check before final selection"
+      ],
+      "correct": 98,
+      "fixes": 8,
+      "regressions": 13,
+      "changed": 21,
+      "guard_run": false,
+      "retained": 0
+    }
+  ],
+  "findings_from_code": [
+    "Proposal omitted actual retrieved evidence, quotation checks and intermediate reasoning.",
+    "Every card injected in both assessment and final calls for every case; no executable applicability routing.",
+    "Counterexample is nearest successful case by TF-IDF, not validated as a counterexample to the proposed predicate.",
+    "Previously rejected skill diagnostics are not inputs to later proposals; no persistent root-cause ledger.",
+    "First experiment can propose an empty candidate when ID roles fail; no schema repair.",
+    "No candidate passed proposal; no guard rejection occurred.",
+    "Preserve-existing instruction plus cards+valid concatenation can duplicate prior cards after an acceptance, though no current state reached this path."
+  ]
+}

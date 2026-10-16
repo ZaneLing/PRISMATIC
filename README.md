@@ -1,16 +1,17 @@
 # RxRSIAgent — PRISMATIC research repository
 
-## Current paper and real results — 16 October 2026
+## Current evidence — 16 October 2026
 
-**Selected RxRSIAgent:556/988 (56.28%) RxSafeBench;199/300 (66.33%) RxQA.** Historical retained scores were501/988 and183/300:descriptive gains of5.57pp and5.33pp. The current agent exceeds matched-output GRASP on RxSafe, but remains below MedAgents on RxQA. A two-benchmark or global SOTA claim is not supported.
+**Current procedural actor: 491/988 (49.70%) RxSafeBench; 196/300 (65.33%) RxQA.** Independent MedPIC: 274/467 (58.67%). Eight four-round development experiments produced112 proposal attempts and zero retained updates. Positive RSI and two-benchmark superiority are **not established**. The previous556/988 result used ordinary supervised calibration and is now a separately labeled control.
 
-- [中文完整结果与主表](upgrade_v35/RESULTS.zh.md) / [Complete English results](upgrade_v35/RESULTS.en.md).
-- [English ACL manuscript](paper/latex/v0.3/prismatic_v03_en.tex):updated in the existing editor path; main table, full architecture, experience curves, ablations and contrasting cases.
-- [Current executable agent](rxrsiagent/selected_agent.py), [selected configuration](rxrsiagent/selected_profile.json), [independent audit](upgrade_v35/results/audit.json).
-- [Independent follow-up experiments](upgrade_v36/README.md):expanded context, contradiction review and training-example retrieval each tie99/120 and are rejected before guard/test.
-- [Paper index and archive](paper/README.md); [clinician endpoint protocol](paper/CLINICAL_EVALUATION.en.md).
+- [中文完整结果与跨方法主表](paper/CURRENT_RESULTS.zh.md) · [Full English results](paper/CURRENT_RESULTS.en.md).
+- [English ACL manuscript](paper/latex/v0.3/prismatic_v03_en.tex): original editor path, compiled with the built-in compiler; architecture, root mechanism, main table, trajectory and failure cases.
+- [Current executable agent](rxrsiagent/selected_agent.py) · [frozen profile](rxrsiagent/selected_profile.json) · [independent audit](upgrade_v44/results/audit.json).
+- [Current experiment/reproduction](upgrade_v44/README.md) · [all retained and rejected states](upgrade_v44/results/learning.json).
+- [Protocol correction](paper/PROTOCOL_CORRECTIONS.md): original RxSafeBench is already three-option MCQ.
+- [Paper index and archives](paper/README.md).
 
-The gain comes from ordinary supervised calibration. Identity-only diagnostics are strong; both four-round language-memory runs reject all updates. Clinical safety and autonomous recursive self-improvement are unestablished. Comparisons share an output-token allowance, with input cost/calls/training differences disclosed. Higher-budget baselines and failed candidates remain visible. Existing long-running queues remain paused.
+No fitted medication-identity scorer overrides the current actor. The external proposal model adds offline training compute. Output allowances are matched, with input/call/cost differences disclosed. Source checks, reflection records and unchanged memory do not establish better clinical prescribing. Restricted records, keys, downloaded source bodies and raw provider receipts stay outside Git. Older long-running queues remain paused.
 
 ---
 

@@ -1,0 +1,2387 @@
+{
+  "status": "frozen",
+  "frozen_utc": "2026-10-16T09:00:10.743430+00:00",
+  "rounds": [
+    {
+      "round": 0,
+      "cases_seen": 0,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false
+    },
+    {
+      "round": 1,
+      "cases_seen": 100,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false,
+      "new_batch": {
+        "n": 100,
+        "correct": 67,
+        "invalid": 0,
+        "calls": 300,
+        "input_tokens": 1174545,
+        "output_tokens": 93557,
+        "logical_cost_usd": 0.322132063,
+        "active_cases": 0,
+        "predictions_sha256": "cc9ba034e8e8c38c513dc36a08a29939e62e64b0985d58cf62764d4dd8fcdd2b"
+      },
+      "root_count": 33,
+      "root_eligible": 3,
+      "root_quote_valid": 24,
+      "trials": [
+        {
+          "round": 1,
+          "attempt": 1,
+          "schema_errors": [
+            []
+          ],
+          "card": {
+            "name": "conditional_question_indication_span_check",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the input poses a conditional management question; unknown facts never imply safety, and absence of a retrieved span must not eliminate a treatment.",
+            "procedure": "1) Identify the condition the question asks about. 2) For each candidate management option, locate retrieved spans that name that condition or a directly equivalent syndrome. 3) If the leading option has no such span while another option does, prefer the span-supported option. 4) If no option has a matching span, or the question turns on dose, interaction, renal, hepatic, pregnancy, or route parameters, keep the original clinical reasoning and do not switch. 5) Never treat a label span as a preference by itself; indications support use, contraindications oppose it.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "medqa_train_adcd33cd7a7e4e4ca70c96d12865e897b8f46fbe6f1f39af7a425c4cc3a84eb4",
+              "5b32d60cfe3e717b"
+            ],
+            "counterexample_ids": [
+              "064e38aa0494a6fb",
+              "3d31bc26f718ef99"
+            ],
+            "counterexample_explanation": "T0028 and T0093 are conditional_question successes where the correct management did not depend on matching a retrieved indication span to the named condition; forcing an indication-span preference would have overridden correct clinical reasoning. They must be preserved by the step-4 fallback that keeps original reasoning when no span matches or when the question is parameter-driven.",
+            "root_ids": [
+              "medqa_train_adcd33cd7a7e4e4ca70c96d12865e897b8f46fbe6f1f39af7a425c4cc3a84eb4"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 1,
+            "regressions": 2,
+            "net": -1,
+            "changed": 3,
+            "n": 29,
+            "before": 23,
+            "after": 22,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "7513cadbbb723fdb",
+              "focus": "alcohol withdrawal treatment with cardiac comorbidity",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Clonidine is the only listed medication with a recognized role in alcohol withdrawal (sympatholytic; label discusses use in alcoholic delirium and withdrawal cautions), whereas gabapentin's label indications are postherpetic neuralgia and partial-onset seizures and ciprofloxacin is an antibiotic with no role in withdrawal. The patient's cardiac history warrants cardiology clearance before treatment, but among the options clonidine is the best-supported choice.",
+                "uncertainty": "High: no option is clearly labeled for alcohol withdrawal, and clonidine requires cardiac stabilization in this patient."
+              }
+            },
+            {
+              "id": "medqa_train_e33a8812a55dfc85f37b2cadd10b112b5ad0e82b6b7d56f247e7dc73d1ece368",
+              "focus": "generalizability effect modification confounding external validity",
+              "reference": [
+                "C"
+              ],
+              "prediction": [
+                "B"
+              ],
+              "decision": {
+                "final": [
+                  "B"
+                ],
+                "evidence": "The trial enrolled older Caucasian men with coronary heart disease, whereas the patient is a younger Hispanic woman with primary hypertension; a differential treatment effect across these characteristics is effect modification, which can explain her poor response.",
+                "uncertainty": "Generalizability is closely related, but effect modification best captures a genuinely different treatment response by patient characteristics."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "7513cadbbb723fdb",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model selected clonidine (A) because it recognized clonidine as a sympatholytic used in alcohol withdrawal and found label language about alcoholic delirium/withdrawal, but the reference keyed on gabapentin (B) as the intended answer; the model's own assessment acknowledged that no option is clearly labeled for alcohol withdrawal, so the mismatch is between the model's clinical-relevance heuristic and the reference's intended option.",
+                "observed_gap": "Reference B (gabapentin) versus predicted A (clonidine). Decisive missing condition: no retrieved label span states an alcohol-withdrawal indication for either gabapentin or clonidine; the clonidine label only mentions alcoholic delirium in a drug-interaction warning, and the gabapentin label lists postherpetic neuralgia and partial-onset seizures. The model's assessment explicitly noted 'no option is clearly indicated for alcohol withdrawal in the supplied label excerpts' yet still selected A.",
+                "reference_status": "insufficient_evidence",
+                "patient_quotes": [
+                  "I used to drink heavily, but I stopped about a week ago.",
+                  "These symptoms started a few days after I stopped drinking.",
+                  "Yeah, I have a heart condition. I had a heart attack a few years ago and I've been taking medication for it ever since.",
+                  "Based on your symptoms, my initial diagnosis is that you're experiencing alcohol withdrawal."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Clonidine hydrochloride tablets USP are indicated in the treatment of hypertension."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Gabapentin is indicated for: Management of postherpetic neuralgia in adults Adjunctive therapy in the treatment of partial onset seizures"
+                  },
+                  {
+                    "evidence_id": "E16",
+                    "quote": "Based on observations in patients in a state of alcoholic delirium it has been suggested that high intravenous doses of clonidine may increase the arrhythmogenic potential"
+                  },
+                  {
+                    "evidence_id": "E11",
+                    "quote": "Sudden cessation of clonidine treatment has, in some cases, resulted in symptoms such as nervousness, agitation, headache, and tremor accompanied or followed by a rapid rise in blood pressure"
+                  }
+                ],
+                "minimal_process_change": "When the retrieved label spans do not contain an explicit indication matching the clinical scenario for any option, the system should flag the item as insufficient evidence and avoid selecting an option based on off-label clinical familiarity; it should either abstain or require an explicit label-supported indication before final option selection.",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options",
+                  "multiple_medications"
+                ],
+                "counterexample_requirement": "This procedure must not apply when a retrieved label span explicitly states the indication matching the scenario for one option; in that case, the label-supported option should be selected and the decision should not be changed to abstention or to an off-label alternative.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "medqa_train_e33a8812a55dfc85f37b2cadd10b112b5ad0e82b6b7d56f247e7dc73d1ece368",
+              "root": {
+                "earliest_stage": "input interpretation",
+                "root_hypothesis": "The model interpreted the question as asking for the statistical mechanism of a genuinely different treatment effect in the patient (effect modification), rather than as asking why a trial result from a narrow population may not apply to a different patient (generalizability/external validity). This is a hypothesis about the reasoning failure; it is not established as causal without a controlled intervention.",
+                "observed_gap": "Reference option C (Generalizability) versus predicted option B (Effect modification). The decisive condition is the question wording: it asks which concept could explain the poor response after a trial in a non-representative population, not whether patient characteristics statistically modify the treatment effect. The model's own assessment acknowledged that generalizability/external validity was 'also relevant' but chose effect modification based on an unstated preference for 'explaining the poor response.'",
+                "reference_status": "supported",
+                "patient_quotes": [
+                  "A new antihypertensive medication is studied in 3,000 Caucasian men with coronary heart disease who are over age 65.",
+                  "a family physician elects to prescribe this medication to a 39-year-old Hispanic female who presents with primary hypertension",
+                  "After a one month trial and appropriate adjustments in the dosing, the patient's blood pressure is not well controlled by this medication.",
+                  "Which of the following statistical concepts could explain this patient's poor response to the medication?"
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Generalizability/external validity is also relevant because the trial population differs from the patient, but the question asks for the concept explaining the poor response, which is effect modification of treatment effect by patient characteristics."
+                  }
+                ],
+                "minimal_process_change": "For conceptual statistical questions, require an explicit comparison of the question stem's requested concept against each option's definition before selecting an answer, and flag when two options are both plausible so the final choice is justified by the stem wording rather than by a preference for one mechanism.",
+                "trigger_features": [
+                  "conditional_question",
+                  "age_context",
+                  "short_drug_options"
+                ],
+                "counterexample_requirement": "This procedure must not override a previously correct decision when the stem explicitly asks for a statistical interaction or subgroup effect, or when the options include a clearly defined effect-modification term and the stem asks whether the treatment effect differs by a specific characteristic.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": false
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 1,
+          "attempt": 2,
+          "schema_errors": [
+            [
+              "support_not_in_trigger_region"
+            ],
+            [
+              "support_not_in_trigger_region"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "rejection": "schema"
+        },
+        {
+          "round": 1,
+          "attempt": 3,
+          "schema_errors": [
+            []
+          ],
+          "card": {
+            "name": "conditional_question_indication_span_check",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the item is a conditional/management question; it does not apply to pure dose, interaction, renal, hepatic, pregnancy, or route questions where the decision depends on quantitative or safety parameters rather than matching a retrieved indication span.",
+            "procedure": "1) Identify the condition the question asks you to manage. 2) For each candidate option, locate a retrieved span that names that condition or a directly equivalent syndrome as an indication. 3) If exactly one option has such a span, prefer it. 4) If none has one, do not invent a preference; choose the option whose retrieved span contains the closest matching syndrome, and state that the match is indirect. 5) If several have one, compare the span wording to the question's condition and pick the closest. 6) Never let absence of a span eliminate a treatment; absence only removes the indication-based preference.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "medqa_train_adcd33cd7a7e4e4ca70c96d12865e897b8f46fbe6f1f39af7a425c4cc3a84eb4",
+              "5b32d60cfe3e717b"
+            ],
+            "counterexample_ids": [
+              "064e38aa0494a6fb",
+              "3d31bc26f718ef99"
+            ],
+            "counterexample_explanation": "T0028 and T0093 are conditional_question items that were answered correctly. In T0028 the retrieved context supports treating a respiratory infection in an asthma patient on Advair, and in T0093 the retrieved context supports treating lichen planus in a hypothyroid patient; in both, an indication-matching span was available and the model's decision should not be overridden by the new procedure. They show the procedure must preserve correct decisions when a retrieved span already matches the condition, and must not turn a missing span into a reason to reject a treatment.",
+            "root_ids": [
+              "medqa_train_adcd33cd7a7e4e4ca70c96d12865e897b8f46fbe6f1f39af7a425c4cc3a84eb4"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 0,
+            "regressions": 3,
+            "net": -3,
+            "changed": 3,
+            "n": 29,
+            "before": 23,
+            "after": 20,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "7513cadbbb723fdb",
+              "focus": "alcohol withdrawal treatment with cardiac comorbidity",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Clonidine is the only listed option with a recognized role in alcohol withdrawal; gabapentin is labeled for postherpetic neuralgia/seizures and ciprofloxacin is an antibiotic with no withdrawal indication. Clonidine still requires caution given the cardiac history and withdrawal-related warnings.",
+                "uncertainty": "Clonidine is not clearly safe in this cardiac patient; cardiology stabilization is still needed."
+              }
+            },
+            {
+              "id": "d291f5ada4d5aac4",
+              "focus": "type 2 diabetes treatment metformin",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Janumet (sitagliptin/metformin) is indicated as an adjunct to diet and exercise to improve glycemic control in adults with type 2 diabetes mellitus, matching the working diagnosis and offering combination intensification beyond the metformin the patient already takes. Trokendi XR (topiramate) has no type 2 diabetes indication.",
+                "uncertainty": "No renal function, age, or pancreatitis history provided; metformin continuation is defensible if the question is read as confirming current therapy."
+              }
+            },
+            {
+              "id": "medqa_train_e33a8812a55dfc85f37b2cadd10b112b5ad0e82b6b7d56f247e7dc73d1ece368",
+              "focus": "generalizability effect modification confounding external validity",
+              "reference": [
+                "C"
+              ],
+              "prediction": [
+                "B"
+              ],
+              "decision": {
+                "final": [
+                  "B"
+                ],
+                "evidence": "The trial population differed from the patient in age, sex, race/ethnicity, and comorbidity; a differential treatment effect across such characteristics is effect modification, which can explain why the medication failed to control her blood pressure.",
+                "uncertainty": "Generalizability is also relevant to extrapolating trial results, but effect modification is the more precise explanation for a poor response in an individual outside the study population."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "7513cadbbb723fdb",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model selected clonidine (A) because it is the only listed option with a recognized role in alcohol withdrawal, but the reference selects gabapentin (B); the decisive mismatch is that the retrieved clonidine spans support only hypertension and warn about withdrawal/arrhythmogenicity, while no retrieved span supports clonidine for alcohol withdrawal, so the model's 'only plausible option' premise is unsupported by the evidence it retrieved.",
+                "observed_gap": "Reference option B (gabapentin) versus predicted option A (clonidine). Decisive missing condition: no retrieved indication span supports clonidine for alcohol withdrawal; the clonidine spans retrieved are hypertension indications (E1, E2) and withdrawal warnings (E11, E12), and the gabapentin span retrieved (E3) lists only postherpetic neuralgia and partial-onset seizures, so neither option is directly supported for alcohol withdrawal by the retrieved evidence.",
+                "reference_status": "insufficient_evidence",
+                "patient_quotes": [
+                  "I used to drink heavily, but I stopped about a week ago.",
+                  "These symptoms started a few days after I stopped drinking.",
+                  "Yeah, I have a heart condition. I had a heart attack a few years ago and I've been taking medication for it ever since.",
+                  "Based on your symptoms, my initial diagnosis is that you're experiencing alcohol withdrawal."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Clonidine hydrochloride tablets USP are indicated in the treatment of hypertension."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Gabapentin is indicated for: Management of postherpetic neuralgia in adults Adjunctive therapy in the treatment of partial onset seizures, with and without secondary generalization, in adults and pediatric patients 3 years and older with epilepsy"
+                  },
+                  {
+                    "evidence_id": "E11",
+                    "quote": "Sudden cessation of clonidine treatment has, in some cases, resulted in symptoms such as nervousness, agitation, headache, and tremor accompanied or followed by a rapid rise in blood pressure and elevated catecholamine concentrations in the plasma."
+                  },
+                  {
+                    "evidence_id": "E16",
+                    "quote": "Based on observations in patients in a state of alcoholic delirium it has been suggested that high intravenous doses of clonidine may increase the arrhythmogenic potential (QT-prolongation, ventricular fibrillation)"
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, require that the chosen option have at least one retrieved indication or labeled-use span that matches the diagnosed condition; if no option has a matching indication span, mark the item as insufficient evidence rather than selecting the option that is merely 'least unrelated.'",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options",
+                  "multiple_medications"
+                ],
+                "counterexample_requirement": "Do not apply this indication-span requirement when the question is a dose, interaction, or contraindication question rather than a medication-selection question, or when the correct option is established by a labeled warning/contraindication span rather than an indication span; in those cases the absence of an indication span must not change a previously correct decision.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "d291f5ada4d5aac4",
+              "root": {
+                "earliest_stage": "input interpretation",
+                "root_hypothesis": "The question was interpreted as asking for a new drug to add/intensify therapy in a patient already on metformin, rather than as asking which listed agent is the appropriate current therapy for the described type 2 diabetes context. This interpretation drove selection of the combination product Janumet (A) over the already-taken metformin (B).",
+                "observed_gap": "Reference option B (metformin) versus predicted option A (janumet). The decisive condition is that the patient is already taking metformin and the dialogue's management step is to continue metformin while awaiting confirmatory blood tests; no evidence in the input establishes a need to switch or add a second agent. The intermediate assessment explicitly acknowledged this gap: 'the question asks for drug selection in a patient already on metformin, so simply continuing the same agent is not the best new selection,' which is an assumption not supported by the retrieved spans.",
+                "reference_status": "supported",
+                "patient_quotes": [
+                  "Yes, I'm taking metformin.",
+                  "my initial diagnosis is that you may be experiencing some issues related to type 2 diabetes",
+                  "please keep taking your metformin as prescribed"
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E2",
+                    "quote": "Metformin hydrochloride tablets are indicated as an adjunct to diet and exercise to improve glycemic control in adults and pediatric patients 10 years of age and older with type 2 diabetes mellitus."
+                  },
+                  {
+                    "evidence_id": "E1",
+                    "quote": "JANUMET ® is indicated as an adjunct to diet and exercise to improve glycemic control in adults with type 2 diabetes mellitus."
+                  }
+                ],
+                "minimal_process_change": "Before selecting among options, classify the question intent from the dialogue's explicit management statement (e.g., continue current therapy vs. initiate/switch/add) and require the selected option to match that intent; if the dialogue states the patient is already on an agent and advises continuing it, prefer that agent unless the input provides a reason to change.",
+                "trigger_features": [
+                  "multiple_medications",
+                  "short_drug_options",
+                  "conditional_question"
+                ],
+                "counterexample_requirement": "Do not apply the 'prefer the already-taken agent' rule when the input provides a specific reason to change therapy, such as inadequate control on the current agent, an adverse effect, a contraindication, or an explicit request to intensify/add a second agent; in those cases the current agent should not be selected merely because the patient is taking it.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "medqa_train_e33a8812a55dfc85f37b2cadd10b112b5ad0e82b6b7d56f247e7dc73d1ece368",
+              "root": {
+                "earliest_stage": "input interpretation",
+                "root_hypothesis": "The model interpreted the question as asking for the statistical mechanism of a genuine differential treatment effect in the individual patient, rather than as asking why the trial result cannot be assumed to apply to this patient; this led it to prefer effect modification over generalizability.",
+                "observed_gap": "Reference option C (Generalizability) versus predicted option B (Effect modification). The decisive condition is that the question asks which concept explains the poor response after a physician extrapolated a trial conducted in 3,000 Caucasian men over age 65 with coronary heart disease to a 39-year-old Hispanic female with primary hypertension; the recorded assessment explicitly acknowledged that generalizability/external validity is relevant to the physician's extrapolation but chose effect modification as 'more precise' without evidence that the patient's age, sex, race/ethnicity, or comorbidity actually modified the drug's effect.",
+                "reference_status": "supported",
+                "patient_quotes": [
+                  "a family physician elects to prescribe this medication to a 39-year-old Hispanic female who presents with primary hypertension",
+                  "After a one month trial and appropriate adjustments in the dosing, the patient's blood pressure is not well controlled by this medication",
+                  "Which of the following statistical concepts could explain this patient's poor response to the medication?"
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "A new antihypertensive medication is studied in 3,000 Caucasian men with coronary heart disease who are over age 65."
+                  },
+                  {
+                    "evidence_id": "E2",
+                    "quote": "Generalizability/external validity concerns whether trial results apply outside the study population; it is relevant to the physician's extrapolation, but the question asks what explains the patient's poor response, which is better framed as effect modification."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Effect modification is the closest concept: the treatment effect can differ across patient characteristics such as age, sex, race/ethnicity, and comorbidity, so the benefit seen in the study population may not apply to this patient."
+                  }
+                ],
+                "minimal_process_change": "For conceptual statistical questions, require the answer to match the exact inferential failure described in the stem: if the stem describes applying a trial result from a narrow study population to a different patient, prefer the concept of external validity/generalizability unless the stem provides direct evidence of a differential treatment effect by a specific modifier.",
+                "trigger_features": [
+                  "age_context",
+                  "conditional_question",
+                  "short_drug_options"
+                ],
+                "counterexample_requirement": "Do not apply this generalizability preference when the stem explicitly reports or asks about a measured interaction or subgroup-specific treatment effect, or when the question asks for the mechanism of a known differential response rather than the applicability of trial results.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": false
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 1,
+          "attempt": 4,
+          "schema_errors": [
+            [
+              "support_not_in_trigger_region"
+            ],
+            [
+              "support_not_in_trigger_region"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "rejection": "schema"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "cases_seen": 200,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false,
+      "new_batch": {
+        "n": 100,
+        "correct": 66,
+        "invalid": 0,
+        "calls": 300,
+        "input_tokens": 1234103,
+        "output_tokens": 93622,
+        "logical_cost_usd": 0.33338292800000036,
+        "active_cases": 0,
+        "predictions_sha256": "4f992f1e7af86b89844fc5185ae6a06a873b27d01abec39fa7cc1d449048c4df"
+      },
+      "root_count": 34,
+      "root_eligible": 1,
+      "root_quote_valid": 32,
+      "trials": [
+        {
+          "round": 2,
+          "attempt": 1,
+          "schema_errors": [
+            [
+              "root_ID_roles"
+            ],
+            []
+          ],
+          "card": {
+            "name": "conditional_question_evidence_grounded_selection",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the input poses a conditional management question; unknown facts or absent spans never imply safety or eliminate a treatment.",
+            "procedure": "1) Identify the exact decision the conditional question asks (continue vs switch/add vs select). 2) For each candidate, locate a retrieved span whose labeled use or warning matches the patient's stated condition. 3) If the dialogue already states a current management step, prefer the option consistent with that step unless the input gives a reason to change. 4) If no candidate has a matching span, mark insufficient evidence rather than choosing the least-unrelated option. 5) Never treat absence of a span as contraindication.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "1c4007d0ea2596d9",
+              "57e0b9d5ba3466ae"
+            ],
+            "counterexample_ids": [
+              "064e38aa0494a6fb",
+              "3d31bc26f718ef99"
+            ],
+            "counterexample_explanation": "T0028 and T0093 are conditional-question dialogues where the model correctly avoided committing to an unsupported agent and instead deferred to testing/monitoring; they show the procedure must not force a selection when evidence is absent, and must not override correct deferral behavior.",
+            "root_ids": [
+              "medqa_train_3c30873078694d879ef41f26260d3525c9c5b0343d3c3713ad6db24e06cebd77"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 1,
+            "regressions": 2,
+            "net": -1,
+            "changed": 3,
+            "n": 32,
+            "before": 23,
+            "after": 22,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "medqa_train_55fe6b5e0c7f4f7abb34adfc74abae7e4caafcc4404996a6cce0b8d074f160cf",
+              "focus": "acute hepatitis C infection outcome",
+              "reference": [
+                "A"
+              ],
+              "prediction": [
+                "C"
+              ],
+              "decision": {
+                "final": [
+                  "C"
+                ],
+                "evidence": "Acute hepatitis C in a patient with detectable HCV RNA but negative anti-HCV antibody represents very early infection; most acute HCV infections are transient and spontaneously resolve, making transient infection the most likely untreated outcome.",
+                "uncertainty": "No product-label evidence was supplied; assessment is based on the clinical scenario and extracted facts."
+              }
+            },
+            {
+              "id": "7513cadbbb723fdb",
+              "focus": "alcohol withdrawal treatment with cardiac comorbidity",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Clonidine is the only option with a plausible role in alcohol withdrawal (it is used for autonomic withdrawal symptoms), whereas gabapentin's labeled uses are postherpetic neuralgia and partial-onset seizures and ciprofloxacin is an antibiotic with no withdrawal role. The patient's cardiac history and the doctor's plan to defer treatment pending cardiology make clonidine not clearly safe, but it remains the best-supported option among the three.",
+                "uncertainty": "No option has a label indication for alcohol withdrawal; clonidine's cardiac warning and the deferred treatment plan leave the choice uncertain."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "medqa_train_55fe6b5e0c7f4f7abb34adfc74abae7e4caafcc4404996a6cce0b8d074f160cf",
+              "root": {
+                "earliest_stage": "rule applicability",
+                "root_hypothesis": "The model applied the general rule that acute hepatitis C is often transient and spontaneously resolves, but failed to condition that rule on the question's explicit 'without appropriate treatment' framing and the symptomatic icteric presentation, which shifts the expected untreated outcome toward chronic progression rather than transient infection.",
+                "observed_gap": "Reference option A ('Slowly progressive hepatitis') versus predicted option C ('Transient infection'); the decisive missing condition is that the question asks for the outcome 'without appropriate treatment' in a symptomatic patient with jaundice and markedly elevated transaminases, whereas the model's rationale relied on spontaneous clearance rates that are lower in symptomatic acute HCV and did not address the untreated chronic progression outcome.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "A 27-year-old man with a history of intravenous drug use",
+                  "anorexia, nausea, dark urine, and abdominal pain for 2 weeks",
+                  "scleral icterus and right upper quadrant tenderness",
+                  "Alanine aminotransferase 1248 U/L",
+                  "hepatitis C virus RNA detected by PCR",
+                  "Without appropriate treatment, which of the following is the most likely outcome of this patient's current condition?"
+                ],
+                "source_quotes": [],
+                "minimal_process_change": "Before final option selection, require an explicit check that the selected outcome matches the question's temporal and treatment qualifier (e.g., 'without treatment', 'most likely outcome') and that any general prognosis rule is conditioned on the presence or absence of symptoms and jaundice.",
+                "trigger_features": [
+                  "conditional_question",
+                  "age_context",
+                  "explicit_route",
+                  "short_drug_options"
+                ],
+                "counterexample_requirement": "This procedure must not override a previously correct decision when the question asks about the natural history of asymptomatic acute HCV or when the reference explicitly supports transient infection as the most likely outcome; in such cases, the general spontaneous clearance rule should remain applicable.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "7513cadbbb723fdb",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model selected clonidine (A) by treating 'plausible role in alcohol withdrawal' as the decisive selection criterion, while the reference selected gabapentin (B); the retrieved label spans for clonidine only support hypertension and warn about withdrawal/arrhythmogenic risk, and no retrieved span supports either drug for alcohol withdrawal, so the mismatch is a selection-criterion mismatch rather than a contradicted clinical fact.",
+                "observed_gap": "Reference option B (gabapentin) versus predicted option A (clonidine). Decisive missing condition: no retrieved source span establishes an alcohol-withdrawal indication for clonidine or gabapentin; the clonidine spans instead show hypertension indication (E1/E2) and a warning that high IV clonidine in alcoholic delirium may increase arrhythmogenic potential (E16), while the gabapentin span shows only postherpetic neuralgia and partial-onset seizures (E3). The reference's basis for B is not observable in the retrieved evidence.",
+                "reference_status": "insufficient_evidence",
+                "patient_quotes": [
+                  "I used to drink heavily, but I stopped about a week ago.",
+                  "These symptoms started a few days after I stopped drinking.",
+                  "Yeah, I have a heart condition. I had a heart attack a few years ago and I've been taking medication for it ever since.",
+                  "Based on your symptoms, my initial diagnosis is that you're experiencing alcohol withdrawal."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Clonidine hydrochloride tablets USP are indicated in the treatment of hypertension."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Gabapentin is indicated for: Management of postherpetic neuralgia in adults Adjunctive therapy in the treatment of partial onset seizures, with and without secondary generalization, in adults and pediatric patients 3 years and older with epilepsy"
+                  },
+                  {
+                    "evidence_id": "E16",
+                    "quote": "Based on observations in patients in a state of alcoholic delirium it has been suggested that high intravenous doses of clonidine may increase the arrhythmogenic potential (QT-prolongation, ventricular fibrillation) of hi"
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, require that the chosen option be linked to a retrieved label span that explicitly names the target condition (here, alcohol withdrawal) or an explicit guideline-equivalent indication; if no option has such a span, mark the item as insufficient evidence rather than selecting the option with the most 'plausible' off-label role.",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options",
+                  "multiple_medications"
+                ],
+                "counterexample_requirement": "Do not apply this 'require explicit target-condition span' gate when the question is a dose, interaction, renal/hepatic adjustment, or safety-contraindication question where the correct answer is determined by a labeled warning, interaction, or dosing rule rather than by a labeled indication; in those cases a missing indication span must not override a correctly retrieved safety or dosing span.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 2,
+          "attempt": 2,
+          "schema_errors": [
+            [
+              "root_ID_roles"
+            ],
+            []
+          ],
+          "card": {
+            "name": "conditional_qualifier_scope_check",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the question contains an explicit conditional or qualifier phrase; unknown facts do not imply safety, and absence of a retrieved span must not eliminate a treatment.",
+            "procedure": "When a conditional_question is detected, extract the exact qualifier phrase (e.g., 'without appropriate treatment', 'most likely outcome', 'next step'). Check whether the candidate answer directly satisfies that qualifier using retrieved evidence. If the qualifier concerns natural history or prognosis, condition the general rule on symptom presence and treatment status. If the qualifier concerns management, require a retrieved span that names the target condition or an explicit guideline-equivalent indication. If no option satisfies the qualifier, mark insufficient evidence rather than selecting the most plausible off-label role. Do not invert indication/contraindication polarity.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "1c4007d0ea2596d9",
+              "57e0b9d5ba3466ae"
+            ],
+            "counterexample_ids": [
+              "064e38aa0494a6fb",
+              "7513cadbbb723fdb"
+            ],
+            "counterexample_explanation": "T0028 and T0076 are prior successes in the same conditional_question region. T0028 correctly handled a respiratory infection with asthma on Advair Diskus by not forcing a macrolide when the conditional context did not support it. T0076 correctly avoided a definitive treatment recommendation in alcohol withdrawal with cardiac comorbidity, respecting the conditional qualifier. These successes must be preserved because they show that the conditional_question trigger does not always require a new answer; sometimes the correct behavior is to defer or mark insufficient evidence, which this procedure explicitly allows.",
+            "root_ids": [
+              "medqa_train_3c30873078694d879ef41f26260d3525c9c5b0343d3c3713ad6db24e06cebd77"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 2,
+            "regressions": 1,
+            "net": 1,
+            "changed": 3,
+            "n": 32,
+            "before": 23,
+            "after": 24,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "7513cadbbb723fdb",
+              "focus": "alcohol withdrawal treatment with cardiac comorbidity",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Clonidine is the only option with a plausible role in alcohol withdrawal (alpha-2 agonist for autonomic symptoms); gabapentin's label lacks withdrawal indication and ciprofloxacin is an antibiotic with no role. The doctor appropriately defers treatment pending cardiology review, so no option is definitively indicated.",
+                "uncertainty": "No option has a source-supported indication for alcohol withdrawal; clonidine carries a cardiac arrhythmia warning in alcoholic delirium, so selection is based on best-supported symptomatic plausibility, not proven safety."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "7513cadbbb723fdb",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model selected clonidine (A) as the most plausible symptomatic agent for alcohol withdrawal, but the reference keyed gabapentin (B); the mismatch arises because the retrieved label evidence for all three options lacks an alcohol-withdrawal indication, so the selection was driven by off-label plausibility rather than a source-supported indication match.",
+                "observed_gap": "Reference option B (gabapentin) versus predicted option A (clonidine). Decisive missing condition: no retrieved source span supports either gabapentin or clonidine for alcohol withdrawal; the clonidine label only supports hypertension and warns of arrhythmogenic potential in alcoholic delirium, while the gabapentin label only supports postherpetic neuralgia and partial-onset seizures.",
+                "reference_status": "insufficient_evidence",
+                "patient_quotes": [
+                  "I used to drink heavily, but I stopped about a week ago.",
+                  "These symptoms started a few days after I stopped drinking.",
+                  "Yeah, I have a heart condition. I had a heart attack a few years ago and I've been taking medication for it ever since.",
+                  "Based on your symptoms, my initial diagnosis is that you're experiencing alcohol withdrawal."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Clonidine hydrochloride tablets USP are indicated in the treatment of hypertension."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Gabapentin is indicated for: Management of postherpetic neuralgia in adults Adjunctive therapy in the treatment of partial onset seizures, with and without secondary generalization, in adults and pediatric patients 3 years and older with epilepsy"
+                  },
+                  {
+                    "evidence_id": "E16",
+                    "quote": "Based on observations in patients in a state of alcoholic delirium it has been suggested that high intravenous doses of clonidine may increase the arrhythmogenic potential (QT-prolongation, ventricular fibrillation)"
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, require that the chosen option have at least one retrieved label span explicitly naming the target condition (here, alcohol withdrawal) in its indications or a directly applicable treatment context; if no option meets this, mark the item as insufficient evidence rather than selecting by off-label plausibility.",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options",
+                  "multiple_medications"
+                ],
+                "counterexample_requirement": "Do not apply this requirement when the question is explicitly asking for an off-label or guideline-based choice and the reference key is supported by a non-label source; in that case, a label-indication match must not override a correct off-label selection.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 2,
+          "attempt": 3,
+          "schema_errors": [
+            [
+              "root_ID_roles"
+            ],
+            []
+          ],
+          "card": {
+            "name": "conditional_qualifier_check",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the stem contains an explicit conditional or temporal qualifier; absence of such a qualifier does not imply the general rule is safe to apply.",
+            "procedure": "When the stem contains a conditional or temporal qualifier, first restate that qualifier and the patient's symptom status. Then check whether the retrieved evidence addresses the outcome under that exact qualifier. If the evidence only supports the general or treated course, do not select an option that depends on the qualifier being ignored. Prefer the option whose outcome is consistent with the qualifier and the patient's presentation. If no retrieved span addresses the qualified outcome, mark insufficient evidence rather than defaulting to the general rule.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "1c4007d0ea2596d9",
+              "57e0b9d5ba3466ae"
+            ],
+            "counterexample_ids": [
+              "064e38aa0494a6fb",
+              "3d31bc26f718ef99"
+            ],
+            "counterexample_explanation": "T0028 and T0093 are successes in the same conditional_question region. In both, the stem's conditional framing did not require overriding a general rule, and the selected management remained consistent with the patient's presentation and retrieved evidence. The qualifier check must therefore be applied only when the stem's qualifier changes the expected outcome; it must not force an insufficient-evidence label or alter selection when the general rule already matches the qualified scenario.",
+            "root_ids": [
+              "medqa_train_3c30873078694d879ef41f26260d3525c9c5b0343d3c3713ad6db24e06cebd77"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 2,
+            "regressions": 0,
+            "net": 2,
+            "changed": 2,
+            "n": 32,
+            "before": 23,
+            "after": 25,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [],
+          "regression_root_hypotheses": [],
+          "rejection": "proposal",
+          "gates": {
+            "proposal_rx": {
+              "n": 190,
+              "correct": 97,
+              "invalid": 0,
+              "calls": 570,
+              "input_tokens": 3048217,
+              "output_tokens": 187984,
+              "logical_cost_usd": 0.7309102599999996,
+              "active_cases": 35,
+              "predictions_sha256": "288d64217bcfad60f69413e63b2a7ec7d9c70a0fbde25bedca3bbc362d6766d8"
+            },
+            "proposal_med": {
+              "n": 120,
+              "correct": 102,
+              "invalid": 0,
+              "calls": 360,
+              "input_tokens": 923018,
+              "output_tokens": 120509,
+              "logical_cost_usd": 0.240530171,
+              "active_cases": 39,
+              "predictions_sha256": "686222c0c7cafbd8a799138427c0cfc23d176cf8895e2e01f0cfbffc5a29dd64"
+            }
+          }
+        },
+        {
+          "round": 2,
+          "attempt": 4,
+          "schema_errors": [
+            [
+              "root_ID_roles"
+            ],
+            []
+          ],
+          "card": {
+            "name": "conditional_question_evidence_scope",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the input poses a conditional/next-step question; unknown facts do not imply safety, and absence of a retrieved span must not eliminate a treatment.",
+            "procedure": "1) Identify the conditional decision point and the target condition it names. 2) For each candidate option, retrieve label spans and tag each as indication (supports use) or contraindication/warning (opposes use). 3) Do not treat a warning span as an indication, and do not drop an option merely because no span was retrieved. 4) If no candidate has an indication span for the target condition, mark insufficient evidence instead of choosing by off-label plausibility. 5) Preserve options whose only support is a non-label guideline when the question explicitly asks for off-label/guideline choice.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "1c4007d0ea2596d9",
+              "57e0b9d5ba3466ae"
+            ],
+            "counterexample_ids": [
+              "064e38aa0494a6fb",
+              "3d31bc26f718ef99"
+            ],
+            "counterexample_explanation": "T0028 and T0093 are conditional-question successes where the model correctly avoided selecting by off-label plausibility: in T0028 the asthma context and macrolide/beta-lactam distinction were handled without forcing a label-indication match, and in T0093 the hypothyroidism comorbidity was preserved without eliminating treatments for lack of a retrieved span. These must be preserved because the new procedure would otherwise over-apply the insufficient-evidence rule and suppress correct comorbidity-aware selections.",
+            "root_ids": [
+              "medqa_train_3c30873078694d879ef41f26260d3525c9c5b0343d3c3713ad6db24e06cebd77"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 2,
+            "regressions": 1,
+            "net": 1,
+            "changed": 3,
+            "n": 32,
+            "before": 23,
+            "after": 24,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "7513cadbbb723fdb",
+              "focus": "alcohol withdrawal treatment with cardiac comorbidity",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Clonidine is the only listed agent with a recognized role as an adjunct in alcohol withdrawal (sympatholytic, reduces autonomic hyperactivity), whereas gabapentin lacks a label indication for withdrawal and ciprofloxacin is an antibiotic with no role. The label's cardiac caution (high IV doses in alcoholic delirium) supports the doctor's plan for cardiology review before treatment rather than excluding clonidine.",
+                "uncertainty": "No retrieved label explicitly lists alcohol withdrawal as an indication for any option; choice rests on clinical role plus the doctor's cardiac precaution."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "7513cadbbb723fdb",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model selected clonidine (A) as the alcohol-withdrawal adjunct based on its sympatholytic clinical role, but the retrieved label evidence for clonidine is limited to hypertension indications and does not support alcohol withdrawal; the reference option gabapentin (B) is also not supported by its retrieved label indications (postherpetic neuralgia, partial-onset seizures). The mismatch arises because the model treated a clinical-role prior as label-supported evidence, while the reference may reflect an off-label or guideline-based choice not present in the retrieved spans.",
+                "observed_gap": "Reference option B (gabapentin) versus predicted option A (clonidine). Decisive missing condition: no retrieved label span for either gabapentin or clonidine lists alcohol withdrawal as an indication. The clonidine label explicitly states it is indicated for hypertension (E1, E2), and the gabapentin label states it is indicated for postherpetic neuralgia and partial-onset seizures (E3). The model's own assessment acknowledged that 'Label evidence does not include an explicit alcohol-withdrawal indication for any option' but still selected clonidine based on clinical role.",
+                "reference_status": "insufficient_evidence",
+                "patient_quotes": [
+                  "I used to drink heavily, but I stopped about a week ago.",
+                  "These symptoms started a few days after I stopped drinking.",
+                  "Yeah, I have a heart condition. I had a heart attack a few years ago and I've been taking medication for it ever since."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "INDICATIONS AND USAGE Clonidine hydrochloride tablets USP are indicated in the treatment of hypertension."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "1 INDICATIONS AND USAGE Gabapentin is indicated for: Management of postherpetic neuralgia in adults Adjunctive therapy in the treatment of partial onset seizures, with and without secondary generalization, in adults and pediatric patients 3 years and older with epilepsy"
+                  },
+                  {
+                    "evidence_id": "E16",
+                    "quote": "Based on observations in patients in a state of alcoholic delirium it has been suggested that high intravenous doses of clonidine may increase the arrhythmogenic potential (QT-prolongation, ventricular fibrillation) of hi"
+                  }
+                ],
+                "minimal_process_change": "When the question asks for medication selection and the retrieved label indications for all options lack the target condition, the system should flag the decision as label-unsupported and either abstain or require external guideline evidence before selecting an option, rather than defaulting to a clinical-role prior.",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options",
+                  "multiple_medications"
+                ],
+                "counterexample_requirement": "This procedure must not apply when the retrieved label evidence explicitly includes the target indication for one or more options, or when the question is a dose, interaction, or safety question where label evidence is directly applicable; in those cases, the existing label-based selection should remain unchanged.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "cases_seen": 300,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false,
+      "new_batch": {
+        "n": 100,
+        "correct": 69,
+        "invalid": 0,
+        "calls": 300,
+        "input_tokens": 1200105,
+        "output_tokens": 97182,
+        "logical_cost_usd": 0.33055006400000003,
+        "active_cases": 0,
+        "predictions_sha256": "6cf7f3101e761ba5fb3e64c96bb3601f91ee8cfd0ac01cc4002ce2ca9b109f2e"
+      },
+      "root_count": 31,
+      "root_eligible": 1,
+      "root_quote_valid": 27,
+      "trials": [
+        {
+          "round": 3,
+          "attempt": 1,
+          "schema_errors": [
+            [
+              "root_ID_roles"
+            ],
+            []
+          ],
+          "card": {
+            "name": "conditional_choice_label_unsupported_abstain",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when a conditional question asks for a treatment/medication choice; it does not apply to dose, interaction, or safety questions where retrieved label spans directly answer the query, and unknown facts never imply safety.",
+            "procedure": "When a conditional question asks which treatment to choose: (1) list the candidate options; (2) for each, check whether retrieved label spans state the target condition as an indication; (3) if no option has a label-supported indication for the target condition, mark the choice label-unsupported; (4) do not select an option from clinical-role familiarity alone; (5) require external guideline evidence or abstain; (6) if at least one option has the target indication, keep the existing label-based selection.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "1c4007d0ea2596d9",
+              "57e0b9d5ba3466ae"
+            ],
+            "counterexample_ids": [
+              "064e38aa0494a6fb",
+              "0b882164fc7166eb"
+            ],
+            "counterexample_explanation": "T0028 is a conditional treatment-choice question where the retrieved label context supports reasoning about the current asthma medication and the infection, so the existing label-based selection must remain. T0273 is a conditional treatment-choice question where the retrieved evidence explicitly addresses the calcium contraindication for the bone-directed treatment, so the label-supported safety check must remain. Both are prior successes inside the triggered region and would be harmed by a blanket abstention rule.",
+            "root_ids": [
+              "medqa_train_3b64e8fad635a39ff99672f274110975de706e2ab69f47ca72f6498359fcbb8f"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 0,
+            "regressions": 4,
+            "net": -4,
+            "changed": 5,
+            "n": 32,
+            "before": 24,
+            "after": 20,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "medqa_train_e33a8812a55dfc85f37b2cadd10b112b5ad0e82b6b7d56f247e7dc73d1ece368",
+              "focus": "generalizability effect modification confounding external validity",
+              "reference": [
+                "C"
+              ],
+              "prediction": [
+                "B"
+              ],
+              "decision": {
+                "final": [
+                  "B"
+                ],
+                "evidence": "The trial population (older Caucasian men with coronary heart disease) differs from the patient (young Hispanic woman with primary hypertension), so the treatment effect may differ by age, sex, ethnicity, and comorbidity—effect modification.",
+                "uncertainty": "Generalizability is closely related, but effect modification best explains a different treatment response."
+              }
+            },
+            {
+              "id": "3019822515c97b2a",
+              "focus": "osteoporosis with high calcium, Avastin interaction",
+              "reference": [
+                "A"
+              ],
+              "prediction": [
+                "B"
+              ],
+              "decision": {
+                "final": [
+                  "B"
+                ],
+                "evidence": "Zoledronic acid (Reclast) is the only option with a label indication for osteoporosis, matching the MRI finding; Xgeva is indicated for hypercalcemia of malignancy but not osteoporosis, and amoxicillin is irrelevant.",
+                "uncertainty": "Renal function and bisphosphonate-refractory status are unknown; zoledronic acid requires CrCl assessment and is contraindicated if CrCl <35 mL/min."
+              }
+            },
+            {
+              "id": "medqa_train_22c978cd379a040009783a63870eeeaa08fcd231f48ab865f371520ef4025ced",
+              "focus": "acalculous cholecystitis post-CABG management",
+              "reference": [
+                "D"
+              ],
+              "prediction": [
+                "C"
+              ],
+              "decision": {
+                "final": [
+                  "C"
+                ],
+                "evidence": "Post-CABG acute acalculous cholecystitis with fever, leukocytosis, and pericholecystic fluid in a hemodynamically stable patient is best treated with immediate cholecystectomy; observation is inadequate and cholecystostomy is generally reserved for unstable or high-risk patients.",
+                "uncertainty": "No drug-label evidence directly addresses procedural management; choice is based on clinical stability and presentation."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "medqa_train_e33a8812a55dfc85f37b2cadd10b112b5ad0e82b6b7d56f247e7dc73d1ece368",
+              "root": {
+                "earliest_stage": "input interpretation",
+                "root_hypothesis": "The model interpreted the question as asking for the biological/statistical mechanism by which the treatment effect differs in the patient (effect modification), rather than recognizing that the scenario is about whether a trial result from a narrow population can be extrapolated to a different patient (generalizability/external validity).",
+                "observed_gap": "Reference option C (Generalizability) versus predicted option B (Effect modification). The decisive missing condition is an explicit statement that the treatment effect itself is modified by age, sex, ethnicity, or comorbidity; the input only states that the trial population differs from the patient and that the patient did not respond, which directly supports a problem of applying trial results beyond the study population.",
+                "reference_status": "supported",
+                "patient_quotes": [
+                  "A new antihypertensive medication is studied in 3,000 Caucasian men with coronary heart disease who are over age 65.",
+                  "a family physician elects to prescribe this medication to a 39-year-old Hispanic female who presents with primary hypertension",
+                  "the patient's blood pressure is not well controlled by this medication"
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "A new antihypertensive medication is studied in 3,000 Caucasian men with coronary heart disease who are over age 65."
+                  },
+                  {
+                    "evidence_id": "E2",
+                    "quote": "a family physician elects to prescribe this medication to a 39-year-old Hispanic female who presents with primary hypertension."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Which of the following statistical concepts could explain this patient's poor response to the medication?"
+                  }
+                ],
+                "minimal_process_change": "For conceptual statistical questions, require the answer option to be explicitly entailed by the question stem: if the stem describes a trial population that differs from the patient and asks what concept explains the poor response, prefer the option about applying results to other populations unless the stem states that the treatment effect itself varies by a patient characteristic.",
+                "trigger_features": [
+                  "age_context",
+                  "conditional_question",
+                  "short_drug_options"
+                ],
+                "counterexample_requirement": "Do not apply this preference when the stem explicitly states or asks whether the treatment effect differs by a specific patient characteristic (e.g., 'the drug works in men but not women'), in which case effect modification is the correct concept.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": false
+            },
+            {
+              "case_id": "3019822515c97b2a",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model selected zoledronic acid (option B) because its label explicitly lists osteoporosis as an indication, while the patient's high calcium and cancer context (which would favor denosumab/Xgeva) was not treated as a decisive indication match; the model did not recognize that the patient's presentation is hypercalcemia of malignancy with bone involvement, for which Xgeva is indicated.",
+                "observed_gap": "Reference option A (Xgeva/denosumab) versus predicted option B (zoledronic acid). The decisive missing condition is the patient's cancer treatment context (Avastin for cancer) plus high calcium, which together indicate hypercalcemia of malignancy; Xgeva is indicated for hypercalcemia of malignancy refractory to bisphosphonate therapy, and the patient's bone pain/osteoporosis findings are secondary to malignancy. The model instead anchored on the osteoporosis indication for zoledronic acid, ignoring that the patient's high calcium and active cancer make hypercalcemia of malignancy the primary problem.",
+                "reference_status": "supported",
+                "patient_quotes": [
+                  "I've been experiencing some bone pain and weakness, especially in my hips and spine.",
+                  "My doctor also mentioned that I have a high calcium level in my blood.",
+                  "Yes, I'm taking Avastin (bevacizumab) for my cancer treatment."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Xgeva is indicated for the treatment of hypercalcemia of malignancy refractory to bisphosphonate therapy."
+                  },
+                  {
+                    "evidence_id": "E2",
+                    "quote": "Reclast is indicated for treatment to increase bone mass in men with osteoporosis"
+                  }
+                ],
+                "minimal_process_change": "When a patient has active cancer and hypercalcemia, prioritize the hypercalcemia of malignancy indication over a generic osteoporosis indication when selecting among drug options; require explicit evidence of bisphosphonate-refractory status or renal function before choosing a bisphosphonate.",
+                "trigger_features": [
+                  "interaction_question",
+                  "conditional_question",
+                  "short_drug_options"
+                ],
+                "counterexample_requirement": "If the patient had osteoporosis without active cancer or hypercalcemia, or if the hypercalcemia were clearly not malignancy-related, then zoledronic acid (or another osteoporosis therapy) would be appropriate and the procedure should not change the decision.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "medqa_train_22c978cd379a040009783a63870eeeaa08fcd231f48ab865f371520ef4025ced",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model correctly identified acute acalculous cholecystitis but selected immediate cholecystectomy (C) as the next step, whereas the observed reference is antibiotics plus percutaneous cholecystostomy (D); the decisive missing condition is the absence of explicit hemodynamic instability or high surgical risk in the input, so the model's stability-based rule for preferring surgery is not directly supported by the provided evidence.",
+                "observed_gap": "Reference option D (intravenous piperacillin-tazobactam therapy and percutaneous cholecystostomy) versus predicted option C (immediate cholecystectomy); the model's assessment states the patient is hemodynamically stable and has no stated contraindication to surgery, but the input does not explicitly state that the patient is stable or low-risk, and the retrieved drug-label evidence does not address procedural management of acalculous cholecystitis.",
+                "reference_status": "insufficient_evidence",
+                "patient_quotes": [
+                  "Three days after undergoing coronary artery bypass surgery, a 72-year-old man has severe right upper quadrant pain, fever, nausea, and vomiting.",
+                  "Abdominal ultrasonography shows a distended gallbladder, thickened gallbladder wall with pericholecystic fluid, and no stones.",
+                  "His temperature is 38.9°C (102°F), pulse is 102/min, respirations are 18/min, and blood pressure is 110/60 mmHg."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Metformin hydrochloride tablets are indicated as an adjunct to diet and exercise to improve glycemic control in adults and pediatric patients 10 years of age and older with type 2 diabetes mellitus."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Uses for the temporary relief of minor aches and pains"
+                  },
+                  {
+                    "evidence_id": "E5",
+                    "quote": "Finasteride, is a 5α-reductase inhibitor, indicated for the treatment of symptomatic benign prostatic hyperplasia (BPH) in men with an enlarged prostate"
+                  }
+                ],
+                "minimal_process_change": "For questions whose options include procedural or management steps not represented in the retrieved drug-label evidence, require an explicit source or guideline span that directly addresses the procedure before selecting a definitive procedural option; if no such span is retrieved, abstain or flag the item for external clinical review rather than inferring from stability alone.",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options",
+                  "multiple_medications",
+                  "age_context"
+                ],
+                "counterexample_requirement": "This procedure must not apply when the question is a straightforward drug-selection item with direct label evidence, or when a prior correct decision was based on a clearly applicable guideline span; in those cases, adding a procedural-evidence requirement would unnecessarily block a supported answer.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 3,
+          "attempt": 2,
+          "schema_errors": [
+            [
+              "root_ID_roles"
+            ],
+            []
+          ],
+          "card": {
+            "name": "conditional_question_evidence_scope",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the input poses a conditional or hypothetical management question; it does not apply to direct factual, dose, or interaction questions where the retrieved label evidence is directly on point.",
+            "procedure": "When a conditional question asks for a management choice, first identify the patient-specific condition that makes the question conditional. Then check whether the retrieved evidence directly addresses that condition for the candidate options. If the evidence addresses only a different indication or a different clinical role, do not treat that evidence as decisive; instead, mark the choice as evidence-limited and prefer the option whose retrieved evidence matches the patient's stated condition. If no option has matching evidence, state the uncertainty rather than selecting by clinical-role prior alone.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "1c4007d0ea2596d9",
+              "57e0b9d5ba3466ae"
+            ],
+            "counterexample_ids": [
+              "064e38aa0494a6fb",
+              "0b882164fc7166eb"
+            ],
+            "counterexample_explanation": "T0028 is a success because the conditional question about a respiratory infection in a patient on Advair Diskus was handled without forcing a label-indication match; the retrieved evidence did not need to list the infection for the reasoning to remain cautious and correct. T0273 is a success because the conditional question about osteolytic lesions and calcium status was resolved by checking the patient's calcium-related contraindication rather than by selecting a drug whose label merely listed a related indication. These successes show that the procedure must not override cases where the conditional question is already resolved by a patient-specific safety or contraindication check, and must not require a label indication match when the question is about monitoring or ruling out a contraindication.",
+            "root_ids": [
+              "medqa_train_3b64e8fad635a39ff99672f274110975de706e2ab69f47ca72f6498359fcbb8f"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 0,
+            "regressions": 2,
+            "net": -2,
+            "changed": 3,
+            "n": 32,
+            "before": 24,
+            "after": 22,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "3019822515c97b2a",
+              "focus": "osteoporosis with high calcium, Avastin interaction",
+              "reference": [
+                "A"
+              ],
+              "prediction": [
+                "B"
+              ],
+              "decision": {
+                "final": [
+                  "B"
+                ],
+                "evidence": "Zoledronic acid (Reclast) is the only option with a labeled indication for osteoporosis, matching the patient's documented MRI finding; Xgeva is indicated for malignancy-related skeletal events/hypercalcemia and amoxicillin is an antibiotic with no relevant indication.",
+                "uncertainty": "Renal function is not provided, and zoledronic acid is contraindicated if creatinine clearance is <35 mL/min; no Avastin interaction evidence was available for any option."
+              }
+            },
+            {
+              "id": "7513cadbbb723fdb",
+              "focus": "alcohol withdrawal treatment with cardiac comorbidity",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Clonidine is the only option with a recognized role in alcohol withdrawal; gabapentin’s label indications are postherpetic neuralgia and partial-onset seizures, and ciprofloxacin is an antibiotic with no withdrawal indication. However, clonidine label evidence here is hypertension-only and warns about arrhythmogenic risk with high IV doses in alcoholic delirium, so cardiac safety remains unresolved pending cardiology clearance.",
+                "uncertainty": "No option has label evidence directly establishing alcohol-withdrawal efficacy; clonidine is selected as the least inappropriate by known withdrawal role, with unresolved cardiac risk."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "3019822515c97b2a",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model selected zoledronic acid (option B) because its label explicitly lists an osteoporosis indication, while the reference option A (Xgeva/denosumab) is labeled for hypercalcemia of malignancy refractory to bisphosphonates and skeletal-related events in bone metastases. The model treated the patient's 'osteoporosis' as the controlling indication and did not resolve whether the high calcium was malignancy-related or whether the patient had bone metastases from the cancer being treated with Avastin. This is a hypothesis about why the wrong product was selected; it is not proven by a controlled intervention.",
+                "observed_gap": "Reference option A (Xgeva) versus predicted option B (zoledronic acid). Decisive missing condition: the input does not state that the hypercalcemia is malignancy-related or refractory to bisphosphonates, and does not state that the patient has bone metastases. The Xgeva label indication for hypercalcemia of malignancy requires 'refractory to bisphosphonate therapy' (E1), and its bone-metastasis indication requires 'bone metastases from solid tumors' (E1). Neither condition is directly observed in the patient input. Conversely, zoledronic acid has an explicit osteoporosis indication (E2), which the model used to select B. The reference A is therefore not directly supported by the retrieved Xgeva indication span without an additional malignancy-related hypercalcemia or bone-metastasis assumption.",
+                "reference_status": "insufficient_evidence",
+                "patient_quotes": [
+                  "I've been experiencing some bone pain and weakness, especially in my hips and spine. It's been getting worse over the past few months.",
+                  "Yes, I had an MRI last month, and it showed some signs of osteoporosis.",
+                  "My doctor also mentioned that I have a high calcium level in my blood.",
+                  "Yes, I'm taking Avastin (bevacizumab) for my cancer treatment."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Xgeva is a RANK ligand (RANKL) inhibitor indicated for: Prevention of skeletal-related events in patients with multiple myeloma and in patients with bone metastases from solid tumors. ( 1.1 ) Treatment of adults and skeletally mature adolescents with giant cell tumor of bone that is unresectable or where surgical resection is likely to result in severe morbidity. ( 1.2 , 14.3 ) Treatment of hypercalcemia of malignancy refractory to bisphosphonate therapy. ( 1.3 )"
+                  },
+                  {
+                    "evidence_id": "E2",
+                    "quote": "Reclast is indicated for treatment to increase bone mass in men with osteoporosis [see Clinical Studies ( 14.3 )]."
+                  },
+                  {
+                    "evidence_id": "E5",
+                    "quote": "Reclast is contraindicated in patients with creatinine clearance less than 35 mL/min and in those with evidence of acute renal impairment."
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, require an explicit indication-matching step that maps each candidate product's labeled indication to the patient's documented condition and flags when the reference-consistent product requires an unstated qualifier (e.g., malignancy-related hypercalcemia, bisphosphonate refractoriness, or bone metastases). If the qualifier is absent, record the option as insufficiently supported rather than selecting the product whose label matches a different documented condition.",
+                "trigger_features": [
+                  "interaction_question",
+                  "conditional_question",
+                  "short_drug_options",
+                  "multiple_medications"
+                ],
+                "counterexample_requirement": "This procedure must not override a previously correct decision when the patient input explicitly documents the qualifier required by the reference product's label, such as 'hypercalcemia of malignancy refractory to bisphosphonates' or 'bone metastases from solid tumors.' In that case, the indication-matching step should confirm the reference product rather than penalize it for a missing qualifier.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "7513cadbbb723fdb",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model selected clonidine (A) because it recognized a known alcohol-withdrawal role for clonidine, but the retrieved clonidine label spans only support a hypertension indication and a warning about arrhythmogenic risk in alcoholic delirium; the reference instead favors gabapentin (B), whose retrieved label also lacks an alcohol-withdrawal indication. The mismatch is therefore at the point of mapping the withdrawal presentation to a product whose retrieved evidence actually supports the intended use, not at a quantitative or final-option stage.",
+                "observed_gap": "Reference option B (gabapentin) versus predicted option A (clonidine). The decisive missing condition is any retrieved label evidence establishing alcohol-withdrawal efficacy for either option; the clonidine spans are hypertension-only (E1, E2) and include an arrhythmogenic warning in alcoholic delirium (E16), while the gabapentin spans are postherpetic neuralgia and partial-onset seizures (E3). No retrieved span directly supports alcohol-withdrawal treatment for the reference option.",
+                "reference_status": "insufficient_evidence",
+                "patient_quotes": [
+                  "I used to drink heavily, but I stopped about a week ago.",
+                  "These symptoms started a few days after I stopped drinking.",
+                  "Yeah, I have a heart condition. I had a heart attack a few years ago and I've been taking medication for it ever since.",
+                  "Based on your symptoms, my initial diagnosis is that you're experiencing alcohol withdrawal."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Clonidine hydrochloride tablets USP are indicated in the treatment of hypertension."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Gabapentin is indicated for: Management of postherpetic neuralgia in adults Adjunctive therapy in the treatment of partial onset seizures, with and without secondary generalization, in adults and pediatric patients 3 years and older with epilepsy"
+                  },
+                  {
+                    "evidence_id": "E16",
+                    "quote": "Based on observations in patients in a state of alcoholic delirium it has been suggested that high intravenous doses of clonidine may increase the arrhythmogenic potential (QT-prolongation, ventricular fibrillation) of hi"
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, require that the chosen product have at least one retrieved label span whose indication section explicitly names the target condition or a recognized synonym; if no option satisfies this, mark the item as insufficient evidence rather than selecting the least-inappropriate drug by external knowledge.",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options",
+                  "multiple_medications"
+                ],
+                "counterexample_requirement": "Do not apply this stricter indication-matching gate when the question is a dose, interaction, or route question, or when the retrieved label evidence already contains an explicit indication for the target condition; in those cases the existing selection should not be changed.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 3,
+          "attempt": 3,
+          "schema_errors": [
+            [
+              "root_ID_roles"
+            ],
+            []
+          ],
+          "card": {
+            "name": "conditional_question_indication_qualifier_check",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the input poses a conditional or scenario-based clinical question; unknown facts do not imply safety or efficacy.",
+            "procedure": "When a conditional clinical question asks for a management or product choice, first list the patient's documented active conditions and current treatments. For each candidate option, check whether its retrieved evidence explicitly names the patient's target condition or a recognized synonym. If the option requires an unstated qualifier (e.g., refractoriness, metastasis, severity, or prior therapy), mark it as insufficiently supported rather than selecting it. Prefer options whose evidence directly matches documented conditions; if none match, flag insufficient evidence instead of inferring from general knowledge.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "1c4007d0ea2596d9",
+              "57e0b9d5ba3466ae"
+            ],
+            "counterexample_ids": [
+              "064e38aa0494a6fb",
+              "0b882164fc7166eb"
+            ],
+            "counterexample_explanation": "T0028 is a success inside the triggered region: the patient's asthma and current Advair are documented, and the response correctly considers the respiratory infection without forcing an unsupported product choice. T0273 is a success inside the triggered region: the patient's bone lesions and calcium status are documented, and the response correctly flags the need to check calcium before treatment rather than selecting a product whose evidence requires an unstated qualifier. These successes show that the procedure must preserve correct conditional reasoning when the documented conditions already match the evidence, and must not override a supported choice merely because a qualifier is absent from the input.",
+            "root_ids": [
+              "medqa_train_3b64e8fad635a39ff99672f274110975de706e2ab69f47ca72f6498359fcbb8f"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 1,
+            "regressions": 3,
+            "net": -2,
+            "changed": 5,
+            "n": 32,
+            "before": 24,
+            "after": 22,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "medqa_train_e33a8812a55dfc85f37b2cadd10b112b5ad0e82b6b7d56f247e7dc73d1ece368",
+              "focus": "generalizability effect modification confounding external validity",
+              "reference": [
+                "C"
+              ],
+              "prediction": [
+                "B"
+              ],
+              "decision": {
+                "final": [
+                  "B"
+                ],
+                "evidence": "The trial enrolled only older Caucasian men with coronary disease, while the patient is a younger Hispanic woman with primary hypertension; a differing treatment effect across these patient characteristics is effect modification, which can explain her poor response.",
+                "uncertainty": "Generalizability is also related, but effect modification is the more precise statistical concept for heterogeneous treatment response."
+              }
+            },
+            {
+              "id": "3019822515c97b2a",
+              "focus": "osteoporosis with high calcium, Avastin interaction",
+              "reference": [
+                "A"
+              ],
+              "prediction": [
+                "B"
+              ],
+              "decision": {
+                "final": [
+                  "B"
+                ],
+                "evidence": "Zoledronic acid is the only option with a source-supported indication for osteoporosis; Xgeva is indicated for hypercalcemia of malignancy refractory to bisphosphonates, and amoxicillin is an antibiotic with no role here.",
+                "uncertainty": "Renal function is not provided, so the zoledronic acid renal contraindication cannot be excluded."
+              }
+            },
+            {
+              "id": "7513cadbbb723fdb",
+              "focus": "alcohol withdrawal treatment with cardiac comorbidity",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "None of the options has label evidence for alcohol withdrawal. Clonidine is the only option with any withdrawal-related pharmacology (label warns about clonidine withdrawal/rebound and notes arrhythmogenic potential in alcoholic delirium), while gabapentin and ciprofloxacin have no relevant role. Given the forced choice, clonidine is the best supported, though it is not an approved indication and cardiac risk remains.",
+                "uncertainty": "No option is label-supported for alcohol withdrawal; clonidine may be hazardous with the patient's cardiac history."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "medqa_train_e33a8812a55dfc85f37b2cadd10b112b5ad0e82b6b7d56f247e7dc73d1ece368",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model treated the trial-to-patient mismatch as a heterogeneous treatment-effect question (effect modification) rather than as an external-validity/generalizability question, despite the stem asking which statistical concept explains poor response after applying a trial result to a different population.",
+                "observed_gap": "Reference option C (Generalizability) versus predicted option B (Effect modification). The decisive condition is that the stem frames the issue as applying a study conducted in 3,000 Caucasian men over age 65 with coronary heart disease to a 39-year-old Hispanic female with primary hypertension; the recorded assessment explicitly notes generalizability is relevant but downgrades it as 'less precise,' which is the contradicted condition.",
+                "reference_status": "supported",
+                "patient_quotes": [
+                  "A new antihypertensive medication is studied in 3,000 Caucasian men with coronary heart disease who are over age 65.",
+                  "a family physician elects to prescribe this medication to a 39-year-old Hispanic female who presents with primary hypertension",
+                  "After a one month trial and appropriate adjustments in the dosing, the patient's blood pressure is not well controlled by this medication.",
+                  "Which of the following statistical concepts could explain this patient's poor response to the medication?"
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Generalizability/external validity concerns whether trial results apply outside the study population; it is relevant but less precise than effect modification for explaining a different treatment response."
+                  },
+                  {
+                    "evidence_id": "E2",
+                    "quote": "Effect modification is the closest concept: the treatment effect differs across patient characteristics such as age, sex, ethnicity, and comorbidity, so the trial's benefit may not apply to this patient."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "The question wording could also support generalizability, but effect modification best explains a heterogeneous treatment response by patient characteristics."
+                  }
+                ],
+                "minimal_process_change": "For conceptual statistical questions, require an explicit comparison of the stem's framing against each option's definition before final selection, and do not override the option that directly matches the stem's population-application framing with a related but differently framed concept.",
+                "trigger_features": [
+                  "age_context",
+                  "conditional_question",
+                  "short_drug_options"
+                ],
+                "counterexample_requirement": "Do not apply this population-application preference when the stem explicitly asks about differential treatment effects within the same study population or provides effect-modification data; in that case, effect modification may be the correct concept.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": false
+            },
+            {
+              "case_id": "3019822515c97b2a",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model selected zoledronic acid (option B) because it is the only option with an explicit osteoporosis indication, but the reference selected xgeva (option A) for the hypercalcemia-of-malignancy context; the mismatch arises from weighting the osteoporosis indication over the high-calcium/malignancy context and the Avastin interaction cue.",
+                "observed_gap": "Reference option A (xgeva) versus predicted option B (zoledronic acid). Decisive missing condition: the patient's high calcium is not documented as malignancy-related or bisphosphonate-refractory, which is required for the xgeva hypercalcemia indication; the model's assessment explicitly noted this gap but still chose B.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "I've been experiencing some bone pain and weakness, especially in my hips and spine. It's been getting worse over the past few months.",
+                  "Yes, I had an MRI last month, and it showed some signs of osteoporosis.",
+                  "My doctor also mentioned that I have a high calcium level in my blood.",
+                  "Yes, I'm taking Avastin (bevacizumab) for my cancer treatment."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Treatment of hypercalcemia of malignancy refractory to bisphosphonate therapy."
+                  },
+                  {
+                    "evidence_id": "E2",
+                    "quote": "Reclast is indicated for treatment to increase bone mass in men with osteoporosis"
+                  },
+                  {
+                    "evidence_id": "E5",
+                    "quote": "Reclast is contraindicated in patients with creatinine clearance less than 35 mL/min and in those with evidence of acute renal impairment."
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, require an explicit applicability check that maps each option's labeled indication to the patient's documented condition and flags when the reference-preferred option's indication is not directly supported by the input; if the preferred option's indication is unsupported, do not override it solely because another option has a broader or more directly matching indication.",
+                "trigger_features": [
+                  "interaction_question",
+                  "conditional_question",
+                  "short_drug_options"
+                ],
+                "counterexample_requirement": "This procedure must not apply when the patient's documented condition directly matches the reference-preferred option's labeled indication and no contraindication is present; in that case, the applicability check should confirm the reference-preferred option rather than change a previously correct decision.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "7513cadbbb723fdb",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model treated the question as a label-indication lookup and selected the only option with any withdrawal-related label text (clonidine), rather than recognizing the clinical scenario as alcohol withdrawal where gabapentin is a guideline-supported non-label treatment option; the retrieved label spans contain no alcohol-withdrawal indication for any option, so the selection was driven by surface withdrawal-word overlap rather than clinical rule applicability.",
+                "observed_gap": "Reference option B (gabapentin) versus predicted option A (clonidine). Decisive missing condition: no retrieved source span supports any option for alcohol withdrawal; the clonidine spans only support hypertension (E1, E2) and warn about clonidine withdrawal/rebound and arrhythmogenic potential in alcoholic delirium (E11, E16), which the model inverted into positive support. The gabapentin spans only list postherpetic neuralgia and partial-onset seizures (E3), so the reference is not directly supported by the supplied label evidence either.",
+                "reference_status": "insufficient_evidence",
+                "patient_quotes": [
+                  "I used to drink heavily, but I stopped about a week ago.",
+                  "These symptoms started a few days after I stopped drinking.",
+                  "Yeah, I have a heart condition. I had a heart attack a few years ago and I've been taking medication for it ever since."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Clonidine hydrochloride tablets USP are indicated in the treatment of hypertension."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Gabapentin is indicated for: Management of postherpetic neuralgia in adults Adjunctive therapy in the treatment of partial onset seizures"
+                  },
+                  {
+                    "evidence_id": "E11",
+                    "quote": "Sudden cessation of clonidine treatment has, in some cases, resulted in symptoms such as nervousness, agitation, headache, and tremor accompanied or followed by a rapid rise in blood pressure"
+                  },
+                  {
+                    "evidence_id": "E16",
+                    "quote": "Based on observations in patients in a state of alcoholic delirium it has been suggested that high intravenous doses of clonidine may increase the arrhythmogenic potential (QT-prolongation, ventricular fibrillation)"
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, require that the chosen option be linked to a retrieved span whose indication or clinical-use statement matches the patient's presenting condition; if no option has a matching indication span, mark the item as insufficient label evidence and defer to an explicit clinical-guideline retrieval step rather than selecting the option with the closest surface keyword.",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options",
+                  "multiple_medications"
+                ],
+                "counterexample_requirement": "This procedure must not override a previously correct decision when a retrieved label span directly states the indication matching the patient's condition (e.g., an antibiotic label explicitly listing the patient's infection), or when the question is a dose/interaction question where indication matching is not the deciding criterion.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 3,
+          "attempt": 4,
+          "schema_errors": [
+            [
+              "root_ID_roles"
+            ],
+            [
+              "root_ID_roles"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "rejection": "schema"
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "cases_seen": 400,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false,
+      "new_batch": {
+        "n": 100,
+        "correct": 67,
+        "invalid": 0,
+        "calls": 300,
+        "input_tokens": 1373350,
+        "output_tokens": 98701,
+        "logical_cost_usd": 0.370297755,
+        "active_cases": 0,
+        "predictions_sha256": "08d9ad5444b1b5406abf46fada4b0542351e2a92e3e88bfd547b4c20eea83761"
+      },
+      "root_count": 33,
+      "root_eligible": 1,
+      "root_quote_valid": 31,
+      "trials": [
+        {
+          "round": 4,
+          "attempt": 1,
+          "schema_errors": [
+            []
+          ],
+          "card": {
+            "name": "route_span_required_before_option",
+            "trigger_any": [
+              "explicit_route"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the stem specifies a route of administration; unknown route facts do not imply safety and do not license skipping the span check.",
+            "procedure": "When the stem names a route, before choosing an option: (1) locate a retrieved span that states the route for the candidate option; (2) if no span states that route, do not select the option on route grounds; (3) if a span states the route but the patient's condition is not addressed by that span, treat route as non-decisive; (4) prefer the option whose span matches both route and the patient's documented condition; (5) if no option matches both, defer to the best-supported general association rather than a route-only match.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "medqa_train_fab85c9ebb03df899afe3d19b3a8c1355df8b5b138f0a0f2bcd2f0948de2eae9",
+              "3489dd633119dd65"
+            ],
+            "counterexample_ids": [
+              "01b0ac1cec1ab9b7",
+              "5c07a7914e13d0e8"
+            ],
+            "counterexample_explanation": "T0393 and T0255 are successes where the stem specifies a route and the chosen option was supported by a retrieved span matching the patient's condition; the route-span check confirms rather than overrides those correct selections. T0393's antifungal choice and T0255's cautious rhinitis approach both relied on condition-matched spans, so the procedure must not eliminate them merely because a route span was absent or non-decisive.",
+            "root_ids": [
+              "medqa_train_fab85c9ebb03df899afe3d19b3a8c1355df8b5b138f0a0f2bcd2f0948de2eae9"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 2,
+            "regressions": 2,
+            "net": 0,
+            "changed": 5,
+            "n": 32,
+            "before": 20,
+            "after": 20,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "medqa_train_51dd804f129770b1e4e8bf0e80c018f8014471916d6b0ff2f1f8a6a18484ba69",
+              "focus": "acute abdominal pain peptic ulcer rebound tenderness next step",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Sudden-onset abdominal pain with diffuse tenderness and rebound suggests hollow viscus perforation; upright abdominal radiographs are the rapid first-line test to detect free intraperitoneal air before further imaging or management.",
+                "uncertainty": "No source labels were available; decision is based on standard clinical reasoning for suspected perforation."
+              }
+            },
+            {
+              "id": "medqa_train_55fe6b5e0c7f4f7abb34adfc74abae7e4caafcc4404996a6cce0b8d074f160cf",
+              "focus": "acute hepatitis C infection outcome",
+              "reference": [
+                "A"
+              ],
+              "prediction": [
+                "C"
+              ],
+              "decision": {
+                "final": [
+                  "C"
+                ],
+                "evidence": "Acute hepatitis C is most often self-limited/transient; chronic infection and cirrhosis are long-term possibilities, and fulminant hepatitis is rare.",
+                "uncertainty": "No source excerpts were provided; decision based on standard acute HCV prognosis."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "medqa_train_51dd804f129770b1e4e8bf0e80c018f8014471916d6b0ff2f1f8a6a18484ba69",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model applied a generic 'radiograph first for suspected perforation' heuristic and did not reconcile it with the question's framing as an urgent-care diagnostic test selection where CT is the more sensitive and commonly preferred next step for acute abdominal pain with peritoneal signs; this is a hypothesis, not a proven cause.",
+                "observed_gap": "Reference option B (Urgent CT abdomen and pelvis) versus predicted option A (Abdominal radiographs). The decisive missing condition is any explicit statement that the patient is hemodynamically unstable, that radiographs are required before CT, or that the question is testing initial screening rather than definitive diagnostic evaluation. The recorded assessment asserts radiographs should precede CT, but no retrieved source span supports this as the required next step.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "A 51-year-old man",
+                  "with a recent diagnosis of peptic ulcer disease",
+                  "currently treated with an oral proton pump inhibitor twice daily",
+                  "complaining of acute abdominal pain which began suddenly less than 2 hours ago",
+                  "his abdomen to be mildly distended",
+                  "diffusely tender to palpation",
+                  "positive for rebound tenderness",
+                  "what is the next best step in patient management?"
+                ],
+                "source_quotes": [],
+                "minimal_process_change": "For diagnostic test selection questions, require an explicit source span or guideline statement that identifies the test as the next best step before selecting it; if no such span is retrieved, flag the item for abstention or escalation rather than defaulting to a generic imaging heuristic.",
+                "trigger_features": [
+                  "age_context",
+                  "explicit_route",
+                  "short_drug_options",
+                  "statement_options"
+                ],
+                "counterexample_requirement": "This procedure must not change a previously correct decision when the question explicitly asks for the initial screening test in a hemodynamically unstable patient or when a source span directly states that plain radiographs are the required first step before CT.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "medqa_train_55fe6b5e0c7f4f7abb34adfc74abae7e4caafcc4404996a6cce0b8d074f160cf",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model selected the general 'most acute HCV is self-limited' rule and did not apply the observed jaundice/symptomatic acute hepatitis C prognostic distinction, which points to a slowly progressive rather than transient course.",
+                "observed_gap": "Reference option A ('Slowly progressive hepatitis') versus predicted option C ('Transient infection'); the decisive missing condition is that the patient has symptomatic acute hepatitis C with jaundice and markedly elevated transaminases, which makes a transient/self-limited outcome less likely than a slowly progressive course.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "A 27-year-old man with a history of intravenous drug use",
+                  "anorexia, nausea, dark urine, and abdominal pain for 2 weeks",
+                  "scleral icterus and right upper quadrant tenderness",
+                  "Alanine aminotransferase 1248 U/L",
+                  "Aspartate aminotransferase 980 U/L",
+                  "hepatitis C virus RNA detected by PCR",
+                  "Without appropriate treatment, which of the following is the most likely outcome of this patient's current condition?"
+                ],
+                "source_quotes": [],
+                "minimal_process_change": "For prognosis questions, require an explicit mapping from the patient's observed syndrome and severity markers to the option that describes the expected untreated course, and flag when the selected option is a general population-level outcome that does not match the observed symptomatic presentation.",
+                "trigger_features": [
+                  "conditional_question",
+                  "age_context",
+                  "explicit_route",
+                  "short_drug_options"
+                ],
+                "counterexample_requirement": "Do not apply this change when the question asks about a different hepatitis virus, when the patient has asymptomatic acute HCV with normal or near-normal transaminases, or when the options include a clearly correct self-limited outcome for an uncomplicated acute infection.",
+                "confidence": "low"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 4,
+          "attempt": 2,
+          "schema_errors": [
+            []
+          ],
+          "card": {
+            "name": "route_span_required",
+            "trigger_any": [
+              "explicit_route"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the item explicitly specifies a route of administration; items without an explicit route, or where the route is incidental to a non-treatment decision, are outside this region and must not be altered.",
+            "procedure": "When an explicit route is stated, treat it as a constraint on which options are eligible, not as evidence for any option. First identify the route named. Then check each candidate option for whether it is deliverable by that route. If no retrieved span states that a route-specific option is preferred, do not select it merely because its route matches. If a route-specific option is contraindicated or unavailable by that route, exclude it and choose the best remaining option supported by the clinical picture. Never let absence of a route span eliminate a treatment.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "medqa_train_fab85c9ebb03df899afe3d19b3a8c1355df8b5b138f0a0f2bcd2f0948de2eae9",
+              "3489dd633119dd65"
+            ],
+            "counterexample_ids": [
+              "01b0ac1cec1ab9b7",
+              "5c07a7914e13d0e8"
+            ],
+            "counterexample_explanation": "T0393 and T0255 both contain explicit_route and were answered correctly. In T0393 the route-relevant medication (escitalopram) was correctly treated as a possible contributor to oral thrush while the antifungal choice was checked for interaction, not selected by route match. In T0255 the explicit route did not cause the model to prefer a route-matching option; it correctly weighed myasthenia gravis when discussing allergic rhinitis treatment. These successes show that explicit route can be handled as a constraint without overriding clinical reasoning, so the new procedure must not penalize route-matching options when a retrieved span or the clinical picture supports them.",
+            "root_ids": [
+              "medqa_train_fab85c9ebb03df899afe3d19b3a8c1355df8b5b138f0a0f2bcd2f0948de2eae9"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 2,
+            "regressions": 4,
+            "net": -2,
+            "changed": 6,
+            "n": 32,
+            "before": 20,
+            "after": 18,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "medqa_train_51dd804f129770b1e4e8bf0e80c018f8014471916d6b0ff2f1f8a6a18484ba69",
+              "focus": "acute abdominal pain peptic ulcer rebound tenderness next step",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Sudden-onset pain with diffuse tenderness and rebound suggests possible perforated peptic ulcer; upright/abdominal radiographs are the fastest initial test to detect free intraperitoneal air before further imaging.",
+                "uncertainty": "No source excerpts were provided; decision is based on standard clinical reasoning."
+              }
+            },
+            {
+              "id": "medqa_train_3056cd10ddeb256dd8bc3bf7d2a7e7c328b92f3f61068b76804c9e7339b3e37f",
+              "focus": "breast mass fat necrosis biopsy foam cells giant cells management",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "D"
+              ],
+              "decision": {
+                "final": [
+                  "D"
+                ],
+                "evidence": "Core biopsy showing foam cells and multinucleated giant cells with oil cysts on mammography is consistent with fat necrosis, a benign condition. For a persistent, hard, tethered 2.5-cm mass with suspicious imaging, wide excision is the appropriate next step to confirm diagnosis and treat the lesion; reassurance alone is insufficient, and chemotherapy or mastectomy would be overtreatment without malignancy.",
+                "uncertainty": "Fat necrosis can sometimes be managed with observation if diagnosis is certain, but the suspicious clinical and imaging features here support excision."
+              }
+            },
+            {
+              "id": "medqa_train_b9e38c387197a4fc348d15f078144c44abdbe953b9cb1389f410d868410af868",
+              "focus": "intravenous antibiotics indication orbital cellulitis",
+              "reference": [
+                "C"
+              ],
+              "prediction": [
+                "D"
+              ],
+              "decision": {
+                "final": [
+                  "D"
+                ],
+                "evidence": "Purulent nasal discharge with right cheek tenderness localizes to rhinosinusitis, the likely source of orbital cellulitis, which is the strongest indication for IV antibiotics; ocular pain, leukocytosis, and pain with eye movements are nonspecific.",
+                "uncertainty": "No source evidence supplied; based on clinical reasoning from the input."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "medqa_train_51dd804f129770b1e4e8bf0e80c018f8014471916d6b0ff2f1f8a6a18484ba69",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model applied a generic 'fastest initial test for free air' heuristic to a question whose options and stem frame the next best step as definitive urgent imaging; the recorded assessment explicitly acknowledged CT is more definitive but overrode it with a speed preference not grounded in any retrieved source.",
+                "observed_gap": "Reference option B (Urgent CT abdomen and pelvis) versus predicted option A (Abdominal radiographs). The decisive missing condition is any source or rule establishing that plain radiographs are the preferred next step over urgent CT in a hemodynamically stable patient with sudden-onset pain, diffuse tenderness, and rebound concerning for perforated peptic ulcer. The recorded assessment itself states CT is 'more definitive' and that radiographs 'can show free intraperitoneal air,' but no retrieved evidence supports radiographs as the best first step.",
+                "reference_status": "supported",
+                "patient_quotes": [
+                  "A 51-year-old man",
+                  "with a recent diagnosis of peptic ulcer disease",
+                  "currently treated with an oral proton pump inhibitor twice daily",
+                  "complaining of acute abdominal pain which began suddenly less than 2 hours ago",
+                  "his abdomen to be mildly distended",
+                  "diffusely tender to palpation",
+                  "positive for rebound tenderness",
+                  "what is the next best step in patient management?"
+                ],
+                "source_quotes": [],
+                "minimal_process_change": "Before final option selection, require an explicit applicability check that maps each candidate option to the question's requested action (initial screening vs. definitive diagnostic evaluation) and rejects any option whose selection depends on a preference not stated in the stem or supported by retrieved evidence.",
+                "trigger_features": [
+                  "age_context",
+                  "explicit_route",
+                  "short_drug_options",
+                  "statement_options"
+                ],
+                "counterexample_requirement": "Do not apply this change when the stem or retrieved evidence explicitly establishes a time-critical or resource-limited context in which a rapid screening test is the intended next step, or when a prior correct decision already selected the screening test based on documented source support.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "medqa_train_3056cd10ddeb256dd8bc3bf7d2a7e7c328b92f3f61068b76804c9e7339b3e37f",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model correctly identified fat necrosis from the biopsy and imaging but then selected wide excision as the next step, likely because it treated the suspicious clinical/imaging features as requiring definitive surgical excision rather than recognizing that a core biopsy diagnosis of fat necrosis is sufficient to make reassurance appropriate.",
+                "observed_gap": "Reference option B (Reassurance) versus predicted option D (Wide excision of the lump). The decisive condition is that the core biopsy already shows foam cells and multinucleated giant cells, which are diagnostic of fat necrosis; the model's own assessment acknowledged this but still chose excision, contradicting the reference.",
+                "reference_status": "supported",
+                "patient_quotes": [
+                  "A core biopsy shows foam cells and multinucleated giant cells",
+                  "Mammography shows an irregular mass with microcalcifications and oil cysts",
+                  "2.5-cm, palpable, hard, nontender, mass in the upper outer quadrant of the left breast; there is tethering of the skin over the lump"
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "A core biopsy shows foam cells and multinucleated giant cells"
+                  },
+                  {
+                    "evidence_id": "E2",
+                    "quote": "Mammography shows an irregular mass with microcalcifications and oil cysts"
+                  }
+                ],
+                "minimal_process_change": "For management-next-step questions, after identifying a biopsy-proven benign diagnosis, explicitly compare the option that matches standard management for that diagnosis against options that are more invasive; if the benign diagnosis is confirmed by biopsy, do not select surgical excision unless the question stem or established guidelines indicate it is required.",
+                "trigger_features": [
+                  "conditional_question",
+                  "age_context",
+                  "explicit_route",
+                  "short_drug_options",
+                  "multiple_medications"
+                ],
+                "counterexample_requirement": "This procedure must not apply when the biopsy is nondiagnostic, when the benign diagnosis is uncertain, or when the clinical context (e.g., discordant imaging, high-risk features) requires further tissue sampling or excision despite a benign-appearing biopsy.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": false
+            },
+            {
+              "case_id": "medqa_train_b9e38c387197a4fc348d15f078144c44abdbe953b9cb1389f410d868410af868",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model treated the question as asking for the strongest localization/source of infection rather than the strongest clinical indication for IV antibiotics; it selected the option describing rhinosinusitis (D) instead of the option describing orbital involvement (C).",
+                "observed_gap": "Reference option C ('Pain with eye movements') versus predicted option D ('Purulent nasal discharge and right cheek tenderness'). The decisive condition is that the question asks for the strongest indication for IV antibiotics in a patient with clinical orbital cellulitis; pain with eye movements directly reflects orbital inflammation, whereas purulent nasal discharge and cheek tenderness localize the antecedent sinusitis but are not the strongest indication for IV antibiotics.",
+                "reference_status": "supported",
+                "patient_quotes": [
+                  "A 22-year-old woman is brought to the emergency department because of a 1-day history of double vision and rapidly worsening pain and swelling of her right eye.",
+                  "Right eye movements are restricted and painful in all directions.",
+                  "There is tenderness to palpation over the right cheek and purulent nasal discharge in the right nasal cavity."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "INDICATIONS AND USAGE: Theophylline extended-release tablets are indicated for the treatment of the symptoms and reversible airflow obstruction associated with chronic asthma and other chronic lung diseases, e.g., emphysema and chronic bronchitis."
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, explicitly map the question's requested decision (e.g., strongest indication for IV antibiotics) to the option that directly reflects the target clinical state, and require that any selected option be justified by a patient finding that matches the decision target rather than a predisposing or localizing finding.",
+                "trigger_features": [
+                  "statement_options",
+                  "multiple_medications",
+                  "age_context",
+                  "explicit_route"
+                ],
+                "counterexample_requirement": "Do not apply this mapping when the question asks for the source or localization of infection, or when the option describing the predisposing condition is explicitly requested; in those cases, selecting the localizing finding may be correct.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 4,
+          "attempt": 3,
+          "schema_errors": [
+            []
+          ],
+          "card": {
+            "name": "route_span_required",
+            "trigger_any": [
+              "explicit_route"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the stem explicitly names a route of administration; unknown route facts do not imply safety, and absence of a retrieved span must not eliminate a treatment option.",
+            "procedure": "When the stem explicitly names a route, before final option selection: (1) identify the decision target the question asks for; (2) require at least one retrieved span that links the named route to that target; (3) if no span supports the route-based preference, fall back to the best-established general association rather than the route modifier; (4) do not let a route label alone favor an option, and do not drop an option merely because no route span was retrieved.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "medqa_train_fab85c9ebb03df899afe3d19b3a8c1355df8b5b138f0a0f2bcd2f0948de2eae9",
+              "3489dd633119dd65"
+            ],
+            "counterexample_ids": [
+              "01b0ac1cec1ab9b7",
+              "5c07a7914e13d0e8"
+            ],
+            "counterexample_explanation": "T0393 and T0255 both carry explicit_route and were answered correctly; in each, the route-relevant medication context was reconciled with the patient's condition and no unsupported route-based ranking was introduced. The procedure must preserve these successes by only blocking route-dependent option preferences that lack a retrieved supporting span, not by suppressing route-aware reasoning when the route is already integrated with the clinical picture.",
+            "root_ids": [
+              "medqa_train_fab85c9ebb03df899afe3d19b3a8c1355df8b5b138f0a0f2bcd2f0948de2eae9"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 3,
+            "regressions": 2,
+            "net": 1,
+            "changed": 6,
+            "n": 32,
+            "before": 20,
+            "after": 21,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "medqa_train_51dd804f129770b1e4e8bf0e80c018f8014471916d6b0ff2f1f8a6a18484ba69",
+              "focus": "acute abdominal pain peptic ulcer rebound tenderness next step",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Sudden-onset pain with distension and rebound tenderness suggests hollow viscus perforation; upright/abdominal radiographs are the rapid first-line test to detect free intraperitoneal air before CT if needed.",
+                "uncertainty": "No source excerpts were supplied; decision is based on the clinical presentation."
+              }
+            },
+            {
+              "id": "medqa_train_b9e38c387197a4fc348d15f078144c44abdbe953b9cb1389f410d868410af868",
+              "focus": "intravenous antibiotics indication orbital cellulitis",
+              "reference": [
+                "C"
+              ],
+              "prediction": [
+                "D"
+              ],
+              "decision": {
+                "final": [
+                  "D"
+                ],
+                "evidence": "Purulent nasal discharge with right cheek tenderness localizes bacterial sinusitis as the likely source of orbital cellulitis; together with proptosis and restricted painful eye movements, this supports IV antibiotics. Leukocytosis and pain alone are nonspecific.",
+                "uncertainty": "No drug-label evidence directly addresses the IV antibiotic indication; decision is clinical."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "medqa_train_51dd804f129770b1e4e8bf0e80c018f8014471916d6b0ff2f1f8a6a18484ba69",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model applied a generic 'suspected perforation → plain radiograph first' heuristic and did not reconcile it with the question's option set, where urgent CT abdomen/pelvis is the more appropriate next step for an acute abdomen with peritoneal signs in a stable patient.",
+                "observed_gap": "Reference option B (Urgent CT abdomen and pelvis) versus predicted option A (Abdominal radiographs). The decisive missing condition is any explicit statement that the patient is unstable, has a suspected hollow viscus perforation requiring immediate plain-film confirmation, or that CT is unavailable/contraindicated; the recorded assessment instead asserts radiographs 'should precede CT unless they are nondiagnostic,' which is not supported by any retrieved span.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "A 51-year-old man with a recent diagnosis of peptic ulcer disease currently treated with an oral proton pump inhibitor twice daily",
+                  "complaining of acute abdominal pain which began suddenly less than 2 hours ago",
+                  "his abdomen to be mildly distended, diffusely tender to palpation, and positive for rebound tenderness",
+                  "what is the next best step in patient management?"
+                ],
+                "source_quotes": [],
+                "minimal_process_change": "Before final option selection, require the model to compare each candidate option against the full option set and explicitly state why the selected test is preferred over the other imaging option in the same clinical scenario; if no retrieved source supports the ordering preference, mark the decision as uncertain rather than committing.",
+                "trigger_features": [
+                  "age_context",
+                  "explicit_route",
+                  "short_drug_options",
+                  "statement_options"
+                ],
+                "counterexample_requirement": "Do not apply this comparison step when the question explicitly states hemodynamic instability, suspected perforation with a requirement for immediate bedside/plain-film confirmation, or when CT is unavailable or contraindicated; in those cases, selecting abdominal radiographs first may be correct and should not be changed.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "medqa_train_b9e38c387197a4fc348d15f078144c44abdbe953b9cb1389f410d868410af868",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model treated the question as asking for the strongest evidence of a bacterial source or orbital involvement, rather than the specific clinical finding that most strongly indicates IV antibiotics; it selected the sinusitis-source option D over the reference option C.",
+                "observed_gap": "Reference option C ('Pain with eye movements') versus predicted option D ('Purulent nasal discharge and right cheek tenderness'). The decisive condition for C is that pain with eye movements is a red-flag orbital sign indicating orbital cellulitis and need for IV antibiotics; the model instead treated D as stronger because it localizes bacterial sinusitis, but the question asks for the strongest indication for IV antibiotics, not the source of infection.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "A 22-year-old woman is brought to the emergency department because of a 1-day history of double vision and rapidly worsening pain and swelling of her right eye.",
+                  "Right eye movements are restricted and painful in all directions.",
+                  "There is tenderness to palpation over the right cheek and purulent nasal discharge in the right nasal cavity."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "INDICATIONS AND USAGE: Theophylline extended-release tablets are indicated for the treatment of the symptoms and reversible airflow obstruction associated with chronic asthma and other chronic lung diseases, e.g., emphysema and chronic bronchitis."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Dosage Increases: Increases in the dose of theophylline should not be made in response to an acute exacerbation of symptoms of chronic lung disease since theophylline provides little added benefit to inhaled beta 2 -selective agonists and systemically administered"
+                  }
+                ],
+                "minimal_process_change": "For questions asking which finding provides the strongest indication for a treatment, require the selected option to be the finding that directly establishes the treatment-triggering diagnosis or severity criterion, not merely a supportive or source-localizing finding.",
+                "trigger_features": [
+                  "statement_options",
+                  "explicit_route",
+                  "multiple_medications",
+                  "age_context"
+                ],
+                "counterexample_requirement": "Do not apply this procedure when the question asks for the source of infection, the most likely diagnosis, or the best next diagnostic test; in those cases, a localizing finding such as purulent nasal discharge with cheek tenderness may be the correct answer.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 4,
+          "attempt": 4,
+          "schema_errors": [
+            []
+          ],
+          "card": {
+            "name": "route_span_grounded_ranking",
+            "trigger_any": [
+              "explicit_route"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the stem names a route of administration or a route-specific therapy; unknown or unstated route facts do not imply that an unsupported ranking is safe to apply.",
+            "procedure": "When the stem specifies a route of administration, treat that as a cue to check whether the option you favor depends on a ranking or association (e.g., which factor is 'most commonly implicated'). Before committing, require at least one retrieved span that states that ranking for this clinical scenario. If no span states it, fall back to the best-established general association rather than a contextual modifier. Do not let a route mention by itself favor any option, and do not drop a treatment merely because no span was retrieved.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "medqa_train_fab85c9ebb03df899afe3d19b3a8c1355df8b5b138f0a0f2bcd2f0948de2eae9",
+              "3489dd633119dd65"
+            ],
+            "counterexample_ids": [
+              "01b0ac1cec1ab9b7",
+              "5c07a7914e13d0e8"
+            ],
+            "counterexample_explanation": "T0393 and T0255 are prior successes in the same explicit_route region where the model correctly reasoned about a medication-related risk without inventing an unsupported ranking: in T0393 it attributed oral thrush to a plausible mechanism and checked interaction safety, and in T0255 it flagged a comorbidity-driven caution without overriding the standard diagnosis. These must be preserved because the new procedure only blocks unsupported ranking claims; it must not suppress correct mechanism-based or comorbidity-based reasoning that is already grounded in the stem.",
+            "root_ids": [
+              "medqa_train_fab85c9ebb03df899afe3d19b3a8c1355df8b5b138f0a0f2bcd2f0948de2eae9"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 2,
+            "regressions": 2,
+            "net": 0,
+            "changed": 5,
+            "n": 32,
+            "before": 20,
+            "after": 20,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "medqa_train_51dd804f129770b1e4e8bf0e80c018f8014471916d6b0ff2f1f8a6a18484ba69",
+              "focus": "acute abdominal pain peptic ulcer rebound tenderness next step",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Sudden-onset pain with distension and rebound tenderness suggests possible hollow viscus perforation; upright abdominal radiographs are the rapid first-line test to detect free intraperitoneal air before CT if needed.",
+                "uncertainty": "No source excerpts were supplied; decision based on standard acute abdomen/perforation workup."
+              }
+            },
+            {
+              "id": "medqa_train_b9e38c387197a4fc348d15f078144c44abdbe953b9cb1389f410d868410af868",
+              "focus": "intravenous antibiotics indication orbital cellulitis",
+              "reference": [
+                "C"
+              ],
+              "prediction": [
+                "D"
+              ],
+              "decision": {
+                "final": [
+                  "D"
+                ],
+                "evidence": "Proptosis with restricted, painful eye movements plus fever and leukocytosis indicates orbital cellulitis; purulent nasal discharge and right cheek tenderness localize the sinonasal source, supporting urgent IV antibiotics.",
+                "uncertainty": "No source directly ranks these findings; decision based on clinical localization and severity."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "medqa_train_51dd804f129770b1e4e8bf0e80c018f8014471916d6b0ff2f1f8a6a18484ba69",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model applied a generic 'suspected perforation → plain radiograph first' heuristic and did not reconcile it with the question's option set, where urgent CT abdomen/pelvis is the more appropriate next step for an acute abdomen with peritoneal signs in a stable patient; the recorded assessment explicitly ranked radiographs above CT without any retrieved source span supporting that ordering.",
+                "observed_gap": "Reference option B (Urgent CT abdomen and pelvis) versus predicted option A (Abdominal radiographs). The decisive missing condition is any evidence or rule establishing that plain radiographs must precede CT in this scenario; the recorded assessment asserts this ordering ('radiographs should precede CT unless plain films are nondiagnostic') but no source excerpt or check supports it, and the option set itself offers CT as a distinct next step.",
+                "reference_status": "supported",
+                "patient_quotes": [
+                  "A 51-year-old man",
+                  "with a recent diagnosis of peptic ulcer disease",
+                  "currently treated with an oral proton pump inhibitor twice daily",
+                  "complaining of acute abdominal pain which began suddenly less than 2 hours ago",
+                  "his abdomen to be mildly distended",
+                  "diffusely tender to palpation",
+                  "positive for rebound tenderness",
+                  "what is the next best step in patient management?"
+                ],
+                "source_quotes": [],
+                "minimal_process_change": "Before final option selection, require that any asserted test-ordering rule (e.g., 'X should precede Y') be grounded in a retrieved source span or an explicit applicability check; if no span supports the ordering, treat the options as competing alternatives and select based on the question's stated acuity and available options rather than an ungrounded sequencing heuristic.",
+                "trigger_features": [
+                  "age_context",
+                  "explicit_route",
+                  "short_drug_options",
+                  "statement_options"
+                ],
+                "counterexample_requirement": "Do not apply this grounding requirement when the question explicitly states a stepwise protocol or when a retrieved source span directly establishes the ordering; in those cases the sequencing rule is applicable and should not be overridden.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "medqa_train_b9e38c387197a4fc348d15f078144c44abdbe953b9cb1389f410d868410af868",
+              "root": {
+                "earliest_stage": "rule applicability",
+                "root_hypothesis": "The model treated the question as a drug-selection/route question and applied a general 'localizing source of infection' heuristic, rather than recognizing the question as asking which finding is the strongest indication for IV antibiotics in orbital cellulitis; the retrieved theophylline spans were not applicable to the antibiotic decision and the intermediate assessment misclassified pain with eye movements as nonspecific.",
+                "observed_gap": "Reference option C ('Pain with eye movements') versus predicted option D ('Purulent nasal discharge and right cheek tenderness'); the decisive contradicted condition is the assessment's claim that pain with eye movements 'does not distinguish orbital cellulitis from less severe preseptal disease,' whereas the observed input states 'Right eye movements are restricted and painful in all directions,' which is a key orbital finding supporting IV antibiotics.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "A 22-year-old woman is brought to the emergency department because of a 1-day history of double vision and rapidly worsening pain and swelling of her right eye.",
+                  "Right eye movements are restricted and painful in all directions.",
+                  "There is tenderness to palpation over the right cheek and purulent nasal discharge in the right nasal cavity."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "INDICATIONS AND USAGE: Theophylline extended-release tablets are indicated for the treatment of the symptoms and reversible airflow obstruction associated with chronic asthma and other chronic lung diseases, e.g., emphysema and chronic bronchitis."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Dosage Increases: Increases in the dose of theophylline should not be made in response to an acute exacerbation of symptoms of chronic lung disease since theophylline provides little added benefit to inhaled beta 2 -selective agonists and systemically administered"
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, classify the question's decision target (e.g., drug selection, route, indication for IV therapy, diagnostic localization) and require that retrieved source spans be applicable to that target; if no applicable source evidence exists, mark the decision as clinical-knowledge-based and explicitly compare each option against the key severity/localization findings in the case rather than defaulting to a localization heuristic.",
+                "trigger_features": [
+                  "statement_options",
+                  "explicit_route",
+                  "multiple_medications",
+                  "age_context"
+                ],
+                "counterexample_requirement": "Do not apply this process change when the question is a straightforward drug-selection or dosing question with directly applicable product labeling evidence, or when the reference option is already correctly selected by the existing heuristic; in those cases, changing the decision target classification or requiring additional clinical comparison could introduce unnecessary uncertainty or alter a previously correct answer.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        }
+      ]
+    }
+  ],
+  "protocol_sha256": "b7a0176e6d6613bfa737bd30680b2303839b4701cbc594315486078395b0f5e9",
+  "interventions_sha256": "edcdbdcc8234291d9a17fd5bcb573d877b03786e7de6cb4bf90656fe4629501b"
+}

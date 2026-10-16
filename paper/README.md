@@ -1,35 +1,35 @@
 # RxRSIAgent: current manuscript and evidence index
 
-Target:ACL2027. Updated16 October2026. The English paper remains at the existing editor path and uses the preserved official ACL review style. Historical versions are archived, outside the current method description.
+Target: ACL2027. Updated16 October2026. The English manuscript remains in its original editor path with the preserved ACL review style. Archive versions are outside the current method definition.
 
 ## Read first
 
-- [Current English results](CURRENT_RESULTS.en.md) / [中文完整结果](CURRENT_RESULTS.zh.md).
-- [English ACL source](latex/v0.3/prismatic_v03_en.tex), [evidence manifest](latex/v0.3/manuscript_evidence.json), [compile check](latex/v0.3/compile_check.json).
-- [Executable current agent](../rxrsiagent/selected_agent.py), [selected profile](../rxrsiagent/selected_profile.json).
-- [Main experiments](../upgrade_v35/README.md), [independent continuation](../upgrade_v36/README.md).
-- [Architecture中文](RXRSI_DESIGN.zh.md) / [Architecture English](RXRSI_DESIGN.en.md), [evolution中文](EVOLUTION.zh.md) / [evolution English](EVOLUTION.en.md).
-- [Clinical endpoint protocol](CLINICAL_EVALUATION.en.md) / [医生视角指标](CLINICAL_EVALUATION.zh.md):annotations pending.
+- [中文完整结果](CURRENT_RESULTS.zh.md) · [Current English results](CURRENT_RESULTS.en.md).
+- [English ACL source](latex/v0.3/prismatic_v03_en.tex) · [source evidence manifest](latex/v0.3/manuscript_evidence.json) · [compile check](latex/v0.3/compile_check.json).
+- [Current actor](../rxrsiagent/selected_agent.py) · [frozen configuration](../rxrsiagent/selected_profile.json).
+- [Current experiment/reproduction](../upgrade_v44/README.md) · [audit](../upgrade_v44/results/audit.json).
+- [Protocol correction](PROTOCOL_CORRECTIONS.md) · [clinical endpoints awaiting annotation](CLINICAL_EVALUATION.en.md).
 
-## Paper navigation
+## Where to read the paper
 
-| Question | Paper location | Scope |
+| Question | Location | Evidence |
 |---|---|---|
-| What is the full workflow? | Figure1 and Method | Three calls, source checks and eligible calibration |
-| What datasets? | Table1 | Derived RxSafe988, public RxQA300, independent MedQA development |
-| Which other methods? | **Table2** | GRASP, MedAgents, MDAgents, **RxRSIAgent**, shared4608-output allowance |
-| What about stronger budgets? | Table3 |24000-output medical-agent runs remain visible |
-| What produces gains? | Tables4–5 | Source ablations and ordinary supervised diagnostics |
-| What evolves with cases? | Table6 |156/312/468/625 prefixes; no retained text cards |
-| What do concrete errors look like? | Case studies | Reference fix and regression, with explanation mismatch |
-| What are costs and clinical metrics? | Appendix | Input/output/cost accounting;14 endpoints awaiting annotation |
+| Full workflow | Figure1 and Method | Three calls, product evidence, narrow checks, cumulative root ledger |
+| Data | Data table / Experimental setup | RxSafe988, public RxQA300, MedQA training/development, MedPIC467 |
+| Main comparison | **Table2, Named-agent comparison** | GRASP, MedAgents, MDAgents, supervised control, **RxRSIAgent** |
+| What actually evolves | Frozen trajectory table | 0/100/200/300/400 cases; retained cards/retrieval/terms; independent scores |
+| Why updates fail | Updater controls and case studies |112 attempts, explicit rejection/decline reasons, no retained change |
+| Drug/position shortcuts | Independent diagnostic table |35 same-option pairs; option remapping and vignette removal |
+| Costs and clinical boundary | Appendix / Limitations | Actual receipts; incomplete full-prescription validation |
 
-Selected results556/988 and199/300 improve historical agent counts but do not beat MedAgents208/300 on RxQA. Simple post hoc calibrators also exceed the selected RxSafe score. These limitations, failed gates and repeated benchmark exposure are stated in the paper. Existing long-running queues remain paused.
+Current results are491/988 and196/300. These do not beat the strongest controls on both tasks. MedPIC is274/467; only3/35 strict pairs are both correct. No positive RSI is claimed. Earlier architecture/evolution documents describe historical components; the current Method and bilingual results above take precedence. Older queues remain paused.
 
 ## Versions
 
 | Version | Record | Evidence |
 | --- | --- | --- |
+| v0.44 | [Trace-root updates and independent task](../upgrade_v44/RESULTS.en.md) | Eight four-round controls;112 attempts;0 retained updates; main and467-question independent evaluation; targets unmet |
+| v0.36 | [Prior calibrated report](versions/v0.36-2026-10-16.en.md) | Ordinary supervised calibration, not positive RSI; source-task description corrected below |
 | v0.34 | [Medical agents and scoped memory](../upgrade_v34/RESULTS.en.md) | Two full author-workflow comparisons; three four-round memory trajectories; independent200-question transfer; target unmet |
 | v0.33 | [Development retrieval intervention](../upgrade_v33/RESULTS.en.md) | Four matched arms;760 outputs audited,380 new calls; promotion rejected; no new test scores |
 | v0.32 | [Controlled decision repair](../upgrade_v32/RESULTS.en.md) | Four same-data/100-step prefix/loss arms; fixed and calibrated scoring, independent recount and guard prerequisites |

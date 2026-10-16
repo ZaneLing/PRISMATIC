@@ -1,5 +1,16 @@
 # Manuscript change log / 论文变更记录
 
+## 2026-10-16 — trace-root updates, calibration separation and independent diagnostics
+
+- Complete eight four-round updater experiments on the same400 public training cases:112 attempts, zero accepted updates. Preserve all schema failures, intervention regressions and legitimate no-edit decisions.
+- Add balanced product-variant evidence, narrow source-bound comparisons, scoped procedures, data-bound condition vocabulary, compact typed context, external proposal review, and cumulative past-root replay.
+- Freeze before evaluating988 RxSafe,300 public RxQA and467 MedPIC questions. Report491,196 and274 correct respectively; independent strict-pair accuracy is3/35. No positive RSI or two-benchmark superiority claim.
+- Separate the prior556/988 supervised calibrator into an ordinary control. Correct the mistaken free-generation description of original RxSafeBench.
+- Record a post-freeze parser amendment for two missing RxSafe cases, preserving986 completed files. Recount1,895 distinct evaluation rows and31,401 source spans; shared successful-response ledger increment USD22.370972.
+- Update the English ACL source in place, bilingual living reports, current executable profile and archived prior report. Built-in compilation succeeds.
+
+完成真实负结果与根因审计；没有把技能提案数、人工修复、普通校准或相同状态的缓存复用包装成RSI提升。
+
 ## 2026-10-15 — study organization and exact update/selection roles
 
 - Move the executed common medication-method comparison out of Related Work into its own Study A, after the agent definition. Keep original-paper scores in the literature section and all executed numbers unchanged.

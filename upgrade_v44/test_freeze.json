@@ -1,0 +1,66 @@
+{
+  "created_utc": "2026-10-16T09:14:23.714537+00:00",
+  "selection": "Last development-gated state; no test-based checkpoint selection",
+  "states": [
+    {
+      "round": 0,
+      "cases_seen": 0,
+      "state_sha256": "fc0bd2acea704167af98496f07fa8186a780d5c76192848148a68b2d92f0cf52"
+    },
+    {
+      "round": 1,
+      "cases_seen": 100,
+      "state_sha256": "fc0bd2acea704167af98496f07fa8186a780d5c76192848148a68b2d92f0cf52"
+    },
+    {
+      "round": 2,
+      "cases_seen": 200,
+      "state_sha256": "fc0bd2acea704167af98496f07fa8186a780d5c76192848148a68b2d92f0cf52"
+    },
+    {
+      "round": 3,
+      "cases_seen": 300,
+      "state_sha256": "fc0bd2acea704167af98496f07fa8186a780d5c76192848148a68b2d92f0cf52"
+    },
+    {
+      "round": 4,
+      "cases_seen": 400,
+      "state_sha256": "fc0bd2acea704167af98496f07fa8186a780d5c76192848148a68b2d92f0cf52"
+    }
+  ],
+  "learning_sha256": "2e3e7e6ae9ba49d5473c46f71dacea088a2fb15a716605cca96bf58cc45d4cc9",
+  "independent_protocol_sha256": "98bcac30da99ace5915334127701389356a1e275e77a35ee2d03c06fd9974348",
+  "implementation": {
+    "common37.py": "9cd619815c87758702a506df8b474fa07b0ef97602dfcfbd67dc29bb65734ca1",
+    "evidence37.py": "1f29555e35ffc23e7fea85a11eef0391c6681df67e787bfe49d589205f1e5f1b",
+    "agent37.py": "785e3c568d9f23da64cb16ef6b7917eea2d40dc44a4149f9e00a2199ce455f7a",
+    "run.py": "da59e2ba041f4b001bc5e7bfe3ecedb2c53a99fea8e129bb6f7983bf805d864a"
+  },
+  "evaluator_sha256": "7b2d29a380e0625557ad33a00d5fd0b5ce661fe3826c34a9c64d028b60efb54a",
+  "learner_sha256": "f6a740cf29b2cd9a3723cfd6e0c833d7882c85e23b657588d79ec9871d3bf490",
+  "actor_extension": {
+    "created_utc": "2026-10-16T09:05:40.917535+00:00",
+    "shared_protocol": "upgrade_v37/protocol.json",
+    "shared_budget": "35USD successful-response ledger increment shared across37-44",
+    "actor": {
+      "upgrade_v40/agent40.py": "d655130a75c96612da7cfe132db8ebf67ed06965c1458382b1b91b2f36ca4bcf",
+      "upgrade_v40/run40.py": "93462c9a520fcd1eef2ffa59a66d2737e710c8d8f937e0b8e48ad567ced67791",
+      "upgrade_v37/common37.py": "9cd619815c87758702a506df8b474fa07b0ef97602dfcfbd67dc29bb65734ca1",
+      "upgrade_v37/evidence37.py": "1f29555e35ffc23e7fea85a11eef0391c6681df67e787bfe49d589205f1e5f1b",
+      "upgrade_v42/teacher.py": "b01a7c4bed9c93a1cd1acbdb328b9eeaad63415746daaca972e52f607bb10f3f",
+      "upgrade_v44/proposal_context.py": "abc3b5386094319beba91cc63551bc80a364795cde22ae3294b039c51bd6d14f",
+      "upgrade_v44/actor44.py": "73ae10fb49af3e4d99115ff785b39defb1440ab862f5fce76cd9e3d61d825367"
+    },
+    "changes": "Cumulative past root ledger replaces current-round-only root pool. Replay two best positive-net rejected interventions alongside recent failures. Null remains valid. Same actor and external proposer; no test outcomes inspected.",
+    "selection": "Final development-gated44 state, never test-based checkpoint/experiment selection",
+    "guard": "Each proposal task non-decreasing and pooled strictly improves; each guard task non-decreasing; training paired probe net>=2. This pre-test change is disclosed, not presented as unchanged37 gate.",
+    "training_exposure": "Same400 training cohort reused after earlier training/development failures; not a fresh prospective training stream.",
+    "learnable": "Scoped procedure, bounded retrieval configuration, context-trigger lexicon. No option/drug frequency weights or raw answer memory.",
+    "evaluation_adapter": {
+      "created_utc": "2026-10-16T09:14:21.135448+00:00",
+      "reason": "Before any test inference, make inherited single-answer draft/final JSON examples explicitly multi-answer only when multiple=True. Single-choice prompts and algorithm remain identical. No outcome used.",
+      "training_actor": "upgrade_v40/agent40.py",
+      "evaluation_actor": "upgrade_v44/actor44.py"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "synthetic_tests": 10,
+  "files": [
+    "upgrade_v37/test_verifier.py",
+    "upgrade_v40/test_context.py",
+    "upgrade_v44/test_runtime.py"
+  ],
+  "scope": "Source/numeric validation, scope exclusion, phrase routing, focus schema normalization and task schema; no clinical efficacy claim",
+  "environment": {
+    "python": "3.9.6",
+    "numpy": "2.0.2",
+    "scikit-learn": "1.6.1",
+    "pyarrow": "21.0.0"
+  },
+  "formatting_note": "git diff --check reports whitespace in five immutable, hash-bound experiment source files. Their recorded bytes are preserved; functional tests and source-hash checks pass."
+}

@@ -1,0 +1,1567 @@
+{
+  "status": "frozen",
+  "frozen_utc": "2026-10-16T09:12:18.572222+00:00",
+  "rounds": [
+    {
+      "round": 0,
+      "cases_seen": 0,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false
+    },
+    {
+      "round": 1,
+      "cases_seen": 100,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false,
+      "new_batch": {
+        "n": 100,
+        "correct": 67,
+        "invalid": 0,
+        "calls": 300,
+        "input_tokens": 1174545,
+        "output_tokens": 93557,
+        "logical_cost_usd": 0.322132063,
+        "active_cases": 0,
+        "predictions_sha256": "cc9ba034e8e8c38c513dc36a08a29939e62e64b0985d58cf62764d4dd8fcdd2b"
+      },
+      "root_count": 33,
+      "root_eligible": 3,
+      "root_quote_valid": 24,
+      "trials": [
+        {
+          "round": 1,
+          "attempt": 1,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            [
+              "support_not_in_trigger_region"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "rejection": "schema"
+        },
+        {
+          "round": 1,
+          "attempt": 2,
+          "schema_errors": [
+            []
+          ],
+          "card": {
+            "name": "gestational-stage contraindication check",
+            "trigger_any": [
+              "pregnancy_context"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when a gestational stage or pregnancy status is stated; if no stage is given, treat stage-specific contraindications as not-yet-applicable rather than excluding an indicated option. Unknown facts do not imply safety and do not imply harm.",
+            "procedure": "1. Read the stated gestational stage or pregnancy status. 2. For each option, separate indication spans (support use) from contraindication/warning spans (may oppose use); never invert this polarity. 3. Before excluding an otherwise-indicated option, verify the retrieved contraindication actually applies at the stated stage; a contraindication limited to a different stage does not exclude it here. 4. Do not treat absence of a pregnancy-category or pregnancy-safety statement as evidence against an indicated option. 5. If a warning says avoid-unless-necessary and a stage-compatible indicated alternative exists, prefer the alternative. 6. Keep options whose only gap is missing positive pregnancy support.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "medqa_train_1dfc1ce340194dc95c79eb28942261aff7eef35c0d03229c97c8f4b31f33fc1e",
+              "medqa_train_41ef258e46399a8e43c26e55822b877e83bb4f21fa2613358a262eddb273f8d8"
+            ],
+            "counterexample_ids": [
+              "medqa_train_28725d4cdcc65623478f952130d14aab4c8cdabf6dd114b1076c00b7c215bf9e",
+              "medqa_train_0e84ef2b1e90d68cff1906d15dab7a63117c64b0e196a9c035f0d80a3cc6f8d2"
+            ],
+            "counterexample_explanation": "T0041 (16 weeks, wants definitive diagnosis) and T0078 (37 weeks, eclamptic seizure) were correct and must be preserved. The card does not disturb them because neither turns on excluding an indicated drug for lack of a pregnancy-category span: T0041 is a confirmatory-test choice and T0078 is an emergency management step. Step 3 only blocks stage-mismatched exclusions and step 4 only blocks absence-as-evidence reasoning, so both successes pass unchanged; the card never forces a drug selection or overrides a stage-applicable contraindication.",
+            "root_ids": [
+              "medqa_train_1dfc1ce340194dc95c79eb28942261aff7eef35c0d03229c97c8f4b31f33fc1e"
+            ],
+            "trigger_terms": {
+              "pregnancy_context": [
+                "gravida",
+                "weeks gestation"
+              ]
+            }
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 1,
+            "regressions": 0,
+            "net": 1,
+            "changed": 1,
+            "n": 9,
+            "before": 7,
+            "after": 8,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [],
+          "regression_root_hypotheses": [],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 1,
+          "attempt": 3,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            [
+              "support_not_in_trigger_region"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "rejection": "schema"
+        },
+        {
+          "round": 1,
+          "attempt": 4,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            [
+              "missing_procedure",
+              "missing_counterexample_explanation",
+              "invalid_trigger",
+              "use_exactly_one_narrow_trigger",
+              "support_ID_roles",
+              "counterexample_ID_roles",
+              "root_ID_roles"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "rejection": "schema"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "cases_seen": 200,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false,
+      "new_batch": {
+        "n": 100,
+        "correct": 66,
+        "invalid": 0,
+        "calls": 300,
+        "input_tokens": 1234103,
+        "output_tokens": 93622,
+        "logical_cost_usd": 0.33338292800000036,
+        "active_cases": 0,
+        "predictions_sha256": "4f992f1e7af86b89844fc5185ae6a06a873b27d01abec39fa7cc1d449048c4df"
+      },
+      "root_count": 34,
+      "root_eligible": 1,
+      "root_quote_valid": 32,
+      "trials": [
+        {
+          "round": 2,
+          "attempt": 1,
+          "schema_errors": [
+            [
+              "root_ID_roles"
+            ],
+            []
+          ],
+          "card": {
+            "name": "conditional_comorbidity_weighing",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the input conditions management on a stated history/comorbidity; a merely mentioned history that is not tied to treatment choice is out of scope. Unknown facts about other comorbidities do not imply any option is safe.",
+            "procedure": "1. Identify the primary suspected condition and the separately stated conditional factor (history/comorbidity). 2. List candidate actions from the condition's indication, independent of the conditional factor. 3. For each candidate, classify the conditional factor as (a) supporting/indicating, (b) opposing/contraindicating, or (c) neutral; do not merge these roles. 4. Do not let the factor's mere presence select or eliminate an option by itself; require an explicit supporting or opposing relation. 5. If no stated relation exists, keep the option and defer to confirmatory evaluation rather than removing it. 6. Choose the action whose indication holds and whose conditional relation is not opposing.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "57e0b9d5ba3466ae",
+              "5b32d60cfe3e717b",
+              "b77489eb261fd1f9",
+              "f18159d9844fb1e2"
+            ],
+            "counterexample_ids": [
+              "7513cadbbb723fdb",
+              "8713fc96fe0f3527",
+              "cc7d305dcd7c32df",
+              "9823437c9a6e4c8e"
+            ],
+            "counterexample_explanation": "These in-region successes show the correct behavior the procedure must preserve: in T0076 cardiac history is held as an opposing constraint that defers treatment without inventing a selection; in T0063 gout history is weighed as a monitoring/opposing factor without eliminating the leukemia workup; in T0066 absence of a myasthenia span correctly does NOT eliminate antibiotic treatment for the indicated condition; in T0122 prior headache is kept as an opposing-to-anticoagulation factor while the MI indication still drives action. Each separates indication from contraindication rather than collapsing them, which the procedure codifies.",
+            "root_ids": [
+              "medqa_train_3c30873078694d879ef41f26260d3525c9c5b0343d3c3713ad6db24e06cebd77"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 2,
+            "regressions": 3,
+            "net": -1,
+            "changed": 5,
+            "n": 32,
+            "before": 23,
+            "after": 22,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "7513cadbbb723fdb",
+              "focus": "alcohol withdrawal treatment with cardiac comorbidity",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Clonidine is the only listed agent with a recognized role in attenuating autonomic alcohol-withdrawal symptoms (hypertension, tremor, agitation), whereas gabapentin's labeled indications are postherpetic neuralgia and partial-onset seizures and ciprofloxacin is an antibiotic with no withdrawal role. The cardiac history warrants cardiology clearance and caution, but does not make clonidine categorically contraindicated; the doctor's deferral is a safety precaution, not proof of exclusion.",
+                "uncertainty": "No option is fully indicated for alcohol withdrawal in the supplied labels; clonidine is chosen as the most withdrawal-relevant agent pending cardiology evaluation."
+              }
+            },
+            {
+              "id": "medqa_train_907710b83c2ee2a710064321321ee3769ef7676a13d45e7e75ca13193e618d48",
+              "focus": "peripheral arterial disease management prevention morbidity mortality",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "C"
+              ],
+              "decision": {
+                "final": [
+                  "C"
+                ],
+                "evidence": "Severe lifestyle-limiting claudication with absent popliteal/pedal pulses and objective chronic limb ischemia; revascularization (angioplasty) is the definitive management, while pentoxifylline is explicitly not a substitute for definitive therapy and clopidogrel/exercise are adjunctive risk-reduction or symptomatic measures.",
+                "uncertainty": "No label evidence for angioplasty or exercise therapy; choice based on clinical reasoning and the pentoxifylline label's definitive-therapy statement."
+              }
+            },
+            {
+              "id": "medqa_train_55fe6b5e0c7f4f7abb34adfc74abae7e4caafcc4404996a6cce0b8d074f160cf",
+              "focus": "acute hepatitis C infection outcome",
+              "reference": [
+                "A"
+              ],
+              "prediction": [
+                "C"
+              ],
+              "decision": {
+                "final": [
+                  "C"
+                ],
+                "evidence": "Acute hepatitis C with detectable HCV RNA and negative anti-HCV antibody represents early acute infection; without treatment, the most likely outcome is spontaneous clearance/transient infection rather than chronic progressive hepatitis, cirrhosis, or fulminant hepatitis.",
+                "uncertainty": "No source excerpts were provided; assessment relies on standard clinical knowledge of acute HCV prognosis."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "7513cadbbb723fdb",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model selected clonidine because it is the only option with a recognized withdrawal-adjacent role, but the reference selects gabapentin, likely reflecting a clinical preference for gabapentin in alcohol withdrawal with cardiac comorbidity; the supplied label evidence does not support gabapentin for this indication, so the reference may be based on external clinical knowledge rather than the retrieved spans.",
+                "observed_gap": "Reference option B (gabapentin) versus predicted option A (clonidine). The decisive missing condition is a labeled indication for gabapentin in alcohol withdrawal; the retrieved gabapentin label only lists postherpetic neuralgia and partial-onset seizures. The decisive contradicted condition is that clonidine's label warns about arrhythmogenic potential in alcoholic delirium and withdrawal, which the model acknowledged but still selected clonidine.",
+                "reference_status": "insufficient_evidence",
+                "patient_quotes": [
+                  "I used to drink heavily, but I stopped about a week ago.",
+                  "These symptoms started a few days after I stopped drinking.",
+                  "Yeah, I have a heart condition. I had a heart attack a few years ago and I've been taking medication for it ever since."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Gabapentin is indicated for: Management of postherpetic neuralgia in adults Adjunctive therapy in the treatment of partial onset seizures, with and without secondary generalization, in adults and pediatric patients 3 years and older with epilepsy"
+                  },
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Clonidine hydrochloride tablets USP are indicated in the treatment of hypertension."
+                  },
+                  {
+                    "evidence_id": "E16",
+                    "quote": "Based on observations in patients in a state of alcoholic delirium it has been suggested that high intravenous doses of clonidine may increase the arrhythmogenic potential (QT-prolongation, ventricular fibrillation) of hi"
+                  }
+                ],
+                "minimal_process_change": "When the reference selects an option whose retrieved label lacks the target indication, flag the case as insufficient evidence and require external clinical guideline retrieval before final option selection.",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options",
+                  "multiple_medications"
+                ],
+                "counterexample_requirement": "Do not apply this procedure when the reference option is directly supported by a retrieved label indication for the target condition; in that case, the label evidence should be used without requiring external guideline retrieval.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "medqa_train_907710b83c2ee2a710064321321ee3769ef7676a13d45e7e75ca13193e618d48",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model correctly identified the disease and the relevant drug-label indications, but at final option selection it overrode the guideline-based secondary-prevention answer (clopidogrel) with a revascularization option (angioplasty) by treating the pentoxifylline label's 'not intended to replace more definitive therapy' language as if it applied to the question of preventing future MI/stroke. This is a hypothesis: the trace shows the mismatch, but no controlled intervention was run.",
+                "observed_gap": "Reference option B (clopidogrel) versus predicted option C (percutaneous transluminal angioplasty). The decisive condition is the question's explicit goal: 'prevent future morbidity and mortality.' Clopidogrel is directly indicated for established peripheral arterial disease to reduce MI and stroke (E2), whereas the retrieved evidence for angioplasty is absent and the pentoxifylline 'definitive therapy' statement (E1) is about symptom/limb management, not cardiovascular event prevention.",
+                "reference_status": "supported",
+                "patient_quotes": [
+                  "A 58-year-old man comes to the physician because of a 3-month history of intermittent pain in his right calf that occurs after walking up more than 2 flights of stairs.",
+                  "He has smoked 2 packs of cigarettes daily for 30 years and drinks 1 alcoholic beverage daily.",
+                  "He currently takes no medications.",
+                  "blood pressure is 180/110 mm Hg",
+                  "Physical examination shows yellow plaques below the lower eyelids bilaterally, loss of hair on the distal third of the right leg, and brittle toenails on the right foot.",
+                  "Femoral pulses are palpable bilaterally; right popliteal and pedal pulses are absent.",
+                  "Which of the following is the most appropriate management to prevent future morbidity and mortality of this patient's condition?"
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Pentoxifylline extended-release tablets are indicated for the treatment of patients with intermittent claudication on the basis of chronic occlusive arterial disease of the limbs. Pentoxifylline extended-release tablets can improve function and symptoms but is not intended to replace more definitive therapy, such as surgical bypass, or removal of arterial obstructions when treating peripheral vascular disease."
+                  },
+                  {
+                    "evidence_id": "E2",
+                    "quote": "In patients with established peripheral arterial disease or with a history of recent myocardial infarction (MI) or recent stroke clopidogrel tablets are indicated to reduce the rate of MI and stroke."
+                  },
+                  {
+                    "evidence_id": "E4",
+                    "quote": "Recent MI, Recent Stroke, or Established Peripheral Arterial Disease 75 mg once daily orally without a loading dose"
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, require that the selected option be directly supported by a retrieved source span for the question's stated outcome; if the question asks about preventing future morbidity/mortality, prefer an option with an explicit indication for reducing MI/stroke over an option supported only by a statement about not replacing definitive therapy.",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options",
+                  "age_context",
+                  "dose_question"
+                ],
+                "counterexample_requirement": "This procedure must not apply when the question asks about acute limb-threatening ischemia, disabling lifestyle-limiting claudication refractory to medical therapy, or when a retrieved source directly supports revascularization for the stated outcome; in those cases, selecting a revascularization option may be correct and should not be overridden by the presence of a drug indication for secondary prevention.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "medqa_train_55fe6b5e0c7f4f7abb34adfc74abae7e4caafcc4404996a6cce0b8d074f160cf",
+              "root": {
+                "earliest_stage": "rule applicability",
+                "root_hypothesis": "The model applied a general 'acute hepatitis C often spontaneously clears' rule to a jaundiced, symptomatic acute HCV case, but the reference treats symptomatic acute hepatitis C as more likely to become chronic (slowly progressive hepatitis) than to be transient; the mismatch is in which prognostic rule applies to symptomatic vs asymptomatic acute infection.",
+                "observed_gap": "Reference option A ('Slowly progressive hepatitis') versus predicted option C ('Transient infection'). Decisive missing/contradicted condition: the case has symptomatic acute hepatitis C with jaundice and markedly elevated aminotransferases, which makes spontaneous clearance/transient infection less likely than chronic progression; the assessment instead stated 'Most likely outcome of acute hepatitis C without treatment is spontaneous clearance/transient infection' without qualifying by symptom severity.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "A 27-year-old man with a history of intravenous drug use",
+                  "anorexia, nausea, dark urine, and abdominal pain for 2 weeks",
+                  "scleral icterus and right upper quadrant tenderness",
+                  "Alanine aminotransferase 1248 U/L",
+                  "Aspartate aminotransferase 980 U/L",
+                  "hepatitis C virus RNA detected by PCR",
+                  "Without appropriate treatment, which of the following is the most likely outcome of this patient's current condition?"
+                ],
+                "source_quotes": [],
+                "minimal_process_change": "For prognosis questions, require an explicit prognostic-modifier check before selecting an outcome: identify whether the presentation is symptomatic/jaundiced versus asymptomatic, then apply the corresponding natural-history rule rather than a general disease-level rule.",
+                "trigger_features": [
+                  "conditional_question",
+                  "age_context",
+                  "explicit_route",
+                  "short_drug_options"
+                ],
+                "counterexample_requirement": "Do not apply the symptomatic/jaundiced prognostic modifier when the question asks about a different hepatitis virus, a non-hepatitis condition, or when the stem explicitly states asymptomatic acute HCV with normal aminotransferases; in those cases the general spontaneous-clearance rule may remain correct.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 2,
+          "attempt": 2,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            []
+          ],
+          "card": {
+            "name": "conditional_comorbidity_polarity",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Scope limited to cases where a patient-stated comorbidity or prior medication conditions treatment choice; unknown or unstated facts do not imply the comorbidity is absent or that any option is safe.",
+            "procedure": "1. Extract each patient-stated comorbidity or prior medication acting as the conditioning fact. 2. For each candidate option, classify the conditioning fact's relation separately: does it act as an indication (supports use) or a contraindication (opposes use)? Keep these two directions distinct; never convert one into the other. 3. Do not treat a merely unstated or unretrieved fact as proof of absence; absence of evidence must not by itself eliminate an otherwise appropriate option. 4. Select the option whose supporting relation holds while no stated contraindication opposes it. 5. If both an indication and a contraindication are stated for the same option, prefer an option without the stated opposing relation.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "1c4007d0ea2596d9",
+              "b77489eb261fd1f9",
+              "f18159d9844fb1e2"
+            ],
+            "counterexample_ids": [
+              "9823437c9a6e4c8e",
+              "cc7d305dcd7c32df",
+              "6f69e887de6f6aa9",
+              "7513cadbbb723fdb"
+            ],
+            "counterexample_explanation": "T0122 (in-region conditional_question): the stated cardiac history and prior headache correctly act as opposing conditions against antiplatelet/anticoagulant options without the model inventing absence; this success shows contraindication polarity used correctly and must be preserved. T0066 (in-region conditional_question): the stated immunosuppression supports the indication-side reasoning while the explicitly absent myasthenia features are not used to eliminate options, demonstrating the no-false-absence rule. T0095: dual renal/hepatic conditioning facts were correctly held as opposing considerations without inverting an indication. T0076: a stated cardiac comorbidity correctly delayed treatment as an opposing condition; the round-2 edit regressed this by forcing span-based elimination, so preserving its native handling guards against that polarity/absence error.",
+            "root_ids": [
+              "medqa_train_3c30873078694d879ef41f26260d3525c9c5b0343d3c3713ad6db24e06cebd77"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 1,
+            "regressions": 1,
+            "net": 0,
+            "changed": 2,
+            "n": 32,
+            "before": 23,
+            "after": 23,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "9823437c9a6e4c8e",
+              "focus": "myocardial infarction aspirin anticoagulant contraindication headache",
+              "reference": [
+                "C"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Warfarin is the only option with a source-supported indication for reduction of recurrent myocardial infarction and thromboembolic events after MI, matching the patient's prior MI and current suspected recurrent MI. Coreg's post-MI indication requires clinical stability and LVEF ≤40%, which are not established, and the aspirin label is for minor aches/headache rather than acute MI or secondary prevention. The severe headache raises a precaution about anticoagulation, but no supplied excerpt establishes a contraindication, so it does not override the supported indication.",
+                "uncertainty": "High: possible intracranial aneurysm/bleeding makes anticoagulation potentially unsafe, but no source-supported contraindication was provided; acute stability and LVEF are unknown."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "9823437c9a6e4c8e",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model selected the option with the strongest source-supported post-MI indication (warfarin) while treating the possible intracranial bleeding concern as a non-overriding precaution; the reference instead appears to favor aspirin, so the mismatch is between the model's indication-first selection rule and the reference's safety/standard-of-care preference. This is a hypothesis, not a proven causal mechanism.",
+                "observed_gap": "Reference option C (aspirin) versus predicted option A (warfarin). The decisive condition is the patient's recent severe headache with the doctor's concern for possible aneurysm or bleeding in the brain, which makes anticoagulation potentially unsafe; the model explicitly noted this but did not let it override the warfarin indication. The aspirin label retrieved is a minor-analgesic product and does not establish an acute MI or secondary-prevention indication, so the reference is not fully supported by the supplied aspirin spans.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "I had a severe headache a few weeks ago, but I brushed it off as a migraine.",
+                  "I'm also concerned about your history of severe headaches, as it could indicate a potential aneurysm or bleeding in the brain.",
+                  "my initial diagnosis is that you may have had another myocardial infarction, or heart attack."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Reduction in the risk of death, recurrent myocardial infarction, and thromboembolic events such as stroke or systemic embolization after myocardial infarction (1)"
+                  },
+                  {
+                    "evidence_id": "E4",
+                    "quote": "therapy with combined moderate-intensity (INR, 2.0 to 3.0) warfarin plus low-dose aspirin (≤100 mg/day) for at least 3 months after the MI is recommended"
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Uses temporarily relieves minor aches and pains due to: minor pain from arthritis headache menstrual pain toothache muscle pain a cold or as recommended by your doctor"
+                  },
+                  {
+                    "evidence_id": "E9",
+                    "quote": "Stomach bleeding warning: This product contains an NSAID, which may cause severe stomach bleeding."
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, require an explicit safety-override check: if any input feature suggests active or possible bleeding risk, the system must not select an anticoagulant unless a retrieved span directly supports use in that setting; if no such span exists, it must flag the decision as unresolved rather than defaulting to the strongest indication match.",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options"
+                ],
+                "counterexample_requirement": "This safety-override check must not apply when the bleeding concern is absent, resolved, or explicitly excluded by the input, or when a retrieved source span directly supports anticoagulation in the specific bleeding-risk context; in those cases the previously correct indication-based selection should remain unchanged.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 2,
+          "attempt": 3,
+          "schema_errors": [
+            [
+              "root_ID_roles"
+            ],
+            []
+          ],
+          "card": {
+            "name": "carry_conditional_constraint",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only when the stem poses a 'given/considering X' conditional; unknown whether X opposes use does not make the option safe nor does it eliminate a treatment lacking an opposing span.",
+            "procedure": "1. Extract the conditioning clause the stem ties the choice to (the 'given/considering' patient fact). 2. For each candidate option, check two things separately: does retrieved evidence support use for the stated goal, and does the conditioning fact appear as something that opposes that use. 3. Keep an option supported for the goal even if no span mentions the conditioning fact; absence of an opposing span is not an opposing fact. 4. Demote an option only when an opposing fact is explicitly present for the stated goal. 5. If support and opposition conflict and neither is resolvable from evidence, prefer the option whose support matches the stem's stated outcome; do not default to unconditioned selection.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "1c4007d0ea2596d9",
+              "57e0b9d5ba3466ae"
+            ],
+            "counterexample_ids": [
+              "d291f5ada4d5aac4",
+              "3d31bc26f718ef99"
+            ],
+            "counterexample_explanation": "T0052 (diabetes on metformin) and T0093 (lichen planus with hypothyroidism) were correct because the conditioning fact was a monitoring modifier, not an opposing fact; the procedure must preserve these by requiring an EXPLICIT opposing fact before demoting an option, so it will not newly flag or remove the valid treatment in either case. T0093 lies inside the triggered region and shows comorbidity treated as modifier without polarity inversion.",
+            "root_ids": [
+              "medqa_train_3c30873078694d879ef41f26260d3525c9c5b0343d3c3713ad6db24e06cebd77"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 0,
+            "regressions": 2,
+            "net": -2,
+            "changed": 2,
+            "n": 32,
+            "before": 23,
+            "after": 21,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "medqa_train_55fe6b5e0c7f4f7abb34adfc74abae7e4caafcc4404996a6cce0b8d074f160cf",
+              "focus": "acute hepatitis C infection outcome",
+              "reference": [
+                "A"
+              ],
+              "prediction": [
+                "C"
+              ],
+              "decision": {
+                "final": [
+                  "C"
+                ],
+                "evidence": "Acute hepatitis C with symptomatic icteric presentation and HCV RNA detected but anti-HCV negative is most likely to be a transient infection with spontaneous clearance; chronic progression and cirrhosis are less likely early outcomes, and fulminant hepatitis is rare.",
+                "uncertainty": "No source excerpts were provided; decision based on standard clinical prognosis of acute HCV."
+              }
+            },
+            {
+              "id": "7513cadbbb723fdb",
+              "focus": "alcohol withdrawal treatment with cardiac comorbidity",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Clonidine is the only option with a plausible role in alcohol withdrawal (sympatholytic, reduces tremor/anxiety/sweating); gabapentin and ciprofloxacin have no labeled or retrieved support for this indication. The clonidine label's arrhythmogenic warning concerns high IV doses in alcoholic delirium, a precaution consistent with the doctor's cardiology referral rather than an absolute contraindication.",
+                "uncertainty": "Oral clonidine's cardiac safety in this post-MI patient remains uncertain pending cardiology evaluation."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "medqa_train_55fe6b5e0c7f4f7abb34adfc74abae7e4caafcc4404996a6cce0b8d074f160cf",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model applied a general 'symptomatic/icteric acute HCV often clears spontaneously' heuristic and selected the transient-infection option, but the question asks for the most likely outcome without treatment in a patient with acute HCV; the recorded assessment itself notes the reference option is 'not the most likely outcome,' indicating the option-selection step overrode the question's prognostic framing rather than a retrieval or entity error.",
+                "observed_gap": "Reference option A ('Slowly progressive hepatitis') versus predicted option C ('Transient infection'); the decisive condition is the question's explicit 'without appropriate treatment' prognostic framing, which the assessment contradicts by calling option A 'not the most likely outcome' while still selecting C.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "A 27-year-old man with a history of intravenous drug use",
+                  "anorexia, nausea, dark urine, and abdominal pain for 2 weeks",
+                  "scleral icterus and right upper quadrant tenderness",
+                  "Alanine aminotransferase 1248 U/L",
+                  "Aspartate aminotransferase 980 U/L",
+                  "Hepatitis B surface antigen negative",
+                  "Anti-hepatitis B surface antibody positive",
+                  "Anti-hepatitis C antibody negative",
+                  "hepatitis C virus RNA detected by PCR",
+                  "Without appropriate treatment, which of the following is the most likely outcome of this patient's current condition?"
+                ],
+                "source_quotes": [],
+                "minimal_process_change": "Before final option selection, require an explicit reconciliation step that maps the question's prognostic qualifier (for example, 'without treatment' or 'most likely outcome') to the option chosen, and flags any option whose recorded assessment contains a negation or contradiction of that option.",
+                "trigger_features": [
+                  "conditional_question",
+                  "statement_options",
+                  "age_context"
+                ],
+                "counterexample_requirement": "Do not apply this reconciliation change when the question asks for the best next step, diagnosis, or treatment rather than a natural-history/prognosis outcome, or when the selected option's assessment contains no contradiction.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "7513cadbbb723fdb",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model selected clonidine (A) as the only option with a plausible role in alcohol withdrawal, but the reference option gabapentin (B) is not supported by the retrieved label indications; the mismatch may reflect a training reference that is not grounded in the provided product evidence, or a missing evidence source for gabapentin in alcohol withdrawal.",
+                "observed_gap": "Reference option B (gabapentin) versus predicted option A (clonidine). The decisive missing condition is any retrieved evidence that gabapentin is indicated for alcohol withdrawal; the retrieved gabapentin label only lists postherpetic neuralgia and partial-onset seizures. Conversely, clonidine's retrieved label warns about arrhythmogenic potential in alcoholic delirium, which the model treated as a precaution rather than a contraindication.",
+                "reference_status": "insufficient_evidence",
+                "patient_quotes": [
+                  "I used to drink heavily, but I stopped about a week ago.",
+                  "These symptoms started a few days after I stopped drinking.",
+                  "Yeah, I have a heart condition. I had a heart attack a few years ago and I've been taking medication for it ever since."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Gabapentin is indicated for: Management of postherpetic neuralgia in adults Adjunctive therapy in the treatment of partial onset seizures, with and without secondary generalization, in adults and pediatric patients 3 years and older with epilepsy"
+                  },
+                  {
+                    "evidence_id": "E16",
+                    "quote": "Based on observations in patients in a state of alcoholic delirium it has been suggested that high intravenous doses of clonidine may increase the arrhythmogenic potential (QT-prolongation, ventricular fibrillation) of hi"
+                  },
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Clonidine hydrochloride tablets USP are indicated in the treatment of hypertension."
+                  }
+                ],
+                "minimal_process_change": "When the reference option is not supported by any retrieved indication or safety span for the target condition, flag the item as insufficient evidence and require retrieval of an explicit source for the reference option before final option selection.",
+                "trigger_features": [
+                  "short_drug_options",
+                  "conditional_question"
+                ],
+                "counterexample_requirement": "Do not apply this flag when the reference option is supported by a retrieved label span for the target condition, or when the question is a dose, interaction, or safety question where the reference option is supported by a relevant warning or dosing span.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 2,
+          "attempt": 4,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            []
+          ],
+          "card": {
+            "name": "confirmed_vs_suspected_gate",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Applies only to items whose framing hedges a factor as suspected, historical, or to-be-confirmed; when the input states a factor as present and active this gate adds nothing and must not fire. Unknown confirmation status does not imply the factor is safe to ignore or decisive.",
+            "procedure": "1. Identify each clinical factor the input raises (comorbidity, prior condition, family history, pending test). 2. Label each as CONFIRMED-ACTIVE, HISTORICAL-RESOLVED, or SUSPECTED-UNCONFIRMED using the input's own wording (e.g. rule out, possible, past, family history). 3. Do not let a HISTORICAL-RESOLVED or SUSPECTED-UNCONFIRMED factor act as if CONFIRMED when weighing options; and do not downgrade a CONFIRMED-ACTIVE factor to suspected. 4. Keep indication polarity for indications and contraindication polarity for contraindications unchanged. 5. If the decisive factor's status stays genuinely unresolved after step 2, prefer the option consistent with the question's explicit qualifier rather than the strongest single match.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "1c4007d0ea2596d9",
+              "57e0b9d5ba3466ae"
+            ],
+            "counterexample_ids": [
+              "3d31bc26f718ef99",
+              "cc7d305dcd7c32df"
+            ],
+            "counterexample_explanation": "T0093 (lichen planus with hypothyroidism) and T0066 (febrile neutropenia with prior weakened immunity) are in-region conditional_question successes that already correctly label a comorbidity/history as a monitoring factor rather than a decisive confirmed contraindication. The gate restates exactly that observed-correct behavior, so it must not alter them: both keep status labels matching the input wording and do not override selection. They anchor that the repair is status-labeling only, not a new override or polarity flip.",
+            "root_ids": [
+              "medqa_train_3c30873078694d879ef41f26260d3525c9c5b0343d3c3713ad6db24e06cebd77"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 1,
+            "regressions": 3,
+            "net": -2,
+            "changed": 4,
+            "n": 32,
+            "before": 23,
+            "after": 21,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "medqa_train_907710b83c2ee2a710064321321ee3769ef7676a13d45e7e75ca13193e618d48",
+              "focus": "peripheral arterial disease management prevention morbidity mortality",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "C"
+              ],
+              "decision": {
+                "final": [
+                  "C"
+                ],
+                "evidence": "Severe symptomatic PAD with absent popliteal/pedal pulses and markedly elevated BP; angioplasty is the definitive revascularization option, while pentoxifylline is explicitly not a substitute for definitive therapy and clopidogrel/exercise are adjunctive.",
+                "uncertainty": "No label evidence for angioplasty or exercise; choice based on clinical scenario and stated drug-label limitations."
+              }
+            },
+            {
+              "id": "medqa_train_55fe6b5e0c7f4f7abb34adfc74abae7e4caafcc4404996a6cce0b8d074f160cf",
+              "focus": "acute hepatitis C infection outcome",
+              "reference": [
+                "A"
+              ],
+              "prediction": [
+                "C"
+              ],
+              "decision": {
+                "final": [
+                  "C"
+                ],
+                "evidence": "Acute hepatitis C with jaundice is most often self-limited; spontaneous clearance occurs in a substantial proportion, so transient infection is the most likely outcome without treatment.",
+                "uncertainty": "No source excerpts were provided; assessment relies on standard clinical knowledge of acute HCV prognosis."
+              }
+            },
+            {
+              "id": "7513cadbbb723fdb",
+              "focus": "alcohol withdrawal treatment with cardiac comorbidity",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Alcohol withdrawal with autonomic hyperactivity/tremor is best treated among these by clonidine, an alpha-2 agonist; gabapentin lacks a withdrawal indication in the supplied label and ciprofloxacin is an antibiotic with no role here. Cardiac risk remains a reason for the doctor's cardiology referral, not a reason to choose an unrelated drug.",
+                "uncertainty": "No option has a labeled alcohol-withdrawal indication; clonidine is chosen on clinical relevance, with cardiac safety unresolved pending cardiology."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "medqa_train_907710b83c2ee2a710064321321ee3769ef7676a13d45e7e75ca13193e618d48",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model treated the question as asking for definitive revascularization of a flow-limiting lesion rather than the guideline-recommended antithrombotic therapy to prevent future MI/stroke in established PAD; it used the drug-label limitation language ('not intended to replace more definitive therapy') to reject clopidogrel even though clopidogrel's label directly supports its use for this prevention goal.",
+                "observed_gap": "Reference option B (clopidogrel) versus predicted option C (percutaneous transluminal angioplasty). The decisive condition is the question's explicit prevention goal: clopidogrel is indicated 'to reduce the rate of MI and stroke' in established PAD, while the model instead selected angioplasty based on absent popliteal/pedal pulses and severe hypertension, a condition not directly stated as the question's target.",
+                "reference_status": "supported",
+                "patient_quotes": [
+                  "A 58-year-old man comes to the physician because of a 3-month history of intermittent pain in his right calf that occurs after walking up more than 2 flights of stairs.",
+                  "Femoral pulses are palpable bilaterally; right popliteal and pedal pulses are absent.",
+                  "Which of the following is the most appropriate management to prevent future morbidity and mortality of this patient's condition?"
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E2",
+                    "quote": "In patients with established peripheral arterial disease or with a history of recent myocardial infarction (MI) or recent stroke clopidogrel tablets are indicated to reduce the rate of MI and stroke."
+                  },
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Pentoxifylline extended-release tablets can improve function and symptoms but is not intended to replace more definitive therapy, such as surgical bypass, or removal of arterial obstructions when treating peripheral vascular disease."
+                  }
+                ],
+                "minimal_process_change": "For questions asking for management to prevent future morbidity/mortality, require the selected option to be directly supported by a retrieved indication or guideline span for that prevention outcome; if the only supporting evidence is a limitation statement about another option, do not select an option lacking direct prevention evidence.",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options",
+                  "age_context"
+                ],
+                "counterexample_requirement": "Do not apply this procedure when the question explicitly asks for immediate revascularization, acute limb ischemia, or definitive treatment of a flow-limiting lesion; in those cases, a procedure option may be correct even without a drug-label prevention indication.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "medqa_train_55fe6b5e0c7f4f7abb34adfc74abae7e4caafcc4404996a6cce0b8d074f160cf",
+              "root": {
+                "earliest_stage": "rule applicability",
+                "root_hypothesis": "The recorded assessment applied a general 'acute HCV is usually self-limited' rule to a jaundiced acute HCV case without conditioning on the observed icteric presentation, which is the feature that shifts the expected untreated outcome toward the reference option.",
+                "observed_gap": "Reference option A ('Slowly progressive hepatitis') versus predicted option C ('Transient infection'); the decisive missing condition is any explicit rule or evidence linking jaundice/icteric acute HCV to a slowly progressive rather than transient untreated course.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "A 27-year-old man with a history of intravenous drug use",
+                  "anorexia, nausea, dark urine, and abdominal pain for 2 weeks",
+                  "scleral icterus and right upper quadrant tenderness",
+                  "Alanine aminotransferase 1248 U/L",
+                  "Aspartate aminotransferase 980 U/L",
+                  "hepatitis C virus RNA detected by PCR",
+                  "Without appropriate treatment, which of the following is the most likely outcome of this patient's current condition?"
+                ],
+                "source_quotes": [],
+                "minimal_process_change": "Before final option selection, require an explicit applicability check that maps each observed clinical modifier (for example, jaundice, symptom duration, route of acquisition) to the specific prognostic rule being used, and flag the decision when the rule was selected without any retrieved span or stated criterion covering that modifier.",
+                "trigger_features": [
+                  "age_context",
+                  "conditional_question",
+                  "explicit_route",
+                  "short_drug_options"
+                ],
+                "counterexample_requirement": "Do not apply this extra applicability check when the question is a straightforward factual or dosing query with no prognostic modifier, or when the existing rule already explicitly covers the observed modifier and previously produced the correct option.",
+                "confidence": "low"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "7513cadbbb723fdb",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model selected clonidine (A) by matching the clinical syndrome of alcohol withdrawal to clonidine's known off-label alpha-2 agonist role, rather than matching the question's cardiac-comorbidity safety constraint to the option whose label lacks a cardiac hazard. The retrieved clonidine spans (E1, E2, E6, E7, E11, E12, E16) contain no alcohol-withdrawal indication and instead carry withdrawal-rebound and arrhythmogenic warnings, while the gabapentin spans (E3, E8, E13, E18) contain no cardiac contraindication. The model treated the cardiology referral as a reason to still pick clonidine, inverting the safety signal.",
+                "observed_gap": "Reference B (gabapentin) versus predicted A (clonidine). Decisive missing condition: no retrieved span supports clonidine for alcohol withdrawal, and E16 explicitly warns that high IV clonidine may increase arrhythmogenic potential in alcoholic delirium, directly contradicting the choice in a patient with prior MI. Gabapentin's label (E3) also lacks a withdrawal indication, so the reference is not label-supported either; the discriminator is the absence of a cardiac hazard for gabapentin versus its presence for clonidine.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "I used to drink heavily, but I stopped about a week ago.",
+                  "These symptoms started a few days after I stopped drinking.",
+                  "Yeah, I have a heart condition. I had a heart attack a few years ago and I've been taking medication for it ever since.",
+                  "I'm going to recommend that you see a cardiologist before we start any treatment plan."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E16",
+                    "quote": "Based on observations in patients in a state of alcoholic delirium it has been suggested that high intravenous doses of clonidine may increase the arrhythmogenic potential (QT-prolongation, ventricular fibrillation) of hi"
+                  },
+                  {
+                    "evidence_id": "E1",
+                    "quote": "INDICATIONS AND USAGE Clonidine hydrochloride tablets USP are indicated in the treatment of hypertension."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "1 INDICATIONS AND USAGE Gabapentin is indicated for: Management of postherpetic neuralgia in adults Adjunctive therapy in the treatment of partial onset seizures, with and without secondary generalization, in adults and pediatric patients 3 years and older with epilepsy"
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, run a mandatory safety-constraint check: for each candidate option, retrieve its contraindications, warnings, and drug-interaction spans and flag any span that names the patient's stated comorbidity or a related hazard; if a candidate has a hazard span tied to the comorbidity and another candidate has none, prefer the candidate without the hazard span unless a labeled indication for the target condition exists for the hazard-bearing option.",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options",
+                  "multiple_medications"
+                ],
+                "counterexample_requirement": "Do not apply this safety-constraint override when the hazard-bearing option has a labeled or guideline-supported indication for the target condition and the alternative has a contraindication or black-box warning for the same comorbidity; in that case the hazard-bearing option may remain correct. Also do not apply when the comorbidity is historical and resolved with no active risk, or when the hazard span is dose- or route-specific and the question specifies a different safe route/dose.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "cases_seen": 300,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false,
+      "new_batch": {
+        "n": 100,
+        "correct": 69,
+        "invalid": 0,
+        "calls": 300,
+        "input_tokens": 1200105,
+        "output_tokens": 97182,
+        "logical_cost_usd": 0.33055006400000003,
+        "active_cases": 0,
+        "predictions_sha256": "6cf7f3101e761ba5fb3e64c96bb3601f91ee8cfd0ac01cc4002ce2ca9b109f2e"
+      },
+      "root_count": 31,
+      "root_eligible": 1,
+      "root_quote_valid": 27,
+      "trials": [
+        {
+          "round": 3,
+          "attempt": 1,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            [
+              "missing_card"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "rejection": "schema"
+        },
+        {
+          "round": 3,
+          "attempt": 2,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            [
+              "missing_procedure",
+              "support_ID_roles",
+              "counterexample_ID_roles",
+              "root_ID_roles"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "rejection": "schema"
+        },
+        {
+          "round": 3,
+          "attempt": 3,
+          "schema_errors": [
+            [
+              "root_ID_roles"
+            ],
+            []
+          ],
+          "card": {
+            "name": "conditional-factor-polarity",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [],
+            "exclude_reason": "Fires only when the dialogue poses a treatment choice conditioned on a stated patient factor; an unstated or merely absent factor does not count as present and does not by itself make any option safe.",
+            "procedure": "1. Identify the explicitly stated conditioning factor and the candidate treatment set. 2. For each candidate, separate evidence that supports use (matching indication) from evidence that opposes use (matching contraindication); keep these polarities distinct. 3. A stated factor that only requires monitoring or dose caution modulates the choice but does not eliminate an otherwise indicated option. 4. Do not treat absence of a contraindication span as authorization, and do not treat presence of a factor label as automatic exclusion. 5. If the factor is only implied, flag uncertainty and retain candidates pending confirmation rather than removing them. 6. Select the option best fitting indication while respecting genuine contraindications.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "fde8e0331e102314",
+              "f18159d9844fb1e2"
+            ],
+            "counterexample_ids": [
+              "3d31bc26f718ef99",
+              "18128c8613ed2704"
+            ],
+            "counterexample_explanation": "T0093 (in-region) correctly keeps the indicated management path while treating the comorbidity as a complicating factor to monitor, not an exclusion; preserving it guards against the procedure over-pruning candidates. T0269 (in-region) handles a mild renal finding as a monitoring caution without eliminating treatment, demonstrating the modulate-not-eliminate polarity the fix must not break.",
+            "root_ids": [
+              "medqa_train_3b64e8fad635a39ff99672f274110975de706e2ab69f47ca72f6498359fcbb8f"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 1,
+            "regressions": 1,
+            "net": 0,
+            "changed": 3,
+            "n": 32,
+            "before": 24,
+            "after": 24,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "medqa_train_907710b83c2ee2a710064321321ee3769ef7676a13d45e7e75ca13193e618d48",
+              "focus": "peripheral arterial disease management prevention morbidity mortality",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "C"
+              ],
+              "decision": {
+                "final": [
+                  "C"
+                ],
+                "evidence": "Severe symptomatic peripheral arterial disease with absent right popliteal/pedal pulses and markedly elevated blood pressure; revascularization by percutaneous transluminal angioplasty is the most definitive option to improve limb perfusion and prevent future morbidity/mortality, whereas pentoxifylline, clopidogrel, and graded exercise are symptom-directed or adjunctive and do not address the flow-limiting lesion.",
+                "uncertainty": "No label evidence was available for angioplasty or graded exercise; selection is based on the clinical presentation and comparative limitations of the drug options."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "medqa_train_907710b83c2ee2a710064321321ee3769ef7676a13d45e7e75ca13193e618d48",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model treated the question as asking for the most definitive procedural revascularization for severe symptomatic peripheral arterial disease, rather than as a drug-selection question about preventing future MI/stroke in established PAD; it therefore selected angioplasty (C) over clopidogrel (B) despite retrieved label evidence supporting clopidogrel for established PAD.",
+                "observed_gap": "Reference option B (clopidogrel) versus predicted option C (percutaneous transluminal angioplasty). The decisive contradicted condition is the model's own assessment that clopidogrel is indicated for established peripheral arterial disease to reduce MI and stroke, while the final decision dismissed it as not treating the flow-limiting lesion or severe hypertension. The question asks for management to prevent future morbidity and mortality, and the retrieved clopidogrel label explicitly supports use in established PAD to reduce MI and stroke.",
+                "reference_status": "supported",
+                "patient_quotes": [
+                  "A 58-year-old man comes to the physician because of a 3-month history of intermittent pain in his right calf that occurs after walking up more than 2 flights of stairs.",
+                  "He has smoked 2 packs of cigarettes daily for 30 years and drinks 1 alcoholic beverage daily.",
+                  "He currently takes no medications.",
+                  "blood pressure is 180/110 mm Hg",
+                  "Physical examination shows yellow plaques below the lower eyelids bilaterally, loss of hair on the distal third of the right leg, and brittle toenails on the right foot.",
+                  "Femoral pulses are palpable bilaterally; right popliteal and pedal pulses are absent.",
+                  "Which of the following is the most appropriate management to prevent future morbidity and mortality of this patient's condition?"
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E2",
+                    "quote": "In patients with established peripheral arterial disease or with a history of recent myocardial infarction (MI) or recent stroke clopidogrel tablets are indicated to reduce the rate of MI and stroke."
+                  },
+                  {
+                    "evidence_id": "E4",
+                    "quote": "2 Recent MI, Recent Stroke, or Established Peripheral Arterial Disease 75 mg once daily orally without a loading dose"
+                  },
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Pentoxifylline extended-release tablets are indicated for the treatment of patients with intermittent claudication on the basis of chronic occlusive arterial disease of the limbs. Pentoxifylline extended-release tablets can improve function and symptoms but is not intended to replace more definitive therapy, such as surgical bypass, or removal of arterial obstructions when treating peripheral vascular disease."
+                  }
+                ],
+                "minimal_process_change": "For questions asking for management to prevent future morbidity/mortality in a condition with a specific drug indication, require the final selection to be justified against the retrieved indication span for each drug option before choosing a procedure or non-drug option; if a drug option has a label indication matching the condition and the question asks for prevention of future events, the procedure option must be explicitly compared against that indication rather than dismissed for not treating the flow-limiting lesion.",
+                "trigger_features": [
+                  "dose_question",
+                  "age_context",
+                  "conditional_question",
+                  "short_drug_options"
+                ],
+                "counterexample_requirement": "This procedure must not apply when the question explicitly asks for immediate revascularization, acute limb ischemia, or a procedure-specific management decision, or when the drug option is contraindicated, unavailable, or not indicated for the patient's condition; in those cases, a procedure or non-drug option may remain correct.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        },
+        {
+          "round": 3,
+          "attempt": 4,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            []
+          ],
+          "card": {
+            "name": "compare_indication_before_excluding",
+            "trigger_any": [
+              "conditional_question"
+            ],
+            "exclude_any": [
+              "explicit_route"
+            ],
+            "exclude_reason": "When a specific administration route is already fixed by the question, the open comparison among candidate options is constrained differently; absence of a route span must not eliminate a treatment, so route-fixed items fall outside this comparison procedure.",
+            "procedure": "1. Identify the patient-stated condition and the stated goal of the conditional question (e.g., prevent future events vs. acute management). 2. For each candidate option, retrieve its indication span and any contraindication span. 3. If an option's indication span matches the stated condition and goal, keep it eligible; do not discard it merely because another option addresses a mechanical or anatomical lesion. 4. Treat a contraindication span as opposing use only for that patient's stated feature; do not invert an indication into a contraindication. 5. If no retrieved span addresses an option, mark it unresolved rather than eliminated. 6. Choose among still-eligible options by matching the question's stated goal, not by presence of a label span alone.",
+            "retrieval_patch": {},
+            "support_ids": [
+              "1c4007d0ea2596d9",
+              "75f62ff4b1195cd5",
+              "b77489eb261fd1f9",
+              "fde8e0331e102314"
+            ],
+            "counterexample_ids": [
+              "3682f3f5a845b7f9",
+              "3d31bc26f718ef99",
+              "0b882164fc7166eb",
+              "18128c8613ed2704"
+            ],
+            "counterexample_explanation": "T0297 and T0093 are in-region conditional_question successes where the model correctly kept a condition-matched option eligible while acknowledging a co-existing factor (calcium monitoring; hypothyroidism) without letting that factor eliminate the indicated treatment — exactly the preserved behavior the procedure encodes (step 4/5). T0273 and T0269 are successes where a stated contraindication/comorbidity (hypocalcemia; mild kidney stones) was correctly treated as patient-conditioned caution rather than an inversion of indication, matching step 4. Preserving these ensures the procedure does not over-fire into discarding safe, indicated options whenever any comorbidity span appears.",
+            "root_ids": [
+              "medqa_train_3b64e8fad635a39ff99672f274110975de706e2ab69f47ca72f6498359fcbb8f"
+            ]
+          },
+          "accepted": false,
+          "probe": {
+            "fixes": 0,
+            "regressions": 3,
+            "net": -3,
+            "changed": 3,
+            "n": 32,
+            "before": 24,
+            "after": 21,
+            "invalid_before": 0,
+            "invalid_after": 0
+          },
+          "observed_regression_summaries": [
+            {
+              "id": "3019822515c97b2a",
+              "focus": "osteoporosis with high calcium, Avastin interaction",
+              "reference": [
+                "A"
+              ],
+              "prediction": [
+                "B"
+              ],
+              "decision": {
+                "final": [
+                  "B"
+                ],
+                "evidence": "Zoledronic acid (Reclast) is labeled for treatment of osteoporosis, matching the patient's MRI-confirmed osteoporosis; Xgeva is not indicated for osteoporosis and amoxicillin is an antibiotic with no role here.",
+                "uncertainty": "Renal function and whether the hypercalcemia is malignancy-related are not provided; zoledronic acid requires creatinine clearance assessment before use."
+              }
+            },
+            {
+              "id": "7513cadbbb723fdb",
+              "focus": "alcohol withdrawal treatment with cardiac comorbidity",
+              "reference": [
+                "B"
+              ],
+              "prediction": [
+                "A"
+              ],
+              "decision": {
+                "final": [
+                  "A"
+                ],
+                "evidence": "Among the choices, clonidine is the only medication with a plausible role in managing alcohol withdrawal symptoms; gabapentin and ciprofloxacin have no labeled indication for alcohol withdrawal. Cardiac comorbidity warrants caution and cardiology input, but does not make clonidine the wrong selection here.",
+                "uncertainty": "Clonidine is not FDA-labeled for alcohol withdrawal, and its use in a patient with prior myocardial infarction requires careful monitoring."
+              }
+            },
+            {
+              "id": "52e2bc59eca07a3a",
+              "focus": "rheumatoid arthritis osteoarthritis prednisone treatment",
+              "reference": [
+                "C"
+              ],
+              "prediction": [
+                "B"
+              ],
+              "decision": {
+                "final": [
+                  "B"
+                ],
+                "evidence": "Methotrexate is specifically indicated for rheumatoid arthritis and is a disease-modifying antirheumatic drug, making it the most appropriate option for the doctor's suspected rheumatoid arthritis; indomethacin/Indocin are only symptomatic NSAIDs with GI/renal risk, especially alongside prednisone.",
+                "uncertainty": "Diagnosis is not yet confirmed; choice is based on best-supported option for suspected rheumatoid arthritis."
+              }
+            }
+          ],
+          "regression_root_hypotheses": [
+            {
+              "case_id": "3019822515c97b2a",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model selected zoledronic acid (Reclast) as the osteoporosis-indicated bisphosphonate, but the reference option A (Xgeva/denosumab) is the agent whose label explicitly covers hypercalcemia of malignancy and skeletal-related events in a patient on bevacizumab for cancer; the model treated the high calcium as incidental to osteoporosis rather than as the malignancy-related hypercalcemia that drives the reference choice.",
+                "observed_gap": "Reference option A (Xgeva) versus predicted option B (zoledronic acid). Decisive missing condition: the input never states the hypercalcemia is refractory to bisphosphonates, which is the explicit Xgeva indication (E1); the model correctly noted this gap but still chose B. The reference is therefore not fully supported by the retrieved spans as a clean indication match.",
+                "reference_status": "insufficient_evidence",
+                "patient_quotes": [
+                  "I've been experiencing some bone pain and weakness, especially in my hips and spine.",
+                  "it showed some signs of osteoporosis",
+                  "I have a high calcium level in my blood",
+                  "I'm taking Avastin (bevacizumab) for my cancer treatment"
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Treatment of hypercalcemia of malignancy refractory to bisphosphonate therapy."
+                  },
+                  {
+                    "evidence_id": "E2",
+                    "quote": "1.3 Osteoporosis in Men Reclast is indicated for treatment to increase bone mass in men with osteoporosis"
+                  },
+                  {
+                    "evidence_id": "E5",
+                    "quote": "Reclast is contraindicated in patients with creatinine clearance less than 35 mL/min and in those with evidence of acute renal impairment."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Amoxicillin is indicated in the treatment of infections due to susceptible (ONLY β-lactamase–negative) isolates"
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, require an explicit check that the patient's stated condition matches the exact labeled indication qualifier (e.g., 'refractory to bisphosphonate therapy') for each candidate product, and flag any option whose label indication is only partially matched as insufficient evidence rather than selecting the closest fit.",
+                "trigger_features": [
+                  "interaction_question",
+                  "conditional_question",
+                  "short_drug_options",
+                  "multiple_medications"
+                ],
+                "counterexample_requirement": "This procedure must not override a previously correct decision when the patient's condition is unambiguously and fully matched to a single option's labeled indication with no missing qualifier; in that case the exact-match check should confirm, not change, the selection.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "7513cadbbb723fdb",
+              "root": {
+                "earliest_stage": "entity/product selection",
+                "root_hypothesis": "The model selected clonidine as the only option with a plausible role in alcohol withdrawal, but the reference selects gabapentin; the observed mismatch is that the model's selection was driven by an off-label clinical association rather than by the retrieved label indications, and the decisive condition for gabapentin (an off-label but guideline-supported use in alcohol withdrawal) is absent from the retrieved spans.",
+                "observed_gap": "Reference option B (gabapentin) versus predicted option A (clonidine). The decisive missing condition is any retrieved label evidence supporting gabapentin for alcohol withdrawal; the retrieved gabapentin indication span only lists postherpetic neuralgia and partial-onset seizures. The decisive contradicted condition is that clonidine's retrieved label indications are hypertension only, and its warnings include withdrawal reactions and arrhythmogenic potential in alcoholic delirium, which the model treated as a caution rather than a disqualifier.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "I used to drink heavily, but I stopped about a week ago.",
+                  "These symptoms started a few days after I stopped drinking.",
+                  "Yeah, I have a heart condition. I had a heart attack a few years ago and I've been taking medication for it ever since."
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E1",
+                    "quote": "Clonidine hydrochloride tablets USP are indicated in the treatment of hypertension."
+                  },
+                  {
+                    "evidence_id": "E3",
+                    "quote": "Gabapentin is indicated for: Management of postherpetic neuralgia in adults Adjunctive therapy in the treatment of partial onset seizures, with and without secondary generalization, in adults and pediatric patients 3 years and older with epilepsy"
+                  },
+                  {
+                    "evidence_id": "E11",
+                    "quote": "Sudden cessation of clonidine treatment has, in some cases, resulted in symptoms such as nervousness, agitation, headache, and tremor accompanied or followed by a rapid rise in blood pressure and elevated catecholamine concentrations in the plasma."
+                  },
+                  {
+                    "evidence_id": "E16",
+                    "quote": "Based on observations in patients in a state of alcoholic delirium it has been suggested that high intravenous doses of clonidine may increase the arrhythmogenic potential (QT-prolongation, ventricular fibrillation) of hi"
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, require that the selected medication have at least one retrieved label span that explicitly names the target condition or a recognized synonym; if no option meets this, mark the item as insufficient evidence rather than selecting the least implausible option.",
+                "trigger_features": [
+                  "conditional_question",
+                  "short_drug_options",
+                  "multiple_medications"
+                ],
+                "counterexample_requirement": "Do not apply this procedure when the question is explicitly asking for an off-label or guideline-based choice and the reference is known to be off-label; in that case, a label-indication match is not required and the procedure must not override a previously correct off-label selection.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            },
+            {
+              "case_id": "52e2bc59eca07a3a",
+              "root": {
+                "earliest_stage": "final option selection",
+                "root_hypothesis": "The model treated the question as a disease-modifying antirheumatic drug selection task for suspected rheumatoid arthritis and selected methotrexate, while the observed reference selected indomethacin; the mismatch is at final option selection rather than entity/product retrieval or rule applicability.",
+                "observed_gap": "Reference option C (indomethacin) versus predicted option B (methotrexate). The decisive missing condition is an explicit instruction or clinical criterion in the input that would make methotrexate preferred over indomethacin; the input only states a suspected diagnosis of rheumatoid arthritis or osteoarthritis and current prednisone use, and the retrieved methotrexate spans require severe active RA with intolerance or inadequate response to first-line therapy, which is not documented.",
+                "reference_status": "ambiguous",
+                "patient_quotes": [
+                  "I've been experiencing severe joint pain and swelling, especially in my knees and ankles. Sometimes the pain is so unbearable that I can barely walk.",
+                  "I've been taking prednisone for a few weeks now. My primary doctor prescribed it for a different condition",
+                  "my initial diagnosis is that you may be experiencing a form of rheumatoid arthritis or osteoarthritis",
+                  "I recommend that you continue taking your prednisone as directed and avoid any strenuous activities that may exacerbate the pain"
+                ],
+                "source_quotes": [
+                  {
+                    "evidence_id": "E3",
+                    "quote": "1.2 Rheumatoid Arthritis Methotrexate tablets are indicated for the treatment of adults with rheumatoid arthritis."
+                  },
+                  {
+                    "evidence_id": "E4",
+                    "quote": "Rasuvo is indicated in the management of selected adults with severe, active rheumatoid arthritis (RA) (ACR criteria), or children with active polyarticular juvenile idiopathic arthritis (pJIA), who have had an insufficient therapeutic response to"
+                  },
+                  {
+                    "evidence_id": "E5",
+                    "quote": "Indomethacin capsules have been found effective in active stages of the following: 1. Moderate to severe rheumatoid arthritis including acute flares of chronic disease. 2. Moderate to severe ankylosing spondylitis. 3. Moderate to severe osteoarthritis."
+                  },
+                  {
+                    "evidence_id": "E7",
+                    "quote": "Rheumatic Disorders As adjunctive therapy for short-term administration (to tide the patient over an acute episode or exacerbation) in: Psoriatic arthritis Rheumatoid arthritis, including juvenile rheumatoid arthritis"
+                  }
+                ],
+                "minimal_process_change": "Before final option selection, require an explicit applicability check that maps each candidate drug to the exact documented disease activity, prior therapy, and contraindication status in the input; if the input lacks the criterion that distinguishes a first-line symptomatic NSAID from a later-line disease-modifying agent, do not upgrade the disease-modifying agent solely because it is standard for the suspected diagnosis.",
+                "trigger_features": [
+                  "conditional_question",
+                  "interaction_question",
+                  "short_drug_options"
+                ],
+                "counterexample_requirement": "This procedure must not change a previously correct decision when the input explicitly documents severe active rheumatoid arthritis with inadequate response or intolerance to first-line therapy, or when the question explicitly asks for a disease-modifying antirheumatic drug rather than a symptomatic anti-inflammatory option.",
+                "confidence": "medium"
+              },
+              "support_quotes_valid": true
+            }
+          ],
+          "rejection": "training_intervention",
+          "gates": {}
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "cases_seen": 400,
+      "state": {
+        "cards": []
+      },
+      "gates": {
+        "proposal_rx": {
+          "n": 190,
+          "correct": 99,
+          "invalid": 0,
+          "calls": 570,
+          "input_tokens": 3037986,
+          "output_tokens": 188710,
+          "logical_cost_usd": 0.779682594,
+          "active_cases": 0,
+          "predictions_sha256": "d9ee6e7c7d7f0ce0539a987fa61e4b149b95049ebe476b476f3eac0edc17e5df"
+        },
+        "proposal_med": {
+          "n": 120,
+          "correct": 103,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 910028,
+          "output_tokens": 120479,
+          "logical_cost_usd": 0.264918847,
+          "active_cases": 0,
+          "predictions_sha256": "763e48df5d1c62f0993a4654db1a14ed2b26b14a11e480ea1afccac7fca6818d"
+        },
+        "guard_rx": {
+          "n": 197,
+          "correct": 104,
+          "invalid": 0,
+          "calls": 591,
+          "input_tokens": 3204332,
+          "output_tokens": 194638,
+          "logical_cost_usd": 0.8281183139999994,
+          "active_cases": 0,
+          "predictions_sha256": "e3aee86087c3a7d17e6039cc9053621f0739a947ebb2b02ced0a7947ab9cb7a1"
+        },
+        "guard_med": {
+          "n": 120,
+          "correct": 102,
+          "invalid": 0,
+          "calls": 360,
+          "input_tokens": 990653,
+          "output_tokens": 117572,
+          "logical_cost_usd": 0.2857164409999998,
+          "active_cases": 0,
+          "predictions_sha256": "bc67f017670d3e81dbfc8163a01bf984cf9a5b6ac4c58e81199d6c6de819a116"
+        }
+      },
+      "accepted": false,
+      "new_batch": {
+        "n": 100,
+        "correct": 67,
+        "invalid": 0,
+        "calls": 300,
+        "input_tokens": 1373350,
+        "output_tokens": 98701,
+        "logical_cost_usd": 0.370297755,
+        "active_cases": 0,
+        "predictions_sha256": "08d9ad5444b1b5406abf46fada4b0542351e2a92e3e88bfd547b4c20eea83761"
+      },
+      "root_count": 33,
+      "root_eligible": 1,
+      "root_quote_valid": 31,
+      "trials": [
+        {
+          "round": 4,
+          "attempt": 1,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            [
+              "missing_card"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "rejection": "schema"
+        },
+        {
+          "round": 4,
+          "attempt": 2,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            [
+              "missing_procedure",
+              "missing_counterexample_explanation",
+              "invalid_trigger",
+              "use_exactly_one_narrow_trigger",
+              "support_ID_roles",
+              "counterexample_ID_roles"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "rejection": "schema"
+        },
+        {
+          "round": 4,
+          "attempt": 3,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            [
+              "missing_name",
+              "missing_exclude_reason",
+              "missing_procedure",
+              "missing_counterexample_explanation",
+              "invalid_trigger",
+              "use_exactly_one_narrow_trigger",
+              "support_ID_roles",
+              "counterexample_ID_roles",
+              "root_ID_roles"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "rejection": "schema"
+        },
+        {
+          "round": 4,
+          "attempt": 4,
+          "schema_errors": [
+            [
+              "missing_card"
+            ],
+            [
+              "missing_card"
+            ]
+          ],
+          "card": null,
+          "accepted": false,
+          "rejection": "schema"
+        }
+      ]
+    }
+  ],
+  "protocol_sha256": "f04e09a5b3acd7eee9952b28ac332ea79e4faf5feb4e1df4f9ad9c286b764d5f",
+  "interventions_sha256": "af0906bdaa77100d28038382e8e3bc4fe647ea9b357b25fc3d0c5ab291d4c843"
+}

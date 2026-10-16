@@ -1,33 +1,39 @@
 {
   "name": "RxRSIAgent",
-  "status": "development-selected before test",
+  "status": "Final development-gated state frozen before main and independent inference",
   "model": "deepseek/deepseek-v4.1-flash",
+  "offline_proposer": "anthropic/claude-opus-4.8",
+  "state": {
+    "cards": []
+  },
   "actor_calls": 3,
   "output_cap_per_call": 1536,
-  "text_memory": [],
-  "calibration": "ordinary supervised logistic regression; C10, margin0.2; eligibility all option names<=6 words and observed in training",
-  "calibration_sha256": "5dd10425cd5b11ec1ddbd5e36931e1171c683f2f9d7a9a29a50d90ad639916cc",
-  "source_method": "upgrade_v35/workflow.py",
-  "selection": "upgrade_v35/results/calibration_selection.json",
-  "test_freeze": "upgrade_v35/test_freeze.json",
-  "audit": "upgrade_v35/results/audit.json",
-  "followup": "upgrade_v36/results/audit.json",
-  "accepted_followup": null,
+  "calibration": null,
   "measured": {
     "rxsafe": {
       "n": 988,
-      "correct": 556
+      "correct": 491
     },
     "rxqa": {
       "n": 300,
-      "correct": 199
+      "correct": 196
+    },
+    "medpic": {
+      "n": 467,
+      "correct": 274
     }
   },
-  "scope": "Forced-choice benchmark research; not full-order generation or autonomous clinical prescribing. Calibration overrides do not inherit LLM explanation.",
+  "selection": "upgrade_v44/results/learning.json",
+  "freeze": "upgrade_v44/test_freeze.json",
+  "audit": "upgrade_v44/results/audit.json",
+  "scope": "Offline single- or multi-option selection; no clinical clearance; no positive RSI claim from unretained proposals.",
   "code_sha256": {
+    "upgrade_v44/runtime.py": "7a66677280f58eea2a8baee89a0918c327806e271310ed596dfee4bf9320df13",
+    "upgrade_v44/actor44.py": "73ae10fb49af3e4d99115ff785b39defb1440ab862f5fce76cd9e3d61d825367",
+    "upgrade_v40/agent40.py": "d655130a75c96612da7cfe132db8ebf67ed06965c1458382b1b91b2f36ca4bcf",
+    "upgrade_v37/evidence37.py": "1f29555e35ffc23e7fea85a11eef0391c6681df67e787bfe49d589205f1e5f1b",
+    "upgrade_v37/common37.py": "9cd619815c87758702a506df8b474fa07b0ef97602dfcfbd67dc29bb65734ca1",
     "upgrade_v35/workflow.py": "7018fd9ec1828183dd4f19d3e57e34e7ba86fd043f08fd767136eca9afcef25a",
-    "upgrade_v35/evidence.py": "fd88c1c68a262063e5e5a3a99ff8d639513434a92d6d5705efbeee551d7343a6",
-    "upgrade_v35/calibrate.py": "b5502d0fb3a2fcebd1b4c53ee7d5ee1b90411c267bd3cdd2eef5e134fbf7e978",
-    "upgrade_v35/rank_probe.py": "009580a5fb7c37ec3814b980665cf6cef4d85ed913ef5c6ecd1fc243f23cf355"
+    "upgrade_v35/evidence.py": "fd88c1c68a262063e5e5a3a99ff8d639513434a92d6d5705efbeee551d7343a6"
   }
 }

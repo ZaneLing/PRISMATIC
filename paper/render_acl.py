@@ -1,10 +1,9 @@
-"""Render the current English ACL source in place from audited results."""
-import hashlib,json
+"""Render the current ACL source in place, using independently recounted results."""
+import hashlib,json,re
 from pathlib import Path
 from acl_manuscript_text import MANUSCRIPT
 from acl_references import REFERENCES
-ROOT=Path(__file__).resolve().parent.parent
-TARGET=ROOT/'paper/latex/v0.3/prismatic_v03_en.tex';SOURCES={}
+ROOT=Path(__file__).resolve().parent.parent;TARGET=ROOT/'paper/latex/v0.3/prismatic_v03_en.tex';SOURCES={}
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def read(p):
  p=ROOT/p;SOURCES[str(p.relative_to(ROOT))]=sha(p);return json.loads(p.read_text())
@@ -12,64 +11,61 @@ def table(caption,label,cols,head,rows):
  return '\\begin{table*}[t]\\centering\\small\n\\setlength{\\tabcolsep}{4pt}\n\\caption{'+caption+'}\n\\label{'+label+'}\n\\begin{tabular}{@{}'+cols+'@{}}\\toprule\n'+head+r'\\\midrule'+'\n'+'\n'.join(rows)+'\n\\bottomrule\\end{tabular}\n\\end{table*}'
 def clinical():
  d=read('rxrsiagent/clinical_evaluation_protocol.json');assert not d['clinical_results_available'];rows=[]
- for x in d['endpoints']:
-  name=r'\textbf{'+x['name']+'}' if x['priority']=='primary' else x['name'];rows.append(name+' & '+x['unit']+' & '+x['definition']+r'\\')
- return '\\begin{table*}[t]\\centering\\small\n'+r'\caption{Proposed clinical endpoints; all scores await blinded annotation. Bold rows are primary. This research rubric is not a validated clinical scale.}\label{tab:clinicalmetrics}\begin{tabularx}{\textwidth}{@{}p{3.4cm}p{1.4cm}X@{}}\toprule Endpoint & Unit & Definition\\\midrule'+'\n'+'\n'.join(rows)+'\n'+r'\bottomrule\end{tabularx}\end{table*}'
+ for x in d['endpoints']:rows.append((r'\textbf{'+x['name']+'}' if x['priority']=='primary' else x['name'])+' & '+x['unit']+' & '+x['definition']+r'\\')
+ return '\\begin{table*}[t]\\centering\\small\n'+r'\caption{Planned clinical endpoints; scores await blinded annotation. This research rubric is not a validated clinical scale.}\label{tab:clinicalmetrics}\begin{tabularx}{\textwidth}{@{}p{3.4cm}p{1.4cm}X@{}}\toprule Endpoint & Unit & Definition\\\midrule'+'\n'+'\n'.join(rows)+'\n'+r'\bottomrule\end{tabularx}\end{table*}'
 def run():
- d=read('upgrade_v35/results/audit.json');assert d['status']=='passed_complete';native=read('upgrade_v34/results/audit.json')['author_methods'];m=d['methods'];v=read('upgrade_v36/results/audit.json');assert v['status']=='complete';diag=read('upgrade_v35/results/calibration_diagnostics.json');curve=read('upgrade_v35/results/calibration_curve.json')['curve'];selection=read('upgrade_v35/results/calibration_selection.json');assert selection['guard_pass'];read('upgrade_v35/test_freeze.json');read('upgrade_v35/protocol.json');read('upgrade_v36/protocol.json')
- # A candidate is selected by development gates only, never by RxQA score.
- freeze=ROOT/'upgrade_v36/test_freeze.json';chosen=None
- if freeze.exists():
-  chosen=read('upgrade_v36/test_freeze.json')['selected_arm'];assert v['results'][chosen+'-guard']['guard_pass']
- q=v['results'][chosen+'-rxqa'] if chosen else m['calibrated']['rxqa'];n=q['correct'];acc=100*n/300
- fmt=lambda r:f"{100*r['correct']/r['n']:.2f}"
+ audit=read('upgrade_v44/results/audit.json');assert audit['status']=='complete';learning=read('upgrade_v44/results/learning.json');ind=read('upgrade_v44/results/independent.json');short=read('upgrade_v44/results/shortcuts.json');read('upgrade_v44/test_freeze.json');read('upgrade_v44/implementation.json');read('upgrade_v44/learning_protocol.json');read('upgrade_v37/protocol.json');read('upgrade_v37/independent_protocol.json')
+ old=read('upgrade_v35/results/audit.json')['methods'];native=read('upgrade_v34/results/audit.json')['author_methods'];x=audit['methods']['test_rx']['final'];y=audit['methods']['test_qa']['final'];rx=x['correct'];qa=y['correct'];states=learning['rounds'];last=states[-1];ncard=len(last['state']['cards']);fmt=lambda r:f"{100*r['correct']/r['n']:.2f}"
  rows=[]
- for key,name in [('grasp',r'GRASP \citep{grasp}'),('medagents',r'MedAgents \citep{medagents}'),('mdagents',r'MDAgents \citep{mdagents}'),('calibrated',r'\textbf{RxRSIAgent}')]:
-  x=m[key]['test'];y=q if key=='calibrated' else m[key]['rxqa'];yc=y.get('mean_calls',y['calls']/y['n']);rows.append(f"{name} & {fmt(x)} & {fmt(y)} & {x['mean_calls']:.2f}/{yc:.2f} & {x['invalid']}/{y['invalid']}"+r'\\')
- main=table('Named-agent comparison on identical public questions and the same served model. All rows allow at most4,608 generated output tokens/case. Calls, inputs and actual cost differ; this is not equal total compute. RxSafe is a derived option-selection task; RxQA is the public OpenFDA subset.','tab:main','lrrrr','Method & RxSafe988 (\\%) & RxQA300 (\\%) & Calls: S/Q & Invalid: S/Q',rows)
+ for k,n in [('grasp',r'GRASP \citep{grasp}'),('medagents',r'MedAgents \citep{medagents}'),('mdagents',r'MDAgents \citep{mdagents}')]:
+  a,b=old[k]['test'],old[k]['rxqa'];rows.append(f"{n} & {fmt(a)} & {fmt(b)} & {a['mean_calls']:.2f}/{b['mean_calls']:.2f} & {a['invalid']}/{b['invalid']}"+r'\\')
+ rows.append(f"Supervised source-agent control & 56.28 & 66.33 & 3/3 & 0/0"+r'\\')
+ rows.append(f"\\textbf{{RxRSIAgent}} & {fmt(x)} & {fmt(y)} & 3/3 & {x['invalid']}/{y['invalid']}"+r'\\')
+ main=table('Same-question, same-backbone local task adaptations. All rows permit4,608 generated output tokens/case. Actual input cost, calls and training supervision differ. The supervised source-agent control uses the earlier fixed evidence workflow plus a labeled option calibrator; it is not an RSI result.','tab:main','lrrrr','Method & RxSafe988 (\\%) & RxQA300 (\\%) & Calls S/Q & Invalid S/Q',rows)
  rows=[]
- for key,name in [('medagents','MedAgents'),('mdagents','MDAgents')]:
-  x=native[key]['test'];y=native[key]['rxqa'];rows.append(f"{name} & 24,000 & {fmt(x)} & {fmt(y)} & {x['mean_calls']:.2f}/{y['mean_calls']:.2f}"+r'\\')
- rows.append(r'GRASP (earlier one-call cap) & 512 & 50.81 & 63.00 & 1/1\\')
- nt=table('Previously completed runs with different output allowances, retained for budget sensitivity. These are not substitutes for the common-allowance comparison.','tab:native','lrrrr','Method & Output cap & RxSafe988 (\\%) & RxQA300 (\\%) & Calls: S/Q',rows)
+ for k,n in [('medagents','MedAgents'),('mdagents','MDAgents')]:rows.append(f"{n} & 24,000 & {fmt(native[k]['test'])} & {fmt(native[k]['rxqa'])}"+r'\\')
+ rows.append(r'GRASP (earlier allowance) & 512 & 50.81 & 63.00\\')
+ nt=table('Completed different-allowance comparisons; these remain visible to avoid a superiority claim based only on constrained comparator budgets.','tab:native','lrrr','Method & Output cap & RxSafe988 (\\%) & RxQA300 (\\%)',rows)
+ dt=table('Evaluation boundaries and endpoints. Repeated development is disclosed; independent evaluation starts only after all trajectories are frozen.','tab:data','p{3.1cm}p{6.8cm}p{4.7cm}','Resource & Use & Endpoint',[
+ r'RxSafeBench local protocol & 200/625 train;190 proposal;197 guard;988 evaluation & Single-choice accuracy\\',r'RxQA public OpenFDA & All300 released questions; BNF unavailable & Single-choice accuracy\\',r'MedQA public train & 200 new training cases;120 proposal;120 guard & Single-choice accuracy\\',r'MedPIC-Bench & All467 test questions;35 strict same-option pairs & Exact-set and pair accuracy\\',r'Clinical/real EHR execution & Pending, no reported completed score & Full prescription quality\\'])
  rows=[]
- for key,name in [('no_evidence','Three-call no-evidence control'),('old_evidence','Original option-name retrieval'),('verified_evidence','Verified static retrieval, no calibration'),('calibrated','Verified retrieval + selected calibration')]:
-  rows.append(f"{name} & {fmt(m[key]['test'])} & {fmt(m[key]['rxqa'])}"+r'\\')
- abl=table('Initial component intervention: same three calls and1,536-token per-call cap. The static calibrated row is frozen before follow-up development.','tab:ablation','lrr','Configuration & RxSafe988 (\\%) & RxQA300 (\\%)',rows)
+ for s,i in zip(states,ind['trajectory']):
+  cards=s['state']['cards'];terms=sum(len(v) for c in cards for v in c.get('trigger_terms',{}).values());patches=sum(len(c.get('retrieval_patch',{})) for c in cards);g=s['gates'];rows.append(f"{s['round']} & {s['cases_seen']} & {len(cards)}/{patches}/{terms} & {g['proposal_rx']['correct']}/{g['proposal_med']['correct']} & {g['guard_rx']['correct']}/{g['guard_med']['correct']} & {i['metrics']['correct']}/467"+r'\\')
+ traj=table('Frozen sequential trajectory. C/R/V are retained procedural cards, retrieval parameters and context-vocabulary entries. Proposal denominators are190/120; guard197/120. Reused training cohorts and identical-state prediction reuse are disclosed. No test-selected checkpoint.','tab:trajectory','rrrrrr','Round & Cases & C/R/V & Proposal S/M & Guard S/M & Independent',rows)
  rows=[]
- for key,label in [('identity_only','Medication identity only'),('identity_and_draft','Identity + LLM draft'),('context_only','Medication--context interactions'),('context_and_draft','Interactions + LLM draft')]:
-  x=diag['arms'][key]['splits'];rows.append(f"{label} & {x['proposal']['correct']}/190 & {x['guard']['correct']}/197 & {x['test']['correct']}/988"+r'\\')
- diagnostics=table('Post-selection calibration diagnostics, fixed C=10 and gap0.2. No diagnostic replaces the pre-test selected agent based on its test score. Strong identity-only performance is evidence of a possible benchmark shortcut.','tab:calibrationdiag','lrrr','Features & Proposal & Guard & RxSafe test',rows)
+ labels={37:'Full trace and broad context',38:'Typed roles and supported roots',39:'Narrow single-change proposals',40:'Learnable context vocabulary',41:'Compact root-cluster context',42:'External proposer with actual traces',43:'Explicit no-edit decision preserved',44:'Cumulative roots and near-miss replay'}
+ for v in [37,38,39,40,41,42,43,44]:
+  l=read(f'upgrade_v{v}/results/learning.json');ts=[t for s in l['rounds'] for t in s.get('trials',[])];counts={k:sum(t.get('rejection')==k for t in ts) for k in ['schema','training_intervention','proposal','guard','no_supported_edit']};rows.append(f"{labels[v]} & {len(ts)} & {counts['schema']}/{counts['no_supported_edit']} & {counts['training_intervention']} & {counts['proposal']}/{counts['guard']} & {sum(t['accepted'] for t in ts)}"+r'\\')
+ upd=table('Updater development experiments on the same400-case cohort, not independent repetitions or additional unique cases. Each has four rounds. Schema includes role/scope validation or no valid proposal. Earlier designs are mechanism controls, not separately named paper methods.','tab:updates','p{4.7cm}rrrrr','Updater control & Attempts & Schema/declined & Probe & Proposal/guard & Retained',rows)
+ sd=short['result']['final'];rows=[]
+ for key,label in [('original','Original patient context'),('permuted','Permuted options'),('no_patient','Patient vignette removed')]:
+  if key=='original':correct=sd['original_correct'];pair=sd[key]['paired']['both_correct'];inv='--'
+  else:correct=sd[key]['metrics']['correct'];pair=sd[key]['detail']['paired']['both_correct'];inv=str(sd[key].get('same_prediction_after_remap','--'))
+  rows.append(f"{label} & {correct}/70 & {pair}/35 & {inv}"+r'\\')
+ shortcut=table('Predeclared diagnostics on all35 recovered same-option counterfactual pairs. The final column counts identical predictions after answer remapping. These tests do not establish absence of every shortcut.','tab:shortcuts','lrrr','Condition & Exact answers & Both members correct & Remap agreement',rows)
+ z=ind['trajectory'][-1];families=z['detail']['families'];gf=families['guideline_following'];cf=families['counterfactual'];ip=z['detail']['paired'];delta=audit['comparisons']['initial_to_final_test_qa'];compare=audit['comparisons']['native_medagents_to_final_test_qa'];rxdelta=audit['comparisons']['initial_to_final_test_rx']
+ abstract=f"The frozen agent answers{rx}/988 RxSafeBench and{qa}/300 public RxQA questions. " + ('It does not exceed the strongest completed controls on both tasks.' if rx<=556 or qa<=208 else 'Its observed counts exceed the completed named-agent controls, with repeated-benchmark limitations.')+f" The final state retains{ncard} procedural cards."
+ maintext=f"RxRSIAgent answers{rx}/988 ({fmt(x)}\\%) on RxSafe and{qa}/300 ({fmt(y)}\\%) on RxQA. Against higher-allowance MedAgents'208/300, its RxQA difference is{100*compare['difference']:+.2f} percentage points (paired95\\% interval[{100*compare['ci95'][0]:+.2f},{100*compare['ci95'][1]:+.2f}]). " + ('Two-benchmark superiority is not established.' if rx<=556 or qa<=208 else 'This is an exploratory improvement over these completed controls, not a global SOTA claim.')
+ evolution=f"Across the final four-round experiment,{sum(s['accepted'] for s in states)} updates are retained. Initial-to-final changes are{rxdelta['fixes']} fixes/{rxdelta['regressions']} regressions on RxSafe and{delta['fixes']}/{delta['regressions']} on RxQA. "
+ if ncard==0:evolution+='The memory, retrieval configuration and vocabulary remain unchanged; accumulation of root records therefore does not demonstrate successful agent evolution.'
+ else:evolution+='The retained changes, not merely proposed cards or longer reflection text, define the measured learned state.'
+ independent=f"On the independent task the final state scores{z['metrics']['correct']}/467 ({fmt(z['metrics'])}\\%):{gf['correct']}/{gf['n']} guideline-following and{cf['correct']}/{cf['n']} counterfactual, with both members correct in{ip['both_correct']}/{ip['n']} strict pairs. The initial state scores{ind['trajectory'][0]['metrics']['correct']}/467. "
+ if z['state_sha256']==ind['trajectory'][0]['state_sha256']:independent+='These are identical states sharing cached predictions. A flat curve provides no evidence of positive transfer.'
  rows=[]
- for r in curve:rows.append(f"{r['cases']} & {r['features']:,} & {r['proposal']['correct']}/190 & {r['guard']['correct']}/197 & 0/0"+r'\\')
- trajectory=table('Fixed-hyperparameter training-prefix diagnostics. Hyperparameters use full training/development feedback, so this is not prospective online RSI. The last column shows retained text cards in two separately gated four-round runs.','tab:trajectory','rrrrr','Cases seen & Numeric features & Proposal & Guard & Text cards: run1/2',rows)
- data=table('Data boundaries. Main benchmarks have prior research exposure; new selection excludes their evaluation answers. The independent development cohort is not a final test.','tab:data','p{3.4cm}p{6.5cm}p{4.9cm}','Resource & Local use & Measured endpoint',[
- r'RxSafeBench adaptation & 625 train;190 proposal;197 guard;988 test & Choice accuracy\\',r'RxQA OpenFDA & All300 released questions & Choice accuracy\\',r'MedQA public training mirror & 120 proposal;120 guard;input-selected & Independent development accuracy\\',r'eICU (separate component) & 8,005 held-out hospital stays & Joint-order F1\\',r'Clinician study / MedAgentBench & Pending & Not reported as completed\\'])
- rows=[]
- for key,label in [('grasp','GRASP'),('medagents','MedAgents'),('mdagents','MDAgents'),('calibrated','RxRSIAgent')]:
-  for split,ds in [('test','RxSafe988'),('rxqa','RxQA300')]:
-   x=q if key=='calibrated' and split=='rxqa' else m[key][split];rows.append(f"{label} & {ds} & {x['input_tokens']:,} & {x['output_tokens']:,} & {x['logical_cost_usd']:.3f}"+r'\\')
- compute=table('Aggregate logical inference use under the common output allowance. Costs sum successful response receipts at recorded provider rates, including reused receipts; they differ from newly billed cost.','tab:compute','llrrr','Method & Task & Input tokens & Output tokens & Logical USD',rows)
- independent=[]
- for arm,label in [('full_section_context','Expanded source context'),('contrastive_review','Independent draft and contradiction review'),('training_memory','External training-example memory')]:
-  x=v['results'].get(arm+'-proposal')
-  if x:
-   z=f"{label} scores {x['correct']}/120 on proposal"
-   if arm+'-guard' in v['results']:z+=f" and {v['results'][arm+'-guard']['correct']}/120 on guard"
-   z+=', passing both gates.' if chosen==arm else ', and is not promoted.';independent.append(z)
- indep=' '.join(independent)
- if chosen:
-  desc='The selected long-option branch retrieves three input-similar MedQA training examples, excludes development/evaluation text overlap, and supplies the reference answers as fallible examples to calls two and three. Applicability conditions must match; examples are not label authority. This adds external training data and does not establish an equal-data advantage.' if chosen=='training_memory' else 'The selected long-option branch adds an independent preliminary draft, explicit option-clause contradiction review and final arbitration, with the same three-call cap.'
- else:desc=''
- transfer=f"On RxQA the selected agent answers {n}/300 ({acc:.2f}\\%), compared with200 for matched-output MedAgents and208 for the higher-allowance run. "
- if n<=208:transfer+='It does not exceed the strongest completed medical-agent comparator. '
- else:transfer+='It exceeds the observed higher-allowance MedAgents count, subject to exploratory repeated-benchmark and single-run limits. '
- abstract='The strongest higher-allowance medical-agent comparator answers208/300; cross-benchmark superiority is not established.' if n<=208 else 'The selected independent-development intervention exceeds the observed higher-allowance MedAgents count of208/300, with exploratory evaluation limits.'
- refs=REFERENCES.replace(r'\end{thebibliography}',r'\bibitem[Jin et al.(2020)]{medqa} Di Jin, Eileen Pan, Nassim Oufattole, Wei-Hung Weng, Hanyi Fang, and Peter Szolovits. 2020. What Disease does this Patient Have? A Large-scale Open Domain Question Answering Dataset from Medical Exams. \emph{arXiv:2009.13081}. \url{https://github.com/jind11/MedQA}.'+'\n'+r'\end{thebibliography}')
- repl={'DATA_TABLE':data,'AGENT_TABLE':main,'NATIVE_TABLE':nt,'ABLATION_TABLE':abl,'CALIBRATION_DIAGNOSTICS':diagnostics,'TRAJECTORY_TABLE':trajectory,'COMPUTE_TABLE':compute,'CLINICAL_METRICS_TABLE':clinical(),'REFERENCES':refs,'RXQA_CORRECT':str(n),'RXQA_ACC':f'{acc:.2f}','ABSTRACT_TRANSFER':abstract,'MAIN_TRANSFER':transfer,'CONTRAST_METHOD':desc,'INDEPENDENT_RESULTS':indep,'CONCLUSION_TRANSFER':('RxQA remains below the strongest completed medical-agent comparator.' if n<=208 else 'An independently gated intervention also increases the RxQA result.'),'AUDIT_DETAILS':f"The follow-up audit checks {v['source_spans_checked']:,} source spans; its successful-response ledger increment is USD{v['ledger_increment_usd']:.3f}. The initial experiment costs USD16.261 in new successful responses."}
+ for k,n in [('grasp','GRASP'),('medagents','MedAgents'),('mdagents','MDAgents')]:
+  for sp,ds in [('test','RxSafe'),('rxqa','RxQA')]:
+   r=old[k][sp];rows.append(f"{n} & {ds} & {r['input_tokens']:,} & {r['output_tokens']:,} & {r['logical_cost_usd']:.3f}"+r'\\')
+ for r,ds in [(x,'RxSafe'),(y,'RxQA'),(z['metrics'],'MedPIC')]:rows.append(f"RxRSIAgent & {ds} & {r['input_tokens']:,} & {r['output_tokens']:,} & {r['logical_cost_usd']:.3f}"+r'\\')
+ compute=table('Logical inference use from successful saved response receipts. Reused receipts count as logical use; new billed usage is separately reported.','tab:compute','llrrr','Method & Task & Input tokens & Output tokens & Logical USD',rows)
+ refs=REFERENCES.replace(r'\end{thebibliography}',r'\bibitem[Jin et al.(2020)]{medqa} Di Jin et al. 2020. What Disease does this Patient Have? A Large-scale Open Domain Question Answering Dataset from Medical Exams. \emph{arXiv:2009.13081}. \url{https://github.com/jind11/MedQA}.'+'\n'+r'\bibitem[Hou et al.(2026)]{medpic} Zhitian Hou, Yuhang Liu, Pengkai Wang, Zeyu Liu, Guanghao Zhu, Zheng Liu, Shuo Cai, Congkai Xie, Zhijie Sang, Kun Zeng, and Hongxia Yang. 2026. Evaluating Counterfactual Sensitivity to Patient Information in Medication-Safety Reasoning. \emph{arXiv:2608.03028}. \url{https://arxiv.org/abs/2608.03028}.'+'\n'+r'\end{thebibliography}')
+ repl={'ABSTRACT_RESULTS':abstract,'DATA_TABLE':dt,'AGENT_TABLE':main,'NATIVE_TABLE':nt,'MAIN_RESULTS':maintext,'TRAJECTORY_TABLE':traj,'EVOLUTION_RESULTS':evolution,'UPDATER_TABLE':upd,'INDEPENDENT_RESULTS':independent,'SHORTCUT_TABLE':shortcut,'CONCLUSION_RESULTS':('The current trajectory does not demonstrate positive procedural evolution or superiority on both main tasks.' if ncard==0 else 'Retained module changes are evaluated separately from researcher repairs and numerical calibration.'),'COMPUTE_TABLE':compute,'AUDIT_DETAILS':f"The new audit checks{audit['source_spans_checked']:,} exact source spans across{audit['unique_evaluated_rows_audited']:,} distinct saved evaluation rows. The shared new successful-response ledger increment for updater development and evaluation is USD{audit['ledger_increment_usd_shared_37_38']:.3f}. Cross-process locks protect identical model requests. Source failures, query limits and incomplete clinical checks are retained as limitations.",'CLINICAL_METRICS_TABLE':clinical(),'REFERENCES':refs}
  text=MANUSCRIPT
- for k,val in repl.items():text=text.replace('@@'+k+'@@',val)
+ for k,v in repl.items():text=text.replace('@@'+k+'@@',v)
  assert '@@' not in text
+ # Normalize prose spacing while preserving literal model IDs, URLs and case IDs.
+ parts=re.split(r'(\\(?:texttt|url)\{[^}]*\})',text)
+ for i in range(0,len(parts),2):parts[i]=re.sub(r'(?<![A-Za-z0-9_/])([A-Za-z]{2,})(?=[0-9])',r'\1 ',parts[i])
+ text=''.join(parts)
  original=TARGET.read_text();prefix=original[:original.index(r'\documentclass')];start=prefix.index(r'\begin{filecontents*}[overwrite]{acl.sty}')+len(r'\begin{filecontents*}[overwrite]{acl.sty}')+1;end=prefix.index(r'\end{filecontents*}',start);provenance=read('paper/latex/v0.3/acl_template_provenance.json');assert hashlib.sha256((prefix[start:end].rstrip()+'\n').encode()).hexdigest()==provenance['acl_sty_sha256'];TARGET.write_text('\n'.join(line.rstrip() for line in (prefix+text.lstrip()).splitlines()).rstrip()+'\n')
- manifest={'snapshot':'2026-10-16 verified evidence, equal output allowance, supervised experience calibration and independent follow-up','method':'RxRSIAgent','paper_path':str(TARGET.relative_to(ROOT)),'paper_sha256':sha(TARGET),'generator_sha256':sha(__file__),'narrative_sha256':sha(ROOT/'paper/acl_manuscript_text.py'),'references_sha256':sha(ROOT/'paper/acl_references.py'),'acl_style_sha256':provenance['acl_sty_sha256'],'sources':SOURCES,'selected_calibration_sha256':selection['model_sha256'],'selected_followup':chosen,'main_counts':{'rxsafe':556,'rxqa':n},'historical_versions_in_manuscript':False,'background_queues_resumed':False};(TARGET.parent/'manuscript_evidence.json').write_text(json.dumps(manifest,indent=2)+'\n');print(json.dumps({'written':str(TARGET),'main_counts':manifest['main_counts']}))
+ manifest={'snapshot':'2026-10-16 trace-root, scoped intervention and independent evaluation','method':'RxRSIAgent','paper_path':str(TARGET.relative_to(ROOT)),'paper_sha256':sha(TARGET),'generator_sha256':sha(__file__),'narrative_sha256':sha(ROOT/'paper/acl_manuscript_text.py'),'sources':SOURCES,'acl_style_sha256':provenance['acl_sty_sha256'],'main_counts':{'rxsafe':rx,'rxqa':qa},'independent':z['metrics']['correct'],'historical_versions_in_manuscript':False,'calibration_is_separate_baseline':True};(TARGET.parent/'manuscript_evidence.json').write_text(json.dumps(manifest,indent=2)+'\n');print(json.dumps(manifest['main_counts']))
 if __name__=='__main__':run()
