@@ -1,0 +1,134 @@
+{
+  "complete": true,
+  "rounds": [
+    {
+      "round": 1,
+      "accepted": false,
+      "cases_seen": 24
+    },
+    {
+      "round": 2,
+      "accepted": false,
+      "cases_seen": 48
+    },
+    {
+      "round": 3,
+      "accepted": false,
+      "cases_seen": 72,
+      "condition": "prior_orders_missing & labs_missing",
+      "scope": "all_observed",
+      "effects": {
+        "training": {
+          "cases": 24,
+          "triggered": 0,
+          "observed_fact_counts_when_triggered": {},
+          "checked_fact_count_changed": 0,
+          "plan_changed": 0,
+          "assessment_changed": 0,
+          "evidence_changed": 0,
+          "order_set_changed": 0,
+          "before_drug_f1": 0.07547169811320754,
+          "after_drug_f1": 0.07547169811320754
+        },
+        "proposal": {
+          "cases": 48,
+          "triggered": 2,
+          "observed_fact_counts_when_triggered": {
+            "1": 2
+          },
+          "checked_fact_count_changed": 0,
+          "plan_changed": 0,
+          "assessment_changed": 0,
+          "evidence_changed": 0,
+          "order_set_changed": 0,
+          "before_drug_f1": 0.072992700729927,
+          "after_drug_f1": 0.072992700729927
+        },
+        "guard": {
+          "cases": 64,
+          "triggered": 2,
+          "observed_fact_counts_when_triggered": {
+            "1": 2
+          },
+          "checked_fact_count_changed": 0,
+          "plan_changed": 0,
+          "assessment_changed": 0,
+          "evidence_changed": 0,
+          "order_set_changed": 0,
+          "before_drug_f1": 0.039603960396039604,
+          "after_drug_f1": 0.039603960396039604
+        }
+      }
+    },
+    {
+      "round": 4,
+      "accepted": false,
+      "cases_seen": 96
+    },
+    {
+      "round": 5,
+      "accepted": false,
+      "cases_seen": 120,
+      "condition": "prior_orders_missing & labs_missing",
+      "scope": "all_observed",
+      "effects": {
+        "training": {
+          "cases": 24,
+          "triggered": 1,
+          "observed_fact_counts_when_triggered": {
+            "1": 1
+          },
+          "checked_fact_count_changed": 0,
+          "plan_changed": 0,
+          "assessment_changed": 0,
+          "evidence_changed": 0,
+          "order_set_changed": 0,
+          "before_drug_f1": 0.0392156862745098,
+          "after_drug_f1": 0.0392156862745098
+        },
+        "proposal": {
+          "cases": 48,
+          "triggered": 2,
+          "observed_fact_counts_when_triggered": {
+            "1": 2
+          },
+          "checked_fact_count_changed": 0,
+          "plan_changed": 0,
+          "assessment_changed": 0,
+          "evidence_changed": 0,
+          "order_set_changed": 0,
+          "before_drug_f1": 0.072992700729927,
+          "after_drug_f1": 0.072992700729927
+        },
+        "guard": {
+          "cases": 64,
+          "triggered": 2,
+          "observed_fact_counts_when_triggered": {
+            "1": 2
+          },
+          "checked_fact_count_changed": 0,
+          "plan_changed": 0,
+          "assessment_changed": 0,
+          "evidence_changed": 0,
+          "order_set_changed": 0,
+          "before_drug_f1": 0.039603960396039604,
+          "after_drug_f1": 0.039603960396039604
+        }
+      }
+    },
+    {
+      "round": 6,
+      "accepted": false,
+      "cases_seen": 144
+    }
+  ],
+  "attempt_dispositions": {
+    "unsupported_dose_rule": 3,
+    "condition_never_applies_in_training": 2,
+    "explicit_no_edit": 3,
+    "valid_candidate": 2
+  },
+  "retained_cards": 0,
+  "interpretation": "Observable adapter traces; no clinical correctness or internal neural-circuit claim.",
+  "ground_truth_is_training_feedback_only": true
+}

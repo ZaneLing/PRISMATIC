@@ -1,0 +1,32 @@
+{
+  "declared_unix": 1792167225.1383328,
+  "cases": 128,
+  "selection": "lowest SHA256(component-4916, case_id); independent of labels",
+  "member_sha256": "5f698ab4afb72b6a17eab903739d0230c16c1d900359c0b43cfd7d06b67b36ce",
+  "retained_state_sha256": "fc0bd2acea704167af98496f07fa8186a780d5c76192848148a68b2d92f0cf52",
+  "arms": [
+    "initial",
+    "retained",
+    "instruction_only",
+    "fact_scope_only"
+  ],
+  "interventions": {
+    "instruction_only": "keep the retained card text and trigger; reset fact_scope to selected",
+    "fact_scope_only": "keep the retained executable fact_scope and trigger; suppress skills() text"
+  },
+  "output_caps": [
+    128,
+    128,
+    96
+  ],
+  "selection_from_results": false,
+  "limits": [
+    "small exploratory component diagnostic",
+    "same historically exposed MIMIC test source",
+    "not clinical-safety validation"
+  ],
+  "corrected_interface": true,
+  "prior_literal_schema_test_scores_observed": true,
+  "fresh_per_batch_generation": true,
+  "unchanged_effective_states_reuse_predictions": true
+}

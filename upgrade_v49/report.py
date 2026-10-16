@@ -1,213 +1,58 @@
-"""Generate bilingual reports only from completed local experimental artifacts."""
+"""Archive completed negative results; the interrupted comparison is not complete."""
 import json
 from common import *
-LABELS={'rxrsi_base':'RxRSIAgent, initial state','rxrsi_selected':'RxRSIAgent, retained state','direct':'Direct self-refinement',
- 'saferx':'SafeRx-Agent task adaptation','skemex':'SkeMex author memory core + common actor','flame_list':'FLAME released list-policy transfer',
- 'candidate_top8':'Frozen supervised top-8 + order tool'}
 def main():
-    audit=json.loads((HERE/'results/audit.json').read_text());learning=json.loads((HERE/'results/learning_scope.json').read_text())
-    comparison=json.loads((HERE/'results/comparison.json').read_text());transfer=json.loads((HERE/'results/transfer.json').read_text())
-    assert comparison['complete'] and learning['complete'] and transfer['complete']
-    methods=audit['methods'];rounds=learning['rounds'];fmt=lambda x:f'{100*x:.2f}'
-    lines=['| Method | Drug P | Drug R | Drug F1 | Core4 F1 | Core5 F1 | Empty |', '|---|---:|---:|---:|---:|---:|---:|---:|']
-    for name in ['direct','saferx','skemex','rxrsi_base','rxrsi_selected']:
-        if name in methods:
-            m=methods[name]['metrics'];lines.append('| '+LABELS[name]+' | '+' | '.join(fmt(m[k]) for k in ['drug_precision','drug_recall','drug_micro_f1','core_order_micro_f1','core5_micro_f1','empty_fraction'])+' |')
-    table='\n'.join(lines)
-    separate=['| Separate component / initializer | Drug F1 | Core4 F1 | Core5 F1 |', '|---|---:|---:|---:|']
-    for name in ['candidate_top8','flame_list']:
-        if name in methods:
-            m=methods[name]['metrics'];separate.append('| '+LABELS[name]+' | '+' | '.join(fmt(m[k]) for k in ['drug_micro_f1','core_order_micro_f1','core5_micro_f1'])+' |')
-    table+='\n\n'+ '\n'.join(separate)
-    curve=json.loads((HERE/'results/round_curve.json').read_text())['trajectory']
-    trajectory=['| Round | New cases processed | Retained rules | Proposal drug / Core4 F1 | Guard drug / Core4 F1 | Test drug / Core4 F1 | Accepted |','|---:|---:|---:|---:|---:|---:|---|']
-    for r,t in zip(rounds,curve):trajectory.append(f"| {r['round']} | {r['cases_seen']} | {len(r['state']['cards'])} | {fmt(r['proposal']['drug_micro_f1'])} / {fmt(r['proposal']['core_order_micro_f1'])} | {fmt(r['guard']['drug_micro_f1'])} / {fmt(r['guard']['core_order_micro_f1'])} | {fmt(t['metrics']['drug_micro_f1'])} / {fmt(t['metrics']['core_order_micro_f1'])} | {r['accepted']} |")
-    tr='\n'.join(trajectory);a=transfer['methods']['rxrsi_base'];b=transfer['methods']['rxrsi_selected'];main=methods['rxrsi_selected']['metrics'];counts=methods['rxrsi_selected']['counts']
-    en=f'''# MIMIC-IV prescription experiment: executed results
+    d=json.loads((HERE/'results/comparison.json').read_text());assert not d['complete']
+    p=json.loads((HERE/'results/schema_probe.json').read_text());assert p['complete']
+    rows=['| Completed method | Drug F1 | Core4 F1 | Core5 F1 |','|---|---:|---:|---:|']
+    for name,m in d['methods'].items():rows.append('| '+name+' | '+' | '.join(f'{100*m[k]:.2f}%' for k in ['drug_micro_f1','core_order_micro_f1','core5_micro_f1'])+' |')
+    table='\n'.join(rows)
+    probe='''| Format / 格式示例 | Drug F1 | A1 selected | A23 selected |
+|---|---:|---:|---:|
+| Original A1/A2 | 3.57% | 36 | 5 |
+| A23/A24 example | 3.39% | 0 | 46 |
+| Descriptive schema | 7.57% | 8 | 3 |'''
+    en=f'''# Literal-schema prescription experiment: completed negative results
 
-## 1. Main result and task
-
-**RxRSIAgent: drug F1 {fmt(main['drug_micro_f1'])}%; Core4 F1 {fmt(main['core_order_micro_f1'])}% on all 1,082 test admissions.**
-
-This is a local Qwen3-4B prescription-task adaptation, not the frozen hosted DeepSeek QA agent. Predict the full set of new/change orders in hours 6–12 after admission, using observations available at hour 6. Output comprises joint drug/route/dose/unit/frequency templates selected from a common 24-drug catalogue; it is not unrestricted prescribing or the entire hospital-stay regimen. The 128-name vocabulary and 40,000-admission supervised candidate tool are frozen. Out-of-vocabulary GT remains scored.
-
-## 2. Measured comparison
-
-All numbers below are percentages. The first five local rows use the same cases, candidate catalogue, offline label resource, Qwen backbone and maximum 128+128+96 output tokens. Actual token use and offline learning compute differ. **SafeRx and SkeMex are explicitly limited task/subsystem adaptations. FLAME uses a released trained list-policy checkpoint with a different backbone and initializer; its row is a separate transfer experiment, not a full-method, equal-information comparison. These measurements do not establish superiority over the original papers.**
+The complete 1,082-admission RxRSIAgent runs finished. The broader method comparison was **interrupted** after a controlled training probe identified format-example anchoring. SafeRx/SkeMex/FLAME results are not claimed here. The corrected experiment is in [upgrade_v50](../upgrade_v50/README.md).
 
 {table}
 
-Candidate coverage ceiling: **{fmt(main['catalogue_drug_recall_ceiling'])}% of GT drugs**. Complete Core5 reference coverage: **{fmt(main['core5_gt_field_coverage'])}%**. Missing frequency does not become a match. No saline-presence metric is used.
+One conditional fact-scope update passed development but failed on test: drug F1 7.34→7.27%, Core4 F1 3.53→3.33%. It adds 3 correctly predicted drugs and 138 extras. Patient-cluster 95% drug-F1 difference interval: [-0.592,+0.439] pp. Acceptance is not generalization.
 
-## 3. Sequential experience updates
+The frozen supervised top-8 initializer plus common order tool reaches drug/Core4 F1 17.57/10.58%. RxRSIAgent does not beat it. Targets outside the fixed candidate catalogue remain in recall.
 
-{tr}
+## Controlled training probe
 
-The first three rounds process 72 training admissions and retain no rules. The table describes a further three rounds on 72 different training admissions (144 total). Full-trace profiles expose counts of observed/selected facts and missed reference medications, while withholding drug identities from the proposer. The researcher supplies a bounded verifier-scope option; the model chooses conditional procedures and selected/all-observed scope. This menu design is not autonomous tool invention. The proposal/guard subsets contain 48/64 reused admissions. Model weights and executable tools stay fixed within this trajectory. Each rule has a trigger and counterexample. Retention requires a strictly higher proposal composite and no guard drug/Core4 decrease. Test labels never select a rule. Rejected rules remain reported. A flat retained trajectory is not evidence of successful RSI.
+The same 48 training cases, unchanged candidate contents and batch layout:
 
-## 4. Frozen-memory transfer
+{probe}
 
-On Llama-3.2-3B, all 1,082 cases: initial drug/Core4 F1 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**; retained memory **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**. Drug-F1 change **{100*(b['drug_micro_f1']-a['drug_micro_f1']):+.2f} percentage points**. No Llama-specific rule selection or retraining. Two local backbones do not establish model-independent benefit.
+This confirms an interface shortcut in this adapter. Descriptive-schema repair is researcher engineering, not RSI, and is applied to all common local controls. The small-sample F1 interval includes zero; test gains are not implied. See `results/schema_probe.json` and `schema_probe_protocol.json`.
 
-## 5. Failure findings and cases
-
-- Initial protocol diagnostic, 48 proposal cases: drug/Core4 F1 9.59/4.26%; 25 parseable plans, zero parseable assessments and zero verified-fact cases. Fact-ID binding and concise intermediate JSON repair this contract. This is a researcher repair, not autonomous RSI; syntax improvement alone did not establish accuracy improvement.
-- Training observability audit: 1,722/40,000 admissions belong to 144 groups with identical visible context and differing reference drug sets. This supports an information/variation limitation, not a claim that every error is unavoidable.
-- Selected test predictions miss {counts['selection_missing']} targets already inside the catalogue; {counts['catalogue_missing']} targets are outside it. These distinguish selection and candidate-generation bottlenecks.
-- Case-level GT/prediction differences and before/after interventions are saved locally as `failure_case_studies.json` in the restricted experiment directory. No patient-level content is published.
-- Recorded actions are not unique clinical optima. No clinical-safety, DDI, allergy or renal-dose success is inferred from F1 or source quotation.
-
-## 6. Cost, provenance and limitations
-
-**New paid API cost: USD 0; authorization cap: USD 10.** All patient inference and reflection are local. Public checkpoint downloads do not call paid inference APIs. Local compute is not monetized. Earlier located response expenditure remains approximately USD 89.53 and is not charged to this new cap.
-
-The test has historical exposure from earlier supervised studies; the result is exploratory. Source pins, exact predictor hashes, costs, denominators and patient-bootstrap contrasts are in `results/audit.json`, `results/*`, and `test_freeze.json`. See the README for comparator fidelity and runnable commands. Publication-quality claims still require complete author-workflow controls and a new untouched clinical evaluation.
+No patient records or generated clinical text are published. New paid API expenditure: USD0. The test is historically exposed and exploratory.
 '''
-    zh=f'''# MIMIC-IV 完整窗口处方实验：真实结果
+    zh=f'''# 编号示例版本处方实验：已完成的负结果
 
-## 一、这次实际测了什么
-
-**RxRSIAgent 在全量 1,082 例上的药物 F1：{fmt(main['drug_micro_f1'])}%；四字段订单 F1：{fmt(main['core_order_micro_f1'])}%。**
-
-这是本地 Qwen3-4B 的处方任务适配，不是把原来 DeepSeek 选择题分数改名。使用入院第 6 小时已可用的信息，预测随后 6 小时内全部新增/变更订单；不是预测整个住院期的所有药物。模型从共享的 24 药物候选订单库选择多项，编译出药物、途径、剂量、单位和频次。128 药物词表与 4 万例训练得到的候选工具保持冻结；库外 GT 仍计入漏开。
-
-## 二、对比主表
-
-数值单位均为百分比。共同本地对照使用相同病例、候选库、说明书资源、Qwen 底座和最多 128+128+96 输出 token；实际输入量、训练与记忆计算量不同。**SafeRx 是独立任务适配，SkeMex 使用作者记忆子系统与共同处方执行器。FLAME 是已发布训练检查点的列表策略迁移，底座及初始化信息不同。这些都不能冒充完整原方法复现，也不能据此声称超过原论文。**
+RxRSIAgent 两个全量1,082例实验已完成。训练探针发现共用接口存在格式示例锚定后，**中止此接口下的后续方法对比**；本版没有完成 SafeRx/SkeMex/FLAME。修复后共同对照见 [upgrade_v50](../upgrade_v50/README.md)。
 
 {table}
 
-候选库最多覆盖 **{fmt(main['catalogue_drug_recall_ceiling'])}%** 的 GT 药物；五字段均已知的参考订单覆盖率为 **{fmt(main['core5_gt_field_coverage'])}%**。缺失频次不算匹配，不计算盐水出现 F1。
+事实范围规则通过开发集，但测试药物F1从7.34降至7.27%，四字段F1从3.53降至3.33%。只多命中3个药，却增加138个额外药物。患者聚类95%变化区间[-0.592,+0.439]pp，不能称为有效进化。
 
-## 三、逐轮进化
+冻结监督候选器top-8加共同订单工具的药物/四字段F1为17.57/10.58%，高于当前agent。候选库外GT仍计入召回分母。
 
-{tr}
+## 训练病例上的受控干预
 
-最初三轮处理 72 例，没有保留规则。表中是随后三轮的 72 例新训练病例，两阶段共 144 例。更新器读取完整追踪计算出的错误特征，药名和原样目标处方不进入提案输入。研究者提供“仅所选事实/全部已观察事实”的有限工具配置接口，模型选择带适用条件和反例的程序及配置；接口设计本身不是自主发明工具。48/64 例候选集/守门集被复用并明确披露。底座、候选排名器、药物词表及工具代码在该轨迹内固定。候选集综合指标须严格提高，守门集药物及订单 F1 均不下降，才保留更新。测试分数只在所有状态冻结后计算，不选测试最优轮次。**如果保留状态不变，不能把它称作成功进化。**
+固定48例、候选内容及分批方式，仅改变输出格式示例：
 
-## 四、跨模型迁移
+{probe}
 
-将冻结的规则直接交给 Llama-3.2-3B，不在该模型上再挑规则。全量 1,082 例：初始药物/四字段 F1 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**；迁移后 **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**。药物 F1 变化 **{100*(b['drug_micro_f1']-a['drug_micro_f1']):+.2f} pp**。两个小型本地模型的结果不足以证明任意模型都能获益。
+这是本地适配器接口捷径的因果证据。去掉示例属于研究者工程修复，不计为RSI，并应用于下一版所有共同对照。小样本F1变化区间仍包含零，不能据此推断测试集提升。
 
-## 五、从失败中得到什么
-
-1. 初始 48 例开发实验药物/订单 F1 为 9.59/4.26%，只有 25 例计划可解析，评估可解析与事实核验均为零。事实编号绑定和简短输出修复了工程协议；这不是自主 RSI，也不代表准确率随之提高。
-2. 训练集中有 1,722/40,000 例属于 144 组“可见上下文相同、GT 药物集合不同”的记录。低分也受信息缺失、治疗差异或记录过程影响，不能直接推断模型不理解医生。
-3. 最终测试中，已有候选却漏选的 GT 共 {counts['selection_missing']} 个；候选库外 GT 共 {counts['catalogue_missing']} 个。前者针对决策，后者针对候选检索，不能混成一种错误。
-4. 真实训练失败病例、GT、前后预测及字段差异保存在受限目录的 `failure_case_studies.json`，不向 GitHub 发布病例内容。
-5. GT 是记录到的医生行为，不能直接当作唯一临床最优方案；F1 和引用有效不等于 DDI、过敏、肾剂量或处方适宜性已经验证。
-
-## 六、费用与可复现性
-
-**本次新增付费 API 支出 0 美元，用户授权上限 10 美元。** 病例推理和反思均在本地；公开模型下载不产生模型推理 API 费用。本地计算成本没有折算。历史已找到的响应费用仍约 89.53 美元，不重复计入此次预算。
-
-当前测试集有历史监督实验暴露，结果属于探索性评估。聚合结果、患者级 bootstrap、预测哈希、模型/代码版本与冻结状态见 `results/` 和 `test_freeze.json`。完整原方法对照和新的未触碰临床评估仍是论文定稿条件。
+患者记录和生成临床内容不公开。本次新增付费API费用0美元。测试集已被历史实验暴露，属于探索性结果。
 '''
-    more_en,more_zh=details(audit,learning)
-    en+=more_en;zh+=more_zh
-    (HERE/'RESULTS.en.md').write_text(en);(HERE/'RESULTS.zh.md').write_text(zh)
     for lang,text in [('en',en),('zh',zh)]:
+        (HERE/f'RESULTS.{lang}.md').write_text(text)
         (ROOT/f'paper/versions/v0.49-2026-10-16.{lang}.md').write_text(text)
-    print('Wrote bilingual executed-result reports')
-
-def details(audit,learning):
-    """Mechanism results and implementation boundaries, all linked to measured data."""
-    fmt=lambda x:f'{100*x:.2f}'
-    comparison=audit['paired_patient_bootstrap']['rxrsi_base_to_rxrsi']
-    ci=comparison['drug_delta_ci95'];ci4=comparison['core4_delta_ci95']
-    base=audit['methods']['rxrsi_base']['metrics'];final=audit['methods']['rxrsi_selected']['metrics']
-    delta=100*(final['drug_micro_f1']-base['drug_micro_f1'])
-    cards=learning['selected_state']['cards']
-    lines=['| Module | Initial | Retained |','|---|---:|---:|',f'| Procedural cards | 0 | {len(cards)} |',
-      f"| Cards enabling all-observed verification | 0 | {sum(c.get('fact_scope')=='all_observed' for c in cards)} |",
-      '| Model-weight updates | 0 | 0 |','| New executable tool code | 0 | 0 |','| Candidate model / vocabulary changes | 0 | 0 |']
-    module='\n'.join(lines)
-    learned='\n'.join('- Trigger: `'+c['condition']+'`; configuration: `'+c.get('fact_scope','selected')+'`; procedure: '+c['instruction']+' Counterexample: '+c['counterexample'] for c in cards) or 'No retained rule.'
-    ab=json.loads((HERE/'results/evidence_ablation.json').read_text());a=ab['baseline'];b=ab['without_label_excerpts']
-    semantic=json.loads((HERE/'results/skemex_learning.json').read_text())
-    sr=['| Round | Cases | Created | Active skills | Schema/materialization errors |','|---:|---:|---:|---:|---:|']
-    for r in semantic['rounds']:sr.append(f"| {r['round']} | {r['cases_seen']} | {r['created']} | {r['active']} | {len(r.get('adapter_errors',[]))} |")
-    sk='\n'.join(sr)
-    comp_path=HERE/'results/component_ablation.json';comp='Component diagnostic is still pending; no result is implied.'
-    if comp_path.exists():
-        d=json.loads(comp_path.read_text());ls=['| Component, 128 fixed test cases | Drug F1 | Core4 F1 | Mean checked facts |','|---|---:|---:|---:|']
-        for name,entry in d['arms'].items():ls.append(f"| {name} | {fmt(entry['metrics']['drug_micro_f1'])} | {fmt(entry['metrics']['core_order_micro_f1'])} | {entry['mean_checked_facts']:.2f} |")
-        comp='\n'.join(ls)
-    de=audit['methods']['rxrsi_selected']['descriptive_endpoints']
-    per_path=HERE/'results/catalogue_permutation.json';position_en=position_zh=''
-    if per_path.exists():
-        per=json.loads(per_path.read_text());same=per['same_drug_set_cases']
-        position_en=f"Catalogue permutation preserves the drug set in {same}/128 cases. Drug F1 changes from {fmt(per['original']['drug_micro_f1'])}% to {fmt(per['permuted']['drug_micro_f1'])}%. This tests position sensitivity, not absence of pretrained drug priors."
-        position_zh=f"只打乱候选编号和顺序后，{same}/128例仍选择相同药物集合；药物 F1 从 {fmt(per['original']['drug_micro_f1'])}% 变为 {fmt(per['permuted']['drug_micro_f1'])}%。这检验位置敏感性，不能证明预训练药名先验已被排除。"
-    en=f'''
-## 7. Retention is not the same as verified improvement
-
-Full-test initial-to-retained drug-F1 change: **{delta:+.2f} pp**, patient-cluster 95% interval **[{100*ci[0]:+.2f}, {100*ci[1]:+.2f}] pp**; Core4 interval **[{100*ci4[0]:+.2f}, {100*ci4[1]:+.2f}] pp**. There are {comparison['changed_cases']} changed cases, {comparison['case_f1_improved']} with higher per-case drug F1 and {comparison['case_f1_regressed']} with lower per-case drug F1. These exploratory intervals do not adjust for repeated development. A positive point estimate alone does not establish reliable improvement.
-
-{module}
-
-Actual retained model-generated text:
-
-{learned}
-
-The executable trigger is the declared condition enum. Natural-language counterexamples are recorded but not formally enforced as separate predicates. The model's root description remains a hypothesis. The fact-scope interface was written by the researcher before this trajectory; its selection was made by the updater.
-
-{comp}
-
-The subset and component arms were fixed before reading a full-test score. They are diagnostic only, and do not choose a new main-table method.
-
-{position_en}
-
-For retained RxRSIAgent, mean drug Jaccard is {fmt(de['mean_drug_jaccard'])}%, exact drug-set agreement {fmt(de['drug_exact_set_accuracy'])}%; reference-relative omissions/extras average {de['missed_drugs_per_admission']:.2f}/{de['extra_drugs_per_admission']:.2f} per admission. Recall is {fmt(de['prior_target_recall'])}% for target drugs present in prior orders and {fmt(de['new_target_recall'])}% for other target drugs. The shared catalogue covers {fmt(de['catalogue_core4_recall_ceiling'])}% of complete reference Core4 tuples. Order fields are supplied by the frozen joint-template tool, not independently generated by the LLM.
-
-## 8. Evidence-removal intervention and comparator learning
-
-On the same 48 proposal cases, with label excerpts: drug/Core4 F1 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**; without excerpts: **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**. This changes information and input length, and is an exploratory development ablation. It does not prove that drug labels are intrinsically harmful or that their clinical use is unnecessary.
-
-SkeMex author-memory training, with all 144 training admissions:
-
-{sk}
-
-The author core is pinned; the actor, embedding backend and continuous prescription reward are adaptations. The source's original ReAct/tool benchmark is not reproduced. FLAME executes the actual released trained list policy after merging 224 adapter layers; all adapter tensors are consumed. Its source classifier and patient/diagnosis/procedure embeddings are absent, so only component transfer is claimed.
-
-An engine-only prefill-batch probe changed 2/16 development outputs. That optimization was rejected; the main run retains prefill batch 2 and completion batch 8. Quantized greedy decoding is still batch-sensitive, and cached requests reuse their first recorded output.
-
-Primary method sources: [SafeRx-Agent](https://arxiv.org/html/2605.29146v1), [FLAME paper](https://arxiv.org/html/2505.20218v1) and [author code](https://github.com/cxfann/Flame), [SkeMex paper](https://arxiv.org/html/2606.09365v4) and [author code](https://github.com/manglu097/SkeMex). Published numbers are preserved separately in `published_reference_scores.json`, never inserted as matched local rows.
-'''
-    zh=f'''
-## 七、通过守门不等于已经证明提高
-
-全量测试初始→最终药物 F1 变化 **{delta:+.2f} pp**，按患者聚类 bootstrap 的95%区间为 **[{100*ci[0]:+.2f}, {100*ci[1]:+.2f}] pp**；四字段 F1 变化区间为 **[{100*ci4[0]:+.2f}, {100*ci4[1]:+.2f}] pp**。共 {comparison['changed_cases']} 例输出变化，其中单例药物 F1 改善 {comparison['case_f1_improved']} 例、下降 {comparison['case_f1_regressed']} 例。区间未校正重复开发，正的点估计不能单独证明可靠收益。
-
-{module}
-
-实际保留的模型生成规则如下：
-
-{learned}
-
-可执行触发条件是枚举条件；自然语言反例被保存，但尚未形式化为额外排除谓词。模型写出的根因仍是假设。事实范围配置接口由研究者预先实现，更新器决定是否及在何种条件下启用。
-
-{comp}
-
-子集和消融臂在读取完整测试分数前已冻结；仅用于解释组件，不据此改选主表方法。
-
-{position_zh}
-
-最终 RxRSIAgent 的平均药物 Jaccard 为 {fmt(de['mean_drug_jaccard'])}%，整套药物完全匹配率 {fmt(de['drug_exact_set_accuracy'])}%；每例相对于GT平均漏 {de['missed_drugs_per_admission']:.2f} 个药、多 {de['extra_drugs_per_admission']:.2f} 个药。此前已出现药物的目标召回率 {fmt(de['prior_target_recall'])}%，新药目标召回率 {fmt(de['new_target_recall'])}%。共享候选模板最多覆盖 {fmt(de['catalogue_core4_recall_ceiling'])}% 的完整四字段 GT。剂量等联合字段由冻结模板工具提供，不是 LLM 自由生成的剂量。
-
-## 八、证据检索干预与对照学习过程
-
-相同48例候选集：有说明书片段时药物/订单 F1 为 **{fmt(a['drug_micro_f1'])}/{fmt(a['core_order_micro_f1'])}%**；去掉片段后为 **{fmt(b['drug_micro_f1'])}/{fmt(b['core_order_micro_f1'])}%**。这是同时改变信息量和输入长度的探索性开发消融，不能推断药品说明书本身有害或临床上不需要它。
-
-SkeMex 作者记忆核心处理全部144例训练病例：
-
-{sk}
-
-使用了固定版本的作者记忆代码；处方执行器、向量模型与连续奖励属于适配，未执行原论文完整 ReAct 工具任务。FLAME 使用真实发布的训练后列表策略，融合224个适配器层、全部适配器张量均已使用；缺少源分类器和患者/诊断/操作嵌入，只能称组件迁移。
-
-预填充批次加速探针使16例中的2例输出变化，因此未采用；主实验保留预填充批次2、生成批次8。量化贪心解码仍可能随批次布局变化，缓存复用第一次记录的输出。
-
-原始来源：[SafeRx-Agent](https://arxiv.org/html/2605.29146v1)、[FLAME论文](https://arxiv.org/html/2505.20218v1)与[作者代码](https://github.com/cxfann/Flame)、[SkeMex论文](https://arxiv.org/html/2606.09365v4)与[作者代码](https://github.com/manglu097/SkeMex)。原论文分数另存 `published_reference_scores.json`，没有混入同条件实测主表。
-'''
-    return en,zh
 if __name__=='__main__':main()

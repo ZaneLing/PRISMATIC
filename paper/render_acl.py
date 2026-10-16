@@ -5,6 +5,7 @@ from acl_manuscript_text import MANUSCRIPT
 from acl_references import REFERENCES
 from failure_case_sections import render as render_failure_sections
 from research_assessment_sections import render as render_research_assessment
+from local_prescription_sections import render as render_local_prescription
 ROOT=Path(__file__).resolve().parent.parent;TARGET=ROOT/'paper/latex/v0.3/prismatic_v03_en.tex';SOURCES={}
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def read(p):
@@ -29,7 +30,7 @@ def run():
  rows.append(r'GRASP (earlier allowance) & 512 & 50.81 & 63.00\\')
  nt=table('Completed different-allowance comparisons; these remain visible to avoid a superiority claim based only on constrained comparator budgets.','tab:native','lrrr','Method & Output cap & RxSafe988 (\\%) & RxQA300 (\\%)',rows)
  dt=table('Evaluation boundaries and endpoints. Repeated development is disclosed; independent evaluation starts only after all trajectories are frozen.','tab:data','p{3.1cm}p{6.8cm}p{4.7cm}','Resource & Use & Endpoint',[
- r'RxSafeBench local protocol & 200/625 train;190 proposal;197 guard;988 evaluation & Single-choice accuracy\\',r'RxQA public OpenFDA & All300 released questions; BNF unavailable & Single-choice accuracy\\',r'MedQA public train & 200 new training cases;120 proposal;120 guard & Single-choice accuracy\\',r'MedPIC-Bench & All467 test questions;35 strict same-option pairs & Exact-set and pair accuracy\\',r'Clinical/real EHR execution & Pending, no reported completed score & Full prescription quality\\'])
+ r'RxSafeBench local protocol & 200/625 train;190 proposal;197 guard;988 evaluation & Single-choice accuracy\\',r'RxQA public OpenFDA & All300 released questions; BNF unavailable & Single-choice accuracy\\',r'MedQA public train & 200 new training cases;120 proposal;120 guard & Single-choice accuracy\\',r'MedPIC-Bench & All467 test questions;35 strict same-option pairs & Exact-set and pair accuracy\\',r'MIMIC-IV local order task & 40,000 candidate-tool training;144 reflection;48/64 gates;1,082 evaluation & Drug-set and joint-order agreement\\',r'Clinical/real EHR execution & Pending, no completed clinical score & Appropriateness and state execution\\'])
  rows=[]
  for s,i in zip(states,ind['trajectory']):
   cards=s['state']['cards'];terms=sum(len(v) for c in cards for v in c.get('trigger_terms',{}).values());patches=sum(len(c.get('retrieval_patch',{})) for c in cards);g=s['gates'];rows.append(f"{s['round']} & {s['cases_seen']} & {len(cards)}/{patches}/{terms} & {g['proposal_rx']['correct']}/{g['proposal_med']['correct']} & {g['guard_rx']['correct']}/{g['guard_med']['correct']} & {i['metrics']['correct']}/467"+r'\\')
@@ -65,6 +66,7 @@ def run():
  repl.update(PRESCRIPTION_GAP=prescription_gap,TOTAL_SPEND=total_spend)
  failure_cases,mimic_status=render_failure_sections(read,table)
  repl.update(FAILURE_CASES=failure_cases,MIMIC_STATUS=mimic_status)
+ repl.update(render_local_prescription(read,table))
  text=MANUSCRIPT
  for k,v in repl.items():text=text.replace('@@'+k+'@@',v)
  assert '@@' not in text
@@ -73,5 +75,5 @@ def run():
  for i in range(0,len(parts),2):parts[i]=re.sub(r'(?<![A-Za-z0-9_/])([A-Za-z]{2,})(?=[0-9])',r'\1 ',parts[i])
  text=''.join(parts)
  original=TARGET.read_text();prefix=original[:original.index(r'\documentclass')];start=prefix.index(r'\begin{filecontents*}[overwrite]{acl.sty}')+len(r'\begin{filecontents*}[overwrite]{acl.sty}')+1;end=prefix.index(r'\end{filecontents*}',start);provenance=read('paper/latex/v0.3/acl_template_provenance.json');assert hashlib.sha256((prefix[start:end].rstrip()+'\n').encode()).hexdigest()==provenance['acl_sty_sha256'];TARGET.write_text('\n'.join(line.rstrip() for line in (prefix+text.lstrip()).splitlines()).rstrip()+'\n')
- manifest={'snapshot':'2026-10-16 trace-root, scoped intervention and independent evaluation','method':'RxRSIAgent','paper_path':str(TARGET.relative_to(ROOT)),'paper_sha256':sha(TARGET),'generator_sha256':sha(__file__),'failure_sections_sha256':sha(ROOT/'paper/failure_case_sections.py'),'research_assessment_sections_sha256':sha(ROOT/'paper/research_assessment_sections.py'),'narrative_sha256':sha(ROOT/'paper/acl_manuscript_text.py'),'sources':SOURCES,'acl_style_sha256':provenance['acl_sty_sha256'],'main_counts':{'rxsafe':rx,'rxqa':qa},'independent':z['metrics']['correct'],'historical_versions_in_manuscript':False,'calibration_is_separate_baseline':True};(TARGET.parent/'manuscript_evidence.json').write_text(json.dumps(manifest,indent=2)+'\n');print(json.dumps(manifest['main_counts']))
+ manifest={'snapshot':'2026-10-17 local prescriptions, controlled interface repair and frozen sequential evaluation','method':'RxRSIAgent','paper_path':str(TARGET.relative_to(ROOT)),'paper_sha256':sha(TARGET),'generator_sha256':sha(__file__),'failure_sections_sha256':sha(ROOT/'paper/failure_case_sections.py'),'research_assessment_sections_sha256':sha(ROOT/'paper/research_assessment_sections.py'),'local_prescription_sections_sha256':sha(ROOT/'paper/local_prescription_sections.py'),'narrative_sha256':sha(ROOT/'paper/acl_manuscript_text.py'),'sources':SOURCES,'acl_style_sha256':provenance['acl_sty_sha256'],'main_counts':{'rxsafe':rx,'rxqa':qa},'independent':z['metrics']['correct'],'historical_versions_in_manuscript':False,'calibration_is_separate_baseline':True};(TARGET.parent/'manuscript_evidence.json').write_text(json.dumps(manifest,indent=2)+'\n');print(json.dumps(manifest['main_counts']))
 if __name__=='__main__':run()

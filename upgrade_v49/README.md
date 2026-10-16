@@ -1,5 +1,9 @@
 # RxRSIAgent: local full-window prescription experiment
 
+## Experiment status
+
+The literal-schema comparison was interrupted after a training-only controlled probe exposed format-example anchoring. Two full RxRSIAgent runs completed; [negative results](RESULTS.en.md) and [中文](RESULTS.zh.md) are archived. SafeRx/SkeMex/FLAME comparison continues with the common corrected interface in [upgrade_v50](../upgrade_v50/README.md).
+
 This directory executes a **new prescription-task adaptation**. The frozen public-QA agent is preserved in `rxrsiagent/`; its published DeepSeek scores are not relabeled as MIMIC scores.
 
 ## Task and output contract
