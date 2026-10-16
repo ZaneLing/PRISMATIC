@@ -24,5 +24,12 @@
     "small exploratory component diagnostic",
     "same historically exposed MIMIC test source",
     "not clinical-safety validation"
-  ]
+  ],
+  "batch_control_amendment": {
+    "unix": 1792162581.075138,
+    "before_full_test_score_exists": true,
+    "motivation": "Training-only prefill probe changed 2/16 outputs; avoid comparing cached responses generated in different batch layouts",
+    "execution": "All four arms use the same 128-case order, chunks of 8, and fresh per-batch generation namespaces; separately report cached-to-fresh no-edit replay differences",
+    "main_method_changed": false
+  }
 }

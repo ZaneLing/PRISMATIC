@@ -24,12 +24,18 @@ def main():
         cc={**c,'catalogue':{f'A{i+1}':o for i,o in enumerate(values)}}
         assert sorted(json.dumps(x,sort_keys=True) for x in cc['catalogue'].values())==sorted(json.dumps(x,sort_keys=True) for x in c['catalogue'].values())
         altered.append(cc)
-    base={r['case_id']:r for r in json.loads((PRIVATE/'qwen-test-rxrsi_base.json').read_text())['rows']};baseline=[base[i] for i in ids]
-    b=Backend();rows=run(b,altered,'rxrsi',{'cards':[]},'catalogue-permutation')
+    baseline=json.loads((PRIVATE/'component-initial.json').read_text())['rows'];assert [r['case_id'] for r in baseline]==ids
+    b=Backend();namespace=PRIVATE/'permutation-controlled-generation'/str(time.time_ns());original_batch=b.batch
+    def controlled(messages,cap=128,tag='infer'):
+        b.cache=namespace/tag.replace('/','_');b.cache.mkdir(parents=True,exist_ok=True)
+        return original_batch(messages,cap,tag)
+    b.batch=controlled
+    rows=run(b,altered,'rxrsi',{'cards':[]},'catalogue-permutation')
     save(PRIVATE/'permuted-catalogue-test.json',{'rows':rows})
     drug_agreement=sum({o['drug_name'] for o in x['orders']}=={o['drug_name'] for o in y['orders']} for x,y in zip(baseline,rows))
     save(HERE/'results/catalogue_permutation.json',{'complete':True,'cases':len(cases),'original':metrics(baseline,cases),
       'permuted':metrics(rows,altered),'same_drug_set_cases':drug_agreement,'paired':paired(cases,baseline,rows),
+      'baseline':'fresh component initial-state replay, same case/chunk order',
       'selection_from_results':False,'api_cost_usd':0,'protocol_sha256':sha(HERE/'permutation_protocol.json')})
 if __name__=='__main__':
     import sys
