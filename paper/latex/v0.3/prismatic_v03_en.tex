@@ -507,12 +507,54 @@ Patient vignette removed & 24/70 & 0/35 & --\\
 On the strict paired subset, removing the vignette leaves exact accuracy unchanged at 24/70, although complete-pair correctness falls from 3/35 to 0/35. Option permutation changes 22/70 mapped predictions. These diagnostics do not support shortcut robustness; they expose a remaining patient-condition and position-sensitivity problem.
 
 \subsection{Case studies: failures as inspectable interventions}
-A training question described gestational timing, but the initial context matcher missed its wording. A pregnancy-specific proposal therefore failed its own support-region check. Broadening the trigger to age made it affect almost all MedQA development cases. This identifies two distinct faults: missed context recognition and excessive routing. The current updater can instead propose data-bound vocabulary extensions, preserving the narrow feature. Such a patch is a tool-configuration change; its existence alone is not evidence of better prescriptions.
 
-A second failure occurred in numerical calibration: public case\texttt{0d0cc811ec14bfd3} changed from the reference medication to a different option, while an associated source trace overgeneralized one topical product's label to the ingredient. This illustrates why the final workflow avoids silent numeric overrides and displays product-specific evidence. These cases are post hoc mechanism illustrations, not estimates of clinical error prevalence.
+\paragraph{Product identity is insufficient.}
+In training case\texttt{e7a30d739ee5b9be}, the reference is ferrous sulfate, but the actor chooses ferrous fumarate. Retrieval supplies a same-ingredient homeopathic product whose indication concerns hot flashes; the original reader discards the source field declaring its homeopathic status. Full metadata and product-scope filtering restore reference agreement. OTC status alone must not trigger this exclusion, and listing in openFDA does not establish approval. This repairs an evidence mismatch, not proof that every alternative iron treatment is inappropriate.
+
+\paragraph{A correct source can lose its decisive condition.}
+A heart-failure combination question has isosorbide dinitrate/hydralazine as its reference, whereas the actor chooses amlodipine/valsartan. Component-only retrieval misses regimen-level evidence. Retrieving the combination label still fails when a character window removes the population qualifier. Expanding to the complete original sentence restores reference agreement in this example. The source also specifies adjunctive treatment; its population qualifier is not a sufficient standalone prescribing rule.
+
+\paragraph{Some premises survive explicit verification prompts.}
+In\texttt{20084f0b868433c8}, the actor infers dialysis from recurring transfusions and uses it to exclude the reference treatment. Product retrieval changes the answer to the reference, but the additional decision-obligation prompt still selects the original alternative. In another training case, the actor confuses intervention during active diphtheria with pre-exposure toxoid vaccination; all tested repairs remain incorrect. Source-provenance checks do not validate semantic entailment, and label retrieval does not replace treatment-phase guidance.
+
+\paragraph{From case repair to population validation.}
+Across 400 training traces, structural checks identify 8 cases with a shared component across options and 10 requiring joint-regimen retrieval; each group contains 2 original errors. These patterns account for only part of the 131 observed failures. The repaired tools preserve option roles, full product metadata and combination identities. A further candidate expands evidence to whole sentences under the same 18,000-character source limit. A final router activates only for source-classified homeopathic products or joint-regimen options, preserving the original evidence and requests elsewhere. No answer label or prediction correctness is read by the router. Its design follows observed development failures and is not an unseen-test intervention.
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Researcher-authored failure-directed repairs, evaluated on reused development data. The first three arms use an 85-case training diagnostic (baseline 55); the routed arm uses all 400 training cases (baseline 269). Proposal baselines are 99/190 and 103/120. Training denominators differ. None passes the per-task non-regression gate, so no new main-test checkpoint is selected.}
+\label{tab:failure-repairs}
+\begin{tabular}{@{}lrrr@{}}\toprule
+Candidate & Training diagnostic & RxSafe proposal & MedQA proposal\\\midrule
+Product-scope tools & 62/85 & 98/190 & 100/120\\
+Tools + decision obligations & 57/85 & 97/190 & 100/120\\
+Tools + whole sentences & 60/85 & 101/190 & 100/120\\
+Scope-routed tools & 273/400 & 98/190 & 102/120\\
+\bottomrule\end{tabular}
+\end{table*}
+The scoped candidate activates on 16/400 training cases, fixes 5 and regresses 1, but loses one correct answer on each proposal task. The other candidates also fail the declared per-task gate. They are executable researcher repairs, not accepted autonomous RSI updates. The frozen main-table actor therefore remains unchanged. These positive and negative examples are training illustrations, not independent clinical validation.
+
+
+
+\subsection{Choice reasoning versus complete prescription prediction}
+The three main public resources score supplied answer options: RxSafeBench is three-way choice, public RxQA is four-way choice, and MedPIC includes single- and multiple-answer items. Their accuracies are not prescription coverage. For a predicted drug set$P$ and recorded reference$G$, recall is$|P\cap G|/|G|$ and precision is$|P\cap G|/|P|$. Both must accompany F1, Jaccard, omissions, extras and prescription size. An extra relative to recorded treatment is not automatically clinically inappropriate. Joint order matching and reference-field completeness must be reported separately from drug identity.
+
+Completed earlier local work on MIMIC-IV 3.1 predicts newly entered or changed orders in the six hours after an admission-plus-six-hour decision, with patient-disjoint 40,000/2,000/2,000/1,082 training/proposal/guard/test admissions. The test contains 1,024 patients. Prescriptions are linked to provider/pharmacy entry times; inputs exclude future results and untimed discharge diagnoses. The initial 128 normalized-name vocabulary is fixed, with out-of-vocabulary targets retained in recall. A local recount of three seeds reproduces every original drug/core4 F1 and additionally computes frequency-inclusive order agreement. No restricted records are sent to an external provider.
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Separate historical MIMIC-IV order task, locally recounted from frozen predictions across three seeds. These are earlier supervised/retrieval pipelines, not current RxRSIAgent results. Core 4 matches drug/route/dose/unit; Order 5 adds frequency and is a post hoc descriptive endpoint. Only 60.20\% of reference order rows have all five fields; tuple scores use complete observed labels.}
+\label{tab:historical-orders}
+\begin{tabular}{@{}lrrrrr@{}}\toprule
+Historical method & Drug P (\%) & Drug R (\%) & Drug F1 (\%) & Core 4 F1 (\%) & Order 5 F1 (\%)\\\midrule
+Case retrieval + order tool & 16.14 & 15.08 & 15.59 & 9.52 & 6.41\\
+Supervised artifact agent & 15.85 & 24.16 & 19.14 & 11.53 & 8.27\\
+Word/character ensemble + tool & 17.56 & 23.53 & 20.10 & 12.07 & 8.51\\
+\bottomrule\end{tabular}
+\end{table*}
+A separate retrospective completed-visit study has 271 ATC-L4 classes,18,429 training visits and 2,422 reserved test visits. Its NDC mapping covers only 27.23\% of selected prescription rows; molecular comparisons use a different 219-class panel. Author-method implementations have audited development results, but the full final comparison remains unfinished. Completed-visit codes are not decision-time observations. Neither this mapped subset nor the earlier supervised order pipeline establishes the current LLM agent's complete prescribing ability. Evaluating current RxRSIAgent on shared decision-time inputs and full order endpoints remains a substantive requirement.
+
 
 \section{Clinical Scope and Limitations}
-QA agreement does not measure complete treatment coverage, omissions, unnecessary medication, dose/route/schedule correctness, full interactions, organ-function adjustment or monitoring. A separately specified clinician rubric follows medicines review and the Medication Appropriateness Index \citep{nice,mai}; two available reviewers have not returned blinded ratings. No clinical outcome is inferred from these QA results. Complete decision-time prescription evaluation and real MedAgentBench tool/state execution remain unfinished.
+QA agreement does not measure complete treatment coverage, omissions, unnecessary medication, dose/route/schedule correctness, full interactions, organ-function adjustment or monitoring. A separately specified clinician rubric follows medicines review and the Medication Appropriateness Index \citep{nice,mai}; two available reviewers have not returned blinded ratings. No clinical outcome is inferred from these QA results. Evaluation of the current LLM actor on complete decision-time prescriptions and real MedAgentBench tool/state execution remains unfinished; earlier local order experiments are reported separately.
 
 Repeated main-benchmark exposure, reused development cohorts, a single served backbone and provider nondeterminism limit inference. A model's root explanation is a hypothesis, even when quotations are valid. Sparse or inconsistent benchmark feedback can yield unsupported procedures. Context terms may overgeneralize, and proposed exclusion conditions are not clinically certified. Label coverage, exact provenance and numeric comparisons do not establish complete applicability; missing formulations, strengths, units and temporal treatment context remain limitations. The query cap and source failures constrain retrieval. Equal output allowance does not equal compute or data. This work studies stateful, externally supervised agent updates; it does not establish autonomous recursive improvement of model weights or tool code.
 

@@ -4,6 +4,8 @@ Target: ACL2027. Updated16 October2026. The English manuscript remains in its or
 
 ## Read first
 
+- [Failure cases, task definitions and MIMIC-IV (中文)](TASKS_CASES_AND_MIMIC.zh.md) · [English](TASKS_CASES_AND_MIMIC.en.md). Four new development candidates failed acceptance; main-table actor unchanged.
+
 - [中文完整结果](CURRENT_RESULTS.zh.md) · [Current English results](CURRENT_RESULTS.en.md).
 - [English ACL source](latex/v0.3/prismatic_v03_en.tex) · [source evidence manifest](latex/v0.3/manuscript_evidence.json) · [compile check](latex/v0.3/compile_check.json).
 - [Current actor](../rxrsiagent/selected_agent.py) · [frozen configuration](../rxrsiagent/selected_profile.json).

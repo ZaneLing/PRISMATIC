@@ -107,3 +107,11 @@ The 35 pairs share identical option strings and all 35 change the correct answer
 - Raw benchmark data, downloaded label bodies, provider receipts, restricted records and credentials remain outside Git.
 
 Sources: [RxSafeBench paper](https://arxiv.org/html/2511.04328v1), [MedPIC paper](https://arxiv.org/abs/2608.03028), [MedPIC author data](https://huggingface.co/datasets/TIM0927/MedPIC-Bench), [openFDA fields](https://open.fda.gov/apis/drug/label/searchable-fields/).
+
+## 11. Failure-directed cases and MIMIC-IV
+
+Four failure-directed candidates were executed: product scope, decision obligations, whole-sentence evidence and narrow scope routing. Specific training errors were repaired, but every candidate failed development acceptance; the main table and current runtime retain the frozen actor. Scoped routing changes269→273/400 training answers, but99→98/190 RxSafe and103→102/120 MedQA proposal answers. No independent evolutionary gain is established.
+
+The three public benchmarks are option-answering tasks, not complete-prescription coverage. Earlier MIMIC-IV work completed a time-controlled new-order task on1,082 test admissions. A new local recount gives the earlier supervised agent15.85%/24.16%/19.14% drug precision/recall/F1, versus17.56%/23.53%/20.10% for the ensemble. These are not current LLM-agent scores. The full final ATC-L4 comparison remains unfinished.
+
+[Full English case/task/MIMIC report](TASKS_CASES_AND_MIMIC.en.md) · [中文](TASKS_CASES_AND_MIMIC.zh.md). New development predictions, source audits and local MIMIC recounts are in`upgrade_v45/results/` and`upgrade_v47/results/`. Incremental successful-response ledger cost is approximatelyUSD3.192.

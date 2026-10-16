@@ -193,3 +193,11 @@ Delivered [v0.5 executed results](../upgrade_v5/RESULTS.en.md) and the [architec
 - **强基线与负消融：**词/字符静态排序三种子均值 0.39176；10% 记忆融合 0.39022 低于 seed-42 静态 0.39185。50 例验证表明 LLM 改写较差，门控保留排序候选。保留所有负结果。
 - **工程验证：**8 项契约测试；病例级轨迹与 4,000 例聚合重算；旧版模板内容保持；英文源原位更新并使用内置编译器检查。
 - **仍未完成：**医生评审经验、辅助药/盐水完整订单学习、成分级临床知识、SafeDrug/SafeRx 兼容复现、新患者确认及真实 FHIR。没有宣称超过这些原始方法。
+
+
+## 2026-10-16 — Failure-directed product and scope repairs
+
+- Added five trace-based training case studies; corrected product metadata loss, joint-regimen retrieval, shared option roles and truncated evidence conditions.
+- Evaluated four candidates; none passes development acceptance. Frozen main actor unchanged.
+- Recounted old MIMIC-IV precision/recall and frequency-inclusive order agreement locally across three seeds; no new restricted-data inference.
+- Clarified choice versus prescription endpoints; updated and compiled the original English ACL source.

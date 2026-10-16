@@ -1,0 +1,65 @@
+{
+  "population": "All400 prior training traces; never main/independent test traces",
+  "n": 400,
+  "wrong": 131,
+  "root_stage_hypotheses_not_causal_counts": {
+    "final option selection": 84,
+    "entity/product selection": 32,
+    "rule applicability": 7,
+    "input interpretation": 8
+  },
+  "reference_judgments_are_model_hypotheses": {
+    "ambiguous": 73,
+    "supported": 11,
+    "inconsistent": 20,
+    "insufficient_evidence": 27
+  },
+  "patterns": {
+    "selected_homeopathic_product_verified_from_full_source": {
+      "n": 7,
+      "wrong": 3,
+      "case_ids": [
+        "20084f0b868433c8",
+        "e7a30d739ee5b9be",
+        "fd55cd72b0995b60",
+        "medqa_train_76bd0d5e6bf20faf4987cc961c911ac1a455e0e7d0adedbfd13bf50702d6a939",
+        "medqa_train_29044d08bb225d8acba64f345745d537e16638f6825e5bce21bff374b368b314",
+        "medqa_train_15dc455d25e9742aa37b88f97a3da418d4f336055cafc6dace6ca1a4f207d9b4",
+        "medqa_train_3cd1e834c3152177a9548ddfee78626836b67ffc61010282cb7686e06f30c4c3"
+      ]
+    },
+    "shared_component_with_multiple_option_roles": {
+      "n": 8,
+      "wrong": 2,
+      "case_ids": [
+        "medqa_train_3a1f36e04c1e1fd3069a0fc983ee5c36dd40b5c1ef0cf1fec0baed41c57f33be",
+        "medqa_train_baa9d04b32708c206f7c33f01d0094b7cf4e9e691d2b8be7fb7cfb200f4f924a",
+        "medqa_train_14c577233d11670f80062aae152beacb3053ac00dea5712e5d816b338da29db8",
+        "medqa_train_3c30873078694d879ef41f26260d3525c9c5b0343d3c3713ad6db24e06cebd77",
+        "medqa_train_ff4af539ac24df068f76dbdc723da0d48eaf894ae7e97b4a8ec027b660d172ff",
+        "809e7dd162f616a8",
+        "medqa_train_1d80ecba5eaebb3ee2de187b4dab678a4b9734593ce24df18b0c51bef81be305",
+        "medqa_train_a3e9aac77bd4fd578b55e2c428e6547fee64213e04d44a9a49d75705deb0ebf3"
+      ]
+    },
+    "multi_component_option_without_regimen_level_source_in_old_tool": {
+      "n": 10,
+      "wrong": 2,
+      "case_ids": [
+        "medqa_train_adcd33cd7a7e4e4ca70c96d12865e897b8f46fbe6f1f39af7a425c4cc3a84eb4",
+        "medqa_train_baa9d04b32708c206f7c33f01d0094b7cf4e9e691d2b8be7fb7cfb200f4f924a",
+        "medqa_train_3c30873078694d879ef41f26260d3525c9c5b0343d3c3713ad6db24e06cebd77",
+        "medqa_train_6c2e5e5c5674636c6d528834abbd7aa8c1ba721bcf017dc58e07b306705e2a43",
+        "medqa_train_ff4af539ac24df068f76dbdc723da0d48eaf894ae7e97b4a8ec027b660d172ff",
+        "medqa_train_76bd0d5e6bf20faf4987cc961c911ac1a455e0e7d0adedbfd13bf50702d6a939",
+        "medqa_train_ecb1edb577682c29f2d47d93d16d15d1cfce0b0dc14d79777e5a8bc2d1cb187f",
+        "medqa_train_1d80ecba5eaebb3ee2de187b4dab678a4b9734593ce24df18b0c51bef81be305",
+        "medqa_train_87a9d76351c25e2924b9cbc91b89cb612869025ea04755a5160396d7b731f258",
+        "medqa_train_a3e9aac77bd4fd578b55e2c428e6547fee64213e04d44a9a49d75705deb0ebf3"
+      ]
+    }
+  },
+  "feedback_sha256": "2b9cc6467bfa5c75eabfdda6b5206cfdd82bc11119693dc267ddac4b4c3d1e81",
+  "metadata_coverage_note": "Homeopathic counts are lower bounds among original selected labels recovered in new full-source requests; old trimmed metadata cannot establish absence.",
+  "clinical_note": "Pattern co-occurrence with an error is not proof of its causal contribution. Aggregate paired interventions and case traces test the repair."
+}

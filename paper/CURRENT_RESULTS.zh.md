@@ -118,3 +118,11 @@
 **两个 bench 同时超过最强对照的目标尚未完成。** **没有证实逐轮能力增长：最终技能、检索配置和条件词表均未保留变化，独立曲线是相同状态的缓存复用。不能称为已实现成功 RSI。** 当前证据支持的是可追踪的实现改进和真实的失败归因。后续需要针对可靠、可重复的根因构造支持与反例，补足说明书之外的适用性证据，并使用新的独立最终测试验证；不能通过挑测试结果、药名统计或把人工修复算作RSI来达到目标。
 
 来源：[RxSafeBench paper](https://arxiv.org/html/2511.04328v1), [MedPIC paper](https://arxiv.org/abs/2608.03028), [MedPIC author data](https://huggingface.co/datasets/TIM0927/MedPIC-Bench), [openFDA fields](https://open.fda.gov/apis/drug/label/searchable-fields/).
+
+## 11. 最新补充：失败病例、任务区别与 MIMIC-IV
+
+四种失败驱动的工具候选已完成：产品范围、决策条件核验、完整证据句、有限适用范围路由。训练案例中修复了具体错误，但四种候选均未通过开发接纳规则，主表和当前入口保留原冻结方法。限定路由在400训练例上269→273，RxSafe/MedQA proposal分别99→98、103→102；不能称独立进化成功。
+
+三个公开bench都是选项判断，不是完整处方覆盖率。MIMIC-IV并非没做：之前完成了1,082次入院的时间受控新订单预测。本次从保存预测重算，旧监督agent药物precision/recall/F1为15.85%/24.16%/19.14%，集成对照17.56%/23.53%/20.10%。旧方法不等于当前LLM agent；ATC-L4方法的完整最终测试主表仍未完成。
+
+[完整中文：五个case、失败共性、四种候选、三个bench与MIMIC](TASKS_CASES_AND_MIMIC.zh.md) · [English](TASKS_CASES_AND_MIMIC.en.md)。新增开发预测、来源审计和本地MIMIC重算见`upgrade_v45/results/`及`upgrade_v47/results/`。新增成功响应账本约USD3.192。

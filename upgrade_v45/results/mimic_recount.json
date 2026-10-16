@@ -1,0 +1,424 @@
+{
+  "n": 1082,
+  "patients": 1024,
+  "new_model_inference": false,
+  "restricted_records_sent_to_api": false,
+  "old_predictions_only": true,
+  "scope": "MIMIC-IV admission+6h, next6h new/changed orders; same old128 normalized-name vocabulary. A historical reference, not clinical adjudication.",
+  "new_endpoint": "Five-field exact matching adds frequency_per_24h to original core4; only complete observed tuples score, with completeness denominators. Post hoc descriptive recount, not used to select methods.",
+  "per_seed": [
+    {
+      "seed": 42,
+      "methods": {
+        "retrieval_conditional_tool": {
+          "counts_hits_pred_gold": [
+            573,
+            3551,
+            3799,
+            372,
+            3551,
+            4203,
+            137,
+            1671,
+            2556
+          ],
+          "gold_rows": 4246,
+          "pred_rows": 3551,
+          "complete_five_field_gold_fraction": 0.6019783325482807,
+          "complete_five_field_pred_fraction": 0.4705716699521262,
+          "drug_precision": 0.16136299633905943,
+          "drug_recall": 0.15082916556988682,
+          "drug_f1": 0.15591836734693879,
+          "core4_precision": 0.10475922275415377,
+          "core4_recall": 0.08850820842255532,
+          "core4_f1": 0.09595047717307197,
+          "order5_precision": 0.0819868342309994,
+          "order5_recall": 0.05359937402190924,
+          "order5_f1": 0.06482138632599953
+        },
+        "rxrsi_selected": {
+          "counts_hits_pred_gold": [
+            909,
+            5614,
+            3799,
+            571,
+            5614,
+            4203,
+            215,
+            2539,
+            2556
+          ],
+          "gold_rows": 4246,
+          "pred_rows": 5614,
+          "complete_five_field_gold_fraction": 0.6019783325482807,
+          "complete_five_field_pred_fraction": 0.45226220163876024,
+          "drug_precision": 0.16191663697898112,
+          "drug_recall": 0.23927349302448012,
+          "drug_f1": 0.1931371507489642,
+          "core4_precision": 0.1017100106875668,
+          "core4_recall": 0.13585534142279324,
+          "core4_f1": 0.1163288173576449,
+          "order5_precision": 0.08467900748326113,
+          "order5_recall": 0.08411580594679187,
+          "order5_f1": 0.08439646712463199
+        },
+        "word_char_ensemble": {
+          "counts_hits_pred_gold": [
+            893,
+            4960,
+            3799,
+            568,
+            4960,
+            4203,
+            203,
+            2043,
+            2556
+          ],
+          "gold_rows": 4246,
+          "pred_rows": 4960,
+          "complete_five_field_gold_fraction": 0.6019783325482807,
+          "complete_five_field_pred_fraction": 0.41189516129032255,
+          "drug_precision": 0.18004032258064517,
+          "drug_recall": 0.2350618583837852,
+          "drug_f1": 0.2039045553145336,
+          "core4_precision": 0.11451612903225807,
+          "core4_recall": 0.1351415655484178,
+          "core4_f1": 0.12397686347266179,
+          "order5_precision": 0.09936368086147822,
+          "order5_recall": 0.07942097026604068,
+          "order5_f1": 0.0882800608828006
+        }
+      }
+    },
+    {
+      "seed": 137,
+      "methods": {
+        "retrieval_conditional_tool": {
+          "counts_hits_pred_gold": [
+            573,
+            3551,
+            3799,
+            369,
+            3551,
+            4203,
+            136,
+            1672,
+            2556
+          ],
+          "gold_rows": 4246,
+          "pred_rows": 3551,
+          "complete_five_field_gold_fraction": 0.6019783325482807,
+          "complete_five_field_pred_fraction": 0.47085328076598143,
+          "drug_precision": 0.16136299633905943,
+          "drug_recall": 0.15082916556988682,
+          "drug_f1": 0.15591836734693879,
+          "core4_precision": 0.103914390312588,
+          "core4_recall": 0.08779443254817987,
+          "core4_f1": 0.09517668300232138,
+          "order5_precision": 0.08133971291866028,
+          "order5_recall": 0.053208137715179966,
+          "order5_f1": 0.06433301797540208
+        },
+        "rxrsi_selected": {
+          "counts_hits_pred_gold": [
+            911,
+            5762,
+            3799,
+            574,
+            5762,
+            4203,
+            203,
+            2521,
+            2556
+          ],
+          "gold_rows": 4246,
+          "pred_rows": 5762,
+          "complete_five_field_gold_fraction": 0.6019783325482807,
+          "complete_five_field_pred_fraction": 0.4375216938562999,
+          "drug_precision": 0.1581048247136411,
+          "drug_recall": 0.239799947354567,
+          "drug_f1": 0.1905658403932643,
+          "core4_precision": 0.09961818812912183,
+          "core4_recall": 0.1365691172971687,
+          "core4_f1": 0.11520321123933769,
+          "order5_precision": 0.08052360174533915,
+          "order5_recall": 0.07942097026604068,
+          "order5_f1": 0.07996848532597992
+        },
+        "word_char_ensemble": {
+          "counts_hits_pred_gold": [
+            859,
+            4818,
+            3799,
+            537,
+            4818,
+            4203,
+            192,
+            1975,
+            2556
+          ],
+          "gold_rows": 4246,
+          "pred_rows": 4818,
+          "complete_five_field_gold_fraction": 0.6019783325482807,
+          "complete_five_field_pred_fraction": 0.4099211290992113,
+          "drug_precision": 0.17828974678289747,
+          "drug_recall": 0.22611213477230852,
+          "drug_f1": 0.19937333178600442,
+          "core4_precision": 0.11145703611457036,
+          "core4_recall": 0.12776588151320487,
+          "core4_f1": 0.11905553708014632,
+          "order5_precision": 0.09721518987341772,
+          "order5_recall": 0.07511737089201878,
+          "order5_f1": 0.08474950342087839
+        }
+      }
+    },
+    {
+      "seed": 2026,
+      "methods": {
+        "retrieval_conditional_tool": {
+          "counts_hits_pred_gold": [
+            573,
+            3551,
+            3799,
+            366,
+            3551,
+            4203,
+            134,
+            1680,
+            2556
+          ],
+          "gold_rows": 4246,
+          "pred_rows": 3551,
+          "complete_five_field_gold_fraction": 0.6019783325482807,
+          "complete_five_field_pred_fraction": 0.4731061672768234,
+          "drug_precision": 0.16136299633905943,
+          "drug_recall": 0.15082916556988682,
+          "drug_f1": 0.15591836734693879,
+          "core4_precision": 0.10306955787102225,
+          "core4_recall": 0.08708065667380442,
+          "core4_f1": 0.0944028888315708,
+          "order5_precision": 0.07976190476190476,
+          "order5_recall": 0.05242566510172144,
+          "order5_f1": 0.06326723323890462
+        },
+        "rxrsi_selected": {
+          "counts_hits_pred_gold": [
+            933,
+            6002,
+            3799,
+            584,
+            6002,
+            4203,
+            224,
+            2790,
+            2556
+          ],
+          "gold_rows": 4246,
+          "pred_rows": 6002,
+          "complete_five_field_gold_fraction": 0.6019783325482807,
+          "complete_five_field_pred_fraction": 0.46484505164945017,
+          "drug_precision": 0.15544818393868712,
+          "drug_recall": 0.2455909449855225,
+          "drug_f1": 0.1903887358432813,
+          "core4_precision": 0.09730089970009996,
+          "core4_recall": 0.13894837021175352,
+          "core4_f1": 0.11445369916707496,
+          "order5_precision": 0.08028673835125448,
+          "order5_recall": 0.08763693270735524,
+          "order5_f1": 0.08380097268986157
+        },
+        "word_char_ensemble": {
+          "counts_hits_pred_gold": [
+            930,
+            5519,
+            3799,
+            579,
+            5519,
+            4203,
+            208,
+            2497,
+            2556
+          ],
+          "gold_rows": 4246,
+          "pred_rows": 5519,
+          "complete_five_field_gold_fraction": 0.6019783325482807,
+          "complete_five_field_pred_fraction": 0.45243703569487226,
+          "drug_precision": 0.16850878782388115,
+          "drug_recall": 0.24480126349039222,
+          "drug_f1": 0.19961365099806824,
+          "core4_precision": 0.1049103098387389,
+          "core4_recall": 0.1377587437544611,
+          "core4_f1": 0.11911129397243365,
+          "order5_precision": 0.08329995995194234,
+          "order5_recall": 0.081377151799687,
+          "order5_f1": 0.08232733029883238
+        }
+      }
+    }
+  ],
+  "methods": {
+    "retrieval_conditional_tool": {
+      "gold_rows": {
+        "mean": 4246.0,
+        "seed_sd": 0.0
+      },
+      "pred_rows": {
+        "mean": 3551.0,
+        "seed_sd": 0.0
+      },
+      "complete_five_field_gold_fraction": {
+        "mean": 0.6019783325482807,
+        "seed_sd": 0.0
+      },
+      "complete_five_field_pred_fraction": {
+        "mean": 0.471510372664977,
+        "seed_sd": 0.001389153157509487
+      },
+      "drug_precision": {
+        "mean": 0.16136299633905943,
+        "seed_sd": 0.0
+      },
+      "drug_recall": {
+        "mean": 0.15082916556988682,
+        "seed_sd": 0.0
+      },
+      "drug_f1": {
+        "mean": 0.15591836734693879,
+        "seed_sd": 0.0
+      },
+      "core4_precision": {
+        "mean": 0.10391439031258799,
+        "seed_sd": 0.0008448324415657599
+      },
+      "core4_recall": {
+        "mean": 0.08779443254817987,
+        "seed_sd": 0.0007137758743754469
+      },
+      "core4_f1": {
+        "mean": 0.09517668300232136,
+        "seed_sd": 0.0007737941707505816
+      },
+      "order5_precision": {
+        "mean": 0.08102948397052147,
+        "seed_sd": 0.0011444471529122343
+      },
+      "order5_recall": {
+        "mean": 0.05307772561293688,
+        "seed_sd": 0.0005976233300672728
+      },
+      "order5_f1": {
+        "mean": 0.06414054584676875,
+        "seed_sd": 0.0007947528513677324
+      }
+    },
+    "rxrsi_selected": {
+      "gold_rows": {
+        "mean": 4246.0,
+        "seed_sd": 0.0
+      },
+      "pred_rows": {
+        "mean": 5792.666666666667,
+        "seed_sd": 195.80943116544037
+      },
+      "complete_five_field_gold_fraction": {
+        "mean": 0.6019783325482807,
+        "seed_sd": 0.0
+      },
+      "complete_five_field_pred_fraction": {
+        "mean": 0.4515429823815034,
+        "seed_sd": 0.013675870265841696
+      },
+      "drug_precision": {
+        "mean": 0.1584898818771031,
+        "seed_sd": 0.0032513724714299105
+      },
+      "drug_recall": {
+        "mean": 0.2415547951215232,
+        "seed_sd": 0.003505305669112604
+      },
+      "drug_f1": {
+        "mean": 0.19136390899516995,
+        "seed_sd": 0.0015382234049239063
+      },
+      "core4_precision": {
+        "mean": 0.09954303283892953,
+        "seed_sd": 0.002205516076382831
+      },
+      "core4_recall": {
+        "mean": 0.1371242763105718,
+        "seed_sd": 0.0016195239794323283
+      },
+      "core4_f1": {
+        "mean": 0.11532857592135252,
+        "seed_sd": 0.0009438242870227932
+      },
+      "order5_precision": {
+        "mean": 0.08182978252661825,
+        "seed_sd": 0.002470341718676136
+      },
+      "order5_recall": {
+        "mean": 0.0837245696400626,
+        "seed_sd": 0.004121930263244425
+      },
+      "order5_f1": {
+        "mean": 0.08272197504682449,
+        "seed_sd": 0.0024031089524942876
+      }
+    },
+    "word_char_ensemble": {
+      "gold_rows": {
+        "mean": 4246.0,
+        "seed_sd": 0.0
+      },
+      "pred_rows": {
+        "mean": 5099.0,
+        "seed_sd": 370.59546678285204
+      },
+      "complete_five_field_gold_fraction": {
+        "mean": 0.6019783325482807,
+        "seed_sd": 0.0
+      },
+      "complete_five_field_pred_fraction": {
+        "mean": 0.424751108694802,
+        "seed_sd": 0.02399702306876415
+      },
+      "drug_precision": {
+        "mean": 0.1756129523958079,
+        "seed_sd": 0.0062143378251169855
+      },
+      "drug_recall": {
+        "mean": 0.23532508554882867,
+        "seed_sd": 0.009347344514116715
+      },
+      "drug_f1": {
+        "mean": 0.20096384603286876,
+        "seed_sd": 0.002549562048739765
+      },
+      "core4_precision": {
+        "mean": 0.11029449166185577,
+        "seed_sd": 0.004907297912094635
+      },
+      "core4_recall": {
+        "mean": 0.1335553969386946,
+        "seed_sd": 0.005181821309832535
+      },
+      "core4_f1": {
+        "mean": 0.12071456484174725,
+        "seed_sd": 0.002825371033282093
+      },
+      "order5_precision": {
+        "mean": 0.09329294356227942,
+        "seed_sd": 0.008720595992178146
+      },
+      "order5_recall": {
+        "mean": 0.07863849765258217,
+        "seed_sd": 0.0032024071877435212
+      },
+      "order5_f1": {
+        "mean": 0.0851189648675038,
+        "seed_sd": 0.002993514100807706
+      }
+    }
+  }
+}
