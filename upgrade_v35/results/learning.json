@@ -1,0 +1,199 @@
+{
+  "status": "frozen",
+  "frozen_utc": "2026-10-16T07:18:59.330678+00:00",
+  "rounds": [
+    {
+      "round": 0,
+      "cases_seen": 0,
+      "cards": [],
+      "proposal": {
+        "correct": 103,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "guard": {
+        "correct": 102,
+        "n": 197,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "round": 1,
+      "cases_seen": 156,
+      "cards": [],
+      "candidate_cards": [],
+      "accepted": false,
+      "train": {
+        "correct": 82,
+        "n": 156,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "candidate_proposal": {
+        "correct": 103,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "candidate_guard": null,
+      "proposal": {
+        "correct": 103,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "guard": {
+        "correct": 102,
+        "n": 197,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "round": 2,
+      "cases_seen": 312,
+      "cards": [],
+      "candidate_cards": [
+        {
+          "name": "Context-Drug Interaction as Indication Signal",
+          "applies_when": "The dialogue explicitly names a concomitant medication (context drug) and the doctor raises concern about an interaction or the context drug's effect on the suspected condition.",
+          "exclude_when": "The context drug is mentioned only as background without any interaction concern, or the option's label does not document an interaction with that context drug.",
+          "procedure": "1) Identify the context drug named in the dialogue. 2) Check which candidate option's label documents an interaction with that context drug. 3) If the interaction is clinically relevant to the suspected diagnosis (e.g., myopathy risk with statin + HCV regimen), prefer the option whose label explicitly documents that interaction. 4) If no option's label documents the interaction, fall back to indication/route matching rather than inventing an interaction.",
+          "support_ids": [
+            "055e99c9fc4bb751"
+          ],
+          "counterexample_ids": [
+            "dc58911fd4502306"
+          ]
+        }
+      ],
+      "accepted": false,
+      "train": {
+        "correct": 77,
+        "n": 156,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "candidate_proposal": {
+        "correct": 96,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "89f9237dd983f7f21f941688b97c0838edd2cb0966d0d62407f490a00afc7501"
+      },
+      "candidate_guard": null,
+      "proposal": {
+        "correct": 103,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "guard": {
+        "correct": 102,
+        "n": 197,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "round": 3,
+      "cases_seen": 468,
+      "cards": [],
+      "candidate_cards": [
+        {
+          "name": "Indication-first elimination with patient-specific label cautions",
+          "applies_when": "Answer options include multiple drugs with overlapping (or one clearly matching) labeled indications for the working diagnosis, and the dialogue provides patient-specific comorbidities/medications that some labels flag with cautions or contraindications.",
+          "exclude_when": "There is no plausible indication match among the options, or the patient fact is not actually addressed by any supplied label; do not invent a safety contraindication from general knowledge when the label excerpt does not mention it.",
+          "procedure": "1) Identify the working diagnosis and match each option to a labeled indication using only the supplied label text. 2) Eliminate options with no indication match. 3) Among remaining options, check the patient-specific facts (e.g., blood pressure, cardiac history, interacting medication) against explicit label warnings. 4) Prefer the option whose labeled indication matches AND whose supplied label does not carry a caution triggered by the patient's facts. 5) If two options share the same ingredient/are clinically identical, prefer the precise generic ingredient name.",
+          "support_ids": [
+            "c1041cc8e7ab39ca",
+            "44acf1f7e2a26d41",
+            "46372417271f3d84"
+          ],
+          "counterexample_ids": [
+            "cb922af1fbc45197",
+            "2c2ed0dbcbc89edc",
+            "d59e0a6695612873"
+          ]
+        },
+        {
+          "name": "Route and formulation plausibility screen",
+          "applies_when": "The clinical scenario implies a specific administration route or local formulation (e.g., topical for mouth/skin lesions, subcutaneous for DVT prophylaxis), and supplied products list routes for each option.",
+          "exclude_when": "The available routes are unknown/empty for all options, or a listed alternative route is plausible for the target use; do not disqualify an option solely because the retrieved product's primary listed route differs if other routes are listed.",
+          "procedure": "1) Determine the route the clinical task actually requires (oral for systemic therapy, topical for mucosal/skin lesions, parenteral for acute prophylaxis when indicated). 2) Compare against the routes listed for each option in the source products. 3) Eliminate options whose only listed route cannot deliver the drug to the target site. 4) Among remaining options, confirm the labeled indication still matches; if an option has multiple routes listed and its primary label route is not the one used, note the uncertainty rather than rejecting it outright.",
+          "support_ids": [
+            "847854879878b1e5",
+            "8b941dd4988689dd",
+            "c92a4594654ed3a9"
+          ],
+          "counterexample_ids": [
+            "ca43e79533c13aa7",
+            "7ab5c403d34eef30",
+            "a598be41c2983f6b"
+          ]
+        }
+      ],
+      "accepted": false,
+      "train": {
+        "correct": 70,
+        "n": 156,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "candidate_proposal": {
+        "correct": 99,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "37192a8fc8649fa5cc5f1ad7a66a4121fe1ba813884fe8b659b7e7050636afe4"
+      },
+      "candidate_guard": null,
+      "proposal": {
+        "correct": 103,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "guard": {
+        "correct": 102,
+        "n": 197,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "round": 4,
+      "cases_seen": 625,
+      "cards": [],
+      "candidate_cards": [],
+      "accepted": false,
+      "train": {
+        "correct": 87,
+        "n": 157,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "candidate_proposal": {
+        "correct": 103,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "candidate_guard": null,
+      "proposal": {
+        "correct": 103,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "guard": {
+        "correct": 102,
+        "n": 197,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    }
+  ],
+  "protocol_sha256": "e84f17e513ddfe4d867a0d279e1f0ca77a36159403d6b3e9bb4b6c18b4ce998f",
+  "summary_reconstruction": "Regenerated from unchanged completed local states after a report-path collision; timestamp is final state persistence time."
+}

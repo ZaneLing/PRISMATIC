@@ -1,0 +1,24 @@
+{
+  "created_utc": "2026-10-16T07:25:20.165718+00:00",
+  "code_sha256": "b5502d0fb3a2fcebd1b4c53ee7d5ee1b90411c267bd3cdd2eef5e134fbf7e978",
+  "feature_code_sha256": "009580a5fb7c37ec3814b980665cf6cef4d85ed913ef5c6ecd1fc243f23cf355",
+  "design": "Ordinary supervised option calibration after source-verifying agent; no extra model call. Base output kept unless all options are short names observed in training and rank margin exceeds development-chosen threshold.",
+  "features": "Second-call draft; exact medication-name indicators; medication/UNII crossed with extracted focus words. No answer-position or case-ID features.",
+  "grid": {
+    "C": [
+      0.1,
+      1,
+      10
+    ],
+    "margin": [
+      0,
+      0.05,
+      0.1,
+      0.2,
+      0.3
+    ]
+  },
+  "selection": "Highest proposal190 correct; ties prefer fewer overrides, then stronger regularization. Freeze candidate before guard. Guard must beat source agent102/197 with no invalid increase. Failure blocks promotion.",
+  "risk": "Medication identity priors may exploit benchmark construction; gains do not establish clinical correctness. Ordinary supervised ranker is a required component comparator, not renamed RSI.",
+  "curves": "Post hoc fixed-hyperparameter training-prefix curves; selected hyperparameters used full625 training/development feedback, so early prefixes are not a prospective online study."
+}

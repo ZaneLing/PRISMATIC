@@ -1,0 +1,33 @@
+{
+  "name": "RxRSIAgent",
+  "status": "development-selected before test",
+  "model": "deepseek/deepseek-v4.1-flash",
+  "actor_calls": 3,
+  "output_cap_per_call": 1536,
+  "text_memory": [],
+  "calibration": "ordinary supervised logistic regression; C10, margin0.2; eligibility all option names<=6 words and observed in training",
+  "calibration_sha256": "5dd10425cd5b11ec1ddbd5e36931e1171c683f2f9d7a9a29a50d90ad639916cc",
+  "source_method": "upgrade_v35/workflow.py",
+  "selection": "upgrade_v35/results/calibration_selection.json",
+  "test_freeze": "upgrade_v35/test_freeze.json",
+  "audit": "upgrade_v35/results/audit.json",
+  "followup": "upgrade_v36/results/audit.json",
+  "accepted_followup": null,
+  "measured": {
+    "rxsafe": {
+      "n": 988,
+      "correct": 556
+    },
+    "rxqa": {
+      "n": 300,
+      "correct": 199
+    }
+  },
+  "scope": "Forced-choice benchmark research; not full-order generation or autonomous clinical prescribing. Calibration overrides do not inherit LLM explanation.",
+  "code_sha256": {
+    "upgrade_v35/workflow.py": "7018fd9ec1828183dd4f19d3e57e34e7ba86fd043f08fd767136eca9afcef25a",
+    "upgrade_v35/evidence.py": "fd88c1c68a262063e5e5a3a99ff8d639513434a92d6d5705efbeee551d7343a6",
+    "upgrade_v35/calibrate.py": "b5502d0fb3a2fcebd1b4c53ee7d5ee1b90411c267bd3cdd2eef5e134fbf7e978",
+    "upgrade_v35/rank_probe.py": "009580a5fb7c37ec3814b980665cf6cef4d85ed913ef5c6ecd1fc243f23cf355"
+  }
+}

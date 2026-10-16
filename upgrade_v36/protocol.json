@@ -1,0 +1,28 @@
+{
+  "created_utc": "2026-10-16T07:39:32.874386+00:00",
+  "purpose": "Independent training-source development for longer treatment/action questions; RxQA labels excluded from new selection.",
+  "source": "https://huggingface.co/datasets/openlifescienceai/medqa",
+  "author_source": "https://github.com/jind11/MedQA",
+  "source_revision": "153e61cdd129eb79d3c27f82cdf3bc5e018c11b0",
+  "mirror_disclosure": "Public re-upload; not an author-hosted copy. Parquet hash binds exact downloaded content.",
+  "parquet_sha256": "d7bac59f5cee804a006172d44f675559dc5160bdc84dbae05aeed9d5aa1b56f3",
+  "source_train_rows": 10178,
+  "eligible": 784,
+  "excluded_exact_overlap": 0,
+  "selection": "Input medication/treatment keyword + an option longer than6 whitespace words; hash order; first120 proposal,next120 guard. No labels/difficulty/model outputs selected membership.",
+  "membership": {
+    "proposal": "8e7b2d2d7dc749eb6684a4e9f3d64e5c764aaa552802e669e7e1d2437ea7af7e",
+    "guard": "6a83217f871c5c17dc06b51c38b0d916eb223e8b409bdb440e636d2706d54036"
+  },
+  "new_dev_n": 240,
+  "candidates": [
+    "static_v35",
+    "full_section_context"
+  ],
+  "tokens": "Same3 calls x1536 output cap; report input tokens separately. Conditional application to long action options only; short medication-name branch and frozen numeric calibrator unchanged.",
+  "gate": "Strictly improve correct count on120 proposal then120 guard versus static workflow, no additional invalids; freeze before RxQA rerun. If fail, do not select by RxQA outcome.",
+  "prior_test_exposure": "Aggregate v35 RxQA score199/300 is known; no per-item RxQA errors/answers inspected to design/select this intervention. Repeated main benchmark remains exploratory.",
+  "ledger_start_usd": 61.342019592160064,
+  "max_incremental_usd": 10,
+  "model": "deepseek/deepseek-v4.1-flash"
+}

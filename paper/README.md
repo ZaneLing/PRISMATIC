@@ -1,46 +1,30 @@
 # RxRSIAgent: current manuscript and evidence index
 
-Target: ACL 2027. Updated 16 October 2026.
+Target:ACL2027. Updated16 October2026. The English paper remains at the existing editor path and uses the preserved official ACL review style. Historical versions are archived, outside the current method description.
 
-The [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) is maintained at its existing editor path. It uses one development-selected **RxRSIAgent** configuration. Historical prototypes and version inventories are retained below and in Git, not inside the current paper.
+## Read first
 
-## Start here
+- [Current English results](CURRENT_RESULTS.en.md) / [中文完整结果](CURRENT_RESULTS.zh.md).
+- [English ACL source](latex/v0.3/prismatic_v03_en.tex), [evidence manifest](latex/v0.3/manuscript_evidence.json), [compile check](latex/v0.3/compile_check.json).
+- [Executable current agent](../rxrsiagent/selected_agent.py), [selected profile](../rxrsiagent/selected_profile.json).
+- [Main experiments](../upgrade_v35/README.md), [independent continuation](../upgrade_v36/README.md).
+- [Architecture中文](RXRSI_DESIGN.zh.md) / [Architecture English](RXRSI_DESIGN.en.md), [evolution中文](EVOLUTION.zh.md) / [evolution English](EVOLUTION.en.md).
+- [Clinical endpoint protocol](CLINICAL_EVALUATION.en.md) / [医生视角指标](CLINICAL_EVALUATION.zh.md):annotations pending.
 
-- [Completed medical-agent and scoped-memory experiment](../upgrade_v34/RESULTS.en.md) / [医学agent实测与技能进化](../upgrade_v34/RESULTS.zh.md).
+## Paper navigation
 
-- [Executed retrieval intervention: rejected](../upgrade_v33/RESULTS.en.md) / [实际检索修复实验：未通过升级](../upgrade_v33/RESULTS.zh.md).
-
-- [中文当前结果与主表](CURRENT_RESULTS.zh.md) / [Current English results](CURRENT_RESULTS.en.md).
-- [中文架构与临床问题映射](RXRSI_DESIGN.zh.md) / [English architecture and risk map](RXRSI_DESIGN.en.md).
-- [Executable RxRSIAgent components](../rxrsiagent/README.md) / [selected configuration](../rxrsiagent/evaluated_profile.json).
-- [Evidence manifest](latex/v0.3/manuscript_evidence.json), [compile check](latex/v0.3/compile_check.json), [ACL template provenance](latex/v0.3/acl_template_provenance.json).
-- [Earlier study archive, English](RESULTS_ARCHIVE_2026-10-15.en.md) / [历史实验归档](RESULTS_ARCHIVE_2026-10-15.zh.md).
-
-- [Clinical assessment protocol](CLINICAL_EVALUATION.en.md) / [医生视角评估](CLINICAL_EVALUATION.zh.md).
-- [Audited evolution mechanism and rounds](EVOLUTION.en.md) / [机制与逐轮证据](EVOLUTION.zh.md).
-
-## Where is each part of the paper?
-
-| Reader question | Location | Evidence boundary |
+| Question | Paper location | Scope |
 |---|---|---|
-| What is the complete agent workflow? | Figure1, RxRSIAgent | Measured QA core is solid; new clinical review interfaces are dashed |
-| Which datasets and tasks are evaluated? | Table1, Experimental Setup | Public option tasks and separate eICU order-tool study |
-| How does RxRSIAgent compare with other paper methods? | **Table2, Main agent comparison** | MedAgents, MDAgents, SafeRx-Agent, GRASP and **RxRSIAgent**; MedAgents/MDAgents measured with unequal budgets; SafeRx-Agent unexecuted |
-| What do evidence and skills contribute? | Table3, Component ablations | Same backbone, questions and inference cap |
-| What changes as cases accumulate? | Table4, Experience trajectory | Five checkpoints, artifact words/operations and Figure2 curves; no monotonic improvement claim |
-| Does an order tool help? | Table5, Order-tool component evidence | eICU fixed-policy intervention; not a full-agent score |
-| Where are real examples? | Table6, Case Studies | Public case104 correction and case10 frequency regression |
-| What did the new retrieval repair accomplish? | Table7, Retrieval failure and repair | Coverage1→214/300, dosage0→193/300; no new answer accuracy |
-| Which clinical risks are implemented or unresolved? | Method, Clinical Review Scope appendix; bilingual design notes | Eighteen interfaces, structural checks, pending clinical engines |
-| What would clinicians measure beyond F1? | Table8, Clinician-Oriented Evaluation Protocol | Fourteen proposed endpoints, three primary; annotations pending |
-| Which modules actually evolve? | Table9, Module-level attribution | Learned skill updates versus fixed modules and separate component repairs |
-| Does scoped memory transfer independently? | Tables11–12 | Three frozen trajectories,200 MedQA cases;0/0.5/2pp gains, no method advantage |
+| What is the full workflow? | Figure1 and Method | Three calls, source checks and eligible calibration |
+| What datasets? | Table1 | Derived RxSafe988, public RxQA300, independent MedQA development |
+| Which other methods? | **Table2** | GRASP, MedAgents, MDAgents, **RxRSIAgent**, shared4608-output allowance |
+| What about stronger budgets? | Table3 |24000-output medical-agent runs remain visible |
+| What produces gains? | Tables4–5 | Source ablations and ordinary supervised diagnostics |
+| What evolves with cases? | Table6 |156/312/468/625 prefixes; no retained text cards |
+| What do concrete errors look like? | Case studies | Reference fix and regression, with explanation mismatch |
+| What are costs and clinical metrics? | Appendix | Input/output/cost accounting;14 endpoints awaiting annotation |
 
-## Current interpretation
-
-The selected agent scores501/988 and183/300 and does not beat the measured GRASP control. The newly repaired retriever improves source availability, and twelve software tests exercise the new interfaces. Equal-budget controls, SafeRx-Agent, product applicability and clinical rule validation remain required work. The paper does not call all prescribing risks solved.
-
-Existing long-running queues remain paused. A bounded development intervention adds380 new calls and reuses380 cached controls: repaired retrieval with frozen skills scores98/190 versus99/190, failing promotion. Table10 reports this negative result; that intervention performed no test run. The subsequent scoped-memory experiment adds full MedAgents/MDAgents comparisons and a new frozen200-question MedQA task; gains0/0.5/2pp do not reach the target. Required follow-up experiments are listed in the [current results](CURRENT_RESULTS.en.md).
+Selected results556/988 and199/300 improve historical agent counts but do not beat MedAgents208/300 on RxQA. Simple post hoc calibrators also exceed the selected RxSafe score. These limitations, failed gates and repeated benchmark exposure are stated in the paper. Existing long-running queues remain paused.
 
 ## Versions
 

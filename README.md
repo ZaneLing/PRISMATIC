@@ -1,24 +1,16 @@
 # RxRSIAgent — PRISMATIC research repository
 
-## Current paper and implementation — 16 October 2026
+## Current paper and real results — 16 October 2026
 
-Latest: [full medical-agent comparisons and scoped memory](upgrade_v34/RESULTS.en.md) / [医学agent对照与带反例技能](upgrade_v34/RESULTS.zh.md). MedAgents/MDAgents are measured; three four-round learning trajectories gain0/0.5/2pp on independent MedQA, below the large-gain target.
+**Selected RxRSIAgent:556/988 (56.28%) RxSafeBench;199/300 (66.33%) RxQA.** Historical retained scores were501/988 and183/300:descriptive gains of5.57pp and5.33pp. The current agent exceeds matched-output GRASP on RxSafe, but remains below MedAgents on RxQA. A two-benchmark or global SOTA claim is not supported.
 
-[clinician-oriented evaluation](paper/CLINICAL_EVALUATION.en.md) / [医生视角指标](paper/CLINICAL_EVALUATION.zh.md), and [audited evolution rounds](paper/EVOLUTION.en.md) / [逐轮进化证据](paper/EVOLUTION.zh.md). The Introduction now discusses scoped Utah prescribing pilots; Figure2 and Tables8–9 connect artifact changes, outcomes and module attribution.
+- [中文完整结果与主表](upgrade_v35/RESULTS.zh.md) / [Complete English results](upgrade_v35/RESULTS.en.md).
+- [English ACL manuscript](paper/latex/v0.3/prismatic_v03_en.tex):updated in the existing editor path; main table, full architecture, experience curves, ablations and contrasting cases.
+- [Current executable agent](rxrsiagent/selected_agent.py), [selected configuration](rxrsiagent/selected_profile.json), [independent audit](upgrade_v35/results/audit.json).
+- [Independent follow-up experiments](upgrade_v36/README.md):expanded context, contradiction review and training-example retrieval each tie99/120 and are rejected before guard/test.
+- [Paper index and archive](paper/README.md); [clinician endpoint protocol](paper/CLINICAL_EVALUATION.en.md).
 
-**RxRSIAgent** is the method name. The current English ACL manuscript retains one development-selected agent, a complete architecture figure, a named-method main table, component ablations, learning rounds, and two public case studies. Historical prototypes remain in archived reports, outside the paper.
-
-- [English ACL manuscript](paper/latex/v0.3/prismatic_v03_en.tex) — existing editor path; official ACL review style.
-- [中文当前结果与主表](paper/CURRENT_RESULTS.zh.md) / [Current English results](paper/CURRENT_RESULTS.en.md).
-- [中文结构与18类临床问题](paper/RXRSI_DESIGN.zh.md) / [English architecture and risk map](paper/RXRSI_DESIGN.en.md).
-- [RxRSIAgent implementation](rxrsiagent/README.md), [selected profile](rxrsiagent/evaluated_profile.json), [evidence manifest](paper/latex/v0.3/manuscript_evidence.json).
-- [Paper reading index and historical versions](paper/README.md).
-
-**Measured agent:** 501/988 on the derived RxSafeBench task and 183/300 on public RxQA. The main table explicitly names MedAgents, MDAgents, SafeRx-Agent and GRASP. MedAgents and MDAgents are measured author-workflow adapters with higher inference budgets; SafeRx-Agent remains unexecuted. Overall superiority is not established.
-
-**New measured tool repair:** on all300 public RxQA questions, excerpt coverage rises from1 to214;193 receive dosage material. All1,666 returned source spans are independently checked. Twelve synthetic software tests pass. These results do not replace the saved agent scores or establish clinical safety. Product applicability and clinical rule integrations remain incomplete.
-
-The long-running research queues remain paused. The new medical-agent and three-seed memory experiments are complete; the selected main checkpoint was not replaced. [Pre-consolidation experiment archive](paper/RESULTS_ARCHIVE_2026-10-15.en.md) preserves earlier counts, failures and partial studies.
+The gain comes from ordinary supervised calibration. Identity-only diagnostics are strong; both four-round language-memory runs reject all updates. Clinical safety and autonomous recursive self-improvement are unestablished. Comparisons share an output-token allowance, with input cost/calls/training differences disclosed. Higher-budget baselines and failed candidates remain visible. Existing long-running queues remain paused.
 
 ---
 

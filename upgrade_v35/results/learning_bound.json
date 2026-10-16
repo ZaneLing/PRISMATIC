@@ -1,0 +1,295 @@
+{
+  "status": "frozen",
+  "frozen_utc": "2026-10-16T07:23:11.448966+00:00",
+  "rounds": [
+    {
+      "round": 0,
+      "cases_seen": 0,
+      "cards": [],
+      "proposal": {
+        "correct": 103,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "guard": {
+        "correct": 102,
+        "n": 197,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "round": 1,
+      "cases_seen": 156,
+      "cards": [],
+      "candidate_cards": [
+        {
+          "name": "Indication-first drug selection with explicit contraindication check",
+          "applies_when": "A clinical working diagnosis is stated and multiple drug options are presented, at least one of which has a label indication matching that diagnosis.",
+          "exclude_when": "No option has a label indication matching the working diagnosis, or the only matching option is explicitly contraindicated by a confirmed patient fact (e.g., confirmed bowel obstruction, confirmed STEC-HUS).",
+          "procedure": "1) Extract the working diagnosis from the dialogue. 2) For each option, check whether the supplied label evidence lists that diagnosis as an indication. 3) Eliminate options with no matching indication. 4) Among remaining options, check for explicit label contraindications or warnings against the patient's confirmed facts. 5) If a caution exists but the condition is not yet confirmed, do not treat it as a contraindication; select the indicated agent and note the need to evaluate before use. 6) If no option has a matching indication, preserve uncertainty rather than forcing a choice.",
+          "support_ids": [
+            "0403bba20a40b987",
+            "4f945a608b6e0d5d",
+            "a0a499923a95f5a0",
+            "36398dcc56698b86",
+            "d371a1a7ff389c94",
+            "0cd2a56fad6767ad",
+            "926edb343c3d6f1c",
+            "cb7f2a09e58505ec"
+          ],
+          "counterexample_ids": [
+            "d1fe1fcf293d7667",
+            "cb922af1fbc45197",
+            "a326de827d21bb7c",
+            "3b98f9b0752a0a12",
+            "60873091bd8231c5",
+            "18128c8613ed2704",
+            "013f2775972c695d",
+            "38e2b8c59f0577bf"
+          ]
+        },
+        {
+          "name": "Prefer the option without a labeled safety caution when two options share the same indication",
+          "applies_when": "Two or more options have label indications matching the working diagnosis, and the patient has a comorbidity or concurrent medication that one option's label warns about.",
+          "exclude_when": "The patient's comorbidity is not confirmed, the warning is not present in the supplied label evidence, or the alternative option has its own equally relevant labeled caution.",
+          "procedure": "1) Confirm both options share the target indication. 2) Check each option's supplied label for warnings, precautions, or contraindications relevant to the patient's stated comorbidities or concurrent medications. 3) If one option carries a labeled caution directly relevant to a confirmed patient fact and the other does not, prefer the option without that caution. 4) If label evidence for either option is unavailable, do not assume absence of a warning; preserve uncertainty and state that the comparison cannot be completed.",
+          "support_ids": [
+            "0403bba20a40b987",
+            "a0a499923a95f5a0",
+            "d371a1a7ff389c94",
+            "0cd2a56fad6767ad",
+            "926edb343c3d6f1c"
+          ],
+          "counterexample_ids": [
+            "cb922af1fbc45197",
+            "a326de827d21bb7c",
+            "013f2775972c695d",
+            "38e2b8c59f0577bf"
+          ]
+        }
+      ],
+      "accepted": false,
+      "train": {
+        "correct": 82,
+        "n": 156,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "candidate_proposal": {
+        "correct": 101,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "9c0dea65cfb79741eb17c47b473cc6f68a9eb13dda8d5d9619526b3e904c267b"
+      },
+      "candidate_guard": null,
+      "proposal": {
+        "correct": 103,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "guard": {
+        "correct": 102,
+        "n": 197,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "round": 2,
+      "cases_seen": 312,
+      "cards": [],
+      "candidate_cards": [
+        {
+          "name": "Ingredient-vs-Brand and Route Fit Before Indication Match",
+          "applies_when": "Two or more options share the same active ingredient (generic vs brand) or differ only by route/formulation, and the dialogue supplies a clinical context (diagnosis, current medication, or care setting) that could favor one formulation.",
+          "exclude_when": "The options are not pharmacologically interchangeable (different ingredients, different mechanisms) or the dialogue provides no route/setting/context cue to distinguish them.",
+          "procedure": "1) Identify options that are the same ingredient or same class. 2) Check the retrieved label route(s) against the clinical setting (oral for outpatient, IV/IM for acute/hospitalized). 3) If the label route does not match the setting, do not select that option even if the ingredient is correct. 4) If two options are the same ingredient, prefer the one whose label route matches the setting; if both match, prefer the generic ingredient name unless the dialogue explicitly names the brand. 5) If route data is missing, state uncertainty rather than assuming a route.",
+          "support_ids": [
+            "7b61fb331bdb18e7",
+            "8f3e2cc2c4c9a70a",
+            "f359b2f2ba5d1c79"
+          ],
+          "counterexample_ids": [
+            "120cfb831c4d9774",
+            "49884aff6988008d",
+            "064e38aa0494a6fb"
+          ]
+        },
+        {
+          "name": "Context-Drug Interaction as a Tiebreaker, Not a Contraindication",
+          "applies_when": "The patient is on a concomitant medication (e.g., atorvastatin, aspirin, pregabalin) and the dialogue explicitly raises an interaction concern, while multiple options are otherwise indicated for the suspected condition.",
+          "exclude_when": "The concomitant drug is not mentioned in the dialogue, or the interaction is only a class warning without a specific label-documented interaction for the candidate drug.",
+          "procedure": "1) Confirm the concomitant drug is named in the dialogue. 2) Check whether the candidate drug's label documents a specific interaction with that drug. 3) If a specific interaction is documented, prefer the candidate whose label addresses it (e.g., monitoring requirement) over one with no interaction data, but do not call the interacting drug contraindicated unless the label says so. 4) If no specific interaction is documented for any candidate, do not invent one; treat the interaction concern as a monitoring issue and select based on indication and route. 5) If the interaction data is missing from retrieved excerpts, preserve uncertainty rather than assuming safety or harm.",
+          "support_ids": [
+            "055e99c9fc4bb751",
+            "6a632946d97c980a",
+            "fa21564227b1e8e9"
+          ],
+          "counterexample_ids": [
+            "dc58911fd4502306",
+            "fc74e0af0bf355db",
+            "2b7ea5825a6fc211"
+          ]
+        }
+      ],
+      "accepted": false,
+      "train": {
+        "correct": 77,
+        "n": 156,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "candidate_proposal": {
+        "correct": 97,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "f12591674929b52c2b04321552b03eefb3f124b4abb33d9fc62cd16d67176ae6"
+      },
+      "candidate_guard": null,
+      "proposal": {
+        "correct": 103,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "guard": {
+        "correct": 102,
+        "n": 197,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "round": 3,
+      "cases_seen": 468,
+      "cards": [],
+      "candidate_cards": [
+        {
+          "name": "Match the labeled indication to the working diagnosis before invoking comorbidity-based caution",
+          "applies_when": "The vignette supplies a specific working diagnosis and at least one option whose label explicitly covers that diagnosis while other options' labels cover different diagnoses or only mention the relevant condition as a warning.",
+          "exclude_when": "Every option's label only mentions the diagnosis as a precaution, an interaction, or a contraindication, or the ostensibly 'matched' label is for a different route or a different disease stage.",
+          "procedure": "1) State the working diagnosis in mechanism-free terms (e.g., 'mixed dyslipidemia with high LDL and VLDL', 'nausea/vomiting after cancer chemotherapy'). 2) For each option, check the retrieved label text for that diagnosis appearing as an approved use. 3) Rank options whose labels list the diagnosis as an indication above options that only carry a warning/advisory about the same comorbidity. 4) If no option's label lists the diagnosis, preserve uncertainty and request the missing label evidence rather than treating absence as proof of inefficacy. 5) If two options share the same indication, prefer the one whose additional labeled facts do not directly clash with the patient's stated comorbidity or current medication.",
+          "support_ids": [
+            "c1041cc8e7ab39ca",
+            "44acf1f7e2a26d41",
+            "847854879878b1e5"
+          ],
+          "counterexample_ids": [
+            "ca43e79533c13aa7",
+            "cb922af1fbc45197"
+          ]
+        },
+        {
+          "name": "Prefer the option whose labeled safety cautions do not match the patient's active comorbidity or interacting medication",
+          "applies_when": "Two or more options plausibly cover the same indication, but the retrieved labels differ in whether they specifically warn about, or are affected by, a comorbidity or co-administered drug that is present in the vignette.",
+          "exclude_when": "The comorbidity or interacting drug the vignette mentions is only a family-history or historical risk factor with no current evidence of activity, or none of the candidate labels mention that comorbidity/interaction at all.",
+          "procedure": "1) List the patient's currently active conditions and currently taken medications separately from remote history. 2) For each candidate option, scan the retrieved label for warnings that name the active condition or the interacting drug. 3) Prefer the option whose label does not carry that specific warning. 4) When no label mentions the comorbidity, do not conclude the drug is safe; instead state that the evidence is silent and further verification is needed. 5) Do not override a strong indication match solely because of a non-specific class caution that applies equally to all candidates.",
+          "support_ids": [
+            "847854879878b1e5",
+            "c92a4594654ed3a9",
+            "46372417271f3d84",
+            "59e24d781cea0c47"
+          ],
+          "counterexample_ids": [
+            "2c2ed0dbcbc89edc",
+            "013f2775972c695d"
+          ]
+        }
+      ],
+      "accepted": false,
+      "train": {
+        "correct": 70,
+        "n": 156,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "candidate_proposal": {
+        "correct": 97,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "8e118b2f7913459689f651b33c9e737a1e26a55ad7cef64daf1abf9e39b1e8ba"
+      },
+      "candidate_guard": null,
+      "proposal": {
+        "correct": 103,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "guard": {
+        "correct": 102,
+        "n": 197,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "round": 4,
+      "cases_seen": 625,
+      "cards": [],
+      "candidate_cards": [
+        {
+          "name": "Indication-first selection with explicit label-indication check",
+          "applies_when": "A multiple-choice drug question presents a clinical scenario with a working diagnosis and several candidate drugs, and at least one option's label indication can be matched to the scenario's diagnosis or symptom cluster.",
+          "exclude_when": "The scenario's diagnosis is explicitly uncertain or provisional AND no option's label indication clearly matches the described symptoms; or the only matching option is a same-ingredient duplicate of another option (e.g., brand vs generic of the same substance), in which case prefer the precise generic name rather than treating them as distinct choices.",
+          "procedure": "1) Extract the working diagnosis or dominant symptom cluster from the dialogue. 2) For each option, check whether its label indication (from the supplied source_products or known label) directly covers that diagnosis/symptom. 3) Eliminate options whose indications are unrelated (e.g., anticoagulant for wrinkles, antibiotic for arrhythmia). 4) If two options share the same active ingredient, select the one whose name matches the generic ingredient rather than the brand. 5) If no option's indication is clearly supported by available evidence, state uncertainty and request the missing label rather than defaulting to the most familiar drug.",
+          "support_ids": [
+            "ca530a0df740ea51",
+            "3cf3356851d7adff",
+            "21f3b3fa658f58a8"
+          ],
+          "counterexample_ids": [
+            "93735ab68cd56503",
+            "445c453db586cc28",
+            "04078593e9413c42"
+          ]
+        },
+        {
+          "name": "Route and formulation plausibility check before final selection",
+          "applies_when": "A candidate drug's supplied label lists only a route or formulation that is clinically implausible for the scenario (e.g., topical antiviral for a systemic viral infection, IV-only antiarrhythmic for a stable outpatient), while another option has a route/formulation consistent with the scenario.",
+          "exclude_when": "The scenario explicitly involves the supplied route (e.g., topical application for a skin condition) or the label's other_available_routes include a clinically appropriate route for the scenario; in those cases, do not exclude the drug solely because the retrieved excerpt shows a different formulation.",
+          "procedure": "1) Identify the required route of administration from the clinical scenario (oral for systemic infections, intramuscular for cosmetic botulinum, etc.). 2) Check the candidate drug's supplied routes and other_available_routes. 3) If the only supplied route is implausible for the scenario but other_available_routes include a plausible route, note the discrepancy and preserve uncertainty rather than treating the drug as contraindicated. 4) If no plausible route exists for any formulation, eliminate the option. 5) Prefer options whose supplied route directly matches the scenario's needs.",
+          "support_ids": [
+            "eb8200efb8a8a35e",
+            "3cf3356851d7adff"
+          ],
+          "counterexample_ids": [
+            "a9e76ab96c25fb40",
+            "c1811076009a217d"
+          ]
+        }
+      ],
+      "accepted": false,
+      "train": {
+        "correct": 87,
+        "n": 157,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "candidate_proposal": {
+        "correct": 98,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "4dc38b904bcb60db007e2256efc2ed0d960f6734376cfe5df679b0dde7646e5f"
+      },
+      "candidate_guard": null,
+      "proposal": {
+        "correct": 103,
+        "n": 190,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "guard": {
+        "correct": 102,
+        "n": 197,
+        "invalid": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    }
+  ],
+  "protocol_sha256": "94b500d995217636faed4c2db3b63fb42b523392afde0ac4c0bba82f440c5480",
+  "amended_protocol_sha256": "d03c648cd9a7cd768a819358de639245d45575af696ae594560bfb3302f5b9b4"
+}

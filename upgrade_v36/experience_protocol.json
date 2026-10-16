@@ -1,0 +1,9 @@
+{
+  "created_utc": "2026-10-16T07:53:49.219927+00:00",
+  "code_sha256": "de2a4aae3a33ac0cdfdda33b06d61a9d2a42d4eb04443e04836490bbff1494f7",
+  "design": "TF-IDF retrieval of3 prior MedQA training examples, excluding evaluation/development texts. Static source workflow and3x1536output. No extra LLM call. Only long-option inputs.",
+  "gate": "Strictly beat static99/120 proposal then static guard120, no invalid increase. No RxQA test if fail.",
+  "training_budget_difference": "Uses additional external training examples; this is not an equal-training-data comparison with named agents.",
+  "motivation": "Generic medical factual confusions persisted after full-context and contrastive-review candidates each tied99/120. No RxQA per-item errors used.",
+  "candidate_count_including_this": 3
+}
