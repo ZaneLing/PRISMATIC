@@ -1,0 +1,53 @@
+{
+  "study": "Local prescription-task adaptation of RxRSIAgent",
+  "registered": "2026-10-16",
+  "incremental_external_api_budget_usd": 10,
+  "external_patient_data_calls": 0,
+  "source": "prismatic-v21 recorded-availability-controlled MIMIC-IV cohort",
+  "task": "Predict the entire set of new/change orders in hours 6-12 from information available at hour 6",
+  "output": "Structured orders compiled from training-derived joint drug/route/dose/unit/frequency templates; catalogue-constrained, not unconstrained generation",
+  "vocabulary": "Existing 128 raw normalized drug names, fitted on initial 8000 training admissions; all out-of-vocabulary gold remains scored",
+  "candidate_tool": "Frozen 40000-case supervised candidate ranker and conditional joint-order compiler from seed 42; shared by all LLM methods",
+  "candidate_count": 24,
+  "candidate_order": "Alphabetical, without displaying rank or probability",
+  "local_backbones": [
+    "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+    "mlx-community/Llama-3.2-3B-Instruct-4bit"
+  ],
+  "actor_output_caps": [
+    128,
+    128,
+    96
+  ],
+  "decoding": "greedy; no hidden fallback prescriptions; malformed output counted",
+  "development": {
+    "train_rounds": 3,
+    "train_cases_per_round": 24,
+    "proposal_cases": 48,
+    "guard_cases": 64
+  },
+  "test_cases": 1082,
+  "transfer_cases": 1082,
+  "selection": "Train-ground-truth reflection proposes conditional procedural skill. Retain only if proposal composite strictly improves and guard drug-F1 and Core4-F1 do not decrease. No test-label feedback.",
+  "primary": [
+    "drug micro-F1",
+    "Core4 joint-order micro-F1"
+  ],
+  "secondary": [
+    "precision",
+    "recall",
+    "Core5 micro-F1 with observed-field coverage",
+    "empty fraction",
+    "invalid fraction",
+    "catalogue recall ceiling",
+    "order-field loss"
+  ],
+  "test_exposure": "1082-case test was previously evaluated by historical supervised pipelines. This is an exploratory new-method evaluation, not a pristine benchmark.",
+  "evolution": "Procedural memory changes only; base LLM weights and supervised tools remain frozen. Rejected mutations remain reported.",
+  "comparators": {
+    "direct": "Three-call self-refinement",
+    "saferx": "Independent three-call task adaptation of specialty/supportive drafting, critique, flag adjudication; not author code",
+    "skemex": "Author memory encoding/retrieval core with local backend and common prescription actor; task/backend adaptation",
+    "flame": "Audit and attempt released checkpoint inference; do not substitute an untrained prompt for step-wise GRPO"
+  }
+}

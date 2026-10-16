@@ -1,0 +1,24 @@
+{
+  "registered_before_new_test_score": true,
+  "initial_test_inference": "Approximately 56 initial-state cases cached; no test score computed or read before this development extension",
+  "motivation": "The initial three-round updater retained no rules; its feedback omitted plan/checker traces. A three-fact verification bottleneck is a researcher hypothesis to test, not an established cause.",
+  "researcher_changes": [
+    "Expose plan, assessments, catalogue, observed/verified fact counts and reference differences to the reflector",
+    "Add a bounded all_observed fact-scope option to the verifier"
+  ],
+  "agent_choices": "Model proposes one observable conditional procedural card and selected/all_observed scope, or no edit; optional one schema repair",
+  "new_training_stream": "Source training positions 72:144, disjoint from initial 72 cases; 3 rounds x 24 cases",
+  "reflector_max_discrepant_cases_per_round": 24,
+  "proposal_guard": "Same 48/64 development cases; reuse disclosed",
+  "promotion": "Strictly higher mean of drug/Core4 F1 on proposal; neither guard drug nor Core4 F1 decreases",
+  "fixed": [
+    "LLM weights",
+    "128-drug vocabulary",
+    "24-candidate supervised tool",
+    "order templates",
+    "drug label snapshot"
+  ],
+  "test_and_transfer": "After all rounds freeze, evaluate all unique retained states on all 1082 cases; transfer final state to Llama without reselection",
+  "claims": "Human repairs and menu design are separate from model-selected, gated state updates. No independent discovery or positive RSI is assumed. No test-best checkpoint selection.",
+  "reflector_input": "Mechanically derived full-trace profiles for all discrepant training cases; raw traces remain local for audit; no drug names or literal target prescriptions in proposer input"
+}
