@@ -3,7 +3,7 @@
 This is NOT the authors' full ReAct/web-tool benchmark. Actor, tools, task,
 embedding backend, reward and training budget are explicitly adapted.
 """
-import json,sys,collections
+import json,sys,collections,shutil,time
 from dataclasses import asdict
 from types import SimpleNamespace
 from common import *
@@ -45,21 +45,31 @@ def main():
     cfg.storage.experiment_root='skemex-store';cfg.storage.root_dir='skemex-cache'
     cfg.retrieval.pre_screen.enabled=False
     cfg.context_guard.context_trim_observation_chars=12000
+    checkpoint=PRIVATE/'skemex-checkpoint.json';store_path=PRIVATE/'skemex-store';snapshots=PRIVATE/'skemex-round-snapshots'
+    rounds=[]
+    if checkpoint.exists():
+        saved=json.loads(checkpoint.read_text());rounds=saved['rounds'];snapshot=snapshots/str(len(rounds))
+        assert snapshot.exists(), 'A completed round must have its matching skill-store snapshot'
+        if store_path.exists():store_path.rename(PRIVATE/f'skemex-resume-backup-{time.time_ns()}')
+        shutil.copytree(snapshot,store_path)
     store=SkillStore(str(PRIVATE),cfg);store.ensure_initialized()
+    if not checkpoint.exists():
+        snapshots.mkdir(exist_ok=True);shutil.copytree(store_path,snapshots/'0')
+        save(checkpoint,{'rounds':[]})
     calls=LocalCalls(b)
     TrajectoryEncoder._build_llm=lambda self,model,max_tokens:calls.llm(max_tokens)
     governance_module.build_llm=lambda config:calls.llm(config.max_tokens)
     embeddings=LocalEmbeddings();embeddings.precompute([c['input'] for c in data['train']+data['test']]);retriever=SkillRetriever(store,embeddings,cfg)
     encoder=TrajectoryEncoder(store,cfg);governance=SkillGovernance(store,embeddings,cfg);updater=UtilityUpdater(store,cfg)
-    rounds=[]
     def inject(cases,r):
         out=[]
         for c in cases:
             ret=retriever.retrieve(c['input'],['prescribing'],r,['offline_label','order_catalogue'])
             out.append({**c,'retrieved_memory':ret.retrieved_skills_block,'injected_ids':ret.injected_skill_ids})
         return out
-    for r in range(1,7):
+    for r in range(len(rounds)+1,7):
         cases=inject(data['train'][(r-1)*24:r*24],r);rows=run(b,cases,'skemex',tag=f'skemex/train-{r}')
+        for c,row in zip(cases,rows):row['injected_skill_ids']=c['injected_ids']
         save(PRIVATE/f'skemex-train-{r}.json',rows)
         trajectories=[]
         for c,row in zip(cases,rows):
@@ -91,15 +101,24 @@ def main():
         managed=governance.manage();calls.defer=True
         save(PRIVATE/f'skemex-encode-{r}.json',{k:asdict(v) for k,v in results.items()})
         rounds.append({'round':r,'cases_seen':r*24,'created':len(created),'active':sum(s.branch!='meta_memory' for s in store.list_skills(statuses=['active','mature'])),
-          'actions':dict(collections.Counter(x.output_action for x in results.values())),'governance_counts':{k:len(v) for k,v in managed.items()}})
+          'actions':dict(collections.Counter(x.output_action for x in results.values())),'governance_counts':{k:len(v) for k,v in managed.items()},
+          'cases_with_injected_skills':sum(bool(c['injected_ids']) for c in cases)})
         rounds[-1]['adapter_errors']=adapter_errors
+        snapshot=snapshots/str(r)
+        if snapshot.exists():snapshot.rename(snapshots/f'{r}-incomplete-{time.time_ns()}')
+        shutil.copytree(store_path,snapshot)
+        save(checkpoint,{'rounds':rounds})
         save(HERE/'results/skemex_learning.json',{'rounds':rounds,'complete':False})
     store.read_only=True
     cases=inject(data['test'],6)
     save(HERE/'skemex_freeze.json',{'source_commit':'a640474590e384669dd71b657c441264beef73d2',
       'skill_state_sha256':digest([s.to_dict() for s in store.list_skills()]),'test_labels_used':False,
       'adaptations':['common three-call prescription actor','offline MiniLM semantic embeddings with full-text chunk pooling','continuous order-agreement reward','144 training cases','no web tools','pre-screening disabled; all active skills enter scoring']})
-    rows=run(b,cases,'skemex',tag='skemex/test');save(PRIVATE/'qwen-test-skemex.json',{'rows':rows})
-    save(HERE/'results/skemex.json',{'method':'SkeMex author memory core + common actor','metrics':metrics(rows,cases),'complete':True})
+    rows=run(b,cases,'skemex',tag='skemex/test')
+    for c,row in zip(cases,rows):row['injected_skill_ids']=c['injected_ids']
+    save(PRIVATE/'qwen-test-skemex.json',{'rows':rows})
+    save(HERE/'results/skemex.json',{'method':'SkeMex author memory core + common actor','metrics':metrics(rows,cases),'complete':True,
+      'cases_with_injected_skills':sum(bool(c['injected_ids']) for c in cases),
+      'mean_injected_skills':sum(len(c['injected_ids']) for c in cases)/len(cases)})
     save(HERE/'results/skemex_learning.json',{'rounds':rounds,'complete':True})
 if __name__=='__main__':main()

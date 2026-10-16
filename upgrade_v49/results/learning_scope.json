@@ -1,5 +1,5 @@
 {
-  "complete": false,
+  "complete": true,
   "rounds": [
     {
       "round": 0,
@@ -300,9 +300,177 @@
         "logical_calls": 192,
         "api_cost_usd": 0
       }
+    },
+    {
+      "round": 3,
+      "cases_seen": 72,
+      "attempts": [
+        {
+          "rejection": null,
+          "card": {
+            "root_cause": "failure to verify prior orders when labs are absent",
+            "condition": "labs_missing",
+            "instruction": "If no labs present and prior orders exist, verify all prior order fields before finalizing workflow.",
+            "counterexample": "Labs are absent but prior orders are confirmed and verified in the input; no action is needed if prior orders are already validated.",
+            "fact_scope": "all_observed"
+          }
+        }
+      ],
+      "accepted": true,
+      "training_before": {
+        "cases": 24,
+        "drug_micro_f1": 0.015625,
+        "drug_precision": 0.022727272727272728,
+        "drug_recall": 0.011904761904761904,
+        "core_order_micro_f1": 0.0,
+        "known_field_accuracy_given_correct_drug": 0.75,
+        "known_fields_scored": 4,
+        "core_gold_orders": 88,
+        "core_predicted_orders": 44,
+        "mean_predicted_drugs": 1.8333333333333333,
+        "empty_fraction": 0.0,
+        "promotion_score": 0.0078125,
+        "core5_micro_f1": 0.0,
+        "core5_gt_field_coverage": 0.6022727272727273,
+        "invalid_fraction": 0.0,
+        "catalogue_drug_recall_ceiling": 0.6071428571428571,
+        "output_tokens": 902,
+        "input_tokens": 143252,
+        "logical_calls": 72,
+        "api_cost_usd": 0
+      },
+      "training_after": {
+        "cases": 24,
+        "drug_micro_f1": 0.03007518796992481,
+        "drug_precision": 0.04081632653061224,
+        "drug_recall": 0.023809523809523808,
+        "core_order_micro_f1": 0.014598540145985401,
+        "known_field_accuracy_given_correct_drug": 0.875,
+        "known_fields_scored": 8,
+        "core_gold_orders": 88,
+        "core_predicted_orders": 49,
+        "mean_predicted_drugs": 2.0416666666666665,
+        "empty_fraction": 0.0,
+        "promotion_score": 0.022336864057955104,
+        "core5_micro_f1": 0.023255813953488372,
+        "core5_gt_field_coverage": 0.6022727272727273,
+        "invalid_fraction": 0.0,
+        "catalogue_drug_recall_ceiling": 0.6071428571428571,
+        "output_tokens": 924,
+        "input_tokens": 153867,
+        "logical_calls": 72,
+        "api_cost_usd": 0
+      },
+      "candidate_proposal": {
+        "cases": 48,
+        "drug_micro_f1": 0.06639004149377593,
+        "drug_precision": 0.09195402298850575,
+        "drug_recall": 0.05194805194805195,
+        "core_order_micro_f1": 0.03968253968253968,
+        "known_field_accuracy_given_correct_drug": 0.6428571428571429,
+        "known_fields_scored": 28,
+        "core_gold_orders": 165,
+        "core_predicted_orders": 87,
+        "mean_predicted_drugs": 1.8125,
+        "empty_fraction": 0.0,
+        "promotion_score": 0.05303629058815781,
+        "core5_micro_f1": 0.0,
+        "core5_gt_field_coverage": 0.6845238095238095,
+        "invalid_fraction": 0.0,
+        "catalogue_drug_recall_ceiling": 0.6233766233766234,
+        "output_tokens": 1808,
+        "input_tokens": 274309,
+        "logical_calls": 144,
+        "api_cost_usd": 0
+      },
+      "candidate_guard": {
+        "cases": 64,
+        "drug_micro_f1": 0.07446808510638298,
+        "drug_precision": 0.10294117647058823,
+        "drug_recall": 0.058333333333333334,
+        "core_order_micro_f1": 0.03902439024390244,
+        "known_field_accuracy_given_correct_drug": 0.8333333333333334,
+        "known_fields_scored": 48,
+        "core_gold_orders": 274,
+        "core_predicted_orders": 136,
+        "mean_predicted_drugs": 2.125,
+        "empty_fraction": 0.0,
+        "promotion_score": 0.05674623767514271,
+        "core5_micro_f1": 0.022988505747126436,
+        "core5_gt_field_coverage": 0.6028880866425993,
+        "invalid_fraction": 0.0,
+        "catalogue_drug_recall_ceiling": 0.5041666666666667,
+        "output_tokens": 2575,
+        "input_tokens": 376027,
+        "logical_calls": 192,
+        "api_cost_usd": 0
+      },
+      "state": {
+        "cards": [
+          {
+            "root_cause": "failure to verify prior orders when labs are absent",
+            "condition": "labs_missing",
+            "instruction": "If no labs present and prior orders exist, verify all prior order fields before finalizing workflow.",
+            "counterexample": "Labs are absent but prior orders are confirmed and verified in the input; no action is needed if prior orders are already validated.",
+            "fact_scope": "all_observed"
+          }
+        ]
+      },
+      "proposal": {
+        "cases": 48,
+        "drug_micro_f1": 0.06639004149377593,
+        "drug_precision": 0.09195402298850575,
+        "drug_recall": 0.05194805194805195,
+        "core_order_micro_f1": 0.03968253968253968,
+        "known_field_accuracy_given_correct_drug": 0.6428571428571429,
+        "known_fields_scored": 28,
+        "core_gold_orders": 165,
+        "core_predicted_orders": 87,
+        "mean_predicted_drugs": 1.8125,
+        "empty_fraction": 0.0,
+        "promotion_score": 0.05303629058815781,
+        "core5_micro_f1": 0.0,
+        "core5_gt_field_coverage": 0.6845238095238095,
+        "invalid_fraction": 0.0,
+        "catalogue_drug_recall_ceiling": 0.6233766233766234,
+        "output_tokens": 1808,
+        "input_tokens": 274309,
+        "logical_calls": 144,
+        "api_cost_usd": 0
+      },
+      "guard": {
+        "cases": 64,
+        "drug_micro_f1": 0.07446808510638298,
+        "drug_precision": 0.10294117647058823,
+        "drug_recall": 0.058333333333333334,
+        "core_order_micro_f1": 0.03902439024390244,
+        "known_field_accuracy_given_correct_drug": 0.8333333333333334,
+        "known_fields_scored": 48,
+        "core_gold_orders": 274,
+        "core_predicted_orders": 136,
+        "mean_predicted_drugs": 2.125,
+        "empty_fraction": 0.0,
+        "promotion_score": 0.05674623767514271,
+        "core5_micro_f1": 0.022988505747126436,
+        "core5_gt_field_coverage": 0.6028880866425993,
+        "invalid_fraction": 0.0,
+        "catalogue_drug_recall_ceiling": 0.5041666666666667,
+        "output_tokens": 2575,
+        "input_tokens": 376027,
+        "logical_calls": 192,
+        "api_cost_usd": 0
+      }
     }
   ],
   "selected_state": {
-    "cards": []
+    "cards": [
+      {
+        "root_cause": "failure to verify prior orders when labs are absent",
+        "condition": "labs_missing",
+        "instruction": "If no labs present and prior orders exist, verify all prior order fields before finalizing workflow.",
+        "counterexample": "Labs are absent but prior orders are confirmed and verified in the input; no action is needed if prior orders are already validated.",
+        "fact_scope": "all_observed"
+      }
+    ]
   }
 }

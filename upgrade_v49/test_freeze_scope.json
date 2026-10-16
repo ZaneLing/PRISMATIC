@@ -1,0 +1,19 @@
+{
+  "state": {
+    "cards": [
+      {
+        "root_cause": "failure to verify prior orders when labs are absent",
+        "condition": "labs_missing",
+        "instruction": "If no labs present and prior orders exist, verify all prior order fields before finalizing workflow.",
+        "counterexample": "Labs are absent but prior orders are confirmed and verified in the input; no action is needed if prior orders are already validated.",
+        "fact_scope": "all_observed"
+      }
+    ]
+  },
+  "state_sha256": "19b7eb8f40abcc69ced913aad87bacea6251b41190c016d039de28435bdba4d3",
+  "actor_sha256": "9a6bb43f7937beb11303be0fffbbf84e2be410064a1f1534e0c561ca83c8798f",
+  "evidence_sha256": "22b2fcfbc9b264d12bde4aac7bcf0ef9d78c80ace21132e9fe382bb8cf5bd231",
+  "selection_used_test_labels": false,
+  "time": 1792159280.9486458,
+  "initial_test_inference_started_but_scores_unread": true
+}
