@@ -1,0 +1,141 @@
+{
+  "complete": true,
+  "models": {
+    "qwen": {
+      "counts": {
+        "invalid_original": 1,
+        "recovered": 0,
+        "recovered_nonempty": 0,
+        "invalid_without_order_key": 0
+      },
+      "baseline": {
+        "cases": 1082,
+        "drug_micro_f1": 0.07187969924812031,
+        "drug_precision": 0.08383023500526131,
+        "drug_recall": 0.06291129244538037,
+        "core_order_micro_f1": 0.04224553444853984,
+        "known_field_accuracy_given_correct_drug": 0.8298850574712644,
+        "known_fields_scored": 870,
+        "core_gold_orders": 4203,
+        "core_predicted_orders": 2851,
+        "mean_predicted_drugs": 2.634935304990758,
+        "empty_fraction": 0.0018484288354898336,
+        "promotion_score": 0.05706261684833007,
+        "core5_micro_f1": 0.028614784305224367,
+        "core5_gt_field_coverage": 0.6019783325482807,
+        "invalid_fraction": 0.0009242144177449168,
+        "catalogue_drug_recall_ceiling": 0.5161884706501711,
+        "output_tokens": 65822,
+        "input_tokens": 5871862,
+        "logical_calls": 3246,
+        "api_cost_usd": 0
+      },
+      "replayed": {
+        "cases": 1082,
+        "drug_micro_f1": 0.07187969924812031,
+        "drug_precision": 0.08383023500526131,
+        "drug_recall": 0.06291129244538037,
+        "core_order_micro_f1": 0.04224553444853984,
+        "known_field_accuracy_given_correct_drug": 0.8298850574712644,
+        "known_fields_scored": 870,
+        "core_gold_orders": 4203,
+        "core_predicted_orders": 2851,
+        "mean_predicted_drugs": 2.634935304990758,
+        "empty_fraction": 0.0018484288354898336,
+        "promotion_score": 0.05706261684833007,
+        "core5_micro_f1": 0.028614784305224367,
+        "core5_gt_field_coverage": 0.6019783325482807,
+        "invalid_fraction": 0.0009242144177449168,
+        "catalogue_drug_recall_ceiling": 0.5161884706501711,
+        "output_tokens": 65822,
+        "input_tokens": 5871862,
+        "logical_calls": 3246,
+        "api_cost_usd": 0
+      },
+      "paired": {
+        "patients": 1024,
+        "resamples": 2000,
+        "drug_delta_ci95": [
+          0.0,
+          0.0
+        ],
+        "core4_delta_ci95": [
+          0.0,
+          0.0
+        ],
+        "changed_cases": 0,
+        "case_f1_improved": 0,
+        "case_f1_regressed": 0
+      }
+    },
+    "llama": {
+      "counts": {
+        "invalid_original": 156,
+        "recovered": 6,
+        "recovered_nonempty": 6,
+        "invalid_without_order_key": 123
+      },
+      "baseline": {
+        "cases": 1082,
+        "drug_micro_f1": 0.06749332914770052,
+        "drug_precision": 0.08359253499222395,
+        "drug_recall": 0.056593840484337986,
+        "core_order_micro_f1": 0.03808118081180812,
+        "known_field_accuracy_given_correct_drug": 0.8247422680412371,
+        "known_fields_scored": 776,
+        "core_gold_orders": 4203,
+        "core_predicted_orders": 2572,
+        "mean_predicted_drugs": 2.377079482439926,
+        "empty_fraction": 0.14417744916820702,
+        "promotion_score": 0.052787254979754325,
+        "core5_micro_f1": 0.026277372262773723,
+        "core5_gt_field_coverage": 0.6019783325482807,
+        "invalid_fraction": 0.14417744916820702,
+        "catalogue_drug_recall_ceiling": 0.5161884706501711,
+        "output_tokens": 122349,
+        "input_tokens": 5482865,
+        "logical_calls": 3246,
+        "api_cost_usd": 0
+      },
+      "replayed": {
+        "cases": 1082,
+        "drug_micro_f1": 0.06890159122508883,
+        "drug_precision": 0.08339566192969335,
+        "drug_recall": 0.058699657804685446,
+        "core_order_micro_f1": 0.03867965682710484,
+        "known_field_accuracy_given_correct_drug": 0.8206724782067247,
+        "known_fields_scored": 803,
+        "core_gold_orders": 4203,
+        "core_predicted_orders": 2674,
+        "mean_predicted_drugs": 2.4713493530499075,
+        "empty_fraction": 0.13863216266173753,
+        "promotion_score": 0.05379062402609684,
+        "core5_micro_f1": 0.02586206896551724,
+        "core5_gt_field_coverage": 0.6019783325482807,
+        "invalid_fraction": 0.13863216266173753,
+        "catalogue_drug_recall_ceiling": 0.5161884706501711,
+        "output_tokens": 122349,
+        "input_tokens": 5482865,
+        "logical_calls": 3246,
+        "api_cost_usd": 0
+      },
+      "paired": {
+        "patients": 1024,
+        "resamples": 2000,
+        "drug_delta_ci95": [
+          -0.0004891561130741004,
+          0.00441344566955577
+        ],
+        "core4_delta_ci95": [
+          -0.0008444050793617004,
+          0.0029672600972727066
+        ],
+        "changed_cases": 6,
+        "case_f1_improved": 4,
+        "case_f1_regressed": 0
+      }
+    }
+  },
+  "protocol_sha256": "119dd96df1b8d5e7f20166dcd4de27e7715467a2a960e100272745c0d21f4554",
+  "interpretation": "Post hoc engineering replay; not a prospective validation, learned state, clinical check, or main-table score."
+}

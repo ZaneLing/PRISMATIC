@@ -276,5 +276,9 @@ The new executable `route_evidence.py` filters non-overlapping labels before the
 
 新增可执行工具`route_evidence.py`在原排序前过滤无途径交集的来源，保留未知/部分对应项，保持两条摘录上限、候选库和订单编译器不变；5个途径边界检查通过。48例已使用的候选集采用相同病例顺序、批次与输出预算，两个实验臂都重新生成：**{summary}**。{trial['evidence_changed_cases']}/48例证据变化，{trial['plan_changed_cases']}/48例第一阶段计划变化。这是探索性的研究者工具修复，不是自主RSI更新，也没有替换主表检查点。来源内容和输入长度同时可能变化，不能据此宣称临床安全。改善与退步均保留在`results/route_evidence_trial.json`。
 '''
+    replay=json.loads((HERE/'results/format_replay.json').read_text())['models']['llama']
+    old=replay['baseline'];new=replay['replayed'];n=replay['counts']['recovered']
+    en+=f"\n### Cross-backbone output-format replay\n\nLlama has 156 malformed final outputs, 123 without an order_ids key. A fixed, non-generative delimiter repair recovers only {n} cases: drug F1 {fmt(old['drug_micro_f1'])}% → {fmt(new['drug_micro_f1'])}%. Qwen is unchanged. It never extracts IDs from prose, invents incomplete items or bypasses catalogue checks. Six parser-boundary checks pass. This post hoc replay is separate from the frozen main results and does not demonstrate learned or prospective improvement. Most failures remain unresolved.\n"
+    zh+=f"\n### 跨底座输出格式回放\n\nLlama有156例最终输出格式失败，其中123例连order_ids键都没有。固定、非生成式的括号修复仅恢复{n}例：药物F1 {fmt(old['drug_micro_f1'])}% → {fmt(new['drug_micro_f1'])}%；Qwen不变。不从散文抽取药物编号、不补全未完成的编号、不绕过候选库核验。6个解析边界检查通过。这是事后工程回放，没有替换冻结主表，也不是学习或前瞻验证的收益；大部分格式失败仍未解决。\n"
     return en,zh
 if __name__=='__main__':main()

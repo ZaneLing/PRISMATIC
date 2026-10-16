@@ -72,7 +72,7 @@ def run():
  assert '@@' not in text
  # Normalize attached prose counts without rewriting model/metric names or citation keys.
  parts=re.split(r'(\\(?:texttt|url|citep|citet|label|ref)\{[^}]*\})',text)
- words='across|after|before|with|within|without|all|on|in|to|from|than|only|per|of|for|by|at|is|has|have|contains|contain|retains|retain|uses|using|process|frozen|initial|final|first|last|complete|compared|over|under|between|and|or|cases|case|round|rounds|call|calls|table|figure|source|score|scores|budget|allowance|cap|caps|test|evaluation|patients|items|covers|finds'
+ words='across|after|before|with|within|without|all|on|in|to|from|than|only|per|of|for|by|at|is|has|have|contains|contain|retains|retain|uses|using|process|frozen|initial|final|first|last|complete|compared|over|under|between|and|or|cases|case|round|rounds|call|calls|table|figure|source|score|scores|budget|allowance|cap|caps|test|evaluation|patients|items|covers|finds|answers|are|use|permit|paired|same|guard|proposal|January|October|Phase|other|reveal|produce|existing|sample|its|Another|mixes|designated|identifies|remains|fixing|regressing|reaches|reducing|changes|hours|hour|proposes|original|USD|adding|fixed|difference|cover|reach|identify|the|fixes|regresses|disjoint|different|an|baseline|Sonnet'
  for i in range(0,len(parts),2):
   parts[i]=re.sub(r'\b('+words+r')(?=\d)',r'\1 ',parts[i],flags=re.I)
   parts[i]=re.sub(r'\ba(?=\d)',r'a ',parts[i])
