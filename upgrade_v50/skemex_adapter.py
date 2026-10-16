@@ -31,15 +31,24 @@ class LocalCalls:
                 sig=digest([msg,cap])
                 if sig not in parent.responses:
                     if parent.defer:parent.pending[sig]=(msg,cap);raise NeedBatch()
+                    parent.clear_prefix()
                     parent.responses[sig]=parent.b.batch([msg],cap,'skemex/govern')[0]['raw']
+                    parent.clear_prefix()
                 return SimpleNamespace(content=parent.responses[sig])
         return LLM()
+    def clear_prefix(self):
+        self.b.prefix.clear()
+        import mlx.core as mx
+        mx.clear_cache()
     def flush(self):
         pending=self.pending;self.pending={}
         for cap in sorted({x[1] for x in pending.values()}):
             chunk=[(k,v[0]) for k,v in pending.items() if v[1]==cap]
-            recs=self.b.batch([v for k,v in chunk],cap,'skemex/encode')
-            for (k,v),r in zip(chunk,recs):self.responses[k]=r['raw']
+            for start in range(0,len(chunk),2):
+                piece=chunk[start:start+2];self.clear_prefix()
+                recs=self.b.batch([v for k,v in piece],cap,'skemex/encode')
+                for (k,v),r in zip(piece,recs):self.responses[k]=r['raw']
+                self.clear_prefix()
 def main():
     b=Backend('qwen');data=load_cases();cfg=EvoConfig()
     cfg.storage.experiment_root='skemex-store';cfg.storage.root_dir='skemex-cache'
@@ -111,13 +120,14 @@ def main():
         shutil.copytree(store_path,snapshot)
         save(checkpoint,{'rounds':rounds})
         save(HERE/'results/skemex_learning.json',{'rounds':rounds,'complete':False})
+    calls.clear_prefix()
     store.read_only=True
     frozen_hash=digest([s.to_dict() for s in store.list_skills()])
     cases=inject(data['test'],6)
     assert frozen_hash==digest([s.to_dict() for s in store.list_skills()]), 'Test retrieval must not mutate the frozen skill state'
     save(HERE/'skemex_freeze.json',{'source_commit':'a640474590e384669dd71b657c441264beef73d2',
       'skill_state_sha256':frozen_hash,'test_labels_used':False,'model_sha256':b.model_hash,'test_retrieval_state_unchanged':True,
-      'adaptations':['common three-call prescription actor','offline MiniLM semantic embeddings with full-text chunk pooling','continuous order-agreement reward','144 training cases','no web tools','pre-screening disabled; all active skills enter scoring']})
+      'adaptations':['common three-call prescription actor','offline MiniLM semantic embeddings with full-text chunk pooling','continuous order-agreement reward','144 training cases','no web tools','pre-screening disabled; all active skills enter scoring','offline reflection batches of two after pre-round-1 OOM recovery; inference batching and token caps unchanged']})
     rows=run(b,cases,'skemex',tag='skemex/test')
     for c,row in zip(cases,rows):row['injected_skill_ids']=c['injected_ids']
     save(PRIVATE/'qwen-test-skemex.json',{'rows':rows})

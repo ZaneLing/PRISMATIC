@@ -4,12 +4,12 @@ def render(read,table):
     read('upgrade_v50/protocol.json');read('upgrade_v50/results/preparation.json');read('upgrade_v21/results/independent_cohort_audit.json')
     read('upgrade_v50/test_freeze_scope.json');read('upgrade_v50/results/embedding_backend.json');read('upgrade_v50/results/flame_conversion.json')
     comp=read('upgrade_v50/results/comparison.json');transfer=read('upgrade_v50/results/transfer.json');curve=read('upgrade_v50/results/round_curve.json')
-    read('upgrade_v50/results/skemex.json');read('upgrade_v50/results/skemex_learning.json');read('upgrade_v50/results/flame.json')
+    read('upgrade_v50/skemex_runtime_amendment.json');read('upgrade_v50/results/skemex.json');read('upgrade_v50/results/skemex_learning.json');read('upgrade_v50/results/flame.json')
     published=read('upgrade_v50/published_reference_scores.json')['sources']
     assert comp['complete'] and transfer['complete'] and learning['complete'] and curve['complete']
     methods=audit['methods'];m=methods['rxrsi_selected']['metrics'];pct=lambda x:f'{100*x:.2f}'
     rows=[]
-    for name,label in [('direct','Direct self-refinement'),('saferx',r'SafeRx-Agent task adaptation \citep{saferx}'),('skemex',r'SkeMex memory-core adaptation \citep{skemex}'),('rxrsi_base','RxRSIAgent, initial state'),('rxrsi_selected',r'\textbf{RxRSIAgent}, retained state')]:
+    for name,label in [('direct','Direct self-refinement'),('saferx',r'SafeRx-Agent task adaptation \citep{saferx}'),('skemex',r'SkeMex memory-core adaptation \citep{skemex}'),('rxrsi_selected',r'\textbf{RxRSIAgent}, retained state')]:
         v=methods[name]['metrics'];rows.append(label+' & '+' & '.join(pct(v[k]) for k in ['drug_precision','drug_recall','drug_micro_f1','core_order_micro_f1','core5_micro_f1'])+r'\\')
     tab=table('Complete1,082-admission local order evaluation. All local rows share Qwen3-4B, a24-drug catalogue, the offline label resource and a128+128+96 output-token allowance. Actual input tokens and offline training computation differ. SafeRx is an independent limited task adaptation; SkeMex executes the author memory core with a common actor, not the full original agent. These rows do not establish superiority over the original papers.','tab:local-orders','p{5.4cm}rrrrr','Method & Drug P & Drug R & Drug F1 & Core4 F1 & Core5 F1',rows)
     flame=methods['flame_list']['metrics']
@@ -44,15 +44,15 @@ b/.style={draw,rounded corners=2pt,align=center,text width=2.55cm,minimum height
 \node[b] (gate) at (9.45,-2.25) {Proposal48 / guard64\\retain only if the\\declared gate passes};
 \node[b] (test) at (12.6,-2.25) {Freeze all states\\1,082-case evaluation\\Qwen to Llama transfer};
 \draw[l](gt)--(trace);\draw[l](trace)--(rule);\draw[l](rule)--(gate);\draw[l](gate)--(test);
-\draw[l](test.north)--++(0,.48)-|(check.south);
-\node[fill=white,font=\scriptsize] at (10.8,-1.24) {Retained state};
+\draw[l](gate.north)--(check.south);
+\node[fill=white,font=\scriptsize] at (10.35,-1.24) {Retained state};
 \node[align=center,font=\scriptsize,text width=14.7cm] at (6.3,-3.45) {Training references provide feedback only; no target prescription is a runtime condition.\\The local adapter does not execute the hosted QA threshold verifier or establish clinical indication/safety.};
 \end{tikzpicture}
 \caption{Executed local prescription adapter. The local updater sees full training traces and reference discrepancies; reference membership is never a runtime predicate. The researcher defines the allowable fact-scope switch; the model proposes its conditional activation.}
 \label{fig:local-workflow}\end{figure*}
 
 ''' + tab + f"Candidate support covers {pct(m['catalogue_drug_recall_ceiling'])}\\% of reference drugs; complete observed Core5 coverage is {pct(m['core5_gt_field_coverage'])}\\%. The retained state has drug/Core4 F1 {pct(m['drug_micro_f1'])}/{pct(m['core_order_micro_f1'])}\\%, with {pct(m['empty_fraction'])}\\% empty and {pct(m['invalid_fraction'])}\\% malformed final outputs. The test had historical exposure in earlier supervised studies and is exploratory. " + r'''
-SafeRx's source ICD/MEDI routing and ATC safety matrices cannot be reproduced from these decision-time inputs. Our limited adaptation groups specialty and supportive proposals, criticism and adjudication into three calls. SkeMex uses the pinned author encoder, store, utility update, governance and retriever with144 training admissions; embeddings use local MiniLM over complete text chunks, the category is fixed to prescribing, and pre-screening is disabled. Its original web/ReAct loop is not executed. These boundaries are material, so partial adapters cannot justify a claim against the complete author methods.
+SafeRx's source ICD/MEDI routing and ATC safety matrices cannot be reproduced from these decision-time inputs. Our limited adaptation groups specialty and supportive proposals, criticism and adjudication into three calls. SkeMex uses the pinned author encoder, store, utility update, governance and retriever with144 training admissions; embeddings use local MiniLM over complete text chunks, the category is fixed to prescribing, and pre-screening is disabled. Its original web/ReAct loop is not executed. An out-of-memory failure before the first completed round requires restoration of the initial store and reflection batches of two, with independent prefix caches cleared; actor batching and source token caps are unchanged. These boundaries are material, so partial adapters cannot justify a claim against the complete author methods.
 
 ''' + ft + r'''
 \paragraph{Evolution and transfer.}
@@ -89,6 +89,8 @@ All new patient inference, reflection and embeddings run locally, with zero paid
     text+=f"Across144 training admissions, {tr['reference_drugs_in_catalogue']}/{tr['reference_drugs']} reference drugs enter the catalogue, {tr['reference_candidate_drugs_with_cached_label']} have a cached exact-name label, and only {tr['reference_drugs_with_excerpt']} receive a selected excerpt; {tr['predicted_drugs_with_excerpt']}/{tr['predicted_drugs']} predicted drugs receive excerpts. Two global sentences per case create uneven evidence coverage. This association is not a causal treatment-selection result. The checker covers {tr['checked_unique_facts']}/{tr['observed_facts']} supplied facts; the actor still sees the full supplied input. "
     read('upgrade_v50/results/validator_replay.json')
     text+=r'Validator replay finds that all three numeric-dose rejections concern observational counterexamples, not new dose instructions. A corrected checker separates these fields and requests abstraction of training-trace references; it flags such references in the two previously schema-valid candidates as well. This correction changes feedback classification only: no frozen state, prediction or reported retention decision is altered. '
+    skstate=read('upgrade_v50/results/skemex_state_audit.json');assert skstate['complete']
+    text+=f"SkeMex's final store contains {skstate['rounds'][-1]['materialized_nonmeta_files']} non-meta skill files. Across round transitions, {sum(r['changed_procedure_bodies'] for r in skstate['rounds'])} existing procedure bodies change and {sum(r['changed_existing_utility_entries'] for r in skstate['rounds'])} existing utility entries change (counts may include repeated updates of one item). These snapshot changes distinguish materialized learning from CREATE/PATCH proposals; they do not by themselves establish improved predictions. "
     de=methods['rxrsi_selected']['descriptive_endpoints']
     text+=f"The retained state has mean drug Jaccard {pct(de['mean_drug_jaccard'])}\\%, exact-set agreement {pct(de['drug_exact_set_accuracy'])}\\%, and {de['missed_drugs_per_admission']:.2f}/{de['extra_drugs_per_admission']:.2f} reference-relative omissions/extras per admission. The catalogue covers {pct(de['catalogue_core4_recall_ceiling'])}\\% of complete Core4 reference tuples. Joint fields are supplied by the fixed template tool, not independently generated by the LLM. "
     text+=table('Published reference results, shown only with their own protocols. None is a matched local comparison, a local MIMIC-IV order score, or evidence that our adapter exceeds the original method.','tab:published-prescribing','p{3.1cm}p{7.5cm}p{3.5cm}','Original method & Source task and setting & Reported endpoint',[

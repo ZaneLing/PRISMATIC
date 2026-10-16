@@ -70,9 +70,14 @@ def run():
  text=MANUSCRIPT
  for k,v in repl.items():text=text.replace('@@'+k+'@@',v)
  assert '@@' not in text
- # Normalize prose spacing while preserving literal model IDs, URLs and case IDs.
- parts=re.split(r'(\\(?:texttt|url)\{[^}]*\})',text)
- for i in range(0,len(parts),2):parts[i]=re.sub(r'(?<![A-Za-z0-9_/])([A-Za-z]{2,})(?=[0-9])',r'\1 ',parts[i])
+ # Normalize attached prose counts without rewriting model/metric names or citation keys.
+ parts=re.split(r'(\\(?:texttt|url|citep|citet|label|ref)\{[^}]*\})',text)
+ words='across|after|before|with|within|without|all|on|in|to|from|than|only|per|of|for|by|at|is|has|have|contains|contain|retains|retain|uses|using|process|frozen|initial|final|first|last|complete|compared|over|under|between|and|or|cases|case|round|rounds|call|calls|table|figure|source|score|scores|budget|allowance|cap|caps|test|evaluation|patients|items|covers|finds'
+ for i in range(0,len(parts),2):
+  parts[i]=re.sub(r'\b('+words+r')(?=\d)',r'\1 ',parts[i],flags=re.I)
+  parts[i]=re.sub(r'\ba(?=\d)',r'a ',parts[i])
+  parts[i]=re.sub(r'\b(RxSafe|RxQA|MedQA)(?=\d)',r'\1 ',parts[i])
+  parts[i]=parts[i].replace('patient-cluster95','patient-cluster 95').replace("'s2,443","'s 2,443")
  text=''.join(parts)
  original=TARGET.read_text();prefix=original[:original.index(r'\documentclass')];start=prefix.index(r'\begin{filecontents*}[overwrite]{acl.sty}')+len(r'\begin{filecontents*}[overwrite]{acl.sty}')+1;end=prefix.index(r'\end{filecontents*}',start);provenance=read('paper/latex/v0.3/acl_template_provenance.json');assert hashlib.sha256((prefix[start:end].rstrip()+'\n').encode()).hexdigest()==provenance['acl_sty_sha256'];TARGET.write_text('\n'.join(line.rstrip() for line in (prefix+text.lstrip()).splitlines()).rstrip()+'\n')
  manifest={'snapshot':'2026-10-17 local prescriptions, controlled interface repair and frozen sequential evaluation','method':'RxRSIAgent','paper_path':str(TARGET.relative_to(ROOT)),'paper_sha256':sha(TARGET),'generator_sha256':sha(__file__),'failure_sections_sha256':sha(ROOT/'paper/failure_case_sections.py'),'research_assessment_sections_sha256':sha(ROOT/'paper/research_assessment_sections.py'),'local_prescription_sections_sha256':sha(ROOT/'paper/local_prescription_sections.py'),'narrative_sha256':sha(ROOT/'paper/acl_manuscript_text.py'),'sources':SOURCES,'acl_style_sha256':provenance['acl_sty_sha256'],'main_counts':{'rxsafe':rx,'rxqa':qa},'independent':z['metrics']['correct'],'historical_versions_in_manuscript':False,'calibration_is_separate_baseline':True};(TARGET.parent/'manuscript_evidence.json').write_text(json.dumps(manifest,indent=2)+'\n');print(json.dumps(manifest['main_counts']))

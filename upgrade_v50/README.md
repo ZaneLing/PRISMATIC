@@ -26,7 +26,7 @@ At admission +6 hours, predict the complete set of recorded new/change orders in
 ../upgrade_v2/.venv-llm/bin/python upgrade_v50/run_suite.py
 ```
 
-Local model files and pinned author resources from the preceding setup must exist. The runtime is MLX on Apple Silicon. `run_suite.py` waits for the private frozen state before testing and stops explicitly on stage failure. All row-level cases, model-generated reflection text, skill stores and executable learned-state text stay in the restricted local directory. Public state files expose hashes, observable condition categories and module counts, not automatically copied clinical traces.
+Local model files and pinned author resources from the preceding setup must exist. The runtime is MLX on Apple Silicon. `run_suite.py` waits for the private frozen state before testing and stops explicitly on stage failure; use `--resume` to skip successful stages while retaining failed-attempt history. SkeMex uses two requests per offline reflection batch after a recorded memory failure before its first completed round; inference budgets remain unchanged. All row-level cases, model-generated reflection text, skill stores and executable learned-state text stay in the restricted local directory. Public state files expose hashes, observable condition categories and module counts, not automatically copied clinical traces.
 
 **Incremental paid model API expenditure remains USD 0 of the USD 10 cap.** Patient inference, reflection and semantic embeddings are local. Downloaded public checkpoints do not invoke paid inference. Local compute is not monetized. No patient data are sent to OpenRouter.
 

@@ -10,7 +10,7 @@ def main():
     assert comparison['complete'] and learning['complete'] and transfer['complete']
     methods=audit['methods'];rounds=learning['rounds'];fmt=lambda x:f'{100*x:.2f}'
     lines=['| Method | Drug P | Drug R | Drug F1 | Core4 F1 | Core5 F1 | Empty |', '|---|---:|---:|---:|---:|---:|---:|---:|']
-    for name in ['direct','saferx','skemex','rxrsi_base','rxrsi_selected']:
+    for name in ['direct','saferx','skemex','rxrsi_selected']:
         if name in methods:
             m=methods[name]['metrics'];lines.append('| '+LABELS[name]+' | '+' | '.join(fmt(m[k]) for k in ['drug_precision','drug_recall','drug_micro_f1','core_order_micro_f1','core5_micro_f1','empty_fraction'])+' |')
     table='\n'.join(lines)
@@ -33,7 +33,7 @@ This is a local Qwen3-4B prescription-task adaptation, not the frozen hosted Dee
 
 ## 2. Measured comparison
 
-All numbers below are percentages. The first five local rows use the same cases, candidate catalogue, offline label resource, Qwen backbone and maximum 128+128+96 output tokens. Actual token use and offline learning compute differ. **SafeRx and SkeMex are explicitly limited task/subsystem adaptations. FLAME uses a released trained list-policy checkpoint with a different backbone and initializer; its row is a separate transfer experiment, not a full-method, equal-information comparison. These measurements do not establish superiority over the original papers.**
+All numbers below are percentages. The first four local rows use the same cases, candidate catalogue, offline label resource, Qwen backbone and maximum 128+128+96 output tokens. Actual token use and offline learning compute differ. **SafeRx and SkeMex are explicitly limited task/subsystem adaptations. FLAME uses a released trained list-policy checkpoint with a different backbone and initializer; its row is a separate transfer experiment, not a full-method, equal-information comparison. These measurements do not establish superiority over the original papers.**
 
 {table}
 
@@ -131,6 +131,10 @@ def details(audit,learning):
     sr=['| Round | Cases | Created | Active skills | Schema/materialization errors |','|---:|---:|---:|---:|---:|']
     for r in semantic['rounds']:sr.append(f"| {r['round']} | {r['cases_seen']} | {r['created']} | {r['active']} | {len(r.get('adapter_errors',[]))} |")
     sk='\n'.join(sr)
+    skstate=json.loads((HERE/'results/skemex_state_audit.json').read_text());assert skstate['complete']
+    state_rows=['| Round | Materialized skills | New files | Changed procedure bodies | Changed existing utility entries |','|---:|---:|---:|---:|---:|']
+    for r in skstate['rounds']:state_rows.append('| '+' | '.join(str(r[k]) for k in ['round','materialized_nonmeta_files','new_files','changed_procedure_bodies','changed_existing_utility_entries'])+' |')
+    sk+='\n\n'+'\n'.join(state_rows)
     comp_path=HERE/'results/component_ablation.json';comp='Component diagnostic is still pending; no result is implied.'
     if comp_path.exists():
         d=json.loads(comp_path.read_text());ls=['| Component, 128 fixed test cases | Drug F1 | Core4 F1 | Mean checked facts |','|---|---:|---:|---:|']
@@ -175,7 +179,7 @@ SkeMex author-memory training, with all 144 training admissions:
 
 {sk}
 
-The author core is pinned; the actor, embedding backend and continuous prescription reward are adaptations. The source's original ReAct/tool benchmark is not reproduced. RxRSIAgent additionally uses 48 proposal and 64 guard labels; SkeMex directly updates on 144 training admissions. Validation supervision and offline update compute are not matched. FLAME executes the actual released trained list policy after merging 224 adapter layers; all adapter tensors are consumed. Its source classifier and patient/diagnosis/procedure embeddings are absent, so only component transfer is claimed.
+The author core is pinned; the actor, embedding backend and continuous prescription reward are adaptations. The first reflection batch exhausted GPU memory before any learning round completed. Recovery restores the initial skill-store snapshot and uses two independent reflection requests per batch with cleared prefix caches; actor batches and source token caps remain unchanged. Quantized outputs may depend on batch layout. The source's original ReAct/tool benchmark is not reproduced. RxRSIAgent additionally uses 48 proposal and 64 guard labels; SkeMex directly updates on 144 training admissions. Validation supervision and offline update compute are not matched. The second state table counts actual snapshot differences, not CREATE/PATCH proposals; metadata-only changes are not new procedures. FLAME executes the actual released trained list policy after merging 224 adapter layers; all adapter tensors are consumed. Its source classifier and patient/diagnosis/procedure embeddings are absent, so only component transfer is claimed.
 
 An engine-only prefill-batch probe changed 2/16 development outputs. That optimization was rejected; the main run retains prefill batch 2 and completion batch 8. Quantized greedy decoding is still batch-sensitive, and cached requests reuse their first recorded output.
 
@@ -212,7 +216,7 @@ SkeMex 作者记忆核心处理全部144例训练病例：
 
 {sk}
 
-使用了固定版本的作者记忆代码；处方执行器、向量模型与连续奖励属于适配，未执行原论文完整 ReAct 工具任务。RxRSIAgent另用了48例候选集和64例守门集标签；SkeMex直接在144例训练病例上更新。因此验证监督量和离线更新算力不等同。FLAME 使用真实发布的训练后列表策略，融合224个适配器层、全部适配器张量均已使用；缺少源分类器和患者/诊断/操作嵌入，只能称组件迁移。
+第一批反思曾触发GPU内存不足，当时未完成任何学习轮次；恢复第0轮技能快照后，将独立反思批次降为2并清理前缀缓存，执行器批次与原始token上限不变。量化输出仍可能受批次影响。使用了固定版本的作者记忆代码；处方执行器、向量模型与连续奖励属于适配，未执行原论文完整 ReAct 工具任务。RxRSIAgent另用了48例候选集和64例守门集标签；SkeMex直接在144例训练病例上更新。因此验证监督量和离线更新算力不等同。第二张状态表按实际快照差异计数，不把CREATE/PATCH提案数当作有效更新，也不把仅元数据变化当成新程序。FLAME 使用真实发布的训练后列表策略，融合224个适配器层、全部适配器张量均已使用；缺少源分类器和患者/诊断/操作嵌入，只能称组件迁移。
 
 预填充批次加速探针使16例中的2例输出变化，因此未采用；主实验保留预填充批次2、生成批次8。量化贪心解码仍可能随批次布局变化，缓存复用第一次记录的输出。
 
