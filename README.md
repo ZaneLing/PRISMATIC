@@ -2,7 +2,7 @@
 
 ## Current paper and implementation — 16 October 2026
 
-Latest: [retrieval intervention rejected](upgrade_v33/RESULTS.en.md) / [检索修复未通过升级](upgrade_v33/RESULTS.zh.md):98/190 versus99/190 on development;380 new calls, no test promotion.
+Latest: [full medical-agent comparisons and scoped memory](upgrade_v34/RESULTS.en.md) / [医学agent对照与带反例技能](upgrade_v34/RESULTS.zh.md). MedAgents/MDAgents are measured; three four-round learning trajectories gain0/0.5/2pp on independent MedQA, below the large-gain target.
 
 [clinician-oriented evaluation](paper/CLINICAL_EVALUATION.en.md) / [医生视角指标](paper/CLINICAL_EVALUATION.zh.md), and [audited evolution rounds](paper/EVOLUTION.en.md) / [逐轮进化证据](paper/EVOLUTION.zh.md). The Introduction now discusses scoped Utah prescribing pilots; Figure2 and Tables8–9 connect artifact changes, outcomes and module attribution.
 
@@ -14,11 +14,11 @@ Latest: [retrieval intervention rejected](upgrade_v33/RESULTS.en.md) / [检索�
 - [RxRSIAgent implementation](rxrsiagent/README.md), [selected profile](rxrsiagent/evaluated_profile.json), [evidence manifest](paper/latex/v0.3/manuscript_evidence.json).
 - [Paper reading index and historical versions](paper/README.md).
 
-**Measured agent:** 501/988 on the derived RxSafeBench task and 183/300 on public RxQA. The main table explicitly names MedAgents, MDAgents, SafeRx-Agent and GRASP. The first three are unmeasured under the local protocol; overall superiority is not established.
+**Measured agent:** 501/988 on the derived RxSafeBench task and 183/300 on public RxQA. The main table explicitly names MedAgents, MDAgents, SafeRx-Agent and GRASP. MedAgents and MDAgents are measured author-workflow adapters with higher inference budgets; SafeRx-Agent remains unexecuted. Overall superiority is not established.
 
 **New measured tool repair:** on all300 public RxQA questions, excerpt coverage rises from1 to214;193 receive dosage material. All1,666 returned source spans are independently checked. Twelve synthetic software tests pass. These results do not replace the saved agent scores or establish clinical safety. Product applicability and clinical rule integrations remain incomplete.
 
-The long-running research queues remain paused. The bounded development intervention made380 new public calls at approximately USD0.294; the selected test checkpoint was not replaced. [Pre-consolidation experiment archive](paper/RESULTS_ARCHIVE_2026-10-15.en.md) preserves earlier counts, failures and partial studies.
+The long-running research queues remain paused. The new medical-agent and three-seed memory experiments are complete; the selected main checkpoint was not replaced. [Pre-consolidation experiment archive](paper/RESULTS_ARCHIVE_2026-10-15.en.md) preserves earlier counts, failures and partial studies.
 
 ---
 

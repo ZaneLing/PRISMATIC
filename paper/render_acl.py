@@ -26,13 +26,18 @@ def public_tables():
     assert sha(ROOT/profile['skill_path'])==profile['skill_sha256']
     def accuracy(key):
         return [f"{100*data['datasets'][ds]['methods'][key]['accuracy']:.2f}" for ds in ['rxsafebench','rxqa']]
+    external=read('upgrade_v34/results/audit.json')
+    read('upgrade_v34/comparison_freeze.json');read('upgrade_v34/protocol.json')
     rows=[]
-    for name,description in [(r'MedAgents \\citep{medagents}','Expert discussion'),(r'MDAgents \\citep{mdagents}','Adaptive collaboration'),(r'SafeRx-Agent \\citep{saferx}','Medication knowledge / verification')]:
-        rows.append(name.replace('\\\\','\\')+' & '+description+r' & -- & -- \\')
-    rows.append(r'GRASP \\citep{grasp}'.replace('\\\\','\\')+' & Author-core task adaptation & '+' & '.join(accuracy('author_grasp'))+r'\\')
-    rows.append(r'\textbf{RxRSIAgent (ours)} & Evidence + selected skill memory & '+' & '.join(accuracy('evolving_grounded'))+r'\\')
-    main=table('Main named-agent comparison: accuracy (\\%). Measured rows use the same DeepSeek backbone, one 512-token actor call, and identical questions. A dash means not executed under this protocol, not zero. The medical-agent comparison is incomplete; original-paper scores are not substituted.',
-        'tab:main','llrr','Method & Main mechanism & RxSafeBench (988) & RxQA (300)',rows)
+    for key,name,description in [('medagents',r'MedAgents \citep{medagents}','Expert discussion'),('mdagents',r'MDAgents \citep{mdagents}','Adaptive collaboration')]:
+        x=external['author_methods'][key]['test'];y=external['author_methods'][key]['rxqa']
+        assert x['n']==988 and y['n']==300 and x['status']==y['status']=='complete'
+        rows.append(f"{name} & {description} & {100*x['accuracy']:.2f} & {100*y['accuracy']:.2f} & {x['mean_calls']:.2f} / {y['mean_calls']:.2f}"+r'\\')
+    rows.append(r'SafeRx-Agent \citep{saferx} & Knowledge / verification & -- & -- & --\\')
+    rows.append(r'GRASP \citep{grasp}'+' & Author-core adaptation & '+' & '.join(accuracy('author_grasp'))+r' & 1 / 1\\')
+    rows.append(r'\textbf{RxRSIAgent (ours)} & Evidence + selected skills & '+' & '.join(accuracy('evolving_grounded'))+r' & 1 / 1\\')
+    main=table('Named-agent comparison: accuracy (\\%) on identical questions and the same served DeepSeek model identifier. Author-workflow task adapters are used for MedAgents/MDAgents. Inference budgets differ; the last column reports mean calls per case on RxSafe/RxQA. This is not an equal-compute superiority test. A dash means unexecuted, not zero.',
+        'tab:main','llrrr','Method & Main mechanism & RxSafe (988) & RxQA (300) & Calls: RxSafe / RxQA',rows)
     rows=[]
     for key,label in [('cot','No evidence or learned skills (CoT)'),('author_grasp','Without evidence (GRASP skills)'),('fixed_grounded','Without learned skills (fixed grounding)'),('evolving_grounded',r'\textbf{RxRSIAgent}')]:
         rows.append(label+' & '+' & '.join(accuracy(key))+r'\\')
@@ -80,6 +85,31 @@ def repair_table():
         rows.append(f"{label} & {r['correct']}/190 & {100*r['accuracy']:.2f} & {r['invalid']} & {r['with_excerpts']}/190"+r'\\')
     return table('Development-only retrieval intervention. Identical 190 RxSafeBench development questions, backbone and 512-token output cap. Original-tool responses reuse exact-request caches; repaired-tool responses are new calls. No test result is replaced.',
         'tab:repair','lrrrr','Configuration & Correct & Accuracy (\\%) & Invalid & Evidence available',rows)
+
+def scoped_memory_tables():
+    d=read('upgrade_v34/results/audit.json')
+    read('upgrade_v34/memory_protocol.json');read('upgrade_v34/results/independent_transfer_freeze.json')
+    rows=[]
+    for index,cases in enumerate([0,156,312,468,625]):
+        cells=[]
+        for seed in ('42','137','2026'):
+            x=d['transfer'][seed][index]
+            assert x['cases_seen']==cases and x['metrics']['n']==200
+            cells.append(f"{x['skills']} / {x['metrics']['correct']}")
+        rows.append(f"{index} & {cases} & "+' & '.join(cells)+r'\\')
+    trajectory=table('Counterexample-scoped memory intervention: retained skill count / correct MedQA answers out of 200. All three complete learning trajectories freeze before independent-task inference. Unchanged states reuse outputs; flat points are not stochastic replications. This intervention is not substituted for the retained main-table agent.',
+        'tab:scopedtrajectory','rrrrr','Round & Training cases & Seed 42 & Seed 137 & Seed 2026',rows)
+    rows=[]
+    for key,label in [('medagents','MedAgents adapter'),('mdagents','MDAgents adapter')]:
+        x=d['author_methods'][key]['medqa']
+        rows.append(f"{label} & {100*x['accuracy']:.2f} & {x['mean_calls']:.2f}"+r'\\')
+    rows.append(r'Empty-memory control & 83.00 & 1.00\\')
+    for seed in ('42','137','2026'):
+        x=d['transfer'][seed][-1]['metrics']
+        rows.append(f"Scoped-memory candidate (seed {seed}) & {100*x['correct']/200:.2f} & {x['calls']/200:.2f}"+r'\\')
+    comparison=table('Independent-task comparison on the same 200 hash-selected MedQA questions. General medical reasoning, not complete-order generation. The three learning seeds share the same questions and initial control. Calls and output caps differ between workflows; no equal-budget advantage is claimed.',
+        'tab:independent','lrr','Method / intervention & Accuracy (\\%) & Mean calls',rows)
+    return trajectory,comparison
 
 def evolution_figure():
     d=read('rxrsiagent/results/evolution_audit.json')
@@ -159,10 +189,12 @@ REFERENCES=r'''\begin{thebibliography}{99}
 
 def run():
     main,abl,trajectory=public_tables()
+    scoped,independent=scoped_memory_tables()
     replacements={'AGENT_TABLE':main,'ABLATION_TABLE':abl,'TRAJECTORY_TABLE':trajectory,
                   'ORDER_TABLE':order_table(),'COVERAGE_TABLE':coverage_table(),'REFERENCES':REFERENCES,
                   'EVOLUTION_FIGURE':evolution_figure(),'CLINICAL_METRICS_TABLE':clinical_metrics_table(),
-                  'MODULE_GROWTH_TABLE':module_growth_table(),'REPAIR_TABLE':repair_table()}
+                  'MODULE_GROWTH_TABLE':module_growth_table(),'REPAIR_TABLE':repair_table(),
+                  'SCOPED_TABLE':scoped,'INDEPENDENT_TABLE':independent}
     cases=read('rxrsiagent/results/case_studies.json')
     assert [(c['public_question_id'],c['fixed_prediction'],c['agent_prediction'],c['gold']) for c in cases['cases']]==[('104','C','B','B'),('10','C','A','C')]
     for name in ['paper/introduction_sources.json','rxrsiagent/clinical_skills.json','upgrade_v17/results/frozen_skills.json','rxrsiagent/results/contract_checks.json','rxrsiagent/results/clinical_metric_checks.json']:
@@ -176,11 +208,11 @@ def run():
     provenance=read('paper/latex/v0.3/acl_template_provenance.json')
     assert hashlib.sha256((prefix[start:end].rstrip()+'\n').encode()).hexdigest()==provenance['acl_sty_sha256']
     TARGET.write_text((prefix+text.lstrip('\n')).rstrip()+'\n')
-    manifest={'snapshot':'2026-10-16 development-gated retrieval intervention rejected',
-        'background_experiments_resumed':False,'new_work':'380 new public development actor calls and 380 cached controls; independent recount; failed promotion gate; no new test evaluation',
+    manifest={'snapshot':'2026-10-16 author medical-agent comparisons and independent scoped-memory transfer',
+        'background_experiments_resumed':False,'new_work':'Full MedAgents/MDAgents task adapters; three four-round memory trajectories;200-question MedQA transfer frozen before learning; independent audits',
         'paper_path':str(TARGET.relative_to(ROOT)),'paper_sha256':sha(TARGET),'acl_style_sha256':provenance['acl_sty_sha256'],
         'generator_sha256':sha(Path(__file__)),'narrative_sha256':sha(ROOT/'paper/acl_manuscript_text.py'),
-        'source_sha256':SOURCES,'main_table':'Named agents; identical public questions for measured rows; medical-agent comparisons incomplete',
+        'source_sha256':SOURCES,'main_table':'Named agents; identical public questions for measured rows; MedAgents and MDAgents measured with unequal native-style budgets; SafeRx-Agent unexecuted',
         'method':'RxRSIAgent','selected_profile':'rxrsiagent/evaluated_profile.json',
         'historical_prototypes_in_manuscript':False,'new_review_layer_in_main_scores':False}
     (ROOT/'paper/latex/v0.3/manuscript_evidence.json').write_text(json.dumps(manifest,indent=2)+'\n')

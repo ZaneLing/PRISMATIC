@@ -1,0 +1,65 @@
+{
+  "created_utc": "2026-10-16T05:35:16.139548+00:00",
+  "model": "deepseek/deepseek-v4.1-flash",
+  "author_pins": {
+    "MedAgents": "aaeff0499e169b41faf810cbca59504e3ee2788c",
+    "MDAgents": "3adbd760ca809b4e7b0c1085d68314b6e7d91e1b"
+  },
+  "author_source_sha256": {
+    "MedAgents": {
+      "run.py": "5d33c8c7a4c851a93b35f0e9d7f1a186047e5ceedfe76f292ddcc1f35a7989e0",
+      "prompt_generator.py": "592c0b05421e5858d73f2b3344192b1497833862e7486a645824f548e32b0586",
+      "data_utils.py": "cfc5e4ee491730355ed9831ae3ab1893b2d0a8268bf70a8745d4b281c1a16172",
+      "utils.py": "6915aba27799f9c6e0b543fe7a64aa259aa28a483ed1f1db2f1473ded0a224d5",
+      "api_utils.py": "34e28f2ea37de439aa05928e225af3d47dc6c4bcca3c7b932f28e25713d92016"
+    },
+    "MDAgents": {
+      "utils.py": "a9db846c239101070c1e747140e8d4c3b266a1fe719478b7d858611ff0216240",
+      "main.py": "b29db4c8e8f9ba95624257365915497038df1226d897c5886a95e12319f19375"
+    }
+  },
+  "adapter_sha256": "08a60b87954876750afd5fa09ff248241acb4899b67b3d735f54be9d77bd24d6",
+  "main_data_sha256": "481834daedf9b881de36e15548abc93f6cc8ef6401522d48c3a3cdd3640de0fd",
+  "methods": [
+    "medagents",
+    "mdagents"
+  ],
+  "max_calls_per_case": 80,
+  "max_output_tokens_per_case": 24000,
+  "medagents": "Author syn_verif, max_attempt_vote=3, original per-stage output caps, custom OpenRouter transport. Missing report header retained as raw report.",
+  "mdagents": "Author adaptive workflow, zero demonstrations on the new task, same backbone for every role,1024 tokens/call, temperature0. Three explicit source repairs below. Budget-exhausted received trajectories count as unsuccessful, not silently excluded.",
+  "mdagents_repairs": [
+    {
+      "before": "print(f\"{'\\U0001F468\\u200D\\u2696\\uFE0F'} moderator's final decision (by majority vote):\", _decision)",
+      "after": "print(\"moderator final decision (by majority vote):\", _decision)"
+    },
+    {
+      "before": "    final_answer = None\n",
+      "after": "    final_answer = dict(round_opinions[1])\n"
+    },
+    {
+      "before": "Investigation:\\n{initial_assessment_report}\\n\\nQuestion: {question}",
+      "after": "Investigation:\\n{initial_assessment_report}\\n{assessment_report}\\n{compiled_report}\\n\\nQuestion: {question}"
+    }
+  ],
+  "budget_note": "Native-style workflow with declared caps, NOT equal inference budget to historical one-call rows. Report calls, tokens, costs and exhaustion.",
+  "pilot": "20 development cases selected by hash, then the full190 proposal cases; no tuning on test outcomes.",
+  "independent_task": {
+    "name": "MedQA general medical reasoning transfer; not a prescription-order benchmark",
+    "source_sha256": "cfa75cbcc53c29b023752b0a395ff49d8202121041392735ae44771a5ec734a3",
+    "n": 200,
+    "selection": "Hash order of question text only; no labels, method predictions or medication-keyword filtering used.",
+    "membership_sha256": "c8a287bb75b781cb5d7e6061526f29052e3cb3eac5f5c961b221ae2eb8d373ef",
+    "normalized_exact_overlap_with_prior_cases": 0,
+    "status": "Frozen before new agent learning; pretraining exposure and semantic duplicates are not ruled out."
+  },
+  "research_target": {
+    "absolute_gain_pp": 10,
+    "comparator": "strongest fully executed same-task baseline, with matched-budget analysis required",
+    "not_a_claim": "Engineering target, not an observed result or guaranteed outcome",
+    "confirmation": "Independent frozen task, paired intervals, at least3 learning seeds, fixed and shuffled-feedback controls, no clinical-risk endpoint regression"
+  },
+  "ledger_start_usd": 29.676508655159772,
+  "max_incremental_usd": 15,
+  "restricted_data_sent": false
+}

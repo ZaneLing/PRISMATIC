@@ -1,0 +1,35 @@
+{
+  "created_utc": "2026-10-16T05:40:06.965318+00:00",
+  "learning_seeds": [
+    42,
+    137,
+    2026
+  ],
+  "cases_seen": [
+    0,
+    156,
+    312,
+    468,
+    625
+  ],
+  "proposer": "At most2 cards/round from training mistakes and nearest training successes; explicit support and counterexample bindings.",
+  "runtime": "TF-IDF shortlist4 cards, semantic selection at most2, positive activation quote must be exact input substring. The model checks negative conditions; this is not a verified clinical rule engine.",
+  "updates": "Append procedural cards only; no model-weight, tool-source or optimizer-code update.",
+  "gate": "Strictly more correct on190 proposal with no invalid-count increase, then strictly more correct on197 guard with no invalid-count increase. Keep incumbent otherwise.",
+  "tokens": {
+    "router": 512,
+    "actor": 1024,
+    "proposer": 2048
+  },
+  "controls": "Empty memory uses identical1024-token actor; needs separate matched-budget/refinement and equal-data retrieval controls before superiority claim.",
+  "independent_transfer": "Freeze all three seed trajectories before evaluating pre-frozen200 MedQA cases. Report every retained round, no test-driven selection.",
+  "exposure": "RxSafe development reused historically; MedQA task frozen before learning, no new task labels used for updates.",
+  "code_sha256": "77848d3bca70a51754df19fa4d3a003ab3b86754f15099bc86f73831449dd088",
+  "runner_sha256": "e03419be9d8b3d6f5dc44dbaf039f4c1fed0f1f09a7e5ebaca439ec1c56339e7",
+  "development_amendment": {
+    "stage": "Before any independent-task inference",
+    "reason": "Explicit SUPPORT_ERROR/COUNTEREXAMPLE_SUCCESS roles plus one schema-only repair attempt; all three seed trajectories restarted with identical revised implementation. Initial outcomes archived. No test-label feedback.",
+    "initial_artifacts": "development_history/initial_binding",
+    "max_proposer_attempts_per_round": 2
+  }
+}

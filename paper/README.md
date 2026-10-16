@@ -6,6 +6,8 @@ The [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) is maintained at i
 
 ## Start here
 
+- [Completed medical-agent and scoped-memory experiment](../upgrade_v34/RESULTS.en.md) / [医学agent实测与技能进化](../upgrade_v34/RESULTS.zh.md).
+
 - [Executed retrieval intervention: rejected](../upgrade_v33/RESULTS.en.md) / [实际检索修复实验：未通过升级](../upgrade_v33/RESULTS.zh.md).
 
 - [中文当前结果与主表](CURRENT_RESULTS.zh.md) / [Current English results](CURRENT_RESULTS.en.md).
@@ -23,7 +25,7 @@ The [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) is maintained at i
 |---|---|---|
 | What is the complete agent workflow? | Figure1, RxRSIAgent | Measured QA core is solid; new clinical review interfaces are dashed |
 | Which datasets and tasks are evaluated? | Table1, Experimental Setup | Public option tasks and separate eICU order-tool study |
-| How does RxRSIAgent compare with other paper methods? | **Table2, Main agent comparison** | MedAgents, MDAgents, SafeRx-Agent, GRASP and **RxRSIAgent**; missing runs explicitly marked |
+| How does RxRSIAgent compare with other paper methods? | **Table2, Main agent comparison** | MedAgents, MDAgents, SafeRx-Agent, GRASP and **RxRSIAgent**; MedAgents/MDAgents measured with unequal budgets; SafeRx-Agent unexecuted |
 | What do evidence and skills contribute? | Table3, Component ablations | Same backbone, questions and inference cap |
 | What changes as cases accumulate? | Table4, Experience trajectory | Five checkpoints, artifact words/operations and Figure2 curves; no monotonic improvement claim |
 | Does an order tool help? | Table5, Order-tool component evidence | eICU fixed-policy intervention; not a full-agent score |
@@ -32,17 +34,19 @@ The [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) is maintained at i
 | Which clinical risks are implemented or unresolved? | Method, Clinical Review Scope appendix; bilingual design notes | Eighteen interfaces, structural checks, pending clinical engines |
 | What would clinicians measure beyond F1? | Table8, Clinician-Oriented Evaluation Protocol | Fourteen proposed endpoints, three primary; annotations pending |
 | Which modules actually evolve? | Table9, Module-level attribution | Learned skill updates versus fixed modules and separate component repairs |
+| Does scoped memory transfer independently? | Tables11–12 | Three frozen trajectories,200 MedQA cases;0/0.5/2pp gains, no method advantage |
 
 ## Current interpretation
 
-The selected agent scores501/988 and183/300 and does not beat the measured GRASP control. The newly repaired retriever improves source availability, and twelve software tests exercise the new interfaces. Missing medical-agent comparisons, product applicability and clinical rule validation remain required work. The paper does not call all prescribing risks solved.
+The selected agent scores501/988 and183/300 and does not beat the measured GRASP control. The newly repaired retriever improves source availability, and twelve software tests exercise the new interfaces. Equal-budget controls, SafeRx-Agent, product applicability and clinical rule validation remain required work. The paper does not call all prescribing risks solved.
 
-Existing long-running queues remain paused. A bounded development intervention adds380 new calls and reuses380 cached controls: repaired retrieval with frozen skills scores98/190 versus99/190, failing promotion. Table10 reports this negative result; no new test run was performed. Required follow-up experiments are listed in the [current results](CURRENT_RESULTS.en.md#5-auxiliary-evidence-and-remaining-experiments).
+Existing long-running queues remain paused. A bounded development intervention adds380 new calls and reuses380 cached controls: repaired retrieval with frozen skills scores98/190 versus99/190, failing promotion. Table10 reports this negative result; that intervention performed no test run. The subsequent scoped-memory experiment adds full MedAgents/MDAgents comparisons and a new frozen200-question MedQA task; gains0/0.5/2pp do not reach the target. Required follow-up experiments are listed in the [current results](CURRENT_RESULTS.en.md).
 
 ## Versions
 
 | Version | Record | Evidence |
 | --- | --- | --- |
+| v0.34 | [Medical agents and scoped memory](../upgrade_v34/RESULTS.en.md) | Two full author-workflow comparisons; three four-round memory trajectories; independent200-question transfer; target unmet |
 | v0.33 | [Development retrieval intervention](../upgrade_v33/RESULTS.en.md) | Four matched arms;760 outputs audited,380 new calls; promotion rejected; no new test scores |
 | v0.32 | [Controlled decision repair](../upgrade_v32/RESULTS.en.md) | Four same-data/100-step prefix/loss arms; fixed and calibrated scoring, independent recount and guard prerequisites |
 | v0.31 | [Parameter intervention](../upgrade_v31/RESULTS.en.md) | Four arms, three seeds, three rounds; position randomization with original ranks retained; partial; paused |

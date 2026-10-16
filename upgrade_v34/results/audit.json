@@ -1,0 +1,833 @@
+{
+  "status": "passed_complete",
+  "author_methods": {
+    "medagents": {
+      "proposal": {
+        "status": "complete",
+        "method": "medagents",
+        "split": "proposal",
+        "n": 190,
+        "correct": 90,
+        "accuracy": 0.47368421052631576,
+        "outcome_counts": {
+          "complete": 182,
+          "invalid_final_answer": 8
+        },
+        "model_calls": 3981,
+        "mean_calls": 20.95263157894737,
+        "input_tokens": 4147187,
+        "output_tokens": 640512,
+        "logical_cost_usd": 1.3843595253999992,
+        "predictions_sha256": "9697d87b561ecdb48eeedc72f495945d572f79741a329d61069f3e0ab9dd66b7",
+        "ledger_increment_usd": 5.122491275399952,
+        "invalid_output_diagnosis": {
+          "empty_final_text": 0,
+          "explicit_no_valid_option": 8,
+          "interpretation": "Output-behavior flags only. Model disagreement with the reference is not proof that the reference is clinically wrong; all remain in the primary accuracy denominator."
+        }
+      },
+      "test": {
+        "status": "complete",
+        "method": "medagents",
+        "split": "test",
+        "n": 988,
+        "correct": 468,
+        "accuracy": 0.47368421052631576,
+        "outcome_counts": {
+          "complete": 970,
+          "invalid_final_answer": 18
+        },
+        "model_calls": 19807,
+        "mean_calls": 20.04757085020243,
+        "input_tokens": 20876131,
+        "output_tokens": 3079844,
+        "logical_cost_usd": 6.855810528800026,
+        "predictions_sha256": "9799bd6278462a5136cf3061ee69a763359cae23f5673e0fe6691be939a1019f",
+        "ledger_increment_usd": 15.404594771799935,
+        "invalid_output_diagnosis": {
+          "empty_final_text": 0,
+          "explicit_no_valid_option": 18,
+          "interpretation": "Output-behavior flags only. Model disagreement with the reference is not proof that the reference is clinically wrong; all remain in the primary accuracy denominator."
+        },
+        "incumbent_minus_author": {
+          "difference": 0.03340080971659919,
+          "ci95": [
+            -0.002026342451874367,
+            0.06983805668016195
+          ],
+          "fixes": 183,
+          "regressions": 150
+        }
+      },
+      "rxqa": {
+        "status": "complete",
+        "method": "medagents",
+        "split": "rxqa",
+        "n": 300,
+        "correct": 208,
+        "accuracy": 0.6933333333333334,
+        "outcome_counts": {
+          "complete": 298,
+          "invalid_final_answer": 2
+        },
+        "model_calls": 5664,
+        "mean_calls": 18.88,
+        "input_tokens": 4341854,
+        "output_tokens": 870356,
+        "logical_cost_usd": 1.6114477893999988,
+        "predictions_sha256": "58bce0e21c77dc408961c961970f0b303b4c674dc2590832c47ac038e56cf43e",
+        "ledger_increment_usd": 15.404594771799935,
+        "invalid_output_diagnosis": {
+          "empty_final_text": 0,
+          "explicit_no_valid_option": 2,
+          "interpretation": "Output-behavior flags only. Model disagreement with the reference is not proof that the reference is clinically wrong; all remain in the primary accuracy denominator."
+        },
+        "incumbent_minus_author": {
+          "difference": -0.08333333333333333,
+          "ci95": [
+            -0.13333333333333333,
+            -0.03333333333333333
+          ],
+          "fixes": 19,
+          "regressions": 44
+        }
+      },
+      "medqa": {
+        "status": "complete",
+        "method": "medagents",
+        "split": "medqa",
+        "n": 200,
+        "correct": 172,
+        "accuracy": 0.86,
+        "outcome_counts": {
+          "complete": 200
+        },
+        "model_calls": 3717,
+        "mean_calls": 18.585,
+        "input_tokens": 2844943,
+        "output_tokens": 549754,
+        "logical_cost_usd": 1.0489410029999995,
+        "predictions_sha256": "ab89316e67be50172497c57046f784a4021a265b257e9844c820b630538f330a",
+        "ledger_increment_usd": 10.866155187599908,
+        "invalid_output_diagnosis": {
+          "empty_final_text": 0,
+          "explicit_no_valid_option": 0,
+          "interpretation": "Output-behavior flags only. Model disagreement with the reference is not proof that the reference is clinically wrong; all remain in the primary accuracy denominator."
+        }
+      }
+    },
+    "mdagents": {
+      "proposal": {
+        "status": "complete",
+        "method": "mdagents",
+        "split": "proposal",
+        "n": 190,
+        "correct": 95,
+        "accuracy": 0.5,
+        "outcome_counts": {
+          "complete": 187,
+          "invalid_final_answer": 3
+        },
+        "model_calls": 794,
+        "mean_calls": 4.178947368421053,
+        "input_tokens": 298593,
+        "output_tokens": 178975,
+        "logical_cost_usd": 0.21817933719999966,
+        "predictions_sha256": "d7025a5e213ef3cad2f5446a7ff626d5b0db19038b62261acc9d068a7d67c725",
+        "ledger_increment_usd": 4.639195638799947,
+        "invalid_output_diagnosis": {
+          "empty_final_text": 0,
+          "explicit_no_valid_option": 0,
+          "interpretation": "Output-behavior flags only. Model disagreement with the reference is not proof that the reference is clinically wrong; all remain in the primary accuracy denominator."
+        }
+      },
+      "test": {
+        "status": "complete",
+        "method": "mdagents",
+        "split": "test",
+        "n": 988,
+        "correct": 478,
+        "accuracy": 0.48380566801619435,
+        "outcome_counts": {
+          "budget_exhausted": 1,
+          "complete": 977,
+          "invalid_final_answer": 10
+        },
+        "model_calls": 4420,
+        "mean_calls": 4.473684210526316,
+        "input_tokens": 1927126,
+        "output_tokens": 929473,
+        "logical_cost_usd": 1.1646915947999976,
+        "predictions_sha256": "c546f1995e2038319f70420bdee62345b2296fdd0e2878e8f7f08e17888bbb38",
+        "ledger_increment_usd": 6.6755513847999595,
+        "invalid_output_diagnosis": {
+          "empty_final_text": 1,
+          "explicit_no_valid_option": 5,
+          "interpretation": "Output-behavior flags only. Model disagreement with the reference is not proof that the reference is clinically wrong; all remain in the primary accuracy denominator."
+        },
+        "incumbent_minus_author": {
+          "difference": 0.02327935222672065,
+          "ci95": [
+            -0.012145748987854251,
+            0.06060759260961486
+          ],
+          "fixes": 180,
+          "regressions": 157
+        }
+      },
+      "rxqa": {
+        "status": "complete",
+        "method": "mdagents",
+        "split": "rxqa",
+        "n": 300,
+        "correct": 199,
+        "accuracy": 0.6633333333333333,
+        "outcome_counts": {
+          "budget_exhausted": 1,
+          "complete": 296,
+          "invalid_final_answer": 3
+        },
+        "model_calls": 1508,
+        "mean_calls": 5.026666666666666,
+        "input_tokens": 670684,
+        "output_tokens": 364540,
+        "logical_cost_usd": 0.44294442799999906,
+        "predictions_sha256": "b7d0725bae364ff1d2aff88ba41a3582e0e83d4e067574bd545cea2754ac3572",
+        "ledger_increment_usd": 9.017603759199645,
+        "invalid_output_diagnosis": {
+          "empty_final_text": 1,
+          "explicit_no_valid_option": 0,
+          "interpretation": "Output-behavior flags only. Model disagreement with the reference is not proof that the reference is clinically wrong; all remain in the primary accuracy denominator."
+        },
+        "incumbent_minus_author": {
+          "difference": -0.05333333333333334,
+          "ci95": [
+            -0.09666666666666666,
+            -0.013333333333333334
+          ],
+          "fixes": 14,
+          "regressions": 30
+        }
+      },
+      "medqa": {
+        "status": "complete",
+        "method": "mdagents",
+        "split": "medqa",
+        "n": 200,
+        "correct": 173,
+        "accuracy": 0.865,
+        "outcome_counts": {
+          "complete": 194,
+          "invalid_final_answer": 6
+        },
+        "model_calls": 858,
+        "mean_calls": 4.29,
+        "input_tokens": 255939,
+        "output_tokens": 193160,
+        "logical_cost_usd": 0.23254599099999937,
+        "predictions_sha256": "fb62234285eb9e45a355e0e2d8a3b65d9e9991f4aa02a91987692d526d45bcec",
+        "ledger_increment_usd": 7.837175097199797,
+        "invalid_output_diagnosis": {
+          "empty_final_text": 0,
+          "explicit_no_valid_option": 0,
+          "interpretation": "Output-behavior flags only. Model disagreement with the reference is not proof that the reference is clinically wrong; all remain in the primary accuracy denominator."
+        }
+      }
+    }
+  },
+  "learning": {
+    "42": [
+      {
+        "round": 0,
+        "cases_seen": 0,
+        "skills": 0,
+        "accepted": false,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "proposal_correct": 89,
+        "guard_correct": 98
+      },
+      {
+        "round": 1,
+        "cases_seen": 156,
+        "skills": 0,
+        "accepted": false,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "proposal_correct": 89,
+        "guard_correct": 98
+      },
+      {
+        "round": 2,
+        "cases_seen": 312,
+        "skills": 0,
+        "accepted": false,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "proposal_correct": 89,
+        "guard_correct": 98
+      },
+      {
+        "round": 3,
+        "cases_seen": 468,
+        "skills": 0,
+        "accepted": false,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "proposal_correct": 89,
+        "guard_correct": 98
+      },
+      {
+        "round": 4,
+        "cases_seen": 625,
+        "skills": 1,
+        "accepted": true,
+        "state_sha256": "cfcab912653a5418745567820d09848c514b4b42e62f8fbdc6dd8541973a3147",
+        "proposal_correct": 97,
+        "guard_correct": 104
+      }
+    ],
+    "137": [
+      {
+        "round": 0,
+        "cases_seen": 0,
+        "skills": 0,
+        "accepted": false,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "proposal_correct": 89,
+        "guard_correct": 98
+      },
+      {
+        "round": 1,
+        "cases_seen": 156,
+        "skills": 0,
+        "accepted": false,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "proposal_correct": 89,
+        "guard_correct": 98
+      },
+      {
+        "round": 2,
+        "cases_seen": 312,
+        "skills": 0,
+        "accepted": false,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "proposal_correct": 89,
+        "guard_correct": 98
+      },
+      {
+        "round": 3,
+        "cases_seen": 468,
+        "skills": 0,
+        "accepted": false,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "proposal_correct": 89,
+        "guard_correct": 98
+      },
+      {
+        "round": 4,
+        "cases_seen": 625,
+        "skills": 0,
+        "accepted": false,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "proposal_correct": 89,
+        "guard_correct": 98
+      }
+    ],
+    "2026": [
+      {
+        "round": 0,
+        "cases_seen": 0,
+        "skills": 0,
+        "accepted": false,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "proposal_correct": 89,
+        "guard_correct": 98
+      },
+      {
+        "round": 1,
+        "cases_seen": 156,
+        "skills": 0,
+        "accepted": false,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "proposal_correct": 89,
+        "guard_correct": 98
+      },
+      {
+        "round": 2,
+        "cases_seen": 312,
+        "skills": 2,
+        "accepted": true,
+        "state_sha256": "37e8144d669bcc92ee8601feb868b17277bd680716f0274d2d566b01ca762d30",
+        "proposal_correct": 93,
+        "guard_correct": 99
+      },
+      {
+        "round": 3,
+        "cases_seen": 468,
+        "skills": 2,
+        "accepted": false,
+        "state_sha256": "37e8144d669bcc92ee8601feb868b17277bd680716f0274d2d566b01ca762d30",
+        "proposal_correct": 93,
+        "guard_correct": 99
+      },
+      {
+        "round": 4,
+        "cases_seen": 625,
+        "skills": 2,
+        "accepted": false,
+        "state_sha256": "37e8144d669bcc92ee8601feb868b17277bd680716f0274d2d566b01ca762d30",
+        "proposal_correct": 93,
+        "guard_correct": 99
+      }
+    ]
+  },
+  "transfer": {
+    "42": [
+      {
+        "round": 0,
+        "cases_seen": 0,
+        "skills": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "metrics": {
+          "n": 200,
+          "correct": 166,
+          "invalid": 0,
+          "activated": 0,
+          "calls": 200,
+          "input_tokens": 72916,
+          "output_tokens": 9820,
+          "cost_usd": 0.022237695000000002,
+          "predictions_sha256": "d4669481b3bf89aa067f8c95c0aecbad2f6a6243a1065dd745cdfab12f388a37"
+        },
+        "transition": null,
+        "versus_initial": {
+          "difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "fixes": 0,
+          "regressions": 0
+        }
+      },
+      {
+        "round": 1,
+        "cases_seen": 156,
+        "skills": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "metrics": {
+          "n": 200,
+          "correct": 166,
+          "invalid": 0,
+          "activated": 0,
+          "calls": 200,
+          "input_tokens": 72916,
+          "output_tokens": 9820,
+          "cost_usd": 0.022237695000000002,
+          "predictions_sha256": "d4669481b3bf89aa067f8c95c0aecbad2f6a6243a1065dd745cdfab12f388a37"
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0
+        },
+        "versus_initial": {
+          "difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "fixes": 0,
+          "regressions": 0
+        }
+      },
+      {
+        "round": 2,
+        "cases_seen": 312,
+        "skills": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "metrics": {
+          "n": 200,
+          "correct": 166,
+          "invalid": 0,
+          "activated": 0,
+          "calls": 200,
+          "input_tokens": 72916,
+          "output_tokens": 9820,
+          "cost_usd": 0.022237695000000002,
+          "predictions_sha256": "d4669481b3bf89aa067f8c95c0aecbad2f6a6243a1065dd745cdfab12f388a37"
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0
+        },
+        "versus_initial": {
+          "difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "fixes": 0,
+          "regressions": 0
+        }
+      },
+      {
+        "round": 3,
+        "cases_seen": 468,
+        "skills": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "metrics": {
+          "n": 200,
+          "correct": 166,
+          "invalid": 0,
+          "activated": 0,
+          "calls": 200,
+          "input_tokens": 72916,
+          "output_tokens": 9820,
+          "cost_usd": 0.022237695000000002,
+          "predictions_sha256": "d4669481b3bf89aa067f8c95c0aecbad2f6a6243a1065dd745cdfab12f388a37"
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0
+        },
+        "versus_initial": {
+          "difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "fixes": 0,
+          "regressions": 0
+        }
+      },
+      {
+        "round": 4,
+        "cases_seen": 625,
+        "skills": 1,
+        "state_sha256": "cfcab912653a5418745567820d09848c514b4b42e62f8fbdc6dd8541973a3147",
+        "metrics": {
+          "n": 200,
+          "correct": 167,
+          "invalid": 0,
+          "activated": 44,
+          "calls": 400,
+          "input_tokens": 226856,
+          "output_tokens": 15090,
+          "cost_usd": 0.04818919,
+          "predictions_sha256": "aff5a8d5d0f17c7c39e448851251c713c5839eef6028dc24b6f28acb813279b0"
+        },
+        "transition": {
+          "fixes": 2,
+          "regressions": 1
+        },
+        "versus_initial": {
+          "difference": 0.005,
+          "ci95": [
+            -0.01,
+            0.02
+          ],
+          "fixes": 2,
+          "regressions": 1
+        }
+      }
+    ],
+    "137": [
+      {
+        "round": 0,
+        "cases_seen": 0,
+        "skills": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "metrics": {
+          "n": 200,
+          "correct": 166,
+          "invalid": 0,
+          "activated": 0,
+          "calls": 200,
+          "input_tokens": 72916,
+          "output_tokens": 9820,
+          "cost_usd": 0.022237695000000002,
+          "predictions_sha256": "d4669481b3bf89aa067f8c95c0aecbad2f6a6243a1065dd745cdfab12f388a37"
+        },
+        "transition": null,
+        "versus_initial": {
+          "difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "fixes": 0,
+          "regressions": 0
+        }
+      },
+      {
+        "round": 1,
+        "cases_seen": 156,
+        "skills": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "metrics": {
+          "n": 200,
+          "correct": 166,
+          "invalid": 0,
+          "activated": 0,
+          "calls": 200,
+          "input_tokens": 72916,
+          "output_tokens": 9820,
+          "cost_usd": 0.022237695000000002,
+          "predictions_sha256": "d4669481b3bf89aa067f8c95c0aecbad2f6a6243a1065dd745cdfab12f388a37"
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0
+        },
+        "versus_initial": {
+          "difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "fixes": 0,
+          "regressions": 0
+        }
+      },
+      {
+        "round": 2,
+        "cases_seen": 312,
+        "skills": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "metrics": {
+          "n": 200,
+          "correct": 166,
+          "invalid": 0,
+          "activated": 0,
+          "calls": 200,
+          "input_tokens": 72916,
+          "output_tokens": 9820,
+          "cost_usd": 0.022237695000000002,
+          "predictions_sha256": "d4669481b3bf89aa067f8c95c0aecbad2f6a6243a1065dd745cdfab12f388a37"
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0
+        },
+        "versus_initial": {
+          "difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "fixes": 0,
+          "regressions": 0
+        }
+      },
+      {
+        "round": 3,
+        "cases_seen": 468,
+        "skills": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "metrics": {
+          "n": 200,
+          "correct": 166,
+          "invalid": 0,
+          "activated": 0,
+          "calls": 200,
+          "input_tokens": 72916,
+          "output_tokens": 9820,
+          "cost_usd": 0.022237695000000002,
+          "predictions_sha256": "d4669481b3bf89aa067f8c95c0aecbad2f6a6243a1065dd745cdfab12f388a37"
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0
+        },
+        "versus_initial": {
+          "difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "fixes": 0,
+          "regressions": 0
+        }
+      },
+      {
+        "round": 4,
+        "cases_seen": 625,
+        "skills": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "metrics": {
+          "n": 200,
+          "correct": 166,
+          "invalid": 0,
+          "activated": 0,
+          "calls": 200,
+          "input_tokens": 72916,
+          "output_tokens": 9820,
+          "cost_usd": 0.022237695000000002,
+          "predictions_sha256": "d4669481b3bf89aa067f8c95c0aecbad2f6a6243a1065dd745cdfab12f388a37"
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0
+        },
+        "versus_initial": {
+          "difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "fixes": 0,
+          "regressions": 0
+        }
+      }
+    ],
+    "2026": [
+      {
+        "round": 0,
+        "cases_seen": 0,
+        "skills": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "metrics": {
+          "n": 200,
+          "correct": 166,
+          "invalid": 0,
+          "activated": 0,
+          "calls": 200,
+          "input_tokens": 72916,
+          "output_tokens": 9820,
+          "cost_usd": 0.022237695000000002,
+          "predictions_sha256": "d4669481b3bf89aa067f8c95c0aecbad2f6a6243a1065dd745cdfab12f388a37"
+        },
+        "transition": null,
+        "versus_initial": {
+          "difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "fixes": 0,
+          "regressions": 0
+        }
+      },
+      {
+        "round": 1,
+        "cases_seen": 156,
+        "skills": 0,
+        "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "metrics": {
+          "n": 200,
+          "correct": 166,
+          "invalid": 0,
+          "activated": 0,
+          "calls": 200,
+          "input_tokens": 72916,
+          "output_tokens": 9820,
+          "cost_usd": 0.022237695000000002,
+          "predictions_sha256": "d4669481b3bf89aa067f8c95c0aecbad2f6a6243a1065dd745cdfab12f388a37"
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0
+        },
+        "versus_initial": {
+          "difference": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "fixes": 0,
+          "regressions": 0
+        }
+      },
+      {
+        "round": 2,
+        "cases_seen": 312,
+        "skills": 2,
+        "state_sha256": "37e8144d669bcc92ee8601feb868b17277bd680716f0274d2d566b01ca762d30",
+        "metrics": {
+          "n": 200,
+          "correct": 170,
+          "invalid": 0,
+          "activated": 75,
+          "calls": 400,
+          "input_tokens": 297770,
+          "output_tokens": 18752,
+          "cost_usd": 0.047404787,
+          "predictions_sha256": "c69de73cf06e7c818d44a112f757c526a655dcf37a90f729eeccd3fbbbebdfaa"
+        },
+        "transition": {
+          "fixes": 5,
+          "regressions": 1
+        },
+        "versus_initial": {
+          "difference": 0.02,
+          "ci95": [
+            0.0,
+            0.045
+          ],
+          "fixes": 5,
+          "regressions": 1
+        }
+      },
+      {
+        "round": 3,
+        "cases_seen": 468,
+        "skills": 2,
+        "state_sha256": "37e8144d669bcc92ee8601feb868b17277bd680716f0274d2d566b01ca762d30",
+        "metrics": {
+          "n": 200,
+          "correct": 170,
+          "invalid": 0,
+          "activated": 75,
+          "calls": 400,
+          "input_tokens": 297770,
+          "output_tokens": 18752,
+          "cost_usd": 0.047404787,
+          "predictions_sha256": "c69de73cf06e7c818d44a112f757c526a655dcf37a90f729eeccd3fbbbebdfaa"
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0
+        },
+        "versus_initial": {
+          "difference": 0.02,
+          "ci95": [
+            0.0,
+            0.045
+          ],
+          "fixes": 5,
+          "regressions": 1
+        }
+      },
+      {
+        "round": 4,
+        "cases_seen": 625,
+        "skills": 2,
+        "state_sha256": "37e8144d669bcc92ee8601feb868b17277bd680716f0274d2d566b01ca762d30",
+        "metrics": {
+          "n": 200,
+          "correct": 170,
+          "invalid": 0,
+          "activated": 75,
+          "calls": 400,
+          "input_tokens": 297770,
+          "output_tokens": 18752,
+          "cost_usd": 0.047404787,
+          "predictions_sha256": "c69de73cf06e7c818d44a112f757c526a655dcf37a90f729eeccd3fbbbebdfaa"
+        },
+        "transition": {
+          "fixes": 0,
+          "regressions": 0
+        },
+        "versus_initial": {
+          "difference": 0.02,
+          "ci95": [
+            0.0,
+            0.045
+          ],
+          "fixes": 5,
+          "regressions": 1
+        }
+      }
+    ]
+  },
+  "audit_sha256": "70af28a35d5d327876159c10462e4e451cbd5cc960734e7012d065c7aefceaae",
+  "protocol_sha256": "334c8f2d206459871d57f3b5d44512e6bf67870bb0d66456bfe1fbc99c2d64fd",
+  "interval_note": "Exploratory paired bootstrap4000 draws, scenario clusters on RxSafe, items on MedQA/RxQA; no multiplicity adjustment."
+}

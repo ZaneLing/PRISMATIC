@@ -1,0 +1,12 @@
+{
+  "protocol_sha256": "334c8f2d206459871d57f3b5d44512e6bf67870bb0d66456bfe1fbc99c2d64fd",
+  "adapter_sha256": "7e173e997e2933c4bf1b20bf438578047e3f110d5b6094c6bbbf46c0101482e9",
+  "runner_sha256": "6c6069788eca478d2deca74e3736a5738ffa3029705ce3121dbe55f47b80300f",
+  "stage": "Before full test inference; development fairness and parsing repairs frozen",
+  "scope": "Full190 development,988 RxSafe test and300 RxQA transfer for both methods; no changes based on subsequent test scores.",
+  "scheduler_patch": {
+    "applied_utc": "2026-10-16T06:05:45.362524+00:00",
+    "runner_sha256": "3c893363e63e170626a866a9364bdff3b7a718e98762e438fb61ad0289d66d85",
+    "reason": "Per-method/dataset OS lock allows independent RxQA run while the existing RxSafe process finishes; any later duplicate launcher waits and reuses records. No change to prompts, model, parsing, selection or scores."
+  }
+}

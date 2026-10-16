@@ -328,7 +328,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Prescription assistance requires medication decisions, applicable evidence, complete orders, and reliable execution. We present RxRSIAgent, a prescription-agent architecture with explicit evidence tools, persistent skill memory, and structured review contracts. Its evaluated configuration uses a fixed language-model backbone and a skill state selected on 387 development questions. On 988 derived RxSafeBench questions it answers 501 correctly, compared with 499 for the same evidence tool without learned skills and 502 for an adapted GRASP author-core baseline. On 300 public RxQA questions it answers 183 correctly, showing that development improvement does not ensure transfer. Public case studies reveal both a corrected option choice and a frequency error. An audit identifies a concrete tool failure: exact option-name lookup returns evidence for only one RxQA question. A mention-aware, dosage-inclusive retriever raises coverage to 214 questions, but a subsequent 190-question development intervention scores 98 with the frozen skill versus 99 with original retrieval and is rejected before test evaluation. We organize eighteen prescribing concerns into scoped review interfaces and report their implementation boundaries. The results support targeted tool repair and explicit evaluation of persistent experience, while leaving superiority over the full set of medical-agent baselines unresolved.
+Prescription assistance requires medication decisions, applicable evidence, complete orders, and reliable execution. We present RxRSIAgent, a prescription-agent architecture with explicit evidence tools, persistent skill memory, and structured review contracts. Its evaluated configuration uses a fixed language-model backbone and a skill state selected on 387 development questions. On 988 derived RxSafeBench questions it answers 501 correctly, compared with 499 for the same evidence tool without learned skills and 502 for an adapted GRASP author-core baseline. On 300 public RxQA questions it answers 183 correctly, showing that development improvement does not ensure transfer. Public case studies reveal both a corrected option choice and a frequency error. An audit identifies a concrete tool failure: exact option-name lookup returns evidence for only one RxQA question. A mention-aware, dosage-inclusive retriever raises coverage to 214 questions, but a subsequent 190-question development intervention scores 98 with the frozen skill versus 99 with original retrieval and is rejected before test evaluation. We organize eighteen prescribing concerns into scoped review interfaces and report their implementation boundaries. Executed MedAgents and MDAgents author-workflow adapters supply further same-question comparisons with disclosed multi-call budgets. A separate counterexample-scoped memory intervention uses three training orders, four rounds and an independently frozen 200-question MedQA task. Its gains are 0.5, 0 and 2.0 percentage points over empty memory, below both medical-agent adapters. These results expose a gap between traceable adaptation and reliable transfer; broad method superiority remains unsupported.
 \end{abstract}
 
 \section{Introduction}
@@ -345,7 +345,7 @@ We introduce \textbf{RxRSIAgent}, an evidence-grounded prescription agent with a
 Our contributions are:
 \begin{itemize}
 \item \textbf{A prescription-specific agent architecture.} We connect evidence retrieval, decision making, persistent skills, structured review, and output verification, with explicit boundaries between measured capabilities and newly implemented interfaces.
-\item \textbf{A traceable evaluation of the selected agent.} We report named method comparisons, matched component ablations, experience trajectories, and public case studies. Missing medical-agent comparisons remain visible, and recorded answers are distinguished from clinical correctness.
+\item \textbf{A traceable evaluation of the selected agent.} We report named method comparisons, matched component ablations, experience trajectories, and public case studies. MedAgents and MDAgents author-workflow adaptations are measured, and recorded answers are distinguished from clinical correctness. Three independently frozen learning trajectories test scoped memory on a new task.
 \item \textbf{An actionable evidence-retrieval diagnosis.} On all 300 public RxQA questions, a revised mention-aware retriever increases the number receiving label excerpts from 1 to 214; 193 receive dosage-section excerpts. This is a retrieval-coverage result, not a claim of improved answer accuracy. A separate fixed-policy intervention also establishes useful order-tool learning.
 \end{itemize}
 
@@ -434,13 +434,14 @@ Table~\ref{tab:data} fixes the task boundaries. RxSafeBench's 2,443 source recor
 Resource & Task / metric & Local scope\\\midrule
 RxSafeBench & Derived option selection / accuracy & 625 train, 387 development, 988 evaluation; historically observed, exploratory.\\
 RxQA OpenFDA & Original option selection / accuracy & All 300 public questions; transfer of frozen skills.\\
+MedQA & General medical reasoning / accuracy & 200 hash-selected questions, frozen before scoped-memory learning; exact overlap with prior public cases excluded.\\
 eICU & Recorded orders / exact joint-order F1 & Separate order-tool component study; 8,005 stays from sixteen held-out hospitals.\\
 Clinical review contracts & Structural detection / software checks & Synthetic contract tests only; no clinical-safety benchmark score.\\
 Planned clinician study & MIMIC-IV prescription drafts / clinical rubric & Decision-time context; target100 random patients plus50 challenge cases. Enrollment and annotation pending.\\
 \bottomrule\end{tabularx}\end{table*}
 
 \subsection{Named methods and controls}
-Table~\ref{tab:main} names external agents explicitly. GRASP is an executed task adaptation of its author core with the same backbone and one-call inference cap, without our label evidence. MedAgents, MDAgents, and SafeRx-Agent are relevant comparators, but have not been executed under this local protocol. We leave their entries unmeasured instead of transplanting scores from other datasets. A full superiority claim requires these missing same-data comparisons and an explicit allocation of their multi-call budgets.
+Table~\ref{tab:main} names external agents explicitly. GRASP is an executed task adaptation of its author core with the same backbone and one-call inference cap, without our label evidence. MedAgents and MDAgents use pinned author workflows with a shared network adapter, explicit medication-choice instructions and a common strict answer parser. MedAgents uses its five-stage verification workflow with up to three voting attempts and original per-stage output limits. MDAgents uses adaptive collaboration, zero demonstrations on these tasks and a 1,024-token per-call cap. Each has a ceiling of eighty calls and 24,000 output tokens per case. Development-only repairs address recruitment formatting and missing report propagation; all changes precede test inference and are recorded. These are author-workflow task adaptations, not reproductions of published scores. Their budgets differ from the retained one-call agent, so we report calls and do not claim equal-compute superiority. SafeRx-Agent remains unexecuted; its medication-set task requires a separate compatible protocol.
 
 Component controls use the same question identities: chain-of-thought with no evidence/learned skills, GRASP skills without evidence, label evidence without learned skills, and RxRSIAgent with both. Accuracy counts invalid received answers as incorrect; failed transport requests do not become model errors. Paired scenario intervals for RxSafeBench and item intervals for RxQA use 4,000 resamples without multiplicity adjustment. They are exploratory.
 
@@ -451,18 +452,18 @@ Reference-set F1 and question accuracy remain task-specific endpoints. A complet
 \subsection{Main agent comparison}
 \begin{table*}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
-\caption{Main named-agent comparison: accuracy (\%). Measured rows use the same DeepSeek backbone, one 512-token actor call, and identical questions. A dash means not executed under this protocol, not zero. The medical-agent comparison is incomplete; original-paper scores are not substituted.}
+\caption{Named-agent comparison: accuracy (\%) on identical questions and the same served DeepSeek model identifier. Author-workflow task adapters are used for MedAgents/MDAgents. Inference budgets differ; the last column reports mean calls per case on RxSafe/RxQA. This is not an equal-compute superiority test. A dash means unexecuted, not zero.}
 \label{tab:main}
-\begin{tabular}{@{}llrr@{}}\toprule
-Method & Main mechanism & RxSafeBench (988) & RxQA (300)\\\midrule
-MedAgents \citep{medagents} & Expert discussion & -- & -- \\
-MDAgents \citep{mdagents} & Adaptive collaboration & -- & -- \\
-SafeRx-Agent \citep{saferx} & Medication knowledge / verification & -- & -- \\
-GRASP \citep{grasp} & Author-core task adaptation & 50.81 & 63.00\\
-\textbf{RxRSIAgent (ours)} & Evidence + selected skill memory & 50.71 & 61.00\\
+\begin{tabular}{@{}llrrr@{}}\toprule
+Method & Main mechanism & RxSafe (988) & RxQA (300) & Calls: RxSafe / RxQA\\\midrule
+MedAgents \citep{medagents} & Expert discussion & 47.37 & 69.33 & 20.05 / 18.88\\
+MDAgents \citep{mdagents} & Adaptive collaboration & 48.38 & 66.33 & 4.47 / 5.03\\
+SafeRx-Agent \citep{saferx} & Knowledge / verification & -- & -- & --\\
+GRASP \citep{grasp} & Author-core adaptation & 50.81 & 63.00 & 1 / 1\\
+\textbf{RxRSIAgent (ours)} & Evidence + selected skills & 50.71 & 61.00 & 1 / 1\\
 \bottomrule\end{tabular}
 \end{table*}
-RxRSIAgent scores 501/988 on RxSafeBench and 183/300 on RxQA. GRASP answers one more RxSafeBench question and six more RxQA questions correctly. The current evidence therefore does not establish a method advantage. MedAgents, MDAgents, and SafeRx-Agent remain missing comparisons, not unsuccessful baselines.
+RxRSIAgent scores 501/988 on RxSafeBench and 183/300 on RxQA. GRASP answers one more RxSafeBench question and six more RxQA questions correctly. The current evidence therefore does not establish a method advantage. MedAgents scores 468/988 on RxSafeBench and 208/300 on RxQA; MDAgents scores 478/988 and 199/300. The retained agent exceeds both on RxSafeBench, while both exceed it on RxQA, by 8.33 and 5.33 percentage points, respectively, with more calls. SafeRx-Agent remains a missing comparison, not an unsuccessful baseline.
 
 \subsection{Component ablations}
 \begin{table*}[t]\centering\small
@@ -646,6 +647,48 @@ Original retrieval scores 90 without skills and 99 with skills; repaired retriev
 
 An independent recount verifies all 760 outputs and their cached response hashes. There are 380 new calls and 380 exact-request historical cache hits; incremental provider cost is USD0.294. Controls are not a contemporaneous rerun, and the upstream model service may change. The original main-table checkpoint is retained. These results reject this particular repair as a complete-agent upgrade; they do not establish that all evidence retrieval is unhelpful.
 
+
+\section{Scoped Memory and Independent Transfer}
+\paragraph{Explicit applicability and counterexamples.}
+We test a separate memory intervention while retaining the selected main-table checkpoint. Each card specifies observable positive conditions, exclusions, a procedure, training-error support cases and distinct successful counterexamples. A TF--IDF shortlist supplies at most four cards to a semantic router, which activates at most two with exact quotations from the current input. Activated cards include one support example and one contrasting example. This validates provenance and input grounding, not the clinical correctness of the procedure. The current question's answer is never supplied. Model weights, tools and optimizer code remain fixed; only procedural memory changes.
+
+\paragraph{Learning protocol and independent task.}
+Three seeds change the order of the same 625 training cases. Four rounds expose 156,312, 468 and 625 unique cases. Admission requires strictly more correct answers and no increase in invalid outputs on both the 190-question proposal set and 197-question guard. The guard is reused for selection, so its improvement is not independent evidence. A development schema repair separates erroneous support cases from successful counterexamples; all three trajectories restart under that implementation before transfer evaluation.
+
+Two hundred MedQA questions from the pinned MedAgents release \citep{medagents} are selected by a question-text hash before learning, without answer or outcome filtering. Exact normalized overlap with prior public cases is removed; semantic overlap and pretraining exposure are not ruled out. All three complete state sequences freeze before MedQA inference. This task measures general medical reasoning rather than full prescription quality. No best test seed replaces the main-table method.
+
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Counterexample-scoped memory intervention: retained skill count / correct MedQA answers out of 200. All three complete learning trajectories freeze before independent-task inference. Unchanged states reuse outputs; flat points are not stochastic replications. This intervention is not substituted for the retained main-table agent.}
+\label{tab:scopedtrajectory}
+\begin{tabular}{@{}rrrrr@{}}\toprule
+Round & Training cases & Seed 42 & Seed 137 & Seed 2026\\\midrule
+0 & 0 & 0 / 166 & 0 / 166 & 0 / 166\\
+1 & 156 & 0 / 166 & 0 / 166 & 0 / 166\\
+2 & 312 & 0 / 166 & 0 / 166 & 2 / 170\\
+3 & 468 & 0 / 166 & 0 / 166 & 2 / 170\\
+4 & 625 & 1 / 167 & 0 / 166 & 2 / 170\\
+\bottomrule\end{tabular}
+\end{table*}
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Independent-task comparison on the same 200 hash-selected MedQA questions. General medical reasoning, not complete-order generation. The three learning seeds share the same questions and initial control. Calls and output caps differ between workflows; no equal-budget advantage is claimed.}
+\label{tab:independent}
+\begin{tabular}{@{}lrr@{}}\toprule
+Method / intervention & Accuracy (\%) & Mean calls\\\midrule
+MedAgents adapter & 86.00 & 18.59\\
+MDAgents adapter & 86.50 & 4.29\\
+Empty-memory control & 83.00 & 1.00\\
+Scoped-memory candidate (seed 42) & 83.50 & 2.00\\
+Scoped-memory candidate (seed 137) & 83.00 & 1.00\\
+Scoped-memory candidate (seed 2026) & 85.00 & 2.00\\
+\bottomrule\end{tabular}
+\end{table*}
+\paragraph{Measured gains and regressions.}
+The empty-memory actor answers 166/200 correctly. Final seeds 42, 137 and 2026 answer 167, 166 and 170, respectively: gains of 0.5, 0 and 2.0 percentage points, averaging 0.83 across the three training orders. Seed 42 fixes two and regresses one answer; seed 2026 fixes five and regresses one. Their paired item-bootstrap 95\% intervals are$[-1.0,2.0]$ and$[0.0,4.5]$ percentage points. The three seeds share the same 200 cases and baseline; they are not 600 independent observations. Identical states reuse cached responses. MedAgents and MDAgents answer 172 and 173 correctly, respectively. Thus no new candidate exceeds the medical-agent comparators on this task.
+
+The final states retain one, zero and two cards. Seed 42 retains an interaction/contraindication procedure. Seed 2026 retains diagnosis-specific selection and a procedure that sometimes prefers an ingredient already named in the dialogue. The latter is a potential benchmark shortcut despite its exclusions, not validated clinical knowledge. Active memory adds a 512-token router call before the 1,024-token actor; empty memory uses one actor call. Equal-data retrieval, shuffled feedback and matched-budget refinement controls remain necessary to attribute gains to learning. The declared engineering target of ten absolute percentage points over the strongest comparator is unmet.
+
 \section{Discussion}
 The current architecture offers concrete locations for addressing prescribing failures: source lookup for evidence gaps, structured fields for dose/schedule omissions, explicit patient facts for contraindication review, and scoped memory for reusable procedures. Adding a named skill is not evidence that the associated clinical problem is solved. Our interface inventory makes unresolved checks visible instead of converting absent evidence into a pass.
 
@@ -655,7 +698,7 @@ The central empirical distinction is between a selected artifact, a useful compo
 RxRSIAgent combines a fixed language model, drug-label evidence, and development-selected persistent skills within explicit prescription interfaces. The retained agent and its ablations expose limited generalization of learned skills. Traceable public cases identify an evidence-interface failure, and a repaired retriever substantially improves excerpt availability. The architecture also specifies clinical-review dependencies and unknown-state behavior. Broad medical-agent superiority and end-to-end clinical utility remain to be demonstrated.
 
 \section*{Limitations}
-The main comparison is exploratory and lacks matched MedAgents, MDAgents, and SafeRx-Agent runs. The retained configuration has one skill-learning seed and a fixed backbone. Benchmark answer agreement is not clinical correctness; public questions and reference prescriptions can be incomplete or imperfect. The proposed clinician rubric has no completed ratings or validation study. The first skill-update probe overlaps its proposal batch, and training-probe acceptance does not guarantee held-out gains. The revised retriever and new clinical-review layer have no end-to-end agent accuracy estimate. Their label corpus lacks some drugs, and exact matching does not resolve product applicability. The eICU component study has limited temporal availability and native-code targets; it is not interchangeable with RxQA or ATC-based evaluation. No universal risk-coverage, autonomous optimizer redesign, prospective clinical outcome, or overall superiority claim is supported.
+The main comparison is exploratory. MedAgents and MDAgents are executed author-workflow task adapters with higher inference budgets; an equal-budget study and SafeRx-Agent comparison remain missing. The independent scoped-memory intervention has three training seeds but only one shared200-question general-medical task, with small gains and possible shortcut learning. The retained configuration has one skill-learning seed and a fixed backbone. Benchmark answer agreement is not clinical correctness; public questions and reference prescriptions can be incomplete or imperfect. The proposed clinician rubric has no completed ratings or validation study. The first skill-update probe overlaps its proposal batch, and training-probe acceptance does not guarantee held-out gains. The revised retriever has a failed development-only accuracy intervention; the new clinical-review layer has no end-to-end clinical outcome estimate. Their label corpus lacks some drugs, and exact matching does not resolve product applicability. The eICU component study has limited temporal availability and native-code targets; it is not interchangeable with RxQA or ATC-based evaluation. No universal risk-coverage, autonomous optimizer redesign, prospective clinical outcome, or overall superiority claim is supported.
 
 \section*{Ethics and Reproducibility}
 All evaluations are offline. Public-case studies contain no restricted patient records. Restricted eICU records and fitted artifacts remain local; released reports contain aggregates and source bindings. The review module makes no clinical writes. Recorded labels permit automated agreement scoring, while clinical appropriateness is a separate question. Learned skills are experience artifacts and must not be treated as prescribing authority. The supplied evidence manifest binds the current manuscript, selected configuration, aggregate outcomes, and case audit to their sources.

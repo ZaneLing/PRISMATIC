@@ -1,0 +1,312 @@
+{
+  "status": "frozen",
+  "seed": 2026,
+  "frozen_utc": "2026-10-16T05:51:43.331458+00:00",
+  "protocol_sha256": "2a66f28c332fdc177bae31df2e33f2c4f74b8670c69ba7b34100f90014f4bbcc",
+  "rounds": [
+    {
+      "round": 0,
+      "cases_seen": 0,
+      "proposal": {
+        "n": 190,
+        "correct": 89,
+        "invalid": 0,
+        "activated": 0,
+        "calls": 190,
+        "input_tokens": 101816,
+        "output_tokens": 11643,
+        "cost_usd": 0.02308906440000001,
+        "predictions_sha256": "c8138638b8d58f4274e3ef98bc1dab2f247386f7dd35c2d1f3cb5b7f7bbcf6c0"
+      },
+      "guard": {
+        "n": 197,
+        "correct": 98,
+        "invalid": 0,
+        "activated": 0,
+        "calls": 197,
+        "input_tokens": 106629,
+        "output_tokens": 11776,
+        "cost_usd": 0.030243352999999994,
+        "predictions_sha256": "4a3b85e93bc1fddfa06141890c0fa04b5e5fcb8fd809d7e5b5a4fb8d05c72745"
+      },
+      "cards": [],
+      "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "round": 1,
+      "cases_seen": 156,
+      "accepted": false,
+      "proposal_pass": false,
+      "candidate_proposal": {
+        "n": 190,
+        "correct": 91,
+        "invalid": 1,
+        "activated": 6,
+        "calls": 380,
+        "input_tokens": 272662,
+        "output_tokens": 14366,
+        "cost_usd": 0.04099104840000002,
+        "predictions_sha256": "5642e33c416fb61b4812421570699f9265e2dbe352cd2009b6e07209b1da4846"
+      },
+      "proposal": {
+        "n": 190,
+        "correct": 89,
+        "invalid": 0,
+        "activated": 0,
+        "calls": 190,
+        "input_tokens": 101816,
+        "output_tokens": 11643,
+        "cost_usd": 0.02308906440000001,
+        "predictions_sha256": "c8138638b8d58f4274e3ef98bc1dab2f247386f7dd35c2d1f3cb5b7f7bbcf6c0"
+      },
+      "proposal_transition": {
+        "fixes": 2,
+        "regressions": 0
+      },
+      "guard": {
+        "n": 197,
+        "correct": 98,
+        "invalid": 0,
+        "activated": 0,
+        "calls": 197,
+        "input_tokens": 106629,
+        "output_tokens": 11776,
+        "cost_usd": 0.030243352999999994,
+        "predictions_sha256": "4a3b85e93bc1fddfa06141890c0fa04b5e5fcb8fd809d7e5b5a4fb8d05c72745"
+      },
+      "candidate_guard": null,
+      "guard_transition": null,
+      "cards": [],
+      "state_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "round": 2,
+      "cases_seen": 312,
+      "accepted": true,
+      "proposal_pass": true,
+      "candidate_proposal": {
+        "n": 190,
+        "correct": 93,
+        "invalid": 0,
+        "activated": 137,
+        "calls": 380,
+        "input_tokens": 422277,
+        "output_tokens": 25325,
+        "cost_usd": 0.07575353100000003,
+        "predictions_sha256": "1c833f4d7866546d3629ac9cd491439e792560a6769db5fbfd38cdc4d3c24034"
+      },
+      "proposal": {
+        "n": 190,
+        "correct": 93,
+        "invalid": 0,
+        "activated": 137,
+        "calls": 380,
+        "input_tokens": 422277,
+        "output_tokens": 25325,
+        "cost_usd": 0.07575353100000003,
+        "predictions_sha256": "1c833f4d7866546d3629ac9cd491439e792560a6769db5fbfd38cdc4d3c24034"
+      },
+      "proposal_transition": {
+        "fixes": 10,
+        "regressions": 6
+      },
+      "guard": {
+        "n": 197,
+        "correct": 99,
+        "invalid": 0,
+        "activated": 132,
+        "calls": 394,
+        "input_tokens": 428520,
+        "output_tokens": 24368,
+        "cost_usd": 0.06892474800000009,
+        "predictions_sha256": "9404464b6eb09bd6f11ba47edf49e598de180d8624fbcef35110f16478270343"
+      },
+      "candidate_guard": {
+        "n": 197,
+        "correct": 99,
+        "invalid": 0,
+        "activated": 132,
+        "calls": 394,
+        "input_tokens": 428520,
+        "output_tokens": 24368,
+        "cost_usd": 0.06892474800000009,
+        "predictions_sha256": "9404464b6eb09bd6f11ba47edf49e598de180d8624fbcef35110f16478270343"
+      },
+      "guard_transition": {
+        "fixes": 11,
+        "regressions": 10
+      },
+      "cards": [
+        {
+          "name": "Prefer the option whose active ingredient is already named in the dialogue",
+          "applies_when": "The dialogue explicitly names a medication or active ingredient, and the answer options include both that exact active ingredient and a different drug from the same therapeutic class or with a similar indication.",
+          "exclude_when": "The dialogue names a medication only as a current medication that is being investigated as a possible cause or interacting factor, and the question asks for a new treatment for the suspected diagnosis; or the named medication is not a plausible treatment for the diagnosis under discussion.",
+          "procedure": "1. Identify the active ingredient explicitly named in the dialogue. 2. Check whether it appears as an answer option. 3. If it does, and the question is asking for the treatment/medication most consistent with the dialogue, choose that option over same-class alternatives. 4. If the named medication is only a possible exacerbating factor or is not indicated for the diagnosis, do not apply this rule.",
+          "support_ids": [
+            "46e901a1928b19d2"
+          ],
+          "counterexample_ids": [
+            "10c28f0b41b95592"
+          ]
+        },
+        {
+          "name": "Prefer the option that matches the diagnosis-specific drug class over a same-class alternative",
+          "applies_when": "The dialogue supports a specific diagnosis, and the answer options include two drugs from the same broad therapeutic area but only one is the standard first-line or diagnosis-specific agent for that diagnosis.",
+          "exclude_when": "The dialogue does not clearly support the diagnosis, or the two same-class options are both equally appropriate for the diagnosis, or the patient has a contraindication that makes the standard agent unsafe.",
+          "procedure": "1. Determine the most likely diagnosis from the dialogue. 2. Identify the drug class or mechanism most directly indicated for that diagnosis. 3. Among same-class options, choose the one that is the standard first-line or most specific treatment for the diagnosis. 4. Do not choose a same-class alternative merely because it is also used in the broader disease area.",
+          "support_ids": [
+            "4d1e4a0addc62a83"
+          ],
+          "counterexample_ids": [
+            "46baa8f99212fdde"
+          ]
+        }
+      ],
+      "state_sha256": "37e8144d669bcc92ee8601feb868b17277bd680716f0274d2d566b01ca762d30"
+    },
+    {
+      "round": 3,
+      "cases_seen": 468,
+      "accepted": false,
+      "proposal_pass": false,
+      "candidate_proposal": {
+        "n": 190,
+        "correct": 87,
+        "invalid": 0,
+        "activated": 159,
+        "calls": 380,
+        "input_tokens": 559328,
+        "output_tokens": 28610,
+        "cost_usd": 0.07551707399999995,
+        "predictions_sha256": "74f3f3822b602c150376699f788dc4d0a5601c441fc9b81ec8139dc0131174c4"
+      },
+      "proposal": {
+        "n": 190,
+        "correct": 93,
+        "invalid": 0,
+        "activated": 137,
+        "calls": 380,
+        "input_tokens": 422277,
+        "output_tokens": 25325,
+        "cost_usd": 0.07575353100000003,
+        "predictions_sha256": "1c833f4d7866546d3629ac9cd491439e792560a6769db5fbfd38cdc4d3c24034"
+      },
+      "proposal_transition": {
+        "fixes": 0,
+        "regressions": 6
+      },
+      "guard": {
+        "n": 197,
+        "correct": 99,
+        "invalid": 0,
+        "activated": 132,
+        "calls": 394,
+        "input_tokens": 428520,
+        "output_tokens": 24368,
+        "cost_usd": 0.06892474800000009,
+        "predictions_sha256": "9404464b6eb09bd6f11ba47edf49e598de180d8624fbcef35110f16478270343"
+      },
+      "candidate_guard": null,
+      "guard_transition": null,
+      "cards": [
+        {
+          "name": "Prefer the option whose active ingredient is already named in the dialogue",
+          "applies_when": "The dialogue explicitly names a medication or active ingredient, and the answer options include both that exact active ingredient and a different drug from the same therapeutic class or with a similar indication.",
+          "exclude_when": "The dialogue names a medication only as a current medication that is being investigated as a possible cause or interacting factor, and the question asks for a new treatment for the suspected diagnosis; or the named medication is not a plausible treatment for the diagnosis under discussion.",
+          "procedure": "1. Identify the active ingredient explicitly named in the dialogue. 2. Check whether it appears as an answer option. 3. If it does, and the question is asking for the treatment/medication most consistent with the dialogue, choose that option over same-class alternatives. 4. If the named medication is only a possible exacerbating factor or is not indicated for the diagnosis, do not apply this rule.",
+          "support_ids": [
+            "46e901a1928b19d2"
+          ],
+          "counterexample_ids": [
+            "10c28f0b41b95592"
+          ]
+        },
+        {
+          "name": "Prefer the option that matches the diagnosis-specific drug class over a same-class alternative",
+          "applies_when": "The dialogue supports a specific diagnosis, and the answer options include two drugs from the same broad therapeutic area but only one is the standard first-line or diagnosis-specific agent for that diagnosis.",
+          "exclude_when": "The dialogue does not clearly support the diagnosis, or the two same-class options are both equally appropriate for the diagnosis, or the patient has a contraindication that makes the standard agent unsafe.",
+          "procedure": "1. Determine the most likely diagnosis from the dialogue. 2. Identify the drug class or mechanism most directly indicated for that diagnosis. 3. Among same-class options, choose the one that is the standard first-line or most specific treatment for the diagnosis. 4. Do not choose a same-class alternative merely because it is also used in the broader disease area.",
+          "support_ids": [
+            "4d1e4a0addc62a83"
+          ],
+          "counterexample_ids": [
+            "46baa8f99212fdde"
+          ]
+        }
+      ],
+      "state_sha256": "37e8144d669bcc92ee8601feb868b17277bd680716f0274d2d566b01ca762d30"
+    },
+    {
+      "round": 4,
+      "cases_seen": 625,
+      "accepted": false,
+      "proposal_pass": false,
+      "candidate_proposal": {
+        "n": 190,
+        "correct": 88,
+        "invalid": 0,
+        "activated": 158,
+        "calls": 380,
+        "input_tokens": 558675,
+        "output_tokens": 28830,
+        "cost_usd": 0.10367879199999994,
+        "predictions_sha256": "541d42a817debfe321dcfa85f7fbc3704a67ab0e72312b08c25e199184aef017"
+      },
+      "proposal": {
+        "n": 190,
+        "correct": 93,
+        "invalid": 0,
+        "activated": 137,
+        "calls": 380,
+        "input_tokens": 422277,
+        "output_tokens": 25325,
+        "cost_usd": 0.07575353100000003,
+        "predictions_sha256": "1c833f4d7866546d3629ac9cd491439e792560a6769db5fbfd38cdc4d3c24034"
+      },
+      "proposal_transition": {
+        "fixes": 6,
+        "regressions": 11
+      },
+      "guard": {
+        "n": 197,
+        "correct": 99,
+        "invalid": 0,
+        "activated": 132,
+        "calls": 394,
+        "input_tokens": 428520,
+        "output_tokens": 24368,
+        "cost_usd": 0.06892474800000009,
+        "predictions_sha256": "9404464b6eb09bd6f11ba47edf49e598de180d8624fbcef35110f16478270343"
+      },
+      "candidate_guard": null,
+      "guard_transition": null,
+      "cards": [
+        {
+          "name": "Prefer the option whose active ingredient is already named in the dialogue",
+          "applies_when": "The dialogue explicitly names a medication or active ingredient, and the answer options include both that exact active ingredient and a different drug from the same therapeutic class or with a similar indication.",
+          "exclude_when": "The dialogue names a medication only as a current medication that is being investigated as a possible cause or interacting factor, and the question asks for a new treatment for the suspected diagnosis; or the named medication is not a plausible treatment for the diagnosis under discussion.",
+          "procedure": "1. Identify the active ingredient explicitly named in the dialogue. 2. Check whether it appears as an answer option. 3. If it does, and the question is asking for the treatment/medication most consistent with the dialogue, choose that option over same-class alternatives. 4. If the named medication is only a possible exacerbating factor or is not indicated for the diagnosis, do not apply this rule.",
+          "support_ids": [
+            "46e901a1928b19d2"
+          ],
+          "counterexample_ids": [
+            "10c28f0b41b95592"
+          ]
+        },
+        {
+          "name": "Prefer the option that matches the diagnosis-specific drug class over a same-class alternative",
+          "applies_when": "The dialogue supports a specific diagnosis, and the answer options include two drugs from the same broad therapeutic area but only one is the standard first-line or diagnosis-specific agent for that diagnosis.",
+          "exclude_when": "The dialogue does not clearly support the diagnosis, or the two same-class options are both equally appropriate for the diagnosis, or the patient has a contraindication that makes the standard agent unsafe.",
+          "procedure": "1. Determine the most likely diagnosis from the dialogue. 2. Identify the drug class or mechanism most directly indicated for that diagnosis. 3. Among same-class options, choose the one that is the standard first-line or most specific treatment for the diagnosis. 4. Do not choose a same-class alternative merely because it is also used in the broader disease area.",
+          "support_ids": [
+            "4d1e4a0addc62a83"
+          ],
+          "counterexample_ids": [
+            "46baa8f99212fdde"
+          ]
+        }
+      ],
+      "state_sha256": "37e8144d669bcc92ee8601feb868b17277bd680716f0274d2d566b01ca762d30"
+    }
+  ]
+}
