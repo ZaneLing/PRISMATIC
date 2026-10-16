@@ -1,0 +1,31 @@
+{
+  "created_utc": "2026-10-16T05:16:02.385530+00:00",
+  "design": "old/new retrieval crossed with absent/frozen incumbent skill",
+  "configs": [
+    "old_no_skill",
+    "old_skill",
+    "new_no_skill",
+    "new_skill"
+  ],
+  "model": "deepseek/deepseek-v4.1-flash",
+  "output_tokens": 512,
+  "calls_per_case": 1,
+  "temperature": 0,
+  "proposal_n": 190,
+  "guard_n": 197,
+  "promotion": "new_skill must strictly beat old_skill in correct count on proposal; then strictly beat old_skill on guard with no increase in invalid answers. Otherwise reject; no test run.",
+  "no_skill_controls": "diagnostic; cannot be renamed an evolved agent",
+  "test_if_promoted": "freeze new_skill, then all 988 RxSafe and 300 RxQA; no test-driven revision",
+  "exposure": "Development sets and test benchmarks were observed in historical work. Results are exploratory, not fresh confirmatory evaluation.",
+  "label_sha256": "9cf198f7c7e16907e61aa48ccf212c3ddf2894c0284ae66f0dbd211cc90289fd",
+  "data_sha256": "481834daedf9b881de36e15548abc93f6cc8ef6401522d48c3a3cdd3640de0fd",
+  "skill_sha256": {
+    "label_indication_and_caution_parsing.md": "1667f4addf9710ae8f2984022748db3fb7eddd25c359b5db4b6f38e9b5ffaf3e"
+  },
+  "retriever_sha256": "0b48665dc65599c245b7317104614c36733b81ac896c6e7e19ad199a8b14d81e",
+  "runner_sha256": "5cea2bcda48a67e92c0755545970b88a063bc92739f5aef25b2b494386446619",
+  "source_optimizer": "Previously learned GRASP author-core skill; no new learning in this diagnostic experiment.",
+  "maximum_incremental_usd": 8,
+  "ledger_start_usd": 29.382684180159757,
+  "restricted_data": false
+}

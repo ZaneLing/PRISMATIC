@@ -1,8 +1,10 @@
 # RxRSIAgent — PRISMATIC research repository
 
-## Current paper and implementation — 15 October 2026
+## Current paper and implementation — 16 October 2026
 
-New: [clinician-oriented evaluation](paper/CLINICAL_EVALUATION.en.md) / [医生视角指标](paper/CLINICAL_EVALUATION.zh.md), and [audited evolution rounds](paper/EVOLUTION.en.md) / [逐轮进化证据](paper/EVOLUTION.zh.md). The Introduction now discusses scoped Utah prescribing pilots; Figure2 and Tables8–9 connect artifact changes, outcomes and module attribution.
+Latest: [retrieval intervention rejected](upgrade_v33/RESULTS.en.md) / [检索修复未通过升级](upgrade_v33/RESULTS.zh.md):98/190 versus99/190 on development;380 new calls, no test promotion.
+
+[clinician-oriented evaluation](paper/CLINICAL_EVALUATION.en.md) / [医生视角指标](paper/CLINICAL_EVALUATION.zh.md), and [audited evolution rounds](paper/EVOLUTION.en.md) / [逐轮进化证据](paper/EVOLUTION.zh.md). The Introduction now discusses scoped Utah prescribing pilots; Figure2 and Tables8–9 connect artifact changes, outcomes and module attribution.
 
 **RxRSIAgent** is the method name. The current English ACL manuscript retains one development-selected agent, a complete architecture figure, a named-method main table, component ablations, learning rounds, and two public case studies. Historical prototypes remain in archived reports, outside the paper.
 
@@ -16,7 +18,7 @@ New: [clinician-oriented evaluation](paper/CLINICAL_EVALUATION.en.md) / [医生�
 
 **New measured tool repair:** on all300 public RxQA questions, excerpt coverage rises from1 to214;193 receive dosage material. All1,666 returned source spans are independently checked. Twelve synthetic software tests pass. These results do not replace the saved agent scores or establish clinical safety. Product applicability and clinical rule integrations remain incomplete.
 
-The long-running research queues remain paused. This increment makes no new provider calls. [Pre-consolidation experiment archive](paper/RESULTS_ARCHIVE_2026-10-15.en.md) preserves earlier counts, failures and partial studies.
+The long-running research queues remain paused. The bounded development intervention made380 new public calls at approximately USD0.294; the selected test checkpoint was not replaced. [Pre-consolidation experiment archive](paper/RESULTS_ARCHIVE_2026-10-15.en.md) preserves earlier counts, failures and partial studies.
 
 ---
 

@@ -1,10 +1,12 @@
 # RxRSIAgent: current manuscript and evidence index
 
-Target: ACL 2027. Updated 15 October 2026.
+Target: ACL 2027. Updated 16 October 2026.
 
 The [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) is maintained at its existing editor path. It uses one development-selected **RxRSIAgent** configuration. Historical prototypes and version inventories are retained below and in Git, not inside the current paper.
 
 ## Start here
+
+- [Executed retrieval intervention: rejected](../upgrade_v33/RESULTS.en.md) / [实际检索修复实验：未通过升级](../upgrade_v33/RESULTS.zh.md).
 
 - [中文当前结果与主表](CURRENT_RESULTS.zh.md) / [Current English results](CURRENT_RESULTS.en.md).
 - [中文架构与临床问题映射](RXRSI_DESIGN.zh.md) / [English architecture and risk map](RXRSI_DESIGN.en.md).
@@ -35,12 +37,13 @@ The [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) is maintained at i
 
 The selected agent scores501/988 and183/300 and does not beat the measured GRASP control. The newly repaired retriever improves source availability, and twelve software tests exercise the new interfaces. Missing medical-agent comparisons, product applicability and clinical rule validation remain required work. The paper does not call all prescribing risks solved.
 
-Existing long-running queues remain paused. This writing/implementation increment only audited public caches and synthetic fixtures, without new provider calls. Required follow-up experiments are listed in the [current results](CURRENT_RESULTS.en.md#5-auxiliary-evidence-and-remaining-experiments).
+Existing long-running queues remain paused. A bounded development intervention adds380 new calls and reuses380 cached controls: repaired retrieval with frozen skills scores98/190 versus99/190, failing promotion. Table10 reports this negative result; no new test run was performed. Required follow-up experiments are listed in the [current results](CURRENT_RESULTS.en.md#5-auxiliary-evidence-and-remaining-experiments).
 
 ## Versions
 
 | Version | Record | Evidence |
 | --- | --- | --- |
+| v0.33 | [Development retrieval intervention](../upgrade_v33/RESULTS.en.md) | Four matched arms;760 outputs audited,380 new calls; promotion rejected; no new test scores |
 | v0.32 | [Controlled decision repair](../upgrade_v32/RESULTS.en.md) | Four same-data/100-step prefix/loss arms; fixed and calibrated scoring, independent recount and guard prerequisites |
 | v0.31 | [Parameter intervention](../upgrade_v31/RESULTS.en.md) | Four arms, three seeds, three rounds; position randomization with original ranks retained; partial; paused |
 | v0.30 | [Memory gates](../upgrade_v30/RESULTS.en.md) | Fourteen arms isolate old-memory compatibility and separate whole-update confirmation; audited completed seeds reported |

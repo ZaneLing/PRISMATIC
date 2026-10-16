@@ -69,6 +69,18 @@ def coverage_table():
     return table('Actual retrieval-only audit on all 300 public RxQA questions using the same frozen label corpus. Counts indicate excerpt availability, not verified relevance or clinical correctness. No answer scores are recomputed.',
         'tab:coverage','lrr','Retriever & Any excerpt /300 & Dosage excerpt /300',rows)
 
+def repair_table():
+    d=read('upgrade_v33/results/proposal.json')
+    a=read('upgrade_v33/results/audit.json')
+    read('upgrade_v33/protocol.json')
+    assert d['status']=='complete' and not d['gate_passed'] and a['status']=='passed'
+    rows=[]
+    for key,label in [('old_no_skill','Original retrieval, no skills'),('old_skill','Original retrieval, frozen skill'),('new_no_skill','Repaired retrieval, no skills'),('new_skill','Repaired retrieval, frozen skill')]:
+        r=d['results']['proposal'][key]
+        rows.append(f"{label} & {r['correct']}/190 & {100*r['accuracy']:.2f} & {r['invalid']} & {r['with_excerpts']}/190"+r'\\')
+    return table('Development-only retrieval intervention. Identical 190 RxSafeBench development questions, backbone and 512-token output cap. Original-tool responses reuse exact-request caches; repaired-tool responses are new calls. No test result is replaced.',
+        'tab:repair','lrrrr','Configuration & Correct & Accuracy (\\%) & Invalid & Evidence available',rows)
+
 def evolution_figure():
     d=read('rxrsiagent/results/evolution_audit.json')
     parts=[r'\begin{figure*}[t]\centering',r'\begin{tikzpicture}[x=1cm,y=1cm,font=\small]']
@@ -150,7 +162,7 @@ def run():
     replacements={'AGENT_TABLE':main,'ABLATION_TABLE':abl,'TRAJECTORY_TABLE':trajectory,
                   'ORDER_TABLE':order_table(),'COVERAGE_TABLE':coverage_table(),'REFERENCES':REFERENCES,
                   'EVOLUTION_FIGURE':evolution_figure(),'CLINICAL_METRICS_TABLE':clinical_metrics_table(),
-                  'MODULE_GROWTH_TABLE':module_growth_table()}
+                  'MODULE_GROWTH_TABLE':module_growth_table(),'REPAIR_TABLE':repair_table()}
     cases=read('rxrsiagent/results/case_studies.json')
     assert [(c['public_question_id'],c['fixed_prediction'],c['agent_prediction'],c['gold']) for c in cases['cases']]==[('104','C','B','B'),('10','C','A','C')]
     for name in ['paper/introduction_sources.json','rxrsiagent/clinical_skills.json','upgrade_v17/results/frozen_skills.json','rxrsiagent/results/contract_checks.json','rxrsiagent/results/clinical_metric_checks.json']:
@@ -164,8 +176,8 @@ def run():
     provenance=read('paper/latex/v0.3/acl_template_provenance.json')
     assert hashlib.sha256((prefix[start:end].rstrip()+'\n').encode()).hexdigest()==provenance['acl_sty_sha256']
     TARGET.write_text((prefix+text.lstrip('\n')).rstrip()+'\n')
-    manifest={'snapshot':'2026-10-15 Utah motivation, clinician endpoints and audited evolution mechanism',
-        'background_experiments_resumed':False,'new_work':'Frozen evolution audit, clinical evaluation protocol and synthetic metric checks; no new actor calls',
+    manifest={'snapshot':'2026-10-16 development-gated retrieval intervention rejected',
+        'background_experiments_resumed':False,'new_work':'380 new public development actor calls and 380 cached controls; independent recount; failed promotion gate; no new test evaluation',
         'paper_path':str(TARGET.relative_to(ROOT)),'paper_sha256':sha(TARGET),'acl_style_sha256':provenance['acl_sty_sha256'],
         'generator_sha256':sha(Path(__file__)),'narrative_sha256':sha(ROOT/'paper/acl_manuscript_text.py'),
         'source_sha256':SOURCES,'main_table':'Named agents; identical public questions for measured rows; medical-agent comparisons incomplete',

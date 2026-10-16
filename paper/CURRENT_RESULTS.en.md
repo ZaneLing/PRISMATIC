@@ -1,10 +1,18 @@
 # RxRSIAgent: current paper and measured results
 
-Updated 2026-10-15. The method is **RxRSIAgent**; PRISMATIC remains the repository name. The manuscript retains one development-selected configuration. Historical prototypes are preserved in the [archive](RESULTS_ARCHIVE_2026-10-15.en.md), outside the current paper.
+Updated 2026-10-16. The method is **RxRSIAgent**; PRISMATIC remains the repository name. The manuscript retains one development-selected configuration. Historical prototypes are preserved in the [archive](RESULTS_ARCHIVE_2026-10-15.en.md), outside the current paper.
 
 [English ACL manuscript](latex/v0.3/prismatic_v03_en.tex) · [Architecture and clinical risk map](RXRSI_DESIGN.en.md) · [中文结果](CURRENT_RESULTS.zh.md) · [Implementation](../rxrsiagent/README.md)
 
-## New increment: deployed pilots, clinical endpoints and evolution mechanism
+## 2026-10-16: executed repair fails promotion
+
+**The current agent does not beat GRASP:** one fewer correct RxSafeBench answer and six fewer on RxQA. Three named medical-agent comparators remain unexecuted under this protocol.
+
+The new 190-question development factorial scores 90/99 without/with skills for original retrieval and 92/98 for repaired retrieval. With skills fixed, the repair fixes29/regresses30 and fails the recorded gate. No guard/test evaluation follows and the main-table checkpoint is unchanged. All760 outputs were recounted:380 new calls,380 historical cache hits, approximately USD0.294 incremental cost.
+
+[Full results and decisions](../upgrade_v33/RESULTS.en.md) · [Results JSON](../upgrade_v33/results/proposal.json) · [Independent audit](../upgrade_v33/results/audit.json). Paper Table10 adds the development intervention. Medical-agent comparisons, scoped memory and candidate-balanced retrieval remain unfinished work.
+
+## 2026-10-15: deployed pilots, clinical endpoints and evolution mechanism
 
 - The Introduction adds Utah's[Doctronic renewal pilot](https://commerce.utah.gov/2026/01/06/news-release-utah-and-doctronic-announce-groundbreaking-partnership-for-ai-prescription-medication-renewals/) and[Nolla Health's scoped acne-prescribing pilot](https://commerce.utah.gov/ai/regulatory-relief-4/authorized-pilots/), with scope and oversight limits. Deployment motivates evaluation; it does not establish clinical effectiveness or general AI medical licensure.
 - **Clinical perspective:**14 endpoints, with treatment-goal coverage, major-error case rate and joint clinically correct order rate as primary. [Full protocol](CLINICAL_EVALUATION.en.md) includes two-reviewer blinding, denominators, unknowns, templates and aggregation. No clinician ratings are available.
@@ -22,7 +30,7 @@ Updated 2026-10-15. The method is **RxRSIAgent**; PRISMATIC remains the reposito
 | [MDAgents](https://arxiv.org/abs/2404.15155) | Complexity-adaptive collaboration | — | — | Not run under this protocol |
 | [SafeRx-Agent](https://arxiv.org/abs/2605.29146) | Knowledge-grounded recommendation and verification | — | — | Not run under this protocol |
 | [GRASP](https://arxiv.org/abs/2605.29668) | Task adaptation of the author skill optimizer | 50.81% (502/988) | 63.00% (189/300) | Saved predictions |
-| **RxRSIAgent (ours)** | Label evidence and selected persistent skill | **50.71% (501/988)** | **61.00% (183/300)** | Saved predictions |
+| **RxRSIAgent (ours)** | Label evidence and selected persistent skill | 50.71% (501/988) | 61.00% (183/300) | Saved predictions |
 
 Measured rows share the DeepSeek backbone, identical questions, one actor call per question and a 512-token output cap. RxSafeBench is a local three-option adaptation, not the original free-generation protocol. RxQA includes all 300 released OpenFDA questions, excluding the unavailable BNF component. **A dash means unmeasured, not zero. The medical-agent comparison is incomplete and does not establish superiority.** Original-paper scores remain in the [literature protocol record](LATEST_METHODS.en.md), not in same-test columns.
 
@@ -55,7 +63,7 @@ The previous retriever used entire option strings as drug names and excluded dos
 | Questions with dosage excerpts | 0 | **193 (64.33%)** |
 | Questions without excerpts | 299 | 86 |
 
-All **1,666 returned spans** were independently checked against source paragraphs and offsets. This establishes traceability and availability, not relevance, formulation applicability or answer correctness. The new retriever has not rerun the actor and receives no credit for the frozen main-table scores. Contextual medications can also match, requiring a subsequent applicability audit. [Retrieval report](../rxrsiagent/results/retrieval_coverage.json)
+All **1,666 returned spans** were independently checked against source paragraphs and offsets. This establishes traceability and availability, not relevance, formulation applicability or answer correctness. The repaired retriever has now been evaluated on190 development questions and failed promotion; no new test score replaces the frozen main table. Contextual medications can also match, requiring a subsequent applicability audit. [Retrieval report](../rxrsiagent/results/retrieval_coverage.json)
 
 The new entry point verifies and passes the selected skill to an actor and checks order fields, empty drafts, numeric doses, exact ingredient/allergy IDs, adjunct purpose and IV evidence fields. **12 synthetic software tests pass.** Eighteen clinical domains specify facts, tool dependencies, procedures and memory boundaries; unresolved clinical rules remain `not_assessed`. [Checks](../rxrsiagent/results/contract_checks.json) · [Risk map and implementation status](RXRSI_DESIGN.en.md)
 
@@ -74,9 +82,9 @@ Table 5 retains a separate eICU order-tool intervention: with identical medicati
 Required next steps:
 
 1. Freeze repaired retrieval, selected skills and task contracts. Audit product/route applicability and missing evidence for86 questions. These questions informed diagnosis; subsequent scores require an exploratory label and independent confirmation.
-2. Run the original/repaired retrieval × absent/frozen skill factorial with the same model and cases. Report accuracy, empty outputs, relevance, calls, tokens, cost and regressions.
+2. The190-question original/repaired retrieval × absent/frozen skill factorial is complete and the repair rejected. Test candidate balance and applicability under a new development protocol before any further test run.
 3. Integrate available MedAgents, MDAgents and SafeRx-Agent implementations. Report both native multi-call workflows and a preregistered total-call/token budget. Declare adaptations as independent reproductions; do not imply official scores without official splits.
 4. Evaluate persistent skill updates on frozen new tasks across experience rounds, including fixed memory, ordinary feedback, shuffled feedback and gate-removal controls, with at least three seeds and explicit artifact diffs. Keep test feedback out of training memory.
 5. Integrate versioned medication mapping, interactions, organ-function, compatibility and monitoring tools; measure domain correctness and unknown rates before claiming full-order benefits. Evaluate actual tool state/readback separately in MedAgentBench.
 
-This increment rewrites the paper, implements review/retrieval components, and audits public caches. Long-running research queues remain paused; no new provider calls were made.
+The latest increment adds380 public development calls, costing approximately USD0.294. Long-running queues remain paused; the original main-table checkpoint and test results are retained.
