@@ -1,0 +1,71 @@
+{
+  "complete": true,
+  "cases": 48,
+  "split": "proposal",
+  "baseline": {
+    "cases": 48,
+    "drug_micro_f1": 0.06521739130434782,
+    "drug_precision": 0.07377049180327869,
+    "drug_recall": 0.05844155844155844,
+    "core_order_micro_f1": 0.041811846689895474,
+    "known_field_accuracy_given_correct_drug": 0.875,
+    "known_fields_scored": 32,
+    "core_gold_orders": 165,
+    "core_predicted_orders": 122,
+    "mean_predicted_drugs": 2.5416666666666665,
+    "empty_fraction": 0.0,
+    "promotion_score": 0.05351461899712165,
+    "core5_micro_f1": 0.019417475728155338,
+    "core5_gt_field_coverage": 0.6845238095238095,
+    "invalid_fraction": 0.0,
+    "catalogue_drug_recall_ceiling": 0.6233766233766234,
+    "output_tokens": 2920,
+    "input_tokens": 263523,
+    "logical_calls": 144,
+    "api_cost_usd": 0
+  },
+  "route_filtered": {
+    "cases": 48,
+    "drug_micro_f1": 0.08029197080291971,
+    "drug_precision": 0.09166666666666666,
+    "drug_recall": 0.07142857142857142,
+    "core_order_micro_f1": 0.04912280701754386,
+    "known_field_accuracy_given_correct_drug": 0.85,
+    "known_fields_scored": 40,
+    "core_gold_orders": 165,
+    "core_predicted_orders": 120,
+    "mean_predicted_drugs": 2.5,
+    "empty_fraction": 0.0,
+    "promotion_score": 0.06470738891023178,
+    "core5_micro_f1": 0.02926829268292683,
+    "core5_gt_field_coverage": 0.6845238095238095,
+    "invalid_fraction": 0.0,
+    "catalogue_drug_recall_ceiling": 0.6233766233766234,
+    "output_tokens": 2840,
+    "input_tokens": 259758,
+    "logical_calls": 144,
+    "api_cost_usd": 0
+  },
+  "paired": {
+    "patients": 48,
+    "resamples": 2000,
+    "drug_delta_ci95": [
+      0.00027308572680868166,
+      0.03656357797266975
+    ],
+    "core4_delta_ci95": [
+      -0.0002460516422162516,
+      0.022365466330654702
+    ],
+    "changed_cases": 14,
+    "case_f1_improved": 2,
+    "case_f1_regressed": 1
+  },
+  "evidence_changed_cases": 17,
+  "plan_changed_cases": 0,
+  "private_case_studies": 3,
+  "protocol_sha256": "921a60b5fd609dc5598c12eab13fe793e165f0c34dba43e3b3c15314f6b11284",
+  "selected_for_main_table": false,
+  "autonomous_rsi_update": false,
+  "limits": "Exploratory researcher tool repair on reused development cases; source contents and input length may change; not clinical safety validation."
+}

@@ -27,7 +27,7 @@ Our error analysis identifies three obstacles. Retrieved text may describe the w
 We propose \textbf{RxRSIAgent}. It records the observed discrepancy, the earliest suspected failure stage, source and patient evidence, the proposed repair, and the repair's actual corrections and regressions. Its tools distinguish provenance from applicability; its task-specific learners can modify procedural memory and bounded tool settings. Backbone weights and executable tool code remain fixed within a trajectory. Our contributions are:
 \begin{itemize}
 \item \textbf{An inspectable prescribing-assistance workflow} connecting product variants, evidence spans and narrow executable checks to explicit unresolved conditions.
-\item \textbf{A trace-based update mechanism} with observable routing, successful counterexamples, persistent rejected-intervention feedback, and separately measured state changes.
+\item \textbf{A trace-based update mechanism} with observable routing, counterexamples, persistent rejected-intervention feedback, and separately measured state changes.
 \item \textbf{A falsifiable evaluation} of choice reasoning and decision-time structured order prediction, with named-agent task adaptations, a released FLAME policy component, frozen trajectories, cross-backbone transfer and shortcut diagnostics.
 \end{itemize}
 
@@ -104,29 +104,24 @@ We execute pinned author-workflow adaptations of MedAgents and MDAgents, and a G
 \section{Results}
 \subsection{Named-agent comparison}
 @@AGENT_TABLE@@
-@@NATIVE_TABLE@@
 @@MAIN_RESULTS@@
 The supervised control remains556/988 on RxSafe and199/300 on RxQA. Its calibration is applied in527 RxSafe cases and no RxQA cases, fixing118 and regressing34 relative to its underlying source agent. A post hoc name-only diagnostic reaches564/988; this does not replace a preselected method and does not establish patient-specific reasoning. We therefore keep its gain separate from the procedural learner.
 
 \subsection{Do more cases produce useful state changes?}
-@@TRAJECTORY_TABLE@@
 @@EVOLUTION_RESULTS@@
-The earlier eight language-memory updates all failed the proposal stage; no guard rejection occurred. Two had no schema-valid cards. The remaining proposals produced more regressions than fixes. Code inspection found missing intermediate evidence in reflection, unconditional skill injection, similarity-selected rather than scope-checked counterexamples, and no persistent rejected-intervention ledger. The repaired control exposed a further failure: a pregnancy/age card activated on115/120 MedQA proposal cases, reducing103 correct to97 despite a positive training probe. Narrow routing and condition-vocabulary updates address these concrete implementation failures; their efficacy must still be measured.
+Detailed updater controls and frozen-state trajectories are reported in Appendix~\ref{app:updates}.
 
-@@UPDATER_TABLE@@
 @@INDEPENDENT_RESULTS@@
-@@SHORTCUT_TABLE@@
 
 On the strict paired subset, removing the vignette leaves exact accuracy unchanged at24/70, although complete-pair correctness falls from3/35 to0/35. Option permutation changes22/70 mapped predictions. These diagnostics do not support shortcut robustness; they expose a remaining patient-condition and position-sensitivity problem.
 
-\subsection{Case studies: failures as inspectable interventions}
-@@FAILURE_CASES@@
-
-@@LOCAL_PRESCRIPTION@@
+\subsection{Failure-directed repair}
+In a public training iron-treatment question, retrieval returns a same-ingredient homeopathic product with an unrelated indication. Preserving product metadata and filtering its scope restores reference agreement for that case. Yet the population-level routed repair loses one correct answer on each proposal task and is not retained. Appendix~\ref{app:cases} gives the before/after evidence and additional regressions. A local order example exposes a different failure: expanding fact scope cannot help when the triggering case contains only one observed fact. Case repair and population generalization are separate requirements.
 
 @@MIMIC_STATUS@@
 
-@@PRESCRIPTION_GAP@@
+@@LOCAL_PRESCRIPTION@@
+
 
 \section{Clinical Scope and Limitations}
 QA agreement does not measure complete treatment coverage, omissions, unnecessary medication, dose/route/schedule correctness, full interactions, organ-function adjustment or monitoring. The local order experiment adds set and joint-field agreement within a fixed catalogue and time window; it does not establish unrestricted prescribing competence. A separately specified clinician rubric follows medicines review and the Medication Appropriateness Index \citep{nice,mai}; two available reviewers have not returned blinded ratings. No clinical outcome is inferred. Complete author-workflow prescription comparisons and real MedAgentBench tool/state execution remain unfinished.
@@ -141,6 +136,18 @@ Only public benchmark material is sent to the external provider in these experim
 
 @@REFERENCES@@
 \appendix
+\section{Detailed Updates and Diagnostic Controls}\label{app:updates}
+@@NATIVE_TABLE@@
+@@TRAJECTORY_TABLE@@
+The earlier eight language-memory updates all failed the proposal stage; no guard rejection occurred. Two had no schema-valid cards. The remaining proposals produced more regressions than fixes. Code inspection found missing intermediate evidence in reflection, unconditional skill injection, similarity-selected rather than scope-checked counterexamples, and no persistent rejected-intervention ledger. The repaired control exposed a further failure: a pregnancy/age card activated on115/120 MedQA proposal cases, reducing103 correct to97 despite a positive training probe. Narrow routing and condition-vocabulary updates address these concrete implementation failures; their efficacy must still be measured.
+@@UPDATER_TABLE@@
+@@SHORTCUT_TABLE@@
+\section{Failure Cases and Population Checks}\label{app:cases}
+@@FAILURE_CASES@@
+\section{Local Prescription Evolution and Diagnostics}\label{app:local}
+@@LOCAL_PRESCRIPTION_DETAILS@@
+@@PRESCRIPTION_GAP@@
+
 \section{Compute and Audit Details}
 @@COMPUTE_TABLE@@
 @@AUDIT_DETAILS@@

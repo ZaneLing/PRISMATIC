@@ -7,7 +7,11 @@ from audit_results import paired
 
 def main():
     cases=load_cases()['test'];results={}
-    save(HERE/'format_replay_protocol.json',{
+    protocol_path=HERE/'format_replay_protocol.json'
+    if protocol_path.exists():
+        assert json.loads(protocol_path.read_text())['code_sha256']==sha(HERE/'format_recovery.py')
+    else:
+        save(protocol_path,{
         'declared_unix':time.time(),'timing':'After original test scores and aggregate invalid-output structure inspection, before replay scoring',
         'rule':'Recover only a complete JSON array of strings with a sole order_ids key and missing closing delimiters/trailing comma; never extract identifiers from prose or complete a partial item',
         'code_sha256':sha(HERE/'format_recovery.py'),'new_inference':False,

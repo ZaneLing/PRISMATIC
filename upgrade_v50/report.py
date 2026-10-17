@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Generate bilingual reports only from completed local experimental artifacts."""
 import json
 from common import *
@@ -36,6 +37,8 @@ This is a local Qwen3-4B prescription-task adaptation, not the frozen hosted Dee
 All numbers below are percentages. The first four local rows use the same cases, candidate catalogue, offline label resource, Qwen backbone and maximum 128+128+96 output tokens. Actual token use and offline learning compute differ. **SafeRx and SkeMex are explicitly limited task/subsystem adaptations. FLAME uses a released trained list-policy checkpoint with a different backbone and initializer; its row is a separate transfer experiment, not a full-method, equal-information comparison. These measurements do not establish superiority over the original papers.**
 
 {table}
+
+Core4 requires an exact joint match of drug, route, dose and unit; Core5 also requires frequency. Drug recall measures coverage of recorded target drugs, and precision measures the fraction of selected drugs present in that reference.
 
 Candidate coverage ceiling: **{fmt(main['catalogue_drug_recall_ceiling'])}% of GT drugs**. Complete Core5 reference coverage: **{fmt(main['core5_gt_field_coverage'])}%**. Missing frequency does not become a match. No saline-presence metric is used. All scores apply to compiled orders. Unknown requested identifiers are discarded by the compiler and separately counted in the audit; they are not hidden as successful raw model output.
 
@@ -77,6 +80,8 @@ The test has historical exposure from earlier supervised studies; the result is 
 
 {table}
 
+四字段F1要求药物、给药途径、剂量、单位同时匹配；五字段再加频次。药物召回率表示覆盖了多少GT药物，精确率表示选出的药物有多少出现在GT中。
+
 候选库最多覆盖 **{fmt(main['catalogue_drug_recall_ceiling'])}%** 的 GT 药物；五字段均已知的参考订单覆盖率为 **{fmt(main['core5_gt_field_coverage'])}%**。缺失频次不算匹配，不计算盐水出现 F1。所有分数针对编译后的订单；模型请求的未知编号会被编译器丢弃，并在审计中单独计数，不等于原始输出全部有效。
 
 ## 三、逐轮进化
@@ -108,6 +113,22 @@ The test has historical exposure from earlier supervised studies; the result is 
     e,z=schema_details(audit);en+=e;zh+=z
     if (HERE/'results/route_evidence_trial.json').exists():
         e,z=route_details();en+=e;zh+=z
+    for old,new in [
+        ('Proposal drug / Core4 F1','候选集药物 / 四字段F1'),('Guard drug / Core4 F1','守门集药物 / 四字段F1'),('Test drug / Core4 F1','测试集药物 / 四字段F1'),
+        ('Direct self-refinement','直接推理＋自检'),('SafeRx-Agent task adaptation','SafeRx-Agent（任务适配）'),
+        ('SkeMex author memory core + common actor','SkeMex（作者记忆核心＋共同执行器）'),
+        ('RxRSIAgent, retained state','RxRSIAgent（冻结最终状态）'),('Frozen supervised top-8 + order tool','冻结的监督模型前8项＋订单工具'),
+        ('FLAME released list-policy transfer','FLAME（已发布列表策略迁移）'),('Separate component / initializer','单独评估的组件 / 初始化器'),
+        ('New cases processed','累计新病例'),('Retained rules','保留规则'),('Round','轮次'),('Accepted','接受更新'),
+        ('Drug P','药物精确率'),('Drug R','药物召回率'),('Drug F1','药物F1'),('Core4 F1','四字段F1'),('Core5 F1','五字段F1'),('Empty','空输出'),('Method','方法'),
+        ('Procedural cards','程序技能卡'),('Cards enabling all-observed verification','启用全部观察核验的卡片'),
+        ('Model-weight updates','模型权重更新'),('New executable tool code','新学习的工具代码'),('Candidate model / vocabulary changes','候选模型 / 词表变化'),
+        ('Module','模块'),('Initial','初始'),('Retained','保留后'),('Component, 128 fixed test cases','组件，固定128例测试病例'),
+        ('Mean checked facts','平均核验事实数'),('| initial |','| 初始状态 |'),('| retained |','| 最终状态 |'),('| instruction_only |','| 仅程序文本 |'),('| fact_scope_only |','| 仅事实范围 |'),
+        ('Materialized skills','已落盘技能'),('Changed procedure bodies','正文变化'),('Changed existing utility entries','已有效用条目变化'),
+        ('New files','新增文件'),('Active skills','活跃技能'),('Schema/materialization errors','解析/落盘错误'),('Cases','病例数'),('Created','新增'),
+        ('Format intervention, 48 training cases','格式干预，48例训练病例'),('A1 selections','A1入选次数'),('A23 selections','A23入选次数'),('Core4','四字段'),('Core5','五字段'),('drug-difference 95% CI','药物F1变化的95%置信区间'),('95% CI of difference','变化的95%置信区间'),('| original |','| 原始编号示例 |'),('| swapped_examples |','| 替换编号示例 |'),('| descriptive |','| 描述性协议 |'),('| False |','| 否 |')
+    ]:zh=zh.replace(old,new)
     (HERE/'RESULTS.en.md').write_text(en);(HERE/'RESULTS.zh.md').write_text(zh)
     for lang,text in [('en',en),('zh',zh)]:
         (ROOT/f'paper/versions/v0.50-2026-10-17.{lang}.md').write_text(text)
@@ -181,7 +202,7 @@ SkeMex author-memory training, with all 144 training admissions:
 
 {sk}
 
-The author core is pinned; the actor, embedding backend and continuous prescription reward are adaptations. The first reflection batch exhausted GPU memory before any learning round completed. Recovery restores the initial skill-store snapshot and uses two independent reflection requests per batch with cleared prefix caches; actor batches and source token caps remain unchanged. Quantized outputs may depend on batch layout. The source's original ReAct/tool benchmark is not reproduced. RxRSIAgent additionally uses 48 proposal and 64 guard labels; SkeMex directly updates on 144 training admissions. Validation supervision and offline update compute are not matched. The second state table counts actual snapshot differences, not CREATE/PATCH proposals; metadata-only changes are not new procedures. FLAME executes the actual released trained list policy after merging 224 adapter layers; all adapter tensors are consumed. Its source classifier and patient/diagnosis/procedure embeddings are absent, so only component transfer is claimed.
+The author core is pinned; the actor, embedding backend and continuous prescription reward are adaptations. The first reflection batch exhausted GPU memory before any learning round completed. Recovery restores the initial skill-store snapshot and uses two independent reflection requests per batch with cleared prefix caches; actor batches and source token caps remain unchanged. Quantized outputs may depend on batch layout. The source's original ReAct/tool benchmark is not reproduced. RxRSIAgent additionally uses 48 proposal and 64 guard labels; SkeMex directly updates on 144 training admissions. Validation supervision and offline update compute are not matched. The second state table counts actual snapshot differences, not CREATE/PATCH proposals; metadata-only changes are not new procedures. FLAME executes the actual released trained list policy after merging 224 adapter layers; all adapter tensors are consumed. Its source classifier and patient/diagnosis/procedure embeddings are absent, so only component transfer is claimed. Cross-release source-training patient disjointness is unverified. In 648/1,082 cases, at least one list-edit step emits a nonempty line that does not exactly match a current catalogue name; matched compiled orders are still scored. This flag is not equivalent to the final-JSON failure rate of the common actors.
 
 An engine-only prefill-batch probe changed 2/16 development outputs. That optimization was rejected; the main run retains prefill batch 2 and completion batch 8. Quantized greedy decoding is still batch-sensitive, and cached requests reuse their first recorded output.
 
@@ -218,7 +239,7 @@ SkeMex 作者记忆核心处理全部144例训练病例：
 
 {sk}
 
-第一批反思曾触发GPU内存不足，当时未完成任何学习轮次；恢复第0轮技能快照后，将独立反思批次降为2并清理前缀缓存，执行器批次与原始token上限不变。量化输出仍可能受批次影响。使用了固定版本的作者记忆代码；处方执行器、向量模型与连续奖励属于适配，未执行原论文完整 ReAct 工具任务。RxRSIAgent另用了48例候选集和64例守门集标签；SkeMex直接在144例训练病例上更新。因此验证监督量和离线更新算力不等同。第二张状态表按实际快照差异计数，不把CREATE/PATCH提案数当作有效更新，也不把仅元数据变化当成新程序。FLAME 使用真实发布的训练后列表策略，融合224个适配器层、全部适配器张量均已使用；缺少源分类器和患者/诊断/操作嵌入，只能称组件迁移。
+第一批反思曾触发GPU内存不足，当时未完成任何学习轮次；恢复第0轮技能快照后，将独立反思批次降为2并清理前缀缓存，执行器批次与原始token上限不变。量化输出仍可能受批次影响。使用了固定版本的作者记忆代码；处方执行器、向量模型与连续奖励属于适配，未执行原论文完整 ReAct 工具任务。RxRSIAgent另用了48例候选集和64例守门集标签；SkeMex直接在144例训练病例上更新。因此验证监督量和离线更新算力不等同。第二张状态表按实际快照差异计数，不把CREATE/PATCH提案数当作有效更新，也不把仅元数据变化当成新程序。FLAME 使用真实发布的训练后列表策略，融合224个适配器层、全部适配器张量均已使用；缺少源分类器和患者/诊断/操作嵌入，只能称组件迁移。源训练集与当前测试集的跨版本患者互斥尚未核实。648/1,082例的至少一个列表编辑步骤包含不能匹配当前候选名称的非空行；仍按匹配后的完整编译订单评分。这个标志不等同于共同执行器的最终JSON失败率。
 
 预填充批次加速探针使16例中的2例输出变化，因此未采用；主实验保留预填充批次2、生成批次8。量化贪心解码仍可能随批次布局变化，缓存复用第一次记录的输出。
 
@@ -276,6 +297,10 @@ The new executable `route_evidence.py` filters non-overlapping labels before the
 
 新增可执行工具`route_evidence.py`在原排序前过滤无途径交集的来源，保留未知/部分对应项，保持两条摘录上限、候选库和订单编译器不变；5个途径边界检查通过。48例已使用的候选集采用相同病例顺序、批次与输出预算，两个实验臂都重新生成：**{summary}**。{trial['evidence_changed_cases']}/48例证据变化，{trial['plan_changed_cases']}/48例第一阶段计划变化。这是探索性的研究者工具修复，不是自主RSI更新，也没有替换主表检查点。来源内容和输入长度同时可能变化，不能据此宣称临床安全。改善与退步均保留在`results/route_evidence_trial.json`。
 '''
+    guard=json.loads((HERE/'results/route_evidence_guard.json').read_text());assert guard['complete']
+    ga=guard['baseline'];gb=guard['route_filtered'];gc=guard['paired']['drug_delta_ci95']
+    en+=f"\nOn 64 disjoint guard cases, the same frozen tool changes drug F1 {fmt(ga['drug_micro_f1'])}% → {fmt(gb['drug_micro_f1'])}%, Core4 {fmt(ga['core_order_micro_f1'])}% → {fmt(gb['core_order_micro_f1'])}%; drug-difference 95% CI [{100*gc[0]:+.2f}, {100*gc[1]:+.2f}] pp. This guard split was reused in earlier learning; it is separate from the proposal cases, not a new untouched test. No new rule or checkpoint is selected from it.\n"
+    zh+=f"\n同一冻结工具在64例不重叠守门病例上验证：药物F1 {fmt(ga['drug_micro_f1'])}% → {fmt(gb['drug_micro_f1'])}%，四字段F1 {fmt(ga['core_order_micro_f1'])}% → {fmt(gb['core_order_micro_f1'])}%；药物F1变化的95%区间 [{100*gc[0]:+.2f}, {100*gc[1]:+.2f}] pp。该子集在此前学习中被复用，与48例候选集不重叠，但不是新的未触碰测试集；不据此挑选新规则或检查点。\n"
     replay=json.loads((HERE/'results/format_replay.json').read_text())['models']['llama']
     old=replay['baseline'];new=replay['replayed'];n=replay['counts']['recovered']
     en+=f"\n### Cross-backbone output-format replay\n\nLlama has 156 malformed final outputs, 123 without an order_ids key. A fixed, non-generative delimiter repair recovers only {n} cases: drug F1 {fmt(old['drug_micro_f1'])}% → {fmt(new['drug_micro_f1'])}%. Qwen is unchanged. It never extracts IDs from prose, invents incomplete items or bypasses catalogue checks. Six parser-boundary checks pass. This post hoc replay is separate from the frozen main results and does not demonstrate learned or prospective improvement. Most failures remain unresolved.\n"

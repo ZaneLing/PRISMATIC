@@ -320,7 +320,7 @@
 \usepackage[review]{acl}
 \usepackage{times,latexsym}
 \usepackage[T1]{fontenc}
-\usepackage[utf 8]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage{microtype,booktabs,tabularx,amsmath,amssymb,graphicx,tikz}
 \usetikzlibrary{arrows.meta,positioning}
 \title{RxRSIAgent: Tracing Errors and Testing Scoped Updates\\for Prescription Assistance}
@@ -328,7 +328,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Prescription agents need patient-applicable evidence and experience updates that transfer beyond the cases used to construct them. We introduce RxRSIAgent, a three-call workflow with product-aware label retrieval, source-bound checks, and a persistent trace--reflection--intervention loop. Its update state contains scoped procedures, retrieval settings and observable-condition vocabulary; no drug-frequency ranker overrides the answer. Training errors are traced through intermediate evidence and decisions, candidate changes are tested against successes as well as failures, and a development gate controls retention. We distinguish this process from ordinary supervised option calibration. The frozen agent answers 491/988 RxSafeBench and 196/300 public RxQA questions. It does not exceed the strongest completed controls on both tasks. The final state retains 0 procedural cards. We evaluate the frozen learning trajectory on 467 independently sourced MedPIC-Bench questions and perform same-option patient-context and option-permutation diagnostics. Rejected proposals, unchanged states and remaining errors are reported rather than equated with successful self-improvement. These experiments measure reference-answer agreement and update reliability, not clinical prescribing effectiveness.
+Prescription agents need patient-applicable evidence and experience updates that transfer beyond their training cases. We introduce RxRSIAgent, a three-call workflow with label retrieval, source-bound checks and a trace--reflection--intervention loop. A development gate controls updates to scoped procedures and bounded tool configurations. We distinguish accepted state changes from researcher repairs and supervised calibration. The frozen agent answers 491/988 RxSafeBench and 196/300 public RxQA questions. It does not exceed the strongest completed controls on both tasks. The final state retains 0 procedural cards. We also test 467 independently sourced medication-safety questions and probe patient-context and option-position sensitivity. A local catalogue-constrained adapter is evaluated on 1,082 MIMIC-IV admissions: drug F1 changes from 7.19\% to 7.19\% after development retains 0 conditional update(s). We report rejected updates and regressions as well as corrections. The experiments measure reference agreement and update reliability, not clinical prescribing effectiveness or autonomous improvement of model weights.
 \end{abstract}
 
 \section{Introduction}
@@ -340,16 +340,16 @@ Methods address complementary problems. GAMENet uses medication graphs and patie
 
 Our error analysis identifies three obstacles. Retrieved text may describe the wrong product or a condition absent in the patient; broadly routed skills can break previously correct decisions; and numerical gains can arise from medication-identity statistics. \textbf{The central problem is to make prescribing agents more accurate and complete for the observed patient, by converting traceable reference discrepancies into narrowly applicable process improvements that survive counterexamples and transfer to independent cases.} A successful update must do more than restate the answer or match a medication prior. Historical prescriptions record clinician actions rather than their full reasoning or all acceptable alternatives. Medicines optimization requires patient-specific review \citep{nice,who}; reference agreement, clinical need coverage and update reliability therefore require distinct evaluation.
 
-We propose \textbf{RxRSIAgent}. It records the observed discrepancy, the earliest suspected failure stage, source and patient evidence, the proposed repair, and the repair's actual corrections and regressions. Its tools distinguish provenance from applicability; its learner can modify procedural memory, bounded retrieval settings and a context detector's vocabulary. Backbone weights and executable tool code remain fixed within a trajectory. Our contributions are:
+We propose \textbf{RxRSIAgent}. It records the observed discrepancy, the earliest suspected failure stage, source and patient evidence, the proposed repair, and the repair's actual corrections and regressions. Its tools distinguish provenance from applicability; its task-specific learners can modify procedural memory and bounded tool settings. Backbone weights and executable tool code remain fixed within a trajectory. Our contributions are:
 \begin{itemize}
 \item \textbf{An inspectable prescribing-assistance workflow} connecting product variants, evidence spans and narrow executable checks to explicit unresolved conditions.
-\item \textbf{A trace-based update mechanism} with observable routing, successful counterexamples, persistent rejected-intervention feedback, and separately measured state changes.
-\item \textbf{A falsifiable evaluation} against executed medical-agent workflows, ordinary supervised calibration, and an independent patient-condition benchmark, with frozen trajectories and shortcut diagnostics.
+\item \textbf{A trace-based update mechanism} with observable routing, counterexamples, persistent rejected-intervention feedback, and separately measured state changes.
+\item \textbf{A falsifiable evaluation} of choice reasoning and decision-time structured order prediction, with named-agent task adaptations, a released FLAME policy component, frozen trajectories, cross-backbone transfer and shortcut diagnostics.
 \end{itemize}
 
 \section{RxRSIAgent}
 \subsection{Evidence and decision workflow}
-Figure~\ref{fig:workflow} shows the complete process. The served backbone is \texttt{deepseek/deepseek-v4.1-flash}. Each case permits three calls, each with a1,536-token output cap. The evaluated outputs are benchmark option selections; the system does not submit a clinical order.
+Figure~\ref{fig:workflow} shows the public-QA workflow. Its served backbone is \texttt{deepseek/deepseek-v4.1-flash}. Each case permits three calls, each with a 1,536-token output cap. These outputs are benchmark option selections. A separate local task adapter selects structured orders from a common catalogue (Section~\ref{sec:local-orders}); restricted EHR records never enter the hosted model. Neither adapter submits a clinical order.
 
 \paragraph{Extract observable context.}
 Call 1 identifies question intent, quoted patient facts and medication entities. Patient facts require exact input spans. Routes are retained only when the quoted span explicitly supports a recognized route. Missing information remains unknown. Medication mentions in both the question and options are considered, with current treatment distinguished from proposed alternatives.
@@ -391,7 +391,7 @@ Call 2 evaluates every option, distinguishes contraindications from precautions,
 \label{fig:workflow}\end{figure*}
 
 \subsection{Trace reflection and scoped updates}
-Let $A_t=(\theta,T,P,K_t,R_t,V_t)$ contain fixed backbone weights, executable tools and prompts, together with procedural cards, retrieval settings and condition vocabulary. These three latter components are the only candidate learned state. No option-frequency model, raw case--answer retrieval or learned drug-name score is used in the actor.
+For the QA trajectory, let $A_t=(\theta,T,P,K_t,R_t,V_t)$ contain fixed backbone weights, executable tools and prompts, together with procedural cards, retrieval settings and condition vocabulary. These three latter components are the candidate learned state. No option-frequency model, raw case--answer retrieval or learned drug-name score overrides this QA actor. The local prescription adapter instead uses a fixed supervised candidate generator, and its bounded update state contains cards and verifier scope. The two task adapters do not share a learned memory or an identical development protocol.
 
 \paragraph{Trace the gap before proposing a fix.}
 Four rounds reveal 100 training cases each. For every newly observed error, the reflector receives the full input, reference, prediction, retrieved excerpts, intermediate assessment and check results. It reports an observed discrepancy, earliest suspected stage, causal hypothesis, exact supporting quotes, a minimal process change and a counterexample requirement. References may be ambiguous; this is a model-generated diagnosis, not clinical adjudication. Only quote-valid roots marked supported can sponsor a procedural proposal. Detector gaps compare proposed context features with the actually detected features.
@@ -416,10 +416,11 @@ RxSafeBench local protocol & 200/625 train;190 proposal;197 guard;988 evaluation
 RxQA public OpenFDA & All 300 released questions; BNF unavailable & Single-choice accuracy\\
 MedQA public train & 200 new training cases;120 proposal;120 guard & Single-choice accuracy\\
 MedPIC-Bench & All 467 test questions;35 strict same-option pairs & Exact-set and pair accuracy\\
-Clinical/real EHR execution & Pending, no reported completed score & Full prescription quality\\
+MIMIC-IV local order task & 40,000 candidate-tool training;144 reflection;48/64 gates;1,082 evaluation & Drug-set and joint-order agreement\\
+Clinical/real EHR execution & Pending, no completed clinical score & Appropriateness and state execution\\
 \bottomrule\end{tabular}
 \end{table*}
-RxSafeBench's2,443 released records produce 2,000 local cases after task/dialogue/correct-drug deduplication. The original paper already specifies three-option multiple choice; an earlier local description as free generation was incorrect. Local deduplication, option ordering, grouping and split construction differ from the source protocol, so published paper scores are not copied into our comparison table. We use the existing 190/197/988 proposal/guard/evaluation split and sample 200 training cases from its 625 training cases.
+RxSafeBench's 2,443 released records produce 2,000 local cases after task/dialogue/correct-drug deduplication. The original paper already specifies three-option multiple choice; an earlier local description as free generation was incorrect. Local deduplication, option ordering, grouping and split construction differ from the source protocol, so published paper scores are not copied into our comparison table. We use the existing 190/197/988 proposal/guard/evaluation split and sample 200 training cases from its 625 training cases.
 
 Another 200 medication/treatment-related MedQA training questions exclude normalized exact overlap with previous local cohorts and the independent benchmark; image-dependent questions are removed from this new training subset. Each round mixes 50 RxSafe and 50 MedQA cases. Development reuses the separately designated 120 proposal and 120 guard MedQA cases. The training cohort was reused during updater debugging; this is a sequential development experiment, not a pristine prospective learning stream. Main RxSafe/RxQA questions also have historical research exposure. We make no stronger unseen-test claim for them.
 
@@ -427,7 +428,7 @@ Another 200 medication/treatment-related MedQA training questions exclude normal
 We pin the author-released MedPIC-Bench revision and evaluate all 467 questions:284 guideline-following and 183 counterfactual. There are 108 multiple-answer items; exact-set agreement is required. One schema example was viewed before freezing, and remains in the predeclared full-set denominator. A strict ID/option rule identifies 35 counterfactual pairs with identical option strings. Other counterfactual items still count in full accuracy, but not the strict pair metric. On all 70 paired items, we also permute options with deterministic answer remapping and remove the patient vignette while retaining the question and options. These diagnose context and position sensitivity; they cannot exclude all drug priors in pretrained weights. All learning states freeze before inference; identical states share cached predictions and are not independent replications.
 
 \paragraph{Methods, budgets and reporting.}
-We execute pinned author-workflow adaptations of MedAgents and MDAgents, and a GRASP author-core adaptation. These are local same-question runs, not their published scores. The main table fixes the maximum generated output at 4,608 tokens/case; actual calls, input tokens, costs and training supervision differ. Higher-allowance completed comparisons remain visible. Transport failures are retried and not scored as answers; received invalid answers and exhausted workflows count as wrong. SafeRx-Agent has no fabricated row because a compatible official task/split is unavailable. Medication-set methods cannot populate QA accuracy columns. Paired bootstrap intervals use 4,000 draws, source-scenario clusters for RxSafe and items otherwise; they are exploratory and unadjusted for repeated development.
+We execute pinned author-workflow adaptations of MedAgents and MDAgents, and a GRASP author-core adaptation. These are local same-question runs, not their published scores. The QA table fixes the maximum generated output at 4,608 tokens/case; actual calls, input tokens, costs and training supervision differ. Higher-allowance completed comparisons remain visible. Transport failures are retried and not scored as answers; received invalid answers and exhausted workflows count as wrong. SafeRx-Agent and SkeMex are evaluated separately as qualified prescription-task adaptations, with the released FLAME list policy as a component-transfer experiment. Medication-set scores cannot populate QA accuracy columns. QA paired bootstrap intervals use 4,000 draws, source-scenario clusters for RxSafe and items otherwise; local order intervals use 2,000 patient-cluster draws. All intervals are exploratory and unadjusted for repeated development.
 
 \section{Results}
 \subsection{Named-agent comparison}
@@ -444,6 +445,124 @@ Supervised source-agent control & 56.28 & 66.33 & 3/3 & 0/0\\
 \textbf{RxRSIAgent} & 49.70 & 65.33 & 3/3 & 0/0\\
 \bottomrule\end{tabular}
 \end{table*}
+RxRSIAgent answers 491/988 (49.70\%) on RxSafe and 196/300 (65.33\%) on RxQA. Against higher-allowance MedAgents'208/300, its RxQA difference is-4.00 percentage points (paired 95\% interval[-9.33,+1.33]). Two-benchmark superiority is not established.
+The supervised control remains 556/988 on RxSafe and 199/300 on RxQA. Its calibration is applied in 527 RxSafe cases and no RxQA cases, fixing 118 and regressing 34 relative to its underlying source agent. A post hoc name-only diagnostic reaches 564/988; this does not replace a preselected method and does not establish patient-specific reasoning. We therefore keep its gain separate from the procedural learner.
+
+\subsection{Do more cases produce useful state changes?}
+Across the final four-round experiment,0 updates are retained. Initial-to-final changes are 0 fixes/0 regressions on RxSafe and 0/0 on RxQA. The memory, retrieval configuration and vocabulary remain unchanged; accumulation of root records therefore does not demonstrate successful agent evolution.
+Detailed updater controls and frozen-state trajectories are reported in Appendix~\ref{app:updates}.
+
+On the independent task the final state scores 274/467 (58.67\%):193/284 guideline-following and 81/183 counterfactual, with both members correct in 3/35 strict pairs. The initial state scores 274/467. These are identical states sharing cached predictions. A flat curve provides no evidence of positive transfer.
+
+On the strict paired subset, removing the vignette leaves exact accuracy unchanged at 24/70, although complete-pair correctness falls from 3/35 to 0/35. Option permutation changes 22/70 mapped predictions. These diagnostics do not support shortcut robustness; they expose a remaining patient-condition and position-sensitivity problem.
+
+\subsection{Failure-directed repair}
+In a public training iron-treatment question, retrieval returns a same-ingredient homeopathic product with an unrelated indication. Preserving product metadata and filtering its scope restores reference agreement for that case. Yet the population-level routed repair loses one correct answer on each proposal task and is not retained. Appendix~\ref{app:cases} gives the before/after evidence and additional regressions. A local order example exposes a different failure: expanding fact scope cannot help when the triggering case contains only one observed fact. Case repair and population generalization are separate requirements.
+
+
+\subsection{Choice reasoning versus prescription prediction}
+The public choice benchmarks have distinct endpoints: RxSafeBench is three-way choice, public RxQA is four-way choice, and MedPIC includes single- and multiple-answer items. Their accuracies are not prescription coverage. For a predicted drug set $P$ and recorded reference $G$, recall is $|P\cap G|/|G|$ and precision is $|P\cap G|/|P|$. Both accompany F1, Jaccard, omissions, extras and prescription size. Core4 matches drug, route, dose and unit jointly; Core5 additionally matches frequency. Tuple agreement uses complete observed labels and is reported with field completeness. An extra relative to recorded treatment is not automatically clinically inappropriate. The following local evaluation predicts the full recorded target set within a fixed six-hour window; it does not infer the entire hospitalization regimen.
+
+
+
+\subsection{Local structured-prescription evaluation}\label{sec:local-orders}
+We extend the workflow to the entire set of new/change orders within the audited six-hour window. The cohort is retrospectively restricted to nonempty targets, complete 12-hour follow-up and no ambiguous target rows. Provider order and pharmacy entry times must both fall in hours 6--12, with verification by hour 12. Prior orders and labs are filtered by recorded availability clocks. Released field-version histories are incomplete; this does not establish all-admission performance. This is a local prescription-task adaptation of RxRSIAgent; the hosted QA backbone is not sent restricted EHR records. A frozen 40,000-admission supervised tool proposes 24 joint order templates from the original 128-name vocabulary, shared by all local actors. It supplies a candidate space rather than overriding the final selection. Every out-of-vocabulary target remains in recall. Thus this is catalogue-constrained structured order prediction, not unrestricted prescribing or prediction of the entire hospitalization. Facts are bound to observed input identifiers, product-label excerpts are retrieved offline, and selected identifiers compile to joint drug/route/dose/unit/frequency fields. Missing information is preserved. Current diagnoses, allergy completeness, renal clearance, infusion purpose and duration are not established by this input contract.
+
+\begin{figure*}[t]\centering
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+b/.style={draw,rounded corners=2pt,align=center,text width=2.55cm,minimum height=1.15cm,font=\small},l/.style={->,semithick}]
+\node[b] (input) at (0,0) {Observed by +6h\\prior orders / labs\\demographics};
+\node[b] (cat) at (3.15,0) {Fixed candidate tool\\24 joint templates\\40k training cases};
+\node[b] (facts) at (6.3,0) {Call 1: fact IDs\\exact input binding\\offline label tool};
+\node[b] (check) at (9.45,0) {Call 2: assessment\\selected facts or\\all observed facts};
+\node[b] (out) at (12.6,0) {Call 3: order IDs\\compile drug / route /\\dose / unit / frequency};
+\draw[l](input)--(cat);\draw[l](cat)--(facts);\draw[l](facts)--(check);\draw[l](check)--(out);
+\node[b] (gt) at (0,-2.25) {Training feedback\\recorded new/change\\orders, +6h to +12h};
+\node[b] (trace) at (3.15,-2.25) {Full training traces\\inputs / evidence / checks\\predictions / references};
+\node[b] (rule) at (6.3,-2.25) {Conditional proposal\\procedure + counterexample\\bounded verifier scope};
+\node[b] (gate) at (9.45,-2.25) {Proposal 48 / guard 64\\retain only if the\\declared gate passes};
+\node[b] (test) at (12.6,-2.25) {Freeze all states\\1,082-case evaluation\\Qwen to Llama transfer};
+\draw[l](gt)--(trace);\draw[l](trace)--(rule);\draw[l](rule)--(gate);\draw[l](gate)--(test);
+\draw[l](gate.north)--(check.south);
+\node[fill=white,font=\scriptsize] at (10.35,-1.24) {Retained state};
+\node[align=center,font=\scriptsize,text width=14.7cm] at (6.3,-3.45) {Training references provide feedback only; no target prescription is a runtime condition.\\The local adapter does not execute the hosted QA threshold verifier or establish clinical indication/safety.};
+\end{tikzpicture}
+\caption{Executed local prescription adapter. The local updater sees full training traces and reference discrepancies; reference membership is never a runtime predicate. The researcher defines the allowable fact-scope switch; the model proposes its conditional activation.}
+\label{fig:local-workflow}\end{figure*}
+
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Complete 1,082-admission local order evaluation. All local rows share Qwen3-4B, a 24-drug catalogue, the offline label resource and a 128+128+96 output-token allowance. Actual input tokens and offline training computation differ. SafeRx is an independent limited task adaptation; SkeMex executes the author memory core with a common actor, not the full original agent. These rows do not establish superiority over the original papers.}
+\label{tab:local-orders}
+\begin{tabular}{@{}p{5.4cm}rrrrr@{}}\toprule
+Method & Drug P & Drug R & Drug F1 & Core4 F1 & Core5 F1\\\midrule
+Direct self-refinement & 7.69 & 13.53 & 9.81 & 5.51 & 4.14\\
+SafeRx-Agent task adaptation \citep{saferx} & 7.92 & 18.85 & 11.15 & 6.79 & 4.85\\
+SkeMex memory-core adaptation \citep{skemex} & 8.73 & 10.56 & 9.55 & 5.34 & 3.88\\
+\textbf{RxRSIAgent}, retained state & 8.38 & 6.29 & 7.19 & 4.22 & 2.86\\
+\bottomrule\end{tabular}
+\end{table*}Candidate support covers 51.62\% of reference drugs; complete observed Core5 coverage is 60.20\%. The retained state has drug/Core4 F1 7.19/4.22\%, with 0.18\% empty and 0.09\% malformed final outputs. The test had historical exposure in earlier supervised studies and is exploratory.
+SafeRx's source ICD/MEDI routing and ATC safety matrices cannot be reproduced from these decision-time inputs. Our limited adaptation groups specialty and supportive proposals, criticism and adjudication into three calls. SkeMex uses the pinned author encoder, store, utility update, governance and retriever with 144 training admissions; embeddings use local MiniLM over complete text chunks, the category is fixed to prescribing, and pre-screening is disabled. Its original web/ReAct loop is not executed. An out-of-memory failure before the first completed round requires restoration of the initial store and reflection batches of two, with independent prefix caches cleared; actor batching and source token caps are unchanged. These boundaries are material, so partial adapters cannot justify a claim against the complete author methods.
+
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Separate transfer of the released, trained FLAME list policy after adapter fusion and 4-bit quantization, with its local initializer shown as a control. The full classifier and collaborative-embedding pipeline is not reproduced; the backbone, prior training and supervised initializer differ. This is not an equal-information comparison or a full FLAME result; source-training patient disjointness across releases is unverified.}
+\label{tab:flame-component}
+\begin{tabular}{@{}lrrr@{}}\toprule
+Component / initializer & Drug F1 & Core4 F1 & Core5 F1\\\midrule
+Frozen supervised top8 + order tool & 17.57 & 10.58 & 7.58\\
+FLAME released list policy \citep{flame} & 16.06 & 9.59 & 6.66\\
+\bottomrule\end{tabular}
+\end{table*}
+Six rounds process 144 new reflection cases and retain 0 changes. Initial and retained drug F1 are 7.19\% and 7.19\%; no positive evolution is established. The frozen state is also evaluated on all 1,082 cases with Llama-3.2-3B. Appendix~\ref{app:local} reports every round, module counts, transfer outcomes and interventions.
+
+
+\section{Clinical Scope and Limitations}
+QA agreement does not measure complete treatment coverage, omissions, unnecessary medication, dose/route/schedule correctness, full interactions, organ-function adjustment or monitoring. The local order experiment adds set and joint-field agreement within a fixed catalogue and time window; it does not establish unrestricted prescribing competence. A separately specified clinician rubric follows medicines review and the Medication Appropriateness Index \citep{nice,mai}; two available reviewers have not returned blinded ratings. No clinical outcome is inferred. Complete author-workflow prescription comparisons and real MedAgentBench tool/state execution remain unfinished.
+
+Repeated main-benchmark exposure, reused development cohorts, small local backbones and hosted-provider nondeterminism limit inference. A model's root explanation is a hypothesis, even when quotations are valid. Sparse or inconsistent feedback can yield unsupported procedures. Context terms may overgeneralize, and natural-language counterexamples are not formally validated clinical exclusions. Label coverage, exact provenance and numeric comparisons do not establish complete applicability; missing formulations, strengths, units and temporal treatment context remain limitations. Equal output allowance does not equal compute, information or supervision. The two local backbones test a limited transfer question, not model-independent benefit. This work studies feedback-guided agent-state updates; it does not establish autonomous recursive improvement of model weights or tool code.
+
+\section{Conclusion}
+RxRSIAgent connects accumulated errors to observable trace hypotheses, scoped interventions and explicit retention decisions. Ordinary supervised option calibration is kept separate. The current trajectory does not demonstrate positive procedural evolution or superiority on both main tasks. On the local order task, 0 conditional update(s) are retained; the measured drug-F1 change is +0.00 points, with a 95\% interval [+0.00, +0.00].  Independent patient-conditioned evaluation and transparent failure accounting remain necessary before claiming progressively better prescribing.
+
+\section*{Ethics and Reproducibility}
+Only public benchmark material is sent to the external provider in these experiments. Restricted clinical records, credentials, raw responses and downloaded label bodies remain local. Public artifacts include source pins, code, aggregate results, state hashes and rejected gates. Source and response receipts support independent recounts. These research outputs are not autonomous clinical prescriptions.
+
+\begin{thebibliography}{99}
+\bibitem[Ali et al.(2023)]{mrsurvey} Zafar Ali, Yi Huang, Irfan Ullah, Junlan Feng, Chao Deng, Nimbeshaho Thierry, Asad Khan, Asim Ullah Jan, Xiaoli Shen, Wu Rui, and Guilin Qi. 2023. Deep Learning for Medication Recommendation: A Systematic Survey. \emph{Data Intelligence}, 5(2):303--354. \url{https://doi.org/10.1162/dint_a_00197}.
+\bibitem[Chen et al.(2026)]{rxeval} Shuhao Chen, Weisen Jiang, Changmiao Wang, Xiaoqing Wu, Xuanren Shi, Yu Zhang, and James T. Kwok. 2026. RxEval: A Prescription-Level Benchmark for Evaluating LLM Medication Recommendation. \emph{arXiv preprint arXiv:2605.14543}. \url{https://arxiv.org/abs/2605.14543}.
+\bibitem[Hanlon et al.(1992)]{mai} Joseph T. Hanlon, Kenneth E. Schmader, Gregory P. Samsa, Morris Weinberger, Kay M. Uttech, Ingrid K. Lewis, Harvey J. Cohen, and John R. Feussner. 1992. A method for assessing drug therapy appropriateness. \emph{Journal of Clinical Epidemiology}, 45(10):1045--1051. \url{https://doi.org/10.1016/0895-4356(92)90144-C}.
+\bibitem[Jiang et al.(2025)]{medagentbench} Yixing Jiang, Kameron C. Black, Gloria Geng, Danny Park, James Zou, Andrew Y. Ng, and Jonathan H. Chen. 2025. MedAgentBench: A Realistic Virtual EHR Environment to Benchmark Medical LLM Agents. \emph{arXiv preprint arXiv:2501.14654}. \url{https://arxiv.org/abs/2501.14654}.
+\bibitem[Johnson et al.(2024)]{mimiciv} Alistair Johnson, Lucas Bulgarelli, Tom Pollard, Brian Gow, Benjamin Moody, Steven Horng, Leo Anthony Celi, and Roger Mark. 2024. MIMIC-IV (version 3.1). PhysioNet. \url{https://doi.org/10.13026/kpb9-mt58}.
+\bibitem[Kim et al.(2024)]{mdagents} Yubin Kim, Chanwoo Park, Hyewon Jeong, Yik Siu Chan, Xuhai Xu, Daniel McDuff, Hyeonhoon Lee, Marzyeh Ghassemi, Cynthia Breazeal, and Hae Won Park. 2024. MDAgents: An Adaptive Collaboration of LLMs for Medical Decision-Making. \emph{arXiv preprint arXiv:2404.15155}. \url{https://arxiv.org/abs/2404.15155}.
+\bibitem[Madaan et al.(2023)]{selfrefine} Aman Madaan, Niket Tandon, Prakhar Gupta, Skyler Hallinan, Luyu Gao, Sarah Wiegreffe, Uri Alon, Nouha Dziri, Shrimai Prabhumoye, Yiming Yang, Shashank Gupta, Bodhisattwa Prasad Majumder, Katherine Hermann, Sean Welleck, Amir Yazdanbakhsh, and Peter Clark. 2023. Self-Refine: Iterative Refinement with Self-Feedback. \emph{Advances in Neural Information Processing Systems}. \url{https://arxiv.org/abs/2303.17651}.
+\bibitem[Moll et al.(2026)]{grasp} Johannes Moll, Jean-Philippe Corbeil, Jiazhen Pan, Martin Hadamitzky, Daniel Rueckert, Lisa Adams, and Keno Bressem. 2026. GRASP: Gated Regression-Aware Skill Proposer for Self-Improving LLM Agents. \emph{arXiv preprint arXiv:2605.29668}. \url{https://arxiv.org/abs/2605.29668}.
+\bibitem[NICE(2015)]{nice} National Institute for Health and Care Excellence. 2015. Medicines optimisation: The safe and effective use of medicines to enable the best possible outcomes. \emph{NICE guideline NG5}. \url{https://www.nice.org.uk/guidance/ng5/chapter/Recommendations}.
+\bibitem[Palepu et al.(2025)]{rxqa} Anil Palepu, Valentin Li\'evin, Wei-Hung Weng, Khaled Saab, David Stutz, Yong Cheng, Kavita Kulkarni, S. Sara Mahdavi, Jo\"elle Barral, Dale R. Webster, Katherine Chou, Avinatan Hassidim, Yossi Matias, James Manyika, Ryutaro Tanno, Vivek Natarajan, Adam Rodman, Tao Tu, Alan Karthikesalingam, and Mike Schaekermann. 2025. Towards Conversational AI for Disease Management. \emph{arXiv preprint arXiv:2503.06074}. \url{https://arxiv.org/abs/2503.06074}.
+\bibitem[Pollard et al.(2018)]{eicu} Tom J. Pollard, Alistair E. W. Johnson, Jesse D. Raffa, Leo A. Celi, Roger G. Mark, and Omar Badawi. 2018. The eICU Collaborative Research Database, a freely available multi-center database for critical care research. \emph{Scientific Data}, 5:180178. \url{https://doi.org/10.1038/sdata.2018.178}.
+\bibitem[Shang et al.(2019)]{gamenet} Junyuan Shang, Cao Xiao, Tengfei Ma, Hongyan Li, and Jimeng Sun. 2019. GAMENet: Graph Augmented MEmory Networks for Recommending Medication Combination. \emph{Proceedings of AAAI}. \url{https://arxiv.org/abs/1809.01852}.
+\bibitem[Shinn et al.(2023)]{reflexion} Noah Shinn, Federico Cassano, Ashwin Gopinath, Karthik Narasimhan, and Shunyu Yao. 2023. Reflexion: Language Agents with Verbal Reinforcement Learning. \emph{Advances in Neural Information Processing Systems}. \url{https://openreview.net/forum?id=vAElhFcKW6}.
+\bibitem[Tang et al.(2024)]{medagents} Xiangru Tang, Anni Zou, Zhuosheng Zhang, Ziming Li, Yilun Zhao, Xingyao Zhang, Arman Cohan, and Mark Gerstein. 2024. MedAgents: Large Language Models as Collaborators for Zero-shot Medical Reasoning. \emph{Findings of ACL}, pages 599--621. \url{https://aclanthology.org/2024.findings-acl.33/}.
+\bibitem[Utah Department of Commerce(2026a)]{utahrenewal} Utah Department of Commerce. 2026a. Utah and Doctronic announce groundbreaking partnership for AI prescription medication renewals. January 6. \url{https://commerce.utah.gov/2026/01/06/news-release-utah-and-doctronic-announce-groundbreaking-partnership-for-ai-prescription-medication-renewals/}.
+\bibitem[Utah Department of Commerce(2026b)]{utahpilots} Utah Department of Commerce. 2026b. AI Authorized Pilots. Office of Artificial Intelligence Policy. Accessed October 16, 2026. \url{https://commerce.utah.gov/ai/regulatory-relief-4/authorized-pilots/}.
+\bibitem[Utah Department of Commerce(2026c)]{utahfaq} Utah Department of Commerce. 2026c. AI FAQ: Prescription refill and care pathway pilots. Office of Artificial Intelligence Policy. Accessed October 16, 2026. \url{https://commerce.utah.gov/ai/ai-faq/}.
+\bibitem[Wang et al.(2026)]{saferx} Xinyu Wang, Hanwei Wu, Zhenghan Tai, Sicheng Lyu, Qincheng Lu, Ziyu Zhao, Jijun Chi, Jingrui Tian, Xiao-Wen Chang, and Ziyang Song. 2026. SafeRx-Agent: A Knowledge-Grounded Multi-Agent Framework for Safe and Explainable Medication Recommendation. \emph{arXiv preprint arXiv:2605.29146}. \url{https://arxiv.org/abs/2605.29146}.
+\bibitem[WHO(2019)]{who} World Health Organization. 2019. Medication safety in polypharmacy: Technical report. WHO-UHC-SDS-2019.11. \url{https://www.who.int/publications/i/item/WHO-UHC-SDS-2019.11}.
+\bibitem[Wu et al.(2025)]{armr} Feiyue Wu, Tianxing Wu, and Shenqi Jing. 2025. ARMR: Adaptively Responsive Network for Medication Recommendation. \emph{Proceedings of IJCAI}, pages 7831--7839. \url{https://doi.org/10.24963/ijcai.2025/871}.
+\bibitem[Yang et al.(2021)]{safedrug} Chaoqi Yang, Cao Xiao, Fenglong Ma, Lucas Glass, and Jimeng Sun. 2021. SafeDrug: Dual Molecular Graph Encoders for Recommending Effective and Safe Drug Combinations. \emph{Proceedings of IJCAI}. \url{https://arxiv.org/abs/2105.02711}.
+\bibitem[Yang et al.(2025)]{rxbench} Yan Yang, Mouxiao Bian, Peiling Li, Bingjian Wen, Ruiyao Chen, Kangkun Mao, Xiaojun Ye, Tianbin Li, Pengcheng Chen, Bing Han, Jie Xu, Kaifeng Qiu, and Junyan Wu. 2025. Human-Level and Beyond: Benchmarking Large Language Models Against Clinical Pharmacists in Prescription Review. \emph{arXiv preprint arXiv:2512.02024}. \url{https://arxiv.org/abs/2512.02024}.
+\bibitem[Zhao et al.(2025a)]{rxsafe} Jiahao Zhao, Luxin Xu, Minghuan Tan, Lichao Zhang, Ahmadreza Argha, Hamid Alinejad-Rokny, and Min Yang. 2025a. RxSafeBench: Identifying Medication Safety Issues of Large Language Models in Simulated Consultation. \emph{Proceedings of IEEE BIBM}, pages 4491--4496. \url{https://doi.org/10.1109/BIBM66473.2025.11356353}.
+\bibitem[Zhao et al.(2025b)]{rxllm} Xingmeng Zhao, Kaitlin Blotske, Moriah Cargile, Adeleine Tilley, Brian Murray, Yanjun Gao, Kelli Henry, Susan E. Smith, Erin F. Barreto, Seth Bauer, Sunghwan Sohn, Tianming Liu, Tell Bennett, Mitch Cohen, and Andrea Sikora. 2025b. Rx-LLM: A Benchmarking Suite to Evaluate Safe Large Language Model Performance for Medication-Related Tasks. \emph{medRxiv preprint}. \url{https://doi.org/10.64898/2025.12.01.25341004}.
+\bibitem[Zhao et al.(2025c)]{lamrec} Zihao Zhao, Chenxiao Fan, Junlong Liu, Zheng Wang, Xiangnan He, Chongming Gao, Juan Li, and Fuli Feng. 2025c. Fine-grained Alignment of Large Language Models for General Medication Recommendation without Overprescription. \emph{arXiv preprint arXiv:2503.03687}. \url{https://arxiv.org/abs/2503.03687}.
+\bibitem[FDA(2026)]{openfda} U.S. Food and Drug Administration. 2026. openFDA Drug Label API: searchable fields and endpoint documentation. \url{https://open.fda.gov/apis/drug/label/}.
+\bibitem[Fan et al.(2025)]{flame} Chenxiao Fan, Chongming Gao, Wentao Shi, Yaxin Gong, Zihao Zhao, and Fuli Feng. 2025. Fine-grained List-wise Alignment for Generative Medication Recommendation. \emph{Advances in Neural Information Processing Systems}. \url{https://papers.nips.cc/paper_files/paper/2025/file/44a1f7e0a1fe7867f586b10739a0c26a-Paper-Conference.pdf}.
+\bibitem[Chen et al.(2024)]{rareagents} Xuanzhong Chen, Ye Jin, Xiaohao Mao, Lun Wang, Shuyang Zhang, and Ting Chen. 2024. RareAgents: Autonomous Multi-disciplinary Team for Rare Disease Diagnosis and Treatment. \emph{arXiv:2412.12475}. \url{https://arxiv.org/abs/2412.12475}.
+\bibitem[Sun et al.(2026)]{skemex} Haoran Sun, Wenjie Li, Yujie Zhang, Zekai Lin, Fanrui Zhang, Kaitao Chen, Xingqi He, Yichen Li, Mianxin Liu, Lei Liu, and Yankai Jiang. 2026. Experience Makes Skillful: Enabling Generalizable Medical Agent Reasoning via Self-Evolving Skill Memory. \emph{arXiv:2606.09365}, version4. \url{https://arxiv.org/html/2606.09365v4}.
+\bibitem[Jin et al.(2020)]{medqa} Di Jin et al. 2020. What Disease does this Patient Have? A Large-scale Open Domain Question Answering Dataset from Medical Exams. \emph{arXiv:2009.13081}. \url{https://github.com/jind11/MedQA}.
+\bibitem[Hou et al.(2026)]{medpic} Zhitian Hou, Yuhang Liu, Pengkai Wang, Zeyu Liu, Guanghao Zhu, Zheng Liu, Shuo Cai, Congkai Xie, Zhijie Sang, Kun Zeng, and Hongxia Yang. 2026. Evaluating Counterfactual Sensitivity to Patient Information in Medication-Safety Reasoning. \emph{arXiv:2608.03028}. \url{https://arxiv.org/abs/2608.03028}.
+\end{thebibliography}
+\appendix
+\section{Detailed Updates and Diagnostic Controls}\label{app:updates}
 \begin{table*}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
 \caption{Completed different-allowance comparisons; these remain visible to avoid a superiority claim based only on constrained comparator budgets.}
@@ -455,10 +574,6 @@ MDAgents & 24,000 & 48.38 & 66.33\\
 GRASP (earlier allowance) & 512 & 50.81 & 63.00\\
 \bottomrule\end{tabular}
 \end{table*}
-RxRSIAgent answers 491/988 (49.70\%) on RxSafe and 196/300 (65.33\%) on RxQA. Against higher-allowance MedAgents'208/300, its RxQA difference is-4.00 percentage points (paired 95\% interval[-9.33,+1.33]). Two-benchmark superiority is not established.
-The supervised control remains 556/988 on RxSafe and 199/300 on RxQA. Its calibration is applied in 527 RxSafe cases and no RxQA cases, fixing 118 and regressing 34 relative to its underlying source agent. A post hoc name-only diagnostic reaches 564/988; this does not replace a preselected method and does not establish patient-specific reasoning. We therefore keep its gain separate from the procedural learner.
-
-\subsection{Do more cases produce useful state changes?}
 \begin{table*}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
 \caption{Frozen sequential trajectory. C/R/V are retained procedural cards, retrieval parameters and context-vocabulary entries. Proposal denominators are 190/120; guard 197/120. Reused training cohorts and identical-state prediction reuse are disclosed. No test-selected checkpoint.}
@@ -472,9 +587,7 @@ Round & Cases & C/R/V & Proposal S/M & Guard S/M & Independent\\\midrule
 4 & 400 & 0/0/0 & 99/103 & 104/102 & 274/467\\
 \bottomrule\end{tabular}
 \end{table*}
-Across the final four-round experiment,0 updates are retained. Initial-to-final changes are 0 fixes/0 regressions on RxSafe and 0/0 on RxQA. The memory, retrieval configuration and vocabulary remain unchanged; accumulation of root records therefore does not demonstrate successful agent evolution.
 The earlier eight language-memory updates all failed the proposal stage; no guard rejection occurred. Two had no schema-valid cards. The remaining proposals produced more regressions than fixes. Code inspection found missing intermediate evidence in reflection, unconditional skill injection, similarity-selected rather than scope-checked counterexamples, and no persistent rejected-intervention ledger. The repaired control exposed a further failure: a pregnancy/age card activated on 115/120 MedQA proposal cases, reducing 103 correct to 97 despite a positive training probe. Narrow routing and condition-vocabulary updates address these concrete implementation failures; their efficacy must still be measured.
-
 \begin{table*}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
 \caption{Updater development experiments on the same 400-case cohort, not independent repetitions or additional unique cases. Each has four rounds. Schema includes role/scope validation or no valid proposal. Earlier designs are mechanism controls, not separately named paper methods.}
@@ -491,7 +604,6 @@ Explicit no-edit decision preserved & 16 & 3/13 & 0 & 0/0 & 0\\
 Cumulative roots and near-miss replay & 16 & 2/14 & 0 & 0/0 & 0\\
 \bottomrule\end{tabular}
 \end{table*}
-On the independent task the final state scores 274/467 (58.67\%):193/284 guideline-following and 81/183 counterfactual, with both members correct in 3/35 strict pairs. The initial state scores 274/467. These are identical states sharing cached predictions. A flat curve provides no evidence of positive transfer.
 \begin{table*}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
 \caption{Predeclared diagnostics on all 35 recovered same-option counterfactual pairs. The final column counts identical predictions after answer remapping. These tests do not establish absence of every shortcut.}
@@ -503,10 +615,7 @@ Permuted options & 26/70 & 4/35 & 48\\
 Patient vignette removed & 24/70 & 0/35 & --\\
 \bottomrule\end{tabular}
 \end{table*}
-
-On the strict paired subset, removing the vignette leaves exact accuracy unchanged at 24/70, although complete-pair correctness falls from 3/35 to 0/35. Option permutation changes 22/70 mapped predictions. These diagnostics do not support shortcut robustness; they expose a remaining patient-condition and position-sensitivity problem.
-
-\subsection{Case studies: failures as inspectable interventions}
+\section{Failure Cases and Population Checks}\label{app:cases}
 
 \paragraph{Product identity is insufficient.}
 In training case\texttt{e7a30d739ee5b9be}, the reference is ferrous sulfate, but the actor chooses ferrous fumarate. Retrieval supplies a same-ingredient homeopathic product whose indication concerns hot flashes; the original reader discards the source field declaring its homeopathic status. Full metadata and product-scope filtering restore reference agreement. OTC status alone must not trigger this exclusion, and listing in openFDA does not establish approval. This repairs an evidence mismatch, not proof that every alternative iron treatment is inappropriate.
@@ -533,78 +642,59 @@ Scope-routed tools & 273/400 & 98/190 & 102/120\\
 \end{table*}
 The scoped candidate activates on 16/400 training cases, fixes 5 and regresses 1, but loses one correct answer on each proposal task. The other candidates also fail the declared per-task gate. They are executable researcher repairs, not accepted autonomous RSI updates. The frozen main-table actor therefore remains unchanged. These positive and negative examples are training illustrations, not independent clinical validation.
 
+\section{Local Prescription Evolution and Diagnostics}\label{app:local}
+\paragraph{Evolution and transfer.}
+Six rounds process 24 new training cases each. The local reflector sees discrepant traces and a comparatively better trace (not necessarily correct), including available input, evidence, checker output, predictions and reference orders. It proposes a general procedure with an observable condition and counterexample, optionally selecting all-observed fact scope. Explicit empty JSON means no proposal. The frozen syntax gate filters numeric dose strings in instructions or counterexamples, copied drug actions and unavailable conditions. The researcher defines this bounded interface; executable tool code, weights, candidate model, templates and descriptive schemas remain fixed during learning. Natural-language counterexamples are recorded but not formally proved. The 48 proposal and 64 guard cases are reused: proposal mean drug/Core4 F1 must strictly increase, and neither guard endpoint may decrease. All states freeze before corrected-interface test inference. Prior literal-schema test scores were already observed, so this is exploratory development.
 
-
-\subsection{Choice reasoning versus complete prescription prediction}
-The three main public resources score supplied answer options: RxSafeBench is three-way choice, public RxQA is four-way choice, and MedPIC includes single- and multiple-answer items. Their accuracies are not prescription coverage. For a predicted drug set$P$ and recorded reference$G$, recall is$|P\cap G|/|G|$ and precision is$|P\cap G|/|P|$. Both must accompany F1, Jaccard, omissions, extras and prescription size. An extra relative to recorded treatment is not automatically clinically inappropriate. Joint order matching and reference-field completeness must be reported separately from drug identity.
-
-Completed earlier local work on MIMIC-IV 3.1 predicts newly entered or changed orders in the six hours after an admission-plus-six-hour decision, with patient-disjoint 40,000/2,000/2,000/1,082 training/proposal/guard/test admissions. The test contains 1,024 patients. Prescriptions are linked to provider/pharmacy entry times; inputs exclude future results and untimed discharge diagnoses. The initial 128 normalized-name vocabulary is fixed, with out-of-vocabulary targets retained in recall. A local recount of three seeds reproduces every original drug/core4 F1 and additionally computes frequency-inclusive order agreement. No restricted records are sent to an external provider.
 \begin{table*}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
-\caption{Separate historical MIMIC-IV order task, locally recounted from frozen predictions across three seeds. These are earlier supervised/retrieval pipelines, not current RxRSIAgent results. Core 4 matches drug/route/dose/unit; Order 5 adds frequency and is a post hoc descriptive endpoint. Only 60.20\% of reference order rows have all five fields; tuple scores use complete observed labels.}
-\label{tab:historical-orders}
-\begin{tabular}{@{}lrrrrr@{}}\toprule
-Historical method & Drug P (\%) & Drug R (\%) & Drug F1 (\%) & Core 4 F1 (\%) & Order 5 F1 (\%)\\\midrule
-Case retrieval + order tool & 16.14 & 15.08 & 15.59 & 9.52 & 6.41\\
-Supervised artifact agent & 15.85 & 24.16 & 19.14 & 11.53 & 8.27\\
-Word/character ensemble + tool & 17.56 & 23.53 & 20.10 & 12.07 & 8.51\\
+\caption{Six-round update trajectory on 144 new training admissions, disjoint from 144 earlier training cases used for interface diagnostics. C/A counts procedural cards/cards activating all observed facts, not newly invented tools. Every test state is frozen before scoring; repeated identical states share predictions. Drug/Core4 F1 are percentages.}
+\label{tab:local-rounds}
+\begin{tabular}{@{}rrrrrr@{}}\toprule
+Round & New cases & C/A & Proposal & Guard & Test\\\midrule
+0 & 0 & 0/0 & 7.30/4.91 & 3.96/1.83 & 7.19/4.22\\
+1 & 24 & 0/0 & 7.30/4.91 & 3.96/1.83 & 7.19/4.22\\
+2 & 48 & 0/0 & 7.30/4.91 & 3.96/1.83 & 7.19/4.22\\
+3 & 72 & 0/0 & 7.30/4.91 & 3.96/1.83 & 7.19/4.22\\
+4 & 96 & 0/0 & 7.30/4.91 & 3.96/1.83 & 7.19/4.22\\
+5 & 120 & 0/0 & 7.30/4.91 & 3.96/1.83 & 7.19/4.22\\
+6 & 144 & 0/0 & 7.30/4.91 & 3.96/1.83 & 7.19/4.22\\
 \bottomrule\end{tabular}
-\end{table*}
-A separate retrospective completed-visit study has 271 ATC-L4 classes,18,429 training visits and 2,422 reserved test visits. Its NDC mapping covers only 27.23\% of selected prescription rows; molecular comparisons use a different 219-class panel. Author-method implementations have audited development results, but the full final comparison remains unfinished. Completed-visit codes are not decision-time observations. Neither this mapped subset nor the earlier supervised order pipeline establishes the current LLM agent's complete prescribing ability. Evaluating current RxRSIAgent on shared decision-time inputs and full order endpoints remains a substantive requirement.
+\end{table*}The final state retains 0 procedural cards. Transferred without Llama-specific selection to Llama-3.2-3B on all 1,082 cases, initial drug/Core4 F1 is 6.75/3.81\%, versus 6.75/3.81\% with the frozen state. The states are identical; this does not demonstrate positive transfer.
+No test-best checkpoint is chosen. The original candidate tool had already been trained on 40,000 admissions;144 refers to newly processed reflection cases, not total system supervision.
+
+\paragraph{Failure evidence and intervention limits.}
+A training-only controlled experiment keeps 48 patients, catalogue contents and batch layout fixed while changing format examples. With an A1 example, A1 is selected in 36 cases and A23 in 5. Moving the example to A23 changes these counts to 0 and 46. Removing valid-ID examples yields 8 and 3; drug F1 changes from 3.57 to 7.57\%. This identifies format-example anchoring in this adapter, not a universal medical-model mechanism. Descriptive schemas are applied to every common control; this researcher repair is not an accepted RSI update. Removing offline label excerpts on 48 proposal cases yields drug/Core4 F1 10.55/6.67\%, versus 6.52/4.18\% with excerpts. This changes both information and input length and cannot establish clinical benefit from source removal. The training-only observability audit finds 1,722 admissions in 144 identical-context groups with differing target drug sets. On the retained test output, 1722 missed targets are inside the catalogue and 1838 are outside it.
+These findings separate candidate coverage, decision selection, observed information and joint-field assembly. Recorded actions do not reveal every physician rationale or a unique optimal regimen. Patient-level before/after cases remain in the restricted artifact; only aggregates are published.
+
+\paragraph{Incremental expenditure.}
+All new patient inference, reflection and embeddings run locally, with zero paid model API requests against the USD 10 incremental allowance. Local compute is not monetized. Output allowances are matched for local actors; total input use, learning computation and pretrained supervision are not identical. FLAME component results remain separately qualified. An engine probe changes the final selection in 2/16 development cases when prefill batch size changes from 2 to 8; that optimization is rejected. The retained engine uses prefill batch 2 and completion batch 8. Greedy quantized decoding remains batch-sensitive, and cached requests reuse their first recorded responses.
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Predeclared component diagnostic on 128 hash-selected test admissions. All arms and membership were fixed before corrected-interface test inference, after prior literal-schema scores were observed; no checkpoint is selected from this diagnostic. The intervention separates card text from executable fact-scope configuration.}
+\label{tab:order-components}
+\begin{tabular}{@{}lrrr@{}}\toprule
+Component & Drug F1 & Core4 F1 & Checked facts\\\midrule
+Initial state & 7.50 & 4.93 & 2.87\\
+Procedure text only & 7.50 & 4.93 & 2.87\\
+Verifier scope only & 7.50 & 4.93 & 2.87\\
+Retained combined state & 7.50 & 4.93 & 2.87\\
+\bottomrule\end{tabular}
+\end{table*}All four component arms use fresh generation with the same case order and chunks. A no-edit replay changes the semantic order set in 18/128 cases relative to cached full-cohort responses; this execution variation must not be interpreted as learned improvement. The full-cohort initial-to-retained drug-F1 change is +0.00 percentage points (patient-cluster 95\% interval [+0.00, +0.00]). The interval includes zero; this does not establish a reliable improvement. Permuting the same catalogue contents and reassigning order identifiers preserves the selected drug set in 17/128 cases; drug F1 changes from 7.50\% to 4.44\%. Source content changes in 25/128 cases. This measures whole-pipeline order/identifier sensitivity, including retrieval tie-breaks; it does not isolate LLM position bias or exclude pretrained drug priors. An earlier literal-schema scope update passed development but changed full-test drug F1 from 7.34 to 7.27\%, adding 3 true-positive drugs and 138 extra drugs. Development acceptance therefore did not establish generalization. The two valid candidates trigger only when both prior orders and laboratory observations are absent. They activate on two cases in each development subset, each containing one observed fact. All-observed scope adds no checked facts, and no order changes. This is an observed condition/action mismatch, not effective tool improvement. Across 144 training admissions, 287/530 reference drugs enter the catalogue, 133 have a cached exact-name label, and only 21 receive a selected excerpt; 169/379 predicted drugs receive excerpts. Two global sentences per case create uneven evidence coverage. This association is not a causal treatment-selection result. The checker covers 421/3201 supplied facts; the actor still sees the full supplied input. Validator replay finds that all three numeric-dose rejections concern observational counterexamples, not new dose instructions. A corrected checker separates these fields and requests abstraction of training-trace references; it flags such references in the two previously schema-valid candidates as well. This correction changes feedback classification only: no frozen state, prediction or reported retention decision is altered. SkeMex's final store contains 25 non-meta skill files. Across round transitions, 7 existing procedure bodies change and 27 existing utility entries change (counts may include repeated updates of one item). These snapshot changes distinguish materialized learning from CREATE/PATCH proposals; they do not by themselves establish improved predictions. The retained state has mean drug Jaccard 4.07\%, exact-set agreement 0.46\%, and 3.29/2.41 reference-relative omissions/extras per admission. The catalogue covers 30.17\% of complete Core4 reference tuples. Joint fields are supplied by the fixed template tool, not independently generated by the LLM. \begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Published reference results, shown only with their own protocols. None is a matched local comparison, a local MIMIC-IV order score, or evidence that our adapter exceeds the original method.}
+\label{tab:published-prescribing}
+\begin{tabular}{@{}p{3.1cm}p{7.5cm}p{3.5cm}@{}}\toprule
+Original method & Source task and setting & Reported endpoint\\\midrule
+SafeRx-Agent \citep{saferx} & Completed-visit MIMIC-IV, ATC-L4, Claude Sonnet 4.6; source Table 2 without safety filter & F1 43.25\%\\
+FLAME \citep{flame} & MIMIC-III medication recommendation; source Table 1; different inputs, drug space and supervision & F1 64.08\%\\
+SkeMex \citep{skemex} & Seven heterogeneous medical-reasoning endpoints, DeepSeek-V3.2; source Table 1 & Mean score 56.08\%\\
+\bottomrule\end{tabular}
+\end{table*}Inference output allowances are matched for the common local actors. RxRSIAgent additionally uses 48 proposal and 64 guard labels; SkeMex updates directly on 144 training admissions. Validation supervision and offline update compute are therefore not matched, although the fixed 40,000-admission candidate tool is shared.\paragraph{Source-route attribution.} A training audit finds 66/288 retrieved excerpts with no declared source/order route overlap;104 only partially overlap the disjunctive oral/nasogastric order route. Declared overlap does not validate formulation, indication or dose. Route names follow FDA terminology.\footnote{\url{https://www.fda.gov/drugs/data-standards-manual-monographs/route-administration}} An exploratory researcher tool filters non-overlapping labels before the original ranking, preserving unknown/partial records and the two-excerpt cap. It does not prohibit orders or establish clinical contraindications. On 48 reused proposal cases with fresh matched batch layouts, drug F1 changes from 6.52\% to 8.03\%, and Core4 from 4.18\% to 4.91\%; the drug-difference 95\% interval is [+0.03, +3.66] points. Evidence changes in 17/48 cases. This diagnostic changes source contents and input length, is not an autonomous RSI update, and does not select the main-table checkpoint. On 64 disjoint, previously reused guard cases, the frozen route tool changes drug F1 3.94\% to 4.39\%, Core4 1.82\% to 1.80\%; the drug-difference 95\% interval is [-0.06, +1.59] points. No rule or checkpoint is selected from this guard verification. A separate post hoc parser replay recovers only 6/156 malformed Llama outputs by closing delimiters around already complete string arrays;123 malformed outputs lack an order\_ids key. Drug F1 changes from 6.75\% to 6.89\%. Qwen is unchanged. This non-generative repair does not complete missing identifiers, replace frozen scores or demonstrate successful RSI.
+\paragraph{Where current order agreement is lost.} RxRSIAgent predicts 2.63 drugs per admission against 3.51 recorded target drugs. Reference-relative omissions and extras average 3.29 and 2.41; mean drug Jaccard is 4.07\%, with 0.46\% exact drug-set agreement. Recall is 13.16\% for targets already present in prior orders versus 4.78\% for other targets. Among complete Core4 targets whose drug is selected, 58.20\% match all four fields.
+These descriptive endpoints concern the current local actor, not clinical appropriateness. Recorded prescriptions expose clinician actions, not their complete reasoning or a uniquely appropriate regimen. Agreement should therefore be supplemented by treatment-goal coverage, acceptable alternatives and clinician edit burden. Establishing a workflow mechanism requires changing a stage while holding cases and resources fixed, observing intermediate changes, and confirming corrections without regressions on independent cases. Patient-condition overgeneralization and harmful memory are already studied by MedPIC, GRASP and SkeMex \citep{medpic,grasp,skemex}; we do not claim those broad phenomena as new discoveries. No neural-circuit mechanism is established here.
 
 
-\paragraph{Where historical order agreement is lost.}
-A post hoc recount of the frozen historical pipeline separates vocabulary, selection and order-field failures. The pipeline predicts 5.35 drugs per admission against 3.51 recorded targets, while omitting 2.66 targets and adding 4.51 reference-relative extras. 75.12\% of missed targets are inside the fixed vocabulary. Recall is 39.13\% for targets already present in prior available orders, versus 20.87\% for other targets. Among complete reference Core 4 tuples whose drug is predicted, 55.56\% match all four fields. These are mean counts/metrics across three seeds, not current LLM-agent results. In-vocabulary misses locate a selection gap without establishing its clinical cause. Extra orders are not automatically inappropriate. Separate proposal-only support diagnostics cover 80.80\% of target drugs; perfect reference-informed selection would reach 89.25\% drug F1, an oracle ceiling rather than achieved performance. This post hoc test analysis neither selects a repair nor supplies learning feedback.
-
-\paragraph{Mechanism hypotheses and human alignment.}
-Recorded prescriptions expose clinician actions, not their complete reasoning or a uniquely appropriate regimen. Agreement should therefore be supplemented by treatment-goal coverage, acceptable alternatives, joint order correctness and clinician edit burden. The case evidence suggests testable workflow hypotheses: product retrieval can lose a necessary condition; genuine quotations can coexist with unsupported patient premises; and treatment-phase errors can survive label retrieval. Establishing a mechanism requires changing one stage while holding cases and resources fixed, observing the intermediate decision change, and confirming corrections without regressions on independent cases. Patient-condition overgeneralization and harmful memory are already studied by MedPIC, GRASP and SkeMex \citep{medpic,grasp,skemex}; we do not claim those broad phenomena as new discoveries. No neural-circuit mechanism is established here.
-
-
-\section{Clinical Scope and Limitations}
-QA agreement does not measure complete treatment coverage, omissions, unnecessary medication, dose/route/schedule correctness, full interactions, organ-function adjustment or monitoring. A separately specified clinician rubric follows medicines review and the Medication Appropriateness Index \citep{nice,mai}; two available reviewers have not returned blinded ratings. No clinical outcome is inferred from these QA results. Evaluation of the current LLM actor on complete decision-time prescriptions and real MedAgentBench tool/state execution remains unfinished; earlier local order experiments are reported separately.
-
-Repeated main-benchmark exposure, reused development cohorts, a single served backbone and provider nondeterminism limit inference. A model's root explanation is a hypothesis, even when quotations are valid. Sparse or inconsistent benchmark feedback can yield unsupported procedures. Context terms may overgeneralize, and proposed exclusion conditions are not clinically certified. Label coverage, exact provenance and numeric comparisons do not establish complete applicability; missing formulations, strengths, units and temporal treatment context remain limitations. The query cap and source failures constrain retrieval. Equal output allowance does not equal compute or data. This work studies stateful, externally supervised agent updates; it does not establish autonomous recursive improvement of model weights or tool code.
-
-\section{Conclusion}
-RxRSIAgent connects accumulated errors to observable trace hypotheses, scoped interventions and explicit retention decisions. Ordinary supervised option calibration is kept separate. The current trajectory does not demonstrate positive procedural evolution or superiority on both main tasks. Independent patient-conditioned evaluation and transparent failure accounting are necessary before claiming progressively better prescribing.
-
-\section*{Ethics and Reproducibility}
-Only public benchmark material is sent to the external provider in these experiments. Restricted clinical records, credentials, raw responses and downloaded label bodies remain local. Public artifacts include source pins, code, aggregate results, state hashes and rejected gates. Source and response receipts support independent recounts. These research outputs are not autonomous clinical prescriptions.
-
-\begin{thebibliography}{99}
-\bibitem[Ali et al.(2023)]{mrsurvey} Zafar Ali, Yi Huang, Irfan Ullah, Junlan Feng, Chao Deng, Nimbeshaho Thierry, Asad Khan, Asim Ullah Jan, Xiaoli Shen, Wu Rui, and Guilin Qi. 2023. Deep Learning for Medication Recommendation: A Systematic Survey. \emph{Data Intelligence}, 5(2):303--354. \url{https://doi.org/10.1162/dint_a_00197}.
-\bibitem[Chen et al.(2026)]{rxeval} Shuhao Chen, Weisen Jiang, Changmiao Wang, Xiaoqing Wu, Xuanren Shi, Yu Zhang, and James T. Kwok. 2026. RxEval: A Prescription-Level Benchmark for Evaluating LLM Medication Recommendation. \emph{arXiv preprint arXiv:2605.14543}. \url{https://arxiv.org/abs/2605.14543}.
-\bibitem[Hanlon et al.(1992)]{mai} Joseph T. Hanlon, Kenneth E. Schmader, Gregory P. Samsa, Morris Weinberger, Kay M. Uttech, Ingrid K. Lewis, Harvey J. Cohen, and John R. Feussner. 1992. A method for assessing drug therapy appropriateness. \emph{Journal of Clinical Epidemiology}, 45(10):1045--1051. \url{https://doi.org/10.1016/0895-4356(92)90144-C}.
-\bibitem[Jiang et al.(2025)]{medagentbench} Yixing Jiang, Kameron C. Black, Gloria Geng, Danny Park, James Zou, Andrew Y. Ng, and Jonathan H. Chen. 2025. MedAgentBench: A Realistic Virtual EHR Environment to Benchmark Medical LLM Agents. \emph{arXiv preprint arXiv:2501.14654}. \url{https://arxiv.org/abs/2501.14654}.
-\bibitem[Johnson et al.(2024)]{mimiciv} Alistair Johnson, Lucas Bulgarelli, Tom Pollard, Brian Gow, Benjamin Moody, Steven Horng, Leo Anthony Celi, and Roger Mark. 2024. MIMIC-IV (version 3.1). PhysioNet. \url{https://doi.org/10.13026/kpb9-mt58}.
-\bibitem[Kim et al.(2024)]{mdagents} Yubin Kim, Chanwoo Park, Hyewon Jeong, Yik Siu Chan, Xuhai Xu, Daniel McDuff, Hyeonhoon Lee, Marzyeh Ghassemi, Cynthia Breazeal, and Hae Won Park. 2024. MDAgents: An Adaptive Collaboration of LLMs for Medical Decision-Making. \emph{arXiv preprint arXiv:2404.15155}. \url{https://arxiv.org/abs/2404.15155}.
-\bibitem[Madaan et al.(2023)]{selfrefine} Aman Madaan, Niket Tandon, Prakhar Gupta, Skyler Hallinan, Luyu Gao, Sarah Wiegreffe, Uri Alon, Nouha Dziri, Shrimai Prabhumoye, Yiming Yang, Shashank Gupta, Bodhisattwa Prasad Majumder, Katherine Hermann, Sean Welleck, Amir Yazdanbakhsh, and Peter Clark. 2023. Self-Refine: Iterative Refinement with Self-Feedback. \emph{Advances in Neural Information Processing Systems}. \url{https://arxiv.org/abs/2303.17651}.
-\bibitem[Moll et al.(2026)]{grasp} Johannes Moll, Jean-Philippe Corbeil, Jiazhen Pan, Martin Hadamitzky, Daniel Rueckert, Lisa Adams, and Keno Bressem. 2026. GRASP: Gated Regression-Aware Skill Proposer for Self-Improving LLM Agents. \emph{arXiv preprint arXiv:2605.29668}. \url{https://arxiv.org/abs/2605.29668}.
-\bibitem[NICE(2015)]{nice} National Institute for Health and Care Excellence. 2015. Medicines optimisation: The safe and effective use of medicines to enable the best possible outcomes. \emph{NICE guideline NG 5}. \url{https://www.nice.org.uk/guidance/ng5/chapter/Recommendations}.
-\bibitem[Palepu et al.(2025)]{rxqa} Anil Palepu, Valentin Li\'evin, Wei-Hung Weng, Khaled Saab, David Stutz, Yong Cheng, Kavita Kulkarni, S. Sara Mahdavi, Jo\"elle Barral, Dale R. Webster, Katherine Chou, Avinatan Hassidim, Yossi Matias, James Manyika, Ryutaro Tanno, Vivek Natarajan, Adam Rodman, Tao Tu, Alan Karthikesalingam, and Mike Schaekermann. 2025. Towards Conversational AI for Disease Management. \emph{arXiv preprint arXiv:2503.06074}. \url{https://arxiv.org/abs/2503.06074}.
-\bibitem[Pollard et al.(2018)]{eicu} Tom J. Pollard, Alistair E. W. Johnson, Jesse D. Raffa, Leo A. Celi, Roger G. Mark, and Omar Badawi. 2018. The eICU Collaborative Research Database, a freely available multi-center database for critical care research. \emph{Scientific Data}, 5:180178. \url{https://doi.org/10.1038/sdata.2018.178}.
-\bibitem[Shang et al.(2019)]{gamenet} Junyuan Shang, Cao Xiao, Tengfei Ma, Hongyan Li, and Jimeng Sun. 2019. GAMENet: Graph Augmented MEmory Networks for Recommending Medication Combination. \emph{Proceedings of AAAI}. \url{https://arxiv.org/abs/1809.01852}.
-\bibitem[Shinn et al.(2023)]{reflexion} Noah Shinn, Federico Cassano, Ashwin Gopinath, Karthik Narasimhan, and Shunyu Yao. 2023. Reflexion: Language Agents with Verbal Reinforcement Learning. \emph{Advances in Neural Information Processing Systems}. \url{https://openreview.net/forum?id=vAElhFcKW6}.
-\bibitem[Tang et al.(2024)]{medagents} Xiangru Tang, Anni Zou, Zhuosheng Zhang, Ziming Li, Yilun Zhao, Xingyao Zhang, Arman Cohan, and Mark Gerstein. 2024. MedAgents: Large Language Models as Collaborators for Zero-shot Medical Reasoning. \emph{Findings of ACL}, pages 599--621. \url{https://aclanthology.org/2024.findings-acl.33/}.
-\bibitem[Utah Department of Commerce(2026a)]{utahrenewal} Utah Department of Commerce. 2026a. Utah and Doctronic announce groundbreaking partnership for AI prescription medication renewals. January 6. \url{https://commerce.utah.gov/2026/01/06/news-release-utah-and-doctronic-announce-groundbreaking-partnership-for-ai-prescription-medication-renewals/}.
-\bibitem[Utah Department of Commerce(2026b)]{utahpilots} Utah Department of Commerce. 2026b. AI Authorized Pilots. Office of Artificial Intelligence Policy. Accessed October 16, 2026. \url{https://commerce.utah.gov/ai/regulatory-relief-4/authorized-pilots/}.
-\bibitem[Utah Department of Commerce(2026c)]{utahfaq} Utah Department of Commerce. 2026c. AI FAQ: Prescription refill and care pathway pilots. Office of Artificial Intelligence Policy. Accessed October 16, 2026. \url{https://commerce.utah.gov/ai/ai-faq/}.
-\bibitem[Wang et al.(2026)]{saferx} Xinyu Wang, Hanwei Wu, Zhenghan Tai, Sicheng Lyu, Qincheng Lu, Ziyu Zhao, Jijun Chi, Jingrui Tian, Xiao-Wen Chang, and Ziyang Song. 2026. SafeRx-Agent: A Knowledge-Grounded Multi-Agent Framework for Safe and Explainable Medication Recommendation. \emph{arXiv preprint arXiv:2605.29146}. \url{https://arxiv.org/abs/2605.29146}.
-\bibitem[WHO(2019)]{who} World Health Organization. 2019. Medication safety in polypharmacy: Technical report. WHO-UHC-SDS-2019.11. \url{https://www.who.int/publications/i/item/WHO-UHC-SDS-2019.11}.
-\bibitem[Wu et al.(2025)]{armr} Feiyue Wu, Tianxing Wu, and Shenqi Jing. 2025. ARMR: Adaptively Responsive Network for Medication Recommendation. \emph{Proceedings of IJCAI}, pages 7831--7839. \url{https://doi.org/10.24963/ijcai.2025/871}.
-\bibitem[Yang et al.(2021)]{safedrug} Chaoqi Yang, Cao Xiao, Fenglong Ma, Lucas Glass, and Jimeng Sun. 2021. SafeDrug: Dual Molecular Graph Encoders for Recommending Effective and Safe Drug Combinations. \emph{Proceedings of IJCAI}. \url{https://arxiv.org/abs/2105.02711}.
-\bibitem[Yang et al.(2025)]{rxbench} Yan Yang, Mouxiao Bian, Peiling Li, Bingjian Wen, Ruiyao Chen, Kangkun Mao, Xiaojun Ye, Tianbin Li, Pengcheng Chen, Bing Han, Jie Xu, Kaifeng Qiu, and Junyan Wu. 2025. Human-Level and Beyond: Benchmarking Large Language Models Against Clinical Pharmacists in Prescription Review. \emph{arXiv preprint arXiv:2512.02024}. \url{https://arxiv.org/abs/2512.02024}.
-\bibitem[Zhao et al.(2025a)]{rxsafe} Jiahao Zhao, Luxin Xu, Minghuan Tan, Lichao Zhang, Ahmadreza Argha, Hamid Alinejad-Rokny, and Min Yang. 2025a. RxSafeBench: Identifying Medication Safety Issues of Large Language Models in Simulated Consultation. \emph{Proceedings of IEEE BIBM}, pages 4491--4496. \url{https://doi.org/10.1109/BIBM66473.2025.11356353}.
-\bibitem[Zhao et al.(2025b)]{rxllm} Xingmeng Zhao, Kaitlin Blotske, Moriah Cargile, Adeleine Tilley, Brian Murray, Yanjun Gao, Kelli Henry, Susan E. Smith, Erin F. Barreto, Seth Bauer, Sunghwan Sohn, Tianming Liu, Tell Bennett, Mitch Cohen, and Andrea Sikora. 2025b. Rx-LLM: A Benchmarking Suite to Evaluate Safe Large Language Model Performance for Medication-Related Tasks. \emph{medRxiv preprint}. \url{https://doi.org/10.64898/2025.12.01.25341004}.
-\bibitem[Zhao et al.(2025c)]{lamrec} Zihao Zhao, Chenxiao Fan, Junlong Liu, Zheng Wang, Xiangnan He, Chongming Gao, Juan Li, and Fuli Feng. 2025c. Fine-grained Alignment of Large Language Models for General Medication Recommendation without Overprescription. \emph{arXiv preprint arXiv:2503.03687}. \url{https://arxiv.org/abs/2503.03687}.
-\bibitem[FDA(2026)]{openfda} U.S. Food and Drug Administration. 2026. openFDA Drug Label API: searchable fields and endpoint documentation. \url{https://open.fda.gov/apis/drug/label/}.
-\bibitem[Fan et al.(2025)]{flame} Chenxiao Fan, Chongming Gao, Wentao Shi, Yaxin Gong, Zihao Zhao, and Fuli Feng. 2025. Fine-grained List-wise Alignment for Generative Medication Recommendation. \emph{Advances in Neural Information Processing Systems}. \url{https://papers.nips.cc/paper_files/paper/2025/file/44a1f7e0a1fe7867f586b10739a0c26a-Paper-Conference.pdf}.
-\bibitem[Chen et al.(2024)]{rareagents} Xuanzhong Chen, Ye Jin, Xiaohao Mao, Lun Wang, Shuyang Zhang, and Ting Chen. 2024. RareAgents: Autonomous Multi-disciplinary Team for Rare Disease Diagnosis and Treatment. \emph{arXiv:2412.12475}. \url{https://arxiv.org/abs/2412.12475}.
-\bibitem[Sun et al.(2026)]{skemex} Haoran Sun, Wenjie Li, Yujie Zhang, Zekai Lin, Fanrui Zhang, Kaitao Chen, Xingqi He, Yichen Li, Mianxin Liu, Lei Liu, and Yankai Jiang. 2026. Experience Makes Skillful: Enabling Generalizable Medical Agent Reasoning via Self-Evolving Skill Memory. \emph{arXiv:2606.09365}, version 4. \url{https://arxiv.org/html/2606.09365v4}.
-\bibitem[Jin et al.(2020)]{medqa} Di Jin et al. 2020. What Disease does this Patient Have? A Large-scale Open Domain Question Answering Dataset from Medical Exams. \emph{arXiv:2009.13081}. \url{https://github.com/jind11/MedQA}.
-\bibitem[Hou et al.(2026)]{medpic} Zhitian Hou, Yuhang Liu, Pengkai Wang, Zeyu Liu, Guanghao Zhu, Zheng Liu, Shuo Cai, Congkai Xie, Zhijie Sang, Kun Zeng, and Hongxia Yang. 2026. Evaluating Counterfactual Sensitivity to Patient Information in Medication-Safety Reasoning. \emph{arXiv:2608.03028}. \url{https://arxiv.org/abs/2608.03028}.
-\end{thebibliography}
-\appendix
 \section{Compute and Audit Details}
 \begin{table*}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
@@ -623,7 +713,7 @@ RxRSIAgent & RxQA & 3,617,979 & 296,590 & 1.000\\
 RxRSIAgent & MedPIC & 7,539,443 & 496,556 & 1.473\\
 \bottomrule\end{tabular}
 \end{table*}
-The new audit checks 31,401 exact source spans across 1,895 distinct saved evaluation rows. The shared new successful-response ledger increment for updater development and evaluation is USD 22.371. Cross-process locks protect identical model requests. Source failures, query limits and incomplete clinical checks are retained as limitations.
+The new audit checks31,401 exact source spans across 1,895 distinct saved evaluation rows. The shared new successful-response ledger increment for updater development and evaluation is USD 22.371. Cross-process locks protect identical model requests. Source failures, query limits and incomplete clinical checks are retained as limitations.
 \paragraph{Cumulative response expenditure.}
 The located successful-response costs across the upgrade studies total approximately USD 89.53: USD 87.79774 in 171,219 shared-ledger events, plus USD 1.72911--1.73405 in legacy records. The narrow range reflects ambiguous identical pilot/full-run records, not bounds on unrecorded charges. Cached rereads are not added; separately logged repeated requests are retained. Six legacy records lack prices, and failed requests, local compute, earlier unrecorded work and account adjustments remain unreconciled. This is provider-reported receipt cost, not an invoice. Previously reported study increments are already included. The audit itself performs no model calls.
 

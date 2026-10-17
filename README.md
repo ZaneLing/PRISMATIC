@@ -1,19 +1,20 @@
 # RxRSIAgent — PRISMATIC research repository
 
-## Current evidence — 16 October 2026
+## Current evidence — 2026-10-17
 
-[New case studies, benchmark definitions and MIMIC-IV results (中文)](paper/TASKS_CASES_AND_MIMIC.zh.md) · [English](paper/TASKS_CASES_AND_MIMIC.en.md). Failure-directed product, evidence-window and scope repairs are implemented and evaluated; none passes the development gate.
-
-**Current procedural actor: 491/988 (49.70%) RxSafeBench; 196/300 (65.33%) RxQA.** Independent MedPIC: 274/467 (58.67%). Eight four-round development experiments produced112 proposal attempts and zero retained updates. Positive RSI and two-benchmark superiority are **not established**. The previous556/988 result used ordinary supervised calibration and is now a separately labeled control.
+**New complete local MIMIC-IV experiment: 1,082 admissions. RxRSIAgent drug F1 7.19%; Core4 F1 4.22%.** The corrected-interface trajectory retains 0 conditional update(s); paired intervals, component ablations and frozen-state transfer are reported. This is a catalogue-constrained local Qwen3-4B prescription adapter.
 
 - [中文完整结果与跨方法主表](paper/CURRENT_RESULTS.zh.md) · [Full English results](paper/CURRENT_RESULTS.en.md).
-- [English ACL manuscript](paper/latex/v0.3/prismatic_v03_en.tex): original editor path, compiled with the built-in compiler; architecture, root mechanism, main table, trajectory and failure cases.
-- [Current executable agent](rxrsiagent/selected_agent.py) · [frozen profile](rxrsiagent/selected_profile.json) · [independent audit](upgrade_v44/results/audit.json).
-- [Current experiment/reproduction](upgrade_v44/README.md) · [all retained and rejected states](upgrade_v44/results/learning.json).
-- [Protocol correction](paper/PROTOCOL_CORRECTIONS.md): original RxSafeBench is already three-option MCQ.
-- [Paper index and archives](paper/README.md).
+- [Local experiment and comparator fidelity](upgrade_v50/README.md) · [aggregate audit](upgrade_v50/results/audit.json) · [round trajectory](upgrade_v50/results/round_curve.json).
+- [English ACL manuscript](paper/latex/v0.3/prismatic_v03_en.tex) · [paper index and archives](paper/README.md).
+- [Prescription actor](upgrade_v50/actor.py) · [frozen prescription state](upgrade_v50/test_freeze_scope.json).
+- [Hosted QA actor](rxrsiagent/selected_agent.py) · [QA profile](rxrsiagent/selected_profile.json).
 
-No fitted medication-identity scorer overrides the current actor. The external proposal model adds offline training compute. Output allowances are matched, with input/call/cost differences disclosed. Source checks, reflection records and unchanged memory do not establish better clinical prescribing. Restricted records, keys, downloaded source bodies and raw provider receipts stay outside Git. Older long-running queues remain paused.
+SafeRx-Agent is a limited independent task adaptation; SkeMex executes the pinned author memory core with a common actor; FLAME transfers the actual released trained list-policy component. Complete original workflows are not reproduced, and no superiority over the original papers is claimed. Published reference scores stay in a separate protocol-qualified file.
+
+Public QA remains RxSafe 491/988 (49.70%), RxQA 196/300 (65.33%), and MedPIC 274/467 (58.67%). The QA learner retains no change. Historical supervised calibration is a separate control.
+
+**Incremental paid API spend: USD 0 / USD 10 authorized.** Restricted records, raw responses, private case studies and checkpoints stay local. Local compute is unpriced; historical located response expenditure remains about USD 89.53. Older queues remain paused.
 
 ---
 

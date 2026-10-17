@@ -11,7 +11,7 @@ def main():
     transfer=json.loads((HERE/'results/transfer.json').read_text());assert curve['complete'] and transfer['complete']
     plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'axes.spines.top':False,'axes.spines.right':False})
     fig,axes=plt.subplots(1,3,figsize=(15,4.8),gridspec_kw={'width_ratios':[1.35,1,1]})
-    names=['direct','saferx','skemex','rxrsi_base','rxrsi_selected'];labels=['Direct\nrefinement','SafeRx\nadaptation','SkeMex\nmemory core','RxRSI\ninitial','RxRSI\nretained'];xx=np.arange(len(names))
+    names=['direct','saferx','skemex','rxrsi_selected'];labels=['Direct\nrefinement','SafeRx\nadaptation','SkeMex\nmemory core','RxRSIAgent'];xx=np.arange(len(names))
     for offset,key,label,color in [(-.18,'drug_micro_f1','Drug F1','#266b98'),(.18,'core_order_micro_f1','Core4 F1','#cf8c32')]:
         vals=[100*audit['methods'][n]['metrics'][key] for n in names]
         axes[0].bar(xx+offset,vals,.34,label=label,color=color)
@@ -27,12 +27,14 @@ def main():
     for i,(label,a,b) in enumerate(entries):
         axes[2].plot([0,1],[100*a['drug_micro_f1'],100*b['drug_micro_f1']],'o-',label=label,color=['#266b98','#975fa0'][i])
         axes[2].annotate(f"{100*b['drug_micro_f1']:.2f}",(1,100*b['drug_micro_f1']),xytext=(6,0),textcoords='offset points',va='center',fontsize=9)
-    axes[2].set_xticks([0,1],['Initial','Retained']);axes[2].set_xlim(-.12,1.3);axes[2].set_ylabel('Drug F1 (%)');axes[2].set_title('C. Frozen-state cross-backbone transfer');axes[2].legend(frameon=False,fontsize=8)
-    for ax in axes:ax.grid(axis='y',alpha=.18);ax.set_axisbelow(True);ax.set_ylim(bottom=0)
+    axes[2].set_xticks([0,1],['Initial','Retained']);axes[2].set_xlim(-.12,1.3);axes[2].set_ylabel('Drug F1 (%)');axes[2].set_title('C. Frozen-state check across backbones');axes[2].legend(frameon=False,fontsize=8)
+    for ax in axes:ax.grid(axis='y',alpha=.18);ax.set_axisbelow(True);ax.set_ylim(0,max(1,ax.get_ylim()[1]*1.12))
     fig.suptitle('MIMIC-IV: 1,082 admissions, new/change orders in hours 6–12',fontsize=14,y=1.01)
-    fig.text(.01,-.04,'Exploratory, historically exposed test. SafeRx/SkeMex are limited adaptations; no full-author-method superiority is implied.\nSix rounds process 144 new training cases with fixed descriptive schemas. Identical retained states reuse predictions. FLAME component transfer is reported separately.',fontsize=9)
+    fig.text(.01,-.04,'Exploratory, historically exposed test. SafeRx/SkeMex are limited adaptations; no full-author-method superiority is implied.\nSix rounds process 144 new training cases with fixed descriptive schemas. No RxRSI update is retained; identical states reuse predictions. FLAME component transfer is reported separately.',fontsize=9)
     fig.tight_layout();out=HERE/'figures';out.mkdir(exist_ok=True)
     for suffix in ['svg','png']:fig.savefig(out/('prescription_results.'+suffix),dpi=180,bbox_inches='tight')
+    svg=out/'prescription_results.svg'
+    svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines())+'\n')
     plt.close(fig)
     print('Wrote aggregate result figures')
 if __name__=='__main__':main()

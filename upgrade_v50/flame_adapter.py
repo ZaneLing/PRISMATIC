@@ -36,5 +36,6 @@ def main():
     initial_rows=[{'case_id':c['case_id'],'orders':[o for o in c['catalogue'].values() if o['drug_name'] in ps],'invalid':False} for c,ps in zip(cases,initial)]
     save(HERE/'results/flame.json',{'complete':True,'method':'FLAME released list-policy + local supervised initializer',
       'model_sha256':b.model_hash,'metrics':metrics(rows,cases),'initializer':metrics(initial_rows,cases),
+      'invalid_fraction_definition':'Any nonempty unmatched line in any of the three list-edit steps; not the final-JSON failure definition used by common actors.',
       'limits':['not full FLAME classifier or embedding pipeline','different pretrained backbone and training data','4-bit converted checkpoint','MIMIC-III trained list-policy transferred to MIMIC-IV 6h task','strict raw-name matching','no diagnosis/procedure or patient embedding tokens','extra initializer information; not equal information to other actors']})
 if __name__=='__main__':main()

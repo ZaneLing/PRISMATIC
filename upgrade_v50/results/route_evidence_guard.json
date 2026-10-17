@@ -1,0 +1,71 @@
+{
+  "complete": true,
+  "cases": 64,
+  "split": "guard",
+  "baseline": {
+    "cases": 64,
+    "drug_micro_f1": 0.03940886699507389,
+    "drug_precision": 0.04819277108433735,
+    "drug_recall": 0.03333333333333333,
+    "core_order_micro_f1": 0.01818181818181818,
+    "known_field_accuracy_given_correct_drug": 0.8333333333333334,
+    "known_fields_scored": 30,
+    "core_gold_orders": 274,
+    "core_predicted_orders": 166,
+    "mean_predicted_drugs": 2.59375,
+    "empty_fraction": 0.0,
+    "promotion_score": 0.028795342588446037,
+    "core5_micro_f1": 0.013651877133105802,
+    "core5_gt_field_coverage": 0.6028880866425993,
+    "invalid_fraction": 0.0,
+    "catalogue_drug_recall_ceiling": 0.5041666666666667,
+    "output_tokens": 4110,
+    "input_tokens": 351953,
+    "logical_calls": 192,
+    "api_cost_usd": 0
+  },
+  "route_filtered": {
+    "cases": 64,
+    "drug_micro_f1": 0.04390243902439024,
+    "drug_precision": 0.052941176470588235,
+    "drug_recall": 0.0375,
+    "core_order_micro_f1": 0.018018018018018018,
+    "known_field_accuracy_given_correct_drug": 0.8235294117647058,
+    "known_fields_scored": 34,
+    "core_gold_orders": 274,
+    "core_predicted_orders": 170,
+    "mean_predicted_drugs": 2.65625,
+    "empty_fraction": 0.0,
+    "promotion_score": 0.030960228521204128,
+    "core5_micro_f1": 0.013422818791946308,
+    "core5_gt_field_coverage": 0.6028880866425993,
+    "invalid_fraction": 0.0,
+    "catalogue_drug_recall_ceiling": 0.5041666666666667,
+    "output_tokens": 4135,
+    "input_tokens": 349652,
+    "logical_calls": 192,
+    "api_cost_usd": 0
+  },
+  "paired": {
+    "patients": 64,
+    "resamples": 2000,
+    "drug_delta_ci95": [
+      -0.0005797161615582697,
+      0.015938637390244738
+    ],
+    "core4_delta_ci95": [
+      -0.0005614410357444409,
+      4.60151541762697e-05
+    ],
+    "changed_cases": 11,
+    "case_f1_improved": 1,
+    "case_f1_regressed": 0
+  },
+  "evidence_changed_cases": 13,
+  "plan_changed_cases": 0,
+  "private_case_studies": 1,
+  "protocol_sha256": "45a6479f557c9c78fbe3327ed042047197b0811772af8dc62aa6c28825f13c6e",
+  "selected_for_main_table": false,
+  "autonomous_rsi_update": false,
+  "limits": "Exploratory researcher tool repair on reused development cases; source contents and input length may change; not clinical safety validation."
+}

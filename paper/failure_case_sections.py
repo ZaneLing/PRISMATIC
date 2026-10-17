@@ -4,7 +4,6 @@
 def render(read, table):
     global_audit = read('upgrade_v45/results/audit.json')
     scoped = read('upgrade_v47/results/audit.json')
-    mimic = read('upgrade_v45/results/mimic_recount.json')
     read('upgrade_v45/results/case_studies.json')
     for version in ('45', '46', '47'):
         read('upgrade_v' + version + '/protocol.json')
@@ -34,18 +33,8 @@ Across400 training traces, structural checks identify8 cases with a shared compo
     case_text += diagnostic_table + r'''
 The scoped candidate activates on16/400 training cases, fixes5 and regresses1, but loses one correct answer on each proposal task. The other candidates also fail the declared per-task gate. They are executable researcher repairs, not accepted autonomous RSI updates. The frozen main-table actor therefore remains unchanged. These positive and negative examples are training illustrations, not independent clinical validation.
 '''
-    rows = []
-    for method, label in [('retrieval_conditional_tool', 'Case retrieval + order tool'), ('rxrsi_selected', 'Supervised artifact agent'), ('word_char_ensemble', 'Word/character ensemble + tool')]:
-        metrics = mimic['methods'][method]
-        rows.append(label + ' & ' + ' & '.join(f"{100*metrics[k]['mean']:.2f}" for k in ('drug_precision', 'drug_recall', 'drug_f1', 'core4_f1', 'order5_f1')) + r'\\')
-    order_table = table('Separate historical MIMIC-IV order task, locally recounted from frozen predictions across three seeds. These are earlier supervised/retrieval pipelines, not current RxRSIAgent results. Core4 matches drug/route/dose/unit; Order5 adds frequency and is a post hoc descriptive endpoint. Only60.20\% of reference order rows have all five fields; tuple scores use complete observed labels.', 'tab:historical-orders', 'lrrrrr', 'Historical method & Drug P (\%) & Drug R (\%) & Drug F1 (\%) & Core4 F1 (\%) & Order5 F1 (\%)', rows)
     task_text = r'''
-\subsection{Choice reasoning versus complete prescription prediction}
-The three main public resources score supplied answer options: RxSafeBench is three-way choice, public RxQA is four-way choice, and MedPIC includes single- and multiple-answer items. Their accuracies are not prescription coverage. For a predicted drug set$P$ and recorded reference$G$, recall is$|P\cap G|/|G|$ and precision is$|P\cap G|/|P|$. Both must accompany F1, Jaccard, omissions, extras and prescription size. An extra relative to recorded treatment is not automatically clinically inappropriate. Joint order matching and reference-field completeness must be reported separately from drug identity.
-
-Completed earlier local work on MIMIC-IV3.1 predicts newly entered or changed orders in the six hours after an admission-plus-six-hour decision, with patient-disjoint40,000/2,000/2,000/1,082 training/proposal/guard/test admissions. The test contains1,024 patients. Prescriptions are linked to provider/pharmacy entry times; inputs exclude future results and untimed discharge diagnoses. The initial128 normalized-name vocabulary is fixed, with out-of-vocabulary targets retained in recall. A local recount of three seeds reproduces every original drug/core4 F1 and additionally computes frequency-inclusive order agreement. No restricted records are sent to an external provider.
-'''
-    task_text += order_table + r'''
-A separate retrospective completed-visit study has271 ATC-L4 classes,18,429 training visits and2,422 reserved test visits. Its NDC mapping covers only27.23\% of selected prescription rows; molecular comparisons use a different219-class panel. Author-method implementations have audited development results, but the full final comparison remains unfinished. Completed-visit codes are not decision-time observations. These historical pipelines remain separate from the new local RxRSIAgent experiment and do not establish unrestricted prescribing ability.
+\subsection{Choice reasoning versus prescription prediction}
+The public choice benchmarks have distinct endpoints: RxSafeBench is three-way choice, public RxQA is four-way choice, and MedPIC includes single- and multiple-answer items. Their accuracies are not prescription coverage. For a predicted drug set $P$ and recorded reference $G$, recall is $|P\cap G|/|G|$ and precision is $|P\cap G|/|P|$. Both accompany F1, Jaccard, omissions, extras and prescription size. Core4 matches drug, route, dose and unit jointly; Core5 additionally matches frequency. Tuple agreement uses complete observed labels and is reported with field completeness. An extra relative to recorded treatment is not automatically clinically inappropriate. The following local evaluation predicts the full recorded target set within a fixed six-hour window; it does not infer the entire hospitalization regimen.
 '''
     return case_text, task_text

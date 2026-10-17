@@ -1,6 +1,5 @@
 {
-  "complete": false,
-  "active": "flame_adapter",
+  "complete": true,
   "history": [
     {
       "stage": "declare_diagnostics",
@@ -61,6 +60,56 @@
       "stage": "run_final_suite-llama",
       "exit_code": 0,
       "seconds": 3032.8349039554596
+    },
+    {
+      "stage": "flame_adapter",
+      "exit_code": 0,
+      "seconds": 6231.565485239029
+    },
+    {
+      "stage": "audit_results",
+      "exit_code": 0,
+      "seconds": 2.8023171424865723
+    },
+    {
+      "stage": "private_cases",
+      "exit_code": 0,
+      "seconds": 0.05084371566772461
+    },
+    {
+      "stage": "skemex_state_audit",
+      "exit_code": 0,
+      "seconds": 0.1813030242919922
+    },
+    {
+      "stage": "format_replay",
+      "exit_code": 0,
+      "seconds": 0.81429123878479
+    },
+    {
+      "stage": "route_evidence_trial",
+      "exit_code": 0,
+      "seconds": 372.83730602264404
+    },
+    {
+      "stage": "report",
+      "exit_code": 0,
+      "seconds": 0.07135701179504395
+    },
+    {
+      "stage": "make_figures",
+      "exit_code": 0,
+      "seconds": 1.2878599166870117
+    },
+    {
+      "stage": "provenance",
+      "exit_code": 0,
+      "seconds": 2.6905131340026855
+    },
+    {
+      "stage": "route_evidence_trial-guard",
+      "exit_code": 0,
+      "invocation": "Additional fixed-tool paired guard verification; run separately after proposal results"
     }
   ],
   "failed_attempts": [
@@ -68,6 +117,15 @@
       "stage": "skemex_adapter",
       "exit_code": 1,
       "seconds": 221.11350917816162
+    },
+    {
+      "stage": "report",
+      "exit_code": 1,
+      "seconds": 0.04425692558288574
     }
-  ]
+  ],
+  "api_cost_usd": 0,
+  "paper_compile_and_git_sync_pending": false,
+  "additional_guard_validation_pending": false,
+  "publication_ready": true
 }
