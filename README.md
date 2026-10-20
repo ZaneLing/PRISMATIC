@@ -1,6 +1,12 @@
 # RxRSIAgent — PRISMATIC research repository
 
-## Current evidence — 2026-10-17
+## Current repair pilot — 2026-10-20
+
+Candidate coverage loss is attributed to the 128-name vocabulary and top-24 truncation. The repaired updater now changes candidate recall, evidence tools and conditional procedural memory. Three-round studies compare local and aggregate-only stronger proposers on the same 72 training admissions, with a separate 48-admission exploratory audit. New paid API spend: USD 0.085203 / USD 10. These pilot scores do not replace the full 1,082-admission table.
+
+- [中文修复结果](upgrade_v51/RESULTS.zh.md) · [English repair results](upgrade_v51/RESULTS.en.md) · [Code and protocol](upgrade_v51/README.md).
+
+## Complete-cohort evidence — 2026-10-17
 
 **New complete local MIMIC-IV experiment: 1,082 admissions. RxRSIAgent drug F1 7.19%; Core4 F1 4.22%.** The corrected-interface trajectory retains 0 conditional update(s); paired intervals, component ablations and frozen-state transfer are reported. This is a catalogue-constrained local Qwen3-4B prescription adapter.
 
@@ -14,7 +20,7 @@ SafeRx-Agent is a limited independent task adaptation; SkeMex executes the pinne
 
 Public QA remains RxSafe 491/988 (49.70%), RxQA 196/300 (65.33%), and MedPIC 274/467 (58.67%). The QA learner retains no change. Historical supervised calibration is a separate control.
 
-**Incremental paid API spend: USD 0 / USD 10 authorized.** Restricted records, raw responses, private case studies and checkpoints stay local. Local compute is unpriced; historical located response expenditure remains about USD 89.53. Older queues remain paused.
+**The complete-cohort local experiment incurred USD 0 in API charges; the new repair pilot cost is reported above.** Restricted records, raw responses, private case studies and checkpoints stay local. Local compute is unpriced; historical located response expenditure remains about USD 89.53. Older queues remain paused.
 
 ---
 

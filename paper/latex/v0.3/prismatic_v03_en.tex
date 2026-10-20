@@ -328,7 +328,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Prescription agents need patient-applicable evidence and experience updates that transfer beyond their training cases. We introduce RxRSIAgent, a three-call workflow with label retrieval, source-bound checks and a trace--reflection--intervention loop. A development gate controls updates to scoped procedures and bounded tool configurations. We distinguish accepted state changes from researcher repairs and supervised calibration. The frozen agent answers 491/988 RxSafeBench and 196/300 public RxQA questions. It does not exceed the strongest completed controls on both tasks. The final state retains 0 procedural cards. We also test 467 independently sourced medication-safety questions and probe patient-context and option-position sensitivity. A local catalogue-constrained adapter is evaluated on 1,082 MIMIC-IV admissions: drug F1 changes from 7.19\% to 7.19\% after development retains 0 conditional update(s). We report rejected updates and regressions as well as corrections. The experiments measure reference agreement and update reliability, not clinical prescribing effectiveness or autonomous improvement of model weights.
+Prescription agents need patient-applicable evidence and experience updates that transfer beyond their training cases. We introduce RxRSIAgent, a three-call workflow with label retrieval, source-bound checks and a trace--reflection--intervention loop. A development gate controls updates to scoped procedures and bounded tool configurations. We distinguish accepted state changes from researcher repairs and supervised calibration. The frozen agent answers 491/988 RxSafeBench and 196/300 public RxQA questions. It does not exceed the strongest completed controls on both tasks. The QA state retains 0 procedural cards. We also test 467 independently sourced medication-safety questions and probe patient-context and option-position sensitivity. A local catalogue-constrained adapter is evaluated on 1,082 MIMIC-IV admissions: drug F1 changes from 7.19\% to 7.19\% after development retains 0 conditional update(s). A separate 72-case updater pilot retains 2 skills and changes drug F1 from 7.21\% to 16.96\% on 48 historically exposed audit admissions. A uniform complete-array decoding replay yields 16.10\% drug F1 for the same retained state; this engineering change is not RSI. We report rejected updates and regressions as well as corrections. The experiments measure reference agreement and update reliability, not clinical prescribing effectiveness or autonomous improvement of model weights.
 \end{abstract}
 
 \section{Introduction}
@@ -449,7 +449,7 @@ RxRSIAgent answers 491/988 (49.70\%) on RxSafe and 196/300 (65.33\%) on RxQA. Ag
 The supervised control remains 556/988 on RxSafe and 199/300 on RxQA. Its calibration is applied in 527 RxSafe cases and no RxQA cases, fixing 118 and regressing 34 relative to its underlying source agent. A post hoc name-only diagnostic reaches 564/988; this does not replace a preselected method and does not establish patient-specific reasoning. We therefore keep its gain separate from the procedural learner.
 
 \subsection{Do more cases produce useful state changes?}
-Across the final four-round experiment,0 updates are retained. Initial-to-final changes are 0 fixes/0 regressions on RxSafe and 0/0 on RxQA. The memory, retrieval configuration and vocabulary remain unchanged; accumulation of root records therefore does not demonstrate successful agent evolution.
+Across the final four-round QA experiment,0 updates are retained. Initial-to-final changes are 0 fixes/0 regressions on RxSafe and 0/0 on RxQA. The memory, retrieval configuration and vocabulary remain unchanged; accumulation of root records therefore does not demonstrate successful agent evolution.
 Detailed updater controls and frozen-state trajectories are reported in Appendix~\ref{app:updates}.
 
 On the independent task the final state scores 274/467 (58.67\%):193/284 guideline-following and 81/183 counterfactual, with both members correct in 3/35 strict pairs. The initial state scores 274/467. These are identical states sharing cached predictions. A flat curve provides no evidence of positive transfer.
@@ -515,6 +515,8 @@ FLAME released list policy \citep{flame} & 16.06 & 9.59 & 6.66\\
 \bottomrule\end{tabular}
 \end{table*}
 Six rounds process 144 new reflection cases and retain 0 changes. Initial and retained drug F1 are 7.19\% and 7.19\%; no positive evolution is established. The frozen state is also evaluated on all 1,082 cases with Llama-3.2-3B. Appendix~\ref{app:local} reports every round, module counts, transfer outcomes and interventions.
+\paragraph{Expanded updater pilot.} A separate 72-case updater pilot retains 2 skills and changes drug F1 from 7.21\% to 16.96\% on 48 historically exposed audit admissions. A uniform complete-array decoding replay yields 16.10\% drug F1 for the same retained state; this engineering change is not RSI. Static tool controls and frozen-state transfer distinguish learned changes from supervised-source access (Appendix~\ref{app:bounded}). These pilot results do not replace the full-cohort comparison.
+
 
 
 \section{Clinical Scope and Limitations}
@@ -523,7 +525,7 @@ QA agreement does not measure complete treatment coverage, omissions, unnecessar
 Repeated main-benchmark exposure, reused development cohorts, small local backbones and hosted-provider nondeterminism limit inference. A model's root explanation is a hypothesis, even when quotations are valid. Sparse or inconsistent feedback can yield unsupported procedures. Context terms may overgeneralize, and natural-language counterexamples are not formally validated clinical exclusions. Label coverage, exact provenance and numeric comparisons do not establish complete applicability; missing formulations, strengths, units and temporal treatment context remain limitations. Equal output allowance does not equal compute, information or supervision. The two local backbones test a limited transfer question, not model-independent benefit. This work studies feedback-guided agent-state updates; it does not establish autonomous recursive improvement of model weights or tool code.
 
 \section{Conclusion}
-RxRSIAgent connects accumulated errors to observable trace hypotheses, scoped interventions and explicit retention decisions. Ordinary supervised option calibration is kept separate. The current trajectory does not demonstrate positive procedural evolution or superiority on both main tasks. On the local order task, 0 conditional update(s) are retained; the measured drug-F1 change is +0.00 points, with a 95\% interval [+0.00, +0.00].  Independent patient-conditioned evaluation and transparent failure accounting remain necessary before claiming progressively better prescribing.
+RxRSIAgent connects accumulated errors to observable trace hypotheses, scoped interventions and explicit retention decisions. Ordinary supervised option calibration is kept separate. The QA trajectory does not demonstrate positive procedural evolution or superiority on both choice tasks. The expanded local updater is evaluated separately against static tools on a small exploratory audit; state changes alone do not establish transferable clinical learning. In the full-cohort restricted-interface study, 0 conditional update(s) are retained; the measured drug-F1 change is +0.00 points, with a 95\% interval [+0.00, +0.00].  Independent patient-conditioned evaluation and transparent failure accounting remain necessary before claiming progressively better prescribing.
 
 \section*{Ethics and Reproducibility}
 Only public benchmark material is sent to the external provider in these experiments. Restricted clinical records, credentials, raw responses and downloaded label bodies remain local. Public artifacts include source pins, code, aggregate results, state hashes and rejected gates. Source and response receipts support independent recounts. These research outputs are not autonomous clinical prescriptions.
@@ -668,7 +670,7 @@ A training-only controlled experiment keeps 48 patients, catalogue contents and 
 These findings separate candidate coverage, decision selection, observed information and joint-field assembly. Recorded actions do not reveal every physician rationale or a unique optimal regimen. Patient-level before/after cases remain in the restricted artifact; only aggregates are published.
 
 \paragraph{Incremental expenditure.}
-All new patient inference, reflection and embeddings run locally, with zero paid model API requests against the USD 10 incremental allowance. Local compute is not monetized. Output allowances are matched for local actors; total input use, learning computation and pretrained supervision are not identical. FLAME component results remain separately qualified. An engine probe changes the final selection in 2/16 development cases when prefill batch size changes from 2 to 8; that optimization is rejected. The retained engine uses prefill batch 2 and completion batch 8. Greedy quantized decoding remains batch-sensitive, and cached requests reuse their first recorded responses.
+For the full-cohort comparison, patient inference, reflection and embeddings run locally, with zero paid model API requests. The separate expanded-updater pilot reports its aggregate-only proposer expenditure in Appendix~\ref{app:bounded}. Local compute is not monetized. Output allowances are matched for local actors; total input use, learning computation and pretrained supervision are not identical. FLAME component results remain separately qualified. An engine probe changes the final selection in 2/16 development cases when prefill batch size changes from 2 to 8; that optimization is rejected. The retained engine uses prefill batch 2 and completion batch 8. Greedy quantized decoding remains batch-sensitive, and cached requests reuse their first recorded responses.
 \begin{table*}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
 \caption{Predeclared component diagnostic on 128 hash-selected test admissions. All arms and membership were fixed before corrected-interface test inference, after prior literal-schema scores were observed; no checkpoint is selected from this diagnostic. The intervention separates card text from executable fact-scope configuration.}
@@ -695,6 +697,81 @@ SkeMex \citep{skemex} & Seven heterogeneous medical-reasoning endpoints, DeepSee
 These descriptive endpoints concern the current local actor, not clinical appropriateness. Recorded prescriptions expose clinician actions, not their complete reasoning or a uniquely appropriate regimen. Agreement should therefore be supplemented by treatment-goal coverage, acceptable alternatives and clinician edit burden. Establishing a workflow mechanism requires changing a stage while holding cases and resources fixed, observing intermediate changes, and confirming corrections without regressions on independent cases. Patient-condition overgeneralization and harmful memory are already studied by MedPIC, GRASP and SkeMex \citep{medpic,grasp,skemex}; we do not claim those broad phenomena as new discoveries. No neural-circuit mechanism is established here.
 
 
+\section{Executable Failure-Driven Updates}\label{app:bounded}
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[>=Stealth,box/.style={draw,rounded corners,align=center,text width=3.0cm,minimum height=1.0cm,font=\small},arrow/.style={->,thick}]
+\node[box] (cases) at (0,0) {Training cases\\Available inputs + local GT};
+\node[box] (actor) at (4,0) {Local prescription actor\\Plan, evidence, orders};
+\node[box] (errors) at (8,0) {Stage error ledger\\All seen cases, typed counts};
+\node[box] (reflect) at (12,0) {Aggregate-only proposer\\No patient records};
+\node[box] (memory) at (0,-2) {Versioned skill memory\\Accepted conditions + actions};
+\node[box] (gates) at (4,-2) {Measured gates\\Execution, training, development};
+\node[box] (compile) at (8,-2) {Typed skill compiler\\Root/action contract + exceptions};
+\node[box] (proposal) at (12,-2) {Proposed process change\\Tool configuration + instruction};
+\draw[arrow] (cases)--(actor);\draw[arrow] (actor)--(errors);\draw[arrow] (errors)--(reflect);
+\draw[arrow] (reflect)--(proposal);\draw[arrow] (proposal)--(compile);\draw[arrow] (compile)--(gates);\draw[arrow] (gates)--(memory);
+\draw[arrow] (memory.north) to[out=90,in=180] (actor.west);
+\draw[arrow,dashed] (gates.south) -- (4,-3.0) -- (-2,-3.0) -- (-2,1.0) -| (errors.north);
+\end{tikzpicture}
+\caption{Expanded RxRSIAgent update loop. Dashed feedback records rejected edits as well as accepted ones. GT remains local and is used for training/development feedback; audit outcomes never select updates. Executable operators are researcher implemented, while scoped instructions and tool-use choices are proposed by the updater.}
+\label{fig:boundedupdates}
+\end{figure*}
+\paragraph{Action-space attribution.} The 51.62\% candidate recall is a property of our preprocessing, not an official MIMIC catalogue. A frequency vocabulary retains 128 normalized raw names from the first 8,000 training admissions; a classifier trained on 40,000 admissions selects 24 candidates per case. Of 3,799 target drug instances in the full evaluation cohort, 717 are outside the vocabulary and 1,121 are inside it but pruned by top-24 selection; only 1,961 remain reachable. Vocabulary coverage alone is 81.13\%. Raw-name normalization does not harmonize RxNorm ingredients or equivalent formulations.
+\paragraph{Bounded repair interface.} The expanded updater can select 48 classifier candidates, retrieve additional names from 16 training neighbours excluding the same patient, filter evidence by declared source route, diversify the two excerpts across drugs, check all observed facts, apply temporal reconciliation, or consult the already frozen classifier draft. Typed applicability and exclusion scopes execute at runtime. Numeric observations in counterexamples are separated from operative dose instructions. Before development evaluation, a candidate must change an execution stage and at least one training output. An interrupted development attempt, preserved before any audit inference, exposed attribution of candidate omission to fact checking. The amended interface enforces root/operator compatibility and prioritizes the earliest failure stage. Unchecked-fact counts are process observations, not prescription errors, and a training agreement gain is required before development evaluation. Every seen training case contributes cumulative error counts; six stage-stratified illustrations and the complete edit-outcome ledger enter reflection. A Sonnet 4.6 proposer receives only aggregate error counts, typed state descriptions and edit outcomes; patient records, drug names and individual laboratory values remain local. The Qwen actor executes proposed procedural instructions and operator configurations. A separate local-Qwen proposer control reuses the same 72 cases; these runs do not constitute 144 distinct examples or same-model self-reflection. Proposer model and feedback granularity both differ, precluding an isolated model-quality attribution. The underlying operators, model weights and joint order templates are fixed; this is bounded procedural adaptation, not autonomous code invention or weight training. The same 40,000-admission supervised resource supports all candidate variants and already includes these 72 reflection cases; they are newly presented to the reflector, not previously unseen supervision for the entire system.
+\paragraph{Schema repair disclosure.} Development logs exposed two false rejections: cross-stage explanatory prose was treated as a root conflict, and a single-proposal JSON wrapper was not normalized. After correction, the previously rejected third-round proposal was executed and failed the training-gain requirement. An earlier audit-inference attempt was interrupted without reading or selecting on its scores; the original failed records are preserved. Local-proposer replay verifies unchanged metrics after the schema repair and is not extra learning.
+\paragraph{Context specialization.} An optional typed adapter accepts multiple explicitly documented problem categories only when their recorded availability precedes the decision; untimed, future and merely suspected entries are excluded. It does not infer diagnoses or map ICD codes. Current cases lack this field. Overlapping renal, glucose/electrolyte, hematology, liver and blood-gas measurement groups provide observable routing. They denote available tests, not diagnosed disease or abnormal values. No disease is inferred from a prior medication and no discharge diagnosis enters the actor. Both retained skills apply globally; no disease-specific skill is retained. Disease-specific learning requires verified contemporaneous diagnoses and remains untested here.
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Expanded updater pilot on 72 training, 24 proposal, 32 guard and 48 historically exposed audit admissions. Error-memory growth is not a performance endpoint. All retained states are frozen before audit inference; identical states reuse predictions.}
+\label{tab:boundedtrajectory}
+\begin{tabular}{@{}rrrrrr@{}}\toprule
+Round & Seen & Error memory & Skills & Drug F1 & Core4 F1\\\midrule
+0 & 0 & 0 & 0 & 7.21 & 3.87\\
+1 & 24 & 24 & 1 & 16.04 & 8.83\\
+2 & 48 & 48 & 2 & 16.96 & 9.22\\
+3 & 72 & 72 & 2 & 16.96 & 9.22\\
+\bottomrule\end{tabular}
+\end{table*}\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Same 48-case exploratory audit. The fixed repair bundle is researcher specified; Llama receives the frozen Qwen-learned state without tuning. LLM actors share three calls and 128/128/96 output caps, but wider catalogues increase input length; the top-eight tool uses no LLM calls.}
+\label{tab:boundedcontrols}
+\begin{tabular}{@{}lrr@{}}\toprule
+Method & Drug F1 & Core4 F1\\\midrule
+Qwen initial & 7.21 & 3.87\\
+Qwen / local-proposer retained & 6.96 & 2.67\\
+Qwen RxRSIAgent retained & 16.96 & 9.22\\
+Qwen static repair bundle & 14.25 & 8.13\\
+Qwen static ranked draft & 12.74 & 7.18\\
+Frozen top-eight tool (no LLM) & 17.81 & 10.44\\
+Llama initial & 6.13 & 3.94\\
+Llama transferred state & 10.16 & 7.44\\
+\bottomrule\end{tabular}
+\end{table*}
+The retained state contains 2 skills. The patient-bootstrap drug-F1 difference interval is [3.44, 15.58] points for Qwen and [-1.55, 9.67] for transferred Llama. These small, historically exposed audits do not replace the full-cohort main table or establish monotonic improvement, clinical safety, or a confirmatory RSI result. New paid API expenditure is USD 0.085203; local compute is unpriced.
+
+\paragraph{Predictive-source attribution.} 98.79\% of final predictions and 97.37\% of correct drugs lie inside the frozen top-eight draft. This quantifies access to an existing supervised resource, not newly learned pharmacology or elimination of drug-name priors.
+
+\paragraph{Reference-relative trade-off.} Drug recall rises from 6.00\% to 19.00\%, while extra predictions per admission rise from 2.52 to 4.38. The F1 gate does not constrain this absolute extra-order count. Newly recovered targets all lie within the original catalogue; none is recovered from outside it. Expansion changes ordering and evidence as well as reachability, so its gain does not isolate improved candidate recall. Reference discrepancies are not clinical-harm labels.
+
+The no-LLM frozen predictor obtains 17.81\% drug F1 versus 16.96\% for the retained agent. Improvement over the initial actor therefore does not establish superiority to the supervised tool.
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Uniform post hoc decoding replay: accept complete JSON arrays of known catalogue identifiers without completing truncated output. Original learned states and gates are unchanged; this is engineering, not a new RSI trajectory.}
+\label{tab:decodercompat}
+\begin{tabular}{@{}lrrrr@{}}\toprule
+Method & Restored & Original F1 & Replay F1 & Replay Core4\\\midrule
+qwen\_initial & 0 & 7.21 & 7.21 & 3.87\\
+qwen\_retained & 5 & 16.96 & 16.10 & 8.78\\
+qwen\_static\_bundle & 2 & 14.25 & 14.74 & 7.94\\
+qwen\_static\_draft & 0 & 12.74 & 12.74 & 7.18\\
+llama\_initial & 0 & 6.13 & 6.13 & 3.94\\
+llama\_transferred & 0 & 10.16 & 10.16 & 7.44\\
+\bottomrule\end{tabular}
+\end{table*}\paragraph{Output-decoder limitation.} Five complete Qwen identifier arrays lack only the outer \texttt{order\_ids} object. The original strict decoder discards them. A compatible runtime adapter accepts complete, catalogue-valid arrays; no drug is invented and no additional inference is used. Uniform replay restores 24 extra drug predictions with no new GT hit, reducing final drug F1 from 16.96\% to 16.10\% and Core4 F1 from 9.22\% to 8.78\%. The frozen-state drug-F1 sequence becomes 7.21, 16.04, 16.10, 16.10; Core4 becomes 3.87, 8.83, 8.78, 8.78. Thus the original decoder conceals some reference-relative overprediction, and even the second-round joint-field gain disappears. The replay does not rerun learning gates or demonstrate their validity under the changed decoder. Future learning must use one decoder consistently throughout.
+\paragraph{Failure-case scope.} Restricted training illustrations distinguish unavailable target drugs, omitted available targets, and correct drug identities with incorrect joint fields. New intervention improvements and regressions are retained locally. These strata motivate different repairs; candidate widening cannot itself fix wrong joint dose templates. Patient records and generated clinical text are not published.
+
+
 \section{Compute and Audit Details}
 \begin{table*}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
@@ -715,7 +792,8 @@ RxRSIAgent & MedPIC & 7,539,443 & 496,556 & 1.473\\
 \end{table*}
 The new audit checks31,401 exact source spans across 1,895 distinct saved evaluation rows. The shared new successful-response ledger increment for updater development and evaluation is USD 22.371. Cross-process locks protect identical model requests. Source failures, query limits and incomplete clinical checks are retained as limitations.
 \paragraph{Cumulative response expenditure.}
-The located successful-response costs across the upgrade studies total approximately USD 89.53: USD 87.79774 in 171,219 shared-ledger events, plus USD 1.72911--1.73405 in legacy records. The narrow range reflects ambiguous identical pilot/full-run records, not bounds on unrecorded charges. Cached rereads are not added; separately logged repeated requests are retained. Six legacy records lack prices, and failed requests, local compute, earlier unrecorded work and account adjustments remain unreconciled. This is provider-reported receipt cost, not an invoice. Previously reported study increments are already included. The audit itself performs no model calls.
+Before the current repair pilot, the located successful-response costs across the upgrade studies total approximately USD 89.53: USD 87.79774 in 171,219 shared-ledger events, plus USD 1.72911--1.73405 in legacy records. The narrow range reflects ambiguous identical pilot/full-run records, not bounds on unrecorded charges. Cached rereads are not added; separately logged repeated requests are retained. Six legacy records lack prices, and failed requests, local compute, earlier unrecorded work and account adjustments remain unreconciled. This is provider-reported receipt cost, not an invoice. Previously reported study increments are already included. The audit itself performs no model calls.
+ The current aggregate-proposer repair pilot adds USD 0.085203 in separate receipts; it is excluded from the historical total above.
 
 \section{Clinical Endpoints Awaiting Annotation}
 \begin{table*}[t]\centering\small

@@ -45,3 +45,9 @@
 - 之前报告的 22.370971562 美元和最近修复的 3.19195587 美元**已经包含在共享账本中**，不要再加。各方法的“逻辑成本”包含复用响应，也不能累加为真实新支出。
 
 更新方式：实验结束后依次运行 `python paper/audit_total_spend.py` 和 `python paper/report_total_spend.py`，保留快照时间和来源哈希。
+
+<!-- UPDATER_REPAIR_COST -->
+
+## 2026-10-20 updater repair increment
+
+本轮新增提案 API 账单 USD 0.085203，在授权 USD 10 内；与此前已定位约 USD 89.53 的账单分开计量。本地 Qwen/Llama 计算时间未计价。费用证据为 `upgrade_v51/results/cost.json`；提案请求只发送汇总统计，没有患者记录。

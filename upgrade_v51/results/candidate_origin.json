@@ -1,0 +1,15 @@
+{
+  "test_instances": {
+    "gold": 3799,
+    "covered": 1961,
+    "outside_vocabulary": 717,
+    "inside_vocabulary_pruned": 1121
+  },
+  "vocabulary_recall": 0.8112661226638589,
+  "top24_recall": 0.5161884706501711,
+  "vocabulary_size": 128,
+  "vocabulary_source": "128 most frequent normalized raw names in initial 8000 training admissions",
+  "ranking_source": "OneVsRestClassifier fit on 40000 training admissions; highest 24 scores per case",
+  "normalization": "lowercase/trimmed raw drug strings, NOT RxNorm ingredient identity; brand/formulation fragmentation remains",
+  "selection_uses_test_labels": false
+}

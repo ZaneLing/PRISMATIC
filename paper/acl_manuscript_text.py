@@ -148,6 +148,8 @@ The earlier eight language-memory updates all failed the proposal stage; no guar
 @@LOCAL_PRESCRIPTION_DETAILS@@
 @@PRESCRIPTION_GAP@@
 
+@@BOUNDED_REPAIRS@@
+
 \section{Compute and Audit Details}
 @@COMPUTE_TABLE@@
 @@AUDIT_DETAILS@@

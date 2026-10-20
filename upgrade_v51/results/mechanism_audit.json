@@ -1,0 +1,44 @@
+{
+  "complete": true,
+  "audit_cases": 48,
+  "methods": {
+    "initial": {
+      "predicted": 133,
+      "true_positives": 12,
+      "predicted_inside_draft": 61,
+      "true_positives_inside_draft": 7,
+      "true_positives_outside_draft": 5,
+      "draft_instances": 384,
+      "gt_instances": 200,
+      "gt_outside_actual_catalogue": 103,
+      "precision": 0.09022556390977443,
+      "recall": 0.06,
+      "missed_gt_per_admission": 3.9166666666666665,
+      "extra_vs_gt_per_admission": 2.5208333333333335,
+      "fraction_predictions_inside_draft": 0.45864661654135336,
+      "fraction_correct_drugs_inside_draft": 0.5833333333333334,
+      "draft_retention": 0.15885416666666666
+    },
+    "retained": {
+      "predicted": 248,
+      "true_positives": 38,
+      "predicted_inside_draft": 245,
+      "true_positives_inside_draft": 37,
+      "true_positives_outside_draft": 1,
+      "draft_instances": 384,
+      "gt_instances": 200,
+      "gt_outside_actual_catalogue": 65,
+      "precision": 0.1532258064516129,
+      "recall": 0.19,
+      "missed_gt_per_admission": 3.375,
+      "extra_vs_gt_per_admission": 4.375,
+      "fraction_predictions_inside_draft": 0.9879032258064516,
+      "fraction_correct_drugs_inside_draft": 0.9736842105263158,
+      "draft_retention": 0.6380208333333334
+    }
+  },
+  "newly_recovered_gt_instances": 30,
+  "recovered_from_outside_original_catalogue": 0,
+  "lost_gt_instances": 4,
+  "interpretation": "Quantifies uptake of a fixed supervised source. It does not prove new disease-specific knowledge, clinical appropriateness, or elimination of drug-name priors. No audit outcome selects a state."
+}

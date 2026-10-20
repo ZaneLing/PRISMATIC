@@ -1,3 +1,21 @@
+## Latest repair pilot: 2026-10-20
+
+Candidate loss is decomposed: 18.87% of GT drug instances are outside the 128-name vocabulary and 29.51% are inside it but pruned by top24. Repairs add executable candidate/evidence actions, explicit conditions and exceptions, root/action compatibility, no-op checks and cumulative reflection.
+
+Three rounds reuse 72 reflection admissions; proposal24, guard32, post-freeze audit48. The stronger aggregate proposer retains 2 skills. Audit drug F1: 7.21% → 16.96%; Core4: 3.87% → 9.22%.
+
+After uniform complete-array decoding replay, final drug F1 is 16.10%. Five restored outputs add no GT hits. This engineering repair is separate from the original learning result; states are not reselected.
+
+The local-proposer control retains 1 skills. Static-tool and Llama-transfer controls are complete. This small historically exposed audit does not replace the 1,082-admission main table below or prove monotonic/clinical improvement. Growing error memory is not itself capability growth.
+
+New API cost: USD 0.085203 / 10. Only aggregate statistics reach the proposer; patient records remain local.
+
+[完整修复结果 / Repair results](../upgrade_v51/RESULTS.en.md) · [逐轮记录 / Trajectory](../upgrade_v51/results/cloud/trajectory.json) · [代码与复现 / Code](../upgrade_v51/README.md)
+
+---
+
+<!-- REPAIR_PILOT_END -->
+
 # RxRSIAgent: current experimental evidence
 
 Updated 2026-10-17. Local order results below are new; public-QA results remain unchanged.

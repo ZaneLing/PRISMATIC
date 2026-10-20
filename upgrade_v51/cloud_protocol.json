@@ -1,0 +1,24 @@
+{
+  "declared_at": 1792461177.1671731,
+  "motivation": "The local 4B proposer continues to conflate error-instance counts with patient counts and introduces unsupported context exclusions. Compare an aggregate-only stronger proposer under the same repaired actor/operators/gates.",
+  "model": "anthropic/claude-sonnet-4.6",
+  "pricing_per_million_usd": {
+    "input": 3,
+    "output": 15
+  },
+  "pricing_verified_at": "https://openrouter.ai/api/v1/models",
+  "training_cases": "Same 72 cases and same three rounds; reused development, NOT additional unique cases",
+  "proposer_sent_fields": [
+    "aggregate error counts",
+    "aggregate context-group counts",
+    "typed tool definitions",
+    "typed state structure",
+    "aggregate edit outcomes"
+  ],
+  "patient_rows_sent": 0,
+  "clinical_values_sent": 0,
+  "budget_usd_total_cap": 10,
+  "reserved_max_per_request_usd": 0.25,
+  "audit_selection": false,
+  "not_same_model_self_reflection": "Separate stronger proposer; local Qwen actor and tools remain unchanged."
+}

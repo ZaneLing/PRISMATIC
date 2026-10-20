@@ -1,6 +1,10 @@
 # RxRSIAgent: manuscript and evidence index
 
-Target: ACL 2027. Updated 2026-10-17. Only the English ACL manuscript is maintained, in its original editor path.
+Target: ACL 2027. Updated 2026-10-20. Only the English ACL manuscript is maintained, in its original editor path.
+
+## Latest updater repair
+
+[Chinese results](../upgrade_v51/RESULTS.zh.md) · [English results](../upgrade_v51/RESULTS.en.md) · [Frozen round trajectory](../upgrade_v51/results/cloud/trajectory.json). The 48-case exploratory pilot is separate from the full-cohort table; it includes a local-proposer control, static repair bundle and cross-model transfer.
 
 ## Read first
 
@@ -20,7 +24,7 @@ Target: ACL 2027. Updated 2026-10-17. Only the English ACL manuscript is maintai
 | Transfer | Local order subsection | Frozen memory, Qwen to Llama, all 1,082 cases |
 | Failure mechanisms | Cases and intervention paragraphs | Format failures, candidate coverage, fact scope, evidence removal, position sensitivity |
 | Earlier public QA | Named-agent table and independent task | RxSafe, RxQA, MedPIC; unchanged QA state |
-| Costs | Appendix and local expenditure | USD 0 new paid API spend; approximately USD 89.53 historical receipts |
+| Costs | Appendix and local expenditure | USD 0.085203 new proposer API spend; approximately USD 89.53 historical receipts |
 
 Local prescription drug/Core4 F1 is 7.19/4.22%. Acceptance and measured test improvement are separate claims. Clinical effectiveness, full author-method superiority and model-independent benefit are not established. Restricted case-level examples remain local.
 

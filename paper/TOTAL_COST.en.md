@@ -45,3 +45,9 @@ The main ledger has 169,877 distinct request signatures and 1,342 additional eve
 - USD 22.370971562 for the trace-learning study and USD 3.19195587 for recent failure repairs are **already included** in the shared ledger. Do not add them again. Method-level logical costs include reused responses and cannot be summed as new spending.
 
 Rerun `python paper/audit_total_spend.py` followed by `python paper/report_total_spend.py` after experiments finish. Report the snapshot and source hashes with every update.
+
+<!-- UPDATER_REPAIR_COST -->
+
+## 2026-10-20 updater repair increment
+
+Provider-reported proposer receipts: USD 0.085203, within the USD 10 authorization. This increment is additional to the earlier approximately USD 89.53 located receipts. Local Qwen/Llama compute is unpriced. Aggregate-only requests are audited in `upgrade_v51/results/cost.json`; no patient records were sent.

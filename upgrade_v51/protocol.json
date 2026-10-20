@@ -1,0 +1,40 @@
+{
+  "declared_at": 1792460082.413255,
+  "task": "MIMIC-IV recorded-availability new/change orders, 6-12h",
+  "train": 72,
+  "rounds": 3,
+  "new_cases_per_round": 24,
+  "proposal": 24,
+  "guard": 32,
+  "audit": "historically exposed fixed first 48 test admissions, only evaluated after all states frozen; no audit-driven retry",
+  "scope": "Exploratory engineering and bounded procedural evolution pilot; not new full benchmark superiority claim",
+  "repair_operators": [
+    "candidate_wide48",
+    "candidate_retrieval48",
+    "evidence_route",
+    "evidence_diverse",
+    "fact_all",
+    "temporal_reconcile",
+    "ranked_draft"
+  ],
+  "learned_objects": "LLM-generated scoped procedural instructions plus executable tool configuration; cumulative error ledger; no model weight or autonomous tool-code edits",
+  "max_proposals_per_round": 2,
+  "gate": "positive training agreement and semantic/execution effect, then strict proposal average(drugF1,Core4F1) increase; neither guard endpoint decreases; no-op execution and unchanged training outputs rejected first",
+  "common_output_caps": [
+    128,
+    128,
+    96
+  ],
+  "model": "local Qwen3-4B 4bit",
+  "budget_usd_cap": 10,
+  "api_calls": 0,
+  "clinical_safety_validated": false,
+  "context_groups": "multi-label available lab types, never inferred diagnoses; historical discharge ICD excluded",
+  "held_fixed": [
+    "candidate training resource 40000 admissions",
+    "backbone weights",
+    "source label snapshot",
+    "three-call actor structure"
+  ],
+  "amendment": "After first-round and second-round proposal inspection, before any audit inference: separate process counts from prescription errors, enforce causal root/operator compatibility and earliest-stage repair, add access to already frozen predictive draft. Preserve interrupted attempt1, no audit score used."
+}
