@@ -135,3 +135,7 @@ Cosine retrieval and logistic timing blocks include proposal search and guard pr
 The runs use CPU and Apple MPS concurrently. Summed method timers are resource-activity measurements under contention, not one continuous elapsed wall clock or an isolated speed leaderboard. This analysis creates no fits, model requests or test predictions. It reconstructs saved receipts and binds the source hashes; it is not an independent compute profiler. Exact budgets are matched within each registered intervention, while heterogeneous method comparisons disclose their distinct search and fitting costs.
 
 [Machine-readable receipts and source hashes](compute_accounting.json) · [Common method study](../upgrade_v27/RESULTS.en.md) · [Common test extension](../upgrade_v30/COMMON_TEST.en.md)
+
+## Order-memory audit / 订单级记忆实验
+
+New local calls: 512; input/output tokens 937,139/70,649; summed amortized batch seconds 1522.78. New API spend USD0; local compute unpriced. Standing USD10 cap: USD0.085203 previously spent, USD9.914797 remains. This is separate from approximately USD89.53 historical located response spend.

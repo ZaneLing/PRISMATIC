@@ -1,6 +1,11 @@
 # RxRSIAgent: manuscript and evidence index
 
-## Latest: conditional skills on new eICU patients
+## Latest: order-specific memory and fresh-patient retention — 2026-10-21
+
+256 new eICU patients, two local backbones, three six-round case orders. Retained rules reduce extras but do not jointly reduce all three errors; learned clinical exceptions remain absent. [中文结果](../upgrade_v53/RESULTS.zh.md) · [English results](../upgrade_v53/RESULTS.en.md) · [Research and code](../upgrade_v53/README.md). API spend USD0; clinical review pending.
+
+
+## Previous: conditional skills on new eICU patients
 
 [中文结果](../upgrade_v52/RESULTS.zh.md) · [English results](../upgrade_v52/RESULTS.en.md) · [Claim status](RXRSI_PROOF_STATUS.en.md). Six rounds and two case orders induce conditional pruning rules, but the held-out audit loses correct targets; effective exceptions and joint improvement remain unproved. The default research runtime rolls back the learned memory. The original English ACL source includes the architecture, controls, full round table and negative findings; it compiles successfully.
 

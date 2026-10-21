@@ -135,3 +135,7 @@ v27 六种规则方法共享每轮监督拟合。v29 七种方法也共享拟合
 CPU 与 Apple MPS 上有多个任务并行运行。各方法计时之和反映共享硬件下的活动时间，不是连续经过的墙钟时间，也不能作为独占设备速度排名。本次核算没有新增拟合、模型请求或测试预测；它重建已有回执并绑定源哈希，不是独立计算性能剖析。每个已登记干预内部按其协议匹配预算，异构方法之间分别披露搜索与拟合开销。
 
 [Machine-readable receipts and source hashes](compute_accounting.json) · [Common method study](../upgrade_v27/RESULTS.zh.md) · [Common test extension](../upgrade_v30/COMMON_TEST.zh.md)
+
+## Order-memory audit / 订单级记忆实验
+
+New local calls: 512; input/output tokens 937,139/70,649; summed amortized batch seconds 1522.78. New API spend USD0; local compute unpriced. Standing USD10 cap: USD0.085203 previously spent, USD9.914797 remains. This is separate from approximately USD89.53 historical located response spend.

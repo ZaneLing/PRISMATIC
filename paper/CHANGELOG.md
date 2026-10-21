@@ -216,3 +216,7 @@ Delivered [v0.5 executed results](../upgrade_v5/RESULTS.en.md) and the [architec
 - Evaluated four candidates; none passes development acceptance. Frozen main actor unchanged.
 - Recounted old MIMIC-IV precision/recall and frequency-inclusive order agreement locally across three seeds; no new restricted-data inference.
 - Clarified choice versus prescription endpoints; updated and compiled the original English ACL source.
+
+## 2026-10-21 — order-specific memory, retention and appropriateness preparation
+
+Added primary-source research, drug-specific executable program induction, training-backed joint-template amendment,256 new patients on both local backbones, three frozen case orders, raw feedback replay and scope controls. Retained5/4/4 deletion rules with no empirical exceptions; stronger claim remains unsupported. Added partial source-based preflight and32-patient/two-reviewer blinded packages (no annotations). Fixed contract fallback stays opt-in after observed trade-offs. English ACL source updated in place and compiled; bilingual results and local case studies delivered.

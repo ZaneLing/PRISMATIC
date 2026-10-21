@@ -1,6 +1,11 @@
 # RxRSIAgent — PRISMATIC research repository
 
-## Latest new-patient study — 2026-10-21
+## Latest: order-specific memory and fresh-patient retention — 2026-10-21
+
+256 new eICU patients, two local backbones, three six-round case orders. Retained rules reduce extras but do not jointly reduce all three errors; learned clinical exceptions remain absent. [中文结果](upgrade_v53/RESULTS.zh.md) · [English results](upgrade_v53/RESULTS.en.md) · [Research and code](upgrade_v53/README.md). API spend USD0; clinical review pending.
+
+
+## Previous new-patient study — 2026-10-21
 
 Completed192 feedback patients over6 rounds,256 new eICU audit patients,128-patient Llama transfer and704 local calls. The compatible-runtime learner changes drug F1 **7.38% → 7.20%** and loses6 correct targets; no explicit exception is retained. The learned memory is **not promoted**. New API spend: **USD0**. This does not establish the desired three-endpoint prescribing improvement.
 

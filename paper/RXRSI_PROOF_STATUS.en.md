@@ -1,20 +1,28 @@
-# RxRSIAgent evidence status
+# Current prescription RSI evidence
 
-## Compatible runtime, regated learning and current decision
+**The full hypothesis remains unsupported.** This is a completed experiment, not a promised result. Three case orders retain5,4,4 rules, all deletions and none with empirical exception clauses. The first prespecified stream changes Qwen drug F1 from 6.61% to 6.65%; Llama changes from 4.58% to 4.64%. A gain in F1 or fewer extra tuples does not establish simultaneous improvement in all three errors.
 
-Complete JSON with a mixture of known and unknown IDs previously lost the entire output. The compatible runtime retains only verified IDs, logs unknown IDs, accepts complete fenced JSON, and never completes a truncated structure. It restores nonempty outputs for8 Qwen audit patients and13 Llama patients. **All development gates were rerun using this same decoder before audit metrics**, rather than attributing an output-parser change to learned improvement. No new LLM inference was needed.
+## Design and scope
 
-| Method | Drug F1 % | Native4 F1 % | Missed/patient | Extra/patient | Joint errors/patient |
+[Full results / 完整结果](../upgrade_v53/RESULTS.en.md) · [Research / 调研](../upgrade_v53/RESEARCH.en.md) · [Review / 评审](../upgrade_v53/REVIEW_PROTOCOL.en.md)
+
+| Backbone / method | Drug F1 % | Native4 F1 % | Missed / patient ↓ | Extra / patient ↓ | Joint discrepancy / patient ↓ |
 |---|---:|---:|---:|---:|---:|
-| Fixed Qwen, compatible runtime | 7.38 | 1.64 | 1.152 | 7.184 | 7.035 |
-| RxRSIAgent, compatible runtime + gated memory | 7.20 | 1.60 | 1.176 | 6.773 | 6.723 |
-| Reflection-label shuffle, true development gates | 7.32 | 1.49 | 1.172 | 6.746 | 6.707 |
-| Static all repairs, compatible runtime | 7.48 | 1.12 | 1.227 | 5.148 | 5.512 |
-| Fixed Llama, compatible runtime (128) | 3.17 | 0.37 | 1.156 | 9.352 | 8.305 |
-| Llama + transferred memory, compatible runtime (128) | 3.24 | 0.38 | 1.156 | 9.102 | 8.172 |
-
-The compatible learner also loses6 correct drug targets; the omission-rate difference95% interval is [0.0078, 0.0430] per patient. 6 patients worsen on at least one primary component. A lower summed error count must not conceal these trade-offs. The reflection-label-shuffle control permutes **only reflection labels**; proposal and guard references remain correct, so it does not eliminate development supervision. After decoder repair it also retains3 rules. This weakens attribution to patient-specific reflection learning.
-
-**The strong hypothesis is not established.** We observed automatic conditional rule selection, but no accepted explicit exception, no recovery of a previously missed correct drug, and no jointly improving three-endpoint trajectory. The current catalogue reaches only54.21% of target drugs and11.30% of complete target order tuples. No bounded selector can recover a target absent from its action space. The next scientific target is order-level applicability and joint-field construction with independently verified evidence, followed by a new patient lock; this audit is now exposed and must not be reused as unseen confirmation.
-
-The learned memory is **not promoted**. `serve.py` uses the compatible initial actor by default; `--experimental-memory` reproduces the failed memory for research. This rollback does not retrospectively change the frozen result table or count as a positive evolution result.
+| qwen / Frozen LLM agent | 6.61 | 1.49 | 1.516 | 6.980 | 7.223 |
+| qwen / Fixed contract fallback (not RSI) | 6.60 | 1.49 | 1.516 | 6.992 | 7.234 |
+| qwen / RxRSIAgent / order53 | 6.65 | 1.44 | 1.523 | 6.707 | 6.969 |
+| qwen / RxRSIAgent / order153 | 6.63 | 1.43 | 1.523 | 6.727 | 6.980 |
+| qwen / RxRSIAgent / order253 | 6.63 | 1.43 | 1.523 | 6.727 | 6.980 |
+| qwen / Frozen supervised draft | 14.14 | 2.98 | 1.598 | 1.059 | 2.289 |
+| qwen / Raw feedback correction replay | 5.94 | 1.31 | 1.555 | 6.734 | 7.086 |
+| qwen / Learned actions without conditions | 6.23 | 1.21 | 1.562 | 6.082 | 6.371 |
+| qwen / Shuffled reflection feedback | 6.60 | 1.33 | 1.527 | 6.652 | 6.969 |
+| llama / Frozen LLM agent | 4.58 | 0.73 | 1.605 | 7.188 | 7.387 |
+| llama / Fixed contract fallback (not RSI) | 6.72 | 1.30 | 1.488 | 7.625 | 7.684 |
+| llama / RxRSIAgent / order53 | 4.64 | 0.75 | 1.605 | 7.066 | 7.270 |
+| llama / RxRSIAgent / order153 | 4.63 | 0.74 | 1.605 | 7.090 | 7.293 |
+| llama / RxRSIAgent / order253 | 4.63 | 0.75 | 1.605 | 7.082 | 7.285 |
+| llama / Frozen supervised draft | 14.14 | 2.98 | 1.598 | 1.059 | 2.289 |
+| llama / Raw feedback correction replay | 4.27 | 0.54 | 1.625 | 6.965 | 7.254 |
+| llama / Learned actions without conditions | 4.21 | 0.69 | 1.637 | 6.535 | 6.789 |
+| llama / Shuffled reflection feedback | 4.56 | 0.64 | 1.609 | 7.059 | 7.289 |

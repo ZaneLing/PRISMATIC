@@ -33,3 +33,7 @@ v52的576位患者（192反思、64提案、64守门、256审计）现已暴露�
 **模型成绩待执行。** 两套共同测试核验完成后，评估器对相同不可变预测分别计算保留组与排除组结果，报告所有已选择方法、种子波动和描述性患者聚类区间，不新增拟合、API调用或检查点选择。
 
 [Registered protocol](prior_case_exclusion_protocol.json) · [Registry aggregates](exposure_registry.json) · [Independent membership audit](exposure_registry_audit.json)
+
+## Additional new-patient audit (order memory)
+
+All256 prismatic-v53 audit patients are now exposed. They are disjoint from the frozen v25 cohort and all576 v52 members. Future independent patient studies must exclude v25, v52 and v53 membership. The reused192/64/64 v52 development sets are not new. Hospital independence is not claimed.

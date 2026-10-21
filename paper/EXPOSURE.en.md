@@ -33,3 +33,7 @@ This registry covers the named PRISMATIC MIMIC-IV history. It does not establish
 **Performance results remain pending.** After both common-test audits pass, the evaluator regrades their exact immutable predictions on the retained and excluded groups, reporting every selected method with seed variation and descriptive patient-cluster intervals. No new fitting, API call or checkpoint selection occurs.
 
 [Registered protocol](prior_case_exclusion_protocol.json) · [Registry aggregates](exposure_registry.json) · [Independent membership audit](exposure_registry_audit.json)
+
+## Additional new-patient audit (order memory)
+
+All256 prismatic-v53 audit patients are now exposed. They are disjoint from the frozen v25 cohort and all576 v52 members. Future independent patient studies must exclude v25, v52 and v53 membership. The reused192/64/64 v52 development sets are not new. Hospital independence is not claimed.

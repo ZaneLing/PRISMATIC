@@ -1,0 +1,34 @@
+{
+  "feedback_only": {
+    "usable_templates": 2,
+    "stages": {
+      "remove:reflection_pass": 1094,
+      "remove:proposal_pass": 457
+    },
+    "proposal_rejection_components": {
+      "remove:no_error_change": 594,
+      "remove:missed_increased": 43
+    },
+    "field_repair_execution_trace": {}
+  },
+  "training_backed": {
+    "usable_templates": 125,
+    "stages": {
+      "remove:reflection_pass": 1094,
+      "remove:proposal_pass": 457,
+      "replace:reflection_pass": 14
+    },
+    "proposal_rejection_components": {
+      "remove:no_error_change": 594,
+      "remove:missed_increased": 43,
+      "replace:no_error_change": 14
+    },
+    "field_repair_execution_trace": {
+      "condition_not_met": 787,
+      "condition_met_target_drug_absent": 97,
+      "changed": 12,
+      "changed_without_error_change": 12
+    }
+  },
+  "analysis": "All192 reflection patients and empty starting memory; not a newly tuned trajectory. Failures may count in multiple components."
+}

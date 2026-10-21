@@ -1,3 +1,7 @@
+## Latest: order-specific prescription memory / 最新订单级记忆实验
+
+[完整结果 / Full results](../upgrade_v53/RESULTS.en.md) · [研究更新 / Research](../upgrade_v53/RESEARCH.en.md). 256 new patients; Qwen F1 6.61% → 6.65%, Llama 4.58% → 4.64%;5/4/4 deletion rules and0 learned exception clauses. Three-error joint improvement and clinical appropriateness remain unproved.
+
 ## Latest repair pilot: 2026-10-20
 
 <!-- V52:START -->
