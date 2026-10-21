@@ -454,5 +454,41 @@
     "all_eligible_repeat_patients": 8905,
     "all_allocated_patients": 8905
   },
-  "coverage": "Named PRISMATIC MIMIC-IV family membership only; no guarantee about undocumented use or model pretraining. Reconstructed early samples lack original membership digests; exact source and reconstruction hashes are retained."
+  "coverage": "Named PRISMATIC MIMIC-IV family membership only; no guarantee about undocumented use or model pretraining. Reconstructed early samples lack original membership digests; exact source and reconstruction hashes are retained.",
+  "additional_eicu_studies": {
+    "v52": {
+      "status": "audit_complete_and_exposed",
+      "recorded_at_utc": "2026-10-21T10:38:52.724205+00:00",
+      "private_membership": "private/prismatic-v52/members.parquet",
+      "membership_sha256": "81255cec313a28c3ce6f500fc7dd71b104bc5cd937a298330362354b64cdefce",
+      "splits": {
+        "reflection": {
+          "patients": 192,
+          "multi": 96,
+          "zero_target": 94,
+          "hospitals": 66
+        },
+        "proposal": {
+          "patients": 64,
+          "multi": 32,
+          "zero_target": 23,
+          "hospitals": 10
+        },
+        "guard": {
+          "patients": 64,
+          "multi": 32,
+          "zero_target": 28,
+          "hospitals": 9
+        },
+        "audit": {
+          "patients": 256,
+          "multi": 128,
+          "zero_target": 135,
+          "hospitals": 15
+        }
+      },
+      "prior_v25_patient_overlap": 0,
+      "future_exclusion_required": true
+    }
+  }
 }

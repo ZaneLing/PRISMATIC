@@ -1,0 +1,632 @@
+{
+  "seed": 52,
+  "componentwise_counterexamples": true,
+  "rejection_memory": true,
+  "states": [
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "operator": "prune_unsupported",
+        "when": "dx:gastrointestinal",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+        "round": 4,
+        "training_cases_seen": 128,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 19,
+        "negative_training": 109
+      }
+    ],
+    [
+      {
+        "operator": "prune_unsupported",
+        "when": "dx:gastrointestinal",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+        "round": 4,
+        "training_cases_seen": 128,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 19,
+        "negative_training": 109
+      }
+    ],
+    [
+      {
+        "operator": "prune_unsupported",
+        "when": "dx:gastrointestinal",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+        "round": 4,
+        "training_cases_seen": 128,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 19,
+        "negative_training": 109
+      }
+    ]
+  ],
+  "history": [
+    {
+      "round": 1,
+      "seen": 32,
+      "skills": 0,
+      "training_qualified_candidates": 16,
+      "proposal_pass": 9,
+      "guard_attempts": [
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "labs_present",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -38,
+            -33
+          ],
+          "active_training": 30,
+          "negative_training": 2,
+          "helpful_training": 22,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -93,
+            -53
+          ],
+          "guard_delta": [
+            2,
+            -100,
+            -69
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:cardiovascular",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -24,
+            -21
+          ],
+          "active_training": 19,
+          "negative_training": 13,
+          "helpful_training": 13,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -55,
+            -31
+          ],
+          "guard_delta": [
+            2,
+            -57,
+            -35
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "multi",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -16,
+            -14
+          ],
+          "active_training": 14,
+          "negative_training": 18,
+          "helpful_training": 9,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -52,
+            -29
+          ],
+          "guard_delta": [
+            1,
+            -50,
+            -31
+          ]
+        }
+      ],
+      "cached_rejections_skipped": 0,
+      "rejected_memory_entries": 3,
+      "accepted": null
+    },
+    {
+      "round": 2,
+      "seen": 64,
+      "skills": 0,
+      "training_qualified_candidates": 24,
+      "proposal_pass": 14,
+      "guard_attempts": [
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "prior_present",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -94,
+            -72
+          ],
+          "active_training": 62,
+          "negative_training": 2,
+          "helpful_training": 51,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -99,
+            -57
+          ],
+          "guard_delta": [
+            1,
+            -97,
+            -67
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "single",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -60,
+            -47
+          ],
+          "active_training": 37,
+          "negative_training": 27,
+          "helpful_training": 33,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -49,
+            -29
+          ],
+          "guard_delta": [
+            1,
+            -54,
+            -41
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:pulmonary",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -27,
+            -19
+          ],
+          "active_training": 19,
+          "negative_training": 45,
+          "helpful_training": 14,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -34,
+            -18
+          ],
+          "guard_delta": [
+            1,
+            -33,
+            -22
+          ]
+        }
+      ],
+      "cached_rejections_skipped": 3,
+      "rejected_memory_entries": 6,
+      "accepted": null
+    },
+    {
+      "round": 3,
+      "seen": 96,
+      "skills": 0,
+      "training_qualified_candidates": 21,
+      "proposal_pass": 15,
+      "guard_attempts": [
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "prior_present",
+            "unless": [
+              "dx:renal"
+            ]
+          },
+          "training_delta": [
+            0,
+            -125,
+            -97
+          ],
+          "active_training": 75,
+          "negative_training": 21,
+          "helpful_training": 67,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 2,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -77,
+            -43
+          ],
+          "guard_delta": [
+            1,
+            -74,
+            -54
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "labs_present",
+            "unless": [
+              "dx:renal"
+            ]
+          },
+          "training_delta": [
+            0,
+            -119,
+            -90
+          ],
+          "active_training": 72,
+          "negative_training": 24,
+          "helpful_training": 64,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 2,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -75,
+            -42
+          ],
+          "guard_delta": [
+            2,
+            -75,
+            -55
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:cardiovascular",
+            "unless": [
+              "dx:renal"
+            ]
+          },
+          "training_delta": [
+            0,
+            -64,
+            -54
+          ],
+          "active_training": 37,
+          "negative_training": 59,
+          "helpful_training": 33,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 2,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -42,
+            -24
+          ],
+          "guard_delta": [
+            2,
+            -38,
+            -25
+          ]
+        }
+      ],
+      "cached_rejections_skipped": 2,
+      "rejected_memory_entries": 9,
+      "accepted": null
+    },
+    {
+      "round": 4,
+      "seen": 128,
+      "skills": 1,
+      "training_qualified_candidates": 21,
+      "proposal_pass": 15,
+      "guard_attempts": [
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "multi",
+            "unless": [
+              "dx:renal"
+            ]
+          },
+          "training_delta": [
+            0,
+            -62,
+            -48
+          ],
+          "active_training": 37,
+          "negative_training": 91,
+          "helpful_training": 32,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 2,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -30,
+            -15
+          ],
+          "guard_delta": [
+            1,
+            -26,
+            -18
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:gastrointestinal",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -29,
+            -22
+          ],
+          "active_training": 19,
+          "negative_training": 109,
+          "helpful_training": 16,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -16,
+            -9
+          ],
+          "guard_delta": [
+            0,
+            -9,
+            -7
+          ]
+        }
+      ],
+      "cached_rejections_skipped": 5,
+      "rejected_memory_entries": 10,
+      "accepted": {
+        "operator": "prune_unsupported",
+        "when": "dx:gastrointestinal",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+        "round": 4,
+        "training_cases_seen": 128,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 19,
+        "negative_training": 109
+      }
+    },
+    {
+      "round": 5,
+      "seen": 160,
+      "skills": 1,
+      "training_qualified_candidates": 27,
+      "proposal_pass": 15,
+      "guard_attempts": [
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "prior_present",
+            "unless": [
+              "dx:renal"
+            ]
+          },
+          "training_delta": [
+            0,
+            -197,
+            -150
+          ],
+          "active_training": 127,
+          "negative_training": 33,
+          "helpful_training": 104,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 2,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -74,
+            -42
+          ],
+          "guard_delta": [
+            1,
+            -73,
+            -53
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "labs_present",
+            "unless": [
+              "dx:renal"
+            ]
+          },
+          "training_delta": [
+            0,
+            -193,
+            -144
+          ],
+          "active_training": 125,
+          "negative_training": 35,
+          "helpful_training": 102,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 2,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -72,
+            -41
+          ],
+          "guard_delta": [
+            2,
+            -74,
+            -54
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "single",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -126,
+            -99
+          ],
+          "active_training": 80,
+          "negative_training": 80,
+          "helpful_training": 67,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -47,
+            -28
+          ],
+          "guard_delta": [
+            1,
+            -54,
+            -41
+          ]
+        }
+      ],
+      "cached_rejections_skipped": 0,
+      "rejected_memory_entries": 13,
+      "accepted": null
+    },
+    {
+      "round": 6,
+      "seen": 192,
+      "skills": 1,
+      "training_qualified_candidates": 28,
+      "proposal_pass": 15,
+      "guard_attempts": [
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:cardiovascular",
+            "unless": [
+              "dx:renal"
+            ]
+          },
+          "training_delta": [
+            0,
+            -147,
+            -114
+          ],
+          "active_training": 90,
+          "negative_training": 102,
+          "helpful_training": 77,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 2,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -41,
+            -25
+          ],
+          "guard_delta": [
+            2,
+            -37,
+            -24
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:pulmonary",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -92,
+            -69
+          ],
+          "active_training": 57,
+          "negative_training": 135,
+          "helpful_training": 47,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -34,
+            -18
+          ],
+          "guard_delta": [
+            1,
+            -32,
+            -20
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "multi",
+            "unless": [
+              "dx:renal"
+            ]
+          },
+          "training_delta": [
+            0,
+            -100,
+            -73
+          ],
+          "active_training": 63,
+          "negative_training": 129,
+          "helpful_training": 52,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 2,
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "proposal_delta": [
+            0,
+            -29,
+            -15
+          ],
+          "guard_delta": [
+            1,
+            -25,
+            -17
+          ]
+        }
+      ],
+      "cached_rejections_skipped": 3,
+      "rejected_memory_entries": 16,
+      "accepted": null
+    }
+  ],
+  "states_sha256": "4c323da3d5f54fd7dba934246c894e75411eeffb69000ae654490ed865938826",
+  "audit_used_for_selection": false
+}

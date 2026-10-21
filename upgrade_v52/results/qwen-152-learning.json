@@ -1,0 +1,817 @@
+{
+  "seed": 152,
+  "shuffled_feedback": false,
+  "backbone": "qwen",
+  "states": [
+    [],
+    [],
+    [],
+    [
+      {
+        "operator": "prune_unsupported",
+        "when": "dx:gastrointestinal",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 3,
+        "training_cases_seen": 96,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 13,
+        "negative_training": 83
+      }
+    ],
+    [
+      {
+        "operator": "prune_unsupported",
+        "when": "dx:gastrointestinal",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 3,
+        "training_cases_seen": 96,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 13,
+        "negative_training": 83
+      },
+      {
+        "operator": "prune_unsupported",
+        "when": "dx:burns/trauma",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 4,
+        "training_cases_seen": 128,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 5,
+        "negative_training": 123
+      }
+    ],
+    [
+      {
+        "operator": "prune_unsupported",
+        "when": "dx:gastrointestinal",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 3,
+        "training_cases_seen": 96,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 13,
+        "negative_training": 83
+      },
+      {
+        "operator": "prune_unsupported",
+        "when": "dx:burns/trauma",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 4,
+        "training_cases_seen": 128,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 5,
+        "negative_training": 123
+      },
+      {
+        "operator": "prune_unsupported",
+        "when": "labs_missing",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 5,
+        "training_cases_seen": 160,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 6,
+        "negative_training": 154
+      }
+    ],
+    [
+      {
+        "operator": "prune_unsupported",
+        "when": "dx:gastrointestinal",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 3,
+        "training_cases_seen": 96,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 13,
+        "negative_training": 83
+      },
+      {
+        "operator": "prune_unsupported",
+        "when": "dx:burns/trauma",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 4,
+        "training_cases_seen": 128,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 5,
+        "negative_training": 123
+      },
+      {
+        "operator": "prune_unsupported",
+        "when": "labs_missing",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 5,
+        "training_cases_seen": 160,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 6,
+        "negative_training": 154
+      }
+    ]
+  ],
+  "history": [
+    {
+      "round": 1,
+      "seen": 32,
+      "skills": 0,
+      "training_qualified_candidates": 10,
+      "proposal_pass": 7,
+      "guard_attempts": [
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:cardiovascular",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -31,
+            -23
+          ],
+          "active_training": 18,
+          "negative_training": 14,
+          "helpful_training": 16,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -55,
+            -31
+          ],
+          "guard_delta": [
+            2,
+            -57,
+            -35
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "multi",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -17,
+            -10
+          ],
+          "active_training": 11,
+          "negative_training": 21,
+          "helpful_training": 9,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -52,
+            -29
+          ],
+          "guard_delta": [
+            1,
+            -50,
+            -31
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "single",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -40,
+            -29
+          ],
+          "active_training": 21,
+          "negative_training": 11,
+          "helpful_training": 21,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -49,
+            -29
+          ],
+          "guard_delta": [
+            1,
+            -54,
+            -41
+          ]
+        }
+      ],
+      "accepted": null,
+      "training_errors": [
+        18,
+        216,
+        187
+      ],
+      "proposal_errors": [
+        79,
+        434,
+        367
+      ],
+      "guard_errors": [
+        111,
+        427,
+        396
+      ]
+    },
+    {
+      "round": 2,
+      "seen": 64,
+      "skills": 0,
+      "training_qualified_candidates": 15,
+      "proposal_pass": 11,
+      "guard_attempts": [
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "labs_present",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -104,
+            -72
+          ],
+          "active_training": 62,
+          "negative_training": 2,
+          "helpful_training": 56,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -93,
+            -53
+          ],
+          "guard_delta": [
+            2,
+            -100,
+            -69
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:cardiovascular",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -58,
+            -43
+          ],
+          "active_training": 35,
+          "negative_training": 29,
+          "helpful_training": 31,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -55,
+            -31
+          ],
+          "guard_delta": [
+            2,
+            -57,
+            -35
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "multi",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -48,
+            -29
+          ],
+          "active_training": 30,
+          "negative_training": 34,
+          "helpful_training": 26,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -52,
+            -29
+          ],
+          "guard_delta": [
+            1,
+            -50,
+            -31
+          ]
+        }
+      ],
+      "accepted": null,
+      "training_errors": [
+        41,
+        425,
+        381
+      ],
+      "proposal_errors": [
+        79,
+        434,
+        367
+      ],
+      "guard_errors": [
+        111,
+        427,
+        396
+      ]
+    },
+    {
+      "round": 3,
+      "seen": 96,
+      "skills": 1,
+      "training_qualified_candidates": 13,
+      "proposal_pass": 8,
+      "guard_attempts": [
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "single",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -78,
+            -61
+          ],
+          "active_training": 47,
+          "negative_training": 49,
+          "helpful_training": 41,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -49,
+            -29
+          ],
+          "guard_delta": [
+            1,
+            -54,
+            -41
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:pulmonary",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -57,
+            -40
+          ],
+          "active_training": 33,
+          "negative_training": 63,
+          "helpful_training": 29,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -34,
+            -18
+          ],
+          "guard_delta": [
+            1,
+            -33,
+            -22
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:gastrointestinal",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -21,
+            -16
+          ],
+          "active_training": 13,
+          "negative_training": 83,
+          "helpful_training": 12,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -16,
+            -9
+          ],
+          "guard_delta": [
+            0,
+            -9,
+            -7
+          ]
+        }
+      ],
+      "accepted": {
+        "operator": "prune_unsupported",
+        "when": "dx:gastrointestinal",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 3,
+        "training_cases_seen": 96,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 13,
+        "negative_training": 83
+      },
+      "training_errors": [
+        80,
+        616,
+        576
+      ],
+      "proposal_errors": [
+        79,
+        418,
+        358
+      ],
+      "guard_errors": [
+        111,
+        418,
+        389
+      ]
+    },
+    {
+      "round": 4,
+      "seen": 128,
+      "skills": 2,
+      "training_qualified_candidates": 18,
+      "proposal_pass": 11,
+      "guard_attempts": [
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "single",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -95,
+            -77
+          ],
+          "active_training": 63,
+          "negative_training": 65,
+          "helpful_training": 50,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -47,
+            -28
+          ],
+          "guard_delta": [
+            1,
+            -54,
+            -41
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:pulmonary",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -72,
+            -52
+          ],
+          "active_training": 43,
+          "negative_training": 85,
+          "helpful_training": 37,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -34,
+            -18
+          ],
+          "guard_delta": [
+            1,
+            -32,
+            -20
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:burns/trauma",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -8,
+            -7
+          ],
+          "active_training": 5,
+          "negative_training": 123,
+          "helpful_training": 4,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -10,
+            -7
+          ],
+          "guard_delta": [
+            0,
+            -8,
+            -5
+          ]
+        }
+      ],
+      "accepted": {
+        "operator": "prune_unsupported",
+        "when": "dx:burns/trauma",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 4,
+        "training_cases_seen": 128,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 5,
+        "negative_training": 123
+      },
+      "training_errors": [
+        110,
+        834,
+        789
+      ],
+      "proposal_errors": [
+        79,
+        408,
+        351
+      ],
+      "guard_errors": [
+        111,
+        410,
+        384
+      ]
+    },
+    {
+      "round": 5,
+      "seen": 160,
+      "skills": 3,
+      "training_qualified_candidates": 17,
+      "proposal_pass": 10,
+      "guard_attempts": [
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "single",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -126,
+            -100
+          ],
+          "active_training": 79,
+          "negative_training": 81,
+          "helpful_training": 66,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -45,
+            -28
+          ],
+          "guard_delta": [
+            1,
+            -54,
+            -40
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:pulmonary",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -84,
+            -63
+          ],
+          "active_training": 51,
+          "negative_training": 109,
+          "helpful_training": 43,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -33,
+            -16
+          ],
+          "guard_delta": [
+            1,
+            -32,
+            -21
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "labs_missing",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -12,
+            -11
+          ],
+          "active_training": 6,
+          "negative_training": 154,
+          "helpful_training": 6,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -8,
+            -6
+          ],
+          "guard_delta": [
+            0,
+            -3,
+            -3
+          ]
+        }
+      ],
+      "accepted": {
+        "operator": "prune_unsupported",
+        "when": "labs_missing",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 5,
+        "training_cases_seen": 160,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 6,
+        "negative_training": 154
+      },
+      "training_errors": [
+        135,
+        1058,
+        993
+      ],
+      "proposal_errors": [
+        79,
+        400,
+        345
+      ],
+      "guard_errors": [
+        111,
+        407,
+        381
+      ]
+    },
+    {
+      "round": 6,
+      "seen": 192,
+      "skills": 3,
+      "training_qualified_candidates": 19,
+      "proposal_pass": 8,
+      "guard_attempts": [
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "single",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -151,
+            -115
+          ],
+          "active_training": 96,
+          "negative_training": 96,
+          "helpful_training": 81,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -45,
+            -28
+          ],
+          "guard_delta": [
+            1,
+            -54,
+            -40
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:pulmonary",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -92,
+            -69
+          ],
+          "active_training": 57,
+          "negative_training": 135,
+          "helpful_training": 47,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -33,
+            -16
+          ],
+          "guard_delta": [
+            1,
+            -32,
+            -21
+          ]
+        },
+        {
+          "card": {
+            "operator": "prune_unsupported",
+            "when": "dx:endocrine",
+            "unless": []
+          },
+          "training_delta": [
+            0,
+            -46,
+            -30
+          ],
+          "active_training": 29,
+          "negative_training": 163,
+          "helpful_training": 24,
+          "harmful_training": 0,
+          "empirical_harmful_exceptions": 0,
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "proposal_delta": [
+            0,
+            -7,
+            -3
+          ],
+          "guard_delta": [
+            1,
+            -13,
+            -9
+          ]
+        }
+      ],
+      "accepted": null,
+      "training_errors": [
+        176,
+        1244,
+        1193
+      ],
+      "proposal_errors": [
+        79,
+        400,
+        345
+      ],
+      "guard_errors": [
+        111,
+        407,
+        381
+      ]
+    }
+  ],
+  "states_sha256": "2b786e9013b43e87af4776d992e09d94b6a31e3a895340ce40499acf383e6ad7",
+  "audit_used_for_selection": false
+}

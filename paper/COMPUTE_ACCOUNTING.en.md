@@ -1,5 +1,9 @@
 # Compute accounting for the common medication-method study
 
+## New local study — 2026-10-21
+
+704 successful local calls;1,312,065 input tokens and81,438 output tokens;new API spend USD0. The current USD10 authorization has USD0.085203 in earlier proposer receipts. Local compute is unpriced. Compatible decoding, gated replay and the cached runtime integration add0 generation calls.
+
 ## 1. What is matched
 
 Within each ATC-L4 panel, methods use the same patient partitions and label space. Author neural methods each receive 50 full epochs over 18,429 training visits, or 921,450 visit exposures. Their batch sizes, optimizer steps, parameter counts and devices differ. The 50-epoch budget therefore supports a matched exposure comparison; FLOPs and training duration are reported separately where recorded.

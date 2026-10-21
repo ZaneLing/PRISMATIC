@@ -1,0 +1,1530 @@
+{
+  "status": "completed_exploratory_amendment",
+  "original_primary_replaced": false,
+  "audit_used_for_selection": false,
+  "variants": {
+    "qwen-refined-52": {
+      "final": {
+        "all": {
+          "cases": 256,
+          "missed_drugs_per_patient": 1.1875,
+          "extra_drugs_per_patient": 6.7265625,
+          "joint_errors_per_patient": 6.74609375,
+          "drug_f1": 0.06978879706152434,
+          "joint_f1": 0.011448196908986834,
+          "recall": 0.2,
+          "precision": 0.042269187986651836,
+          "counts": [
+            304,
+            1722,
+            1727,
+            76,
+            1798,
+            380,
+            10,
+            1393,
+            354
+          ],
+          "empty_fraction": 0.04296875,
+          "target_complete_field_coverage": 0.7937219730941704
+        },
+        "strata": {
+          "single": {
+            "cases": 128,
+            "missed_drugs_per_patient": 1.046875,
+            "extra_drugs_per_patient": 6.59375,
+            "joint_errors_per_patient": 6.6875,
+            "drug_f1": 0.07561436672967864,
+            "joint_f1": 0.013824884792626729,
+            "recall": 0.22988505747126436,
+            "precision": 0.04524886877828054,
+            "counts": [
+              134,
+              844,
+              856,
+              40,
+              884,
+              174,
+              6,
+              703,
+              165
+            ],
+            "empty_fraction": 0.0234375,
+            "target_complete_field_coverage": 0.8009708737864077
+          },
+          "multi": {
+            "cases": 128,
+            "missed_drugs_per_patient": 1.328125,
+            "extra_drugs_per_patient": 6.859375,
+            "joint_errors_per_patient": 6.8046875,
+            "drug_f1": 0.06428571428571428,
+            "joint_f1": 0.009101251422070534,
+            "recall": 0.17475728155339806,
+            "precision": 0.03938730853391685,
+            "counts": [
+              170,
+              878,
+              871,
+              36,
+              914,
+              206,
+              4,
+              690,
+              189
+            ],
+            "empty_fraction": 0.0625,
+            "target_complete_field_coverage": 0.7875
+          },
+          "zero_target": {
+            "cases": 135,
+            "missed_drugs_per_patient": 0.0,
+            "extra_drugs_per_patient": 7.42962962962963,
+            "joint_errors_per_patient": 5.659259259259259,
+            "drug_f1": 0.0,
+            "joint_f1": 0.0,
+            "recall": 0.0,
+            "precision": 0.0,
+            "counts": [
+              0,
+              1003,
+              764,
+              0,
+              1003,
+              0,
+              0,
+              764,
+              0
+            ],
+            "empty_fraction": 0.05185185185185185,
+            "target_complete_field_coverage": 0.0
+          },
+          "nonzero_target": {
+            "cases": 121,
+            "missed_drugs_per_patient": 2.512396694214876,
+            "extra_drugs_per_patient": 5.9421487603305785,
+            "joint_errors_per_patient": 7.958677685950414,
+            "drug_f1": 0.12936170212765957,
+            "joint_f1": 0.02034587995930824,
+            "recall": 0.2,
+            "precision": 0.09559748427672957,
+            "counts": [
+              304,
+              719,
+              963,
+              76,
+              795,
+              380,
+              10,
+              629,
+              354
+            ],
+            "empty_fraction": 0.03305785123966942,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        "paired95": {
+          "missed_drugs_per_patient": [
+            0.00390625,
+            0.03125
+          ],
+          "extra_drugs_per_patient": [
+            -0.3125,
+            -0.1640625
+          ],
+          "joint_errors_per_patient": [
+            -0.23046875,
+            -0.109375
+          ],
+          "drug_f1_pp": [
+            -0.523715802326635,
+            0.12722138815252104
+          ],
+          "joint_f1_pp": [
+            -0.3426866647152163,
+            0.04680533675470757
+          ]
+        },
+        "changed_patients": 35,
+        "helped_patients": 33,
+        "harmed_patients": 0,
+        "any_primary_worsened_patients": 4,
+        "omission_worsened_patients": 4,
+        "pareto_improved_patients": 31,
+        "patient_count_semantics": "helped/harmed mean summed reference discrepancy only, not clinical harm; inspect componentwise worsened counts"
+      },
+      "curve": [
+        {
+          "round": 0,
+          "seen": 0,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 1,
+          "seen": 32,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 2,
+          "seen": 64,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 3,
+          "seen": 96,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 4,
+          "seen": 128,
+          "skills": 1,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.1875,
+            "extra_drugs_per_patient": 6.7265625,
+            "joint_errors_per_patient": 6.74609375,
+            "drug_f1": 0.06978879706152434,
+            "joint_f1": 0.011448196908986834,
+            "recall": 0.2,
+            "precision": 0.042269187986651836,
+            "counts": [
+              304,
+              1722,
+              1727,
+              76,
+              1798,
+              380,
+              10,
+              1393,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 5,
+          "seen": 160,
+          "skills": 1,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.1875,
+            "extra_drugs_per_patient": 6.7265625,
+            "joint_errors_per_patient": 6.74609375,
+            "drug_f1": 0.06978879706152434,
+            "joint_f1": 0.011448196908986834,
+            "recall": 0.2,
+            "precision": 0.042269187986651836,
+            "counts": [
+              304,
+              1722,
+              1727,
+              76,
+              1798,
+              380,
+              10,
+              1393,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 6,
+          "seen": 192,
+          "skills": 1,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.1875,
+            "extra_drugs_per_patient": 6.7265625,
+            "joint_errors_per_patient": 6.74609375,
+            "drug_f1": 0.06978879706152434,
+            "joint_f1": 0.011448196908986834,
+            "recall": 0.2,
+            "precision": 0.042269187986651836,
+            "counts": [
+              304,
+              1722,
+              1727,
+              76,
+              1798,
+              380,
+              10,
+              1393,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        }
+      ],
+      "state": [
+        {
+          "operator": "prune_unsupported",
+          "when": "dx:gastrointestinal",
+          "unless": [],
+          "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "round": 4,
+          "training_cases_seen": 128,
+          "empirical_harmful_exceptions": 0,
+          "support_training": 19,
+          "negative_training": 109
+        }
+      ]
+    },
+    "qwen-refined-152": {
+      "final": {
+        "all": {
+          "cases": 256,
+          "missed_drugs_per_patient": 1.19140625,
+          "extra_drugs_per_patient": 6.453125,
+          "joint_errors_per_patient": 6.53125,
+          "drug_f1": 0.07119126720455624,
+          "joint_f1": 0.010650887573964497,
+          "recall": 0.19736842105263158,
+          "precision": 0.04342790966994789,
+          "counts": [
+            305,
+            1652,
+            1672,
+            75,
+            1727,
+            380,
+            9,
+            1336,
+            354
+          ],
+          "empty_fraction": 0.04296875,
+          "target_complete_field_coverage": 0.7937219730941704
+        },
+        "strata": {
+          "single": {
+            "cases": 128,
+            "missed_drugs_per_patient": 1.0625,
+            "extra_drugs_per_patient": 6.390625,
+            "joint_errors_per_patient": 6.5078125,
+            "drug_f1": 0.07378640776699029,
+            "joint_f1": 0.014201183431952662,
+            "recall": 0.21839080459770116,
+            "precision": 0.04439252336448598,
+            "counts": [
+              136,
+              818,
+              833,
+              38,
+              856,
+              174,
+              6,
+              680,
+              165
+            ],
+            "empty_fraction": 0.0234375,
+            "target_complete_field_coverage": 0.8009708737864077
+          },
+          "multi": {
+            "cases": 128,
+            "missed_drugs_per_patient": 1.3203125,
+            "extra_drugs_per_patient": 6.515625,
+            "joint_errors_per_patient": 6.5546875,
+            "drug_f1": 0.06870937790157845,
+            "joint_f1": 0.007100591715976331,
+            "recall": 0.1796116504854369,
+            "precision": 0.04247990815154994,
+            "counts": [
+              169,
+              834,
+              839,
+              37,
+              871,
+              206,
+              3,
+              656,
+              189
+            ],
+            "empty_fraction": 0.0625,
+            "target_complete_field_coverage": 0.7875
+          },
+          "zero_target": {
+            "cases": 135,
+            "missed_drugs_per_patient": 0.0,
+            "extra_drugs_per_patient": 7.066666666666666,
+            "joint_errors_per_patient": 5.37037037037037,
+            "drug_f1": 0.0,
+            "joint_f1": 0.0,
+            "recall": 0.0,
+            "precision": 0.0,
+            "counts": [
+              0,
+              954,
+              725,
+              0,
+              954,
+              0,
+              0,
+              725,
+              0
+            ],
+            "empty_fraction": 0.05185185185185185,
+            "target_complete_field_coverage": 0.0
+          },
+          "nonzero_target": {
+            "cases": 121,
+            "missed_drugs_per_patient": 2.520661157024793,
+            "extra_drugs_per_patient": 5.768595041322314,
+            "joint_errors_per_patient": 7.8264462809917354,
+            "drug_f1": 0.13009540329575023,
+            "joint_f1": 0.01865284974093264,
+            "recall": 0.19736842105263158,
+            "precision": 0.09702457956015524,
+            "counts": [
+              305,
+              698,
+              947,
+              75,
+              773,
+              380,
+              9,
+              611,
+              354
+            ],
+            "empty_fraction": 0.03305785123966942,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        "paired95": {
+          "missed_drugs_per_patient": [
+            0.00390625,
+            0.04296875
+          ],
+          "extra_drugs_per_patient": [
+            -0.61728515625,
+            -0.40234375
+          ],
+          "joint_errors_per_patient": [
+            -0.4765625,
+            -0.2890625
+          ],
+          "drug_f1_pp": [
+            -0.4866606648932919,
+            0.3856228698272002
+          ],
+          "joint_f1_pp": [
+            -0.5288857723221495,
+            0.08420486308803593
+          ]
+        },
+        "changed_patients": 68,
+        "helped_patients": 66,
+        "harmed_patients": 1,
+        "any_primary_worsened_patients": 4,
+        "omission_worsened_patients": 4,
+        "pareto_improved_patients": 64,
+        "patient_count_semantics": "helped/harmed mean summed reference discrepancy only, not clinical harm; inspect componentwise worsened counts"
+      },
+      "curve": [
+        {
+          "round": 0,
+          "seen": 0,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 1,
+          "seen": 32,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 2,
+          "seen": 64,
+          "skills": 1,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.18359375,
+            "extra_drugs_per_patient": 6.70703125,
+            "joint_errors_per_patient": 6.734375,
+            "drug_f1": 0.07083716651333946,
+            "joint_f1": 0.010332950631458095,
+            "recall": 0.2026315789473684,
+            "precision": 0.04292084726867335,
+            "counts": [
+              303,
+              1717,
+              1724,
+              77,
+              1794,
+              380,
+              9,
+              1388,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 3,
+          "seen": 96,
+          "skills": 1,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.18359375,
+            "extra_drugs_per_patient": 6.70703125,
+            "joint_errors_per_patient": 6.734375,
+            "drug_f1": 0.07083716651333946,
+            "joint_f1": 0.010332950631458095,
+            "recall": 0.2026315789473684,
+            "precision": 0.04292084726867335,
+            "counts": [
+              303,
+              1717,
+              1724,
+              77,
+              1794,
+              380,
+              9,
+              1388,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 4,
+          "seen": 128,
+          "skills": 2,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.19140625,
+            "extra_drugs_per_patient": 6.6484375,
+            "joint_errors_per_patient": 6.67578125,
+            "drug_f1": 0.06954102920723226,
+            "joint_f1": 0.010422698320787493,
+            "recall": 0.19736842105263158,
+            "precision": 0.04220596510973551,
+            "counts": [
+              305,
+              1702,
+              1709,
+              75,
+              1777,
+              380,
+              9,
+              1373,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 5,
+          "seen": 160,
+          "skills": 3,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.19140625,
+            "extra_drugs_per_patient": 6.53515625,
+            "joint_errors_per_patient": 6.58984375,
+            "drug_f1": 0.07048872180451128,
+            "joint_f1": 0.010557184750733138,
+            "recall": 0.19736842105263158,
+            "precision": 0.04290617848970252,
+            "counts": [
+              305,
+              1673,
+              1687,
+              75,
+              1748,
+              380,
+              9,
+              1351,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 6,
+          "seen": 192,
+          "skills": 4,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.19140625,
+            "extra_drugs_per_patient": 6.453125,
+            "joint_errors_per_patient": 6.53125,
+            "drug_f1": 0.07119126720455624,
+            "joint_f1": 0.010650887573964497,
+            "recall": 0.19736842105263158,
+            "precision": 0.04342790966994789,
+            "counts": [
+              305,
+              1652,
+              1672,
+              75,
+              1727,
+              380,
+              9,
+              1336,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        }
+      ],
+      "state": [
+        {
+          "operator": "prune_unsupported",
+          "when": "dx:renal",
+          "unless": [],
+          "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "round": 2,
+          "training_cases_seen": 64,
+          "empirical_harmful_exceptions": 0,
+          "support_training": 9,
+          "negative_training": 55
+        },
+        {
+          "operator": "prune_unsupported",
+          "when": "dx:burns/trauma",
+          "unless": [],
+          "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "round": 4,
+          "training_cases_seen": 128,
+          "empirical_harmful_exceptions": 0,
+          "support_training": 5,
+          "negative_training": 123
+        },
+        {
+          "operator": "prune_unsupported",
+          "when": "labs_missing",
+          "unless": [],
+          "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "round": 5,
+          "training_cases_seen": 160,
+          "empirical_harmful_exceptions": 0,
+          "support_training": 6,
+          "negative_training": 154
+        },
+        {
+          "operator": "prune_unsupported",
+          "when": "dx:hematology",
+          "unless": [],
+          "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+          "root_hypothesis": "componentwise reference discrepancy; repair must not trade an omission increase for fewer extras",
+          "round": 6,
+          "training_cases_seen": 192,
+          "empirical_harmful_exceptions": 0,
+          "support_training": 13,
+          "negative_training": 179
+        }
+      ]
+    },
+    "qwen-counterexample-only-52": {
+      "final": {
+        "all": {
+          "cases": 256,
+          "missed_drugs_per_patient": 1.171875,
+          "extra_drugs_per_patient": 6.96484375,
+          "joint_errors_per_patient": 6.9140625,
+          "drug_f1": 0.07133303611234953,
+          "joint_f1": 0.012276785714285714,
+          "recall": 0.21052631578947367,
+          "precision": 0.04294149221685454,
+          "counts": [
+            300,
+            1783,
+            1770,
+            80,
+            1863,
+            380,
+            11,
+            1438,
+            354
+          ],
+          "empty_fraction": 0.04296875,
+          "target_complete_field_coverage": 0.7937219730941704
+        },
+        "strata": {
+          "single": {
+            "cases": 128,
+            "missed_drugs_per_patient": 1.046875,
+            "extra_drugs_per_patient": 6.71875,
+            "joint_errors_per_patient": 6.7890625,
+            "drug_f1": 0.074487895716946,
+            "joint_f1": 0.01362088535754824,
+            "recall": 0.22988505747126436,
+            "precision": 0.044444444444444446,
+            "counts": [
+              134,
+              860,
+              869,
+              40,
+              900,
+              174,
+              6,
+              716,
+              165
+            ],
+            "empty_fraction": 0.0234375,
+            "target_complete_field_coverage": 0.8009708737864077
+          },
+          "multi": {
+            "cases": 128,
+            "missed_drugs_per_patient": 1.296875,
+            "extra_drugs_per_patient": 7.2109375,
+            "joint_errors_per_patient": 7.0390625,
+            "drug_f1": 0.06843455945252352,
+            "joint_f1": 0.010976948408342482,
+            "recall": 0.1941747572815534,
+            "precision": 0.04153686396677051,
+            "counts": [
+              166,
+              923,
+              901,
+              40,
+              963,
+              206,
+              5,
+              722,
+              189
+            ],
+            "empty_fraction": 0.0625,
+            "target_complete_field_coverage": 0.7875
+          },
+          "zero_target": {
+            "cases": 135,
+            "missed_drugs_per_patient": 0.0,
+            "extra_drugs_per_patient": 7.674074074074074,
+            "joint_errors_per_patient": 5.837037037037037,
+            "drug_f1": 0.0,
+            "joint_f1": 0.0,
+            "recall": 0.0,
+            "precision": 0.0,
+            "counts": [
+              0,
+              1036,
+              788,
+              0,
+              1036,
+              0,
+              0,
+              788,
+              0
+            ],
+            "empty_fraction": 0.05185185185185185,
+            "target_complete_field_coverage": 0.0
+          },
+          "nonzero_target": {
+            "cases": 121,
+            "missed_drugs_per_patient": 2.479338842975207,
+            "extra_drugs_per_patient": 6.1735537190082646,
+            "joint_errors_per_patient": 8.115702479338843,
+            "drug_f1": 0.13256006628003314,
+            "joint_f1": 0.021912350597609563,
+            "recall": 0.21052631578947367,
+            "precision": 0.09673518742442563,
+            "counts": [
+              300,
+              747,
+              982,
+              80,
+              827,
+              380,
+              11,
+              650,
+              354
+            ],
+            "empty_fraction": 0.03305785123966942,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        "paired95": {
+          "missed_drugs_per_patient": [
+            0.0,
+            0.0
+          ],
+          "extra_drugs_per_patient": [
+            0.0,
+            0.0
+          ],
+          "joint_errors_per_patient": [
+            0.0,
+            0.0
+          ],
+          "drug_f1_pp": [
+            0.0,
+            0.0
+          ],
+          "joint_f1_pp": [
+            0.0,
+            0.0
+          ]
+        },
+        "changed_patients": 0,
+        "helped_patients": 0,
+        "harmed_patients": 0,
+        "any_primary_worsened_patients": 0,
+        "omission_worsened_patients": 0,
+        "pareto_improved_patients": 0,
+        "patient_count_semantics": "helped/harmed mean summed reference discrepancy only, not clinical harm; inspect componentwise worsened counts"
+      },
+      "curve": [
+        {
+          "round": 0,
+          "seen": 0,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 1,
+          "seen": 32,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 2,
+          "seen": 64,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 3,
+          "seen": 96,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 4,
+          "seen": 128,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 5,
+          "seen": 160,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 6,
+          "seen": 192,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        }
+      ],
+      "state": []
+    },
+    "qwen-rejection-only-52": {
+      "final": {
+        "all": {
+          "cases": 256,
+          "missed_drugs_per_patient": 1.1953125,
+          "extra_drugs_per_patient": 6.5546875,
+          "joint_errors_per_patient": 6.6015625,
+          "drug_f1": 0.06941838649155722,
+          "joint_f1": 0.011695906432748537,
+          "recall": 0.19473684210526315,
+          "precision": 0.04223744292237443,
+          "counts": [
+            306,
+            1678,
+            1690,
+            74,
+            1752,
+            380,
+            10,
+            1356,
+            354
+          ],
+          "empty_fraction": 0.04296875,
+          "target_complete_field_coverage": 0.7937219730941704
+        },
+        "strata": {
+          "single": {
+            "cases": 128,
+            "missed_drugs_per_patient": 1.0625,
+            "extra_drugs_per_patient": 6.328125,
+            "joint_errors_per_patient": 6.4453125,
+            "drug_f1": 0.07436399217221135,
+            "joint_f1": 0.014336917562724014,
+            "recall": 0.21839080459770116,
+            "precision": 0.04481132075471698,
+            "counts": [
+              136,
+              810,
+              825,
+              38,
+              848,
+              174,
+              6,
+              672,
+              165
+            ],
+            "empty_fraction": 0.0234375,
+            "target_complete_field_coverage": 0.8009708737864077
+          },
+          "multi": {
+            "cases": 128,
+            "missed_drugs_per_patient": 1.328125,
+            "extra_drugs_per_patient": 6.78125,
+            "joint_errors_per_patient": 6.7578125,
+            "drug_f1": 0.06486486486486487,
+            "joint_f1": 0.009163802978235968,
+            "recall": 0.17475728155339806,
+            "precision": 0.03982300884955752,
+            "counts": [
+              170,
+              868,
+              865,
+              36,
+              904,
+              206,
+              4,
+              684,
+              189
+            ],
+            "empty_fraction": 0.0625,
+            "target_complete_field_coverage": 0.7875
+          },
+          "zero_target": {
+            "cases": 135,
+            "missed_drugs_per_patient": 0.0,
+            "extra_drugs_per_patient": 7.192592592592592,
+            "joint_errors_per_patient": 5.466666666666667,
+            "drug_f1": 0.0,
+            "joint_f1": 0.0,
+            "recall": 0.0,
+            "precision": 0.0,
+            "counts": [
+              0,
+              971,
+              738,
+              0,
+              971,
+              0,
+              0,
+              738,
+              0
+            ],
+            "empty_fraction": 0.05185185185185185,
+            "target_complete_field_coverage": 0.0
+          },
+          "nonzero_target": {
+            "cases": 121,
+            "missed_drugs_per_patient": 2.5289256198347108,
+            "extra_drugs_per_patient": 5.8429752066115705,
+            "joint_errors_per_patient": 7.867768595041323,
+            "drug_f1": 0.12747631352282515,
+            "joint_f1": 0.0205761316872428,
+            "recall": 0.19473684210526315,
+            "precision": 0.09475032010243278,
+            "counts": [
+              306,
+              707,
+              952,
+              74,
+              781,
+              380,
+              10,
+              618,
+              354
+            ],
+            "empty_fraction": 0.03305785123966942,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        "paired95": {
+          "missed_drugs_per_patient": [
+            0.0078125,
+            0.04296875
+          ],
+          "extra_drugs_per_patient": [
+            -0.50390625,
+            -0.3203125
+          ],
+          "joint_errors_per_patient": [
+            -0.39453125,
+            -0.234375
+          ],
+          "drug_f1_pp": [
+            -0.633103091531475,
+            0.17099902915117804
+          ],
+          "joint_f1_pp": [
+            -0.3291037773189478,
+            0.08431036460392584
+          ]
+        },
+        "changed_patients": 59,
+        "helped_patients": 57,
+        "harmed_patients": 0,
+        "any_primary_worsened_patients": 6,
+        "omission_worsened_patients": 6,
+        "pareto_improved_patients": 53,
+        "patient_count_semantics": "helped/harmed mean summed reference discrepancy only, not clinical harm; inspect componentwise worsened counts"
+      },
+      "curve": [
+        {
+          "round": 0,
+          "seen": 0,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 1,
+          "seen": 32,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 2,
+          "seen": 64,
+          "skills": 0,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.171875,
+            "extra_drugs_per_patient": 6.96484375,
+            "joint_errors_per_patient": 6.9140625,
+            "drug_f1": 0.07133303611234953,
+            "joint_f1": 0.012276785714285714,
+            "recall": 0.21052631578947367,
+            "precision": 0.04294149221685454,
+            "counts": [
+              300,
+              1783,
+              1770,
+              80,
+              1863,
+              380,
+              11,
+              1438,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 3,
+          "seen": 96,
+          "skills": 1,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.1875,
+            "extra_drugs_per_patient": 6.7265625,
+            "joint_errors_per_patient": 6.74609375,
+            "drug_f1": 0.06978879706152434,
+            "joint_f1": 0.011448196908986834,
+            "recall": 0.2,
+            "precision": 0.042269187986651836,
+            "counts": [
+              304,
+              1722,
+              1727,
+              76,
+              1798,
+              380,
+              10,
+              1393,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 4,
+          "seen": 128,
+          "skills": 2,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.1953125,
+            "extra_drugs_per_patient": 6.66796875,
+            "joint_errors_per_patient": 6.6875,
+            "drug_f1": 0.06848681166126794,
+            "joint_f1": 0.011547344110854504,
+            "recall": 0.19473684210526315,
+            "precision": 0.041549691184727684,
+            "counts": [
+              306,
+              1707,
+              1712,
+              74,
+              1781,
+              380,
+              10,
+              1378,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 5,
+          "seen": 160,
+          "skills": 3,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.1953125,
+            "extra_drugs_per_patient": 6.5546875,
+            "joint_errors_per_patient": 6.6015625,
+            "drug_f1": 0.06941838649155722,
+            "joint_f1": 0.011695906432748537,
+            "recall": 0.19473684210526315,
+            "precision": 0.04223744292237443,
+            "counts": [
+              306,
+              1678,
+              1690,
+              74,
+              1752,
+              380,
+              10,
+              1356,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        },
+        {
+          "round": 6,
+          "seen": 192,
+          "skills": 3,
+          "exception_clauses": 0,
+          "metrics": {
+            "cases": 256,
+            "missed_drugs_per_patient": 1.1953125,
+            "extra_drugs_per_patient": 6.5546875,
+            "joint_errors_per_patient": 6.6015625,
+            "drug_f1": 0.06941838649155722,
+            "joint_f1": 0.011695906432748537,
+            "recall": 0.19473684210526315,
+            "precision": 0.04223744292237443,
+            "counts": [
+              306,
+              1678,
+              1690,
+              74,
+              1752,
+              380,
+              10,
+              1356,
+              354
+            ],
+            "empty_fraction": 0.04296875,
+            "target_complete_field_coverage": 0.7937219730941704
+          }
+        }
+      ],
+      "state": [
+        {
+          "operator": "prune_unsupported",
+          "when": "dx:gastrointestinal",
+          "unless": [],
+          "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "round": 3,
+          "training_cases_seen": 96,
+          "empirical_harmful_exceptions": 0,
+          "support_training": 14,
+          "negative_training": 82
+        },
+        {
+          "operator": "prune_unsupported",
+          "when": "dx:burns/trauma",
+          "unless": [],
+          "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "round": 4,
+          "training_cases_seen": 128,
+          "empirical_harmful_exceptions": 0,
+          "support_training": 7,
+          "negative_training": 121
+        },
+        {
+          "operator": "prune_unsupported",
+          "when": "labs_missing",
+          "unless": [],
+          "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+          "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+          "round": 5,
+          "training_cases_seen": 160,
+          "empirical_harmful_exceptions": 0,
+          "support_training": 7,
+          "negative_training": 153
+        }
+      ]
+    }
+  }
+}

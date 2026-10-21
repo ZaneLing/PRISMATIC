@@ -1,5 +1,17 @@
 ## Latest repair pilot: 2026-10-20
 
+<!-- V52:START -->
+## New-patient conditional-memory study
+
+256 eICU audit patients;6 rounds/192 feedback patients; drug F1 7.13% → 6.94%, native4 F1 1.23% → 1.17%; 3 retained rules. New API spend USD 0. This does not establish recursive optimizer improvement. [Full results](../upgrade_v52/RESULTS.en.md).
+<!-- V52:END -->
+
+
+
+
+
+
+
 Candidate loss is decomposed: 18.87% of GT drug instances are outside the 128-name vocabulary and 29.51% are inside it but pruned by top24. Repairs add executable candidate/evidence actions, explicit conditions and exceptions, root/action compatibility, no-op checks and cumulative reflection.
 
 Three rounds reuse 72 reflection admissions; proposal24, guard32, post-freeze audit48. The stronger aggregate proposer retains 2 skills. Audit drug F1: 7.21% → 16.96%; Core4: 3.87% → 9.22%.

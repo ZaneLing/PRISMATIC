@@ -1,5 +1,12 @@
 # Manuscript change log / 论文变更记录
 
+## 2026-10-21 — v0.52 new-patient conditional-program audit
+
+- 192 new feedback patients,64 proposal,64 guard,256 audit; all exclude previous eICU patients. Six rounds, two orders, shuffled-reflection control, static/ungated controls and128-patient transfer completed.
+- Three pruning rules are retained; no exception. The original audit loses6 correct drugs while removing105 extras. Compatible decoding plus rerun gates also loses6; drug F1 falls7.38%→7.20%. No positive RSI claim or strongest-method superiority is supported.
+- Componentwise counterexamples and rejection-memory factorial amendment completed; valid-counterexample regression test added. Real component-tradeoff case studies remain restricted.
+- English ACL manuscript updated in place and compiled; bilingual results, hashes and exposure records released.704 local calls;USD0 new API spend. Experimental memory is not enabled by default.
+
 ## 2026-10-16 — prescribing-gap and cumulative-cost audit
 
 - Recount three frozen historical MIMIC seeds; separate in-vocabulary omissions, new-treatment targets and joint-order failures. No new inference or checkpoint selection.

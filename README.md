@@ -1,6 +1,14 @@
 # RxRSIAgent — PRISMATIC research repository
 
-## Current repair pilot — 2026-10-20
+## Latest new-patient study — 2026-10-21
+
+Completed192 feedback patients over6 rounds,256 new eICU audit patients,128-patient Llama transfer and704 local calls. The compatible-runtime learner changes drug F1 **7.38% → 7.20%** and loses6 correct targets; no explicit exception is retained. The learned memory is **not promoted**. New API spend: **USD0**. This does not establish the desired three-endpoint prescribing improvement.
+
+- [中文完整实验](upgrade_v52/RESULTS.zh.md) · [English results](upgrade_v52/RESULTS.en.md).
+- [研究命题验证状态](paper/RXRSI_PROOF_STATUS.zh.md) · [Evidence status](paper/RXRSI_PROOF_STATUS.en.md).
+- [Code, frozen protocols and usable local interface](upgrade_v52/README.md).
+
+## Earlier repair pilot — 2026-10-20
 
 Candidate coverage loss is attributed to the 128-name vocabulary and top-24 truncation. The repaired updater now changes candidate recall, evidence tools and conditional procedural memory. Three-round studies compare local and aggregate-only stronger proposers on the same 72 training admissions, with a separate 48-admission exploratory audit. New paid API spend: USD 0.085203 / USD 10. These pilot scores do not replace the full 1,082-admission table.
 

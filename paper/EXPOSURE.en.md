@@ -1,5 +1,9 @@
 # Prior-case exposure and frozen test-subset analysis
 
+## eICU exposure update — 2026-10-21
+
+The576 v52 patients (192 reflection,64 proposal,64 guard,256 audit) are now exposed. All were absent from v25 membership. Any next independent study must exclude both v25 and v52 patients. Audit hospitals are not globally unseen. Membership hash and source location are in `exposure_registry.json`.
+
 ## 1. Actual independent membership audit
 
 Before current common-test inference, independently reconstructing **11 experiment families / 38 roles** identifies **69,839 prior or conservatively reserved patients**. Among the890 current test patients, **572** occur in this union; the frozen complementary subset retains **318 patients / 801 visits**. All visits of retained patients remain. The retained/prior intersection is zero.

@@ -1,8 +1,12 @@
 # RxRSIAgent: manuscript and evidence index
 
-Target: ACL 2027. Updated 2026-10-20. Only the English ACL manuscript is maintained, in its original editor path.
+## Latest: conditional skills on new eICU patients
 
-## Latest updater repair
+[中文结果](../upgrade_v52/RESULTS.zh.md) · [English results](../upgrade_v52/RESULTS.en.md) · [Claim status](RXRSI_PROOF_STATUS.en.md). Six rounds and two case orders induce conditional pruning rules, but the held-out audit loses correct targets; effective exceptions and joint improvement remain unproved. The default research runtime rolls back the learned memory. The original English ACL source includes the architecture, controls, full round table and negative findings; it compiles successfully.
+
+Target: ACL 2027. Updated 2026-10-21. Only the English ACL manuscript is maintained, in its original editor path.
+
+## Earlier updater repair
 
 [Chinese results](../upgrade_v51/RESULTS.zh.md) · [English results](../upgrade_v51/RESULTS.en.md) · [Frozen round trajectory](../upgrade_v51/results/cloud/trajectory.json). The 48-case exploratory pilot is separate from the full-cohort table; it includes a local-proposer control, static repair bundle and cross-model transfer.
 

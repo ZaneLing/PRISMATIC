@@ -1,0 +1,50 @@
+{
+  "status": "membership_frozen_before_actor",
+  "protocol_sha256": "a35234756a192bed72762bfe2776ad550299a34ef7959485dc7e8f203799dd83",
+  "members_sha256": "81255cec313a28c3ce6f500fc7dd71b104bc5cd937a298330362354b64cdefce",
+  "prior_patient_overlap": 0,
+  "one_stay_per_patient": true,
+  "categories": [
+    "cardiovascular",
+    "pulmonary",
+    "neurologic",
+    "renal",
+    "gastrointestinal",
+    "endocrine",
+    "infectious diseases",
+    "hematology",
+    "burns/trauma",
+    "toxicology",
+    "oncology",
+    "transplant",
+    "obstetrics/gynecology",
+    "genitourinary",
+    "musculoskeletal"
+  ],
+  "splits": {
+    "reflection": {
+      "patients": 192,
+      "multi": 96,
+      "zero_target": 94,
+      "hospitals": 66
+    },
+    "proposal": {
+      "patients": 64,
+      "multi": 32,
+      "zero_target": 23,
+      "hospitals": 10
+    },
+    "guard": {
+      "patients": 64,
+      "multi": 32,
+      "zero_target": 28,
+      "hospitals": 9
+    },
+    "audit": {
+      "patients": 256,
+      "multi": 128,
+      "zero_target": 135,
+      "hospitals": 15
+    }
+  }
+}

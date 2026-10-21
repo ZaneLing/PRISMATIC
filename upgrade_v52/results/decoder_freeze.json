@@ -1,0 +1,31 @@
+{
+  "timestamp_utc": "2026-10-21T10:26:54.161540+00:00",
+  "development_replay": {
+    "reflection": {
+      "cases": 192,
+      "nonempty_restored": 6,
+      "changed_rows": 6
+    },
+    "proposal": {
+      "cases": 64,
+      "nonempty_restored": 3,
+      "changed_rows": 3
+    },
+    "guard": {
+      "cases": 64,
+      "nonempty_restored": 1,
+      "changed_rows": 1
+    }
+  },
+  "decoder_sha256": "7deedcddc4d7b239733d1a962fb7cf8087bb38483da64c52f8b66846bce41a33",
+  "states": {
+    "qwen-compatible-52": "303d198ca622fa34027d5ff69d93d81bebfab34d6fc1a01fd6051b95643a85e8",
+    "qwen-compatible-152": "d1b362883585e35049120bc690ca8fe48ae13d61f9aabd3cfa984ecf999c8944",
+    "qwen-compatible-52-shuffle": "99ad1a8a26dd892cace33f88106055b88567d5c5e3a3a98a627307f7e123612a"
+  },
+  "original_results_preserved": true,
+  "original_audit_generation_already_started": true,
+  "audit_metrics_observed": false,
+  "reason": "Whole-output rejection of complete JSON containing some unknown identifiers discards other valid orders. Keep only verified IDs and log invalid IDs; accept a complete fenced wrapper; do not recover truncated structures.",
+  "classification": "researcher runtime repair; gates rerun under same decoder for all splits, not counted as RSI"
+}

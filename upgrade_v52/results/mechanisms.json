@@ -1,0 +1,101 @@
+{
+  "initial_roots": {
+    "target_drugs": 380,
+    "outside_catalogue": 174,
+    "available_but_missed": 126,
+    "correct_drug_without_complete_joint_hit": 58,
+    "extra_drugs": 1783,
+    "complete_target_orders": 354,
+    "complete_target_order_hits": 11
+  },
+  "final_roots": {
+    "target_drugs": 380,
+    "outside_catalogue": 174,
+    "available_but_missed": 132,
+    "correct_drug_without_complete_joint_hit": 53,
+    "extra_drugs": 1678,
+    "complete_target_orders": 354,
+    "complete_target_order_hits": 10
+  },
+  "transition": {
+    "recovered_correct_drugs": 0,
+    "lost_correct_drugs": 6,
+    "removed_extra_drugs": 105,
+    "added_extra_drugs": 0,
+    "recovered_complete_joint_targets": 0,
+    "lost_complete_joint_targets": 1,
+    "removed_extra_joint_tuples": 81,
+    "added_extra_joint_tuples": 0
+  },
+  "card_interventions": [
+    {
+      "card": {
+        "operator": "prune_unsupported",
+        "when": "dx:gastrointestinal",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 3,
+        "training_cases_seen": 96,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 14,
+        "negative_training": 82
+      },
+      "active_patients": 40,
+      "changed_patients": 35,
+      "error_count_delta": [
+        4,
+        -61,
+        -43
+      ]
+    },
+    {
+      "card": {
+        "operator": "prune_unsupported",
+        "when": "dx:burns/trauma",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 4,
+        "training_cases_seen": 128,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 7,
+        "negative_training": 121
+      },
+      "active_patients": 10,
+      "changed_patients": 9,
+      "error_count_delta": [
+        2,
+        -15,
+        -15
+      ]
+    },
+    {
+      "card": {
+        "operator": "prune_unsupported",
+        "when": "labs_missing",
+        "unless": [],
+        "procedure": "Remove at most2 selected drugs absent from retrieved targets and prior orders when the frozen predictor also assigns probability below0.1.",
+        "root_hypothesis": "extra identities without retrieval, prior or predictor support",
+        "round": 5,
+        "training_cases_seen": 160,
+        "empirical_harmful_exceptions": 0,
+        "support_training": 7,
+        "negative_training": 153
+      },
+      "active_patients": 17,
+      "changed_patients": 15,
+      "error_count_delta": [
+        0,
+        -29,
+        -22
+      ]
+    }
+  ],
+  "all_three_primary_errors_strictly_decreased": false,
+  "generated_new_operator_code": false,
+  "changed_backbone_weights": false,
+  "changed_update_algorithm": false,
+  "teacher_proposed_prose_reflections": false,
+  "automatically_selected_executable_conditions": true
+}
